@@ -1,0 +1,8 @@
+To run linux build: 
+
+```
+chmod +x ./linux.sh
+./linux.sh
+```
+
+(You also need to set the appimage and appimagetool as executable)
