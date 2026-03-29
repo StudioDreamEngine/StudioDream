@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=GALVANIC WEBINARY
+Comment=The unquestionably awesome 2D game engine
+MimeType=application/x-love-game;
+Exec=Galvanic-Webinary %f
+Type=Application
+Categories=Game;
+Terminal=false
+Icon=galvanic
+NoDisplay=true
