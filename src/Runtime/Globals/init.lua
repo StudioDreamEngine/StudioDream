@@ -12,7 +12,7 @@ CurrentGlobals = {
 
 local function FireChanged(WhatChanged,WhereChanged)
     for i,v in ChangedSignals do
-        v(WhatChanged,WhereChanged)
+        v.InvokeEvent(WhatChanged,WhereChanged)
     end
 end
 
@@ -28,7 +28,7 @@ function Main.AddGlobal(Name)
     })
 end
 
-function Main.AddThingToGlobal(Where,What) -- nake this suport trails (aka Example.Example.Example) and aways add as a child
+function Main.AddThingToGlobal(Where,What) -- make this suport trails (aka Example.Example.Example) and aways add as a child
     if Globals[Where] then
         return Globals[Where][What] = {}
     else
