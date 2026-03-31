@@ -24,6 +24,11 @@ function Things.New(ThingType, ...)
     return Thing
 end
 
+function Things.Remove(ThingType)
+    local UUID = Thing.UUID
+    Objects[UUID] = nil
+end
+
 function Things.Update(dt)
     for _, Thing in Objects do
         Utils.OptionalCall(Thing, "Update", dt)
