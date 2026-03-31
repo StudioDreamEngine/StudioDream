@@ -30,3 +30,12 @@ Thing Related stuff:
 
         For now, Viewport3D will submit anything to a singleton renderer
         and Viewport2D can choose which renderer to submit to
+    
+    Thing Ideas:
+        Things will be a general object type, for example, an Highlight thing could be used for a model, to display the outline on it
+        or on a UI, to make an outline on the UI thing, so every thing could connect to itself by this system
+
+        Why? This would make our job simplier, we could add on the thing on what to do in a 2D or 3D scene, or what to do in specifc cases like, being
+        a child of a UI or Model thing, ect ect
+        This also makes the user curious, "How should this work on this?" or "What happends if i use this on a 2D/3D scene?", They explore more the engine
+        Making it fun and easy to learn
