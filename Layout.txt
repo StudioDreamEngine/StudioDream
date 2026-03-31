@@ -1,3 +1,0 @@
-Editor: Handles the actual editor part of the engine
-Packages: Shared Packages
-Runtime: Seperate runtime library, most engine code will go here

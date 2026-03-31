@@ -32,7 +32,7 @@ function Main.AddThingToGlobal(Where,What) -- make this suport trails (aka Examp
     if Globals[Where] then
         return Globals[Where][What] = {}
     else
-        error(`Coulnt find `..Where..` Global.`)
+        error("Coulnt find "..Where.."" Global."")
     end
 end
 
