@@ -9,6 +9,7 @@ return function ()
     -- Helpers
     Signal = require("Helper.Signal")
     Scheduler = require("Helper.Scheduler")
+    Utils = require("Helper.Utils")
 
     -- Globals
     GlobalTick = 0

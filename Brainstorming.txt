@@ -1,0 +1,32 @@
+Organization:
+    Editor: Handles the actual editor part of the engine
+    Packages: Shared Packages
+    Runtime: Seperate runtime library, most engine code will go here
+
+models will be considered scenes, when you insert one into Enviornment and edit it, it acts as a reference in a way, you are editing the file, not the Enviornment
+
+Naming:
+    Properties will be renamed to Inspector
+    Instances are Things
+
+Thing Related stuff:
+    Explorer/Game Layout:
+        Enviornment (Serialized as pre-defined scene in project settings)
+        UI (Shortcut to pre-defined scene in project settings)
+        Services (Created on runtime, not serialized)
+        Viewport (Not Serialized, Hidden, this contains the studio ui or client ui)
+        (Rest are the folders within the project repo, allowing for more customization)
+
+    Thing Classes:
+        Viewport
+            Viewport3D - Display a 3D scene in the root ui
+            Viewport2D - Display a 2D scene in the root ui
+
+        (to extend classes: Add an extend key to the returned table)
+
+    Idea for displaying things:
+        We start from the Viewport thing, this is a Viewport2D object that simply submits its contents to the 2d visual engine
+        Viewport3D objects will do the same thing, except they are submitted to 3DreamEngine.
+
+        For now, Viewport3D will submit anything to a singleton renderer
+        and Viewport2D can choose which renderer to submit to
