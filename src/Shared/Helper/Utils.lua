@@ -6,4 +6,30 @@ function Utils.OptionalCall(Module, Function, ...)
     end
 end
 
+-- Returns a table of all the files in a folder, regardless of if a file was nested or not
+function Utils.GetFolderDescendants(Folder, NoPath)
+    local FolderData = {}
+
+    for _, FileName in pairs(love.filesystem.getDirectoryItems(Folder)) do
+        local Info = love.filesystem.getInfo(Folder..FileName)
+
+        if Info.type == "directory" then
+            table.combine(FolderData, Utils.GetFolderDescendants(Folder..FileName.."/"))
+        else
+            table.insert(FolderData, Folder..FileName)
+        end
+    end
+
+    if NoPath then
+        for i, Folder in pairs(FolderData) do
+            local Path = string.split(Folder, "%/")
+
+            FolderData[i] = Path[#Path]
+        end
+    end
+
+    return FolderData
+    -- TODO: Returns a table of all the files in a folder, so they can be organized 
+end
+
 return Utils

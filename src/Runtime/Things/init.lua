@@ -4,7 +4,7 @@ local Things = {}
 local Objects = {}
 
 function Things.Get(UUID)
-    
+    return Objects[UUID]
 end
 
 -- TODO: Make this create the base object itself, idk how we should do extensions and such tbh, esp regarding function calls for initalization and updating
@@ -24,7 +24,7 @@ function Things.New(ThingType, ...)
     return Thing
 end
 
-function Things.Remove(ThingType)
+function Things.Remove(Thing)
     local UUID = Thing.UUID
     Objects[UUID] = nil
 end

@@ -18,7 +18,7 @@ Thing Related stuff:
         (Rest are the folders within the project repo, allowing for more customization)
 
     Thing Classes:
-        Viewport
+        BaseGui
             Viewport3D - Display a 3D scene in the root ui
             Viewport2D - Display a 2D scene in the root ui
 
