@@ -4,6 +4,6 @@
         "utf8"
     ],
     "Lua.diagnostics.disable": [
-        "need-check-nil"
+        "need-check-nil",
     ]
 }

@@ -7,18 +7,17 @@ function Things.Get(UUID)
     return Objects[UUID]
 end
 
--- TODO: Make this create the base object itself, idk how we should do extensions and such tbh, esp regarding function calls for initalization and updating
-function Things.Type(ThingType) return require("Runtime.Engine.Things."..ThingType) end
-local BaseThing = Things.Type("Thing")
+function Things.Type(ThingType, ...) return require("Runtime.Things."..ThingType) end
+function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
 function Things.New(ThingType, ...)
-    local Module = Things.Type(ThingType)
-    local Thing = Module.new(BaseThing.new())
+    local Thing = Things.Type(ThingType)(...)
+
+    Thing.__tostring = function() return ThingType end
 
     Thing.UUID = UUID()
     Thing.Name = ThingType
 
-    Utils.OptionalCall(Thing, "Ready")
     Objects[Thing.UUID] = Thing
 
     return Thing
@@ -31,7 +30,7 @@ end
 
 function Things.Update(dt)
     for _, Thing in Objects do
-        Utils.OptionalCall(Thing, "Update", dt)
+        Thing:Update(dt)
     end
 end
 

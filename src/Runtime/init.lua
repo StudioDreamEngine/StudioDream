@@ -1,11 +1,10 @@
 local Runtime = {}
 
-Runtime.Types = require("Runtime.Types")
 Runtime.Things = require("Runtime.Things")
 Runtime.Renderer = require("Runtime.Renderer")
 
 function Runtime.Init()
-    
+    require("Runtime.Types")
 end
 
 function Runtime.Update(dt)
