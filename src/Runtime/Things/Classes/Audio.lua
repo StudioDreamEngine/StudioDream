@@ -6,7 +6,7 @@ local Audio = Things.Extend("Thing")
 
 function Audio:New() 
     self.AudioFile = nil
-
+    self.ExplorerVisible = true
 end
 
 function Audio:Update(dt) 
