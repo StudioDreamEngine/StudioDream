@@ -5,18 +5,20 @@ local Thing = Object:extend()
 function Thing:new()
     self.Children = {}
     self.Parent = nil 
+    
+    self.ExplorerVisible = true
 end
 
 function Thing:GetParentCallback(Callback)
 	local Parent = self
 	
 	repeat
+        Parent = Parent.Parent
+
 		-- We need to also be able to use the callback on the object iself
-		if Callback(Parent) then
+		if Parent and Callback(Parent) then
 			break
 		end
-		
-		Parent = Parent.Parent
 	until (not Parent)
 	
 	return Parent

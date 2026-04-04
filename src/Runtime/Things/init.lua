@@ -7,7 +7,7 @@ function Things.Get(UUID)
     return Objects[UUID]
 end
 
-function Things.Type(ThingType, ...) return require("Runtime.Things."..ThingType) end
+function Things.Type(ThingType, ...) return require("Runtime.Things.Classes."..ThingType) end
 function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
 function Things.New(ThingType, ...)
@@ -33,5 +33,7 @@ function Things.Update(dt)
         Thing:Update(dt)
     end
 end
+
+Things.Root = require("Runtime.Things.CreateRoot")()
 
 return Things

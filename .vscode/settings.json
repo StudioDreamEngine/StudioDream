@@ -5,5 +5,9 @@
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",
+        "duplicate-set-field"
+    ],
+    "Lua.workspace.library": [
+        "${3rd}/love2d/library"
     ]
 }

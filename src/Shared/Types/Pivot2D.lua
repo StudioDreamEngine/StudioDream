@@ -16,7 +16,7 @@ end
 
 -- TODO
 function Pivot2D.FromOffset(Offset)
-    
+    return Pivot2D.new(Offset.X, 0, Offset.Y, 0)
 end
 
 return Pivot2D

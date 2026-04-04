@@ -14,6 +14,7 @@ return function ()
 
     -- Types
     Pivot2D = require("Types.Pivot2D")
+    Transform2D = require("Types.Transform2D")
 
     -- Globals
     GlobalTick = 0
