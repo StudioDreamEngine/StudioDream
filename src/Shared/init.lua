@@ -1,7 +1,7 @@
 local Shared = {}
 
 function Shared.Init()
-    require("Shared.SetupGlobals")
+    require("Shared.SetupGlobals")()
 end
 
 function Shared.Update(dt)

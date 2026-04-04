@@ -3,6 +3,10 @@ local Things = {}
 -- AllThings doesnt roll off the tounge as well
 local Objects = {}
 
+function Things.Init()
+    Things.Root = require("Runtime.Things.CreateRoot")()
+end
+
 function Things.Get(UUID)
     return Objects[UUID]
 end
@@ -29,11 +33,9 @@ function Things.Remove(Thing)
 end
 
 function Things.Update(dt)
-    for _, Thing in Objects do
+    for _, Thing in pairs(Objects) do
         Thing:Update(dt)
     end
 end
-
-Things.Root = require("Runtime.Things.CreateRoot")()
 
 return Things
