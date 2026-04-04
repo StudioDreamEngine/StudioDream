@@ -2,19 +2,21 @@
 -- in the future we could perhaps make an api for handling creation of globals, depends tho
 return function ()
     -- Packages
-    utf8 = require("Packages.utf8")
-    require("LuauPolyfill")
-    Dream = require("Packages.3DreamEngine")
-    Object = require("Packages.classic")
+    utf8 = require("Shared.Packages.utf8")
+    require("Shared.Packages.LuauPolyfill")
+    Dream = require("Shared.Packages.3DreamEngine")
+    Object = require("Shared.Packages.classic")
+
+    print(Object)
 
     -- Helpers
-    Signal = require("Helper.Signal")
-    Scheduler = require("Helper.Scheduler")
-    Utils = require("Helper.Utils")
+    Signal = require("Shared.Helper.Signal")
+    Scheduler = require("Shared.Helper.Scheduler")
+    Utils = require("Shared.Helper.Utils")
 
     -- Types
-    Pivot2D = require("Types.Pivot2D")
-    Transform2D = require("Types.Transform2D")
+    Pivot2D = require("Shared.Types.Pivot2D")
+    Transform2D = require("Shared.Types.Transform2D")
 
     -- Globals
     GlobalTick = 0

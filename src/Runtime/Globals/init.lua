@@ -11,7 +11,7 @@ CurrentGlobals = {
 }
 
 local function FireChanged(WhatChanged,WhereChanged)
-    for i,v in ChangedSignals do
+    for i,v in pairs(ChangedSignals) do
         v.InvokeEvent(WhatChanged,WhereChanged)
     end
 end
@@ -50,7 +50,7 @@ function Main.NotifyGlobalChange()
 end
 
 function Main.GlobalUpdate()
-    for i,v in CurrentGlobals do
+    for i,v in pairs(CurrentGlobals) do
         Main.AddGlobal(i)
     end
 end

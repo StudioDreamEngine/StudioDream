@@ -6,7 +6,7 @@ local Renderer = Runtime.Renderer
 local Viewport2D = Things.Extend("BaseGui")
 
 function Viewport2D:New()
-    --self.super:New()
+    self.super:New()
 
     self.Adornee = nil
     self.ViewportCanvas = nil
@@ -18,7 +18,7 @@ function Viewport2D:SendChild(DrawFunction, Transform)
 end
 
 function Viewport2D:DrawContainerChildren(Transform, Container)
-    for _, Child in self:GetChildren() do
+    for _, Child in pairs(self:GetChildren()) do
         
     end
 end

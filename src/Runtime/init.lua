@@ -4,7 +4,7 @@ Runtime.Things = require("Runtime.Things")
 Runtime.Renderer = require("Runtime.Renderer")
 
 function Runtime.Init()
-    require("Runtime.Types")
+    Runtime.Things.Init()
 end
 
 function Runtime.Update(dt)

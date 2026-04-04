@@ -34,6 +34,8 @@ function BaseGui:Draw()
 end
 
 function BaseGui:New() 
+    self.super:New()
+
     self.Size = Pivot2D.FromOffset(Vector2.one * 50)
     self.Position = Pivot2D.FromOffset(Vector2.one * 50)
 

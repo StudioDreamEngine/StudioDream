@@ -2,7 +2,7 @@
 local Things = Runtime.Things
 local Thing = Object:extend()
 
-function Thing:new()
+function Thing:New()
     self.Children = {}
     self.Parent = nil 
     
@@ -29,7 +29,7 @@ function Thing:DescendantOf()
 
     -- We should improve this, maybe getchildren with a callback>?
     local function GetChildOf(ThingTo)
-        for ChildUUID, _ in ThingTo.Children do
+        for ChildUUID, _ in pairs(ThingTo.Children) do
             local Child = Things.Get(ChildUUID) -- dont forget this is a thing!!#@!@
             table.insert(ReturnedDescendant, Child)
             if ThingTo.Children then
@@ -50,7 +50,7 @@ end
 function Thing:GetChildren()
     local ReturnedChildren = {}
 
-    for ChildUUID, _ in self.Children do
+    for ChildUUID, _ in pairs(self.Children) do
         table.insert(ReturnedChildren, Things.Get(ChildUUID))
     end
 
@@ -64,7 +64,7 @@ function Thing:AncestorOf(Descendant)
 end
 
 function Thing:FindFirstChild(Name)
-    for ChildUUID,_ in self.Children do
+    for ChildUUID,_ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)
 
         if Child.Name == Name then
@@ -74,7 +74,7 @@ function Thing:FindFirstChild(Name)
 end
 
 function Thing:ClearAllChildren(NameFilter)
-    for ChildUUID,_ in self.Children do
+    for ChildUUID,_ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)
         if not NameFilter[Child.Name] then
             Things.Remove(Child)
