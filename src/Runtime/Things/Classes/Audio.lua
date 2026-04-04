@@ -9,12 +9,6 @@ function Audio:New()
 
 end
 
-function Audio:GetDisplayUI()
-    return self:GetParentCallback(function(Object)
-        return Object:IsA("BaseObject")
-    end)
-end
-
 function Audio:Update(dt) 
     -- Make this change the audio volume depeding if this has a 3DObject or 2DObject as a parent
 end
