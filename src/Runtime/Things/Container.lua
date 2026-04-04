@@ -1,9 +1,6 @@
--- Basic Container class
-return { new = function(Base)
-    local Container = Base
+local Things = Runtime.Things
+local Container = Things.Extend("Thing")
 
-    function Container.Ready() end
-    function Container.Update(dt) end
+function Container:Update(dt) end
 
-    return Container
-end }
+return Container

@@ -1,13 +1,12 @@
-return { new = function(Base)
-    local Viewport3D = Base
+local Things = Runtime.Things
+local Viewport3D = Things.Extend("BaseGui")
 
-    function Viewport3D.Ready()
-        
-    end
+function Viewport3D:New()
+    
+end
 
-    function Viewport3D.Update(dt)
-        
-    end
+function Viewport3D:Update(dt)
+    
+end
 
-    return Viewport3D
-end }
+return Viewport3D
