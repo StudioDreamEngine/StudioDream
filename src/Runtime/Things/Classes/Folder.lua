@@ -5,12 +5,13 @@ local Things = Runtime.Things
 local Folder = Things.Extend("Thing")
 
 function Folder:New() 
-    self.AudioFile = nil
-
+    
+    self.LockObjects = false
+    self.ExplorerVisible = true
 end
 
 function Folder:Update(dt) 
     -- Make this change the audio volume depeding if this has a 3DObject or 2DObject as a parent
 end
 
-return Audio
+return Folder
