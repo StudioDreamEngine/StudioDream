@@ -14,7 +14,10 @@ function BaseGui:GetAbsoluteSize()
     local AbsoluteSize = self.Size.Offset
     local ParentElement = self:GetParentElement()
 
-    AbsoluteSize = AbsoluteSize + (ParentSize * self.Size.Scale)
+    if ParentElement then -- Only do this if we found a parent element
+        AbsoluteSize = AbsoluteSize + (ParentElement.AbsoluteSize * self.Size.Scale)
+    end
+    
     return AbsoluteSize
 end
 
