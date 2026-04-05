@@ -6,6 +6,13 @@ function Utils.OptionalCall(Module, Function, ...)
     end
 end
 
+function Utils.UpdateTable(Table, Index, Value)
+    Table[Index] = Value
+    local NewTable = Table
+
+    return NewTable
+end
+
 -- Returns a table of all the files in a folder, regardless of if a file was nested or not
 function Utils.GetFolderDescendants(Folder, NoPath)
     local FolderData = {}
