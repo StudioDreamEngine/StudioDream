@@ -2,18 +2,15 @@ local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
 ---@module 'Thing'
-local Audio = Things.Extend("Thing")
+local Value = Things.Extend("Thing")
 
-function Audio:New() 
-    self.AudioFile = nil
-    self.Volume = 100
-    self.Playbackspeed = 1
-
-    self.ExplorerVisible = true
+function Value:New() -- This is like, Instance values but combined into 1
+    self.Value = nil
+    self.Type = nil
 end
 
-function Audio:Update(dt) 
+function Value:Update(dt) 
     -- Make this change the audio volume depeding if this has a 3DObject or 2DObject as a parent
 end
 
-return Audio
+return Value

@@ -9,19 +9,12 @@ function Image:New()
     self.Transparency = 0
     self.Visible = true
 
-    self.Adornee = nil
-
+    self.Adorn = nil
     self.ExplorerVisible = true
 end
 
--- Maybe Images could also have EditableImages functionality? 🤔
-
-function Image:GetBuffer()
-
-end
-
 function Image:Update(dt) 
-    -- TODO Erm idk
+    
 end
 
 return Image
