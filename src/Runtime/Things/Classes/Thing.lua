@@ -6,7 +6,7 @@ function Thing:New()
     print("Thing was created")
     self.Children = {}
     self.Parent = nil 
-
+    self.CanBeRendered = true
     self.UUID = CreateUUID()
     
     self.ExplorerVisible = true

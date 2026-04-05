@@ -7,7 +7,7 @@ local Viewport2D = Things.Extend("BaseGui")
 
 function Viewport2D:New()
     self.super.New(self)
-
+    self.Icon = "application"
     self.Adornee = nil
     self.RenderFolder = nil -- idk what to name this
 
