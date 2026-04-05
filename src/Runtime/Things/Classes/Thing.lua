@@ -107,6 +107,41 @@ function Thing:ClearAllChildren(NameFilter)
     end 
 end
 
+local function RenderIcon(IconName,VectorPos,TreeStarter)
+    local ImageC = love.graphics.newImage("Editor/Assets/Icons/16/"..IconName..".png")
+    love.graphics.draw(ImageC,VectorPos.X,VectorPos.Y,0,1000)
+end
+
+local function RenderTextLabel(Text,VectorPos)
+    local font = love.graphics.getFont()
+    local plainText = love.graphics.newText(font, {{1, 1, 1}, "Hello World"})
+    love.graphics.draw(plainText,VectorPos.X,VectorPos.Y)
+end
+
+function Thing:RenderThingies() -- TreeStarter Must be a thing not an UUID
+
+    
+    local TreeStarter = self
+    local LastPosition = Vector2.new(0,0)
+    if TreeStarter.Icon then
+        RenderIcon(TreeStarter.Icon,Vector2.new(10,10),TreeStarter)
+    else
+        RenderIcon("cancel",Vector2.new(10,10),TreeStarter)
+    end
+
+    for UIDD,v in pairs(TreeStarter.Children) do -- Make something separeted for icons honestly
+        local Thingy = Things.Get(UIDD)
+        local PosThisWay = Vector2.new(20,15+LastPosition.Y)
+        if Thingy.Icon then
+            RenderIcon(Thingy.Icon,PosThisWay,TreeStarter)
+        else
+            RenderIcon("cancel",PosThisWay,TreeStarter)
+        end
+        RenderTextLabel(tostring(UIDD),PosThisWay+Vector2.new(16,0))
+        LastPosition = PosThisWay
+    end
+end
+
 function Thing:Update()
 end
 
