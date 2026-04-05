@@ -23,7 +23,10 @@ end
 
 function ViewportManager.RenderViewport(Viewport)
     for _, Element in pairs(Viewport.DisplayList) do
+        love.graphics.push()
+        love.graphics.replaceTransform(Element.Transform) -- for now
         Element.Child:Draw()
+        love.graphics.pop()
     end
 end
 

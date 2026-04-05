@@ -42,7 +42,7 @@ end
 function BaseGui:New() 
     self.super:New()
 
-    self.Size = Pivot2D.FromOffset(Vector2.one * 50)
+    self.Size = Pivot2D.FromOffset(Vector2.one)
     self.Position = Pivot2D.FromOffset(Vector2.one * 50)
 
     self.AbsolutePosition = Vector2.zero
@@ -53,6 +53,7 @@ function BaseGui:New()
 end
 
 function BaseGui:Update(dt) 
+    -- for some reason extending from thing works with self.super:[function](...), while extending off extensions of thing should use self.super.[function](self, ...)
     self.super:Update(dt)
 
     self.AbsoluteSize = self:GetAbsoluteSize()

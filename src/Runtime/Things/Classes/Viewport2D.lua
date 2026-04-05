@@ -6,7 +6,7 @@ local Renderer = Runtime.Renderer
 local Viewport2D = Things.Extend("BaseGui")
 
 function Viewport2D:New()
-    self.super:New()
+    self.super.New(self)
 
     self.Adornee = nil
     self.RenderFolder = nil -- idk what to name this
@@ -51,7 +51,7 @@ function Viewport2D:CreateDisplayList()
 end
 
 function Viewport2D:Update(dt)
-    self.super:Update(dt)
+    self.super.Update(self, dt)
     self:CreateDisplayList()
 
     -- TODO: Figure out how to make an OnChanged event for this stuff
