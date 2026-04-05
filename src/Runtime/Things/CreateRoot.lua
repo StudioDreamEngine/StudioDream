@@ -12,11 +12,13 @@ return function()
     SquareTest.Size = Pivot2D.FromOffset(Vector2.new(200,200))
     SquareTest:SetParent(Viewport)
 
-    local ImageTest = Things.New("ImagePremitive")
+    local ImageTest = Things.New("Image2D")
     ImageTest.ImageFile = "Editor/Assets/Icons/16/application_edit.png"
     ImageTest.Size = Pivot2D.FromOffset(Vector2.new(100,100))
     ImageTest.Position = Pivot2D.FromOffset(Vector2.new(100,100))
     ImageTest:SetParent(Viewport)
+
+    print(Viewport.Children)
 
     return { Viewport = Viewport }
 end

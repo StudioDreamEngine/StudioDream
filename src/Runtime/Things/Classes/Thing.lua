@@ -6,14 +6,20 @@ function Thing:New()
     self.Children = {}
     self.Parent = nil 
 
-    self.UUID = UUID()
+    self.UUID = CreateUUID()
     
     self.ExplorerVisible = true
+
+    self.Changed = Signal:New("PropertyChange")
+
+    self.Changed:Connect(function(OldParent, NewParent)
+        --print("Old Parent:",OldParent.Name, "New Parent:",NewParent.Name)
+    end, "Parent")
 end
 
 function Thing:SetParent(NewParent)
     self.Parent = NewParent
-    
+
     NewParent.Children[self.UUID] = true
 end
 
@@ -31,6 +37,14 @@ function Thing:GetParentCallback(Callback)
 	
 	return Parent
 end
+
+--[[function Thing:__newindex(index, value)
+    if self.Changed then
+        self.Changed.Invoke(index, self[index], value)
+    end
+
+    return rawset(self, index, value)
+end]]
 
 function Thing:DescendantOf()
     local ReturnedDescendant = {}
@@ -88,6 +102,9 @@ function Thing:ClearAllChildren(NameFilter)
             Things.Remove(Child)
         end
     end 
+end
+
+function Thing:Update()
 end
 
 return Thing

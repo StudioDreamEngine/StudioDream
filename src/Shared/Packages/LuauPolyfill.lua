@@ -65,10 +65,12 @@ local DontPrint = {"package", "_G", "love", "Dream", "ImGUI", "_3DreamEngine"}
 
 -- Table --
 do
-	function table.format(Table, Depth, RecordedTables)
+	-- REALLY GARBAGE table formatter, you are happy to contiribute and make it better
+	function table.format(Table, _RecurseData)
 		-- Optional Variables
-		Depth = Depth or 0
-		RecordedTables = RecordedTables or {}
+		local Data = _RecurseData or {}
+		Depth = Data.Depth or 0
+		RecordedTables = Data.RecordedTables or {}
 
 		-- Handle the chain of tabs first, for readability
 		local BreakChain = ""
@@ -84,16 +86,20 @@ do
 
 			-- Tables as indexes currently arent supported, skip
 			if type(i) == "table" then
-				i = "Indexed Table (TODO)"
+				i = "Indexed Table"
 			end
 
 			-- Handle the value side
 			if type(v) == "table" then -- Parse Table
-				if table.find(DontPrint, i) or RecordedTables[v] then -- Tables that reference tables are a death sentence, so we skip em
+				local TableToString = v.__tostring
+			
+				if TableToString then
+					Value = "\""..TableToString(v).."\""
+				elseif table.find(DontPrint, i) or RecordedTables[v] then -- Tables that reference tables are a death sentence, so we skip em
 					Value = "Table Skipped"
 				elseif Depth < 10 then
 					RecordedTables[v] = true
-					Value = table.format(v, Depth, RecordedTables)
+					Value = table.format(v, {Depth = Depth, RecordedTables = RecordedTables})
 				else
 					Value = "Too deep! Possible recursion?"
 				end
@@ -476,7 +482,7 @@ do
 end
 
 -- UUID --
-function _G.UUID()
+function _G.CreateUUID()
 	local UUID = ""
 
 	for i = 1,4 do

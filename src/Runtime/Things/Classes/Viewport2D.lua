@@ -17,14 +17,7 @@ function Viewport2D:New()
 end
 
 local function SortByDepth(List)
-	table.sort(List, function(a,b)
-		--[[if (a.Layer == b.Layer) then
-			return (a.GetPosition().Y < b.GetPosition().Y)
-		else]]
-		return a.Layer < b.Layer
-		--end
-	end)
-
+	table.sort(List, function(a,b) return a.Layer < b.Layer end)
 	return List
 end
 
@@ -46,13 +39,11 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
         Transform:translate(Position.X, Position.Y)
 
         self:SendChild(Child, Transform, self.CurrentOrder)
-
         --self:DrawContainerChildren(Transform:clone(), Child)
     end
 end
 
 function Viewport2D:CreateDisplayList()
-    self.DisplayList = {}
     self.CurrentOrder = 1 -- idk why but refuses to work outside of this function???
 
     local BaseTransform = Transform2D.new()
