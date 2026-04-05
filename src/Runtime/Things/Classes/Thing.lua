@@ -19,17 +19,11 @@ function Thing:New()
 end
 
 function Thing:SetParent(NewParent)
-
-    print(NewParent.Name)
-    print(NewParent.Children)
-
     self.Parent = NewParent
-    NewParent.Children[self.UUID] = true -- doesnt update for everyone?
-    local NewTable = NewParent.Children
-    NewParent.Children = NewTable
-    
+
+    NewParent.Children = Utils.UpdateTable(NewParent.Children, self.UUID, true)
+
     print(NewParent.Children)
-    --table.insert(NewParent.Children,self.UUID)
 end
 
 function Thing:GetParentCallback(Callback)
