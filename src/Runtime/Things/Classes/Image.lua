@@ -14,8 +14,14 @@ function Image:New()
     self.ExplorerVisible = true
 end
 
-function Image:Update(dt) 
+-- Maybe Images could also have EditableImages functionality? 🤔
 
+function Image:GetBuffer()
+
+end
+
+function Image:Update(dt) 
+    -- TODO Erm idk
 end
 
 return Image
