@@ -5,7 +5,7 @@ local Things = Runtime.Things
 local SquarePrimative = Things.Extend("BaseGui")
 
 function SquarePrimative:Draw()
-    local Size = SquarePrimative.AbsoluteSize
+    local Size = self.AbsoluteSize
 
     love.graphics.rectangle("fill", 0, 0, Size.X, Size.Y)
 end
