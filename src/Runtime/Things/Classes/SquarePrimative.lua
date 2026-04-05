@@ -4,6 +4,10 @@ local Things = Runtime.Things
 ---@module 'BaseGui'
 local SquarePrimative = Things.Extend("BaseGui")
 
+function SquarePrimative:New()
+    self.super:New()
+end
+
 function SquarePrimative:Draw()
     local Size = self.AbsoluteSize
 

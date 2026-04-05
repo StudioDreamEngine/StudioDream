@@ -6,6 +6,8 @@ local ImagePrimative = Things.Extend("BaseGui")
 local Image
 
 function ImagePrimative:New()
+    self.super:New()
+
     self.ImageFile = nil
 end
 
@@ -13,11 +15,8 @@ function ImagePrimative:Draw()
     local Size = self.AbsoluteSize
     
     Image = love.graphics.newImage(self.ImageFile)
-    local width = Image:getWidth()
-	local height = Image:getHeight()
-	local quad = love.graphics.newQuad(0,0, width,height/2, width,height) -- Change this for propertie
 
-    love.graphics.draw(Image,quad, Size.X,Size.Y)
+    love.graphics.draw(Image,0,0)
 end
 
 return ImagePrimative
