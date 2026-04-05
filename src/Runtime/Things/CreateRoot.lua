@@ -18,7 +18,5 @@ return function()
     ImageTest.Position = Pivot2D.FromOffset(Vector2.new(100,100))
     ImageTest:SetParent(Viewport)
 
-    print(Viewport.Children)
-
     return { Viewport = Viewport }
 end
