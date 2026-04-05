@@ -54,9 +54,9 @@ function Object:is(T)
 end
 
 
-function Object:__tostring()
+--[[function Object:__tostring()
   return "Object"
-end
+end]]
 
 
 function Object:__call(...)

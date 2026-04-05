@@ -5,7 +5,6 @@ local Things = Runtime.Things
 local Folder = Things.Extend("Thing")
 
 function Folder:New() 
-    
     self.LockObjects = false
     self.ExplorerVisible = true
 end

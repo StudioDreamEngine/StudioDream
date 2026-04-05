@@ -39,3 +39,6 @@ Thing Related stuff:
         a child of a UI or Model thing, ect ect
         This also makes the user curious, "How should this work on this?" or "What happends if i use this on a 2D/3D scene?", They explore more the engine
         Making it fun and easy to learn
+
+How should layouts be handled?
+    
