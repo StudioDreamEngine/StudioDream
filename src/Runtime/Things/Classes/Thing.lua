@@ -5,8 +5,16 @@ local Thing = Object:extend()
 function Thing:New()
     self.Children = {}
     self.Parent = nil 
+
+    self.UUID = UUID()
     
     self.ExplorerVisible = true
+end
+
+function Thing:SetParent(NewParent)
+    self.Parent = NewParent
+    
+    NewParent.Children[self.UUID] = true
 end
 
 function Thing:GetParentCallback(Callback)

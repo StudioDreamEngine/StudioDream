@@ -12,17 +12,23 @@ end
 
 function BaseGui:GetAbsoluteSize()
     local AbsoluteSize = self.Size.Offset
-    local ParentSize = self:GetParentElement():GetAbsoluteSize()
+    local ParentElement = self:GetParentElement()
 
-    AbsoluteSize = AbsoluteSize + (ParentSize * self.Size.Scale)
+    if ParentElement then -- Only do this if we found a parent element
+        AbsoluteSize = AbsoluteSize + (ParentElement.AbsoluteSize * self.Size.Scale)
+    end
+
+    return AbsoluteSize
 end
 
+-- Find the parent element rendering this object
 function BaseGui:GetParentElement()
     return self:GetParentCallback(function(Object)
         return Object:IsA("BaseGui")
     end)
 end
 
+-- Find the parent Viewport2D rendering this object
 function BaseGui:GetDisplayUI()
     return self:GetParentCallback(function(Object)
         return Object:IsA("Viewport2D")
@@ -41,6 +47,9 @@ function BaseGui:New()
 
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = Vector2.zero
+
+    self.Layer = 0
+    self.Pivot = Vector2.zero -- TODO: Add functionality
 end
 
 function BaseGui:Update(dt) 

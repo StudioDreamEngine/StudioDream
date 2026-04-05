@@ -19,7 +19,6 @@ function Things.New(ThingType, ...)
 
     Thing.__tostring = function() return ThingType end
 
-    Thing.UUID = UUID()
     Thing.Name = ThingType
 
     Objects[Thing.UUID] = Thing
