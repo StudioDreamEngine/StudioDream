@@ -50,7 +50,9 @@ function BaseGui:New()
 end
 
 function BaseGui:Update(dt) 
-    self.AbsoluteSize = BaseGui:GetAbsoluteSize()
+    self.super:Update(dt)
+
+    self.AbsoluteSize = self:GetAbsoluteSize()
 end
 
 return BaseGui

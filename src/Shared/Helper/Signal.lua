@@ -21,7 +21,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 	local Events = {}
 	
 	local function NewEventID() 
-		return UUID()
+		return CreateUUID()
 	end
 	
 	function EventObject:DisconnectWithListener(Listener)
@@ -66,7 +66,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 		return SingleEventObject
 	end
 
-	function EventObject.InvokeEvent(MatchingListener, ...)
+	function EventObject.Invoke(MatchingListener, ...)
 		--print("Call to invoke",EventName)
 		
 		--[[

@@ -11,13 +11,13 @@ function Things.Get(UUID)
     return Objects[UUID]
 end
 
-function Things.Type(ThingType, ...) return require("Runtime.Things.Classes."..ThingType) end
+function Things.Type(ThingType) return require("Runtime.Things.Classes."..ThingType) end
 function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
 function Things.New(ThingType, ...)
     local Thing = Things.Type(ThingType)(...)
 
-    Thing.__tostring = function() return ThingType end
+    Thing.__tostring = function(self) return "<"..ThingType..">"..self.Name end
 
     Thing.Name = ThingType
 
