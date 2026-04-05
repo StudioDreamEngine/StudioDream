@@ -3,6 +3,7 @@ local Things = Runtime.Things
 local Thing = Object:extend()
 
 function Thing:New()
+    print("Thing was created")
     self.Children = {}
     self.Parent = nil 
 
@@ -18,9 +19,17 @@ function Thing:New()
 end
 
 function Thing:SetParent(NewParent)
-    self.Parent = NewParent
 
-    NewParent.Children[self.UUID] = true
+    print(NewParent.Name)
+    print(NewParent.Children)
+
+    self.Parent = NewParent
+    NewParent.Children[self.UUID] = true -- doesnt update for everyone?
+    local NewTable = NewParent.Children
+    NewParent.Children = NewTable
+    
+    print(NewParent.Children)
+    --table.insert(NewParent.Children,self.UUID)
 end
 
 function Thing:GetParentCallback(Callback)
