@@ -6,7 +6,7 @@ local BaseGui = Things.Extend("Thing")
 
 function BaseGui:GetAbsolutePosition()
     local Position = Vector2.zero
-
+    
     -- TODO
 end
 
@@ -14,10 +14,7 @@ function BaseGui:GetAbsoluteSize()
     local AbsoluteSize = self.Size.Offset
     local ParentElement = self:GetParentElement()
 
-    if ParentElement then -- Only do this if we found a parent element
-        AbsoluteSize = AbsoluteSize + (ParentElement.AbsoluteSize * self.Size.Scale)
-    end
-
+    AbsoluteSize = AbsoluteSize + (ParentSize * self.Size.Scale)
     return AbsoluteSize
 end
 

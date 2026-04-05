@@ -4,8 +4,10 @@ local Things = Runtime.Things
 ---@module 'Thing'
 local Folder = Things.Extend("Thing")
 
+-- This would be Model and Folder combined
+
 function Folder:New() 
-    self.LockObjects = false
+    self.LockObjectsIn = false -- Basically the model functionally that moves everything like 1 being, Maybe make this for outlines too? idk
     self.ExplorerVisible = true
 end
 
