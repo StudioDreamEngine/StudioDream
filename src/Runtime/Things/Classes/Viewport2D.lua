@@ -45,7 +45,7 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
         ChildTransform:translate(Position.X, Position.Y)
 
         self:SendChild(Child, ChildTransform, self.CurrentOrder)
-        --self:DrawContainerChildren(ChildTransform, Child)
+        self:DrawContainerChildren(ChildTransform, Child)
     end
 end
 

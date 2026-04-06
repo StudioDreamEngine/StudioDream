@@ -5,7 +5,6 @@ local Thing = Object:extend()
 function Thing:new()
     self.Children = {}
     self.Parent = nil 
-    self.CanBeRendered = true
     self.UUID = CreateUUID()
 
     self.Explorer = {
@@ -15,17 +14,15 @@ function Thing:new()
 
     self.Changed = Signal:New("PropertyChange")
 
-    --[[self.Changed:Connect(function(UUID, NewParentUUID)
+    self.Changed:Connect(function(OldParent, NewParent)
         -- another hack
-        print(UUID, NewParentUUID)
+        print(NewParent.UUID)
 
-        local NewParent = Things.Get(NewParentUUID)
-
-        NewParent.Children = Utils.UpdateTable(NewParent.Children, UUID, true)
+        --NewParent.Children = Utils.UpdateTable(NewParent.Children, UUID, true)
 
         --print(NewParent.Children)
         --print(NewParent.UUID)
-    end, "Parent")]]
+    end, "Parent")
 end
 
 function Thing:GetParentCallback(Callback)
@@ -49,18 +46,15 @@ function Thing:SetParent(NewParent)
     NewParent.Children[self.UUID] = true
 end
 
---[[function Thing:__newindex(index, value)
-    if type(value) == "table" then
-        print(value.UUID)
-    end
-    --[[if self.Changed then
+function Thing:__newindex(index, value)
+    if self.Changed then
         if type(value) == "table" then
-            self.Changed.Invoke(index, self.UUID, value.UUID)
+            self.Changed.Invoke(index, self[index], value)
         end
     end
 
     return rawset(self, index, value)
-end]]
+end
 
 function Thing:DescendantOf()
     local ReturnedDescendant = {}
@@ -93,6 +87,21 @@ function Thing:GetChildren()
     end
 
     return ReturnedChildren
+end
+
+function Thing:GetDescendants()
+    local ReturnedDescendants = {}
+
+    local function GetDescendantsImpl(Object)
+        for _, Descendant in pairs(Object:GetChildren()) do
+            table.insert(ReturnedDescendants, Descendant)
+            GetDescendantsImpl(Descendant)
+        end
+    end
+
+    GetDescendantsImpl(self)
+
+    return ReturnedDescendants
 end
 
 -- TODO: Also, couldnt we just call DescendantOf on the Descendant to check if the thing is an ancestor?
