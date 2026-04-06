@@ -108,8 +108,13 @@ function Thing:ClearAllChildren(NameFilter)
 end
 
 local function RenderIcon(IconName,VectorPos,TreeStarter)
-    local ImageC = love.graphics.newImage("Editor/Assets/Icons/16/"..IconName..".png")
-    love.graphics.draw(ImageC,VectorPos.X,VectorPos.Y,0,1000)
+    --[[local ImageC = love.graphics.newImage("Editor/Assets/Icons/16/"..IconName..".png")
+    love.graphics.draw(ImageC,VectorPos.X,VectorPos.Y)]]
+
+    local ImageThing = Things.New("Image2D")
+    ImageThing.Position = VectorPos
+    ImageThing.ExplorerVisible = false
+    ImageThing:SetParent(TreeStarter)
 end
 
 local function RenderTextLabel(Text,VectorPos)
@@ -131,14 +136,16 @@ function Thing:RenderThingies() -- TreeStarter Must be a thing not an UUID
 
     for UIDD,v in pairs(TreeStarter.Children) do -- Make something separeted for icons honestly
         local Thingy = Things.Get(UIDD)
-        local PosThisWay = Vector2.new(20,15+LastPosition.Y)
-        if Thingy.Icon then
-            RenderIcon(Thingy.Icon,PosThisWay,TreeStarter)
-        else
-            RenderIcon("cancel",PosThisWay,TreeStarter)
+        if Thingy.ExplorerVisible then
+            local PosThisWay = Vector2.new(20,15+LastPosition.Y)
+            if Thingy.Icon then
+               RenderIcon(Thingy.Icon,PosThisWay,TreeStarter)
+            else
+                RenderIcon("cancel",PosThisWay,TreeStarter)
+            end
+            RenderTextLabel(tostring(UIDD),PosThisWay+Vector2.new(16,0))
+            LastPosition = PosThisWay
         end
-        RenderTextLabel(tostring(UIDD),PosThisWay+Vector2.new(16,0))
-        LastPosition = PosThisWay
     end
 end
 
