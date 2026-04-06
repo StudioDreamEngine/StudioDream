@@ -39,15 +39,6 @@ local function RenderNode(Thing, currentY, depth)
     RenderTextLabel(Thing.Name, labelPos)
     currentY = currentY + RowHeight
 
-    ---@module 'SquarePrimative'
-    ExplorerContainer = Things.New("SquarePrimative")
-    ExplorerContainer.BackgroundColor = Color.new(.1)
-    ExplorerContainer.Size = Pivot2D.FromOffset(Vector2.new(200,20))
-    ExplorerContainer.Explorer.Visible = false
-    ExplorerContainer.Name = "Explorer"
-    ExplorerContainer.Position = Pivot2D.FromOffset(labelPos)
-    ExplorerContainer:SetParent(Things.Root.Viewport)
-
     for _, Child in pairs(Thing:GetChildren()) do
         currentY = RenderNode(Child, currentY, depth + 1)
     end
