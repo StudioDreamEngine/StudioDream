@@ -37,7 +37,7 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
 
         local ChildTransform = Transform:clone()
 
-        local Position = Child.Position.Offset + (Child.Position.Scale * Container.AbsoluteSize)
+        local Position = Child.Position.Offset --+ (Child.Position.Scale * Container.AbsoluteSize)
         ChildTransform:translate(Position.X, Position.Y)
 
         self:SendChild(Child, ChildTransform, self.CurrentOrder)
