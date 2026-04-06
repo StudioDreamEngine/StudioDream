@@ -16,6 +16,11 @@ return function()
     Text.Position = Pivot2D.FromOffset(Vector2.new(200,50))
     Text:SetParent(Viewport)
 
+     local Text2 = Things.New("Text")
+    Text2.Position = Pivot2D.FromOffset(Vector2.new(200,50))
+    Text2.Name = "TestInside"
+    Text2:SetParent(Text)
+
     print(Viewport.Children)
     return { Viewport = Viewport }
 end
