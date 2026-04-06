@@ -5,8 +5,8 @@ local Things = Runtime.Things
 local ImagePrimative = Things.Extend("BaseGui")
 local Image
 
-function ImagePrimative:New()
-    self.super.New(self)
+function ImagePrimative:new()
+    ImagePrimative.super.new(self)
 
     self.Explorer = {
         Visible = true,

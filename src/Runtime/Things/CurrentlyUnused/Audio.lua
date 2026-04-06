@@ -4,7 +4,7 @@ local Things = Runtime.Things
 ---@module 'Thing'
 local Audio = Things.Extend("Thing")
 
-function Audio:New() 
+function Audio:new() 
     self.AudioFile = nil
     self.Volume = 100
     self.Playbackspeed = 1
