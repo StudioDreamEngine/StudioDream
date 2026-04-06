@@ -12,12 +12,10 @@ return function()
     ImageTest2.Position = Pivot2D.FromOffset(Vector2.new(300,50))
     ImageTest2:SetParent(Viewport)
 
-  --  ImageTest2:RenderThingies(Vector2.new(16,16),Viewport)
     local Text = Things.New("Text")
     Text.Position = Pivot2D.FromOffset(Vector2.new(200,50))
     Text:SetParent(Viewport)
 
-    Viewport:RenderThingies()
     print(Viewport.Children)
     return { Viewport = Viewport }
 end

@@ -120,56 +120,6 @@ function Thing:ClearAllChildren(NameFilter)
     end 
 end
 
-local function RenderIcon(IconName)
-    local ImageThing = Things.New("Image2D")
-    ImageThing.Position = Pivot2D.FromOffset(VectorPos)
-    ImageThing.ExplorerVisible = false
-    ImageThing.Icon = "bug"
-    ImageThing.ImageFile = "Editor/Assets/Icons/16/"..IconName..".png"
-    ImageThing.Name = "ICON_RENDER"
-    ImageThing:SetParent(TreeStarter)
-end
-
-local function RenderTextLabel(Text,VectorPos)
-    local font = love.graphics.getFont()
-    local plainText = love.graphics.newText(font, {{1, 1, 1}, Text})
-    love.graphics.draw(plainText,VectorPos.X,VectorPos.Y)
-end
-
-function Thing:RenderThingies(AlreadyLastPos,Renderer) -- TreeStarter Must be a thing not an UUID
-    local TreeStarter = Renderer or self
-    local LastPosition = AlreadyLastPos or Vector2.new(0,0)
-    local index = 0
-
-    print("started")
-
-    if TreeStarter.Icon then
-        RenderIcon(TreeStarter.Icon,Vector2.new(10,10),TreeStarter)
-    else
-        RenderIcon("cancel",Vector2.new(10,10),TreeStarter)
-    end
-
-    for UIDD,v in pairs(TreeStarter.Children) do -- Make something separeted for icons honestly
-        local Thingy = Things.Get(UIDD)
-        if Thingy.ExplorerVisible then
-            index=index+1
-            local PosThisWay = Vector2.new(20,index == 1 and LastPosition.Y+26 or LastPosition.Y+16)
-            if Thingy.Icon then
-                RenderIcon(Thingy.Icon,PosThisWay,TreeStarter)
-            else
-                RenderIcon("cancel",PosThisWay,TreeStarter)
-            end
-            --RenderTextLabel(tostring(UIDD),PosThisWay+Vector2.new(16,0))
-            LastPosition = PosThisWay
-            print(Thingy.Name)
-            if #Thingy.Children~=0 then
-                print(Thingy.Name .." Has Children!!!")
-                Thingy:RenderThingies(LastPosition)
-            end
-        end
-    end
-end
-
 function Thing:Update()
 end
 
