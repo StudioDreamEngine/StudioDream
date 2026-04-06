@@ -22,6 +22,7 @@ local function RenderTextLabel(Text, VectorPos)
     TextThing.ForegroundColor = Color.new(1)
     TextThing.BackgroundTransparency = 1
     TextThing.AlignX = Enum.AlignmentX.Left
+    TextThing.Layer = 9
     TextThing:SetParent(ExplorerContainer)
 end
 
@@ -38,6 +39,14 @@ local function RenderNode(Thing, currentY, depth)
     RenderIcon(icon, iconPos)
     RenderTextLabel(Thing.Name, labelPos)
     currentY = currentY + RowHeight
+    
+    local ExplorerContainer = Things.New("SquarePrimative")
+    ExplorerContainer.Size = Pivot2D.FromOffset(Vector2.new(200, 20))
+    ExplorerContainer.Position = Pivot2D.FromOffset(xOffset,currentY)
+    ExplorerContainer.Explorer.Visible = false
+    ExplorerContainer.BackgroundColor = Color.new(.5)
+    ExplorerContainer.Layer = 1
+    ExplorerContainer:SetParent(Things.Root.Viewport)
 
     for _, Child in pairs(Thing:GetChildren()) do
         currentY = RenderNode(Child, currentY, depth + 1)
