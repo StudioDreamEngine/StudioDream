@@ -13,6 +13,8 @@ function Color.new(R,G,B)
         Object.B = B
     end
 
+    Object.Type = "Color"
+
     return Object
 end
 

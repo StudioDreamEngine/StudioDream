@@ -7,6 +7,7 @@ local Viewport2D = Things.Extend("BaseGui")
 
 function Viewport2D:new()
     Viewport2D.super.new(self)
+
     self.Adornee = nil
     self.RenderFolder = nil -- idk what to name this
 
@@ -16,7 +17,6 @@ function Viewport2D:new()
     }
 
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one * 100)
-
     self.DisplayList = {}
 end
 
@@ -41,7 +41,9 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
 
         local ChildTransform = Transform:clone()
 
-        local Position = Child.Position.Offset --+ (Child.Position.Scale * Container.AbsoluteSize)
+        Utils.AssertType(Child.Position, "Pivot2D")
+
+        local Position = Child.Position.Offset + (Child.Position.Scale * Container.AbsoluteSize)
         ChildTransform:translate(Position.X, Position.Y)
 
         self:SendChild(Child, ChildTransform, self.CurrentOrder)
@@ -50,7 +52,7 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
 end
 
 function Viewport2D:CreateDisplayList()
-    self.CurrentOrder = 1 -- idk why but refuses to work outside of this function???
+    self.CurrentOrder = 1
 
     local BaseTransform = Transform2D.new()
     self:DrawContainerChildren(BaseTransform, self.RenderFolder or self)
