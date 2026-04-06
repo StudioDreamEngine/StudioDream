@@ -5,6 +5,9 @@ local Objects = {}
 
 function Things.Init()
     Things.Root = require("Runtime.Things.CreateRoot")()
+
+    local ExplorerRender = require("Runtime.Things.ExplorerRender")
+    ExplorerRender()
 end
 
 function Things.Get(UUID)

@@ -42,14 +42,23 @@ end
 function BaseGui:New() 
     self.super:New()
 
-    self.Size = Pivot2D.FromOffset(Vector2.one)
+    self.Size = Pivot2D.FromOffset(Vector2.one * 50)
     self.Position = Pivot2D.FromOffset(Vector2.one)
+
+    self.Color = Color.new(1)
+    self.BGTransparency = 0
 
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = Vector2.zero
 
     self.Layer = 0
     self.Pivot = Vector2.zero -- TODO: Add functionality
+end
+
+function BaseGui:DrawStyle()
+    love.graphics.setColor(self.Color.R, self.Color.G, self.Color.B, 1-self.BGTransparency)
+    self:Draw()
+    love.graphics.setColor(1,1,1,1)
 end
 
 function BaseGui:Update(dt) 

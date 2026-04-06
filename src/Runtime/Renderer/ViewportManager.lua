@@ -1,8 +1,6 @@
 local Things
 local ViewportManager = {}
 
-local LoveBackend = require("Runtime.Renderer.LoveBackend")
-
 function ViewportManager.Init()
     Things = Runtime.Things
 
@@ -11,7 +9,7 @@ function ViewportManager.Init()
 end
 
 function ViewportManager.CreateViewport(Viewport, Size)
-    local Canvas = LoveBackend.NewCanvas(Size)
+    local Canvas = Runtime.Backend2D.NewCanvas(Size)
 
     ViewportManager.Viewports[Viewport.UUID] = {
         Canvas = Canvas,
@@ -25,20 +23,20 @@ function ViewportManager.RenderViewport(Viewport)
     for _, Element in pairs(Viewport.DisplayList) do
         love.graphics.push()
         love.graphics.replaceTransform(Element.Transform) -- for now
-        Element.Child:Draw()
+        Element.Child:DrawStyle()
         love.graphics.pop()
     end
 end
 
 function ViewportManager.Render()
     for _, Viewport in pairs(ViewportManager.Viewports) do
-        LoveBackend.CanvasCall(Viewport.Canvas, function()
+        Runtime.Backend2D.CanvasCall(Viewport.Canvas, function()
             ViewportManager.RenderViewport(Viewport.Viewport)
         end)
     end
 
     local RootViewport = Things.Root.Viewport
-    LoveBackend.RenderCanvas(RootViewport.ViewportCanvas)
+    Runtime.Backend2D.RenderCanvas(RootViewport.ViewportCanvas)
 end
 
 return ViewportManager

@@ -6,6 +6,11 @@ local SquarePrimative = Things.Extend("BaseGui")
 
 function SquarePrimative:New()
     self.super:New()
+
+    self.Explorer = {
+        Visible = true,
+        Icon = "shape"
+    }
 end
 
 function SquarePrimative:Draw()
