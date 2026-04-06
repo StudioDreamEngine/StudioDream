@@ -1,0 +1,47 @@
+local Things = Runtime.Things
+
+-- using @module here gives the lua language server a base type to use!
+---@module 'BaseGui'
+local Text = Things.Extend("SquarePrimative")
+
+function Text:New()
+    self.super:New()
+
+    self.Explorer = {
+        Visible = true,
+        Icon = "text_replace"
+    }
+
+    self.TextSize = 12
+    self.Text = "Placeholder"
+    self.AlignX = Enum.AlignmentX.Center
+    self.AlignY = Enum.AlignmentY.Center
+
+    self.TextColor = Color.new(0)
+
+    ---@diagnostic disable-next-line: param-type-mismatch
+    self.RenderFont = love.graphics.newFont()
+end
+
+function Text:Draw()
+    self.super.Draw(self)
+
+    local ContainerSize = self.AbsoluteSize
+
+    local width, lines = self.RenderFont:getWrap(self.Text, ContainerSize.X)
+
+    -- should simplify this y axis equation tbh
+    local TextSize = Vector2.new(width, #lines * self.RenderFont:getHeight() - #lines * self.RenderFont:getLineHeight()*2)
+
+    local YAlign = 0
+    if self.AlignY == Enum.AlignmentY.Bottom then
+        YAlign = TextSize.Y
+    elseif self.AlignY == Enum.AlignmentY.Center then
+        YAlign = TextSize.Y/2
+    end
+
+    Runtime.Backend2D.SetColor(self.TextColor)
+    love.graphics.printf(self.Text, 0, YAlign, ContainerSize.X, self.AlignX)
+end
+
+return Text

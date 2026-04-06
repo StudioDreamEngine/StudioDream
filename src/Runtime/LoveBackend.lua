@@ -12,6 +12,10 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     love.graphics.setCanvas()
 end
 
+function Backend.SetColor(Color, Transparency)
+    love.graphics.setColor(Color.R, Color.G, Color.B, Transparency)
+end
+
 function Backend.RenderCanvas(Canvas)
     love.graphics.draw(Canvas)
 end

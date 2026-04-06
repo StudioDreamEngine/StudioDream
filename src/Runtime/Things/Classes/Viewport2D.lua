@@ -7,9 +7,13 @@ local Viewport2D = Things.Extend("BaseGui")
 
 function Viewport2D:New()
     self.super.New(self)
-    self.Icon = "application"
     self.Adornee = nil
     self.RenderFolder = nil -- idk what to name this
+
+    self.Explorer = {
+        Visible = true,
+        Icon = "layout"
+    }
 
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one * 100)
 
@@ -41,7 +45,7 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
         ChildTransform:translate(Position.X, Position.Y)
 
         self:SendChild(Child, ChildTransform, self.CurrentOrder)
-        --self:DrawContainerChildren(ChildTransform, Child)
+        self:DrawContainerChildren(ChildTransform, Child)
     end
 end
 

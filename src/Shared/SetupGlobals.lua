@@ -7,8 +7,6 @@ return function ()
     Dream = require("Shared.Packages.3DreamEngine")
     Object = require("Shared.Packages.classic")
 
-    print(Object)
-
     -- Helpers
     Signal = require("Shared.Helper.Signal")
     Scheduler = require("Shared.Helper.Scheduler")
@@ -17,6 +15,8 @@ return function ()
     -- Types
     Pivot2D = require("Shared.Types.Pivot2D")
     Transform2D = require("Shared.Types.Transform2D")
+    Enum = require("Shared.Types.Enum")
+    Color = require("Shared.Types.Color")
 
     -- Globals
     GlobalTick = 0

@@ -7,8 +7,12 @@ local Image
 
 function ImagePrimative:New()
     self.super.New(self)
+
+    self.Explorer = {
+        Visible = true,
+        Icon = "photo"
+    }
     
-    self.Icon = "photo"
     self.ImageFile = nil
 end
 
