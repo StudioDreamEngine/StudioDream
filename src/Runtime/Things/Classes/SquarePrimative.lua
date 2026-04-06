@@ -11,12 +11,13 @@ function SquarePrimative:new()
         Visible = true,
         Icon = "shape_square"
     }
+    self.Position = Vector2.new(0,0)
 end
 
 function SquarePrimative:Draw()
     local Size = self.AbsoluteSize
 
-    love.graphics.rectangle("fill", 0, 0, Size.X, Size.Y)
+    love.graphics.rectangle("fill", self.Position.X, self.Position.Y, Size.X, Size.Y)
 end
 
 return SquarePrimative
