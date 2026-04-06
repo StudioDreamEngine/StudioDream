@@ -6,7 +6,6 @@ local BaseGui = Things.Extend("Thing")
 
 function BaseGui:GetAbsolutePosition()
     local Position = Vector2.zero
-    
     -- TODO
 end
 
@@ -45,8 +44,12 @@ function BaseGui:new()
     self.Size = Pivot2D.FromOffset(Vector2.one * 50)
     self.Position = Pivot2D.FromOffset(Vector2.one)
 
-    self.Color = Color.new(1)
-    self.BGTransparency = 0
+    self.BackgroundColor = Color.new(1)
+    self.BackgroundTransparency = 0
+
+    -- Used for stuff like text
+    self.ForegroundTransparency = 0
+    self.ForegroundColor = Color.new(0)
 
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = Vector2.zero
@@ -56,9 +59,9 @@ function BaseGui:new()
 end
 
 function BaseGui:DrawStyle()
-    love.graphics.setColor(self.Color.R, self.Color.G, self.Color.B, 1-self.BGTransparency)
+    Runtime.Backend2D.SetColor(self.BackgroundColor, 1-self.BackgroundTransparency)
     self:Draw()
-    love.graphics.setColor(1,1,1,1)
+    Runtime.Backend2D.SetColor(Color.new(1))
 end
 
 function BaseGui:Update(dt) 

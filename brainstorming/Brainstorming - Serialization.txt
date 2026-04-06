@@ -1,0 +1,1 @@
+No clue what we should use for the version-control friendly version, for now however we can simply use binser

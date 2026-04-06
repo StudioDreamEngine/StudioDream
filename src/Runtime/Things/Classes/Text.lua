@@ -17,8 +17,6 @@ function Text:new()
     self.AlignX = Enum.AlignmentX.Center
     self.AlignY = Enum.AlignmentY.Center
 
-    self.TextColor = Color.new(0)
-
     ---@diagnostic disable-next-line: param-type-mismatch
     self.RenderFont = love.graphics.newFont()
 end
@@ -40,7 +38,7 @@ function Text:Draw()
         YAlign = TextSize.Y/2
     end
 
-    Runtime.Backend2D.SetColor(self.TextColor)
+    Runtime.Backend2D.SetColor(self.ForegroundColor)
     love.graphics.printf(self.Text, 0, YAlign, ContainerSize.X, self.AlignX)
 end
 
