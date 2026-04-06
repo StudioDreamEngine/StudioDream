@@ -107,6 +107,8 @@ function Thing:ClearAllChildren(NameFilter)
     end 
 end
 
+
+
 function Thing:Update()
 end
 
