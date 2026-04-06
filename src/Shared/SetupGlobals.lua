@@ -6,6 +6,7 @@ return function ()
     require("Shared.Packages.LuauPolyfill")
     Dream = require("Shared.Packages.3DreamEngine")
     Object = require("Shared.Packages.classic")
+    Binser = require("Shared.Packages.Binser")
 
     -- Helpers
     Signal = require("Shared.Helper.Signal")
