@@ -15,15 +15,17 @@ function Thing:New()
 
     self.Changed = Signal:New("PropertyChange")
 
-    self.Changed:Connect(function(OldParent, NewParent)
-        --print("Old Parent:",OldParent.Name, "New Parent:",NewParent.Name)
-    end, "Parent")
-end
+    --[[self.Changed:Connect(function(UUID, NewParentUUID)
+        -- another hack
+        print(UUID, NewParentUUID)
 
-function Thing:SetParent(NewParent)
-    self.Parent = NewParent
+        local NewParent = Things.Get(NewParentUUID)
 
-    NewParent.Children = Utils.UpdateTable(NewParent.Children, self.UUID, true)
+        NewParent.Children = Utils.UpdateTable(NewParent.Children, UUID, true)
+
+        --print(NewParent.Children)
+        --print(NewParent.UUID)
+    end, "Parent")]]
 end
 
 function Thing:GetParentCallback(Callback)
@@ -41,9 +43,20 @@ function Thing:GetParentCallback(Callback)
 	return Parent
 end
 
+function Thing:SetParent(NewParent)
+    self.Parent = NewParent
+
+    NewParent.Children = Utils.UpdateTable(NewParent.Children, self.UUID, true)
+end
+
 --[[function Thing:__newindex(index, value)
-    if self.Changed then
-        self.Changed.Invoke(index, self[index], value)
+    if type(value) == "table" then
+        print(value.UUID)
+    end
+    --[[if self.Changed then
+        if type(value) == "table" then
+            self.Changed.Invoke(index, self.UUID, value.UUID)
+        end
     end
 
     return rawset(self, index, value)
