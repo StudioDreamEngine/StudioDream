@@ -7,23 +7,22 @@ local RowHeight = 24
 local IndentSize = 16
 local IconsSize = 16 -- i will change this when we actually start making icons frfr
 
-local function RenderIcon(IconName, VectorPos)
+local function RenderIcon(IconName, VectorPos, Container)
     local ImageThing = Things.New("Image2D")
-    ImageThing.Position = Pivot2D.FromOffset(VectorPos)
     ImageThing.ImageFile = "Assets/EditorIcons/16/" .. IconName .. ".png"
-    ImageThing:SetParent(ExplorerContainer)
+    ImageThing:SetParent(Container)
 end
 
-local function RenderTextLabel(Text, VectorPos)
+local function RenderTextLabel(Text, VectorPos, Container)
     local TextThing = Things.New("Text")
-    TextThing.Position = Pivot2D.FromOffset(VectorPos)
     TextThing.Text = Text
+    TextThing.Position = Pivot2D.FromOffset(IconsSize+4,0)
     TextThing.Size = Pivot2D.FromOffset(Vector2.new(200, 20))
     TextThing.ForegroundColor = Color.new(1)
     TextThing.BackgroundTransparency = 1
     TextThing.AlignX = Enum.AlignmentX.Left
     TextThing.Layer = 9
-    TextThing:SetParent(ExplorerContainer)
+    TextThing:SetParent(Container)
 end
 
 local function RenderNode(Thing, currentY, depth)
@@ -35,18 +34,18 @@ local function RenderNode(Thing, currentY, depth)
     local iconPos  = Vector2.new(xOffset, currentY)
     local labelPos = Vector2.new(xOffset + IconsSize + 4, currentY)
 
+    local NodeContainer = Things.New("SquarePrimative")
+    NodeContainer.Size = Pivot2D.FromOffset(Vector2.new(200, 20))
+    NodeContainer.Position = Pivot2D.FromOffset(xOffset,currentY)
+    NodeContainer.Explorer.Visible = false
+    NodeContainer.BackgroundColor = Color.new(.5)
+    NodeContainer.Layer = 1
+    NodeContainer:SetParent(ExplorerContainer)
+
     local icon = Thing.Explorer.Icon or "cancel"
-    RenderIcon(icon, iconPos)
-    RenderTextLabel(Thing.Name, labelPos)
+    RenderIcon(icon, iconPos, NodeContainer)
+    RenderTextLabel(Thing.Name, labelPos, NodeContainer)
     currentY = currentY + RowHeight
-    
-    local ExplorerContainer = Things.New("SquarePrimative")
-    ExplorerContainer.Size = Pivot2D.FromOffset(Vector2.new(200, 20))
-    ExplorerContainer.Position = Pivot2D.FromOffset(xOffset,currentY)
-    ExplorerContainer.Explorer.Visible = false
-    ExplorerContainer.BackgroundColor = Color.new(.5)
-    ExplorerContainer.Layer = 1
-    ExplorerContainer:SetParent(Things.Root.Viewport)
 
     for _, Child in pairs(Thing:GetChildren()) do
         currentY = RenderNode(Child, currentY, depth + 1)
