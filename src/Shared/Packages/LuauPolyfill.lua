@@ -278,7 +278,8 @@ do
 
 		local Object = setmetatable({
 			X = x,
-			Y = y
+			Y = y,
+			Type = "Vector2"
 		}, { -- I have no idea how to organize this mess
 			__unm = function (t)
 				return Vector2.new(-t.X,-t.Y)
@@ -390,7 +391,8 @@ do
 		local Object = setmetatable({
 			X = x,
 			Y = y,
-			Z = z
+			Z = z,
+			Type = "Vector3"
 		}, { -- I have no idea how to organize this mess
 			__unm = function (t)
 				return Vector3.new(-t.X,-t.Y,-t.Z)

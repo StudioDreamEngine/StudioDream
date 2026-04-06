@@ -6,6 +6,10 @@ function Utils.OptionalCall(Module, Function, ...)
     end
 end
 
+function Utils.AssertType(Object, ExpectedType)
+    assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type)
+end
+
 -- Returns a table of all the files in a folder, regardless of if a file was nested or not
 function Utils.GetFolderDescendants(Folder, NoPath)
     local FolderData = {}

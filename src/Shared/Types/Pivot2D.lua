@@ -6,6 +6,8 @@ function Pivot2D.new(OffsetX, ScaleX, OffsetY, ScaleY)
     PivotObject.Offset = Vector2.new(OffsetX, OffsetY)
     PivotObject.Scale = Vector2.new(ScaleX, ScaleY)
 
+    PivotObject.Type = "Pivot2D"
+
     return PivotObject
 end
 

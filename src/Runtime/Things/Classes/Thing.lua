@@ -15,13 +15,7 @@ function Thing:new()
     self.Changed = Signal:New("PropertyChange")
 
     self.Changed:Connect(function(OldParent, NewParent)
-        -- another hack
-        print(NewParent.UUID)
-
-        --NewParent.Children = Utils.UpdateTable(NewParent.Children, UUID, true)
-
-        --print(NewParent.Children)
-        --print(NewParent.UUID)
+        --print("New Parent:", NewParent.UUID)
     end, "Parent")
 end
 
