@@ -4,8 +4,8 @@ local Things = Runtime.Things
 ---@module 'BaseGui'
 local SquarePrimative = Things.Extend("BaseGui")
 
-function SquarePrimative:New()
-    self.super:New()
+function SquarePrimative:new()
+    SquarePrimative.super.new(self)
 
     self.Explorer = {
         Visible = true,

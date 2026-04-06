@@ -1,8 +1,8 @@
 ---@module 'Thing'
 local Extended = require("Classes.Thing"):extend()
 
-function Extended:New() 
-    self.super:New()
+function Extended:new() 
+    Extended.super.new(self)
 end
 
 return Extended

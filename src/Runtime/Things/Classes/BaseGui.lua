@@ -39,8 +39,8 @@ function BaseGui:Draw()
     error("BaseGui:Draw() is virtual and should not be called directly")
 end
 
-function BaseGui:New() 
-    self.super:New()
+function BaseGui:new() 
+    BaseGui.super.new(self)
 
     self.Size = Pivot2D.FromOffset(Vector2.one * 50)
     self.Position = Pivot2D.FromOffset(Vector2.one)
@@ -62,8 +62,7 @@ function BaseGui:DrawStyle()
 end
 
 function BaseGui:Update(dt) 
-    -- for some reason extending from thing works with self.super:[function](...), while extending off extensions of thing should use self.super.[function](self, ...)
-    self.super:Update(dt)
+    BaseGui.super.Update(self, dt)
 
     self.AbsoluteSize = self:GetAbsoluteSize()
 end
