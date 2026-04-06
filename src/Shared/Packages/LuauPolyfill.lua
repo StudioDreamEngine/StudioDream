@@ -301,6 +301,8 @@ do
 				return t.X..", "..t.Y
 			end,
 			__mul = function (t1, t2)
+				assert(type(t1) ~= "nil", "Attempted to multiply Vector2 by nil value")
+
 				if type(t2) == "number" then
 					return Vector2.new(t1.X * t2, t1.Y * t2)
 				elseif type(t1) == "number" then
