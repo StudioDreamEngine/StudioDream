@@ -12,6 +12,11 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     love.graphics.setCanvas()
 end
 
+function Backend.GetMousePosition()
+    local X, Y = love.mouse.getPosition()
+    return Vector2.new(X, Y)
+end
+
 function Backend.SetColor(Color, Transparency)
     love.graphics.setColor(Color.R, Color.G, Color.B, Transparency)
 end
