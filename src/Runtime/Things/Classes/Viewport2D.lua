@@ -5,8 +5,8 @@ local Renderer = Runtime.Renderer
 ---@module 'BaseGui'
 local Viewport2D = Things.Extend("BaseGui")
 
-function Viewport2D:New()
-    self.super.New(self)
+function Viewport2D:new()
+    Viewport2D.super.new(self)
     self.Adornee = nil
     self.RenderFolder = nil -- idk what to name this
 
@@ -45,7 +45,7 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
         ChildTransform:translate(Position.X, Position.Y)
 
         self:SendChild(Child, ChildTransform, self.CurrentOrder)
-        self:DrawContainerChildren(ChildTransform, Child)
+        --self:DrawContainerChildren(ChildTransform, Child)
     end
 end
 
@@ -57,7 +57,7 @@ function Viewport2D:CreateDisplayList()
 end
 
 function Viewport2D:Update(dt)
-    self.super.Update(self, dt)
+    Viewport2D.super.Update(self, dt)
     self:CreateDisplayList()
 
     -- TODO: Figure out how to make an OnChanged event for this stuff
