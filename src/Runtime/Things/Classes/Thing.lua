@@ -35,9 +35,12 @@ function Thing:GetParentCallback(Callback)
 end
 
 function Thing:SetParent(NewParent)
-    self.Parent = NewParent
-
-    NewParent.Children[self.UUID] = true
+    if NewParent~=self then
+        self.Parent = NewParent
+        NewParent.Children[self.UUID] = true
+    else
+        print("Cannot parent Thing to itself.")
+    end
 end
 
 function Thing:__newindex(index, value)

@@ -14,6 +14,12 @@ return function()
         Position = Pivot2D.FromOffset(Vector2.new(300,50))
     }
     ImageTest2:SetParent(Viewport)
+    
+    local Button2dTest = Things.Create "Button2D" {
+        Name = "Button2DTest",
+        Position = Pivot2D.FromOffset(Vector2.new(300,300))
+    }
+    Button2dTest:SetParent(Viewport)
 
   --  ImageTest2:RenderThingies(Vector2.new(16,16),Viewport)
     Viewport:RenderThingies()
