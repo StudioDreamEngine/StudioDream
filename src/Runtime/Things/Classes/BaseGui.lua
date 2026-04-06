@@ -43,7 +43,7 @@ function BaseGui:New()
     self.super:New()
 
     self.Size = Pivot2D.FromOffset(Vector2.one)
-    self.Position = Pivot2D.FromOffset(Vector2.one * 50)
+    self.Position = Pivot2D.FromOffset(Vector2.one)
 
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = Vector2.zero

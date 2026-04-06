@@ -35,11 +35,13 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
     for _, Child in pairs(SortedChildren) do
         self.CurrentOrder = self.CurrentOrder + 1
 
-        local Position = Child.Position.Offset + (Child.Position.Scale * Container.AbsoluteSize)
-        Transform:translate(Position.X, Position.Y)
+        local ChildTransform = Transform:clone()
 
-        self:SendChild(Child, Transform, self.CurrentOrder)
-        --self:DrawContainerChildren(Transform:clone(), Child)
+        local Position = Child.Position.Offset + (Child.Position.Scale * Container.AbsoluteSize)
+        ChildTransform:translate(Position.X, Position.Y)
+
+        self:SendChild(Child, ChildTransform, self.CurrentOrder)
+        --self:DrawContainerChildren(ChildTransform, Child)
     end
 end
 
