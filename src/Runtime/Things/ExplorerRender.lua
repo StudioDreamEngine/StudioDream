@@ -36,7 +36,7 @@ local function RenderNode(UIDD, currentY, depth, TreeStarter)
     local icon = Thingy.Explorer.Icon or "cancel"
     RenderIcon(icon, iconPos, TreeStarter)
     RenderTextLabel(Thingy.Name, labelPos, TreeStarter)
-
+    Thingy:SetParent(Thingy.Parent)
     currentY = currentY + RowHeight
 
     if Thingy.Children then
@@ -50,7 +50,7 @@ end
 
 return function()
     local TreeStarter = Things.Root.Viewport
-    
+
     local rootIcon = TreeStarter.Explorer.Icon or "cancel"
     RenderIcon(rootIcon, Vector2.new(0, 0), TreeStarter)
     RenderTextLabel(TreeStarter.Name, Vector2.new(IconsSize + 4, 0), TreeStarter)
