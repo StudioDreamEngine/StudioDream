@@ -2,7 +2,7 @@
 local Things = Runtime.Things
 local Thing = Object:extend()
 
-function Thing:New()
+function Thing:new()
     self.Children = {}
     self.Parent = nil 
     self.CanBeRendered = true
@@ -46,7 +46,7 @@ end
 function Thing:SetParent(NewParent)
     self.Parent = NewParent
 
-    NewParent.Children = Utils.UpdateTable(NewParent.Children, self.UUID, true)
+    NewParent.Children[self.UUID] = true
 end
 
 --[[function Thing:__newindex(index, value)

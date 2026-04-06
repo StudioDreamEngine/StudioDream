@@ -4,7 +4,7 @@ local Things = Runtime.Things
 ---@module 'Thing'
 local Value = Things.Extend("Thing")
 
-function Value:New() -- This is like, Instance values but combined into 1
+function Value:new() -- This is like, Instance values but combined into 1
     self.Value = nil
     self.Type = nil
 end

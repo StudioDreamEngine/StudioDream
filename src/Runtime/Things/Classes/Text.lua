@@ -4,8 +4,8 @@ local Things = Runtime.Things
 ---@module 'BaseGui'
 local Text = Things.Extend("SquarePrimative")
 
-function Text:New()
-    self.super:New()
+function Text:new()
+    Text.super.new(self)
 
     self.Explorer = {
         Visible = true,
@@ -24,7 +24,7 @@ function Text:New()
 end
 
 function Text:Draw()
-    self.super.Draw(self)
+    Text.super.Draw(self)
 
     local ContainerSize = self.AbsoluteSize
 

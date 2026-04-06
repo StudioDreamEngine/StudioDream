@@ -4,7 +4,7 @@ local Things = Runtime.Things
 ---@module 'Thing'
 local Image = Things.Extend("Thing")
 
-function Image:New() 
+function Image:new() 
     self.ImageFile = nil
     self.Transparency = 0
     self.Visible = true

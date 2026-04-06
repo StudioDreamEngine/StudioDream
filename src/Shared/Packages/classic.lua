@@ -10,6 +10,10 @@
 local Object = {}
 Object.__index = Object
 
+function Object:new()
+  
+end
+
 function Object:extend()
   local cls = {}
 
@@ -42,7 +46,7 @@ function Object:__call(...)
   local obj = setmetatable({}, self)
   
   ---@diagnostic disable-next-line: redundant-parameter
-  obj:New(...)
+  obj:new(...)
   return obj
 end
 
