@@ -3,7 +3,6 @@ local Things = Runtime.Things
 local Thing = Object:extend()
 
 function Thing:New()
-    print("Thing was created")
     self.Children = {}
     self.Parent = nil 
     self.CanBeRendered = true
@@ -22,8 +21,6 @@ function Thing:SetParent(NewParent)
     self.Parent = NewParent
 
     NewParent.Children = Utils.UpdateTable(NewParent.Children, self.UUID, true)
-
-    print(NewParent.Children)
 end
 
 function Thing:GetParentCallback(Callback)
@@ -112,8 +109,9 @@ local function RenderIcon(IconName,VectorPos,TreeStarter)
     love.graphics.draw(ImageC,VectorPos.X,VectorPos.Y)]]
 
     local ImageThing = Things.New("Image2D")
-    ImageThing.Position = VectorPos
+    ImageThing.Position = Pivot2D.FromOffset(VectorPos)
     ImageThing.ExplorerVisible = false
+    ImageThing.ImageFile = "Editor/Assets/Icons/16/"..IconName..".png"
     ImageThing:SetParent(TreeStarter)
 end
 
