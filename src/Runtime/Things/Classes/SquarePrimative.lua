@@ -11,7 +11,7 @@ function SquarePrimative:new()
         Visible = true,
         Icon = "shape_square"
     }
-    self.Position = Vector2.new(0,0)
+    self.Position = Pivot2D.FromOffset(0,0)
 end
 
 function SquarePrimative:Draw()

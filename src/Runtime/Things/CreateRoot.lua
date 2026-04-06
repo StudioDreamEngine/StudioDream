@@ -15,24 +15,8 @@ return function()
     }
     ImageTest2:SetParent(Viewport)
 
-    local Text = Things.Create "Text" {
-        Position = Pivot2D.FromOffset(Vector2.new(200,50)),
-        Name = "TestText"
-    }
-    Text:SetParent(Viewport)
-
-    local Text2 = Things.Create "Text" {
-        Position = Pivot2D.FromOffset(Vector2.new(200,50)),
-        Name = "TestInside"
-    }
-    Text2:SetParent(Text)
-
-    local TestScale = Things.Create "SquarePrimative" {
-        Position = Pivot2D.FromScale(1,.5),
-        Size = Pivot2D.new(0,.5,0,1),
-        Pivot = Vector2.new(1,.5)
-    }
-    TestScale:SetParent(Viewport)
-
+  --  ImageTest2:RenderThingies(Vector2.new(16,16),Viewport)
+    Viewport:RenderThingies()
+    print(Viewport.Children)
     return { Viewport = Viewport }
 end
