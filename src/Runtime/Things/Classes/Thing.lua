@@ -70,7 +70,7 @@ function Thing:DescendantOf()
 end
 
 function Thing:IsA(ObjectType)
-    return Thing:is(Things.Type(ObjectType))
+    return self:is(Things.Type(ObjectType))
 end
 
 function Thing:GetChildren()

@@ -4,8 +4,15 @@ local Things = Runtime.Things
 ---@module 'Thing'
 local BaseGui = Things.Extend("Thing")
 
-function BaseGui:GetAbsolutePosition()
-    local Position = Vector2.zero
+function BaseGui:GetPositionInParent()
+    local AbsolutePosition = self.Position.Offset - (self.Pivot * self.AbsoluteSize)
+    local ParentElement = self:GetParentElement()
+
+    if ParentElement then
+        AbsolutePosition = AbsolutePosition + (self.Position.Scale * ParentElement.AbsoluteSize)
+    end
+
+    return AbsolutePosition
     -- TODO
 end
 
@@ -41,8 +48,8 @@ end
 function BaseGui:new() 
     BaseGui.super.new(self)
 
-    self.Size = Pivot2D.FromOffset(Vector2.one * 50)
-    self.Position = Pivot2D.FromOffset(Vector2.one)
+    self.Size = Pivot2D.FromOffset(50, 50)
+    self.Position = Pivot2D.FromOffset(0, 0)
 
     self.BackgroundColor = Color.new(1)
     self.BackgroundTransparency = 0

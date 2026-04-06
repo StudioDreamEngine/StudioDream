@@ -9,7 +9,7 @@ function SquarePrimative:new()
 
     self.Explorer = {
         Visible = true,
-        Icon = "shape"
+        Icon = "shape_square"
     }
 end
 
