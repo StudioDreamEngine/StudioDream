@@ -16,15 +16,18 @@ function Text:new()
     self.Text = "Placeholder"
     self.AlignX = Enum.AlignmentX.Center
     self.AlignY = Enum.AlignmentY.Center
+    self.FontFile = nil
+    
 
     ---@diagnostic disable-next-line: param-type-mismatch
-    self.RenderFont = love.graphics.newFont()
 end
 
 function Text:Draw()
     Text.super.Draw(self)
 
     local ContainerSize = self.AbsoluteSize
+
+    self.RenderFont = love.graphics.newFont(FontFile or "Assets/Fonts/Arimo.ttf",self.TextSize)
 
     local width, lines = self.RenderFont:getWrap(self.Text, ContainerSize.X)
 
