@@ -6,8 +6,6 @@ local Objects = {}
 function Things.Init()
     Things.Root = require("Runtime.Things.CreateRoot")()
 
-    print(Things.Root.Viewport:GetDescendants())
-
     local ExplorerRender = require("Runtime.Things.ExplorerRender")
     ExplorerRender()
 end

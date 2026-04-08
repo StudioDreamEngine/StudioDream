@@ -4,16 +4,26 @@ local Things = Runtime.Things
 ---@module 'Thing'
 local BaseGui = Things.Extend("Thing")
 
-function BaseGui:GetPositionInParent()
-    local AbsolutePosition = self.Position.Offset - (self.Pivot * self.AbsoluteSize)
+function BaseGui:GetOffsetPosition()
+    local Position = self.Position.Offset - (self.Pivot * self.AbsoluteSize)
     local ParentElement = self:GetParentElement()
 
     if ParentElement then
-        AbsolutePosition = AbsolutePosition + (self.Position.Scale * ParentElement.AbsoluteSize)
+        Position = Position + (self.Position.Scale * ParentElement.AbsoluteSize)
     end
 
-    return AbsolutePosition
-    -- TODO
+    return Position
+end
+
+function BaseGui:GetAbsolutePosition()
+    local ParentElement = self:GetParentElement()
+    local Position = self:GetOffsetPosition()
+
+    if ParentElement then
+        Position = Position + ParentElement:GetAbsolutePosition()
+    end
+
+    return Position
 end
 
 function BaseGui:GetAbsoluteSize()

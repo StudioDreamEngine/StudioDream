@@ -43,7 +43,7 @@ function Viewport2D:DrawContainerChildren(Transform, Container)
 
         Utils.AssertType(Child.Position, "Pivot2D", Child.Name)
 
-        local Position = Child:GetPositionInParent()
+        local Position = Child:GetOffsetPosition()
         ChildTransform:translate(Position.X, Position.Y)
 
         self:SendChild(Child, ChildTransform, self.CurrentOrder)
