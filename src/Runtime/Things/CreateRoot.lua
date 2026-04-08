@@ -9,10 +9,11 @@ return function()
         Root = true
     }
 
-    local ImageTest2 = Things.Create("Image2D") {
-        Image = "Assets/EditorIcons/16/add.png",
+    local ImageTest2 = Things.Create("Text") {
+        Text = "WW",
         Name = "ImageTest2",
-        Position = Pivot2D.FromScale(0.2,0.2),
+        Position = Pivot2D.FromScale(0.2,0.6),
+        Size = Pivot2D.FromScale(0.3,0.3),
         Parent = Viewport
     }
 
@@ -25,7 +26,7 @@ return function()
     }
 
     local MainViewport = Things.Create("Viewport3D") {
-        Size = Pivot2D.FromScale(0.75,0.8),
+        Size = Pivot2D.FromScale(0.75,0.5),
         Position = Pivot2D.FromScale(0,0),
         Parent = Viewport,
         Name = "MainViewport"

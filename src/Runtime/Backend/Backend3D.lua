@@ -1,6 +1,10 @@
 local Backend3D = {}
 
 local light
+
+-- basic temporary camera for now
+local TestCamera = require("Runtime.Backend.cameraController")
+
 local scripty
 
 function Backend3D.Init()
@@ -19,6 +23,8 @@ function Backend3D.Render()
 
     Dream:addLight(light)
 
+    TestCamera:setCamera(Dream.camera)
+
     scripty:resetTransform()
     scripty:translate(0, 0, -3)
     scripty:rotateY(love.timer.getTime())
@@ -28,6 +34,8 @@ end
 
 function Backend3D.Update(dt)
     Dream:update(dt)
+
+    TestCamera:update(dt, 100)
 end
 
 return Backend3D

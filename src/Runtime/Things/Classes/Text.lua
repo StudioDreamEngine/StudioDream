@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
----@module 'BaseGui'
+---@module 'SquarePrimative'
 local Text = Things.Extend("SquarePrimative")
 
 function Text:new()
@@ -13,35 +13,69 @@ function Text:new()
     }
 
     self.TextSize = 12
+    self.TextScaled = true
+
     self.Text = "Placeholder"
+
     self.AlignX = Enum.AlignmentX.Center
     self.AlignY = Enum.AlignmentY.Center
-    self.FontFile = nil
+
+    self.RenderFont = nil
+    self.TextBounds = Vector2.zero
 end
 
-function Text:Draw() -- Make size being rendered when window changes size again
-    Text.super.Draw(self)
+function Text:PerformWrap(CurrentSize, WrapLength)
+    self.RenderFont = love.graphics.newFont("Assets/Fonts/Arimo.ttf",CurrentSize)
 
-    local ContainerSize = self.AbsoluteSize
-
-    self.RenderFont = love.graphics.newFont(self.FontFile or "Assets/Fonts/Arimo.ttf",self.TextSize)
-
-    local width, lines = self.RenderFont:getWrap(self.Text, ContainerSize.X)
+    local width, lines = self.RenderFont:getWrap(self.Text, WrapLength)
 
     -- should simplify this y axis equation tbh
-    local TextSize = Vector2.new(width, #lines * self.RenderFont:getHeight() - #lines * self.RenderFont:getLineHeight()*2)
+    return Vector2.new(width, #lines * self.RenderFont:getHeight())
+end
+
+function Text:SetAbsoluteSize(New)
+    Text.super.SetAbsoluteSize(self, New)
+
+    local TextBounds, RenderFont = self:AttemptWrap(New)
+
+    self.TextBounds = TextBounds
+    self.RenderFont = RenderFont
+end
+
+function Text:AttemptWrap(NewSize)
+    local ContainerSize = NewSize
+
+    local TextSize
+
+    if self.TextScaled then
+        local CurrentSize = ContainerSize.Y
+
+        repeat
+            TextSize = self:PerformWrap(CurrentSize, ContainerSize.X)
+
+            CurrentSize = CurrentSize - 1
+        until ContainerSize.Y > TextSize.Y or CurrentSize <= 1
+    else
+        TextSize = self:PerformWrap(self.TextSize, ContainerSize.X)
+    end
+
+    return TextSize, self.RenderFont
+end
+
+function Text:Draw()
+    Text.super.Draw(self)
 
     local YAlign = 0
+
     if self.AlignY == Enum.AlignmentY.Bottom then
-        YAlign = TextSize.Y
+        YAlign = self.TextBounds.Y
     elseif self.AlignY == Enum.AlignmentY.Center then
-        YAlign = TextSize.Y/2
-    elseif self.AlingY == Enum.AlignmentY.Top then
-        YAlign = -TextSize.Y --???
+        YAlign = self.TextBounds.Y/2
     end
 
     Runtime.Backend2D.SetColor(self.ForegroundColor)
-    love.graphics.printf(self.Text, 0, YAlign, ContainerSize.X, self.AlignX)
+    love.graphics.setFont(self.RenderFont)
+    love.graphics.printf(self.Text, 0, 0, self.TextBounds.X, self.AlignX)
 end
 
 return Text
