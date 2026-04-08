@@ -1,15 +1,18 @@
 local Things = {}
 
-function Things.Init()
-    local Parent = require("Classes.Extended")()
+function Things.Type(ThingType) return require("Classes."..ThingType) end
+function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
-    local Test = require("Classes.Extended")()
+function Things.Init()
+    local Parent = Things.Type("Extended2")
+
+    local Test = Things.Type("Extended")
     Test.Name = "SquareTest"
     Test:AddChild(Parent)
 
     print_table(Parent.Children)
 
-    local Test2 = require("Classes.Extended")()
+    local Test2 = Things.Type("Extended")
     Test2.Name = "SquareTest2"
     Test2:AddChild(Parent)
 

@@ -29,7 +29,25 @@ function Object:extend()
   cls.__index = cls
   cls.super = self
   setmetatable(cls, self)
-  return cls
+  
+  local proxy = {}
+
+  setmetatable(proxy, {
+    __index = function(t, k)
+      return cls[k]
+    end,
+    __newindex = function(t, k, v)
+      print(k,v)
+
+      --[[if cls.Changed then
+        cls.Changed.Invoke(k, cls[k], v)
+      end]]
+
+      cls[k] = v
+    end,
+  })
+
+  return proxy
 end
 
 

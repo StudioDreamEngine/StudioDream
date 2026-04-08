@@ -33,7 +33,8 @@ function ViewportManager.RenderViewport(Viewport)
             love.graphics.pop()
         end
 
-        love.graphics.circle("fill", Viewport.MousePosition.X, Viewport.MousePosition.Y, 1)
+        love.graphics.circle("fill", Viewport.MousePosition.X, Viewport.MousePosition.Y, 10)
+        love.graphics.rectangle("line", 0,0,Viewport.AbsoluteSize.X, Viewport.AbsoluteSize.Y)
     end)
 end
 
@@ -49,6 +50,8 @@ function ViewportManager.Render()
 
     local RootViewport = Things.Root.Viewport
     ViewportManager.RenderCanvas(RootViewport)
+
+    RootViewport.Size = Pivot2D.FromOffset(Runtime.Backend2D.GetWindowSize())
 end
 
 return ViewportManager

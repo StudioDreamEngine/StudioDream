@@ -6,4 +6,5 @@ function love.conf(t)
 
     t.window.title = "StudioDream "..VERSION.." - Untitled Project"
     t.window.icon = "/Assets/Icons/Engine/EngineLogo.png"
+    t.window.resizable = true
 end
