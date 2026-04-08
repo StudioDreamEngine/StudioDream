@@ -90,11 +90,13 @@ function BaseGui:new()
     self.ForegroundTransparency = 0
     self.ForegroundColor = Color.new(0)
 
-    self.AbsolutePosition = Vector2.zero
-    self.AbsoluteSize = Vector2.zero
-
     self.Layer = 0
     self.Pivot = Vector2.zero -- TODO: Add functionality
+
+    self.AbsolutePosition = Vector2.zero
+    self.AbsoluteSize = self:GetAbsoluteSize()
+
+    self.LastSize = self.AbsoluteSize
 end
 
 function BaseGui:DrawStyle()
@@ -103,9 +105,9 @@ function BaseGui:DrawStyle()
     Runtime.Backend2D.SetColor(Color.new(1))
 end
 
-function BaseGui:SetSize(NewSize)
-    self.Size = NewSize
-    self:SetAbsoluteSize(self:GetAbsoluteSize())
+function BaseGui:SetPosition(New)
+    self.Position = New
+    self.AbsolutePosition = self:GetAbsolutePosition()
 end
 
 function BaseGui:SetAbsoluteSize(NewSize)
@@ -114,6 +116,14 @@ end
 
 function BaseGui:Update(dt) 
     BaseGui.super.Update(self, dt)
+
+    local CurrentSize = self:GetAbsoluteSize()
+
+    if not (CurrentSize.Is(self.LastSize)) then
+        self:SetAbsoluteSize(CurrentSize)
+    end
+
+    self.LastSize = CurrentSize
 end
 
 return BaseGui

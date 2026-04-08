@@ -13,8 +13,8 @@ function Runtime.Init()
 end
 
 function Runtime.Update(dt)
-    Runtime.Backend.Update(dt)
     Runtime.Things.Update(dt)
+    Runtime.Backend.Update(dt)
 end
 
 return Runtime

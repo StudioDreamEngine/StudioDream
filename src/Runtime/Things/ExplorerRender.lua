@@ -71,7 +71,7 @@ end
 
 return function(TreeStarter, View)
     ExplorerContainer1 = Things.Create "SquarePrimative" {
-       Size = Pivot2D.FromOffset(Vector2.new(200,500)),
+       Size = Pivot2D.FromScale(1,1),
        Explorer = {
         Visible = false,
        },

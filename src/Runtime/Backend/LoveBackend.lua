@@ -12,6 +12,10 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     love.graphics.setCanvas()
 end
 
+function Backend.GetWindowSize()
+    return Vector2.new(love.graphics.getWidth(), love.graphics.getHeight())
+end
+
 function Backend.NewImage(Path)
     return love.graphics.newImage(Path)
 end

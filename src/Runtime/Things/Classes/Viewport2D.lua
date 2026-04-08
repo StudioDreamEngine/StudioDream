@@ -79,7 +79,7 @@ end
 
 function Viewport2D:SetAbsoluteSize(New)
     Viewport2D.super.SetAbsoluteSize(self, New)
-    
+
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, New)
 end
 

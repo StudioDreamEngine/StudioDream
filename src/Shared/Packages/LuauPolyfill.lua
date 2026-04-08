@@ -284,6 +284,10 @@ do
 			__unm = function (t)
 				return Vector2.new(-t.X,-t.Y)
 			end,
+			__eq = function (t1, t2)
+				print(t1, t2)
+				return (t1.X == t2.X) and (t1.Y == t2.Y)
+			end,
 			__add = function (t1, t2)
 				if type(t1) == "number" then
 					return Vector2.new(t1 + t2.X, t1 + t2.Y)
@@ -342,6 +346,11 @@ do
 				Y = Object.Y,
 				Simple = true
 			}
+		end
+
+		-- for some reason __eq isnt working
+		function Object.Is(SecondVector)
+			return (Object.X == SecondVector.X) and (Object.Y == SecondVector.Y)
 		end
 
 		function Object.Magnitude()

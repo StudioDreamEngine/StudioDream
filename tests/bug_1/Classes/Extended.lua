@@ -1,5 +1,5 @@
 ---@module 'Thing'
-local Extended = require("Classes.Thing"):extend()
+local Extended = Things.Extend("Thing")
 
 function Extended:new() 
     Extended.super.new(self)
