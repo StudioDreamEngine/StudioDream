@@ -12,6 +12,10 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     love.graphics.setCanvas()
 end
 
+function Backend.NewImage(Path)
+    return love.graphics.newImage(Path)
+end
+
 function Backend.GetMousePosition()
     local X, Y = love.mouse.getPosition()
     return Vector2.new(X, Y)

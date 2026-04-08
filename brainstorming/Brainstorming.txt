@@ -42,3 +42,6 @@ Thing Related stuff:
 
 How should layouts be handled or objects that change the position/behavior of parent objects?
     was thinking we simply just handle this at the level of the Viewport Module or someth
+
+Should Services be things or seperate from the tree?
+    i genuinely dont know and mikl ur input is needed

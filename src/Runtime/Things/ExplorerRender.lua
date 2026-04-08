@@ -10,7 +10,8 @@ local IconsSize = 16 -- i will change this when we actually start making icons f
 
 local function RenderIcon(IconName, VectorPos, Container)
     local ImageThing = Things.New("Image2D")
-    ImageThing.ImageFile = "Assets/EditorIcons/16/" .. IconName .. ".png"
+    ImageThing.Size = Pivot2D.FromOffset(Vector2.one * IconsSize)
+    ImageThing.Image = "Assets/EditorIcons/16/" .. IconName .. ".png"
     ImageThing:SetParent(Container)
 end
 
