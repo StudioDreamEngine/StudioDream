@@ -17,11 +17,18 @@ return function()
     }
 
     local ExplorerViewport = Things.Create("Viewport2D") {
-        Size = Pivot2D.FromScale(0.3,1),
-        Position = Pivot2D.FromScale(1,0.5),
-        Pivot = Vector2.new(1,.5),
+        Size = Pivot2D.FromScale(0.25,0.8),
+        Position = Pivot2D.FromScale(1,0),
+        Pivot = Vector2.new(1,0),
         Parent = Viewport,
         Name = "ExplorerViewport"
+    }
+
+    local MainViewport = Things.Create("Viewport3D") {
+        Size = Pivot2D.FromScale(0.75,0.8),
+        Position = Pivot2D.FromScale(0,0),
+        Parent = Viewport,
+        Name = "MainViewport"
     }
 
     require("Runtime.Things.ExplorerRender")(Viewport, ExplorerViewport)
