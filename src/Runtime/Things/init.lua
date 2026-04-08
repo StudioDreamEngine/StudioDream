@@ -5,9 +5,6 @@ local Objects = {}
 
 function Things.Init()
     Things.Root = require("Runtime.Things.CreateRoot")()
-
-    local ExplorerRender = require("Runtime.Things.ExplorerRender")
-    ExplorerRender()
 end
 
 function Things.Get(UUID)
@@ -27,7 +24,9 @@ function Things.Create(Object, Parent)
 
     return function(Properties)
         for Index, Value in pairs(Properties) do
-            if tonumber(Index) then
+            if Object["Set"..Index] then
+                Object["Set"..Index](Object, Value)
+            elseif tonumber(Index) then
                 Value.Parent = Object
             else
                 Object[Index] = Value

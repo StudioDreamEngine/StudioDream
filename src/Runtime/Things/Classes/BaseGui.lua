@@ -17,21 +17,44 @@ end
 
 function BaseGui:GetAbsolutePosition()
     local ParentElement = self:GetParentElement()
+
     local Position = self:GetOffsetPosition()
 
     if ParentElement then
+        -- we need to now make sure the parent element is displaying to the same viewport
+        local SameDisplayUI = (ParentElement:GetDisplayUI() == self:GetDisplayUI())
+
+        -- If it isnt, stop here, dont get the position of the next one
+        if (not SameDisplayUI) then 
+            return Position 
+        end
+
         Position = Position + ParentElement:GetAbsolutePosition()
     end
 
     return Position
 end
 
-function BaseGui:GetAbsoluteSize()
-    local AbsoluteSize = self.Size.Offset
+-- Get true position from display point on part or the screen
+function BaseGui:GetDisplayPosition()
+    local ParentElement = self:GetParentElement()
+    local Position = self:GetOffsetPosition()
+
+    if ParentElement then
+        Position = Position + ParentElement:GetDisplayPosition()
+    end
+
+    return Position
+end
+
+function BaseGui:GetAbsoluteSize(Size)
+    local Size = Size or self.Size
+
+    local AbsoluteSize = Size.Offset
     local ParentElement = self:GetParentElement()
 
     if ParentElement then -- Only do this if we found a parent element
-        AbsoluteSize = AbsoluteSize + (ParentElement.AbsoluteSize * self.Size.Scale)
+        AbsoluteSize = AbsoluteSize + (ParentElement.AbsoluteSize * Size.Scale)
     end
     
     return AbsoluteSize
@@ -39,20 +62,17 @@ end
 
 -- Find the parent element rendering this object
 function BaseGui:GetParentElement()
-    return self:GetParentCallback(function(Object)
-        return Object:IsA("BaseGui")
-    end)
+    return self:FindFirstAncestorWithClass("BaseGui")
 end
 
 -- Find the parent Viewport2D rendering this object
+-- TODO: Viewport2D should provide this directly to the object when the display list is created
 function BaseGui:GetDisplayUI()
-    return self:GetParentCallback(function(Object)
-        return Object:IsA("Viewport2D")
-    end)
+    return self:FindFirstAncestorWithClass("Viewport2D")
 end
 
 function BaseGui:Draw()
-    error("BaseGui:Draw() is virtual and should not be called directly")
+    error("BaseGui:Draw() is virtual and should not be called directly (from: "..self.Name..")")
 end
 
 function BaseGui:new() 
@@ -60,6 +80,8 @@ function BaseGui:new()
 
     self.Size = Pivot2D.FromOffset(50, 50)
     self.Position = Pivot2D.FromOffset(0, 0)
+
+    self.ColorMultiplier = 1
 
     self.BackgroundColor = Color.new(1)
     self.BackgroundTransparency = 0
@@ -76,15 +98,22 @@ function BaseGui:new()
 end
 
 function BaseGui:DrawStyle()
-    Runtime.Backend2D.SetColor(self.BackgroundColor, 1-self.BackgroundTransparency)
+    Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
     self:Draw()
     Runtime.Backend2D.SetColor(Color.new(1))
 end
 
+function BaseGui:SetSize(NewSize)
+    self.Size = NewSize
+    self:SetAbsoluteSize(self:GetAbsoluteSize())
+end
+
+function BaseGui:SetAbsoluteSize(NewSize)
+    self.AbsoluteSize = NewSize
+end
+
 function BaseGui:Update(dt) 
     BaseGui.super.Update(self, dt)
-
-    self.AbsoluteSize = self:GetAbsoluteSize()
 end
 
 return BaseGui

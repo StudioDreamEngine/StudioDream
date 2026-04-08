@@ -11,12 +11,12 @@ function Thing:new()
         Visible = true,
         Icon = "shape_square"
     }
+end
 
-    self.Changed = Signal:New("PropertyChange")
-
-    self.Changed:Connect(function(OldParent, NewParent)
-        --print("New Parent:", NewParent.UUID)
-    end, "Parent")
+function Thing:FindFirstAncestorWithClass(Class)
+    return self:GetParentCallback(function(Object)
+        return Object:IsA(Class)
+    end)
 end
 
 function Thing:GetParentCallback(Callback)
@@ -35,20 +35,12 @@ function Thing:GetParentCallback(Callback)
 end
 
 function Thing:SetParent(NewParent)
-    if NewParent~=self then
+    if NewParent ~= self then
         self.Parent = NewParent
         NewParent.Children[self.UUID] = true
     else
         print("Cannot parent Thing to itself.")
     end
-end
-
-function Thing.__newindex(self, index, value)
-    if self.Changed then
-        self.Changed.Invoke(index, self[index], value)
-    end
-
-    return rawset(self, index, value)
 end
 
 function Thing:DescendantOf()
