@@ -475,6 +475,8 @@ do
 	end
 end
 
+-- Task? General functions for easy acess
+-- SCRAPPED
 -- Love Extension: Vector2 based transforms
 do
 	if love and love.graphics then

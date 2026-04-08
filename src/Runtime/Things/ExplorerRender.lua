@@ -81,7 +81,7 @@ return function(TreeStarter, View)
        Parent = View
     }
 
-    RenderTextLabel("~-Explorer-~", Vector2.new(0,0), ExplorerContainer1,Pivot2D.FromScale(Vector2.new(5,5)),12)
+    RenderTextLabel("Explorer", Vector2.new(0,0), ExplorerContainer1,Pivot2D.FromScale(Vector2.new(5,5)),12)
 
     ExplorerContainer = Things.Create "SquarePrimative" {
        Size = Pivot2D.FromOffset(Vector2.new(190,250)),
