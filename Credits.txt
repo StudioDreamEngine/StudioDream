@@ -1,0 +1,10 @@
+Packages:
+    bakpakin/binser (Github), Licensed under MIT
+    rxi/classic (Github), Licensed under MIT
+    Bloctans/LuauPolyfill (Github), Licensed under MIT
+    meepen/Lua-5.1-UTF-8 (Github), Licensed under MIT
+    3dreamengine/3DreamEngine (Github), Licensed under MIT
+
+Code Snippets:
+    Luawiz for improved object creation
+    Emk530 for utf8sub

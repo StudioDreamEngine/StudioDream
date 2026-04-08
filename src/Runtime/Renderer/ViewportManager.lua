@@ -11,38 +11,44 @@ end
 function ViewportManager.CreateViewport(Viewport, Size)
     local Canvas = Runtime.Backend2D.NewCanvas(Size)
 
-    ViewportManager.Viewports[Viewport.UUID] = {
-        Canvas = Canvas,
-        Viewport = Viewport
-    }
-
+    ViewportManager.Viewports[Viewport.UUID] = Viewport
     return Canvas
 end
 
+-- Render the contents of a viewport
 function ViewportManager.RenderViewport(Viewport)
-    for _, Element in pairs(Viewport.DisplayList) do
-        love.graphics.push()
+    Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
+        love.graphics.clear()
 
-        love.graphics.origin()
-        local AbsolutePosition = Element.Child:GetAbsolutePosition()
-        local AbsoluteSize = Element.Child.AbsoluteSize
-        love.graphics.rectangle("line", AbsolutePosition.X, AbsolutePosition.Y, AbsoluteSize.X, AbsoluteSize.Y)
+        for _, Element in pairs(Viewport.DisplayList) do
+            love.graphics.push()
 
-        love.graphics.replaceTransform(Element.Transform) -- for now
-        Element.Child:DrawStyle()
-        love.graphics.pop()
-    end
+            local AbsolutePosition = Element.Child:GetDisplayPosition()
+            local AbsoluteSize = Element.Child.AbsoluteSize
+
+            love.graphics.rectangle("line", AbsolutePosition.X, AbsolutePosition.Y, AbsoluteSize.X, AbsoluteSize.Y)
+
+            love.graphics.replaceTransform(Element.Transform)
+            Element.Child:DrawStyle()
+            love.graphics.pop()
+        end
+
+        love.graphics.circle("fill", Viewport.MousePosition.X, Viewport.MousePosition.Y, 1)
+    end)
+end
+
+-- Render the canvas itself to the screen
+function ViewportManager.RenderCanvas(Viewport)
+    Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
 end
 
 function ViewportManager.Render()
     for _, Viewport in pairs(ViewportManager.Viewports) do
-        Runtime.Backend2D.CanvasCall(Viewport.Canvas, function()
-            ViewportManager.RenderViewport(Viewport.Viewport)
-        end)
+        ViewportManager.RenderViewport(Viewport)
     end
 
     local RootViewport = Things.Root.Viewport
-    Runtime.Backend2D.RenderCanvas(RootViewport.ViewportCanvas)
+    ViewportManager.RenderCanvas(RootViewport)
 end
 
 return ViewportManager

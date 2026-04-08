@@ -12,4 +12,9 @@ function Runtime.Init()
     Runtime.Things.Init()
 end
 
+function Runtime.Update(dt)
+    Runtime.Backend.Update(dt)
+    Runtime.Things.Update(dt)
+end
+
 return Runtime

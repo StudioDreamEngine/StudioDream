@@ -13,10 +13,11 @@ function ImagePrimative:new()
     }
     
     self.Image = nil
+end
 
-    self.Changed:Connect(function(_, New)
-        self.ImageFile = Runtime.Backend2D.NewImage(New)
-    end, "Image")
+function ImagePrimative:SetImage(NewImage)
+    self.Image = NewImage
+    self.ImageFile = Runtime.Backend2D.NewImage(NewImage)
 end
 
 function ImagePrimative:Draw()

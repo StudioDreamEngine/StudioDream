@@ -15,7 +15,7 @@ end
 
 function love.update(dt)
     Editor.Update(dt)
-    Runtime.Things.Update(dt)
+    Runtime.Update(dt)
     Shared.Update(dt)
 end
 

@@ -13,25 +13,27 @@ local WindowColor = Color.new(0.106, 0.09, 0.188)
 local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
 local function RenderIcon(IconName, VectorPos, Container)
-    local ImageThing = Things.New("Image2D")
-    ImageThing.Size = Pivot2D.FromOffset(Vector2.one * IconsSize)
-    ImageThing.Image = "Assets/EditorIcons/16/" .. IconName .. ".png"
-    ImageThing:SetParent(Container)
+    local ImageThing = Things.Create("Image2D") {
+        Size = Pivot2D.FromOffset(Vector2.one * IconsSize),
+        Image = "Assets/EditorIcons/16/" .. IconName .. ".png",
+        Parent = Container
+    }
 end
 
 local function RenderTextLabel(Text, VectorPos, Container,SpecialPos,SpecialSize)
-    local TextThing = Things.New("Text")
-    TextThing.Text = Text
-    TextThing.Position = SpecialPos or Pivot2D.FromOffset(IconsSize+4/10,5)
-    TextThing.Size = Pivot2D.FromOffset(Vector2.new(200, 20))
-    TextThing.TextSize = SpecialSize or 12
-    TextThing.ForegroundColor = Color.new(1)
-    TextThing.BackgroundTransparency = 1
-    TextThing.AlignX = Enum.AlignmentX.Left
-    TextThing.Pivot = Vector2.new(0,0.5)
-    TextThing.AlingY = Enum.AlignmentY.Top
-    TextThing.Layer = 9
-    TextThing:SetParent(Container)
+    local TextThing = Things.Create("Text") {
+        Text = Text,
+        Position = SpecialPos or Pivot2D.FromOffset(IconsSize+4/10,5),
+        Size = Pivot2D.FromOffset(Vector2.new(200, 20)),
+        TextSize = SpecialSize or 12,
+        ForegroundColor = Color.new(1),
+        BackgroundTransparency = 1,
+        AlignX = Enum.AlignmentX.Left,
+        Pivot = Vector2.new(0,0.5),
+        AlingY = Enum.AlignmentY.Top,
+        Layer = 9,
+        Parent = Container
+    }
 end
 
 local function RenderNode(Thing, currentY, depth ,XPos)
@@ -67,20 +69,17 @@ local function RenderNode(Thing, currentY, depth ,XPos)
     return currentY
 end
 
-return function()
-    local TreeStarter = Things.Root.Viewport
-
+return function(TreeStarter, View)
     ExplorerContainer1 = Things.Create "SquarePrimative" {
        Size = Pivot2D.FromOffset(Vector2.new(200,500)),
-       Position = Pivot2D.FromOffset(Vector2.new(570,50)),
        Explorer = {
         Visible = false,
        },
        BackgroundColor = WindowColor,
        Name = "Explorer",
        Layer = 1,
+       Parent = View
     }
-    ExplorerContainer1:SetParent(TreeStarter)
 
     RenderTextLabel("~-Explorer-~", Vector2.new(0,0), ExplorerContainer1,Pivot2D.FromScale(Vector2.new(5,5)),12)
 
@@ -94,8 +93,8 @@ return function()
        BackgroundColor = BackWindowColor,
        Name = "BackWindow",
        Layer = 2,
+       Parent = ExplorerContainer1
     }
-    ExplorerContainer:SetParent(ExplorerContainer1)
 
     RenderNode(TreeStarter, 0, 0, 0)
 end
