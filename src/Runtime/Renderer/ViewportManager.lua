@@ -23,11 +23,6 @@ function ViewportManager.RenderViewport(Viewport)
         for _, Element in pairs(Viewport.DisplayList) do
             love.graphics.push()
 
-            local AbsolutePosition = Element.Child:GetDisplayPosition()
-            local AbsoluteSize = Element.Child.AbsoluteSize
-
-            love.graphics.rectangle("line", AbsolutePosition.X, AbsolutePosition.Y, AbsoluteSize.X, AbsoluteSize.Y)
-
             love.graphics.replaceTransform(Element.Transform)
             Element.Child:DrawStyle()
             love.graphics.pop()
