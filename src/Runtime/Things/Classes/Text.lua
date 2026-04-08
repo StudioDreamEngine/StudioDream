@@ -19,12 +19,12 @@ function Text:new()
     self.FontFile = nil
 end
 
-function Text:Draw()
+function Text:Draw() -- Make size being rendered when window changes size again
     Text.super.Draw(self)
 
     local ContainerSize = self.AbsoluteSize
 
-    self.RenderFont = love.graphics.newFont("Assets/Fonts/Arimo.ttf",self.TextSize)
+    self.RenderFont = love.graphics.newFont(self.FontFile or "Assets/Fonts/Arimo.ttf",self.TextSize)
 
     local width, lines = self.RenderFont:getWrap(self.Text, ContainerSize.X)
 
@@ -36,6 +36,8 @@ function Text:Draw()
         YAlign = TextSize.Y
     elseif self.AlignY == Enum.AlignmentY.Center then
         YAlign = TextSize.Y/2
+    elseif self.AlingY == Enum.AlignmentY.Top then
+        YAlign = -TextSize.Y --???
     end
 
     Runtime.Backend2D.SetColor(self.ForegroundColor)

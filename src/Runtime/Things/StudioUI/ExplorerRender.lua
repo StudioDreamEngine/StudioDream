@@ -46,14 +46,15 @@ local function RenderNode(Thing, currentY, depth ,XPos)
     local labelPos = Vector2.new(xOffset + IconsSize + 4, currentY)
 
     local NodeContainer = Things.Create "SquarePrimative" {
-       Size = Pivot2D.FromOffset(Vector2.new(200, 20)),
+       Size = Pivot2D.FromScale(1,0.05),--Pivot2D.FromOffset(Vector2.new(200, 20)),
+       Pivot = Vector2.new(0,0.5),
        Position = Pivot2D.FromOffset(xOffset,currentY),
        Explorer = {
         Visible = false,
        },
        BackgroundColor = NodeColor,
        Layer = 1,
-       BackgroundTransparency = 0.9
+       BackgroundTransparency = 0.5
     }
     NodeContainer:SetParent(ExplorerContainer)
 
@@ -84,8 +85,8 @@ return function(TreeStarter, View)
     RenderTextLabel("Explorer", Vector2.new(0,0), ExplorerContainer1,Pivot2D.FromScale(Vector2.new(5,5)),12)
 
     ExplorerContainer = Things.Create "SquarePrimative" {
-       Size = Pivot2D.FromOffset(Vector2.new(190,250)),
-       Position = Pivot2D.FromScale(0.5,0.3),
+       Size = Pivot2D.FromScale(0.9,0.9),
+       Position = Pivot2D.FromScale(0.5,0.5),
        Pivot = Vector2.new(0.5,0.5),
        Explorer = {
         Visible = false,
