@@ -9,7 +9,7 @@ function love.load()
 end
 
 function love.draw()
-    Runtime.Renderer.Render()
+    Runtime.Render()
     Editor.Render()
 end
 
