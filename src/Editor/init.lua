@@ -1,5 +1,7 @@
 local Editor = {}
 
+Editor.Camera = require("Editor.cameraController")
+
 function Editor.Init()
     
 end
