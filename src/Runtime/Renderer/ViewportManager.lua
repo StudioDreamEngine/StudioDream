@@ -37,7 +37,6 @@ end
 function ViewportManager.RenderViewport3D(Viewport)
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
-
         love.graphics.clear()
 
         TestCamera:setCamera(Dream.camera)
