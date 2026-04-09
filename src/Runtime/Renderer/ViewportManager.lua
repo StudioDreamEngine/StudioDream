@@ -1,22 +1,22 @@
 local Things
 local ViewportManager = {}
 
+local TestCamera = require("Runtime.Backend.cameraController")
+
 function ViewportManager.Init()
     Things = Runtime.Things
 
     ViewportManager.Viewports = {}
-    ViewportManager.RenderQueue = {} 
 end
 
 function ViewportManager.CreateViewport(Viewport, Size)
     local Canvas = Runtime.Backend2D.NewCanvas(Size)
-
     ViewportManager.Viewports[Viewport.UUID] = Viewport
     return Canvas
 end
 
--- Render the contents of a viewport
-function ViewportManager.RenderViewport(Viewport)
+-- Render the contents of a 2d viewport
+function ViewportManager.RenderViewport2D(Viewport)
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         love.graphics.clear()
 
@@ -33,14 +33,37 @@ function ViewportManager.RenderViewport(Viewport)
     end)
 end
 
+-- Render the contents of a 3d viewport
+function ViewportManager.RenderViewport3D(Viewport)
+    Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
+        Dream:prepare()
+
+        love.graphics.clear()
+
+        TestCamera:setCamera(Dream.camera)
+
+        for _, Element in pairs(Viewport.DisplayList) do
+            Dream:draw(Element.Child)
+        end
+
+        Dream:present()
+    end)
+end
+
 -- Render the canvas itself to the screen
-function ViewportManager.RenderCanvas(Viewport)
-    Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
+function ViewportManager.RenderCanvas(Viewport) Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas) end
+
+function ViewportManager.Update(dt)
+    Dream:update(dt)
 end
 
 function ViewportManager.Render()
     for _, Viewport in pairs(ViewportManager.Viewports) do
-        ViewportManager.RenderViewport(Viewport)
+        if Viewport:IsA("Viewport2D") then
+            ViewportManager.RenderViewport2D(Viewport)
+        else
+            ViewportManager.RenderViewport3D(Viewport)
+        end
     end
 
     local RootViewport = Things.Root.Viewport

@@ -11,7 +11,8 @@ function lib:newCanvases()
 		fxaa = false,
 		refractions = false,
 		alphaPass = true,
-		mode = "normal",
+		--mode = "direct",
+		mode = "normal"
 	}, self.meta.canvases)
 end
 

@@ -3,13 +3,10 @@ local Renderer = Runtime.Renderer
 
 -- using @module here gives the lua language server a base type to use!
 ---@module 'BaseGui'
-local Viewport2D = Things.Extend("BaseGui")
+local Viewport2D = Things.Extend("Viewport")
 
 function Viewport2D:new()
     Viewport2D.super.new(self)
-
-    self.Adornee = nil
-    self.RenderFolder = nil -- idk what to name this
 
     self.MousePosition = Vector2.zero
 
@@ -17,22 +14,11 @@ function Viewport2D:new()
         Visible = true,
         Icon = "layout"
     }
-
-    self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one * 1000)
-    self.DisplayList = {}
 end
 
 local function SortByDepth(List)
 	table.sort(List, function(a,b) return a.Layer < b.Layer end)
 	return List
-end
-
--- Send a child to the display list
-function Viewport2D:SendChild(Child, Transform, Order)
-    self.DisplayList[Order] = {
-        Child = Child,
-        Transform = Transform
-    }
 end
 
 -- Submit the children of an object/thing to the display list
@@ -59,14 +45,10 @@ function Viewport2D:SubmitContainerChildren(Transform, Container)
 
         self:SendChild(Child, ChildTransform, self.CurrentOrder)
 
-        if (not Child:IsA("Viewport2D")) then
+        if (not Child:IsA("Viewport")) then
             self:SubmitContainerChildren(ChildTransform, Child)
         end
     end
-end
-
-function Viewport2D:Draw()
-    Renderer.ViewportManager.RenderCanvas(self)
 end
 
 -- Create the display list that will be used by the renderer
@@ -75,12 +57,6 @@ function Viewport2D:CreateDisplayList()
 
     local BaseTransform = Transform2D.new()
     self:SubmitContainerChildren(BaseTransform, self.RenderFolder or self)
-end
-
-function Viewport2D:SetAbsoluteSize(New)
-    Viewport2D.super.SetAbsoluteSize(self, New)
-
-    self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, New)
 end
 
 function Viewport2D:Update(dt)
