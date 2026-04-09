@@ -169,7 +169,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 		end
 		
 		--start rendering
-		self.delton:start("render")
+		self.delton:start("render ("..#self.renderTasks.." Task(s))")
 		for t in scene do
 			---@type DreamTask
 			local task = t
@@ -338,9 +338,7 @@ function lib:renderFull(cam, canvases, dynamic)
 	end
 	
 	--render
-	self.delton:start("render")
 	self:render(cam, canvases, dynamic)
-	self.delton:stop()
 	
 	--direct rendering has no post effects
 	if canvases.mode == "direct" then
@@ -465,7 +463,7 @@ end
 ---@param canvases DreamCanvases @ defaults to internal canvases `dream.canvases`
 ---@param lite boolean @ when lite is enabled, no side tasks like shadow or reflection generations are executed
 function lib:present(camera, canvases, lite)
-	self.delton:start("present")
+	self.delton:start("3DreamEngine - present")
 	
 	if lite == nil then
 		lite = canvases and true or false
@@ -497,51 +495,47 @@ function lib:present(camera, canvases, lite)
 	self.delton:stop()
 	
 	--debug
-	if _DEBUGMODE then
-		if love.keyboard.isDown(",") then
-			local brightness = {
-				data_pass2 = 0.25,
-				depth = 0.1,
-			}
-			
-			local w = 400
-			local x = 0
-			local y = 0
-			local maxHeight = 0
-			for d, s in pairs(canvases) do
-				if type(s) == "userdata" and s:isReadable() then
-					local b = brightness[d] or 1
-					local h = w / s:getWidth() * s:getHeight()
-					maxHeight = math.max(maxHeight, h)
-					
-					love.graphics.setColor(0, 0, 0)
-					love.graphics.rectangle("fill", x * w, y, w, h)
-					love.graphics.setShader(self:getBasicShader("replaceAlpha"))
-					self:getBasicShader("replaceAlpha"):send("alpha", b)
-					love.graphics.setBlendMode("add")
-					love.graphics.draw(s, x * w, y, 0, w / s:getWidth())
-					love.graphics.setShader()
-					love.graphics.setBlendMode("alpha")
-					love.graphics.setColor(1, 1, 1)
-					love.graphics.print(d, x * w, y)
-					
-					x = x + 1
-					if x * w + w >= love.graphics.getWidth() then
-						x = 0
-						y = y + maxHeight
-						maxHeight = 0
-					end
+	--[[if love.keyboard.isDown(",") then
+		local brightness = {
+			data_pass2 = 0.25,
+			depth = 0.1,
+		}
+		
+		local w = 400
+		local x = 0
+		local y = 0
+		local maxHeight = 0
+		for d, s in pairs(canvases) do
+			if type(s) == "userdata" and s:isReadable() then
+				local b = brightness[d] or 1
+				local h = w / s:getWidth() * s:getHeight()
+				maxHeight = math.max(maxHeight, h)
+				
+				love.graphics.setColor(0, 0, 0)
+				love.graphics.rectangle("fill", x * w, y, w, h)
+				love.graphics.setShader(self:getBasicShader("replaceAlpha"))
+				self:getBasicShader("replaceAlpha"):send("alpha", b)
+				love.graphics.setBlendMode("add")
+				love.graphics.draw(s, x * w, y, 0, w / s:getWidth())
+				love.graphics.setShader()
+				love.graphics.setBlendMode("alpha")
+				love.graphics.setColor(1, 1, 1)
+				love.graphics.print(d, x * w, y)
+				
+				x = x + 1
+				if x * w + w >= love.graphics.getWidth() then
+					x = 0
+					y = y + maxHeight
+					maxHeight = 0
 				end
 			end
 		end
-		
-		self.delton:step()
-		if love.keyboard.isDown(".") then
-			self.delton:present()
-		end
-		if love.keyboard.isDown(",") then
-			self.deltonLoad:step()
-			self.deltonLoad:present()
-		end
+	end]]
+end
+
+function lib:presentDebug()
+	self.delton:step()
+	if love.keyboard.isDown(".") then
+		self.delton:present()
 	end
 end
