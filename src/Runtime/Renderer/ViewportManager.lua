@@ -1,7 +1,7 @@
 local Things
 local ViewportManager = {}
 
-local TestCamera = require("Runtime.Backend.cameraController")
+local TestCamera = Editor.Camera
 
 function ViewportManager.Init()
     Things = Runtime.Things
@@ -53,6 +53,7 @@ end
 function ViewportManager.RenderCanvas(Viewport) Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas) end
 
 function ViewportManager.Update(dt)
+    TestCamera:update(dt,75)
     Dream:update(dt)
 end
 

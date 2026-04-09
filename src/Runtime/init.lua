@@ -7,8 +7,8 @@ Runtime.Backend = require("Runtime.Backend")
 function Runtime.Init()
     Runtime.Backend.Init()
 
-    Runtime.Backend2D = Runtime.Backend.Get2DBackend()
-    Runtime.Backend3D = Runtime.Backend.Get3DBackend()
+    Runtime.Backend2D = Runtime.Renderer.Get2DBackend()
+    Runtime.Backend3D = Runtime.Renderer.Get3DBackend()
 
     Runtime.Renderer.Init()
     Runtime.Things.Init()
