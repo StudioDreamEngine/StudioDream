@@ -18,9 +18,7 @@ local function RenderTextLabel(Text, VectorPos, Container,Pivoter)
         FontFile = "Assets/Fonts/Arimo-Bold.ttf",
         Position = VectorPos,
         Size = Pivot2D.FromScale(0.2,1),
-        TextSize = SpecialSize or 12,
         ForegroundColor = Color.new(1),
-        Pivot = Pivoter or Pivot2D.FromScale(0.5,0.5),
         BackgroundTransparency = 1,
         AlignX = Enum.AlignmentX.Center,
         Pivot = Vector2.new(0,0.5),
@@ -30,7 +28,7 @@ local function RenderTextLabel(Text, VectorPos, Container,Pivoter)
     }
 end
 
-return function(TreeStarter, View)
+return function(TreeStarter)
     ExplorerContainer = Things.Create "SquarePrimative" { 
        Size = Pivot2D.FromScale(1,0.05),
        Pivot = Vector2.new(0.5,1),
@@ -40,8 +38,7 @@ return function(TreeStarter, View)
        },
        BackgroundColor = WindowColor,
        Name = "Explorer",
-       Layer = 1,
-       Parent = View
+       Layer = 1
     }
     ExplorerContainer:SetParent(TreeStarter)
 
