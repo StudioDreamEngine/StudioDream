@@ -76,6 +76,7 @@ return function(TreeStarter, View)
        Explorer = {
         Visible = false,
        },
+       Position = Pivot2D.FromScale(0,0.064),
        BackgroundColor = WindowColor,
        Name = "Explorer",
        Layer = 1,

@@ -65,13 +65,13 @@ end
 function Text:Draw()
     Text.super.Draw(self)
 
-    local YAlign = 0
+    --[[local YAlign = 0
 
     if self.AlignY == Enum.AlignmentY.Bottom then
         YAlign = self.TextBounds.Y
     elseif self.AlignY == Enum.AlignmentY.Center then
         YAlign = self.TextBounds.Y/2
-    end
+    end]]
 
     Runtime.Backend2D.SetColor(self.ForegroundColor)
     love.graphics.setFont(self.RenderFont)
