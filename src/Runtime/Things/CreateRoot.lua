@@ -9,14 +9,6 @@ return function()
         Root = true
     }
 
-    local ImageTest2 = Things.Create("Text") {
-        Text = "WW",
-        Name = "ImageTest2",
-        Position = Pivot2D.FromScale(0.2,0.6),
-        Size = Pivot2D.FromScale(0.3,0.3),
-        Parent = Viewport
-    }
-
     local ExplorerViewport = Things.Create("Viewport2D") {
         Size = Pivot2D.FromScale(0.25,0.8),
         Position = Pivot2D.FromScale(1,0),
@@ -26,11 +18,16 @@ return function()
     }
 
     local MainViewport = Things.Create("Viewport3D") {
-        Size = Pivot2D.FromScale(0.75,0.5),
+        Size = Pivot2D.FromScale(0.75,0.8),
         Position = Pivot2D.FromScale(0,0),
         Parent = Viewport,
         Name = "MainViewport"
     }
+
+    local Mesh = Things.Create("Mesh") {
+        Name = "Bleh"
+    }
+    Mesh:SetParent(MainViewport)
 
     require("Runtime.Things.StudioUI.ExplorerRender")(Viewport, ExplorerViewport)
     require("Runtime.Things.StudioUI.TopBar")(Viewport, ExplorerViewport)

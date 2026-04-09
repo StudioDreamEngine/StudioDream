@@ -31,7 +31,7 @@ local function RenderTextLabel(Text, VectorPos, Container,Pivoter)
 end
 
 return function(TreeStarter, View)
-    ExplorerContainer = Things.Create "SquarePrimative" {
+    ExplorerContainer = Things.Create "SquarePrimative" { 
        Size = Pivot2D.FromScale(1,0.05),
        Pivot = Vector2.new(0.5,1),
        Position = Pivot2D.FromScale(0.5,0.05),
@@ -45,5 +45,5 @@ return function(TreeStarter, View)
     }
     ExplorerContainer:SetParent(TreeStarter)
 
-    RenderTextLabel("Projects",Pivot2D.FromScale(0.05,0.5),ExplorerContainer)
+    RenderTextLabel("Projects",Pivot2D.FromScale(0.05,0.5),ExplorerContainer) -- Make this button soon
 end
