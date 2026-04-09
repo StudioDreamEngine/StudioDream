@@ -73,8 +73,11 @@ function Text:Draw()
         YAlign = self.TextBounds.Y/2
     end]]
 
-    Runtime.Backend2D.SetColor(self.ForegroundColor)
     love.graphics.setFont(self.RenderFont)
+
+    Runtime.Backend2D.SetColor(Color.new(1,0,0))
+    love.graphics.rectangle("line", 0,0,self.TextBounds.X,self.TextBounds.Y)
+    Runtime.Backend2D.SetColor(self.ForegroundColor)
     love.graphics.printf(self.Text, 0, 0, self.TextBounds.X, self.AlignX)
 end
 

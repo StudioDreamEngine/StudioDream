@@ -19,7 +19,7 @@ end
 function TextButton:Update(dt)
     local DisplayUI = TextButton:GetDisplayUI()
 
-    --DisplayUI.MousePosition
+    print(DisplayUI.MousePosition)
 
     self.ColorMultiplier = 0
 end

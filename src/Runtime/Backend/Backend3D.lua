@@ -16,10 +16,6 @@ function Backend3D.Init()
 end
 
 function Backend3D.Render()
-    Dream:prepare()
-
-    Dream:addLight(light)
-
     TestCamera:setCamera(Dream.camera)
 end
 

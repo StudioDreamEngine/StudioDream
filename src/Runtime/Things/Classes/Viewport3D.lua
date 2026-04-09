@@ -1,14 +1,25 @@
 local Things = Runtime.Things
-local Viewport3D = Things.Extend("BaseGui")
 
-function Viewport3D:Draw()
-    Dream:present()
-end
+---@module "Viewport"
+local Viewport3D = Things.Extend("Viewport")
 
 function Viewport3D:SetAbsoluteSize(New)
     Viewport3D.super.SetAbsoluteSize(self, New)
-
     Dream:resize(New.X, New.Y)
+end
+
+function Viewport3D:SubmitContainerChildren(Container)
+    for _, Child in pairs(Container:GetChildren()) do
+        if Child:IsA("Mesh") then
+            self:SendChild(Child.Drawable)
+        end
+    end
+end
+
+function Viewport3D:Update(dt)
+    Viewport3D.super.Update(self,dt)
+
+    self:SubmitContainerChildren(self.RenderFolder or self)
 end
 
 return Viewport3D

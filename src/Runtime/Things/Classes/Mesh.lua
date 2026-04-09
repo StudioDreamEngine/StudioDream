@@ -3,8 +3,7 @@ local Things = Runtime.Things
 -- using @module here gives the lua language server a base type to use!
 ---@module 'BaseGui'
 
-local Mesh = Things.Extend("Viewport3D")
-local MeshLoaded
+local Mesh = Things.Extend("Thing")
 
 function Mesh:new()
     Mesh.super.new(self)
@@ -15,17 +14,16 @@ function Mesh:new()
     }
     self.MeshFile = nil
     self.Anchored = true
+
+    self.Drawable = Dream:loadObject(self.MeshFile or "Assets/Scripty")
 end
 
-function Mesh:Init()
-    Mesh.super.Init(self)
+function Mesh:Update(dt)
+    local Drawable = self.Drawable
 
-    print("Hi i loaded")
-    MeshLoaded = Dream:loadObject(self.MeshFile or "Assets/Scripty")
-end
-
-function Mesh:Draw()
-    --MeshLoaded:translate(0, 0, -3)
+    Drawable:resetTransform()
+    Drawable:translate(0,math.sin(GlobalTick*4)/2,-5)
+    Drawable:rotateY(GlobalTick*2)
 end
 
 return Mesh
