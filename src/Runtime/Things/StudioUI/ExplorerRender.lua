@@ -14,7 +14,7 @@ local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
 local function RenderIcon(IconName, VectorPos, Container)
     local ImageThing = Things.Create("Image2D") {
-        Size = Pivot2D.FromOffset(Vector2.one * IconsSize),
+        Size = Pivot2D.FromScale(Vector2.one * IconsSize),
         Image = "Assets/EditorIcons/16/" .. IconName .. ".png",
         Parent = Container
     }
@@ -29,6 +29,7 @@ local function RenderTextLabel(Text, VectorPos, Container,SpecialPos,SpecialSize
         ForegroundColor = Color.new(1),
         BackgroundTransparency = 1,
         AlignX = Enum.AlignmentX.Left,
+        TextScaled = true,
         Pivot = Vector2.new(0,0.5),
         AlingY = Enum.AlignmentY.Top,
         Layer = 9,
