@@ -37,7 +37,6 @@ end
 function ViewportManager.RenderViewport3D(Viewport)
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
-        love.graphics.clear()
 
         TestCamera:setCamera(Dream.camera)
 
@@ -58,13 +57,17 @@ function ViewportManager.Update(dt)
 end
 
 function ViewportManager.Render()
-    for _, Viewport in pairs(ViewportManager.Viewports) do
-        if Viewport:IsA("Viewport2D") then
-            ViewportManager.RenderViewport2D(Viewport)
-        else
-            ViewportManager.RenderViewport3D(Viewport)
+    Profiler:start("StudioDream - Render Viewports")
+        for _, Viewport in pairs(ViewportManager.Viewports) do
+            if Viewport:IsA("Viewport2D") then
+                Profiler:start("StudioDream - Render 2D Viewport")
+                ViewportManager.RenderViewport2D(Viewport)
+                Profiler:stop()
+            else
+                ViewportManager.RenderViewport3D(Viewport)
+            end
         end
-    end
+    Profiler:stop()
 
     local RootViewport = Things.Root.Viewport
     ViewportManager.RenderCanvas(RootViewport)

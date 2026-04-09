@@ -19,6 +19,7 @@ end
 function Viewport3D:Update(dt)
     Viewport3D.super.Update(self,dt)
 
+    self.DisplayList = {}
     self:SubmitContainerChildren(self.RenderFolder or self)
 end
 

@@ -13,13 +13,27 @@ function Runtime.Init()
     Runtime.Renderer.Init()
     Runtime.Things.Init()
 
-    Runtime.Render = Runtime.Renderer.Render
+    Profiler = Dream.delton
+end
+
+function Runtime.Render()
+    Profiler:start("StudioDream - Render")
+
+        Runtime.Renderer.Render()
+
+    Profiler:stop()
+
+    Dream:presentDebug()
 end
 
 function Runtime.Update(dt)
-    Runtime.Backend.Update(dt)
-    Runtime.Renderer.ViewportManager.Update(dt) -- temporary
-    Runtime.Things.Update(dt)
+    Profiler:start("StudioDream - Update")
+
+        Runtime.Backend.Update(dt)
+        Runtime.Renderer.ViewportManager.Update(dt) -- temporary
+        Runtime.Things.Update(dt)
+
+    Profiler:stop()
 end
 
 return Runtime

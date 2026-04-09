@@ -32,6 +32,15 @@ end
 function Viewport:SetAbsoluteSize(New)
     Viewport.super.SetAbsoluteSize(self, New)
 
+    -- Manual cleanup just in case
+    if self.ViewportCanvas then
+        local Canvas = self.ViewportCanvas
+        self.ViewportCanvas = nil
+
+        Canvas:release()
+        print("Attempted to dispose of viewport canvas")
+    end
+
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, New)
 end
 

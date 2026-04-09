@@ -10,9 +10,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ---@class Dream
 local lib = { }
 
-if love.filesystem.read("debugEnabled") == "true" then
-	_DEBUGMODE = true
-end
+_DEBUGMODE = true
 
 _3DreamEngine = lib
 lib.root = (...):gsub("%.", "/")
@@ -71,7 +69,7 @@ lib.packer = require(lib.root .. "/libs/packer")
 table.unpack = table.unpack or unpack
 
 --delton, disabled when not in debug mode
-lib.delton = require(lib.root .. "/libs/delton"):new(512)
+lib.delton = require(lib.root .. "/libs/delton"):new(128)
 lib.deltonLoad = require(lib.root .. "/libs/delton"):new(1)
 lib.deltonLoad.maxAge = 999999
 
