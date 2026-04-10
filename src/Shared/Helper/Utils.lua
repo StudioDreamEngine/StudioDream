@@ -7,8 +7,8 @@ function Utils.OptionalCall(Module, Function, ...)
 end
 
 function Utils.IntersectPoint2D(Rect, Point)
-    local XIntersect = (Point.X < Rect.Min.X) and (Point.X > Rect.Max.X)
-    local YIntersect = (Point.Y < Rect.Min.Y) and (Point.Y > Rect.Max.Y)
+    local XIntersect = (Point.X > Rect.Min.X) and (Point.X < Rect.Max.X)
+    local YIntersect = (Point.Y > Rect.Min.Y) and (Point.Y < Rect.Max.Y)
 
     return (XIntersect and YIntersect)
 end

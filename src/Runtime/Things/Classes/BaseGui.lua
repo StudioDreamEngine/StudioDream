@@ -34,6 +34,11 @@ function BaseGui:GetAbsolutePosition()
     return Position
 end
 
+function BaseGui:GetRect()
+    -- TODO: ``self.AbsolutePosition`` isnt working for some reason, replace self:GetAbsolutePosition() with self.AbsolutePosition later!
+    return Rect.new(self:GetAbsolutePosition(), self.AbsoluteSize)
+end
+
 -- Get true position from display point on part or the screen
 function BaseGui:GetDisplayPosition()
     local ParentElement = self:GetParentElement()
