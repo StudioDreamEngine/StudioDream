@@ -16,7 +16,11 @@ function TextButton:new()
     self.Hovering = false 
     self.Clicked = Signal:New("ButtonClicked")
 
-    Runtime.InterfaceManager.OnClick:Connect(self.Clicked.Invoke)
+    Runtime.InterfaceManager.OnClick:Connect(function()
+        if (not self.Hovering) then return end
+
+        self.Clicked.Invoke()
+    end)
 end
 
 function TextButton:Update(dt)
@@ -27,10 +31,11 @@ function TextButton:Update(dt)
 
     local ObjectRect = self:GetRect()
 
-    local Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
-    local Clicking = Hovering and Runtime.InterfaceManager.Clicking
+    self.Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
+    
+    local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
 
-    local Multiplier = (Clicking and 0.5) or (Hovering and 0.75) or 1
+    local Multiplier = (Clicking and 0.5) or (self.Hovering and 0.75) or 1
     self.ColorMultiplier = Multiplier
 end
 
