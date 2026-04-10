@@ -22,7 +22,9 @@ function TextButton:Update(dt)
     local DisplayUI = self:GetDisplayUI()
 
     if DisplayUI then
-        print(DisplayUI.MousePosition)
+        --print(Utils.IntersectPoint2D(Rect.new(self:GetAbsolutePosition(), self.AbsoluteSize)))
+
+       -- print(DisplayUI.MousePosition)
     end
 
     --self.ColorMultiplier = 0

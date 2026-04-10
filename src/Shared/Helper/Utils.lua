@@ -6,11 +6,11 @@ function Utils.OptionalCall(Module, Function, ...)
     end
 end
 
-function Utils.IntersectPoint(Position, Size, Point)
-    local Rect = {
-        Min = Position,
-        Max = Position + Size
-    }
+function Utils.IntersectPoint2D(Rect, Point)
+    local XIntersect = (Point.X < Rect.Min.X) and (Point.X > Rect.Max.X)
+    local YIntersect = (Point.Y < Rect.Min.Y) and (Point.Y > Rect.Max.Y)
+
+    return (XIntersect and YIntersect)
 end
 
 function Utils.AssertType(Object, ExpectedType, Extra)
