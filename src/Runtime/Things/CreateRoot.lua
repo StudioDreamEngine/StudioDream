@@ -9,6 +9,14 @@ return function()
         Root = true
     }
 
+    local ButtonTest = Things.Create("TextButton") {
+        Size = Pivot2D.FromScale(0.15,0.15),
+        Position = Pivot2D.FromScale(0,1),
+        Pivot = Vector2.new(0,1),
+        Parent = Viewport,
+        Name = "ButtonTest"
+    }
+
     local ExplorerViewport = Things.Create("Viewport2D") {
         Size = Pivot2D.FromScale(0.25,0.8),
         Position = Pivot2D.FromScale(1,0),

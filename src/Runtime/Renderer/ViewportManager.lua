@@ -57,10 +57,10 @@ function ViewportManager.Update(dt)
 end
 
 function ViewportManager.Render()
-    Profiler:start("StudioDream - Render Viewports")
+    Profiler:start("Render Viewports")
         for _, Viewport in pairs(ViewportManager.Viewports) do
             if Viewport:IsA("Viewport2D") then
-                Profiler:start("StudioDream - Render 2D Viewport")
+                Profiler:start("2D Viewport")
                 ViewportManager.RenderViewport2D(Viewport)
                 Profiler:stop()
             else

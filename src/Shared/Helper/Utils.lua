@@ -6,6 +6,13 @@ function Utils.OptionalCall(Module, Function, ...)
     end
 end
 
+function Utils.IntersectPoint(Position, Size, Point)
+    local Rect = {
+        Min = Position,
+        Max = Position + Size
+    }
+end
+
 function Utils.AssertType(Object, ExpectedType, Extra)
     assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
 end

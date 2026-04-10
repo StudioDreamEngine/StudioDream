@@ -17,11 +17,15 @@ function TextButton:new()
 end
 
 function TextButton:Update(dt)
-    local DisplayUI = TextButton:GetDisplayUI()
+    TextButton.super.Update(self)
 
-    print(DisplayUI.MousePosition)
+    local DisplayUI = self:GetDisplayUI()
 
-    self.ColorMultiplier = 0
+    if DisplayUI then
+        print(DisplayUI.MousePosition)
+    end
+
+    --self.ColorMultiplier = 0
 end
 
 return TextButton
