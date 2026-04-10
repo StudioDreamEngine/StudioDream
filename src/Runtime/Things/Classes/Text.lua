@@ -48,7 +48,7 @@ function Text:AttemptWrap(NewSize)
     local TextSize
 
     if self.TextScaled then
-        local CurrentSize = ContainerSize.Y
+        local CurrentSize = math.max(ContainerSize.Y,1)
 
         repeat
             TextSize = self:PerformWrap(CurrentSize, ContainerSize.X)

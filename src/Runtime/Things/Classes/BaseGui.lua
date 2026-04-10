@@ -67,7 +67,7 @@ end
 -- Find the parent Viewport2D rendering this object
 -- TODO: Viewport2D should provide this directly to the object when the display list is created
 function BaseGui:GetDisplayUI()
-    return self:FindFirstAncestorWithClass("Viewport2D")
+    return self:FindFirstAncestorWithClass("Viewport")
 end
 
 function BaseGui:Draw()

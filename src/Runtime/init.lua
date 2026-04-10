@@ -17,7 +17,7 @@ function Runtime.Init()
 end
 
 function Runtime.Render()
-    Profiler:start("StudioDream - Render")
+    Profiler:start("StudioDream Runtime - Render")
 
         Runtime.Renderer.Render()
 
@@ -27,7 +27,7 @@ function Runtime.Render()
 end
 
 function Runtime.Update(dt)
-    Profiler:start("StudioDream - Update")
+    Profiler:start("StudioDream Runtime - Update")
 
         Runtime.Backend.Update(dt)
         Runtime.Renderer.ViewportManager.Update(dt) -- temporary

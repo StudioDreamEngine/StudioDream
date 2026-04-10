@@ -58,9 +58,13 @@ function Things.Remove(Thing)
 end
 
 function Things.Update(dt)
+    Profiler:start("Update Object")
+
     for _, Thing in pairs(Objects) do
         Thing:Update(dt)
     end
+
+    Profiler:stop()
 end
 
 return Things
