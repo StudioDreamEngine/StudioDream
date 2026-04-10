@@ -12,20 +12,37 @@ local NodeColor = Color.new(0.314, 0.294, 0.502)
 local WindowColor = Color.new(0.106, 0.09, 0.188)
 local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
-local function RenderTextLabel(Text, VectorPos, Container,Pivoter)
-    local TextThing = Things.Create("Text") {
+local Order = {"Project", "File"}
+local UpOptions = {
+    ["Project"] = {
+        Scale = Pivot2D.FromScale(0.2,1),
+        Clicked = function(Button)
+            print("Clicked Project")
+        end,
+    },
+    ["File"] = {
+        Scale = Pivot2D.FromScale(0.2,1),
+        Clicked = function(Button)
+            print("Clicked File")
+        end,
+    },
+}
+
+local function RenderButton(Text,Size,Parent,PositionS,CLickFunc)
+    local ButtonTest = Things.Create("TextButton") {
+        Size = Size,
+        Position = PositionS or Pivot2D.FromScale(0,1),
+        Pivot = Vector2.new(0,1),
+        Parent = Parent,
         Text = Text,
-        FontFile = "Assets/Fonts/Arimo-Bold.ttf",
-        Position = VectorPos,
-        Size = Pivot2D.FromScale(0.2,1),
-        ForegroundColor = Color.new(1),
         BackgroundTransparency = 1,
-        AlignX = Enum.AlignmentX.Center,
-        Pivot = Vector2.new(0,0.5),
-        AlingY = Enum.AlignmentY.Center,
-        Layer = 9,
-        Parent = Container
+        ForegroundColor = Color.new(1,1,1),
+        Name = "ButtonTest"
     }
+
+    ButtonTest.Clicked:Connect(function()
+        CLickFunc(ButtonTest)
+    end)
 end
 
 return function(TreeStarter)
@@ -41,6 +58,12 @@ return function(TreeStarter)
        Layer = 1
     }
     ExplorerContainer:SetParent(TreeStarter)
+    local Index = 0
 
-    RenderTextLabel("Projects",Pivot2D.FromScale(0.05,0.5),ExplorerContainer) -- Make this button soon
+    for i, key in ipairs(Order) do
+        local v = UpOptions[key]
+        Index = Index + 1
+
+        RenderButton(key,Pivot2D.FromScale(0.08,1),ExplorerContainer,Pivot2D.FromScale((Index ~= 1 and Index/15 or 0),1),v.Clicked) -- Make this scale by the text, and position by the text size too sometime
+    end
 end
