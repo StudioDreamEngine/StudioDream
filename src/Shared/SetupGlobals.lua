@@ -1,3 +1,11 @@
+local function LoadTypes()
+    for _, v in pairs(Utils.GetFolderDescendants("Shared/Types/", true)) do
+        local Name = string.split(v,"%.")[1]
+
+        _G[Name] = require("Shared.Types."..Name)
+    end
+end
+
 -- Seperate parts of the game like the runtime will also have their own globals
 -- in the future we could perhaps make an api for handling creation of globals, depends tho
 return function ()
@@ -18,6 +26,8 @@ return function ()
     Transform2D = require("Shared.Types.Transform2D")
     Enum = require("Shared.Types.Enum")
     Color = require("Shared.Types.Color")
+    Rect = require("Shared.Types.Rect")
+    --LoadTypes()
 
     -- Globals
     GlobalTick = 0
