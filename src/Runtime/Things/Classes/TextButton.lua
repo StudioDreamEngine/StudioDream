@@ -28,7 +28,7 @@ function TextButton:Update(dt)
     local ObjectRect = self:GetRect()
 
     local Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
-    local Clicking = Runtime.InterfaceManager.Clicking
+    local Clicking = Hovering and Runtime.InterfaceManager.Clicking
 
     local Multiplier = (Clicking and 0.5) or (Hovering and 0.75) or 1
     self.ColorMultiplier = Multiplier
