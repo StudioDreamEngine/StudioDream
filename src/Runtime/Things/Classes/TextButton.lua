@@ -13,21 +13,25 @@ function TextButton:new()
         Icon = "textfield_rename"
     }
 
-    self.Hovering = false
+    self.Hovering = false 
+    self.Clicked = Signal:New("ButtonClicked")
+
+    Runtime.InterfaceManager.OnClick:Connect(self.Clicked.Invoke)
 end
 
 function TextButton:Update(dt)
     TextButton.super.Update(self)
 
     local DisplayUI = self:GetDisplayUI()
+    if (not DisplayUI) then return end
 
-    if DisplayUI then
-        --print(Utils.IntersectPoint2D(Rect.new(self:GetAbsolutePosition(), self.AbsoluteSize)))
+    local ObjectRect = self:GetRect()
 
-       -- print(DisplayUI.MousePosition)
-    end
+    local Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
+    local Clicking = Runtime.InterfaceManager.Clicking
 
-    --self.ColorMultiplier = 0
+    local Multiplier = (Clicking and 0.5) or (Hovering and 0.75) or 1
+    self.ColorMultiplier = Multiplier
 end
 
 return TextButton

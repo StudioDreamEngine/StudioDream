@@ -9,6 +9,7 @@ return function()
         Root = true
     }
 
+    ---@module "TextButton"
     local ButtonTest = Things.Create("TextButton") {
         Size = Pivot2D.FromScale(0.15,0.15),
         Position = Pivot2D.FromScale(0,1),
@@ -16,6 +17,10 @@ return function()
         Parent = Viewport,
         Name = "ButtonTest"
     }
+
+    ButtonTest.Clicked:Connect(function()
+        print("Button Click")
+    end)
 
     local ExplorerViewport = Things.Create("Viewport2D") {
         Size = Pivot2D.FromScale(0.25,0.8),

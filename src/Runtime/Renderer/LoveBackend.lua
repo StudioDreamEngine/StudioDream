@@ -12,6 +12,10 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     love.graphics.setCanvas()
 end
 
+function Backend.GetMouseDown()
+    return love.mouse.isDown(1)
+end
+
 function Backend.GetWindowSize()
     return Vector2.new(love.graphics.getWidth(), love.graphics.getHeight())
 end
