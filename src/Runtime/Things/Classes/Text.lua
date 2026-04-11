@@ -72,7 +72,7 @@ function Text:Draw()
     elseif self.AlignY == Enum.AlignmentY.Center then
         YAlign = self.TextBounds.Y/2
     end]]
-
+    
     love.graphics.setFont(self.RenderFont)
 
     Runtime.Backend2D.SetColor(Color.new(1,0,0))

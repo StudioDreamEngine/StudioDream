@@ -16,15 +16,17 @@ local function RenderIcon(IconName, VectorPos, Container)
     local ImageThing = Things.Create("Image2D") {
         Size = Pivot2D.FromScale(Vector2.one * IconsSize),
         Image = "Assets/EditorIcons/16/" .. IconName .. ".png",
+        Pivot = Vector2.new(1,0.5),
+        Position = Pivot2D.FromScale(0,0.5),
         Parent = Container
     }
 end
 
-local function RenderTextLabel(Text, VectorPos, Container,SpecialPos,SpecialSize)
+local function RenderTextLabel(Text, VectorPos, Container,SpecialPos,SpecialSize,OriginalSize)
     local TextThing = Things.Create("Text") {
         Text = Text,
-        Position = SpecialPos or Pivot2D.FromOffset(IconsSize+4/10,5),
-        Size = Pivot2D.FromOffset(Vector2.new(200, 20)),
+        Position = SpecialPos or Pivot2D.FromOffset(IconsSize+4/10,10),
+        Size = OriginalSize or Pivot2D.FromScale(0.8,1),
         TextSize = SpecialSize or 12,
         ForegroundColor = Color.new(1),
         BackgroundTransparency = 1,
@@ -46,22 +48,23 @@ local function RenderNode(Thing, currentY, depth ,XPos)
     local iconPos  = Vector2.new(xOffset, currentY)
     local labelPos = Vector2.new(xOffset + IconsSize + 4, currentY)
 
-    local NodeContainer = Things.Create "SquarePrimative" {
+    local NodeContainer = Things.Create "TextButton" {
        Size = Pivot2D.FromScale(1,0.05),--Pivot2D.FromOffset(Vector2.new(200, 20)),
        Pivot = Vector2.new(0,0.5),
-       Position = Pivot2D.FromOffset(xOffset,currentY),
+       Position = Pivot2D.FromOffset(xOffset+IconsSize,currentY),
        Explorer = {
         Visible = false,
        },
        BackgroundColor = NodeColor,
        Layer = 1,
+       ForegroundColor = Color.new(1,1,1),
+       Text = Thing.Name,
        BackgroundTransparency = 0.5
     }
     NodeContainer:SetParent(ExplorerContainer)
 
     local icon = Thing.Explorer.Icon or "cancel"
     RenderIcon(icon, iconPos, NodeContainer)
-    RenderTextLabel(Thing.Name, labelPos, NodeContainer)
     currentY = currentY + RowHeight
 
     for _, Child in pairs(Thing:GetChildren()) do
@@ -84,7 +87,7 @@ return function(TreeStarter, View)
        Parent = View
     }
 
-    RenderTextLabel("Explorer", Vector2.new(0,0), ExplorerContainer1,Pivot2D.FromScale(Vector2.new(5,5)),12)
+    RenderTextLabel("Explorer", Vector2.new(0,0), ExplorerContainer1,Pivot2D.FromScale(Vector2.new(5,5)),12,Pivot2D.FromOffset(200,20))
 
     ExplorerContainer = Things.Create "SquarePrimative" {
        Size = Pivot2D.FromScale(0.9,0.9),
@@ -99,5 +102,5 @@ return function(TreeStarter, View)
        Parent = ExplorerContainer1
     }
 
-    RenderNode(TreeStarter, 0, 0, 0)
+    RenderNode(TreeStarter, 10, 0, 0)
 end
