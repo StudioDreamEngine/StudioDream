@@ -3,7 +3,13 @@ local Things = {}
 -- AllThings doesnt roll off the tounge as well
 local Objects = {}
 
+local Classes = {}
+
 function Things.Init()
+    local ClassesList = Utils.GetFolderDescendants("Runtime/Things/Classes/", true)
+
+
+
     Things.Root = require("Runtime.Things.CreateRoot")()
 end
 
