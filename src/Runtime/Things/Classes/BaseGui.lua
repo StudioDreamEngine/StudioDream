@@ -5,11 +5,11 @@ local Things = Runtime.Things
 local BaseGui = Things.Extend("Thing")
 
 function BaseGui:GetOffsetPosition()
-    local Position = self.Position.Offset - (self.Pivot * self.AbsoluteSize)
+    local Position = self.Position.Offset - (self.Pivot * self:GetAbsoluteSize())
     local ParentElement = self:GetParentElement()
 
     if ParentElement then
-        Position = Position + (self.Position.Scale * ParentElement.AbsoluteSize)
+        Position = Position + (self.Position.Scale * ParentElement:GetAbsoluteSize())
     end
 
     return Position
@@ -36,7 +36,7 @@ end
 
 function BaseGui:GetRect()
     -- TODO: ``self.AbsolutePosition`` isnt working for some reason, replace self:GetAbsolutePosition() with self.AbsolutePosition later!
-    return Rect.new(self:GetAbsolutePosition(), self.AbsoluteSize)
+    return Rect.new(self.AbsolutePosition, self.AbsoluteSize)
 end
 
 -- Get true position from display point on part or the screen
@@ -58,7 +58,7 @@ function BaseGui:GetAbsoluteSize(Size)
     local ParentElement = self:GetParentElement()
 
     if ParentElement then -- Only do this if we found a parent element
-        AbsoluteSize = AbsoluteSize + (ParentElement.AbsoluteSize * Size.Scale)
+        AbsoluteSize = AbsoluteSize + (ParentElement:GetAbsoluteSize() * Size.Scale)
     end
     
     return AbsoluteSize
@@ -114,25 +114,31 @@ function BaseGui:DrawStyle()
     Runtime.Backend2D.SetColor(Color.new(1))
 end
 
+function BaseGui:UpdateTransforms()
+    self.AbsolutePosition = self:GetAbsolutePosition()
+
+    local NewSize = self:GetAbsoluteSize()
+
+    if NewSize.Magnitude() < 0.1 then
+        print("Ignoring Transform update due to size")
+        return
+    end
+
+    self:SetAbsoluteSize(NewSize)
+end
+
 function BaseGui:SetPosition(New)
     self.Position = New
-    self.AbsolutePosition = self:GetAbsolutePosition()
+    self:UpdateTransforms()
+end
+
+function BaseGui:SetSize(New)
+    self.Size = New
+    self:UpdateTransforms()
 end
 
 function BaseGui:SetAbsoluteSize(NewSize)
     self.AbsoluteSize = NewSize
-end
-
-function BaseGui:Update(dt) 
-    BaseGui.super.Update(self, dt)
-
-    local CurrentSize = self:GetAbsoluteSize()
-
-    if not (CurrentSize.Is(self.LastSize)) then
-        self:SetAbsoluteSize(CurrentSize)
-    end
-
-    self.LastSize = CurrentSize
 end
 
 return BaseGui

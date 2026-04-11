@@ -23,7 +23,8 @@ function ViewportManager.RenderViewport2D(Viewport)
         for _, Element in pairs(Viewport.DisplayList) do
             love.graphics.push()
 
-            love.graphics.replaceTransform(Element.Transform)
+            love.graphics.origin()
+            love.graphics.translate(Element.Child.AbsolutePosition.X,Element.Child.AbsolutePosition.Y)
             Element.Child:DrawStyle()
             love.graphics.pop()
         end
@@ -56,6 +57,11 @@ function ViewportManager.Update(dt)
     Dream:update(dt)
 end
 
+function love.resize(w,h)
+    local RootViewport = Things.Root.Viewport
+    RootViewport:SetSize(Pivot2D.FromOffset(w,h))
+end
+
 function ViewportManager.Render()
     Profiler:start("Render Viewports")
         for _, Viewport in pairs(ViewportManager.Viewports) do
@@ -71,8 +77,6 @@ function ViewportManager.Render()
 
     local RootViewport = Things.Root.Viewport
     ViewportManager.RenderCanvas(RootViewport)
-
-    RootViewport.Size = Pivot2D.FromOffset(Runtime.Backend2D.GetWindowSize())
 end
 
 return ViewportManager
