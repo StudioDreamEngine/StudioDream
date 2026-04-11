@@ -22,6 +22,8 @@ function Text:new()
 
     self.RenderFont = nil
     self.TextBounds = Vector2.zero
+
+    self:AttemptWrap(self.AbsoluteSize)
 end
 
 function Text:PerformWrap(CurrentSize, WrapLength)
@@ -36,10 +38,7 @@ end
 function Text:SetAbsoluteSize(New)
     Text.super.SetAbsoluteSize(self, New)
 
-    local TextBounds, RenderFont = self:AttemptWrap(New)
-
-    self.TextBounds = TextBounds
-    self.RenderFont = RenderFont
+    self:AttemptWrap(New)
 end
 
 function Text:AttemptWrap(NewSize)
@@ -59,26 +58,32 @@ function Text:AttemptWrap(NewSize)
         TextSize = self:PerformWrap(self.TextSize, ContainerSize.X)
     end
 
+    self.TextBounds = TextSize
+
     return TextSize, self.RenderFont
 end
 
 function Text:Draw()
     Text.super.Draw(self)
 
-    --[[local YAlign = 0
+    local CurrentSize = self.AbsoluteSize
 
-    if self.AlignY == Enum.AlignmentY.Bottom then
-        YAlign = self.TextBounds.Y
+    local Divisor = 2
+
+    --[[if self.AlignY == Enum.AlignmentY.Bottom then
+        Divisor = 1
     elseif self.AlignY == Enum.AlignmentY.Center then
-        YAlign = self.TextBounds.Y/2
+        Divisor = 2
     end]]
+
+    local TextPosition = Vector2.new(0,CurrentSize.Y/Divisor - self.TextBounds.Y/Divisor)
     
     love.graphics.setFont(self.RenderFont)
-
     Runtime.Backend2D.SetColor(Color.new(1,0,0))
-    love.graphics.rectangle("line", 0,0,self.TextBounds.X,self.TextBounds.Y)
+
+    love.graphics.rectangle("line", TextPosition.X, TextPosition.Y, self.TextBounds.X, self.TextBounds.Y)
     Runtime.Backend2D.SetColor(self.ForegroundColor)
-    love.graphics.printf(self.Text, 0, 0, self.TextBounds.X, self.AlignX)
+    love.graphics.printf(self.Text, TextPosition.X, TextPosition.Y, self.TextBounds.X, self.AlignX)
 end
 
 return Text

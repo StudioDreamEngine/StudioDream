@@ -32,7 +32,7 @@ function TextButton:Update(dt)
     local ObjectRect = self:GetRect()
 
     self.Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
-    
+
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
 
     local Multiplier = (Clicking and 0.5) or (self.Hovering and 0.75) or 1
