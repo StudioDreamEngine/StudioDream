@@ -18,7 +18,7 @@ function Utils.AssertType(Object, ExpectedType, Extra)
 end
 
 -- Returns a table of all the files in a folder, regardless of if a file was nested or not
-function Utils.GetFolderDescendants(Folder, NoPath)
+function Utils.GetFolderDescendants(Folder, NoPath, NoExtension)
     local FolderData = {}
 
     for _, FileName in pairs(love.filesystem.getDirectoryItems(Folder)) do
@@ -31,6 +31,7 @@ function Utils.GetFolderDescendants(Folder, NoPath)
         end
     end
 
+    -- Pain
     if NoPath then
         for i, Folder in pairs(FolderData) do
             local Path = string.split(Folder, "%/")
@@ -39,8 +40,14 @@ function Utils.GetFolderDescendants(Folder, NoPath)
         end
     end
 
+    -- Pain 2
+    if NoExtension then
+        for i, Folder in pairs(FolderData) do
+            FolderData[i] = string.split(Folder, "%.")[1]
+        end
+    end
+
     return FolderData
-    -- TODO: Returns a table of all the files in a folder, so they can be organized 
 end
 
 return Utils
