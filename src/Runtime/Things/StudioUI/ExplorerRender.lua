@@ -39,6 +39,25 @@ local function RenderTextLabel(Text, VectorPos, Container,SpecialPos,SpecialSize
     }
 end
 
+function RenderTextLabelNew(Container,Text,Position,Size)
+    local TextThing = Things.Create("Text") {
+        Size = Size,
+        Position = Position,
+        Text = Text,
+        Layer = 3,
+        Parent = Container,
+        BackgroundTransparency = 1,
+        ForegroundColor = Color.new(1,1,1),
+        AlignX = Enum.AlignmentX.Center
+    }
+end
+
+local function LoopWhileHold(HoldVerify)
+    while HoldVerify.Holding do
+        -- nothin
+    end
+end
+
 local function RenderNode(Thing, currentY, depth ,XPos)
     if (not Thing.Explorer.Visible) then
         return currentY
@@ -76,7 +95,7 @@ end
 
 return function(TreeStarter, View)
     ExplorerContainer1 = Things.Create "SquarePrimative" {
-       Size = Pivot2D.FromScale(1,1),
+       Size = Pivot2D.FromScale(1,0.5),
        Explorer = {
         Visible = false,
        },
@@ -87,7 +106,7 @@ return function(TreeStarter, View)
        Parent = View
     }
 
-    RenderTextLabel("Explorer", Vector2.new(0,0), ExplorerContainer1,Pivot2D.FromScale(Vector2.new(5,5)),12,Pivot2D.FromOffset(200,20))
+    RenderTextLabelNew(ExplorerContainer1,"Explorer",Pivot2D.FromScale(0,0),Pivot2D.FromScale(1,0.05))
 
     ExplorerContainer = Things.Create "SquarePrimative" {
        Size = Pivot2D.FromScale(0.9,0.9),

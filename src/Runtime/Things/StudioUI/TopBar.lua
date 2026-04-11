@@ -28,7 +28,7 @@ local UpOptions = {
     },
 }
 
-local function RenderButton(Text,Size,Parent,PositionS,CLickFunc)
+local function RenderButton(Text,Size,Parent,PositionS,ClickFunc)
     local ButtonTest = Things.Create("TextButton") {
         Size = Size,
         Position = PositionS or Pivot2D.FromScale(0,1),
@@ -41,7 +41,7 @@ local function RenderButton(Text,Size,Parent,PositionS,CLickFunc)
     }
 
     ButtonTest.Clicked:Connect(function()
-        CLickFunc(ButtonTest)
+        ClickFunc(ButtonTest)
     end)
 end
 
