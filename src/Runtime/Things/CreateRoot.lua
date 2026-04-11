@@ -45,6 +45,6 @@ return function()
 
     require("Runtime.Things.StudioUI.ExplorerRender")(Viewport, ExplorerViewport)
     require("Runtime.Things.StudioUI.TopBar")(Viewport, ExplorerViewport)
-
+    require("Runtime.Things.StudioUI.PropertiesRender")(Viewport, ExplorerViewport)
     return { Viewport = Viewport }
 end
