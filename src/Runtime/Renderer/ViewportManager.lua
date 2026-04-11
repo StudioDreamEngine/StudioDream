@@ -22,15 +22,12 @@ function ViewportManager.RenderViewport2D(Viewport)
 
         for _, Element in pairs(Viewport.DisplayList) do
             love.graphics.push()
-
-            love.graphics.origin()
             love.graphics.translate(Element.Child.AbsolutePosition.X,Element.Child.AbsolutePosition.Y)
             Element.Child:DrawStyle()
             love.graphics.pop()
         end
 
         love.graphics.circle("fill", Viewport.MousePosition.X, Viewport.MousePosition.Y, 10)
-        love.graphics.rectangle("line", 0,0,Viewport.AbsoluteSize.X, Viewport.AbsoluteSize.Y)
     end)
 end
 
