@@ -3,7 +3,18 @@ local Things = {}
 -- AllThings doesnt roll off the tounge as well
 local Objects = {}
 
+local Classes = {}
+
 function Things.Init()
+    local ClassesList = Utils.GetFolderDescendants("Runtime/Things/Classes/", false, true)
+
+    for _, v in pairs(ClassesList) do
+        local Path = string.split(v, "%/")
+        local Name = Path[#Path]
+
+        Classes[Name] = v
+    end
+
     Things.Root = require("Runtime.Things.CreateRoot")()
 end
 
@@ -11,7 +22,7 @@ function Things.Get(UUID)
     return Objects[UUID]
 end
 
-function Things.Type(ThingType) return require("Runtime.Things.Classes."..ThingType) end
+function Things.Type(ThingType) return require(Classes[ThingType]) end
 function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
 -- Luawiz create instance code
