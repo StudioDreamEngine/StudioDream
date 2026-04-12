@@ -52,13 +52,13 @@ function RenderTextLabelNew(Container,Text,Position,Size)
     }
 end
 
-local function LoopWhileHold(HoldVerify)
-    while HoldVerify.Holding do
-        -- nothin
+local function LoopWhileHold(HoldVerify,Viewport)
+    if HoldVerify.Holding then
+        HoldVerify.Position = Pivot2D.FromOffset(Viewport.MousePosition.X,Viewport.MousePosition.Y)
     end
 end
 
-local function RenderNode(Thing, currentY, depth ,XPos)
+local function RenderNode(Thing, currentY, depth ,XPos, View)
     if (not Thing.Explorer.Visible) then
         return currentY
     end
@@ -82,12 +82,16 @@ local function RenderNode(Thing, currentY, depth ,XPos)
     }
     NodeContainer:SetParent(ExplorerContainer)
 
+    NodeContainer.Clicked:Connect(function()
+        LoopWhileHold(NodeContainer,View)
+    end)
+    
     local icon = Thing.Explorer.Icon or "cancel"
     RenderIcon(icon, iconPos, NodeContainer)
     currentY = currentY + RowHeight
 
     for _, Child in pairs(Thing:GetChildren()) do
-        currentY = RenderNode(Child, currentY, depth + 1, XPos)
+        currentY = RenderNode(Child, currentY, depth + 1, XPos, View)
     end
     
     return currentY
@@ -121,5 +125,5 @@ return function(TreeStarter, View)
        Parent = ExplorerContainer1
     }
 
-    RenderNode(TreeStarter, 10, 0, 0)
+    RenderNode(TreeStarter, 10, 0, 0, View)
 end
