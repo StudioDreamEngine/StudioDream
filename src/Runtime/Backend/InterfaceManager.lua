@@ -30,14 +30,18 @@ function InterfaceManager.Update(dt)
     InterfaceManager.UpdateInput()
 end
 
-function InterfaceManager.CreateWindow(Size)
+local NodeColor = Color.new(0.314, 0.294, 0.502)
+local WindowColor = Color.new(0.106, 0.09, 0.188)
+local BackWindowColor = Color.new(0.149, 0.129, 0.333)
+
+function InterfaceManager.CreateWindow(Size,Position,View)
     local Windows = {}
-    Windows.Container = Things.Create "SquarePrimative" { 
+    Windows.Container = Runtime.Things.Create "SquarePrimative" { 
       Size = Size,
        Explorer = {
         Visible = false,
        },
-       Position = Pivot2D.FromScale(0,0.78),
+       Position = Position,
        Pivot = Vector2.new(0,0.5),
        BackgroundColor = WindowColor,
        Name = "Properties",
@@ -45,7 +49,7 @@ function InterfaceManager.CreateWindow(Size)
        Parent = View
     }
     
-    Windows.BackWindow = Things.Create "SquarePrimative" {
+    Windows.BackWindow = Runtime.Things.Create "SquarePrimative" {
        Size = Pivot2D.FromScale(0.9,0.9),
        Position = Pivot2D.FromScale(0.5,0.5),
        Pivot = Vector2.new(0.5,0.5),
@@ -55,7 +59,7 @@ function InterfaceManager.CreateWindow(Size)
        BackgroundColor = BackWindowColor,
        Name = "BackWindow",
        Layer = 2,
-       Parent = PropertiesContainer
+       Parent = Windows.Container
     }
 
     return Windows
