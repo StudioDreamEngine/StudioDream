@@ -15,10 +15,9 @@ return function()
         Position = Pivot2D.FromScale(0,1),
         Pivot = Vector2.new(0,1),
         Parent = Viewport,
-        TextScaled = false,
         Name = "ButtonTest"
     }
-
+    
     ButtonTest.Clicked:Connect(function()
         print("Button Click")
     end)

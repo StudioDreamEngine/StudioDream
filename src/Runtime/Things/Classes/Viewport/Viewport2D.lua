@@ -36,6 +36,7 @@ function Viewport2D:SubmitContainerChildren(Container)
 
         Utils.AssertType(Child.Position, "Pivot2D", Child.Name)
 
+        -- Check if the viewport has given a request to update the transforms
         if self.QueuedUpdate then
             Child:UpdateTransforms()
         end
@@ -51,9 +52,7 @@ end
 -- Create the display list that will be used by the renderer
 function Viewport2D:CreateDisplayList()
     self.CurrentOrder = 1
-
     self:SubmitContainerChildren(self.RenderFolder or self)
-
     self.QueuedUpdate = false
 end
 

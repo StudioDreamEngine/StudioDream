@@ -14,7 +14,7 @@ local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
 local function RenderIcon(IconName, VectorPos, Container)
     local ImageThing = Things.Create("Image2D") {
-        Size = Pivot2D.FromScale(Vector2.one * IconsSize),
+        Size = Pivot2D.FromOffset(16,16),
         Image = "Assets/EditorIcons/16/" .. IconName .. ".png",
         Pivot = Vector2.new(1,0.5),
         Position = Pivot2D.FromScale(0,0.5),

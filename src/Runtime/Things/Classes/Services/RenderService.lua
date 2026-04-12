@@ -1,27 +1,15 @@
 local Things = Runtime.Things
-local RenderService = Things.Extend("Thing")
-
-function RenderService:Update(dt) end
-
-local Signals = {
-    RenderStep = nil
-}
+local RenderService = Things.Extend("BaseService")
 
 -- Ignore the code blockout!! cus idk how to do services rn
-function RenderService:Init()
-    local self = {}
+function RenderService:new()
+    RenderService.super.new(self)
 
-    function self:RenderStep(dt)
-        Signals.RenderStep = Signal:New("RenderStep")
-    end
-
-    return self
+    self.OnStep = Signal:New("GameStep")
 end
 
 function RenderService:Update(dt)
-    for i,v in Signals do
-        v:InvokeSignal(dt)
-    end
+    self.OnStep:Invoke()
 end
 
 return RenderService
