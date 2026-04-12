@@ -98,32 +98,9 @@ local function RenderNode(Thing, currentY, depth ,XPos, View)
 end
 
 return function(TreeStarter, View)
-    ExplorerContainer1 = Things.Create "SquarePrimative" {
-       Size = Pivot2D.FromScale(1,0.5),
-       Explorer = {
-        Visible = false,
-       },
-       Position = Pivot2D.FromScale(0,0.064),
-       BackgroundColor = WindowColor,
-       Name = "Explorer",
-       Layer = 1,
-       Parent = View
-    }
-
+    local Window = Runtime.InterfaceManager.CreateWindow(Pivot2D.FromScale(1,0.5),Pivot2D.FromScale(0,0.31),View)
+    ExplorerContainer1 = Window.Container
+    ExplorerContainer = Window.BackWindow
     RenderTextLabelNew(ExplorerContainer1,"Explorer",Pivot2D.FromScale(0,0),Pivot2D.FromScale(1,0.05))
-
-    ExplorerContainer = Things.Create "SquarePrimative" {
-       Size = Pivot2D.FromScale(0.9,0.9),
-       Position = Pivot2D.FromScale(0.5,0.5),
-       Pivot = Vector2.new(0.5,0.5),
-       Explorer = {
-        Visible = false,
-       },
-       BackgroundColor = BackWindowColor,
-       Name = "BackWindow",
-       Layer = 2,
-       Parent = ExplorerContainer1
-    }
-
     RenderNode(TreeStarter, 10, 0, 0, View)
 end

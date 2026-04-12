@@ -40,6 +40,12 @@ return function()
     local Mesh = Things.Create("Mesh") {
         Name = "Bleh"
     }
+
+    --[[local ButtonTest = Things.Create("Folder") {
+        Parent = Viewport,
+        Name = "Folder Test!"
+    }]]
+
     Mesh:SetParent(MainViewport)
 
     require("Runtime.Things.StudioUI.ExplorerRender")(Viewport, ExplorerViewport)
