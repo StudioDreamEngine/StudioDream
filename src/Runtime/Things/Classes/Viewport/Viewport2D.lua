@@ -30,7 +30,7 @@ function Viewport2D:SubmitContainerChildren(Container)
         - Bloctans
     ]]
     local SortedChildren = SortByDepth(Container:GetChildren())
-
+    
     for _, Child in pairs(SortedChildren) do
         self.CurrentOrder = self.CurrentOrder + 1
 

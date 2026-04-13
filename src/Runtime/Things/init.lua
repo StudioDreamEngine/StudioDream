@@ -2,7 +2,6 @@ local Things = {}
 
 -- AllThings doesnt roll off the tounge as well
 local Objects = {}
-
 local Classes = {}
 
 function Things.Init()
