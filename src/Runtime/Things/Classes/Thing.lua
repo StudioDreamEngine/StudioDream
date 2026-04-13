@@ -3,6 +3,8 @@ local Things = Runtime.Things
 local Thing = Object:extend()
 
 function Thing:new()
+    self.Proxy = Runtime.ObjectProxy.new()
+
     self.Children = {}
     self.Parent = nil 
     self.UUID = CreateUUID()
@@ -11,12 +13,21 @@ function Thing:new()
         Visible = true,
         Icon = "shape_square"
     }
+
+    self.Proxy.Property("Parent") -- I dont think we're gonna store the children of objects in serialization, this will do i think (hopefully)
+    self.Proxy.PropertyAccess("UUID")
 end
 
 function Thing:FindFirstAncestorWithClass(Class)
     return self:GetParentCallback(function(Object)
         return Object:IsA(Class)
     end)
+end
+
+-- From what I know, the == operator cannot have its behavior changed via metatables properly
+-- This is the second best option.
+function Thing:Is(Thing2)
+    return (Thing.UUID == Thing2.UUID)
 end
 
 function Thing:GetParentCallback(Callback)

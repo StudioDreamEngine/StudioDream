@@ -100,7 +100,8 @@ function BaseGui:new()
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
 
-    self.LastSize = self.AbsoluteSize
+    self.Proxy.Property("Size", "Position", "Layer", "Pivot", "BackgroundColor", "ForegroundColor")
+    self.Proxy.PropertyAccess("AbsolutePosition", "AbsoluteSize")
 end
 
 function BaseGui:DrawStyle()
