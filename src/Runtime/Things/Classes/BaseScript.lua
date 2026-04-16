@@ -6,8 +6,12 @@ local BaseScript = Things.Extend("Thing")
 function BaseScript:new()
     self.ScriptContents = ""
     self.ScriptTask = nil
-
     self.IsModule = false
+
+    self.Explorer = {
+        Visible = true,
+        Icon = self.IsModule and "script_code_red" or "script"
+    }
 end
 
 -- Called on initalization of the script
