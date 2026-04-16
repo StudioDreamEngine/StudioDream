@@ -10,6 +10,11 @@ function BaseScript:new()
     self.ScriptContents = nil
     self.ScriptTask = nil
     self.Require = nil -- Required table if it exists
+
+    self.Explorer = {
+        Visible = true,
+        Icon = self.IsModule and "script_code_red" or "script"
+    }
 end
 
 -- Called on initalization of the script
