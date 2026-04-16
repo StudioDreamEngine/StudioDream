@@ -1,28 +1,32 @@
 local Things = Runtime.Things
+local ScriptUtil = Runtime.ScriptUtil
 
 ---@module "Thing"
 local BaseScript = Things.Extend("Thing")
 
 function BaseScript:new()
-    self.ScriptContents = ""
-    self.ScriptTask = nil
+    BaseScript.super.new(self)
 
-    self.IsModule = false
+    self.ScriptContents = nil
+    self.ScriptTask = nil
+    self.Require = nil -- Required table if it exists
 end
 
 -- Called on initalization of the script
 function BaseScript:Load()
-    local Contents = self.ScriptContents
-
-    if (not self.IsModule) then
-        -- TODO: If lua complains, add some code to return a table around self.ScriptContents
+    if self.Require then
+        print("Reloading already loaded script")
+        return self.Require
     end
 
-    local Module = load(Contents, nil, "t", {})
+    local Contents = "return function()\n"..self.ScriptContents.."\nend"
 
-    print(Module)
+    local Globals = ScriptUtil.CreateGlobals(self)
+    local ModuleFunction = load(Contents, self.Name, "t", Globals)()
 
-    return Module
+    self.ScriptTask = Scheduler.NewTask(function()
+        self.Require = ModuleFunction()
+    end)
 end
 
 return BaseScript

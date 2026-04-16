@@ -5,8 +5,6 @@ local RequirableScript = Things.Extend("BaseScript")
 
 function RequirableScript:new()
     RequirableScript.super.new(self)
-
-    self.IsModule = true
 end
 
 return RequirableScript

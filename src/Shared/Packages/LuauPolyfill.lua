@@ -525,7 +525,8 @@ function _G.print(...)
 	local PrintTable = {...}
 	local FormattedPrintTable = {}
 
-	local PrintedFrom = string.split(FirstIndex(string.split(debug.traceback("",2), "\n")[3], " "),":") -- Get the path, no line number
+	local PrintedFrom = string.split(string.split(debug.traceback("",2), "\n")[3],":") -- Get the path, no line number
+
 	local Path = string.sub(PrintedFrom[1], 2)
 	local LineNumber = PrintedFrom[2]
 
@@ -542,7 +543,7 @@ function _G.print(...)
 		end
 	end
 
-	local FinalString = Path..":"..LineNumber..":"
+	local FinalString = Path..":"..(LineNumber)..":"
 
 	for _, v in pairs(FormattedPrintTable) do
 		FinalString = FinalString.." "..v
