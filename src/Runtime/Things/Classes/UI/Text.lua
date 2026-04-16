@@ -9,7 +9,8 @@ function Text:new()
 
     self.Explorer = {
         Visible = true,
-        Icon = "text_replace"
+        UseNewIcon = true,
+        Icon = "Text"
     }
 
     self.TextSize = 12

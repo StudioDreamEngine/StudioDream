@@ -10,7 +10,8 @@ function TextButton:new()
 
     self.Explorer = {
         Visible = true,
-        Icon = "textfield_rename"
+        UseNewIcon = true,
+        Icon = "TextButton"
     }
 
     self.Hovering = false 
