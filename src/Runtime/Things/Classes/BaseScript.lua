@@ -13,7 +13,8 @@ function BaseScript:new()
 
     self.Explorer = {
         Visible = true,
-        Icon = self.IsModule and "script_code_red" or "script"
+        UseNewIcon = true,
+        Icon = self.IsModule and "RequireableScript" or "Script"
     }
 end
 

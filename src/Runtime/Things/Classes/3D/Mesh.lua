@@ -10,7 +10,8 @@ function Mesh:new()
 
     self.Explorer = {
         Visible = true,
-        Icon = "brick"
+        UseNewIcon = true,
+        Icon = "MeshPart"
     }
     self.MeshFile = nil
     self.Anchored = true
