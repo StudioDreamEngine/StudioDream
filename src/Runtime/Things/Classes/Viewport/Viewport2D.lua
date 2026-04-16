@@ -17,8 +17,16 @@ function Viewport2D:new()
 end
 
 local function SortByDepth(List)
-	table.sort(List, function(a,b) return a.Layer < b.Layer end)
-	return List
+    local TempList = {}
+
+    for _, Child in pairs(List) do
+        if Child:IsA("BaseGui") then
+            table.insert(TempList, Child)
+        end
+    end
+
+	table.sort(TempList, function(a,b) return a.Layer < b.Layer end)
+	return TempList
 end
 
 -- Submit the children of an object/thing to the display list

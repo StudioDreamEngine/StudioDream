@@ -33,7 +33,11 @@ end
 function ScriptUtil.CreateGlobals(Script)
     return {
         script = Script,
-
+        wait = Scheduler.Yield,
+        print = print,
+        require = function(Object)
+            return Object:Load()
+        end
     }
 end
 

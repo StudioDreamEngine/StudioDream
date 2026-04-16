@@ -41,6 +41,12 @@ return function()
         Name = "Bleh"
     }
 
+    local ScriptTest = Things.Create("Script") {
+        Parent = Viewport,
+        Name = "TestScript",
+        ScriptContents = "while true do wait(1) print(\"Hello World\") end"
+    }
+
     --[[local ButtonTest = Things.Create("Folder") {
         Parent = Viewport,
         Name = "Folder Test!"
