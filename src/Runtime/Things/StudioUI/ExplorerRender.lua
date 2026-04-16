@@ -12,10 +12,10 @@ local NodeColor = Color.new(0.314, 0.294, 0.502)
 local WindowColor = Color.new(0.106, 0.09, 0.188)
 local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
-local function RenderIcon(IconName, VectorPos, Container)
+local function RenderIcon(IconName, VectorPos, Container, UseNewIcon)
     local ImageThing = Things.Create("Image2D") {
         Size = Pivot2D.FromOffset(16,16),
-        Image = "Assets/EditorIcons/16/" .. IconName .. ".png",
+        Image = IconName == "Icon_Not_Found" and "Assets/EditorIcons/32/Icon_Not_Found.png" or (UseNewIcon == true and "Assets/EditorIcons/32/" .. IconName .. ".png" or "Assets/EditorIcons/16/" .. IconName .. ".png"),
         Pivot = Vector2.new(1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
         Parent = Container
@@ -86,8 +86,8 @@ local function RenderNode(Thing, currentY, depth ,XPos, View)
         LoopWhileHold(NodeContainer,View)
     end)
     
-    local icon = Thing.Explorer.Icon or "cancel"
-    RenderIcon(icon, iconPos, NodeContainer)
+    local icon = Thing.Explorer.Icon or "Icon_Not_Found"
+    RenderIcon(icon, iconPos, NodeContainer, Thing.Explorer.UseNewIcon)
     currentY = currentY + RowHeight
 
     for _, Child in pairs(Thing:GetChildren()) do
