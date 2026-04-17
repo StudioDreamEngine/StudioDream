@@ -25,11 +25,11 @@ function Base3D:Update(dt)
     local Drawable = self.Drawable
 
     Drawable:resetTransform()
+    Drawable:scaleWorld(self.Size.X, self.Size.Y, self.Size.Z)
     Drawable:translate(self.Position.X, self.Position.Y, self.Position.Z)
     Drawable:rotateX(self.Orientation.X)
     Drawable:rotateY(self.Orientation.Y)
     Drawable:rotateZ(self.Orientation.Z)
-    Drawable:scaleWorld(self.Size.X, self.Size.Y, self.Size.Z)
 end
 
 return Base3D

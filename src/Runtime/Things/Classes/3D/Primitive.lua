@@ -14,16 +14,21 @@ function Primitive:new()
         Icon = "MeshPart"
     }
     self.Shape = Enum.Shape.Brick
-
+    
     self._LastShape = self.Shape
+    self:CheckShape()
 end
 
-function Primitive:Update(dt)
+function Primitive:CheckShape()
     if self._LastShape ~= self.Shape or not self.Drawable then
         self.Drawable = Dream:loadObject('Assets/' .. self.Shape)
         print("[Primitive] made new Drawable")
     end
     self._LastShape = self.Shape
+end
+
+function Primitive:Update(dt)
+    self:CheckShape()
 
     Primitive.super.Update(self, dt)
 end

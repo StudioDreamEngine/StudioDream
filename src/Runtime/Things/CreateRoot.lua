@@ -44,6 +44,9 @@ return function()
         Name = "Baseplate"
     }
 
+    Primitive.Position = Vector3.new(0, -1, 0)
+    Primitive.Size = Vector3.new(512, 8, 512)
+
     --[[local ButtonTest = Things.Create("Folder") {
         Parent = Viewport,
         Name = "Folder Test!"
