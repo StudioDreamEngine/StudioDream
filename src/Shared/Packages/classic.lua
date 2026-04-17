@@ -10,6 +10,8 @@
 local Object = {}
 Object.__index = Object
 
+Object.Type = "ClassicObject"
+
 function Object:new()
   
 end
