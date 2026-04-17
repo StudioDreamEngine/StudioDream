@@ -2,7 +2,7 @@ local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
 ---@module 'Thing'
----@class BaseGui
+---@class BaseGui: Thing
 local BaseGui = Things.Extend("Thing")
 
 function BaseGui:GetOffsetPosition()

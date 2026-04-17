@@ -344,6 +344,7 @@ do
 			return {
 				X = Object.X, 
 				Y = Object.Y,
+				Type = "SimpleVector2",
 				Simple = true
 			}
 		end

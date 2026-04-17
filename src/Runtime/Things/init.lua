@@ -14,6 +14,7 @@ function Things.Init()
         Classes[Name] = v
     end
 
+    -- TODO: Root should be an object
     Things.Root = require("Runtime.Things.CreateRoot")()
 end
 
@@ -34,10 +35,10 @@ function Things.GetRoot(Name)
 end
 
 function Things.ClearRoot()
-    for _, Object in pairs(Things.Root) do
-        --if (not Object.CannotClear) then
-            Object:ClearAllChildren()
-        --end
+    for _, Object in pairs(Things.Root:GetChildren()) do
+        if Object.Serializable then
+            Object:Destroy() -- We'ill have to recreate the entire root anyways
+        end
     end
 end
 

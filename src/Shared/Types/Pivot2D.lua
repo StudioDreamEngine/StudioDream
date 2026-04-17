@@ -4,14 +4,13 @@ function Pivot2D.new(OffsetX, ScaleX, OffsetY, ScaleY)
     local PivotObject = {}
 
     PivotObject.Offset = Vector2.new(OffsetX, OffsetY)
-    PivotObject.Scale = Vector2.new(ScaleX, ScaleY)
+    PivotObject.Scale = Vector2.new(ScaleX, ScaleY) -- TODO: Rename to Pivot instead of scale
 
     PivotObject.Type = "Pivot2D"
 
     return PivotObject
 end
 
--- TODO
 function Pivot2D.FromScale(Scale, ScaleY)
     if ScaleY then
         return Pivot2D.new(0, Scale, 0, ScaleY)
