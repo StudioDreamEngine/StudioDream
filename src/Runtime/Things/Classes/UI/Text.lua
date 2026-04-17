@@ -29,7 +29,7 @@ function Text:new()
 end
 
 function Text:PerformWrap(CurrentSize, WrapLength)
-    self.RenderFont = love.graphics.newFont("Assets/Fonts/Arimo.ttf",CurrentSize)
+    self.RenderFont = love.graphics.newFont("Assets/Fonts/Arial.ttf",CurrentSize)
 
     local width, lines = self.RenderFont:getWrap(self.Text, WrapLength)
 
