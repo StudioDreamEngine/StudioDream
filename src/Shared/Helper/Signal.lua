@@ -47,6 +47,11 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 
 		return SingleEventObject
 	end
+
+	function EventObject:Destroy()
+		Events = {}
+		EventObject = {}
+	end
 	
 	function EventObject:Connect(func,listener) 
 		local EventId = NewEventID()

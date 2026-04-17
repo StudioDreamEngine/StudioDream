@@ -87,6 +87,10 @@ function Thing:GetChildren()
     return ReturnedChildren
 end
 
+function Thing:OnRemove()
+    self:ClearAllChildren()
+end
+
 function Thing:GetDescendants()
     local ReturnedDescendants = {}
 
@@ -119,12 +123,16 @@ function Thing:FindFirstChild(Name)
 end
 
 function Thing:ClearAllChildren(NameFilter)
+    NameFilter = NameFilter or {}
+
     for ChildUUID,_ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)
         if not NameFilter[Child.Name] then
             Things.Remove(Child)
         end
     end 
+
+    self.Children = {}
 end
 
 function Thing:Update()

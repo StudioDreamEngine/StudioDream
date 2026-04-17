@@ -6,7 +6,7 @@ return function()
     local Viewport = Things.Create("Viewport2D") {
         Name = "ViewportInternal",
         Size = Pivot2D.FromOffset(800, 600),
-        Root = true
+        CannotClear = true
     }
 
     ---@module "TextButton"
@@ -20,6 +20,7 @@ return function()
     
     ButtonTest.Clicked:Connect(function()
         print("Button Click")
+        Things.ClearRoot()
     end)
 
     local MainViewport = Things.Create("Viewport3D") {
