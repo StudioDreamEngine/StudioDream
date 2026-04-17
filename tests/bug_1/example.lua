@@ -10,13 +10,13 @@ function Things.Init()
     Test.Name = "SquareTest"
     Test:AddChild(Parent)
 
-    print_table(Parent.Children)
+    Print_table(Parent.Children)
 
     local Test2 = Things.Type("Extended")
     Test2.Name = "SquareTest2"
     Test2:AddChild(Parent)
 
-    print_table(Parent.Children)
+    Print_table(Parent.Children)
 end
 
 return Things
