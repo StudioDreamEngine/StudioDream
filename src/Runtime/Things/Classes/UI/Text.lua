@@ -22,6 +22,8 @@ function Text:new()
     self.AlignX = Enum.AlignmentX.Center
     self.AlignY = Enum.AlignmentY.Center
 
+    self.FontFile = nil
+
     self.RenderFont = nil
     self.TextBounds = Vector2.zero
 
@@ -29,7 +31,7 @@ function Text:new()
 end
 
 function Text:PerformWrap(CurrentSize, WrapLength)
-    self.RenderFont = love.graphics.newFont("Assets/Fonts/Arial.ttf",CurrentSize)
+    self.RenderFont = love.graphics.newFont(self.FontFile or "Assets/Fonts/Roboto/Roboto-Medium.ttf",CurrentSize)
 
     local width, lines = self.RenderFont:getWrap(self.Text, WrapLength)
 
