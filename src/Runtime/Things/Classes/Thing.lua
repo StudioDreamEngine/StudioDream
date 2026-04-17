@@ -14,7 +14,7 @@ function Thing:new()
         Icon = "shape_square"
     }
 
-    self.Proxy.Property("Parent") -- I dont think we're gonna store the children of objects in serialization, this will do i think (hopefully)
+    self.Proxy.Property("Parent")
     self.Proxy.PropertyAccess("UUID")
 end
 
