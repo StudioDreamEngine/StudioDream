@@ -40,12 +40,17 @@ return function()
         ScriptContents = "while true do wait(1) print(\"Hello World\") end"
     }
 
+    local Primitive = Things.Create("Primitive") {
+        Name = "Baseplate"
+    }
+
     --[[local ButtonTest = Things.Create("Folder") {
         Parent = Viewport,
         Name = "Folder Test!"
     }]]
 
     Mesh:SetParent(MainViewport)
+    Primitive:SetParent(MainViewport)
 
     return { Viewport = Viewport }
 end
