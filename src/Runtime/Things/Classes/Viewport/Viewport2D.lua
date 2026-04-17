@@ -3,6 +3,7 @@ local Renderer = Runtime.Renderer
 
 -- using @module here gives the lua language server a base type to use!
 ---@module 'Viewport'
+---@class Viewport2D
 local Viewport2D = Things.Extend("Viewport")
 
 function Viewport2D:new()

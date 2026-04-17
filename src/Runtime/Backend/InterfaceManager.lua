@@ -36,7 +36,7 @@ local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
 function InterfaceManager.CreateWindow(Size,Position,View)
     local Windows = {}
-    Windows.Container = Runtime.Things.Create "SquarePrimative" { 
+    Windows.Container = Runtime.Things.Create "Square" { 
       Size = Size,
        Explorer = {
         Visible = false,
@@ -49,7 +49,7 @@ function InterfaceManager.CreateWindow(Size,Position,View)
        Parent = View
     }
     
-    Windows.BackWindow = Runtime.Things.Create "SquarePrimative" {
+    Windows.BackWindow = Runtime.Things.Create "Square" {
        Size = Pivot2D.FromScale(0.9,0.9),
        Position = Pivot2D.FromScale(0.5,0.5),
        Pivot = Vector2.new(0.5,0.5),

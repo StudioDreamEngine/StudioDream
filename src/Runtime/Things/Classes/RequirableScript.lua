@@ -1,6 +1,7 @@
 local Things = Runtime.Things
 
 ---@module "Thing"
+---@class RequirableScript
 local RequirableScript = Things.Extend("BaseScript")
 
 function RequirableScript:new()

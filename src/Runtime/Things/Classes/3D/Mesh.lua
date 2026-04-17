@@ -2,6 +2,7 @@ local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
 ---@module 'Base3D'
+---@class Mesh
 local Mesh = Things.Extend("Base3D")
 
 function Mesh:new()
