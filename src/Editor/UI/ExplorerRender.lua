@@ -4,9 +4,9 @@ local ExplorerContainer
 local ExplorerContainer1
 local TreeStarter
 
-local RowHeight = 24
+local RowHeight = 21
 local IndentSize = 16
-local IconsSize = 16 -- i will change this when we actually start making icons frfr
+local IconsSize = 20 -- no you wont
 
 local NodeColor = Color.new(0.314, 0.294, 0.502)
 local WindowColor = Color.new(0.106, 0.09, 0.188)
