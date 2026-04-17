@@ -54,8 +54,9 @@ function ViewportManager.Update(dt)
     Dream:update(dt)
 end
 
+local RootViewport
+
 function love.resize(w,h)
-    local RootViewport = Things.Root.Viewport
     RootViewport:SetSize(Pivot2D.FromOffset(w,h))
 end
 
@@ -72,7 +73,7 @@ function ViewportManager.Render()
         end
     Profiler:stop()
 
-    local RootViewport = Things.Root.Viewport
+    RootViewport = Things.Root:FindFirstChild("ViewportInternal")
     ViewportManager.RenderCanvas(RootViewport)
 end
 

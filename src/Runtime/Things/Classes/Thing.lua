@@ -5,6 +5,15 @@ local Things = Runtime.Things
 local Thing = Object:extend()
 
 function Thing:new()
+    --[[
+        This is used for the engine type, its so that other parts can know that THIS table is an instance, 
+        This is not needed for other classes, MIKL...!
+
+        - Bloctans :3
+    ]]
+    self.Type = "Thing"
+    self.Serializable = true
+    
     self.Proxy = Runtime.ObjectProxy.new()
 
     self.Children = {}
@@ -137,7 +146,6 @@ function Thing:ClearAllChildren(NameFilter)
     self.Children = {}
 end
 
-function Thing:Update()
-end
+function Thing:Update() end
 
 return Thing
