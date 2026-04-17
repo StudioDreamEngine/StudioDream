@@ -13,7 +13,7 @@ function UI.Init(Viewport)
 
     require("Editor.UI.ExplorerRender")(Viewport, ExplorerViewport)
     require("Editor.UI.TopBar")(Viewport, ExplorerViewport)
-    require("Editor.UI.PropertiesRender")(Viewport, ExplorerViewport)
+    require("Editor.UI.PropertiesRender"):Init(Viewport, ExplorerViewport)
 end
 
 return UI

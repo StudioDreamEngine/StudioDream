@@ -15,7 +15,7 @@ local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 local function RenderIcon(IconName, VectorPos, Container, UseNewIcon)
     local ImageThing = Things.Create("Image2D") {
         Size = Pivot2D.FromOffset(IconsSize,IconsSize), -- used to be 16,16
-        Image = IconName == "Icon_Not_Found" and "Assets/EditorIcons/32/Icon_Not_Found.png" or (UseNewIcon == true and "Assets/EditorIcons/32/" .. IconName .. ".png" or "Assets/EditorIcons/16/" .. IconName .. ".png"),
+        Image = UseNewIcon and ("Assets/EditorIcons/32/" .. IconName .. ".png" or "Assets/EditorIcons/32/Icon_Not_Found.png") or "Assets/EditorIcons/32/File_With_Problem.png",
         Pivot = Vector2.new(1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
         Parent = Container
@@ -83,7 +83,9 @@ local function RenderNode(Thing, currentY, depth ,XPos, View)
     NodeContainer:SetParent(ExplorerContainer)
 
     NodeContainer.Clicked:Connect(function()
-        LoopWhileHold(NodeContainer,View)
+        -- One click selects the thing
+        -- Hold makes u edit their parent
+        -- Two clicks makes an special action (Open script, ect ect)
     end)
     
     local icon = Thing.Explorer.Icon or "Icon_Not_Found"
