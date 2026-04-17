@@ -13,6 +13,14 @@ function Utils.IntersectPoint2D(Rect, Point)
     return (XIntersect and YIntersect)
 end
 
+function Utils.TypeOf(Object)
+    if type(Object) == "table" then
+        return Object.Type or "Undefined/Table"
+    else
+        return type(Object)
+    end
+end
+
 function Utils.AssertType(Object, ExpectedType, Extra)
     assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
 end

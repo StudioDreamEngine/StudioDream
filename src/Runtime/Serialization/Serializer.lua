@@ -2,17 +2,15 @@
 local Things = Runtime.Things
 local Serializer = {}
 
--- Serialize all things as a table of objects
----@param Object Thing
-function Serializer.Serialize(Object)
-    local Final = {}
+Serializer.Objects = require("Runtime.Serialization.Objects")
 
-    
+function Serializer.Serialize()
+    local ObjectTable = Serializer.Objects.SerializeObjects(Things.Root)
 
-    return Binser.serialize(Final)
+    print(ObjectTable)
 end
 
-function Serializer.Deserialize()
+function Serializer.Deserialize(Content)
     
 end
 
