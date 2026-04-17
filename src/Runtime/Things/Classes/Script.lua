@@ -1,6 +1,7 @@
 local Things = Runtime.Things
 
 ---@module "Thing"
+---@class Script
 local Script = Things.Extend("BaseScript")
 
 function Script:new()

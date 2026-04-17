@@ -21,7 +21,12 @@ function Things.Get(UUID)
     return Objects[UUID]
 end
 
-function Things.Type(ThingType) return require(Classes[ThingType]) end
+function Things.Type(ThingType) 
+    assert(Classes[ThingType], "Thing Class "..ThingType.." doesnt exist!")
+
+    return require(Classes[ThingType]) 
+end
+
 function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
 function Things.GetRoot(Name)

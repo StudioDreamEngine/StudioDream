@@ -1,5 +1,15 @@
 local Runtime = {}
 
+-- Configure CPath
+local CurrentOS = love.system.getOS()
+
+local Extensions = {
+    Linux = "so",
+    Windows = "dll"
+}
+
+package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?."..Extensions[CurrentOS]
+
 Runtime.Things = require("Runtime.Things")
 Runtime.Renderer = require("Runtime.Renderer")
 Runtime.Backend = require("Runtime.Backend")

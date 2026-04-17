@@ -15,6 +15,7 @@ return function ()
     Dream = require("Shared.Packages.3DreamEngine")
     Object = require("Shared.Packages.classic")
     Binser = require("Shared.Packages.Binser")
+    FileDialog = require("Shared.Packages.filedialog")
 
     -- Helpers
     Signal = require("Shared.Helper.Signal")
