@@ -24,6 +24,10 @@ end
 function Things.Type(ThingType) return require(Classes[ThingType]) end
 function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
+function Things.GetRoot(Name)
+    return Things.Root[Name]
+end
+
 -- Luawiz create instance code
 function Things.Create(Object, Parent)
     Object = (type(Object) == "string" and Things.New(Object) or Object)

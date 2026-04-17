@@ -33,6 +33,8 @@ function BaseScript:Load()
     self.ScriptTask = Scheduler.NewTask(function()
         self.Require = ModuleFunction()
     end)
+
+    return self.Require
 end
 
 return BaseScript

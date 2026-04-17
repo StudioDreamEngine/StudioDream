@@ -9,7 +9,7 @@ function ScriptLoader.LoadScript(Path, IsRequirable)
     local Script = Things.New(IsRequirable and "RequireableScript" or "Script")
 
     -- TODO: Replace with ResourcableThing system once added
-    Script.ScriptContents = love.filesystem.read(Path)
+    Script:SetScriptContents(love.filesystem.read(Path))
 
     return Script
 end
