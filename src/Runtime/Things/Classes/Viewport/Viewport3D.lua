@@ -19,7 +19,7 @@ end
 
 function Viewport3D:SubmitContainerChildren(Container)
     for _, Child in pairs(Container:GetChildren()) do
-        if Child:IsA("Mesh") then
+        if Child:IsA("Base3D") then
             self:SendChild(Child.Drawable)
         end
     end

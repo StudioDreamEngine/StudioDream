@@ -1,9 +1,8 @@
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
----@module 'BaseGui'
-
-local Mesh = Things.Extend("Thing")
+---@module 'Base3D'
+local Mesh = Things.Extend("Base3D")
 
 function Mesh:new()
     Mesh.super.new(self)
@@ -20,11 +19,10 @@ function Mesh:new()
 end
 
 function Mesh:Update(dt)
-    local Drawable = self.Drawable
-
-    Drawable:resetTransform()
-    Drawable:translate(0,math.sin(GlobalTick*4)/2,-5)
-    Drawable:rotateY(GlobalTick*2)
+    Mesh.super.Update(self, dt)
+    
+    self.Position = Vector3.new(0, math.sin(GlobalTick * 4) / 2, -5)
+    self.Orientation = Vector3.new(0, GlobalTick * 2, 0)
 end
 
 return Mesh
