@@ -34,7 +34,7 @@ end
 function Viewport2D:SubmitContainerChildren(Container)
     --[[
         We need to sort every child based on their layer before submitting anything
-        This is not much of a HACK, as it is a clever way of doing z-indexing with the way rendering is setup
+        This is not much of a HACK, but it's a clever way of doing z-indexing with the way rendering is setup
         
         - Bloctans
     ]]

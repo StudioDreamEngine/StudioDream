@@ -24,6 +24,12 @@ function TextButton:new()
     end)
 end
 
+function TextButton:OnRemove()
+    TextButton.super.OnRemove(self)
+
+    self.Clicked:Destroy()
+end
+
 function TextButton:Update(dt)
     TextButton.super.Update(self)
 

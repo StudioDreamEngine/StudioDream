@@ -28,6 +28,14 @@ function Things.GetRoot(Name)
     return Things.Root[Name]
 end
 
+function Things.ClearRoot()
+    for _, Object in pairs(Things.Root) do
+        --if (not Object.CannotClear) then
+            Object:ClearAllChildren()
+        --end
+    end
+end
+
 -- Luawiz create instance code
 function Things.Create(Object, Parent)
     Object = (type(Object) == "string" and Things.New(Object) or Object)
@@ -67,8 +75,8 @@ function Things.New(ThingType)
 end
 
 function Things.Remove(Thing)
-    local UUID = Thing.UUID
-    Objects[UUID] = nil
+    Thing:OnRemove()
+    Objects[Thing.UUID] = nil
 end
 
 function Things.Update(dt)
