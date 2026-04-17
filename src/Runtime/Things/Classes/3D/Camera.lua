@@ -2,7 +2,7 @@ local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
 ---@module 'Thing'
-
+---@class Camera
 local Camera = Things.Extend("Thing")
 
 function Camera:new()

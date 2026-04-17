@@ -2,10 +2,11 @@ local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
 ---@module 'BaseGui'
-local ImagePrimative = Things.Extend("BaseGui")
+---@class Image2D
+local Image2D = Things.Extend("BaseGui")
 
-function ImagePrimative:new()
-    ImagePrimative.super.new(self)
+function Image2D:new()
+    Image2D.super.new(self)
 
     self.Explorer = {
         Visible = true,
@@ -15,12 +16,12 @@ function ImagePrimative:new()
     self.Image = nil
 end
 
-function ImagePrimative:SetImage(NewImage)
+function Image2D:SetImage(NewImage)
     self.Image = NewImage
     self.ImageFile = Runtime.Backend2D.NewImage(NewImage)
 end
 
-function ImagePrimative:Draw()
+function Image2D:Draw()
     if (not self.ImageFile) then return end -- TODO: Placeholder image
 
     -- Proper scaling of images
@@ -30,4 +31,4 @@ function ImagePrimative:Draw()
     love.graphics.draw(self.ImageFile,0,0,0,ScaleX, ScaleY)
 end
 
-return ImagePrimative
+return Image2D

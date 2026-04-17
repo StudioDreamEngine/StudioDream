@@ -1,6 +1,7 @@
 local Things = Runtime.Things
 
 ---@module "Viewport"
+---@class Viewport3D
 local Viewport3D = Things.Extend("Viewport")
 
 function Viewport3D:new()

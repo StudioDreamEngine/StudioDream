@@ -1,6 +1,7 @@
 local Things = Runtime.Things
 
 ---@module 'Thing'
+---@class Folder
 local Folder = Things.Extend("Thing")
 
 function Folder:new() 

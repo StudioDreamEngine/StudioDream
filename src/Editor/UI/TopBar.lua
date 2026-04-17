@@ -46,7 +46,7 @@ local function RenderButton(Text,Size,Parent,PositionS,ClickFunc)
 end
 
 return function(TreeStarter)
-    ExplorerContainer = Things.Create "SquarePrimative" { 
+    ExplorerContainer = Things.Create "Square" { 
        Size = Pivot2D.FromScale(1,0.05),
        Pivot = Vector2.new(0.5,1),
        Position = Pivot2D.FromScale(0.5,0.05),

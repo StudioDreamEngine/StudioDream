@@ -1,8 +1,9 @@
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
----@module 'SquarePrimative'
-local Text = Things.Extend("SquarePrimative")
+---@module 'Square'
+---@class Text
+local Text = Things.Extend("Square")
 
 function Text:new()
     Text.super.new(self)
