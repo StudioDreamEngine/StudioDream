@@ -28,13 +28,13 @@ function Main.AddGlobal(Name)
     })
 end
 
-function Main.AddThingToGlobal(Where,What) -- make this suport trails (aka Example.Example.Example) and aways add as a child
+--[[function Main.AddThingToGlobal(Where,What) -- make this suport trails (aka Example.Example.Example) and aways add as a child
     if Globals[Where] then
         return Globals[Where][What] = {}
     else
         error("Coulnt find "..Where.."" Global."")
     end
-end
+end]]
 
 function Main.NotifyGlobalChange()
     local self = {}

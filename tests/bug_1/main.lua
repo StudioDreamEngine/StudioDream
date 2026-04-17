@@ -1,7 +1,7 @@
 Object = require("classic")
 Things = require("example")
 
-function print_table(tablea)
+function Print_table(tablea)
     print("New table")
     for i,v in pairs(tablea) do
         print(i,v)
