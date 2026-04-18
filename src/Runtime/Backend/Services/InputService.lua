@@ -1,12 +1,23 @@
 local InputService = {}
+local CurrentPs
+
+local EnumReversed = {}
+
+function ReverseEnum()
+    for i,v in pairs(Enum.InputCode) do
+        EnumReversed[v] = i
+    end
+end
 
 function InputService:Init()
-    self.CurrentPressed = nil
-
+    print("hi i inited!")
+    self.CurrentPressed = {}
+    CurrentPs = self.CurrentPressed
     self.EventsConnected = {
         Began = {},
         Ended = {}
     }
+    ReverseEnum()
 end
 
 function InputService:IsKeyDown(Key) -- Be enum based
@@ -27,15 +38,15 @@ function InputService:InputEnded()
     return Signal
 end
 
-local function NotifyInput(IsBegan, Key)
-    local EventIn = IsBegan and self.EventsConnected.Began or self.EventsConnected.Ended
+function NotifyInput(IsBegan, Key, EventPass)
+    local EventIn = IsBegan and EventPass.Began or EventPass.Ended
 
     for _, Signal in pairs(EventIn) do
         Signal:Invoke(Key)
     end
 end
 
-function InputService:GetJoystickInfo()
+function InputService:GetJoystickInfo() -- Change this to input changed or something liek that
     local selfed = {}
 
     function selfed:GetJoystickAxis()
@@ -45,14 +56,23 @@ function InputService:GetJoystickInfo()
     return selfed
 end
 
-function love.keypressed(Key)
-    self.CurrentPressed = Key
-    NofifyInput(true,Key)
+function ToEnum(key)
+    return EnumReversed[key] or "None"
 end
 
-function love.keyreleased(Key)
-   self.CurrentPressed = nil
-   NofifyInput(false,Key)
+function InputService:keypressed(Key)
+    Key = ToEnum(Key)
+    self.CurrentPressed[Key] = true
+    NotifyInput(true,Key,self.EventsConnected)
+    print(Key)
+    print(self.CurrentPressed)
+end
+
+function InputService:keyreleased(Key)
+    Key = ToEnum(Key)
+    self.CurrentPressed[Key] = nil
+    NotifyInput(false,Key,self.EventsConnected)
+   -- print(Key)
 end
 
 return InputService

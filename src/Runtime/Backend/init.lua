@@ -8,10 +8,22 @@ function Backend.Init()
 
     Runtime.ScriptUtil = require("Runtime.Backend.ScriptUtility")
     Runtime.ObjectProxy = require("Runtime.Backend.ObjectProxy")
+
+    Runtime.Services = {}
+    Runtime.Services.InputService = require("Runtime.Backend.Services.InputService")
+    Runtime.Services.InputService:Init()
 end
 
 function Backend.Update(dt)
     Runtime.InterfaceManager.Update(dt)
+end
+
+function love.keypressed(Key)
+    Runtime.Services.InputService:keypressed(Key)
+end
+
+function love.keyreleased(Key)
+    Runtime.Services.InputService:keyreleased(Key)
 end
 
 return Backend
