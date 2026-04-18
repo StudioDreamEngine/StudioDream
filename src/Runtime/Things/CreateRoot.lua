@@ -4,6 +4,11 @@ local Things = Runtime.Things
 return function()
     local Root = Things.Create("Container", "Root") {
         Name = "Root",
+        Explorer = {
+            UseNewIcon = true,
+            Visible = true,
+            Icon = "Root",
+        },
         Serializable = false
     }
 
