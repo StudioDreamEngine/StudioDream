@@ -4,7 +4,7 @@ Editor.Camera = require("Editor.cameraController")
 Editor.UI = require("Editor.UI")
 
 function Editor.Init()
-    Editor.UI.Init(Runtime.Things.GetRoot("Viewport"))
+    Editor.UI.Init(Runtime.Things.GetRoot("ViewportInternal"))
 end
 
 function Editor.Render(dt)

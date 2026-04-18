@@ -5,6 +5,7 @@ Serialization.CurrentSerializer = "Binary" -- This will be used in the future, f
 local Serializer = require("Runtime.Serialization.Serializer")
 
 function Serialization.Load(File)
+    Serializer.Deserialize()
 end
 
 local Root = Runtime.Things.Root

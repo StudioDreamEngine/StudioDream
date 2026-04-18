@@ -73,7 +73,7 @@ function ViewportManager.Render()
         end
     Profiler:stop()
 
-    RootViewport = Things.Root:FindFirstChild("ViewportInternal")
+    RootViewport = Things.GetRoot("ViewportInternal")
     ViewportManager.RenderCanvas(RootViewport)
 end
 

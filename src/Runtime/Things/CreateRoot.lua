@@ -2,8 +2,8 @@ local Things = Runtime.Things
 
 -- Create our DataModel/Root here
 return function()
-    local Root = Things.Create("Container") {
-        Name = "RootInternal",
+    local Root = Things.Create("Container", "Root") {
+        Name = "Root",
         Serializable = false
     }
 
@@ -29,6 +29,16 @@ return function()
 
     SaveTest.Clicked:Connect(function()
         Runtime.Serializer.Save()
+    end)
+
+    ---@module 'TextButton'
+    local LoadTest = Things.Create("TextButton") {
+        Parent = Viewport,
+        Position = Pivot2D.FromScale(0.1,0.8)
+    }
+
+    LoadTest.Clicked:Connect(function()
+        Runtime.Serializer.Load()
     end)
 
     Things.Create("Viewport3D") {
