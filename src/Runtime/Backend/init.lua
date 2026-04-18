@@ -16,6 +16,7 @@ end
 
 function Backend.Update(dt)
     Runtime.InterfaceManager.Update(dt)
+    Runtime.Services.InputService:Update(dt)
 end
 
 function love.keypressed(Key)
@@ -24,6 +25,14 @@ end
 
 function love.keyreleased(Key)
     Runtime.Services.InputService:keyreleased(Key)
+end
+
+function love.gamepadpressed(joy, Key)
+    Runtime.Services.InputService:gamepadpressed(joy,Key)
+end
+
+function love.gamepadreleased(joy, Key)
+    Runtime.Services.InputService:gamepadreleased(joy,Key)
 end
 
 return Backend
