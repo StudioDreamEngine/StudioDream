@@ -1,3 +1,4 @@
+-- I dont like the organization of this much...
 local Things = {}
 
 -- AllThings doesnt roll off the tounge as well
@@ -5,59 +6,59 @@ local Objects = {}
 local Classes = {}
 
 function Things.Init()
-    local ClassesList = Utils.GetFolderDescendants("Runtime/Things/Classes/", false, true)
+    Classes = Utils.LoadModules("Runtime/Things/Classes/")
 
-    for _, v in pairs(ClassesList) do
-        local Path = string.split(v, "%/")
-        local Name = Path[#Path]
-
-        Classes[Name] = v
-    end
-
-    -- TODO: Root should be an object
     Things.Root = require("Runtime.Things.CreateRoot")()
 end
 
-function Things.Get(UUID)
-    return Objects[UUID]
-end
 
-function Things.Type(ThingType) 
-    assert(Classes[ThingType], "Thing Class "..ThingType.." doesnt exist!")
 
-    return require(Classes[ThingType]) 
-end
-
-function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
-
-function Things.GetRoot(Name)
-    return Things.Root[Name]
+function Things.GetRoot(Object)
+    return Things.Root:FindFirstChild(Object)
 end
 
 function Things.ClearRoot()
     for _, Object in pairs(Things.Root:GetChildren()) do
         if Object.Serializable then
-            Object:Destroy() -- We'ill have to recreate the entire root anyways
+            print(Object.Name)
+            Things.Remove(Object)
         end
     end
 end
 
--- Luawiz create instance code
-function Things.Create(Object, Parent)
-    Object = (type(Object) == "string" and Things.New(Object) or Object)
 
-    if Parent then
-        Object.Parent = Parent
+
+
+function Things.Type(ThingType) 
+    assert(Classes[ThingType], "Thing Class "..ThingType.." doesnt exist!")
+    return require(Classes[ThingType]) 
+end
+
+function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
+
+
+
+
+function Things.SetProperty(Object, Index, Value)
+    local HasSetter = Object["Set"..Index]
+
+    if HasSetter then
+        HasSetter(Object, Value)
+    else
+        Object[Index] = Value
     end
+end
+
+-- Luawiz create instance code
+function Things.Create(Object, UUID)
+    Object = (type(Object) == "string" and Things.New(Object, UUID) or Object)
 
     return function(Properties)
         for Index, Value in pairs(Properties) do
-            if Object["Set"..Index] then
-                Object["Set"..Index](Object, Value)
-            elseif tonumber(Index) then
+            if tonumber(Index) then
                 Value.Parent = Object
             else
-                Object[Index] = Value
+                Things.SetProperty(Object, Index, Value)
             end
         end
 
@@ -65,7 +66,7 @@ function Things.Create(Object, Parent)
     end
 end
 
-function Things.New(ThingType)
+function Things.New(ThingType, CustomUUID)
     local Thing = Things.Type(ThingType)()
 
     assert(Thing, "Invalid type ("..ThingType..")")
@@ -74,10 +75,19 @@ function Things.New(ThingType)
     Thing.__tostring = function(self) return "<"..ThingType..">"..self.Name end
 
     Thing.Name = ThingType
+    Thing.ClassName = ThingType
+
+    if CustomUUID then
+        Thing.UUID = CustomUUID
+    end
 
     Objects[Thing.UUID] = Thing
 
     return Thing
+end
+
+function Things.Get(UUID)
+    return Objects[UUID]
 end
 
 function Things.Remove(Thing)

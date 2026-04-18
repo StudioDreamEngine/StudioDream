@@ -57,11 +57,17 @@ function Thing:GetParentCallback(Callback)
 end
 
 function Thing:SetParent(NewParent)
-    if NewParent ~= self then
+    if NewParent == self then
+        error("Cannot parent Thing to itself.")
+    end
+
+    if self.Parent then
+        self.Parent.Children[self.UUID] = nil
+    end
+
+    if NewParent then
         self.Parent = NewParent
         NewParent.Children[self.UUID] = true
-    else
-        print("Cannot parent Thing to itself.")
     end
 end
 
@@ -99,6 +105,7 @@ function Thing:GetChildren()
 end
 
 function Thing:OnRemove()
+    self:SetParent()
     self:ClearAllChildren()
 end
 

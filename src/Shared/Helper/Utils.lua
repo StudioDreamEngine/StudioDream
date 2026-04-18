@@ -25,6 +25,20 @@ function Utils.AssertType(Object, ExpectedType, Extra)
     assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
 end
 
+function Utils.LoadModules(Path)
+    local Classes = {}
+    local ClassesList = Utils.GetFolderDescendants(Path, false, true)
+
+    for _, v in pairs(ClassesList) do
+        local Path = string.split(v, "%/")
+        local Name = Path[#Path]
+
+        Classes[Name] = v
+    end
+
+    return Classes
+end
+
 -- Returns a table of all the files in a folder, regardless of if a file was nested or not
 function Utils.GetFolderDescendants(Folder, NoPath, NoExtension)
     local FolderData = {}

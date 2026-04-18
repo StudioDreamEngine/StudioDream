@@ -3,10 +3,13 @@ local Things = Runtime.Things
 ---@class Enviornment
 local Enviornment = Things.Extend("Thing")
 
-function Enviornment:Init()
+function Enviornment:new()
+    Enviornment.super.new(self)
+
     self.Explorer = {
-        UseNewIcon = false,
-        Icon = "world"
+        Visible = true,
+        UseNewIcon = true,
+        Icon = "Scene"
     }
 end
 

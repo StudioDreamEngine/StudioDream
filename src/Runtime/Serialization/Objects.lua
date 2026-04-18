@@ -1,4 +1,17 @@
+local Things = Runtime.Things
 local Objects = {}
+
+local TypeSerializers = Utils.LoadModules("Runtime/Serialization/Types/")
+
+function Objects.HandleType(Property, Type, Deserialize)
+    if (not TypeSerializers[Type]) then error(Type.." needs serializer") end
+    local Serializer = require(TypeSerializers[Type])
+
+    return Deserialize and Serializer.Deserialize(Property) or Serializer.Serialize(Property)
+end
+
+
+
 
 -- Serialize all things under a root object as a table of objects
 ---@param Root Thing
@@ -24,11 +37,7 @@ function Objects.SerializeObject(Object)
         local Property = Object[PropertyName]
         local Type = Utils.TypeOf(Property)
 
-        -- Special Cases
-        -- TODO: Make a system for serializing/deserializing types, we can just do this for now as binser handles EVERYTHING
-        if Type == "Thing" then
-            Property = Property.UUID
-        end
+        Property = Objects.HandleType(Property, Type, false)
 
         ObjectData[PropertyName] = {
             Type = Type,
@@ -36,22 +45,52 @@ function Objects.SerializeObject(Object)
         }
     end
 
-    return ObjectData
+    return {
+        Type = Object.ClassName,
+        UUID = Object.UUID,
+        Properties = ObjectData
+    }
 end
 
 
 
 
----@param Object Thing
-function Objects.DeserializeObject(Object)
-    -- TODO
+function Objects.DeserializeObject(ObjectData)
+    local Properties = {}
+    local RelocationQueue = {}
+
+    for PropertyName, PropertyData in pairs(ObjectData.Properties) do
+        local Type = PropertyData.Type
+        local Property = Objects.HandleType(PropertyData.Value, Type, true)
+
+        if Type == "Thing" then
+            RelocationQueue[PropertyName] = Property
+        else
+            Properties[PropertyName] = Property
+        end
+    end
+
+    local Thing = Things.Create(ObjectData.Type, ObjectData.UUID)(Properties)
+    return Thing, RelocationQueue
 end
 
 -- Deserialize the contents of the object given above
 function Objects.DeserializeObjects(Root)
-    -- Part 1: Deserialize all objects seperately
+    local RelocationQueues = {}
 
-    -- Part 2: Parent objects
+    -- Part 1: Deserialize all objects
+    for _, Object in pairs(Root) do
+        local Object, RelocationQueue = Objects.DeserializeObject(Object)
+
+        RelocationQueues[Object] = RelocationQueue
+    end
+
+    -- Part 2: Relocate objects
+    for Object, RelocationQueue in pairs(RelocationQueues) do
+        for PropertyName, UUID in pairs(RelocationQueue) do
+            Things.SetProperty(Object, PropertyName, Things.Get(UUID))
+        end
+    end
 end
 
 return Objects

@@ -11,8 +11,8 @@ function UI.Init(Viewport)
         Name = "ExplorerViewport"
     }
 
-    --require("Editor.UI.ExplorerRender")(Viewport, ExplorerViewport)
-    --require("Editor.UI.TopBar")(Viewport, ExplorerViewport)
+    require("Editor.UI.ExplorerRender")(Things.Root, ExplorerViewport)
+    require("Editor.UI.TopBar")(Viewport, ExplorerViewport)
     --require("Editor.UI.PropertiesRender")(Viewport, ExplorerViewport)
 end
 
