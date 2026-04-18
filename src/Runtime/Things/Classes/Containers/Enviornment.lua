@@ -9,7 +9,7 @@ function Enviornment:new()
     self.Explorer = {
         Visible = true,
         UseNewIcon = true,
-        Icon = "Scene"
+        Icon = "Enviornment"
     }
 end
 
