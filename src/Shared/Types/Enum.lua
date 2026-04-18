@@ -123,18 +123,22 @@ return {
         Backspace = 'backspace',
         -- Controllers:
 
-       --[[GamepadA = 'a', -- Make these only work if theres actually an controller being inputed!@!
-        GamepadB = 'b',
-        GamepadX = 'x',
-        GamepadY = 'y',]]
-        DPadUp = 'dpup',
-        DPadDown = 'dpdown',
-        DPadRight = 'dpright',
-        DPadLeft = 'dpleft',
-        Misc = 'misc1', -- Xbox Series X controller share button, PS5 controller mic button, and Switch Pro controller capture button.
-        GamepadBack = 'back',
-        GamepadGuide = 'guide',
-        GamepadStart = 'start',
+        GamepadA = 'gp_a',
+        GamepadB = 'gp_b',
+        GamepadX = 'gp_x',
+        GamepadY = 'gp_y',
+        DPadUp = 'gp_dpup',
+        DPadDown = 'gp_dpdown',
+        DPadRight = 'gp_dpright',
+        DPadLeft = 'gp_dpleft',
+        JoystickLeft = 'gp_leftstick',
+        JoystickRight = 'gp_rightstick',
+        LeftBump = 'gp_leftshoulder',
+        RightBump = 'gp_rightshoulder',
+        Misc = 'gp_misc1',
+        GamepadBack = 'gp_back',
+        GamepadGuide = 'gp_guide',
+        GamepadStart = 'gp_start',
         
         -- Mouse
 
