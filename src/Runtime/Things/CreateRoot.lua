@@ -23,6 +23,9 @@ return function()
         Name = "ViewportInternal",
         Size = Pivot2D.FromOffset(800, 600),
         Serializable = false,
+        Explorer = {
+            Visible = false
+        },
         Parent = Root
     }
     

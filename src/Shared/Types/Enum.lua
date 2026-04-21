@@ -13,6 +13,7 @@ return {
         Brick = 'brick',
         Ball = 'ball',
         Wedge = 'wedge',
+        Arrow = 'arrow',
     },
     InputCode = {
         
@@ -59,7 +60,7 @@ return {
         Colon = ':',
         Semicolon = ';',
         LessThan = '<',
-        GreaterThan = '>', -- no
+        GreaterThan = '>', -- no BORRING!
         Equals = '=',
         QuestionMark = '?',
         Atsign = '@',

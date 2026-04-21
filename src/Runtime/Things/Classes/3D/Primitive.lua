@@ -21,7 +21,7 @@ end
 
 function Primitive:CheckShape()
     if self._LastShape ~= self.Shape or not self.Drawable then
-        self.Drawable = Dream:loadObject('Assets/' .. self.Shape)
+        self.Drawable = Dream:loadObject('Assets/DefaultMeshes/' .. self.Shape)
         print("[Primitive] made new Drawable")
     end
     self._LastShape = self.Shape
