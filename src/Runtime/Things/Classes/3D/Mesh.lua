@@ -14,6 +14,7 @@ function Mesh:new()
         Icon = "MeshPart"
     }
     self.MeshFile = nil
+    self.TextureFile = nil -- Maybe make this a table so we can put normals, and that super cool and realist stuff???
     self.Anchored = true
 
     self.Drawable = Dream:loadObject(self.MeshFile or "Assets/Scripty")
