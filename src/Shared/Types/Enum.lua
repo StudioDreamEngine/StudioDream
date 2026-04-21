@@ -38,14 +38,14 @@ return {
         Seven = '7',Eight = '8',Nine = '9',
         Zero = '0',
         
-        Tilded_Cedilhiarion_Of_escapism_alphabet_from_1990_09_07_Protestment = '~',
+        Tilde = '~', -- Tilded_Cedilhiarion_Of_escapism_alphabet_from_1990_09_07_Protestment
 
         Exclamation = "!",
         DQuote = '\"',
-        Hast = '#',
+        Hashtag = '#',
         Dollar = "$",
         Ampersand = '&',
-        Quote = " \' ",
+        Quote = "\'",
 
         LeftParenth = '(',
         RightParenth = ')',
@@ -53,35 +53,35 @@ return {
         Plus = '+',
         Comma = ',',
         Minus = '-',
-        Dot = '.',
-        Slash = '/',
+        Punctuation = '.',
+        ForwardSlash = '/',
         Colon = ':',
-        SemiColon = ';',
+        Semicolon = ';',
         LessThan = '<',
-        MoreThan = '>', -- Joke name please
-        Equal = '=',
+        GreaterThan = '>', -- no
+        Equals = '=',
         QuestionMark = '?',
-        Atsing = '@',
-        LeftSquareBrac = '[',
-        RightSquareBrac = ']',
+        Atsign = '@',
+        LeftSquareBracket = '[',
+        RightSquareBracket = ']',
         BlackSlash = "\\",
         Caret = '^',
         Underscore = '_',
-        GraceAcc = '`',
+        GraveAccent = '`',
 
-        KPOne = 'kp1',KPTwo = 'kp2',KPThree = 'kp3',
-        KPFour = 'kp4',KPFive = 'kp5',KPSix = 'kp6',
-        KPSeven = 'kp7',KPEight = 'kp8',KPNine = 'kp9',
-        KPZero = 'kp0',
+        NumpadOne = 'kp1',NumpadTwo = 'kp2',NumpadThree = 'kp3',
+        NumpadFour = 'kp4',NumpadFive = 'kp5',NumpadSix = 'kp6',
+        NumpadSeven = 'kp7',NumpadEight = 'kp8',NumpadNine = 'kp9',
+        NumpadZero = 'kp0',
         
-        KPDot = 'kp.',
-        KPComma = 'kp,',
-        KPDivision = 'kp/',
-        KPMulti = 'kp*',
-        KPSub = 'kp-',
-        KPAdd = 'kp+',
-        KPEnter = 'kpenter',
-        KPEqual = 'kp=',
+        NumpadPunctuation = 'kp.',
+        NumpadComma = 'kp,',
+        NumpadFrontslash = 'kp/',
+        NumpadAsterisk = 'kp*',
+        NumpadMinus = 'kp-',
+        NumpadPlus = 'kp+',
+        NumpadEnter = 'kpenter',
+        NumpadEquals = 'kp=',
 
         F1 = 'f1',F2 = 'f2',F3 = 'f3',
         F4 = 'f4',F5 = 'f5',F6 = 'f6',
@@ -92,7 +92,7 @@ return {
 
         Space = 'space',
         Esc = 'escape',
-        Capslock = 'capslock',
+        CapsLock = 'capslock',
         ScrollLock = 'scrolllock',
 
         LeftCtrl = 'lctrl',
@@ -142,8 +142,8 @@ return {
         
         -- Mouse
 
-        MouseLeftclick = 'mlclick',
-        MouseRightclick = 'mrclick',
+        MouseLeftClick = 'mlclick',
+        MouseRightClick = 'mrclick',
         MouseScrolled = 'mscroll',
 
         -- Misc
