@@ -12,9 +12,9 @@ return function()
         Serializable = false
     }
 
-    ---@module 'Enviornment'
-    local Enviornment = Things.Create("Enviornment") {
-        Name = "Enviornment",
+    ---@module 'Environment'
+    local Environment = Things.Create("Environment") {
+        Name = "Environment",
         Parent = Root
     }
      local HUD = Things.Create("HUD") {
@@ -56,7 +56,7 @@ return function()
         Size = Pivot2D.FromScale(0.75,0.8),
         Position = Pivot2D.FromScale(0,0),
         Parent = Viewport,
-        RenderFolder = Enviornment,
+        RenderFolder = Environment,
         Name = "MainViewport"
     }
 
@@ -84,10 +84,10 @@ return function()
     ball.Position  = Vector3.new(1, 0, 0)
     wedge.Position = Vector3.new(-1, 0, 0)
 
-    Mesh:SetParent(Enviornment)
-    brick:SetParent(Enviornment)
-    ball:SetParent(Enviornment)
-    wedge:SetParent(Enviornment)
+    Mesh:SetParent(Environment)
+    brick:SetParent(Environment)
+    ball:SetParent(Environment)
+    wedge:SetParent(Environment)
 
     Runtime.Services.InputService:SetViewportDefaultOnService(Viewport3Dwow)
     Runtime.Services.Debug:SetViewportDefaultOnService(Viewport3Dwow)
