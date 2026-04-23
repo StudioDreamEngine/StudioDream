@@ -6,6 +6,8 @@ function love.load()
     Shared.Init()
     Runtime.Init()
     Editor.Init()
+
+    love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursor.png", 0,0))
 end
 
 local DeltaTime

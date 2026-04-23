@@ -451,6 +451,14 @@ do
 		function Object.Lerp(SecondVector, Alpha)
 			return Vector3.new(math.lerp(Object.X, SecondVector.X, Alpha),math.lerp(Object.Y, SecondVector.Y, Alpha),math.lerp(Object.Z, SecondVector.Z, Alpha))
 		end
+		
+		function Object.Magnitude()
+			return math.sqrt(Object.X*Object.X + Object.Y*Object.Y + Object.Z*Object.Z)
+		end
+
+		function Object.Unit()
+			return Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
+		end
 
 		--[[function Object.Dot(SecondVector)
 			return (Object.X * Object.Y) + (SecondVector.X * SecondVector.Y)
