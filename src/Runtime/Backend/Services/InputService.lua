@@ -2,6 +2,8 @@ local InputService = {}
 local CurrentPs
 
 local EnumReversed = {}
+local Viewport
+local Services = Runtime.Services
 
 function ReverseEnum()
     for i,v in pairs(Enum.InputCode) do
@@ -24,22 +26,26 @@ function InputService:Init()
     ReverseEnum()
 end
 
+function InputService:SetViewportDefaultOnService(View)
+    Viewport = View
+end
+
 function InputService:IsKeyDown(Key) -- Be enum based
     return self.CurrentPressed == Key and true or false
 end
 
 function InputService:InputBegan()
     local UUID = CreateUUID()
-    local Signal = Signal:new("SignalDefaultWowz")
-    self.EventsConnected.Began[UUID] = Signal
-    return Signal
+    local SignalCool = Signal:New("SignalDefaultWowz")
+    self.EventsConnected.Began[UUID] = SignalCool
+    return SignalCool
 end
 
 function InputService:InputChanged()
     local UUID = CreateUUID()
-    local Signal = Signal:new("SignalDefaultWowz")
-    self.EventsConnected.Changed[UUID] = Signal
-    return Signal
+    local SignalCool = Signal:New("SignalDefaultWowz")
+    self.EventsConnected.Changed[UUID] = SignalCool
+    return SignalCool
 end
 
 function InputService:JoystickConnect(ContollerID)
@@ -73,7 +79,7 @@ end
 
 function InputService:InputEnded()
     local UUID = CreateUUID()
-    local Signal = Signal:new("SignalDefaultWowz")
+    local Signal = Signal:New("SignalDefaultWowz")
     self.EventsConnected.Ended[UUID] = Signal
     return Signal
 end
@@ -122,8 +128,21 @@ function InputService:gamepadreleased(joystick, Key)
 end
 
 function InputService:Update()
-    --local ControllerOne = InputService:JoystickConnect(1)
-    --print(ControllerOne:GetJoyAxis(1))
+    if Viewport then
+        local mouseX = Viewport.MousePosition.X
+        local mouseY = Viewport.MousePosition.Y
+
+        local origin = Viewport.Camera.position
+      
+       --[[ local hit = Services.RaycastService:Raycast(scene, origin, direction)
+
+        if hit then
+            local MouseHit = hit.position
+            local MouseTarget = hit.mesh
+
+            print(MouseHit, MouseTarget)
+        end]]
+    end
 end
 
 return InputService

@@ -65,7 +65,7 @@ lib.inspect = require(lib.root .. "/libs/inspect")
 lib.base64 = require(lib.root .. "/libs/base64")
 lib.cache = require(lib.root .. "/libs/cache")
 lib.packer = require(lib.root .. "/libs/packer")
-
+lib.raycast = require(lib.root .. "/raytrace")
 table.unpack = table.unpack or unpack
 
 --delton, disabled when not in debug mode

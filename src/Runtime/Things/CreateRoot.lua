@@ -17,7 +17,10 @@ return function()
         Name = "Enviornment",
         Parent = Root
     }
-
+     local HUD = Things.Create("HUD") {
+        Name = "HUD",
+        Parent = Root
+    }
     ---@module 'Viewport2D'
     local Viewport = Things.Create("Viewport2D") {
         Name = "ViewportInternal",
@@ -49,7 +52,7 @@ return function()
         Runtime.Serializer.Load()
     end)
 
-    Things.Create("Viewport3D") {
+    local Viewport3Dwow = Things.Create("Viewport3D") {
         Size = Pivot2D.FromScale(0.75,0.8),
         Position = Pivot2D.FromScale(0,0),
         Parent = Viewport,
@@ -86,5 +89,8 @@ return function()
     ball:SetParent(Enviornment)
     wedge:SetParent(Enviornment)
 
+    Runtime.Services.InputService:SetViewportDefaultOnService(Viewport3Dwow)
+    Runtime.Services.Debug:SetViewportDefaultOnService(Viewport3Dwow)
+    Runtime.Services.Debug:AssingScripty(Mesh)
     return Root
 end
