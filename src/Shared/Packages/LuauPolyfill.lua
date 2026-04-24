@@ -460,8 +460,8 @@ do
 			return Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
 		end
 
-		--[[function Object.Dot(SecondVector)
-			return (Object.X * Object.Y) + (SecondVector.X * SecondVector.Y)
+		function Object.Dot(SecondVector)
+			return (Object.X * Object.Y * Object.Z) + (SecondVector.X * SecondVector.Y * SecondVector.Z)
 		end
 
 		-- Return the simple version of the vector2, Useful for serialization
@@ -469,25 +469,26 @@ do
 			return {
 				X = Object.X, 
 				Y = Object.Y,
+				Z = Object.Z,
 				Simple = true
 			}
 		end
 
 		function Object.Magnitude()
-			return math.sqrt(Object.X*Object.X + Object.Y*Object.Y)
+			return (Object.X*Object.X + Object.Y*Object.Y + Object.Z*Object.Z) ^ 1/3
 		end
 
 		function Object.Unit()
-			return Vector2.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude())
+			return Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
 		end
 
 		function Object.Round()
-			return Vector2.new(math.round(Object.X),math.round(Object.Y))
+			return Vector3.new(math.round(Object.X),math.round(Object.Y),math.round(Object.Z))
 		end
 
 		function Object.Abs()
-			return Vector2.new(math.abs(Object.X),math.abs(Object.Y))
-		end]]
+			return Vector3.new(math.abs(Object.X),math.abs(Object.Y),math.abs(Object.Z))
+		end
 
 		return Object
 	end
