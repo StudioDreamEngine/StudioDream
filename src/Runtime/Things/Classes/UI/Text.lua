@@ -18,7 +18,7 @@ function Text:new()
     self.TextScaled = true
 
     self.Text = "Placeholder"
-
+    
     self.AlignX = Enum.AlignmentX.Center
     self.AlignY = Enum.AlignmentY.Center
 
