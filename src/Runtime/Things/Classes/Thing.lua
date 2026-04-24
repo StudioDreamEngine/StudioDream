@@ -12,7 +12,12 @@ function Thing:new()
         - Bloctans :3
     ]]
     self.Type = "Thing"
+
+    -- Check if the object itself can be serialized
     self.Serializable = true
+
+    -- Check if the object will be serialized by its parents
+    self.TruelySerializable = true
     
     self.Proxy = Runtime.ObjectProxy.new()
 
@@ -56,10 +61,29 @@ function Thing:GetParentCallback(Callback)
 	return Parent
 end
 
+local function CheckSerializable(self)
+    local Serializable = true
+
+    ---@param ParentThing Thing
+    self:GetParentCallback(function(ParentThing)
+        if not (ParentThing.Serializable) and not (ParentThing:IsA("Root")) then
+            Serializable = false
+        end
+    end)
+
+    return Serializable
+end
+
+function Thing:IsSerializable()
+    return self.TruelySerializable
+end
+
 function Thing:SetParent(NewParent)
     if NewParent == self then
         error("Cannot parent Thing to itself.")
     end
+
+    local OldParent = self.parent
 
     if self.Parent then
         self.Parent.Children[self.UUID] = nil
@@ -68,6 +92,13 @@ function Thing:SetParent(NewParent)
     if NewParent then
         self.Parent = NewParent
         NewParent.Children[self.UUID] = true
+    end
+
+    self.TruelySerializable = CheckSerializable(self)
+
+    if self.TruelySerializable then -- Dont call for now
+        --print("Fire HierachyChanged")
+        --Things.HierachyChanged:Invoke(self, OldParent, NewParent)
     end
 end
 

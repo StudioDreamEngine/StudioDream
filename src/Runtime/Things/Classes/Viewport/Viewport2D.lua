@@ -62,6 +62,7 @@ end
 -- Create the display list that will be used by the renderer
 function Viewport2D:CreateDisplayList()
     self.CurrentOrder = 1
+    self.DisplayList = {}
     self:SubmitContainerChildren(self.RenderFolder or self)
     self.QueuedUpdate = false
 end
