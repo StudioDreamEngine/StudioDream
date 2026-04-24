@@ -8,7 +8,6 @@ local TempSerialized
 
 function Serializer.Serialize()
     local ObjectTable = Serializer.Objects.SerializeObjects(Things.Root)
-
     print(ObjectTable)
 
     TempSerialized = Binser.serialize(ObjectTable)
@@ -18,8 +17,9 @@ function Serializer.Deserialize(Content)
     --local Table = Binser.deserialize(TempSerialized)[1]
 
     Things.ClearRoot()
+    Things.HierachyChanged:Invoke() -- TEMPORARY
 
---    Serializer.Objects.DeserializeObjects(Table)
+    --Serializer.Objects.DeserializeObjects(Table)
 end
 
 return Serializer
