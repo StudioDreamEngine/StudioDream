@@ -2,7 +2,6 @@ local Things = Runtime.Things
 
 local ExplorerContainer
 local ExplorerContainer1
-local TreeStarter
 
 local RowHeight = 21
 local IndentSize = 16
@@ -22,24 +21,7 @@ local function RenderIcon(IconName, VectorPos, Container, UseNewIcon)
     }
 end
 
-local function RenderTextLabel(Text, VectorPos, Container,SpecialPos,SpecialSize,OriginalSize)
-    local TextThing = Things.Create("Text") {
-        Text = Text,
-        Position = SpecialPos or Pivot2D.FromOffset(IconsSize+4/10,10),
-        Size = OriginalSize or Pivot2D.FromScale(0.8,1),
-        TextSize = SpecialSize or 12,
-        ForegroundColor = Color.new(1),
-        BackgroundTransparency = 1,
-        AlignX = Enum.AlignmentX.Left,
-        TextScaled = true,
-        Pivot = Vector2.new(0,0.5),
-        AlingY = Enum.AlignmentY.Top,
-        Layer = 9,
-        Parent = Container
-    }
-end
-
-function RenderTextLabelNew(Container,Text,Position,Size)
+local function RenderTextLabelNew(Container,Text,Position,Size)
     local TextThing = Things.Create("Text") {
         Size = Size,
         Position = Position,
@@ -52,12 +34,6 @@ function RenderTextLabelNew(Container,Text,Position,Size)
     }
 end
 
-local function LoopWhileHold(HoldVerify,Viewport)
-    if HoldVerify.Holding then
-        HoldVerify.Position = Pivot2D.FromOffset(Viewport.MousePosition.X,Viewport.MousePosition.Y)
-    end
-end
-
 local function RenderNode(Thing, currentY, depth ,XPos, View)
     if (not Thing.Explorer.Visible) then
         return currentY
@@ -65,7 +41,6 @@ local function RenderNode(Thing, currentY, depth ,XPos, View)
     
     local xOffset = XPos + depth * IndentSize
     local iconPos  = Vector2.new(xOffset, currentY)
-    local labelPos = Vector2.new(xOffset + IconsSize + 4, currentY)
 
     local NodeContainer = Things.Create "TextButton" {
        Size = Pivot2D.FromScale(1,0.05),--Pivot2D.FromOffset(Vector2.new(200, 20)),
@@ -99,10 +74,20 @@ local function RenderNode(Thing, currentY, depth ,XPos, View)
     return currentY
 end
 
+local function RenderExplorer(TreeStarter, View)
+    ExplorerContainer:ClearAllChildren()
+    RenderNode(TreeStarter, 10, 0, 0, View)
+end
+
 return function(TreeStarter, View)
     local Window = Runtime.InterfaceManager.CreateWindow(Pivot2D.FromScale(1,0.5),Pivot2D.FromScale(0,0.31),View)
     ExplorerContainer1 = Window.Container
     ExplorerContainer = Window.BackWindow
     RenderTextLabelNew(ExplorerContainer1,"Explorer",Pivot2D.FromScale(0,0),Pivot2D.FromScale(1,0.05))
-    RenderNode(TreeStarter, 10, 0, 0, View)
+    RenderExplorer(TreeStarter, View)
+
+    Things.HierachyChanged:Connect(function()
+        print("Re-render explorer")
+        RenderExplorer(TreeStarter, View)
+    end)
 end

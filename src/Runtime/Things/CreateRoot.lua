@@ -2,14 +2,8 @@ local Things = Runtime.Things
 
 -- Create our DataModel/Root here
 return function()
-    local Root = Things.Create("Container", "Root") {
-        Name = "Root",
-        Explorer = {
-            UseNewIcon = true,
-            Visible = true,
-            Icon = "Root",
-        },
-        Serializable = false
+    local Root = Things.Create("Root", "Root") {
+        Name = "Root"
     }
 
     ---@module 'Environment'

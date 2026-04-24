@@ -117,16 +117,20 @@ function BaseGui:DrawStyle()
 end
 
 function BaseGui:UpdateTransforms()
-    self.AbsolutePosition = self:GetAbsolutePosition()
-
     local NewSize = self:GetAbsoluteSize()
 
-    if NewSize.Magnitude() < 0.1 then
+    if NewSize.Magnitude() == 0 then
         print("Ignoring Transform update due to size")
         return
     end
 
     self:SetAbsoluteSize(NewSize)
+    self.AbsolutePosition = self:GetAbsolutePosition()
+end
+
+function BaseGui:SetParent(NewParent)
+    BaseGui.super.SetParent(self, NewParent)
+    self:UpdateTransforms()
 end
 
 function BaseGui:SetPosition(New)

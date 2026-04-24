@@ -8,9 +8,9 @@ local Classes = {}
 function Things.Init()
     Classes = Utils.LoadModules("Runtime/Things/Classes/")
 
+    Things.HierachyChanged = Signal:New("HierachyChanged")
     Things.Root = require("Runtime.Things.CreateRoot")()
 end
-
 
 
 function Things.GetRoot(Object)
