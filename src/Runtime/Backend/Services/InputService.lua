@@ -55,7 +55,7 @@ function InputService:JoystickConnect(ContollerID)
     local js = joysticks[ContollerID]
 
     function selfed:HasController()
-        if not js and not (#joysticks>1) then
+        if not js and not #joysticks>1 then
             return false
         else
             return true
