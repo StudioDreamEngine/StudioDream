@@ -25,6 +25,11 @@ return function()
         },
         Parent = Root
     }
+    --@module 'Camera'
+    local Camera = Things.Create("Camera") {
+        Name = 'Camera',
+        Parent = Environment
+    }
     
     ---@module 'TextButton'
     local SaveTest = Things.Create("TextButton") {
