@@ -17,7 +17,11 @@ function TextButton:new()
 
     self.Hovering = false 
     self.Clicked = Signal:New("ButtonClicked")
-    Runtime.InterfaceManager.OnClick:Connect(self.Clicked.Invoke)
+    Runtime.InterfaceManager.OnClick:Connect(function()
+        if not self.Hovering then return end
+        
+        self.Clicked.Invoke()
+    end)
 end
 
 function TextButton:Update(dt)
