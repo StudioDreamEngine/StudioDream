@@ -36,7 +36,7 @@ function ViewportManager.RenderViewport3D(Viewport)
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
 
-        TestCamera:setCamera(Dream.camera)
+        --TestCamera:setCamera(Dream.camera)
 
         for _, Element in pairs(Viewport.DisplayList) do
             Dream:draw(Element.Child)
@@ -50,7 +50,7 @@ end
 function ViewportManager.RenderCanvas(Viewport) Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas) end
 
 function ViewportManager.Update(dt)
-    TestCamera:update(dt,75)
+    --TestCamera:update(dt,75)
     Dream:update(dt)
 end
 
