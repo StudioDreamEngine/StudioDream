@@ -18,13 +18,12 @@ function Debug:Init()
 
             local MouseOrigin = Viewport.Camera.position
             local MouseDirection = Viewport:ToWorldSpaceVector(MousePos)
-
-            local hit = Services.RaycastService:Raycast(Scripty.Drawable, MouseOrigin, MouseDirection)
+            local hit = Services.RaycastService:Raycast(Scripty.Drawable, MouseOrigin, Dream.vec3(MouseDirection.X,MouseDirection.Y,MouseDirection.Z))
 
             if hit then
                 local MouseHit = hit.position
                 local MouseTarget = hit.mesh
-
+                print("Hitted something wow!")
                 print(MouseHit, MouseTarget)
             end
         end
