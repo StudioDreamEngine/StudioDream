@@ -44,8 +44,7 @@ function Viewport3D:ToWorldSpaceVector(vec2) -- Alot of reaserch :sob: i dont wa
     local dirWorld = Vector3.new(m[1] * DirCamera.X + m[2] * DirCamera.Y + m[3] * DirCamera.Z,
         m[5] * DirCamera.X + m[6] * DirCamera.Y + m[7] * DirCamera.Z,
         m[9] * DirCamera.X + m[10]* DirCamera.Y + m[11]* DirCamera.Z)
-
-    return dirWorld.Unit
+    return dirWorld.Unit()
 end
 
 function Viewport3D:Update(dt)
