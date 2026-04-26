@@ -18,6 +18,8 @@ function Base3D:new()
     self.Orientation = Vector3.new(0, 0, 0)
 
     self.Anchored    = true
+
+    self.Proxy.Property("Size", "Position", "Orientation")
 end
 
 function Base3D:Update(dt)

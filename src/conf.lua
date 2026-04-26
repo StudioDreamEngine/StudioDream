@@ -1,5 +1,9 @@
+-- Major.Minor.Patch
 VERSION = "0.1.2"
--- FinalVersion.BetaVersion.TestVersion
+
+FLAGS = {
+    ModeTarget = "Studio" -- What this build's functionality should be, disables studio component if "Runtime", enables studio if "Studio"
+}
 
 function love.conf(t)
     t.window.width = 800
@@ -8,5 +12,4 @@ function love.conf(t)
     t.window.title = "StudioDream "..VERSION.." - Untitled Project"
     t.window.icon = "/Assets/Icons/Engine/StudioIcon.png"
     t.window.resizable = true
-    
 end

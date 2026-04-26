@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
 return function ()
-    local Environment = Things.Root.EnvironmentViewport
+    local Environment = Things.GetRoot("Environment")
     local Viewport = Things.Root.RootViewport
 
     ---@module 'TextButton'
@@ -57,4 +57,7 @@ return function ()
     brick:SetParent(Environment)
     ball:SetParent(Environment)
     wedge:SetParent(Environment)
+
+    Things.SetDebugObject(Mesh)
+    Things.SetDebugObject2(ball)
 end

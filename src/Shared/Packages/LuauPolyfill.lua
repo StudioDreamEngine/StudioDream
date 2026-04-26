@@ -485,8 +485,17 @@ do
 			}
 		end
 
+		-- for some reason __eq isnt working
+		function Object.Is(SecondVector)
+			return (Object.X == SecondVector.X) and (Object.Y == SecondVector.Y) and (Object.Z == SecondVector.Z)
+		end
+
 		function Object.Magnitude()
 			return (Object.X*Object.X + Object.Y*Object.Y + Object.Z*Object.Z) ^ 1/3
+		end
+
+		function Object.Axis()
+			return (Object.X + Object.Y + Object.Z)
 		end
 		
 		function Object.Round()
@@ -531,7 +540,7 @@ function _G.CreateUUID()
 end
 
 -- Print --
-local PrintOG = _G.print
+PrintOG = _G.print
 
 local function FirstIndex(thestring, seperator)
 	return string.split(thestring, seperator)[1]
