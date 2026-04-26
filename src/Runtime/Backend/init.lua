@@ -10,11 +10,9 @@ function Backend.Init()
     Runtime.ObjectProxy = require("Runtime.Backend.ObjectProxy")
 
     Runtime.Services = {}
-    Runtime.Services.RaycastService = require("Runtime.Backend.Services.RaycastService")
     Runtime.Services.InputService = require("Runtime.Backend.Services.InputService")
     Runtime.Services.Debug = require("Runtime.Backend.Services.Debug")
 
-    Runtime.Services.RaycastService:Init()
     Runtime.Services.InputService:Init()
     Runtime.Services.Debug:Init()
 end

@@ -65,7 +65,6 @@ lib.inspect = require(lib.root .. "/libs/inspect")
 lib.base64 = require(lib.root .. "/libs/base64")
 lib.cache = require(lib.root .. "/libs/cache")
 lib.packer = require(lib.root .. "/libs/packer")
-lib.raycast = require(lib.root .. "/raytrace")
 table.unpack = table.unpack or unpack
 
 --delton, disabled when not in debug mode
@@ -206,6 +205,10 @@ function lib:resize(w, h)
 	self.canvases:init(w, h)
 	self.reflectionCanvases:init()
 	--self.mirrorCanvases:init(w, h)
+end
+
+function lib:getExtension(Extension)
+	return require("Shared.Packages.3DreamEngine.extensions."..Extension)
 end
 
 ---Applies settings and load canvases

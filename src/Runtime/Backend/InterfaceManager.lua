@@ -36,6 +36,7 @@ local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
 function InterfaceManager.CreateWindow(Size,Position,View)
     local Windows = {}
+    
     Windows.Container = Runtime.Things.Create "Square" { 
       Size = Size,
        Explorer = {

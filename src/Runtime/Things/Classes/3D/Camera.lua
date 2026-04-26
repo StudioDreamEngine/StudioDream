@@ -2,7 +2,7 @@ local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
 ---@module 'Thing'
----@class Camera
+---@class Camera: Thing
 local Camera = Things.Extend("Thing")
 
 function Camera:new()
@@ -12,14 +12,40 @@ function Camera:new()
         Visible = true,
         Icon = "Camera"
     }
-    Camera.Position = Vector3.new(0, 0, 0)
-    Camera.Orientation = Vector3.new(0, 0, 0)
+    self.Position = Vector3.new(0, 0, 0)
+    self.Orientation = Vector3.new(0, 0, 0)
 
-    Camera.FieldOfView = 70 -- FOV
+    self.FieldOfView = 70 -- FOV
+
+    self.DreamCamera = Dream.camera
+    self.Viewport = nil
+end
+
+function Camera:VectorToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want any more math
+    local ViewWidth = self.Viewport.AbsoluteSize.X
+    local ViewHeight = self.Viewport.AbsoluteSize.Y
+
+    local x = (2 * vec2.X / ViewWidth - 1)
+    local y = (1 - 2 * vec2.Y / ViewHeight)
+
+    local CamFov = Dream.camera.fov
+    local ViewAspect = ViewWidth / ViewHeight
+    local TanFov = math.tan(CamFov / 2)
+
+    local DirCamera = Vector3.new(x * ViewAspect * TanFov,y * TanFov,-TanFov)
+    local m = Dream.camera.transform
+
+    local dirWorld = Vector3.new(
+        m[1] * DirCamera.X + m[2] * DirCamera.Y + m[3] * DirCamera.Z,
+        m[5] * DirCamera.X + m[6] * DirCamera.Y + m[7] * DirCamera.Z,
+        m[9] * DirCamera.X + m[10]* DirCamera.Y + m[11]* DirCamera.Z
+    )
+
+    return dirWorld
 end
 
 function Camera:Update(dt)
-    local _Camera = Dream.camera
+    local _Camera = self.DreamCamera
 
     local keyDown = love.keyboard.isDown
     local mouseDown = love.mouse.isDown
@@ -50,9 +76,9 @@ function Camera:Update(dt)
     
     _Camera:resetTransform()
     _Camera:translate(self.Position.X, self.Position.Y, self.Position.Z)
-    _Camera:rotateX(Camera.Orientation.X)
-    _Camera:rotateY(Camera.Orientation.Y)
-    _Camera:rotateZ(Camera.Orientation.Z)
+    _Camera:rotateX(self.Orientation.X)
+    _Camera:rotateY(self.Orientation.Y)
+    _Camera:rotateZ(self.Orientation.Z)
 end
 
 return Camera

@@ -36,8 +36,12 @@ function ScriptUtil.CreateGlobals(Script)
         script = Script,
         wait = Scheduler.Yield,
         print = print,
+
+        ---@param Object Script
         require = function(Object)
-            return Object:Load()
+            if Object:IsA("BaseScript") then
+                return Object:Load()
+            end
         end
     }
 end

@@ -17,7 +17,7 @@ function Mesh:new()
     self.TextureFile = nil -- Maybe make this a table so we can put normals, and that super cool and realist stuff???
     self.Anchored = true
 
-    self.Drawable = Dream:loadObject(self.MeshFile or "Assets/Scripty")
+    self.Drawable = Runtime.Backend3D.LoadObject(self, self.MeshFile or "Assets/Scripty")
 end
 
 function Mesh:Update(dt)

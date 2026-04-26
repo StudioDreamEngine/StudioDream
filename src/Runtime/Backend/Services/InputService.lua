@@ -1,9 +1,7 @@
 local InputService = {}
-local CurrentPs
 
 local EnumReversed = {}
 local Viewport
-local Services = Runtime.Services
 
 function ReverseEnum()
     for i,v in pairs(Enum.InputCode) do
@@ -14,7 +12,6 @@ end
 function InputService:Init()
     print("hi i inited!")
     self.CurrentPressed = {}
-    CurrentPs = self.CurrentPressed
     self.EventsConnected = {
         Began = {},
         Ended = {},
@@ -23,6 +20,9 @@ function InputService:Init()
     }
     self.AxisPrevious = {}
     self.AxisCurrent = {}
+
+    self.InputBegan = Signal:New("InputBeganSignal")
+
     ReverseEnum()
 end
 
@@ -32,13 +32,6 @@ end
 
 function InputService:IsKeyDown(Key) -- Be enum based
     return self.CurrentPressed == Key and true or false
-end
-
-function InputService:InputBegan()
-    local UUID = CreateUUID()
-    local SignalCool = Signal:New("SignalDefaultWowz")
-    self.EventsConnected.Began[UUID] = SignalCool
-    return SignalCool
 end
 
 function InputService:InputChanged()
@@ -99,7 +92,8 @@ end
 function InputService:keypressed(Key)
     Key = ToEnum(Key)
     self.CurrentPressed[Key] = true
-    NotifyInput(true,Key,self.EventsConnected)
+    self.InputBegan:Invoke(Key)
+
     print(Key)
     print(self.CurrentPressed)
 end

@@ -21,10 +21,16 @@ end
 
 function Primitive:CheckShape()
     if self._LastShape ~= self.Shape or not self.Drawable then
-        self.Drawable = Dream:loadObject('Assets/DefaultMeshes/' .. self.Shape)
+        self.Drawable = Runtime.Backend3D.LoadObject(self, 'Assets/DefaultMeshes/' .. self.Shape)
         print("[Primitive] made new Drawable")
     end
+
     self._LastShape = self.Shape
+end
+
+function Primitive:OnRemove()
+    Primitive.super.OnRemove(self)
+    Runtime.Backend3D.RemoveObject(self)
 end
 
 function Primitive:Update(dt)

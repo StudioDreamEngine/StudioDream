@@ -397,6 +397,11 @@ do
 		end
 	})
 
+	---@param Vector DreamVec3
+	function Vector3.FromDream(Vector)
+		return Vector3.new(Vector.x, Vector.y, Vector.z)
+	end
+
 	function Vector3.new(x,y,z)
 		local Object = setmetatable({
 			X = x,
@@ -435,13 +440,15 @@ do
 					return Vector3.new(t1.X * t2.X, t1.Y * t2.Y, t1.Z * t2.Z)
 				end
 			end,
-			--[[__div = function (t1, t2)
+			__div = function (t1, t2)
 				if type(t2) == "number" then
-					return Vector2.new(t1.X / t2, t1.Y / t2)
+					return Vector3.new(t1.X / t2, t1.Y / t2, t1.Z / t2)
+				elseif type(t1) == "number" then
+					return Vector3.new(t2.X / t1, t2.Y / t1, t2.Z / t1)
 				else
-					return Vector2.new(t1.X / t2.X, t1.Y / t2.Y)
+					return Vector3.new(t1.X / t2.X, t1.Y / t2.Y, t1.Z / t2.Z)
 				end
-			end]]
+			end
 		})
 
 		function Object.Copy()
@@ -451,13 +458,17 @@ do
 		function Object.Lerp(SecondVector, Alpha)
 			return Vector3.new(math.lerp(Object.X, SecondVector.X, Alpha),math.lerp(Object.Y, SecondVector.Y, Alpha),math.lerp(Object.Z, SecondVector.Z, Alpha))
 		end
-		
-		function Object.Magnitude()
-			return math.sqrt(Object.X*Object.X + Object.Y*Object.Y + Object.Z*Object.Z)
+
+		function Object.ToDream()
+			return Dream.vec3(Object.X, Object.Y, Object.Z)
 		end
 
 		function Object.Unit()
 			return Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
+		end
+
+		function Object.Cross(SecondVector)
+			return Vector3.new(Object.Y * SecondVector.Z - Object.Z * SecondVector.Y, Object.Z * SecondVector.X - Object.X * SecondVector.Z, Object.X * SecondVector.Y - Object.Y * SecondVector.X)
 		end
 
 		function Object.Dot(SecondVector)
@@ -477,11 +488,7 @@ do
 		function Object.Magnitude()
 			return (Object.X*Object.X + Object.Y*Object.Y + Object.Z*Object.Z) ^ 1/3
 		end
-
-		function Object.Unit()
-			return Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
-		end
-
+		
 		function Object.Round()
 			return Vector3.new(math.round(Object.X),math.round(Object.Y),math.round(Object.Z))
 		end
