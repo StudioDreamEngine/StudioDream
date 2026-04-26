@@ -31,7 +31,7 @@ function InputService:SetViewportDefaultOnService(View)
 end
 
 function InputService:IsKeyDown(Key) -- Be enum based
-    return self.CurrentPressed == Key and true or false
+    return self.CurrentPressed[Key] and true or false
 end
 
 function InputService:InputChanged()
@@ -119,6 +119,22 @@ function InputService:gamepadreleased(joystick, Key)
     self.CurrentPressed[Key] = nil
     NotifyInput(false, Key, self.EventsConnected,Joystick:getID())
     print(Key)
+end
+
+function InputService:mousepressed(x,y,button,isTouch)
+    local PressedWhat = isTouch and "mtouch" or (button == 1 and "mlclick" or "mrclick")
+    PressedWhat = ToEnum(PressedWhat)
+    self.InputBegan:Invoke(PressedWhat)
+    self.CurrentPressed[PressedWhat] = true
+    NotifyInput(true, PressedWhat, self.EventsConnected,PressedWhat)
+end
+
+function InputService:mousereleased(x,y,button,isTouch)
+    local PressedWhat = isTouch and "mtouch" or (button == 1 and "mlclick" or "mrclick")
+    PressedWhat = ToEnum(PressedWhat)
+    self.CurrentPressed[PressedWhat] = nil
+    NotifyInput(false, PressedWhat, self.EventsConnected,PressedWhat)
+    print(PressedWhat)
 end
 
 function InputService:Update()

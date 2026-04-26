@@ -1,6 +1,6 @@
 Shared = require("Shared")
-Editor = require("Editor")
 Runtime = require("Runtime")
+Editor = require("Editor")
 
 function love.load()
     Shared.Init()
