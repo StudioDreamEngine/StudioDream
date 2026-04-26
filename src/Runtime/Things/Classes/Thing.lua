@@ -34,7 +34,7 @@ function Thing:new()
         Icon = "Icon_Not_Found"
     }
 
-    self.Proxy.Property("Parent")
+    self.Proxy.Property("Parent", "Name")
     self.Proxy.PropertyAccess("UUID")
 end
 
@@ -107,6 +107,7 @@ function Thing:GetParentCallback(Callback)
 	return Parent
 end
 
+-- Used for updating Thing.TruelySerializable
 local function CheckSerializable(self)
     local Serializable = true
 
@@ -116,6 +117,12 @@ local function CheckSerializable(self)
             Serializable = false
         end
     end)
+
+    -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
+    -- Return false if object itself isnt serializable
+    if (not self.Serializable) then
+        return false
+    end
 
     return Serializable
 end

@@ -45,7 +45,7 @@ return function()
     Root.EnvironmentViewport = EnvViewport
     Root.RootViewport = Viewport
 
-    -- All test-related root stuff 
+    -- All test-related root stuff is moved to CreateTests.lua
 
     return Root
 end

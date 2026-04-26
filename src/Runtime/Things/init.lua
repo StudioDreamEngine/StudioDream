@@ -31,6 +31,13 @@ function Things.ClearRoot()
     end
 end
 
+function Things.SetDebugObject(Object)
+    Things.DebugObj = Object
+end
+
+function Things.SetDebugObject2(Object)
+    Things.DebugObj2 = Object
+end
 
 
 
