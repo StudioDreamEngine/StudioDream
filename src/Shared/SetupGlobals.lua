@@ -6,6 +6,26 @@ local function LoadTypes()
     end
 end
 
+local function Example()
+    local ExampleSignal = Signal:New("TestSignal") -- This creates a new signal object, the first arg is the event name, useful for debugging, and the second arg is blocking, which currently isnt used and is optional
+
+    -- connections can also have listeners, Which act as a filter
+    ExampleSignal:Connect(function()
+        print("I fire on Listener1")
+    end, "Listener1")
+
+    ExampleSignal:Connect(function()
+        print("I fire on Listener2")
+    end, "Listener2")
+
+    -- connections with no listener fires even if a listener is present
+    ExampleSignal:Connect(function()
+        print("I fire on both listeners")
+    end)
+
+    ExampleSignal.Invoke()
+end
+
 -- Seperate parts of the game like the runtime will also have their own globals
 -- in the future we could perhaps make an api for handling creation of globals, depends tho
 return function ()
@@ -32,4 +52,6 @@ return function ()
 
     -- Globals
     GlobalTick = 0
+
+    --Example()
 end
