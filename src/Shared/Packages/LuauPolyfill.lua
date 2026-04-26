@@ -472,7 +472,7 @@ do
 		end
 
 		function Object.Dot(SecondVector)
-			return (Object.X * Object.Y * Object.Z) + (SecondVector.X * SecondVector.Y * SecondVector.Z)
+			return (Object.X * SecondVector.X) + (Object.Y * SecondVector.Y) + (Object.Z * SecondVector.Z)
 		end
 
 		-- Return the simple version of the vector2, Useful for serialization
