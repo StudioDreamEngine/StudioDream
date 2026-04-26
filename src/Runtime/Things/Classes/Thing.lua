@@ -18,12 +18,16 @@ function Thing:new()
 
     -- Check if the object will be serialized by its parents
     self.TruelySerializable = true
+
+    self.ParentChanged = Signal:New("ParentChanged")
     
     self.Proxy = Runtime.ObjectProxy.new()
 
     self.Children = {}
     self.Parent = nil 
     self.UUID = CreateUUID()
+
+    self.Overrides = {}
 
     self.Explorer = {
         Visible = true,
@@ -32,6 +36,48 @@ function Thing:new()
 
     self.Proxy.Property("Parent")
     self.Proxy.PropertyAccess("UUID")
+end
+
+--[[
+    Binds a constraint
+    a constraint is basically a system for overriding a certain property with the values given by something else
+    
+    We provide these basic functions for the contraints
+    its up to the class itself to handle the rest, like unbinding on parent change and toggling
+
+    the idea is that theres 2 behaviors for this on the class side:
+        - Children: Binds contraints to the children of the objects parent
+        - Parent: Binds constraints to the parent only
+]]
+function Thing:BindConstraint(Object, Property)
+    self.Overrides[Property] = {
+        Object = Object,
+        Value = nil
+    }
+end
+
+function Thing:SetConstraint(Object, Property, Value)
+    local Current = self.Overrides[Property]
+
+    if Current.Object == Object then
+        Current.Value = Value
+    end
+end
+
+function Thing:UnbindConstraints(Object)
+    for Property, Data in pairs(self.Overrides) do
+        if Data.Object.UUID == Object.UUID then
+            self.Overrides[Property] = nil
+        end
+    end
+end
+
+-- Get the property or the override for it
+-- If you dont want the overriden property, dont use this
+function Thing:GetProperty(Property)
+    local HasOverride = (self.Overrides[Property] and self.Overrides[Property].Value)
+
+    return HasOverride or self[Property]
 end
 
 function Thing:FindFirstAncestorWithClass(Class)
@@ -95,11 +141,12 @@ function Thing:SetParent(NewParent)
     end
 
     self.TruelySerializable = CheckSerializable(self)
+    self.ParentChanged.Invoke()
 
-    if self.TruelySerializable then -- Dont call for now
+    --if self.TruelySerializable then -- Dont call for now
         --print("Fire HierachyChanged")
         --Things.HierachyChanged:Invoke(self, OldParent, NewParent)
-    end
+    --end
 end
 
 function Thing:DescendantOf()

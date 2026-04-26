@@ -11,10 +11,11 @@ return function()
         Name = "Environment",
         Parent = Root
     }
-     local HUD = Things.Create("HUD") {
+    local HUD = Things.Create("HUD") {
         Name = "HUD",
         Parent = Root
     }
+
     ---@module 'Viewport2D'
     local Viewport = Things.Create("Viewport2D") {
         Name = "ViewportInternal",
@@ -25,11 +26,21 @@ return function()
         },
         Parent = Root
     }
+
+    Things.Create("Viewport3D") {
+        Size = Pivot2D.FromScale(0.75,0.8),
+        Position = Pivot2D.FromScale(0,0),
+        Parent = Viewport,
+        RenderFolder = Environment,
+        Name = "MainViewport"
+    }
     --@module 'Camera'
     local Camera = Things.Create("Camera") {
         Name = 'Camera',
         Parent = Environment
     }
+
+    Environment:SetCamera(Camera)
     
     ---@module 'TextButton'
     local SaveTest = Things.Create("TextButton") {
@@ -50,14 +61,6 @@ return function()
     LoadTest.Clicked:Connect(function()
         Runtime.Serializer.Load()
     end)
-
-    local Viewport3Dwow = Things.Create("Viewport3D") {
-        Size = Pivot2D.FromScale(0.75,0.8),
-        Position = Pivot2D.FromScale(0,0),
-        Parent = Viewport,
-        RenderFolder = Environment,
-        Name = "MainViewport"
-    }
 
     -- 3d test
     ---@class Mesh
@@ -88,8 +91,5 @@ return function()
     ball:SetParent(Environment)
     wedge:SetParent(Environment)
 
-    Runtime.Services.InputService:SetViewportDefaultOnService(Viewport3Dwow)
-    Runtime.Services.Debug:SetViewportDefaultOnService(Viewport3Dwow)
-    Runtime.Services.Debug:AssingScripty(Mesh)
     return Root
 end

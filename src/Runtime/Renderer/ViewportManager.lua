@@ -1,8 +1,6 @@
 local Things
 local ViewportManager = {}
 
-local TestCamera = Editor.Camera
-
 function ViewportManager.Init()
     Things = Runtime.Things
 
@@ -35,13 +33,7 @@ end
 function ViewportManager.RenderViewport3D(Viewport)
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
-
-        --TestCamera:setCamera(Dream.camera)
-
-        for _, Element in pairs(Viewport.DisplayList) do
-            Dream:draw(Element.Child)
-        end
-
+        Dream:draw(Runtime.Backend3D.GetWorld())
         Dream:present()
     end)
 end

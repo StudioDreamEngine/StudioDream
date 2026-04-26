@@ -22,6 +22,12 @@ function Viewport:Draw()
     Renderer.ViewportManager.RenderCanvas(self)
 end
 
+function Viewport:SetRenderFolder(NewRenderFolder)
+    NewRenderFolder.Viewport = self
+    
+    self.RenderFolder = NewRenderFolder
+end
+
 -- Send a child to the display list
 function Viewport:SendChild(Child, Order)
     Order = Order or #self.DisplayList+1
@@ -36,7 +42,6 @@ function Viewport:SetAbsoluteSize(New)
 
     print("Queued viewport update for: "..self.Name)
     self.QueuedUpdate = true
-
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, New)
 end
 

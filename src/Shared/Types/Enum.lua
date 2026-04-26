@@ -15,6 +15,10 @@ return {
         Wedge = 'wedge',
         Arrow = 'arrow',
     },
+    LayoutDirection = {
+        Horizontal = "Horizontal",
+        Vertical = "Vertical"
+    },
     InputCode = {
         
         -- Keyboard:

@@ -1,24 +1,23 @@
 local Debug = {}
 local Services = Runtime.Services
-local Viewport
-local Scripty
-
-function Debug:SetViewportDefaultOnService(View)
-    Viewport = View
-end
-
-function Debug:AssingScripty(Thing)
-    Scripty = Thing
-end
+local Things = Runtime.Things
 
 function Debug:Init()
-    Services.InputService:InputBegan():Connect(function(Key)
-        if Key == "F" then
-            local MousePos = Viewport.MousePosition
+    print("Start debugservice")
+    Services.InputService.InputBegan:Connect(function(Key)
+        local Environment = Things.GetRoot("Environment")
 
-            local MouseOrigin = Viewport.Camera.position
-            local MouseDirection = Viewport:ToWorldSpaceVector(MousePos)
-            local hit = Services.RaycastService:Raycast(Scripty.Drawable, MouseOrigin, Dream.vec3(MouseDirection.X,MouseDirection.Y,MouseDirection.Z))
+        if Key == "F" then
+            print("Viewport")
+            local MousePos = Environment.Viewport.MousePosition
+            
+            ---@class Camera
+            local Camera = Environment.Camera
+
+            local MouseOrigin = Camera.Position
+            local MouseDirection = Camera:VectorToWorldSpace(MousePos)*20
+
+            local hit = Environment:Raycast(MouseOrigin, MouseDirection)
 
             if hit then
                 local MouseHit = hit.position

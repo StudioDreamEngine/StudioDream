@@ -8,6 +8,7 @@ return { new = function()
     ObjectProxy.Accessible = {}
 
     ObjectProxy.Proxies = {}
+    ObjectProxy.Overrides = {}
 
     -- Code reuse.... 
     -- Fucking hell cant do shit in this codebase
