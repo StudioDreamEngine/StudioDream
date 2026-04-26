@@ -2,6 +2,7 @@ local Things = Runtime.Things
 
 -- Create our DataModel/Root here
 return function()
+    ---@class Root
     local Root = Things.Create("Root", "Root") {
         Name = "Root"
     }
@@ -11,6 +12,7 @@ return function()
         Name = "Environment",
         Parent = Root
     }
+
     local HUD = Things.Create("HUD") {
         Name = "HUD",
         Parent = Root
@@ -21,75 +23,29 @@ return function()
         Name = "ViewportInternal",
         Size = Pivot2D.FromOffset(800, 600),
         Serializable = false,
-        Explorer = {
-            Visible = false
-        },
         Parent = Root
     }
 
-    Things.Create("Viewport3D") {
+    local EnvViewport = Things.Create("Viewport3D") {
         Size = Pivot2D.FromScale(0.75,0.8),
         Position = Pivot2D.FromScale(0,0),
         Parent = Viewport,
         RenderFolder = Environment,
         Name = "MainViewport"
     }
-    --@module 'Camera'
+
+    ---@module 'Camera'
     local Camera = Things.Create("Camera") {
         Name = 'Camera',
         Parent = Environment
     }
 
     Environment:SetCamera(Camera)
-    
-    ---@module 'TextButton'
-    local SaveTest = Things.Create("TextButton") {
-        Parent = Viewport,
-        Position = Pivot2D.FromScale(0,0.8)
-    }
 
-    SaveTest.Clicked:Connect(function()
-        Runtime.Serializer.Save()
-    end)
+    Root.EnvironmentViewport = EnvViewport
+    Root.RootViewport = Viewport
 
-    ---@module 'TextButton'
-    local LoadTest = Things.Create("TextButton") {
-        Parent = Viewport,
-        Position = Pivot2D.FromScale(0.1,0.8)
-    }
-
-    LoadTest.Clicked:Connect(function()
-        Runtime.Serializer.Load()
-    end)
-
-    -- 3d test
-    ---@class Mesh
-    local Mesh = Things.Create("Mesh"){}
-    ---@class Primitive
-    local brick = Things.Create("Primitive"){
-        Name = "Primitive"
-    }
-    ---@class Primitive
-    local ball = Things.Create("Primitive"){
-        Name = "Primitive",
-        Shape = "ball"
-    }
-    ---@class Primitive
-    local wedge = Things.Create("Primitive"){
-        Name = "Primitive",
-        Shape = "wedge"
-    }
-
-    brick.Position = Vector3.new(0, -1, 0)
-    brick.Size     = Vector3.new(512, 8, 512)
-
-    ball.Position  = Vector3.new(1, 0, 0)
-    wedge.Position = Vector3.new(-1, 0, 0)
-
-    Mesh:SetParent(Environment)
-    brick:SetParent(Environment)
-    ball:SetParent(Environment)
-    wedge:SetParent(Environment)
+    -- All test-related root stuff 
 
     return Root
 end

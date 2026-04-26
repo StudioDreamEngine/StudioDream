@@ -8,18 +8,24 @@ local TempSerialized
 
 function Serializer.Serialize()
     local ObjectTable = Serializer.Objects.SerializeObjects(Things.Root)
-    print(ObjectTable)
 
     TempSerialized = Binser.serialize(ObjectTable)
 end
 
-function Serializer.Deserialize(Content)
-    --local Table = Binser.deserialize(TempSerialized)[1]
+function Serializer.ConfigureTargets()
+    local Root = Things.Root
 
-    Things.ClearRoot()
+    Root.EnvironmentViewport = Root:FindFirstChild("Environment")
+
     Things.HierachyChanged:Invoke() -- TEMPORARY
+end
 
-    --Serializer.Objects.DeserializeObjects(Table)
+function Serializer.Deserialize(Content)
+    local Table = Binser.deserialize(TempSerialized)[1]
+    Things.ClearRoot()
+
+    Serializer.Objects.DeserializeObjects(Table)
+    Serializer.ConfigureTargets()
 end
 
 return Serializer

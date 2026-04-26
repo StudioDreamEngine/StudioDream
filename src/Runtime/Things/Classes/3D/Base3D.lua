@@ -1,8 +1,7 @@
+-- Base object for ALL 3d objects, drawable or not
 local Things = Runtime.Things
 
--- using @module here gives the lua language server a base type to use!
----@module 'Thing'
----@class Base3D
+---@class Base3D: Thing
 local Base3D = Things.Extend("Thing")
 
 function Base3D:new()
@@ -25,8 +24,8 @@ function Base3D:Update(dt)
     local Drawable = self.Drawable
 
     Drawable:resetTransform()
-    Drawable:scaleWorld(self.Size.X, self.Size.Y, self.Size.Z)
-    Drawable:translate(self.Position.X, self.Position.Y, self.Position.Z)
+    Drawable:scaleWorld(self.Size.ToDream())
+    Drawable:translate(self.Position.ToDream())
     Drawable:rotateX(self.Orientation.X)
     Drawable:rotateY(self.Orientation.Y)
     Drawable:rotateZ(self.Orientation.Z)

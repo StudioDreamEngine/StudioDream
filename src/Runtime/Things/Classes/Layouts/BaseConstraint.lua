@@ -21,7 +21,6 @@ function BaseConstraint:Unbind()
     end
 end
 
--- Might use idk
 function BaseConstraint:SetConstraint(Object, Property, Value)
     Object:SetConstraint(self, Property, Value)
 end

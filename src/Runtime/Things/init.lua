@@ -10,17 +10,22 @@ function Things.Init()
 
     Things.HierachyChanged = Signal:New("HierachyChanged")
     Things.Root = require("Runtime.Things.CreateRoot")()
+
+    print("Tree Created")
+
+    require("Runtime.Things.CreateTests")()
 end
 
 
 function Things.GetRoot(Object)
+    assert(Things.Root, "Tree hasnt been created yet! are you trying to access it before creation?")
+
     return Things.Root:FindFirstChild(Object)
 end
 
 function Things.ClearRoot()
     for _, Object in pairs(Things.Root:GetChildren()) do
         if Object.Serializable then
-            print(Object.Name)
             Things.Remove(Object)
         end
     end

@@ -20,7 +20,7 @@ function Objects.SerializeObjects(Root)
 
     ---@param DescendantObject Thing
     for _, DescendantObject in pairs(Root:GetDescendants()) do
-        if DescendantObject.Serializable then -- Only serialize if we can
+        if DescendantObject.TruelySerializable then -- Only serialize if we can
             Final[DescendantObject.UUID] = Objects.SerializeObject(DescendantObject)
         end
     end
