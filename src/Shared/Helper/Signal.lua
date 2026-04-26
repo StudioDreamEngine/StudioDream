@@ -86,7 +86,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 			-- otherwise, only return true if the listener id is the same as the invoked listener id
 			local DoesMatch = false
 			
-			if (not MatchingListener) or (not v[2]) or (v[2] == MatchingListener) then -- No matching listener or id
+			if (not v[2]) or (v[2] == MatchingListener) then -- No matching listener or id
 				DoesMatch = true
 			end
 			
