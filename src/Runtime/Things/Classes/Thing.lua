@@ -31,7 +31,7 @@ function Thing:new()
 
     self.Explorer = {
         Visible = true,
-        Icon = "shape_square"
+        Icon = "Icon_Not_Found"
     }
 
     self.Proxy.Property("Parent")

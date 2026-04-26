@@ -12,14 +12,16 @@ function Backend.Init()
     Runtime.Services = {}
     Runtime.Services.InputService = require("Runtime.Backend.Services.InputService")
     Runtime.Services.Debug = require("Runtime.Backend.Services.Debug")
-
+    Runtime.MouseHit = require("Runtime.Backend.MouseHit")
     Runtime.Services.InputService:Init()
+    Runtime.MouseHit:Init()
     Runtime.Services.Debug:Init()
 end
 
 function Backend.Update(dt)
     Runtime.InterfaceManager.Update(dt)
     Runtime.Services.InputService:Update(dt)
+    Runtime.MouseHit:Update()
 end
 
 function love.keypressed(Key)
@@ -36,6 +38,14 @@ end
 
 function love.gamepadreleased(joy, Key)
     Runtime.Services.InputService:gamepadreleased(joy,Key)
+end
+
+function love.mousepressed(x,y,button,istouch)
+     Runtime.Services.InputService:mousepressed(x,y,button,istouch)
+end
+
+function love.mousereleased(x,y,button,istouch)
+     Runtime.Services.InputService:mousereleased(x,y,button,istouch)
 end
 
 return Backend

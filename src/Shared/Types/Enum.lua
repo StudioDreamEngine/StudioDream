@@ -152,6 +152,10 @@ return {
         MouseRightClick = 'mrclick',
         MouseScrolled = 'mscroll',
 
+        --Mobile
+
+        Touch = 'mtouch',
+
         -- Misc
 
         None = '□'

@@ -13,7 +13,6 @@ function Viewport2D:new()
 
     self.Explorer = {
         Visible = true,
-        UseNewIcon = true,
         Icon = "Viewport_2D"
     }
 end
