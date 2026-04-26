@@ -21,7 +21,7 @@ function Camera:new()
     self.Viewport = nil
 end
 
--- From https://stackoverflow.com/a/53437900
+-- From https://stackoverflow.com/a/23976134
 function Camera:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
     local RayOrigin = self.Position -- RayOrigin is always assumed to be where the camera is for now
 
