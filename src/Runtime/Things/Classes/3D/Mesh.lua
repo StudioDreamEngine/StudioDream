@@ -1,9 +1,8 @@
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
----@module 'Base3D'
----@class Mesh
-local Mesh = Things.Extend("Base3D")
+---@class Mesh: Drawable3D
+local Mesh = Things.Extend("Drawable3D")
 
 function Mesh:new()
     Mesh.super.new(self)
@@ -13,11 +12,16 @@ function Mesh:new()
         UseNewIcon = true,
         Icon = "MeshPart"
     }
-    self.MeshFile = nil
+
     self.TextureFile = nil -- Maybe make this a table so we can put normals, and that super cool and realist stuff???
     self.Anchored = true
 
-    self.Drawable = Runtime.Backend3D.LoadObject(self, self.MeshFile or "Assets/Scripty")
+    self:LoadObject()
+end
+
+function Mesh:OnRemove()
+    Mesh.super.OnRemove(self)
+    Runtime.Backend3D.RemoveObject(self)
 end
 
 function Mesh:Update(dt)

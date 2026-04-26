@@ -1,7 +1,6 @@
 local Things = Runtime.Things
 
----@module 'Thing'
----@class Root
+---@class Root: Thing
 local Root = Things.Extend("Thing")
 
 function Root:new() 
@@ -14,6 +13,9 @@ function Root:new()
     }
 
     self.Serializable = false
+    
+    self.EnvironmentViewport = nil
+    self.RootViewport = nil
 end
 
 return Root

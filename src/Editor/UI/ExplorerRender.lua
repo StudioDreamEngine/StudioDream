@@ -80,7 +80,7 @@ local function RenderExplorer(TreeStarter, View)
 end
 
 return function(TreeStarter, View)
-    local Window = Runtime.InterfaceManager.CreateWindow(Pivot2D.FromScale(1,0.5),Pivot2D.FromScale(0,0.31),View)
+    local Window = Editor.UI.CreateWindow(Pivot2D.FromScale(1,0.5),Pivot2D.FromScale(0,0.31),View)
     ExplorerContainer1 = Window.Container
     ExplorerContainer = Window.BackWindow
     RenderTextLabelNew(ExplorerContainer1,"Explorer",Pivot2D.FromScale(0,0),Pivot2D.FromScale(1,0.05))

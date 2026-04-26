@@ -22,7 +22,7 @@ function Backend3D.LoadObject(Object, Path)
 end
 
 function Backend3D.RemoveObject(Object)
-    DreamWorld.object[Object.UUID] = nil
+    DreamWorld.objects[Object.UUID] = nil
 end
 
 return Backend3D

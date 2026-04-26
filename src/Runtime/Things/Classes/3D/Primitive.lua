@@ -1,9 +1,8 @@
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
----@module 'Base3D'
----@class Primitive
-local Primitive = Things.Extend("Base3D")
+---@class Primitive: Drawable3D
+local Primitive = Things.Extend("Drawable3D")
 
 function Primitive:new()
     Primitive.super.new(self)
@@ -21,7 +20,7 @@ end
 
 function Primitive:CheckShape()
     if self._LastShape ~= self.Shape or not self.Drawable then
-        self.Drawable = Runtime.Backend3D.LoadObject(self, 'Assets/DefaultMeshes/' .. self.Shape)
+        self:LoadObject(self.Shape)
         print("[Primitive] made new Drawable")
     end
 
