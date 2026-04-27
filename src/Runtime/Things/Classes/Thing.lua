@@ -25,6 +25,8 @@ function Thing:new()
 
     self.Children = {}
     self.Parent = nil 
+    self.Unreferenced = false
+
     self.UUID = CreateUUID()
 
     self.Overrides = {}
@@ -143,9 +145,10 @@ function Thing:SetParent(NewParent)
     end
 
     if NewParent then
-        self.Parent = NewParent
         NewParent.Children[self.UUID] = true
     end
+
+    self.Parent = NewParent
 
     self.TruelySerializable = CheckSerializable(self)
     self.ParentChanged.Invoke()
@@ -190,6 +193,7 @@ function Thing:GetChildren()
 end
 
 function Thing:OnRemove()
+    self.Unreferenced = true
     self:SetParent()
     self:ClearAllChildren()
 end

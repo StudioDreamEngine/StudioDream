@@ -22,6 +22,7 @@ function Camera:new()
 end
 
 -- From https://stackoverflow.com/a/23976134
+-- Idk man, i gotta understand and use dot products more
 function Camera:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
     local RayOrigin = self.Position -- RayOrigin is always assumed to be where the camera is for now
 
@@ -61,6 +62,14 @@ function Camera:VectorToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want a
 end
 
 function Camera:Update(dt)
+    local Environment = Things.GetRoot("Environment")
+
+    if (not Environment.Viewport) then
+        return
+    else
+        self.Viewport = Environment.Viewport
+    end
+
     local _Camera = self.DreamCamera
 
     local keyDown = love.keyboard.isDown
@@ -96,12 +105,9 @@ function Camera:Update(dt)
     _Camera:rotateY(self.Orientation.Y)
     _Camera:rotateZ(self.Orientation.Z)
 
-    local Environment = Things.GetRoot("Environment")
-
-    local Vector = self:VectorToWorldSpace(Environment.Viewport.MousePosition)
+    local Vector = self:VectorToWorldSpace(self.Viewport.MousePosition)
 
     Things.DebugObj.Position = self:RayDirectionToPlane(Vector3.zero, Vector3.zAxis, Vector)
-    --Things.DebugObj2.Position = self.Position + Vector*5
 end
 
 return Camera
