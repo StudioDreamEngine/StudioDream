@@ -26,13 +26,13 @@ return function()
         Parent = Root
     }
 
-    local EnvViewport = Things.Create("Viewport3D") {
+    --[[local EnvViewport = Things.Create("Viewport3D") {
         Size = Pivot2D.FromScale(0.75,0.8),
         Position = Pivot2D.FromScale(0,0),
         Parent = Viewport,
         RenderFolder = Environment,
         Name = "MainViewport"
-    }
+    }]]
 
     ---@module 'Camera'
     local Camera = Things.Create("Camera") {
@@ -40,9 +40,8 @@ return function()
         Parent = Environment
     }
 
-    Environment:SetCamera(Camera)
+    Environment.Camera = Camera
 
-    Root.EnvironmentViewport = EnvViewport
     Root.RootViewport = Viewport
 
     -- All test-related root stuff is moved to CreateTests.lua

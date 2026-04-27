@@ -1,36 +1,19 @@
 local Things = Runtime.Things
-
-local ExplorerContainer
-local ExplorerContainer1
+local Explorer = {}
 
 local RowHeight = 21
 local IndentSize = 16
 local IconsSize = 20 -- no you wont
 
 local NodeColor = Color.new(0.314, 0.294, 0.502)
-local WindowColor = Color.new(0.106, 0.09, 0.188)
-local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
 local function RenderIcon(IconName, VectorPos, Container)
     local ImageThing = Things.Create("Image2D") {
         Size = Pivot2D.FromOffset(IconsSize,IconsSize), -- used to be 16,16
-        Image = "Assets/EditorIcons/32/" .. IconName .. ".png" or "Assets/EditorIcons/32/Icon_Not_Found.png",
+        Image = ("Assets/EditorIcons/32/" .. IconName .. ".png") or "Assets/EditorIcons/32/Icon_Not_Found.png",
         Pivot = Vector2.new(1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
         Parent = Container
-    }
-end
-
-local function RenderTextLabelNew(Container,Text,Position,Size)
-    local TextThing = Things.Create("Text") {
-        Size = Size,
-        Position = Position,
-        Text = Text,
-        Layer = 3,
-        Parent = Container,
-        BackgroundTransparency = 1,
-        ForegroundColor = Color.new(1,1,1),
-        AlignX = Enum.AlignmentX.Center
     }
 end
 
@@ -43,7 +26,7 @@ local function RenderNode(Thing, currentY, depth ,XPos, View)
     local iconPos  = Vector2.new(xOffset, currentY)
 
     local NodeContainer = Things.Create "TextButton" {
-       Size = Pivot2D.FromScale(1,0.05),--Pivot2D.FromOffset(Vector2.new(200, 20)),
+       Size = Pivot2D.FromScale(1,0.05),
        Pivot = Vector2.new(0,0.5),
        Position = Pivot2D.FromOffset(xOffset+IconsSize,currentY),
        Explorer = {
@@ -74,20 +57,21 @@ local function RenderNode(Thing, currentY, depth ,XPos, View)
     return currentY
 end
 
-local function RenderExplorer(TreeStarter, View)
+local function RenderExplorer(TreeStarter)
     ExplorerContainer:ClearAllChildren()
-    RenderNode(TreeStarter, 10, 0, 0, View)
+    RenderNode(TreeStarter, 10, 0, 0, ExplorerContainer)
 end
 
-return function(TreeStarter, View)
-    local Window = Editor.UI.CreateWindow(Pivot2D.FromScale(1,0.5),Pivot2D.FromScale(0,0.31),View)
-    ExplorerContainer1 = Window.Container
-    ExplorerContainer = Window.BackWindow
-    RenderTextLabelNew(ExplorerContainer1,"Explorer",Pivot2D.FromScale(0,0),Pivot2D.FromScale(1,0.05))
-    RenderExplorer(TreeStarter, View)
+function Explorer.Init(WindowContainer)
+    local TreeStarter = Things.Root
+    ExplorerContainer = WindowContainer
+
+    RenderExplorer(TreeStarter)
 
     Things.HierachyChanged:Connect(function()
         print("Re-render explorer")
-        RenderExplorer(TreeStarter, View)
+        RenderExplorer(TreeStarter)
     end)
 end
+
+return Explorer

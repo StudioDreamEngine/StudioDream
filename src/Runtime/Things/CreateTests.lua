@@ -59,5 +59,4 @@ return function ()
     wedge:SetParent(Environment)
 
     Things.SetDebugObject(Mesh)
-    Things.SetDebugObject2(ball)
 end
