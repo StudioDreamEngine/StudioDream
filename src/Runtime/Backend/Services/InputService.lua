@@ -93,16 +93,12 @@ function InputService:keypressed(Key)
     Key = ToEnum(Key)
     self.CurrentPressed[Key] = true
     self.InputBegan:Invoke(Key)
-
-    print(Key)
-    print(self.CurrentPressed)
 end
 
 function InputService:keyreleased(Key)
     Key = ToEnum(Key)
     self.CurrentPressed[Key] = nil
     NotifyInput(false,Key,self.EventsConnected)
-   -- print(Key)
 end
 
 function InputService:gamepadpressed(joystick, Key)
@@ -110,7 +106,6 @@ function InputService:gamepadpressed(joystick, Key)
     Key = ToEnum(Key)
     self.CurrentPressed[Key] = true
     NotifyInput(true, Key, self.EventsConnected,Joystick:getID())
-    print(Key)
 end
 
 function InputService:gamepadreleased(joystick, Key)
@@ -118,7 +113,6 @@ function InputService:gamepadreleased(joystick, Key)
     Key = ToEnum(Key)
     self.CurrentPressed[Key] = nil
     NotifyInput(false, Key, self.EventsConnected,Joystick:getID())
-    print(Key)
 end
 
 function InputService:mousepressed(x,y,button,isTouch)

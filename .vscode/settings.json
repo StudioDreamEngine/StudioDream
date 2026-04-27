@@ -2,7 +2,8 @@
     "Lua.diagnostics.globals": [
         "love",
         "utf8",
-        "Runtime"
+        "Runtime",
+        "Dream"
     ],
     "Lua.diagnostics.disable": [
         "need-check-nil",

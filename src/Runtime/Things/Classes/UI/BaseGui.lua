@@ -6,11 +6,13 @@ local Things = Runtime.Things
 local BaseGui = Things.Extend("Thing")
 
 function BaseGui:GetOffsetPosition()
-    local Position = self.Position.Offset - (self.Pivot * self:GetAbsoluteSize())
+    local PositionProp = self:GetProperty("Position")
+
+    local Position = PositionProp.Offset - (self.Pivot * self.AbsoluteSize)
     local ParentElement = self:GetParentElement()
 
     if ParentElement then
-        Position = Position + (self.Position.Scale * ParentElement:GetAbsoluteSize())
+        Position = Position + (PositionProp.Scale * ParentElement.AbsoluteSize)
     end
 
     return Position
@@ -29,14 +31,13 @@ function BaseGui:GetAbsolutePosition()
             return Position 
         end
 
-        Position = Position + ParentElement:GetAbsolutePosition()
+        Position = Position + ParentElement.AbsolutePosition
     end
 
     return Position
 end
 
 function BaseGui:GetRect()
-    -- TODO: ``self.AbsolutePosition`` isnt working for some reason, replace self:GetAbsolutePosition() with self.AbsolutePosition later!
     return Rect.new(self.AbsolutePosition, self.AbsoluteSize)
 end
 
@@ -52,22 +53,36 @@ function BaseGui:GetDisplayPosition()
     return Position
 end
 
-function BaseGui:GetAbsoluteSize(Size)
-    local Size = Size or self.Size
+--[[function BaseGui:GetContentSize()
+    local Size = Vector2.zero
 
-    local AbsoluteSize = Size.Offset
+    for _, v in pairs(self:GetChildren()) do
+        if v:IsA("BaseGui") then
+            local AbsoluteEnd = v.Position.Offset + v.AbsoluteSize
+
+            if AbsoluteEnd.X > Size.X and AbsoluteEnd.Y > Size.Y then
+                Size = AbsoluteEnd
+            end
+        end
+    end
+
+    return Size
+end]]
+
+function BaseGui:GetAbsoluteSize()
+    local AbsoluteSize = self.Size.Offset
     local ParentElement = self:GetParentElement()
 
     if ParentElement then -- Only do this if we found a parent element
-        AbsoluteSize = AbsoluteSize + (ParentElement:GetAbsoluteSize() * Size.Scale)
+        AbsoluteSize = AbsoluteSize + (ParentElement.AbsoluteSize * self.Size.Scale)
     end
-    
+
     return AbsoluteSize
 end
 
--- Find the parent element rendering this object
+-- Find the parent element rendering this object, not really needed
 function BaseGui:GetParentElement()
-    return self:FindFirstAncestorWithClass("BaseGui")
+    return (self.Parent and self.Parent:IsA("BaseGui")) and self.Parent
 end
 
 -- Find the parent Viewport2D rendering this object
@@ -85,6 +100,9 @@ function BaseGui:new()
 
     self.Size = Pivot2D.FromOffset(50, 50)
     self.Position = Pivot2D.FromOffset(0, 0)
+
+    self.AutomaticSize = nil
+    self.ListOrder = 0
 
     self.ColorMultiplier = 1
 
@@ -113,7 +131,21 @@ function BaseGui:DrawStyle()
     local AbsoluteSize = self.AbsoluteSize
     love.graphics.rectangle("line", 0,0, AbsoluteSize.X, AbsoluteSize.Y)
 
+    --Runtime.Backend2D.SetColor(Color.new(0,1,0))
+    --local ContentSize = self:GetContentSize()
+    --love.graphics.rectangle("line", 0,0, ContentSize.X, ContentSize.Y)
+
     Runtime.Backend2D.SetColor(Color.new(1))
+end
+
+function BaseGui:UpdateChildTransforms()
+    self:UpdateTransforms()
+
+    for _, v in pairs(self:GetChildren()) do
+        if v:IsA("BaseGui") then
+            v:UpdateChildTransforms()
+        end
+    end
 end
 
 function BaseGui:UpdateTransforms()

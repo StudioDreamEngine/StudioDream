@@ -1,7 +1,6 @@
 local Things = Runtime.Things
 
----@class BaseConstraint
----@module "Thing"
+---@class BaseConstraint: Thing
 local BaseConstraint = Things.Extend("Thing")
 
 function BaseConstraint:new()
@@ -9,6 +8,8 @@ function BaseConstraint:new()
 
     self.ConstraintProperties = {}
     self.ObjectFilter = "BaseConstraint"
+
+    self.Objects = {}
 end
 
 function BaseConstraint:Bind()
@@ -19,6 +20,8 @@ function BaseConstraint:Unbind()
     for _, Object in pairs(self.Objects) do
         Object:UnbindConstraint(self)
     end
+
+    self.Objects = {}
 end
 
 function BaseConstraint:SetConstraint(Object, Property, Value)

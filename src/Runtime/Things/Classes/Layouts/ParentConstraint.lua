@@ -1,13 +1,10 @@
 local Things = Runtime.Things
 
----@class ParentConstraint
----@module "BaseConstraint"
+---@class ParentConstraint: BaseConstraint
 local ParentConstraint = Things.Extend("BaseConstraint")
 
 function ParentConstraint:new()
     ParentConstraint.super.new(self)
-
-    self.Objects = {}
 end
 
 function ParentConstraint:Bind()
