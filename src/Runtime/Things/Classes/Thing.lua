@@ -24,7 +24,7 @@ function Thing:new()
     self.Proxy = Runtime.ObjectProxy.new()
 
     self.Children = {}
-    self.Parent = nil 
+    self.Parent = nil ---@type Thing
     self.Unreferenced = false
 
     self.UUID = CreateUUID()
@@ -70,6 +70,14 @@ function Thing:UnbindConstraints(Object)
     for Property, Data in pairs(self.Overrides) do
         if Data.Object.UUID == Object.UUID then
             self.Overrides[Property] = nil
+        end
+    end
+end
+
+function Thing:FindConstraintOfType(Type)
+    for _, Data in pairs(self.Overrides) do
+        if Data.Object:IsA(Type) then
+            return Data.Object
         end
     end
 end
@@ -145,13 +153,15 @@ function Thing:SetParent(NewParent)
     end
 
     if NewParent then
-        NewParent.Children[self.UUID] = true
+        NewParent.Children[self.UUID] = self
     end
 
     self.Parent = NewParent
 
     self.TruelySerializable = CheckSerializable(self)
     self.ParentChanged.Invoke()
+
+    Things.HierachyChanged:Invoke(self, OldParent, NewParent)
 
     --if self.TruelySerializable then -- Dont call for now
         --print("Fire HierachyChanged")
@@ -183,13 +193,7 @@ function Thing:IsA(ObjectType)
 end
 
 function Thing:GetChildren()
-    local ReturnedChildren = {}
-
-    for ChildUUID, _ in pairs(self.Children) do
-        table.insert(ReturnedChildren, Things.Get(ChildUUID))
-    end
-
-    return ReturnedChildren
+    return self.Children
 end
 
 function Thing:OnRemove()

@@ -14,8 +14,6 @@ local CancelingTasks = {} -- List of tasks that will be canceled on next yield
 
 -- Start a new task
 function Scheduler.NewTask(Function, ...)
-    --print("Spawn new scheduler task")
-
     return Scheduler.DelayTask(0, Function, ...)
 end
 

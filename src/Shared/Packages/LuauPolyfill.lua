@@ -308,8 +308,6 @@ do
 				return t.X..", "..t.Y
 			end,
 			__mul = function (t1, t2)
-				assert(type(t1) ~= "nil", "Attempted to multiply Vector2 by nil value")
-
 				if type(t2) == "number" then
 					return Vector2.new(t1.X * t2, t1.Y * t2)
 				elseif type(t1) == "number" then
@@ -330,7 +328,7 @@ do
 		function Object.Lerp(SecondVector, Alpha)
 			return Vector2.new(math.lerp(Object.X, SecondVector.X, Alpha),math.lerp(Object.Y, SecondVector.Y, Alpha))
 		end
-
+		
 		function Object.Copy()
 			return Vector2.new(Object.X,Object.Y)
 		end

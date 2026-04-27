@@ -57,7 +57,7 @@ function StudioLayout.CreateLayout()
         BackgroundTransparency = 1
     }
 
-    StudioLayout.CreateWindow("MiklExplorer", {
+    StudioLayout.CreateWindow("Explorer", {
         Size = Pivot2D.FromScale(0.25,.9),
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0)

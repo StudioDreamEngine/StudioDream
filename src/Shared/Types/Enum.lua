@@ -24,10 +24,12 @@ return {
         iOS = "iOS",
         Linux = "Linux",
     },
+    AutomaticSize = {
+        Y = "Y",
+        X = "X"
+    },
     InputCode = {
-        
-        -- Keyboard:
-
+        -- Keyboard
         RightArrow = 'right',
         LeftArrow = 'left',
         UpArrow = 'up',
@@ -132,8 +134,9 @@ return {
         End = 'end',
         Mode = 'mode',
         Backspace = 'backspace',
-        -- Controllers:
 
+
+        -- Controller
         GamepadA = 'gp_a',
         GamepadB = 'gp_b',
         GamepadX = 'gp_x',
@@ -150,19 +153,19 @@ return {
         GamepadBack = 'gp_back',
         GamepadGuide = 'gp_guide',
         GamepadStart = 'gp_start',
+
         
         -- Mouse
-
         MouseLeftClick = 'mlclick',
         MouseRightClick = 'mrclick',
         MouseScrolled = 'mscroll',
 
-        --Mobile
 
+        --Mobile
         Touch = 'mtouch',
+        
 
         -- Misc
-
         None = '□'
     }
 }
