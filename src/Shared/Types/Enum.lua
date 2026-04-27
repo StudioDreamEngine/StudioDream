@@ -19,6 +19,11 @@ return {
         Horizontal = "Horizontal",
         Vertical = "Vertical"
     },
+    Device = {
+        Android = "Android",
+        iOS = "iOS",
+        Linux = "Linux",
+    },
     InputCode = {
         
         -- Keyboard:

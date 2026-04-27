@@ -10,7 +10,7 @@ function Square:new()
 
     self.Explorer = {
         Visible = true,
-        Icon = "Icon_Not_Found"
+        Icon = "Square"
     }
 end
 
