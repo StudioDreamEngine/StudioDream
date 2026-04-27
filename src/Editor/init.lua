@@ -1,22 +1,21 @@
 local Editor = {}
 
-Editor.Camera = require("Editor.cameraController")
-Editor.UI = require("Editor.UI")
-Editor.Selection = require("Editor.Selection")
+Runtime = require("Runtime")
 
 function Editor.Init()
-    Editor.Theme = require("Editor.Theme")
+    Studio = require("Editor.Studio")
 
-    Editor.UI.Init(Runtime.Things.GetRoot("ViewportInternal"))
-    Editor.Selection:Init()
+    Runtime.Init()
+    Studio.Init()
 end
 
-function Editor.Render(dt)
-    --TODO
+function Editor.Update(dt)
+    Runtime.Update(dt)
+    Studio.Update(dt)
 end
 
-function Editor.Update()
-    
+function Editor.Render()
+    Runtime.Render()
 end
 
 return Editor

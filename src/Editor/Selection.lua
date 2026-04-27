@@ -1,7 +1,7 @@
 local SelectionThing = {}
 local Selecting = {}
 
-function SelectionThing:Init()
+function SelectionThing.Init()
     local Services = Runtime.Services
 
     Services.InputService.InputBegan:Connect(function(Key)
