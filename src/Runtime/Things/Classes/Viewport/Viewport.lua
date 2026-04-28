@@ -2,8 +2,7 @@ local Things = Runtime.Things
 local Renderer = Runtime.Renderer
 
 -- using @module here gives the lua language server a base type to use!
----@module 'BaseGui'
----@class Viewport
+---@class Viewport: BaseGui
 local Viewport = Things.Extend("BaseGui")
 
 function Viewport:new()
@@ -22,12 +21,6 @@ function Viewport:Draw()
     Renderer.ViewportManager.RenderCanvas(self)
 end
 
-function Viewport:SetRenderFolder(NewRenderFolder)
-    NewRenderFolder.Viewport = self
-    
-    self.RenderFolder = NewRenderFolder
-end
-
 -- Send a child to the display list
 function Viewport:SendChild(Child, Order)
     Order = Order or #self.DisplayList+1
@@ -35,6 +28,10 @@ function Viewport:SendChild(Child, Order)
     self.DisplayList[Order] = {
         Child = Child
     }
+end
+
+function Viewport:GetTarget()
+    return self.RenderFolder or self
 end
 
 function Viewport:SetAbsoluteSize(New)

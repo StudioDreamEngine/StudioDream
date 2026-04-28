@@ -1,10 +1,16 @@
 local Things
 local ViewportManager = {}
 
+local RootViewport
+
 function ViewportManager.Init()
     Things = Runtime.Things
 
     ViewportManager.Viewports = {}
+
+    LoveEvents.Resize:Connect(function(w,h)
+        RootViewport:SetSize(Pivot2D.FromOffset(w,h))
+    end)
 end
 
 function ViewportManager.CreateViewport(Viewport, Size)
@@ -44,12 +50,6 @@ function ViewportManager.RenderCanvas(Viewport) Runtime.Backend2D.RenderCanvas(V
 function ViewportManager.Update(dt)
     --TestCamera:update(dt,75)
     Dream:update(dt)
-end
-
-local RootViewport
-
-function love.resize(w,h)
-    RootViewport:SetSize(Pivot2D.FromOffset(w,h))
 end
 
 function ViewportManager.Render()

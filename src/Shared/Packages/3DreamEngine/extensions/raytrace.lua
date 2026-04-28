@@ -202,7 +202,7 @@ local function raytraceMesh(mesh, localOrigin, localDirection)
 	end
 end
 
-local function raytraceObject(object, localOrigin, localDirection, onlyRaytraceMeshes)
+local function raytraceObject(object, localOrigin, localDirection, onlyRaytraceMeshes, fast)
 	--object transform
 	if object.transform then
 		local m = object:getInvertedTransform()

@@ -1,6 +1,5 @@
 Shared = require("Shared")
-
-local Target = require("Editor")
+local Target = require("Studio")
 
 function love.load()
     require("Shared.SetupGlobals")()
