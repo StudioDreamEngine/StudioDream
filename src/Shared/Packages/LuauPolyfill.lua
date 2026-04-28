@@ -26,8 +26,13 @@
 	IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 	CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-	Version 1.2
+	Version 1.3.1
 ]]
+
+POLYFILL_FLAGS = {
+	Verbose = FLAGS.Verbose, -- If verbose printing is enabled
+	utf8 = true -- If you do not have a utf8 library, set this to false
+}
 
 ---@diagnostic disable: param-type-mismatch
 -- String --
@@ -48,17 +53,19 @@ do
 	end
 
 	-- Thx Emk530
-	function string.utfsub(s,i,j)
-		if j == -1 then j=utf8.len(s) end
-		local success,ret = pcall(function()
-			local k=utf8.offset(s,i)
-			local l=utf8.offset(s,j+1)-1
-			return string.sub(s,k,l)
-		end)
-		if success then
-			return ret
-		else
-			return string.sub(s,i,j)
+	if POLYFILL_FLAGS.utf8 then
+		function string.utfsub(s,i,j)
+			if j == -1 then j=utf8.len(s) end
+			local success,ret = pcall(function()
+				local k=utf8.offset(s,i)
+				local l=utf8.offset(s,j+1)-1
+				return string.sub(s,k,l)
+			end)
+			if success then
+				return ret
+			else
+				return string.sub(s,i,j)
+			end
 		end
 	end
 end
@@ -540,16 +547,12 @@ end
 -- Print --
 PrintOG = _G.print
 
-local function FirstIndex(thestring, seperator)
-	return string.split(thestring, seperator)[1]
-end
-
 -- Edit of the print function that supports printing tables
-function _G.print(...)
+local function InternalPrint(IsVerbose, ...)
 	local PrintTable = {...}
 	local FormattedPrintTable = {}
 
-	local PrintedFrom = string.split(string.split(debug.traceback("",2), "\n")[3],":") -- Get the path, no line number
+	local PrintedFrom = string.split(string.split(debug.traceback("",3), "\n")[3],":") -- Get the path, no line number
 
 	local Path = string.sub(PrintedFrom[1], 2)
 	local LineNumber = PrintedFrom[2]
@@ -567,11 +570,23 @@ function _G.print(...)
 		end
 	end
 
-	local FinalString = Path..":"..(LineNumber)..":"
+	local FinalString = (IsVerbose and "[VERBOSE] " or "[REGULAR] ")..Path..":"..(LineNumber)..":"
 
 	for _, v in pairs(FormattedPrintTable) do
 		FinalString = FinalString.." "..v
 	end
 
 	PrintOG(FinalString)
+end
+
+function _G.printVerbose(...)
+	if (not POLYFILL_FLAGS.Verbose) then
+		return
+	end
+
+	InternalPrint(true, ...)
+end
+
+function _G.print(...)
+	InternalPrint(false, ...)
 end
