@@ -37,7 +37,7 @@ end
 function Viewport:SetAbsoluteSize(New)
     Viewport.super.SetAbsoluteSize(self, New)
 
-    print("Queued viewport update for: "..self.Name)
+    printVerbose("Queued viewport update for: "..self.Name)
     self.QueuedUpdate = true
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, New)
 end

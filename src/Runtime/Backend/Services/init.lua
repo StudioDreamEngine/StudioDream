@@ -2,10 +2,15 @@ local Services = {}
 
 Services.Services = {}
 
-function Services.LoadService(Service)
+function Services.Service(Service)
     if (not Services.Services[Service]) then
+        print("Initalizing Service: "..Service)
+
         Services.Services[Service] = require("Runtime.Backend.Services."..Service)
+        Services.Services[Service].Init()
     end
+
+    print("Returning Already-Initalized Service: "..Service)
 
     return Services.Services[Service]
 end
@@ -16,10 +21,6 @@ function Services.CallAll(Function, ...)
             Service[Function](...)
         end
     end
-end
-
-function Services.Init()
-    Services.CallAll("Init")
 end
 
 function Services.Update(dt)

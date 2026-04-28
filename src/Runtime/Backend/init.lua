@@ -10,8 +10,7 @@ function Backend.Init()
     Runtime.ObjectProxy = require("Runtime.Backend.ObjectProxy")
 
     Runtime.Services = require("Runtime.Backend.Services")
-
-    Runtime.Services.LoadService("Debug")
+    Runtime.Services.Service("Debug")
 end
 
 function Backend.Update(dt)

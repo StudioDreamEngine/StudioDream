@@ -26,6 +26,8 @@ function Runtime.Init()
     Runtime.Serializer = require("Runtime.Serialization")
 
     Profiler = Dream.delton
+
+    print("Runtime Initalized")
 end
 
 function Runtime.Render()

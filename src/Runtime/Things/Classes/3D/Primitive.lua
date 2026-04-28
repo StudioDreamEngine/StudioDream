@@ -21,7 +21,7 @@ end
 function Primitive:CheckShape()
     if self._LastShape ~= self.Shape or not self.Drawable then
         self:LoadObject(self.Shape)
-        print("[Primitive] made new Drawable")
+        printVerbose("Made new Drawable")
     end
 
     self._LastShape = self.Shape

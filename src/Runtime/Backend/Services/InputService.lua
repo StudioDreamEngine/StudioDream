@@ -1,27 +1,16 @@
 local InputService = {}
 
 function InputService.Init()
-    print("hi i inited!")
-    InputService.CurrentPressed = {}
-    InputService.EventsConnected = {
-        Began = {},
-        Ended = {},
-
-        Changed = {},
-    }
     InputService.AxisPrevious = {}
     InputService.AxisCurrent = {}
 
     InputService.InputBegan = Signal:New("InputBeganSignal")
+    InputService.InputEnded = Signal:New("InputEndSignal")
 
     InputService.MouseDown = Signal:New("MouseDownSignal")
     InputService.MouseUp = Signal:New("MouseUpSignal")
 
     --InputService.MouseClicked = InputService.MouseUp -- For ease of use
-end
-
-function InputService.SetViewportDefaultOnService(View)
-    Viewport = View
 end
 
 function InputService.IsKeyDown(Key) -- Be enum based
@@ -64,31 +53,18 @@ function InputService.JoystickConnect(ContollerID)
     return InputServiceed
 end
 
-function InputService.InputEnded()
-    local UUID = CreateUUID()
-    local Signal = Signal:New("SignalDefaultWowz")
-    InputService.EventsConnected.Ended[UUID] = Signal
-    return Signal
-end
-
-function NotifyInput(IsBegan, Key, EventPass,JoystickID)
-    local EventIn = IsBegan and EventPass.Began or EventPass.Ended
-
-    for _, Signal in pairs(EventIn) do
-        Signal:Invoke(Key,JoystickID)
-    end
-end
-
 function InputService.keypressed(Key)
     Key = Enum.InputCode.NameFromValue(Key)
     InputService.CurrentPressed[Key] = true
+    
     InputService.InputBegan:Invoke(Key)
 end
 
 function InputService.keyreleased(Key)
     Key = Enum.InputCode.NameFromValue(Key)
     InputService.CurrentPressed[Key] = nil
-    NotifyInput(false,Key,InputService.EventsConnected)
+
+    InputService.InputEnded:Invoke(Key)
 end
 
 --[[function InputService.gamepadpressed(joystick, Key)

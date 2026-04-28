@@ -1,9 +1,15 @@
+print("Please Wait...")
 Shared = require("Shared")
-local Target = require("Studio")
+
+---@module "Studio"
+local Target = require(FLAGS.ModeTarget)
 
 function love.load()
     require("Shared.SetupGlobals")()
     
+    print("StudioDream V"..VERSION..", Target: "..FLAGS.ModeTarget)
+    print("Shared Components ready, Initalizing Target")
+
     Target.Init()
 
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursor.png", 0,0))
