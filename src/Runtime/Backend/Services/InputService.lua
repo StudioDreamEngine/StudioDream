@@ -1,53 +1,47 @@
 local InputService = {}
 
-local EnumReversed = {}
-local Viewport
-
-function ReverseEnum()
-    for i,v in pairs(Enum.InputCode) do
-        EnumReversed[v] = i
-    end
-end
-
-function InputService:Init()
+function InputService.Init()
     print("hi i inited!")
-    self.CurrentPressed = {}
-    self.EventsConnected = {
+    InputService.CurrentPressed = {}
+    InputService.EventsConnected = {
         Began = {},
         Ended = {},
 
         Changed = {},
     }
-    self.AxisPrevious = {}
-    self.AxisCurrent = {}
+    InputService.AxisPrevious = {}
+    InputService.AxisCurrent = {}
 
-    self.InputBegan = Signal:New("InputBeganSignal")
+    InputService.InputBegan = Signal:New("InputBeganSignal")
 
-    ReverseEnum()
+    InputService.MouseDown = Signal:New("MouseDownSignal")
+    InputService.MouseUp = Signal:New("MouseUpSignal")
+
+    --InputService.MouseClicked = InputService.MouseUp -- For ease of use
 end
 
-function InputService:SetViewportDefaultOnService(View)
+function InputService.SetViewportDefaultOnService(View)
     Viewport = View
 end
 
-function InputService:IsKeyDown(Key) -- Be enum based
-    return self.CurrentPressed[Key] and true or false
+function InputService.IsKeyDown(Key) -- Be enum based
+    return InputService.CurrentPressed[Key] and true or false
 end
 
-function InputService:InputChanged()
+function InputService.InputChanged()
     local UUID = CreateUUID()
     local SignalCool = Signal:New("SignalDefaultWowz")
-    self.EventsConnected.Changed[UUID] = SignalCool
+    InputService.EventsConnected.Changed[UUID] = SignalCool
     return SignalCool
 end
 
-function InputService:JoystickConnect(ContollerID)
-    local selfed = {}
+function InputService.JoystickConnect(ContollerID)
+    local InputServiceed = {}
 
     local joysticks = love.joystick.getJoysticks()
     local js = joysticks[ContollerID]
 
-    function selfed:HasController()
+    function InputServiceed:HasController()
         if not js and not #joysticks>1 then
             return false
         else
@@ -55,11 +49,11 @@ function InputService:JoystickConnect(ContollerID)
         end
     end
 
-    function selfed:GetControllerName()
+    function InputServiceed:GetControllerName()
         js:getName()
     end
 
-    function selfed:GetJoyAxis(JoyId)
+    function InputServiceed:GetJoyAxis(JoyId)
         if JoyId == 1 then
             return Vector2.new(js:getAxis(1),js:getAxis(2))
         elseif JoyId == 2 then
@@ -67,13 +61,13 @@ function InputService:JoystickConnect(ContollerID)
         end
     end
 
-    return selfed
+    return InputServiceed
 end
 
-function InputService:InputEnded()
+function InputService.InputEnded()
     local UUID = CreateUUID()
     local Signal = Signal:New("SignalDefaultWowz")
-    self.EventsConnected.Ended[UUID] = Signal
+    InputService.EventsConnected.Ended[UUID] = Signal
     return Signal
 end
 
@@ -85,68 +79,41 @@ function NotifyInput(IsBegan, Key, EventPass,JoystickID)
     end
 end
 
-function ToEnum(key)
-    return EnumReversed[key] or "None"
+function InputService.keypressed(Key)
+    Key = Enum.InputCode.NameFromValue(Key)
+    InputService.CurrentPressed[Key] = true
+    InputService.InputBegan:Invoke(Key)
 end
 
-function InputService:keypressed(Key)
-    Key = ToEnum(Key)
-    self.CurrentPressed[Key] = true
-    self.InputBegan:Invoke(Key)
+function InputService.keyreleased(Key)
+    Key = Enum.InputCode.NameFromValue(Key)
+    InputService.CurrentPressed[Key] = nil
+    NotifyInput(false,Key,InputService.EventsConnected)
 end
 
-function InputService:keyreleased(Key)
-    Key = ToEnum(Key)
-    self.CurrentPressed[Key] = nil
-    NotifyInput(false,Key,self.EventsConnected)
-end
-
-function InputService:gamepadpressed(joystick, Key)
+--[[function InputService.gamepadpressed(joystick, Key)
     Key = "gp_" .. Key
     Key = ToEnum(Key)
-    self.CurrentPressed[Key] = true
-    NotifyInput(true, Key, self.EventsConnected,Joystick:getID())
+    InputService.CurrentPressed[Key] = true
+    NotifyInput(true, Key, InputService.EventsConnected,Joystick:getID())
 end
 
-function InputService:gamepadreleased(joystick, Key)
+function InputService.gamepadreleased(joystick, Key)
     Key = "gp_" .. Key
     Key = ToEnum(Key)
-    self.CurrentPressed[Key] = nil
-    NotifyInput(false, Key, self.EventsConnected,Joystick:getID())
+    InputService.CurrentPressed[Key] = nil
+    NotifyInput(false, Key, InputService.EventsConnected,Joystick:getID())
+end]]
+
+function InputService.mousepressed(x,y,button,isTouch)
+    local Button = Enum.InputCode.NameFromValue(button)
 end
 
-function InputService:mousepressed(x,y,button,isTouch)
-    local PressedWhat = isTouch and "mtouch" or (button == 1 and "mlclick" or "mrclick")
-    PressedWhat = ToEnum(PressedWhat)
-    self.InputBegan:Invoke(PressedWhat)
-    self.CurrentPressed[PressedWhat] = true
-    NotifyInput(true, PressedWhat, self.EventsConnected,PressedWhat)
+function InputService.mousereleased(x,y,button,isTouch)
+    local Button = Enum.InputCode.NameFromValue(button)
 end
 
-function InputService:mousereleased(x,y,button,isTouch)
-    local PressedWhat = isTouch and "mtouch" or (button == 1 and "mlclick" or "mrclick")
-    PressedWhat = ToEnum(PressedWhat)
-    self.CurrentPressed[PressedWhat] = nil
-    NotifyInput(false, PressedWhat, self.EventsConnected,PressedWhat)
-    print(PressedWhat)
-end
-
-function InputService:Update()
-    if Viewport then
-        local mouseX = Viewport.MousePosition.X
-        local mouseY = Viewport.MousePosition.Y
-
-        local origin = Viewport.Camera.position
-      
-       --[[ local hit = Services.RaycastService:Raycast(scene, origin, direction)
-
-        if hit then
-            local MouseHit = hit.position
-            local MouseTarget = hit.mesh
-
-            print(MouseHit, MouseTarget)
-        end]]
-    end
+function InputService.Update()
 end
 
 return InputService

@@ -7,7 +7,7 @@ return function()
         Name = "Root"
     }
 
-    ---@module 'Environment'
+    ---@class Enviornment
     local Environment = Things.Create("Environment") {
         Name = "Environment",
         Parent = Root
@@ -41,7 +41,6 @@ return function()
     }
 
     Environment.Camera = Camera
-
     Root.RootViewport = Viewport
 
     -- All test-related root stuff is moved to CreateTests.lua

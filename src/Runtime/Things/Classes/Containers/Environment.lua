@@ -14,20 +14,21 @@ function Environment:new()
         Icon = "Environment"
     }
 
-    self.Camera = nil -- TODO
     self.Viewport = nil
+    self.Camera = nil
 end
 
 function Environment:Raycast(origin, direction, onlyRaytraceMeshes)
    return Raycast:cast(Runtime.Backend3D.GetWorld(), origin.ToDream(), direction.ToDream(), onlyRaytraceMeshes)
 end
 
+-- Pain
+function Environment:GetCamera()
+    return self.Camera or self.Viewport.Camera
+end
+
 function Environment:Update(dt)
     Environment.super.Update(self, dt)
-
-    if self.Camera then
-        self.Camera.Viewport = self.Viewport
-    end
 end
 
 return Environment

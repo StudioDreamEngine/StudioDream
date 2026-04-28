@@ -41,6 +41,7 @@ return function ()
     Signal = require("Shared.Helper.Signal")
     Scheduler = require("Shared.Helper.Scheduler")
     Utils = require("Shared.Helper.Utils")
+    LoveEvents = require("Shared.Helper.LoveEvents")
 
     -- Types
     Pivot2D = require("Shared.Types.Pivot2D")

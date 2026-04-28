@@ -1,7 +1,6 @@
 local Things = Runtime.Things
 
----@module "Viewport"
----@class Viewport3D
+---@class Viewport3D: Viewport
 local Viewport3D = Things.Extend("Viewport")
 
 function Viewport3D:new()
@@ -11,12 +10,23 @@ function Viewport3D:new()
         UseNewIcon = true,
         Icon = "Viewport_3D"
     }
-    self.Camera = Dream.camera
+
+    self.Camera = nil
 end
 
 function Viewport3D:SetAbsoluteSize(New)
     Viewport3D.super.SetAbsoluteSize(self, New)
     Dream:resize(New.X, New.Y)
+end
+
+function Viewport3D:SetRenderFolder(NewRenderFolder)
+    NewRenderFolder.Viewport = self
+    self.RenderFolder = NewRenderFolder
+end
+
+-- Pain
+function Viewport3D:GetCamera()
+    return self:GetTarget().Camera or self.Camera
 end
 
 function Viewport3D:SubmitContainerChildren(Container)
@@ -31,7 +41,7 @@ function Viewport3D:Update(dt)
     Viewport3D.super.Update(self,dt)
 
     self.DisplayList = {}
-    self:SubmitContainerChildren(self.RenderFolder or self)
+    self:SubmitContainerChildren(self:GetTarget())
 end
 
 return Viewport3D

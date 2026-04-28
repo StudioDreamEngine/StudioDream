@@ -16,7 +16,9 @@ function Module:NewBlocking(EventName) return Module:New(EventName, true) end
 --[[
 	Normal Async event
 ]]
+---@return Signal
 function Module:New(EventName, Blocking) --I had no idea you could define module functions with : -- You can, and yeah i should probably start using self
+	---@class Signal
 	local EventObject = {}
 	local Events = {}
 	
@@ -32,8 +34,10 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 		end
 	end
 	
+	---@return SignalConnection
 	local function ConnectEvent(func, listener, EventId)
 		-- I bet theres a faster way but whatever
+		---@class SignalConnection
 		local SingleEventObject = {}
 
 		SingleEventObject.EventId = EventId
