@@ -1,53 +1,39 @@
-local function EnumObject(Enums)
-    local EnumObject = {}
-
-    for i, v in pairs(Enums) do
-        EnumObject[i] = v
-    end
-
-    function EnumObject.NameFromValue(Value)
-        return table.find(EnumObject, Value)
-    end
-
-    return EnumObject
-end
-
-return {
-    AlignmentX = EnumObject {
+local Enums = {
+    AlignmentX = {
         Left = "left",
         Center = "center",
         Right = "right"
     },
-    AlignmentY = EnumObject {
+    AlignmentY = {
         Top = "left",
         Center = "center",
         Bottom = "right"
     },
-    Shape = EnumObject {
+    Shape = {
         Brick = 'brick',
         Ball = 'ball',
         Wedge = 'wedge',
         Arrow = 'arrow',
     },
-    LayoutDirection = EnumObject {
+    LayoutDirection = {
         Horizontal = "Horizontal",
         Vertical = "Vertical"
     },
-    Device = EnumObject {
+    Device = {
         Android = "Android",
         iOS = "iOS",
         Linux = "Linux",
     },
-    AutomaticSize = EnumObject {
+    AutomaticSize = {
         Y = "Y",
         X = "X"
     },
-    MouseButton = EnumObject {
+    MouseButton = {
         LeftClick = 1,
         MiddleClick = 3,
         RightClick = 2
     },
-    InputCode = EnumObject {
+    InputCode = {
         -- Keyboard
         RightArrow = 'right',
         LeftArrow = 'left',
@@ -188,3 +174,11 @@ return {
         None = '□'
     }
 }
+
+for _, Enum in pairs(Enums) do
+    Enum.NameFromValue = function(Value)
+        return table.find(Enum, Value)
+    end
+end
+
+return Enums

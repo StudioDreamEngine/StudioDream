@@ -171,6 +171,7 @@ do
 		return i
 	end
 
+	-- Yes, Lua 5.1 doesnt have table.find (iirc)
 	function table.find(table, value)
 		for i,v in pairs(table) do
 			if v == value then

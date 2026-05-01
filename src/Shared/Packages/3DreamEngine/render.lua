@@ -114,10 +114,10 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 		love.graphics.push("all")
 		if canvases.mode ~= "direct" then
 			love.graphics.reset()
-			love.graphics.setCanvas({ canvases.color, canvases.depth, depthstencil = canvases.depthBuffer })
+			love.graphics.setCanvas({ canvases.color, canvases.depth, canvases.stencil, depthstencil = canvases.depthBuffer })
 			
 			love.graphics.setDepthMode()
-			love.graphics.clear(false, false, true)
+			love.graphics.clear(true, false, true)
 		end
 		
 		--render sky
@@ -235,6 +235,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 					
 					--alpha
 					checkAndSendCached(shaderObject, "alphaCutoff", material.alphaCutoff)
+					checkAndSendCached(shaderObject, "stencil", material.stencil and 1 or 0)
 					
 					if isShadow then
 						if hasUniform(shaderObject, "alphaTexture") then
@@ -441,7 +442,8 @@ function lib:renderFull(cam, canvases, dynamic)
 		
 		checkAndSend(shader, "canvas_alpha", canvases.colorAlpha)
 		checkAndSend(shader, "canvas_distortion", canvases.distortion)
-		
+
+		checkAndSend(shader, "canvas_stencil", canvases.stencil)
 		checkAndSend(shader, "canvas_exposure", self.canvas_exposure)
 		
 		checkAndSend(shader, "transformInverse", cam.transformProj:invert())
@@ -495,16 +497,17 @@ function lib:present(camera, canvases, lite)
 	self.delton:stop()
 	
 	--debug
-	--[[if love.keyboard.isDown(",") then
+	if love.keyboard.isDown(",") then
 		local brightness = {
 			data_pass2 = 0.25,
 			depth = 0.1,
 		}
 		
-		local w = 400
+		local w = 300
 		local x = 0
 		local y = 0
 		local maxHeight = 0
+
 		for d, s in pairs(canvases) do
 			if type(s) == "userdata" and s:isReadable() then
 				local b = brightness[d] or 1
@@ -523,14 +526,14 @@ function lib:present(camera, canvases, lite)
 				love.graphics.print(d, x * w, y)
 				
 				x = x + 1
-				if x * w + w >= love.graphics.getWidth() then
+				if x * w + w >= love.graphics.getCanvas():getWidth() then
 					x = 0
 					y = y + maxHeight
 					maxHeight = 0
 				end
 			end
 		end
-	end]]
+	end
 end
 
 function lib:presentDebug()

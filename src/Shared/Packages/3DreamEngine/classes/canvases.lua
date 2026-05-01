@@ -9,7 +9,7 @@ function lib:newCanvases()
 		format = "rgba16f",
 		msaa = 4,
 		fxaa = false,
-		refractions = false,
+		refractions = true,
 		alphaPass = true,
 		--mode = "direct",
 		mode = "normal"
@@ -120,6 +120,10 @@ function class:init(w, h)
 		
 		--depth
 		self.depth = love.graphics.newCanvas(w, h, { format = "r16f", readable = true, msaa = self.msaa })
+
+		--stencil/outlines
+		self.stencil = love.graphics.newCanvas(w, h, { format = "r16f", readable = true, msaa = self.msaa })
+		--self.outline_2 = love.graphics.newCanvas(w, h, { format = "normal", readable = true, msaa = self.msaa })
 	end
 	
 	--screen space ambient occlusion blurring canvases

@@ -13,6 +13,7 @@ function lib:newMaterial(name)
 	m.roughness = 1
 	m.metallic = 1
 	m.alpha = false
+	m.stencil = false
 	m.cutout = false
 	m.particle = false
 	m.alphaCutoff = 0.5

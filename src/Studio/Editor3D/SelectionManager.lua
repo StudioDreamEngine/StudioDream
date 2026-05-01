@@ -1,36 +1,26 @@
 local SelectionThing = {}
+local Things = Runtime.Things
+
 local CurrentlySelecting
 
 function SelectionThing.Init()
-    local InputService = Runtime.Services.InputService
+    local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
-    InputService.InputBegan:Connect(function(Key)
+    InputService.MouseDown:Connect(function()
+        local Environment = Things.Root:GetEnvironment() ---@class Environment
+        local Camera = Environment:GetCamera() ---@class Camera
         
+        local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
-        --[[if Key == "MouseLeftClick" and Services.InputService:IsKeyDown("LeftCtrl") then
-            if MouseHit.Target and not Selecting[MouseHit.Target] then
-                Selecting[MouseHit.Target] = true
-            elseif Selecting[MouseHit.Target] then
-                Selecting[MouseHit.Target] = nil
-            end
+        if CurrentlySelecting then
+            CurrentlySelecting:SetOutline(false)
+        end
 
-            print(Selecting)
-            print(MouseHit.Target)
-        elseif Key == "MouseLeftClick" and not Services.InputService:IsKeyDown("LeftCtrl") then
-            Selecting = {}
-
-            if MouseHit.Target and not Selecting[MouseHit.Target] then
-                Selecting[MouseHit.Target] = true
-            elseif Selecting[MouseHit.Target] then
-                Selecting[MouseHit.Target] = nil
-            end
-
-            print(Selecting)
-            print(MouseHit.Target)
-        end]]
-
-
-    end)
+        if Raycast then
+            CurrentlySelecting = Raycast.Thing
+            CurrentlySelecting:SetOutline(true)
+        end
+    end, Enum.MouseButton.LeftClick)
 end
 
 return SelectionThing

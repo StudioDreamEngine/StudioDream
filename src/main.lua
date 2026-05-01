@@ -12,6 +12,8 @@ function love.load()
 
     Target.Init()
 
+    print("Target is ready.")
+
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursor.png", 0,0))
 end
 

@@ -81,6 +81,10 @@ function lib:getGamma()
 	return self.gamma
 end
 
+function lib:setOutline(width)
+	self.outline_resolution = 1/width
+end
+
 ---Sets the Screen Space Ambient Occlusion settings
 ---@param samples number @ more samples result in less visible patterns/artifacts
 ---@param resolution number @ resolution factor of temporary canvas

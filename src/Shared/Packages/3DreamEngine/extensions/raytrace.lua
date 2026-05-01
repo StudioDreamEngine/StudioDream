@@ -16,7 +16,7 @@ local vec3 = _3DreamEngine.vec3
 local threshold = 50
 
 --search result
-local nearestT, nearestU, nearestV, nearestFace, nearestMesh
+local nearestT, nearestU, nearestV, nearestFace, nearestMesh, nearestObject
 
 --build the transformation matrices for each triangle
 local function buildMatrices(mesh)
@@ -179,7 +179,7 @@ local function nearestPointToLine(a, b, p)
 	return a + t * ab
 end
 
-local function raytraceMesh(mesh, localOrigin, localDirection)
+local function raytraceMesh(mesh, localOrigin, localDirection, object)
 	--bounding sphere check
 	local center = mesh.boundingSphere.center
 	local nearest = nearestPointToLine(localOrigin, localOrigin + localDirection, center)
@@ -198,11 +198,12 @@ local function raytraceMesh(mesh, localOrigin, localDirection)
 	raytraceTree(localOrigin, localDirection, mesh.raytraceTree)
 	if oldT ~= nearestT or oldF ~= nearestFace then
 		nearestMesh = mesh
+		nearestObject = object
 		return { }
 	end
 end
 
-local function raytraceObject(object, localOrigin, localDirection, onlyRaytraceMeshes, fast)
+local function raytraceObject(object, localOrigin, localDirection, onlyRaytraceMeshes)
 	--object transform
 	if object.transform then
 		local m = object:getInvertedTransform()
@@ -218,7 +219,7 @@ local function raytraceObject(object, localOrigin, localDirection, onlyRaytraceM
 	local transforms
 	for _, mesh in pairs(onlyRaytraceMeshes and object.raytraceMeshes or object.meshes) do
 		if mesh.vertices and mesh.faces then
-			transforms = raytraceMesh(mesh, localOrigin, localDirection) or transforms
+			transforms = raytraceMesh(mesh, localOrigin, localDirection, object) or transforms
 		end
 	end
 	
@@ -253,6 +254,10 @@ end
 
 function raytraceResult:getMesh()
 	return self.mesh
+end
+
+function raytraceResult:getObject()
+	return self.object
 end
 
 function raytraceResult:getPosition()
@@ -302,12 +307,14 @@ function raytracer:cast(object, origin, direction, onlyRaytraceMeshes)
 	local transforms = raytraceObject(object, origin, direction, onlyRaytraceMeshes)
 	
 	--pack
+	---@diagnostic disable-next-line: return-type-mismatch
 	return nearestU and setmetatable({
 		t = nearestT,
 		u = nearestU,
 		v = nearestV,
 		face = nearestFace,
 		mesh = nearestMesh,
+		object = nearestObject,
 		transforms = transforms,
 		position = origin + nearestT * direction
 	}, meta) or false
