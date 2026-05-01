@@ -7,7 +7,7 @@ return function()
         Name = "Root"
     }
 
-    ---@class Enviornment
+    ---@class Environment
     local Environment = Things.Create("Environment") {
         Name = "Environment",
         Parent = Root

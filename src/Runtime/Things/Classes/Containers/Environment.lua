@@ -18,8 +18,23 @@ function Environment:new()
     self.Camera = nil
 end
 
-function Environment:Raycast(origin, direction, onlyRaytraceMeshes)
-   return Raycast:cast(Runtime.Backend3D.GetWorld(), origin.ToDream(), direction.ToDream(), onlyRaytraceMeshes)
+function Environment:Raycast(origin, direction)
+    local CastResult = Raycast:cast(Runtime.Backend3D.GetWorld(), origin.ToDream(), direction.ToDream())
+
+    if CastResult then
+        local Object = CastResult:getObject()
+        assert(Object.ClassReference, "Raycast returned object with no ClassReference!")
+
+        ---@class CastResult
+        local FriendlyCastResult = {
+            Thing = Object.ClassReference,
+            Position = CastResult:getPosition(),
+            Normal = CastResult:getNormal(),
+            UV = CastResult:getUV()
+        }
+
+        return FriendlyCastResult
+    end
 end
 
 -- Pain

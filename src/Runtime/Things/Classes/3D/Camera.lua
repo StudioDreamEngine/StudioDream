@@ -1,7 +1,5 @@
 local Things = Runtime.Things
 
--- using @module here gives the lua language server a base type to use!
----@module 'Thing'
 ---@class Camera: Thing
 local Camera = Things.Extend("Thing")
 
@@ -34,9 +32,7 @@ end
 
 function Camera:GetFocalLength()
     local CamFov = Dream.camera.fov
-    local TanFov = math.tan(CamFov / 2)
-
-    return TanFov
+    return math.tan(CamFov / 2)
 end
 
 function Camera:VectorToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want any more math
@@ -61,6 +57,11 @@ function Camera:VectorToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want a
     return dirWorld
 end
 
+-- TODO: We might be calling this more than once per frame, should we just grab from a variable updated each frame instead?
+function Camera:GetMouseRay()
+    return self:VectorToWorldSpace(self.Viewport.MousePosition)
+end
+
 function Camera:Update(dt)
     local Environment = Things.GetRoot("Environment")
 
@@ -73,28 +74,22 @@ function Camera:Update(dt)
     local _Camera = self.DreamCamera
 
     local keyDown = love.keyboard.isDown
-    local mouseDown = love.mouse.isDown
 
     local speed = 0.2
-    local anyDown = false
 
     if keyDown('w') then
-        anyDown = true
         self.Position.X = self.Position.X + math.cos(self.Orientation.Y - math.pi / 2) * speed
         self.Position.Z = self.Position.Z + math.sin(self.Orientation.Y - math.pi / 2) * speed
     end
     if keyDown("s") then
-        anyDown = true
 		self.Position.X = self.Position.X + math.cos(self.Orientation.Y + math.pi - math.pi / 2) * speed
 		self.Position.Z = self.Position.Z + math.sin(self.Orientation.Y + math.pi - math.pi / 2) * speed
 	end
 	if keyDown("a") then
-        anyDown = true
 		self.Position.X = self.Position.X + math.cos(self.Orientation.Y - math.pi / 2 - math.pi / 2) * speed
 		self.Position.Z = self.Position.Z + math.sin(self.Orientation.Y - math.pi / 2 - math.pi / 2) * speed
 	end
 	if keyDown("d") then
-        anyDown = true
 		self.Position.X = self.Position.X + math.cos(self.Orientation.Y + math.pi / 2 - math.pi / 2) * speed
 		self.Position.Z = self.Position.Z + math.sin(self.Orientation.Y + math.pi / 2 - math.pi / 2) * speed
 	end
@@ -104,10 +99,6 @@ function Camera:Update(dt)
     _Camera:rotateX(self.Orientation.X)
     _Camera:rotateY(self.Orientation.Y)
     _Camera:rotateZ(self.Orientation.Z)
-
-    local Vector = self:VectorToWorldSpace(self.Viewport.MousePosition)
-
-    Things.DebugObj.Position = self:RayDirectionToPlane(Vector3.zero, Vector3.zAxis, Vector)
 end
 
 return Camera

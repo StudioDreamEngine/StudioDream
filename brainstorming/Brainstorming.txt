@@ -3,7 +3,7 @@ Organization:
     Packages: Shared Packages
     Runtime: Seperate runtime library, most engine code will go here
 
-models will be considered scenes, when you insert one into Enviornment and edit it, it acts as a reference in a way, you are editing the file, not the Enviornment
+models will be considered scenes, when you insert one into Environment and edit it, it acts as a reference in a way, you are editing the file, not the Environment
 
 Naming:
     Properties will be renamed to Inspector
@@ -11,7 +11,7 @@ Naming:
 
 Thing Related stuff:
     Explorer/Game Layout:
-        Enviornment (Serialized as pre-defined scene in project settings)
+        Environment (Serialized as pre-defined scene in project settings)
         UI (Shortcut to pre-defined scene in project settings)
         Services (Created on runtime, not serialized)
         Viewport (Not Serialized, Hidden, this contains the studio ui or client ui)

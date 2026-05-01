@@ -18,6 +18,7 @@ varying highp vec3 varyingBitangent; //vertex bi tangent for pixel shader
 #endif
 
 varying float depth;               //depth
+uniform float stencil;
 
 varying float varyingEmissionFactor; //unlike additive emission this factor
 
@@ -126,6 +127,7 @@ void effect() {
 	//depth
 #ifdef DEPTH_ENABLED
 	love_Canvases[1] = vec4(depth, 0.0, 0.0, 1.0);
+	love_Canvases[2] = vec4(stencil, 0.0, 0.0, 1.0);
 #endif
 
 	//returns color

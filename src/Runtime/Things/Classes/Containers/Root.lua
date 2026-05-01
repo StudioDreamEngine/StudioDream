@@ -18,4 +18,8 @@ function Root:new()
     self.RootViewport = nil
 end
 
+function Root:GetEnvironment()
+    return self.EnvironmentViewport.RenderFolder
+end
+
 return Root

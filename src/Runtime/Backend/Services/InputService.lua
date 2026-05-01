@@ -1,3 +1,4 @@
+---@class InputService
 local InputService = {}
 
 function InputService.Init()
@@ -9,6 +10,10 @@ function InputService.Init()
 
     InputService.MouseDown = Signal:New("MouseDownSignal")
     InputService.MouseUp = Signal:New("MouseUpSignal")
+
+    LoveEvents.MousePressed:Connect(function(_,_,button)
+        InputService.MouseDown.Invoke(button) -- Pass the value itself as we assume the enum is used anyways
+    end)
 
     --InputService.MouseClicked = InputService.MouseUp -- For ease of use
 end
@@ -51,42 +56,6 @@ function InputService.JoystickConnect(ContollerID)
     end
 
     return InputServiceed
-end
-
-function InputService.keypressed(Key)
-    Key = Enum.InputCode.NameFromValue(Key)
-    InputService.CurrentPressed[Key] = true
-    
-    InputService.InputBegan:Invoke(Key)
-end
-
-function InputService.keyreleased(Key)
-    Key = Enum.InputCode.NameFromValue(Key)
-    InputService.CurrentPressed[Key] = nil
-
-    InputService.InputEnded:Invoke(Key)
-end
-
---[[function InputService.gamepadpressed(joystick, Key)
-    Key = "gp_" .. Key
-    Key = ToEnum(Key)
-    InputService.CurrentPressed[Key] = true
-    NotifyInput(true, Key, InputService.EventsConnected,Joystick:getID())
-end
-
-function InputService.gamepadreleased(joystick, Key)
-    Key = "gp_" .. Key
-    Key = ToEnum(Key)
-    InputService.CurrentPressed[Key] = nil
-    NotifyInput(false, Key, InputService.EventsConnected,Joystick:getID())
-end]]
-
-function InputService.mousepressed(x,y,button,isTouch)
-    local Button = Enum.InputCode.NameFromValue(button)
-end
-
-function InputService.mousereleased(x,y,button,isTouch)
-    local Button = Enum.InputCode.NameFromValue(button)
 end
 
 function InputService.Update()

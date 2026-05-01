@@ -2,7 +2,6 @@
 local Studio = {}
 
 Studio.Editor3D = require("Studio.Editor3D")
-
 Studio.StudioLayout = require("Studio.UI.StudioLayout")
 
 function Studio.Init()
