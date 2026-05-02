@@ -168,13 +168,19 @@ vec4 effect(vec4 _, Image canvas_color, vec2 tc, vec2 sc) {
 
 	// Please dont kill me if this isnt how to do stuff like this i have never written alot of shaders before
 	bool stencilAt = sampleStencilOffset(tc);
-	bool stencilL = sampleStencilOffset(vec2(-5,0), tc);
-	bool stencilR = sampleStencilOffset(vec2(5,0), tc);
-	bool stencilU = sampleStencilOffset(vec2(0,-5), tc);
-	bool stencilD = sampleStencilOffset(vec2(0,5), tc);
+	//bool stencilL = sampleStencilOffset(vec2(-5,0), tc);
+	//bool stencilR = sampleStencilOffset(vec2(5,0), tc);
+	//bool stencilU = sampleStencilOffset(vec2(0,-5), tc);
+	//bool stencilD = sampleStencilOffset(vec2(0,5), tc);
+
+	// Checking diagonals seems to result in generally better looking outlines
+	bool stencilLU = sampleStencilOffset(vec2(-5,-5), tc);
+	bool stencilRU = sampleStencilOffset(vec2(5,-5), tc);
+	bool stencilLD = sampleStencilOffset(vec2(-5,5), tc);
+	bool stencilRD = sampleStencilOffset(vec2(5,5), tc);
 
 	// Pretty simple logic here, just check if any neighbouring pixels arent in the stencil, if one isnt, we draw the outline pixel
-	bool neighbourHas = (stencilD && stencilU && stencilL && stencilR);
+	bool neighbourHas = (stencilLD && stencilLU && stencilRD && stencilRU); //(stencilD && stencilU && stencilL && stencilR) && (stencilLD && stencilLU && stencilRD && stencilRU);
 
 	if (stencilAt && !neighbourHas) {
 		color = vec4(0,0,0,1);
