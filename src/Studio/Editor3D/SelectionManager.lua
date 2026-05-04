@@ -19,6 +19,7 @@ function SelectionThing.Init()
         if Raycast then
             CurrentlySelecting = Raycast.Thing
             CurrentlySelecting:SetOutline(true)
+            print("Wow")
         end
     end, Enum.MouseButton.LeftClick)
 end

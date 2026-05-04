@@ -1,5 +1,5 @@
 -- Major.Minor.Patch
-VERSION = "0.1.2"
+VERSION = "0.1.5"
 
 FLAGS = {
     ModeTarget = "Studio", -- What this build's functionality should be, disables studio component if "Client", enables studio if "Editor"
