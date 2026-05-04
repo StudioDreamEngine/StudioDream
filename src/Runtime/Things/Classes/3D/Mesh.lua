@@ -27,8 +27,7 @@ end
 function Mesh:Update(dt)
     Mesh.super.Update(self, dt)
     
-    self.Position = Vector3.new(0, math.sin(GlobalTick * 4) / 2, -5)
-    self.Orientation = Vector3.new(0, GlobalTick * 2, 0)
+    self.Transform.SetPosition(Vector3.new(0, math.sin(GlobalTick * 4) / 2, -5))
 end
 
 return Mesh

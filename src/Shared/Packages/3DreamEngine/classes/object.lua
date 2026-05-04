@@ -27,6 +27,8 @@ function lib:newObject()
 		links = { },
 		args = { },
 		tags = { },
+
+		boundingSphere = nil,
 		
 		name = "unnamed",
 		
@@ -112,17 +114,33 @@ function class:getLOD()
 end
 
 function class:updateBoundingSphere()
+	local currentSphere = lib:newBoundingSphere()
+
 	--update bounding sphere of meshes
 	for _, s in pairs(self.meshes) do
 		if not s.boundingSphere:isInitialized() then
 			s:updateBoundingSphere()
 		end
+
+		currentSphere = s.boundingSphere:merge(currentSphere)
 	end
 	
 	--update bounding spheres of objects
 	for _, s in pairs(self.objects) do
 		s:updateBoundingSphere()
+
+		currentSphere = s:getBoundingSphere():merge(currentSphere)
 	end
+
+	self.boundingSphere = currentSphere
+end
+
+function class:getBoundingSphere()
+	if (not self.boundingSphere) then
+		self:updateBoundingSphere()
+	end
+
+	return self.boundingSphere
 end
 
 function class:clearMeshes()

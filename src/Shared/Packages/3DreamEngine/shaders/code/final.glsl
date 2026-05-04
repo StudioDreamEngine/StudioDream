@@ -26,11 +26,11 @@ bool sampleStencilOffset(vec2 offset, vec2 tc) {
 	vec2 pixelSize = 1.0 / love_ScreenSize.xy;
 	vec2 position = tc + (pixelSize * offset);
 
-	return Texel(canvas_stencil, position).r > 0.0f;
+	return Texel(canvas_stencil, position).r == 0.0f;
 }
 
 bool sampleStencilOffset(vec2 tc) {
-	return Texel(canvas_stencil, tc).r > 0.0f;
+	return Texel(canvas_stencil, tc).r == 0.0f;
 }
 
 #ifdef FXAA_ENABLED
@@ -168,6 +168,8 @@ vec4 effect(vec4 _, Image canvas_color, vec2 tc, vec2 sc) {
 
 	// Please dont kill me if this isnt how to do stuff like this i have never written alot of shaders before
 	bool stencilAt = sampleStencilOffset(tc);
+
+	// For performance reasons and artifact prevention on corners we dont check these
 	//bool stencilL = sampleStencilOffset(vec2(-5,0), tc);
 	//bool stencilR = sampleStencilOffset(vec2(5,0), tc);
 	//bool stencilU = sampleStencilOffset(vec2(0,-5), tc);
@@ -180,7 +182,7 @@ vec4 effect(vec4 _, Image canvas_color, vec2 tc, vec2 sc) {
 	bool stencilRD = sampleStencilOffset(vec2(5,5), tc);
 
 	// Pretty simple logic here, just check if any neighbouring pixels arent in the stencil, if one isnt, we draw the outline pixel
-	bool neighbourHas = (stencilLD && stencilLU && stencilRD && stencilRU); //(stencilD && stencilU && stencilL && stencilR) && (stencilLD && stencilLU && stencilRD && stencilRU);
+	bool neighbourHas = (stencilLD && stencilLU && stencilRD && stencilRU); //&& (stencilD && stencilU && stencilL && stencilR) ;
 
 	if (stencilAt && !neighbourHas) {
 		color = vec4(0,0,0,1);

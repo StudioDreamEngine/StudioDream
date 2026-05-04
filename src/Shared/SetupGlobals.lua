@@ -48,6 +48,7 @@ return function ()
     Enum = require("Shared.Types.Enum")
     Color = require("Shared.Types.Color")
     Rect = require("Shared.Types.Rect")
+    Transform3D = require("Shared.Types.Transform3D")
 
     -- Globals
     GlobalTick = 0

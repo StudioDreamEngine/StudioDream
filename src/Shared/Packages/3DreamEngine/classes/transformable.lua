@@ -158,9 +158,13 @@ end
 ---@param up DreamVec3
 function class:lookTowards(direction, up)
 	up = up or vec3(0.0, 1.0, 0.0)
-	
+
 	local zaxis = direction:normalize()
-	local xaxis = zaxis:cross(up):normalize()
+	local xaxis = zaxis:cross(up)
+
+	-- "It just works!" - Todd Howard
+	if xaxis:length() == 0 then xaxis = vec3(1,0,0) end
+
 	local yaxis = xaxis:cross(zaxis)
 	
 	local rotate = mat4({
