@@ -6,6 +6,11 @@ local CurrentlySelecting
 function SelectionThing.Init()
     local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
+    ---@class MoveControl
+    local MoveControl = Things.Create("MoveControl") {
+        Parent = Things.Root.RootViewport
+    }
+
     InputService.MouseDown:Connect(function()
         local Environment = Things.Root:GetEnvironment() ---@class Environment
         local Camera = Environment:GetCamera() ---@class Camera
@@ -20,6 +25,8 @@ function SelectionThing.Init()
             CurrentlySelecting = Raycast.Thing
             CurrentlySelecting:SetOutline(true)
             print("Wow")
+
+            MoveControl.Adornee = CurrentlySelecting
         end
     end, Enum.MouseButton.LeftClick)
 end

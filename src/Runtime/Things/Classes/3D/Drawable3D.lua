@@ -28,7 +28,7 @@ function Drawable3D:LoadObject(Path)
     end
 
     self.MeshPath = Path
-    self.Drawable = Runtime.Backend3D.LoadObject(self, "Assets/DefaultMeshes/"..Path)
+    self.Drawable = Runtime.Backend3D.LoadObject("Assets/DefaultMeshes/"..Path, self)
 end
 
 function Drawable3D:Update(dt)

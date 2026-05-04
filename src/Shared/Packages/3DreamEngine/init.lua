@@ -108,7 +108,6 @@ lib.objectLibrary = { }
 
 --default settings
 lib:setAO(32, 0.75, false)
-lib:setOutline(4)
 lib:setBloom(-1)
 lib:setFog()
 lib:setFogHeight()
