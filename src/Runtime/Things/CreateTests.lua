@@ -47,11 +47,11 @@ return function ()
         Shape = "wedge"
     }
 
-    brick.Position = Vector3.new(0, -1, 0)
-    brick.Size     = Vector3.new(512, 8, 512)
+    brick.Transform.SetPosition(Vector3.new(0, -1, 0))
+    brick.Scale     = Vector3.new(512, 8, 512)
 
-    ball.Position  = Vector3.new(1, 0, 0)
-    wedge.Position = Vector3.new(-1, 0, 0)
+    ball.Transform.SetPosition(Vector3.new(1, 0, 0))
+    wedge.Transform.SetPosition(Vector3.new(-1, 0, 0))
 
     Mesh:SetParent(Environment)
     brick:SetParent(Environment)

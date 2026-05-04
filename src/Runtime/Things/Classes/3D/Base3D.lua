@@ -13,24 +13,25 @@ function Base3D:new()
         Icon = "MeshPart"
     }
 
-    self.Size        = Vector3.new(1, 1, 1)
-    self.Position    = Vector3.new(0, 0, 0)
-    self.Orientation = Vector3.new(0, 0, 0)
+    self.Scale        = Vector3.new(1, 1, 1)
+    self.Transform    = Transform3D.new()
 
     self.Anchored    = true
 
-    self.Proxy.Property("Size", "Position", "Orientation")
+    self.Proxy.Property("Scale")
 end
 
 function Base3D:Update(dt)
+    ---@class DreamObject
     local Drawable = self.Drawable
 
+    self.Transform.UpdateValues()
+
     Drawable:resetTransform()
-    Drawable:scaleWorld(self.Size.ToDream())
-    Drawable:translate(self.Position.ToDream())
-    Drawable:rotateX(self.Orientation.X)
-    Drawable:rotateY(self.Orientation.Y)
-    Drawable:rotateZ(self.Orientation.Z)
+    Drawable:setTransform(self.Transform.GetTransform())
+    Drawable:scaleWorld(self.Scale.ToDream())
+
+    self.Size = self.Scale * Drawable:getBoundingSphere().size
 end
 
 return Base3D
