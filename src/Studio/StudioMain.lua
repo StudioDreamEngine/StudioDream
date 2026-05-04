@@ -1,4 +1,5 @@
 -- Only named StudioMain cuz init.lua is taken by the main script for stepping this version of the client... MIKL...
+-- Why yall blaming me vro!!!
 local Studio = {}
 
 Studio.Editor3D = require("Studio.Editor3D")

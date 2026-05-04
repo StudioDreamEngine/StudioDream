@@ -15,6 +15,7 @@ function InputService.Init()
         InputService.MouseDown.Invoke(button) -- Pass the value itself as we assume the enum is used anyways
     end)
 
+
     --InputService.MouseClicked = InputService.MouseUp -- For ease of use
 end
 
@@ -48,6 +49,7 @@ function InputService.JoystickConnect(ContollerID)
     end
 
     function InputServiceed:GetJoyAxis(JoyId)
+        
         if JoyId == 1 then
             return Vector2.new(js:getAxis(1),js:getAxis(2))
         elseif JoyId == 2 then
