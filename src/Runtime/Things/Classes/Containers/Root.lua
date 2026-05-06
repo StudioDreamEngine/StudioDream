@@ -18,6 +18,10 @@ function Root:new()
     self.RootViewport = nil
 end
 
+function Root:GetCamera()
+    return self.EnvironmentViewport:GetCamera()
+end
+
 function Root:GetEnvironment()
     return self.EnvironmentViewport.RenderFolder
 end

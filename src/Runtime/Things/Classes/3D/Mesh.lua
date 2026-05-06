@@ -27,7 +27,7 @@ end
 function Mesh:Update(dt)
     Mesh.super.Update(self, dt)
     
-    self.Transform.SetPosition(Vector3.new(0, math.sin(GlobalTick * 4) / 2, -5))
+    self.Transform = Transform3D.FromAngle(0,GlobalTick,0) * Transform3D.FromPosition(0, math.sin(GlobalTick * 4) / 2, -5)
 end
 
 return Mesh
