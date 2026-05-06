@@ -14,7 +14,7 @@ function Base3D:new()
     }
 
     self.Scale        = Vector3.new(1, 1, 1)
-    self.Transform    = Transform3D.new()
+    self.Transform    = Transform3D.FromPosition(0,0,0)
 
     self.Anchored    = true
 
@@ -25,10 +25,8 @@ function Base3D:Update(dt)
     ---@class DreamObject
     local Drawable = self.Drawable
 
-    self.Transform.UpdateValues()
-
     Drawable:resetTransform()
-    Drawable:setTransform(self.Transform.GetTransform())
+    Drawable:setTransform(self.Transform.GetMatrix())
     Drawable:scaleWorld(self.Scale.ToDream())
 
     self.Size = self.Scale * Drawable:getBoundingSphere().size

@@ -35,11 +35,20 @@ end
 function MoveControl:Update(dt)
     if (not self.Adornee) then return end
 
-    for Axis, Adorn in pairs(self.Adorns) do
-        local Position = self.Adornee.Transform.Position + (Axis * self.Adornee.Size)
+    ---@class Camera
+    local Camera = Things.Root:GetCamera()
 
+    local Transform = self.Adornee.Transform
+
+    local Z = Camera:RayDirectionToPlane(Transform.Position, Transform.Side, Camera:GetMouseRay()) * Vector3.zAxis
+    local Y = Camera:RayDirectionToPlane(Transform.Position, Transform.Forward, Camera:GetMouseRay()) * Vector3.yAxis -- Idk if Y should use the forward vector... whatever!
+    local X = Camera:RayDirectionToPlane(Transform.Position, Transform.Forward, Camera:GetMouseRay()) * Vector3.xAxis
+
+    print(Z)
+
+    for Axis, Adorn in pairs(self.Adorns) do
         Adorn.Object:resetTransform()
-        Adorn.Object:translate(Position.ToDream())
+        Adorn.Object:translate((Transform.Position + (Axis * self.Adornee.Size)).ToDream())
         Adorn.Object:lookTowards(-Axis.ToDream())
         Adorn.Object:scale(self.Scale)
         Adorn.Object:translate(0,0,2)
