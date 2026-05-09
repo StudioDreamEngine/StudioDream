@@ -43,10 +43,13 @@ end
 ---@param z number
 ---@return DreamTransformable
 function class:scale(x, y, z)
+	if (not y) then y,z = x,x end
+
 	self.transform = self.transform and self.transform:scale(x, y, z) or mat4.getScale(x, y, z)
 	self:setDirty()
 	return self
 end
+
 
 ---Euler rotation around the X axis in local coordinates
 ---@param rx number

@@ -2,18 +2,15 @@
 local Editor3D = {}
 local SelectionManager = require("Studio.Editor3D.SelectionManager")
 
-local Tools
+Editor3D.ToolManager = require("Studio.Editor3D.ToolManager")
 
 function Editor3D.Init()
     SelectionManager.Init()
-
-    --[[Tools = {
-        Move = require("Studio.Editor3D.Tools.Move")
-    }]]
+    Editor3D.ToolManager.Init()
 end
 
 function Editor3D.Update(dt)
-    
+    Editor3D.ToolManager.Update(dt)
 end
 
 return Editor3D

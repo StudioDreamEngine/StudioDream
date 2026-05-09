@@ -2,6 +2,8 @@
 local Backend3D = {}
 local DreamWorld, DreamAdorns
 
+local Raycast = Dream:getExtension("raytrace")
+
 function Backend3D.Init()
     Dream:init() ---@diagnostic disable-line: missing-parameter
 
@@ -17,13 +19,8 @@ function Backend3D.Init()
     DreamAdorns.name = "DreamAdorns"
 end
 
-function Backend3D.GetWorld()
-    return DreamWorld
-end
-
-function Backend3D.GetAdorns()
-    return DreamAdorns
-end
+function Backend3D.GetWorld() return DreamWorld end
+function Backend3D.GetAdorns() return DreamAdorns end
 
 --- Assign all DreamObjects the ClassReference object, instead of merging the object into one single mesh
 --- @param Object DreamObject
@@ -36,17 +33,54 @@ local function AssignClassReference(Object, ClassReference)
     end
 end
 
-function Backend3D.LoadObject(Path, Object)
-    local DreamObject = Dream:loadObject(Path)
+function Backend3D.Raycast(Origin, Direction, WorldObject)
+    assert(WorldObject, "Internal raycast function requires a WorldObject!")
+    local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream())
 
-    if type(Object) == "table" then
-        AssignClassReference(DreamObject, Object)
+    if CastResult then
+        local Object = CastResult:getObject()
+        assert(Object.ClassReference, "Raycast returned object with no ClassReference!")
 
-        DreamWorld.objects[Object.UUID] = DreamObject
-    else -- assume custom uuid
-        print(Path)
-        DreamAdorns.objects[Object] = DreamObject
+        ---@class CastResult
+        local FriendlyCastResult = {
+            Thing = Object.ClassReference,
+            Position = CastResult:getPosition(),
+            Normal = CastResult:getNormal(),
+            UV = CastResult:getUV()
+        }
+
+        return FriendlyCastResult
     end
+end
+
+-- Object stuff --
+
+function Backend3D.CreateAdorn(Name)
+    local Object = Dream:newObject()
+    Object.name = Name
+    Object.UUID = CreateUUID()
+
+    DreamAdorns.objects[Object.UUID] = Object
+    return Object
+end
+
+local function LoadObjectBase(Path, Reference)
+    local DreamObject = Dream:loadObject(Path)
+    AssignClassReference(DreamObject, Reference)
+
+    return DreamObject
+end
+
+function Backend3D.LoadAdorn(Path, Parent, Reference)
+    local DreamObject = LoadObjectBase(Path, Reference)
+
+    Parent.objects[CreateUUID()] = DreamObject
+    return DreamObject
+end
+
+function Backend3D.LoadObject(Path, Object)
+    local DreamObject = LoadObjectBase(Path, Object)
+    DreamWorld.objects[Object.UUID] = DreamObject
 
     return DreamObject
 end

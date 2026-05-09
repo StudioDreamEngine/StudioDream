@@ -31,19 +31,15 @@ function Runtime.Init()
 end
 
 function Runtime.Render()
-    Profiler:start("StudioDream Runtime - Render")
-
-        Runtime.Renderer.Render()
-
-    Profiler:stop()
+    Runtime.Renderer.Render()
 
     Dream:presentDebug()
 end
 
 function Runtime.Update(dt)
-    Profiler:start("StudioDream Runtime - Update")
+    Profiler:start("StudioDream - Update")
 
-        require("Shared").Update(dt)
+        require("Shared").Update(dt) -- this garbage was probably me :3 - bloctans
         Runtime.Backend.Update(dt)
         Runtime.Renderer.ViewportManager.Update(dt) -- temporary
         Runtime.Things.Update(dt)

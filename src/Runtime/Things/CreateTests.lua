@@ -51,7 +51,7 @@ return function ()
     brick.Scale     = Vector3.new(512, 8, 512)
 
     ball.Transform = Transform3D.FromPosition(1, 0, 0)
-    wedge.Transform = Transform3D.FromPosition(-1, 0, 0)
+    wedge.Transform = Transform3D.FromPosition(-1, 0, -10)
 
     Mesh:SetParent(Environment)
     brick:SetParent(Environment)

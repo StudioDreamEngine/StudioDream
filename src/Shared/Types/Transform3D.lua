@@ -33,6 +33,11 @@ function Transform3D.FromAngle(X,Y,Z)
 end
 
 function Transform3D.FromPosition(X,Y,Z)
+    if (not Y) then
+        local Pos = X
+        X,Y,Z = Pos.X, Pos.Y, Pos.Z
+    end
+
     local Matrix = Dream.mat4.getIdentity()
     Matrix = Matrix:translate(X,Y,Z)
 
