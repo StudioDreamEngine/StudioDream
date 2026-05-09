@@ -37,7 +37,7 @@ function MoveControl:ConnectEvents()
         self.InitalOffset = self:GetPlane()
     end)
 
-    self.MouseUp = InputService.MouseUp:Connect(function() self.Down = false end)
+    self.MouseUp = InputService.MouseUp:Connect(function() self.Down = false self.EndMove.Invoke() end)
 
     self.MouseMoved = InputService.MouseMoved:Connect(function(x,y)
         if (not self.Down) then return end
@@ -56,6 +56,7 @@ function MoveControl:new()
     MoveControl.super.new(self)
 
     self.OnMove = Signal:New("Control")
+    self.EndMove = Signal:New("EndControl")
     self.Down = false
     self.Hovering = nil
 

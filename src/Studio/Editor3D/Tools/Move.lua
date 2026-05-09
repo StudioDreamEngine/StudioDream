@@ -2,6 +2,30 @@ local Move = {}
 local Things = Runtime.Things
 
 local MoveControl ---@class MoveControl
+local SelectingObj
+local SelectingPos
+
+local Info = {
+    ["StartPosPlane"] = Vector3.zero, -- idk if he have vector3.zero
+    ["StartPosObj"] = Vector3.zero,
+    ["OffsetTo"] = Vector3.zero,
+}
+
+local Locks = {
+    ["StartLock"] = false
+}
+
+local function StartDrag(Plane,Obj)
+    Info.StartPosPlane = Plane
+    Info.StartPosObj = Obj.Position
+end
+
+local function EndDrag()
+    Locks.StartLock = false
+    Info.StartPosObj = Vector3.zero
+    Info.StartPosPlane = Vector3.zero
+    Info.OffsetTo = Vector3.zero
+end
 
 function Move.Init()
     MoveControl = Things.Create("MoveControl") {
@@ -11,8 +35,27 @@ function Move.Init()
     MoveControl.Adornee = Move.Selection
 
     MoveControl.OnMove:Connect(function(Plane)
-        print(Plane)
+    SelectingObj = Move.Selection
+    if not Locks.StartLock then
+        Locks.StartLock = true
+        StartDrag(Plane, Move.Selection)
+    end
+
+    local CamPos = Things.Root:GetCamera().Position
+    local ObjPos = SelectingObj.Position
+    local Distance = math.sqrt((CamPos.X - ObjPos.X)^2 +(CamPos.Y - ObjPos.Y)^2 +(CamPos.Z - ObjPos.Z)^2)
+
+    local Scale = Distance * 0.01
+
+    Info.OffsetTo = Vector3.new((Plane.X - Info.StartPosPlane.X) * Scale,(Plane.Y - Info.StartPosPlane.Y) * Scale,(Plane.Z - Info.StartPosPlane.Z) * Scale)
+
+    SelectingObj.Transform = Transform3D.FromPosition(Info.StartPosObj.X + Info.OffsetTo.X,Info.StartPosObj.Y + Info.OffsetTo.Y,Info.StartPosObj.Z + Info.OffsetTo.Z)
     end)
+
+    MoveControl.EndMove:Connect(function()
+        EndDrag()
+    end)
+
 end
 
 function Move.Update()
