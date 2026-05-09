@@ -32,17 +32,22 @@ function MoveControl:ConnectEvents()
     self.MouseDown = InputService.MouseDown:Connect(function()
         if (not self.Adornee) then return end
 
+        self.StartMove:Invoke()
+
         self.Down = self.Hovering
         self.InitalPos = self.Adornee.Position
         self.InitalOffset = self:GetPlane()
     end)
 
-    self.MouseUp = InputService.MouseUp:Connect(function() self.Down = false self.EndMove.Invoke() end)
+    self.MouseUp = InputService.MouseUp:Connect(function() 
+        self.Down = false 
+        self.EndMove.Invoke() 
+    end)
 
     self.MouseMoved = InputService.MouseMoved:Connect(function(x,y)
         if (not self.Down) then return end
 
-        self.OnMove.Invoke((self:GetPlane() - self.InitalOffset) * self.Down)
+        self.OnMove.Invoke((self:GetPlane() - self.InitalOffset) * self.Down.Abs())
     end)
 end
 
@@ -57,6 +62,8 @@ function MoveControl:new()
 
     self.OnMove = Signal:New("Control")
     self.EndMove = Signal:New("EndControl")
+    self.StartMove = Signal:New("StartControl")
+
     self.Down = false
     self.Hovering = nil
 
