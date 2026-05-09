@@ -6,7 +6,7 @@ local SelectingObj
 local SelectingPos
 
 local Info = {
-    ["StartPosPlane"] = Vector3.zero, -- idk if he have vector3.zero
+    ["StartPosPlane"] = Vector3.zero, 
     ["StartPosObj"] = Vector3.zero,
     ["OffsetTo"] = Vector3.zero,
 }
@@ -43,11 +43,11 @@ function Move.Init()
 
     local CamPos = Things.Root:GetCamera().Position
     local ObjPos = SelectingObj.Position
-    local Distance = math.sqrt((CamPos.X - ObjPos.X)^2 +(CamPos.Y - ObjPos.Y)^2 +(CamPos.Z - ObjPos.Z)^2)
+   -- local Distance = math.sqrt((CamPos.X - ObjPos.X)^2 +(CamPos.Y - ObjPos.Y)^2 +(CamPos.Z - ObjPos.Z)^2)
 
-    local Scale = Distance * 0.01
+   -- local Scale = Distance * 0.01
 
-    Info.OffsetTo = Vector3.new((Plane.X - Info.StartPosPlane.X) * Scale,(Plane.Y - Info.StartPosPlane.Y) * Scale,(Plane.Z - Info.StartPosPlane.Z) * Scale)
+    Info.OffsetTo = Vector3.new((Plane.X - Info.StartPosPlane.X),(Plane.Y - Info.StartPosPlane.Y),(Plane.Z - Info.StartPosPlane.Z))
 
     SelectingObj.Transform = Transform3D.FromPosition(Info.StartPosObj.X + Info.OffsetTo.X,Info.StartPosObj.Y + Info.OffsetTo.Y,Info.StartPosObj.Z + Info.OffsetTo.Z)
     end)
