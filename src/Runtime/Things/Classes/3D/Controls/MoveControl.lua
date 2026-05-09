@@ -20,9 +20,9 @@ function MoveControl:GetPlane()
     local Transform = self.Adornee.Transform
 
     local Rays = {
-        Z = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Side, MouseRay),
-        Y = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Forward, MouseRay), -- Idk if Y should use the forward vector... whatever!
-        X = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Forward, MouseRay)
+        Z = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Side, MouseRay) * Vector3.zAxis,
+        Y = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Forward, MouseRay) * Vector3.yAxis, -- Idk if Y should use the forward vector... whatever!
+        X = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Forward, MouseRay) * Vector3.xAxis
     }
 
     return Rays.X + Rays.Y + Rays.Z
