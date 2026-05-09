@@ -1,7 +1,7 @@
 -- Base class for things
 local Things = Runtime.Things
 
----@class Thing
+---@class Thing: ClassicObject
 local Thing = Object:extend()
 
 function Thing:new()

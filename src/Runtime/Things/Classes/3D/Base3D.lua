@@ -13,14 +13,12 @@ function Base3D:new()
         Icon = "MeshPart"
     }
 
-    self.Scale        = Vector3.new(1, 1, 1)
     self.Position     = Vector3.new(1,1,1)
-
     self.Transform    = Transform3D.FromPosition(0,0,0)
 
     self.Anchored    = true
 
-    self.Proxy.Property("Scale")
+    self.Proxy.Property("Transform")
 end
 
 function Base3D:Update(dt)
@@ -31,9 +29,6 @@ function Base3D:Update(dt)
 
     Drawable:resetTransform()
     Drawable:setTransform(self.Transform.GetMatrix())
-    Drawable:scaleWorld(self.Scale.ToDream())
-
-    self.Size = self.Scale * Drawable:getBoundingSphere().size
 end
 
 return Base3D
