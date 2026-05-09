@@ -5,6 +5,8 @@ function InputService.Init()
     InputService.AxisPrevious = {}
     InputService.AxisCurrent = {}
 
+    InputService.CurrentPressed = {}
+
     InputService.InputBegan = Signal:New("InputBeganSignal")
     InputService.InputEnded = Signal:New("InputEndSignal")
 
@@ -15,8 +17,16 @@ function InputService.Init()
     -- Pass the value itself as we assume the enum is used anyways
     LoveEvents.MousePressed:Connect(function(_,_,button) InputService.MouseDown.Invoke(button) end)
     LoveEvents.MouseReleased:Connect(function(_,_,button) InputService.MouseUp.Invoke(button) end)
-
     LoveEvents.MouseMoved:Connect(function(x,y,dx,dy) InputService.MouseMoved.Invoke(nil, x,y) end)
+
+    LoveEvents.KeyPressed:Connect(function(Key) 
+        InputService.InputBegan.Invoke(Key)
+        InputService.CurrentPressed[Key] = true
+    end)
+    LoveEvents.KeyReleased:Connect(function(Key) 
+        InputService.InputEnded.Invoke(Key)
+        InputService.CurrentPressed[Key] = false
+    end)
 end
 
 function InputService.KeyDown(Key) -- Be enum based

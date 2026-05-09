@@ -1,7 +1,7 @@
 local SelectionThing = {}
 local Things = Runtime.Things
 
-local CurrentlySelecting
+SelectionThing.CurrentlySelecting = nil
 
 function SelectionThing.Init()
     local InputService = Runtime.Services.Service("InputService") ---@class InputService
@@ -14,16 +14,16 @@ function SelectionThing.Init()
 
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
-        if CurrentlySelecting then
-            CurrentlySelecting:SetOutline(false)
+        if SelectionThing.CurrentlySelecting then
+            SelectionThing.CurrentlySelecting:SetOutline(false)
             --MoveControl.Adornee = nil
         end
 
         if Raycast then
-            CurrentlySelecting = Raycast.Thing
-            CurrentlySelecting:SetOutline(true)
+            SelectionThing.CurrentlySelecting = Raycast.Thing
+            SelectionThing.CurrentlySelecting:SetOutline(true)
 
-            ToolManager.Select(CurrentlySelecting)
+            ToolManager.Select(SelectionThing.CurrentlySelecting)
         end
     end, Enum.MouseButton.LeftClick)
 end
