@@ -20,7 +20,9 @@ function Render.Init()
 end
 
 function Render.Render()
-    Render.ViewportManager.Render()
+    Profiler:start("StudioDream - Render Viewports")
+        Render.ViewportManager.Render()
+    Profiler:stop()
 end
 
 return Render

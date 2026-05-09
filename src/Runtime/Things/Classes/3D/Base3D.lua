@@ -14,6 +14,8 @@ function Base3D:new()
     }
 
     self.Scale        = Vector3.new(1, 1, 1)
+    self.Position     = Vector3.new(1,1,1)
+
     self.Transform    = Transform3D.FromPosition(0,0,0)
 
     self.Anchored    = true
@@ -24,6 +26,8 @@ end
 function Base3D:Update(dt)
     ---@class DreamObject
     local Drawable = self.Drawable
+
+    self.Position = self.Transform.Position
 
     Drawable:resetTransform()
     Drawable:setTransform(self.Transform.GetMatrix())

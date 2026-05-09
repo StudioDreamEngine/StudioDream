@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 local DeviceService = {}
 
-function DeviceService:Init()
+function DeviceService.Init()
 
 end
 

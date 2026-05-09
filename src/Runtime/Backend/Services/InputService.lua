@@ -10,17 +10,21 @@ function InputService.Init()
 
     InputService.MouseDown = Signal:New("MouseDownSignal")
     InputService.MouseUp = Signal:New("MouseUpSignal")
+    InputService.MouseMoved = Signal:New("MouseMoveSignal")
 
-    LoveEvents.MousePressed:Connect(function(_,_,button)
-        InputService.MouseDown.Invoke(button) -- Pass the value itself as we assume the enum is used anyways
-    end)
+    -- Pass the value itself as we assume the enum is used anyways
+    LoveEvents.MousePressed:Connect(function(_,_,button) InputService.MouseDown.Invoke(button) end)
+    LoveEvents.MouseReleased:Connect(function(_,_,button) InputService.MouseUp.Invoke(button) end)
 
-
-    --InputService.MouseClicked = InputService.MouseUp -- For ease of use
+    LoveEvents.MouseMoved:Connect(function(x,y,dx,dy) InputService.MouseMoved.Invoke(nil, x,y) end)
 end
 
-function InputService.IsKeyDown(Key) -- Be enum based
+function InputService.KeyDown(Key) -- Be enum based
     return InputService.CurrentPressed[Key] and true or false
+end
+
+function InputService.MouseButtonDown(MouseButton)
+    return Runtime.Backend2D.GetMouseDown(MouseButton)
 end
 
 function InputService.InputChanged()
@@ -49,7 +53,6 @@ function InputService.JoystickConnect(ContollerID)
     end
 
     function InputServiceed:GetJoyAxis(JoyId)
-        
         if JoyId == 1 then
             return Vector2.new(js:getAxis(1),js:getAxis(2))
         elseif JoyId == 2 then
@@ -61,6 +64,7 @@ function InputService.JoystickConnect(ContollerID)
 end
 
 function InputService.Update()
+
 end
 
 return InputService

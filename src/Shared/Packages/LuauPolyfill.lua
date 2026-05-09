@@ -408,12 +408,13 @@ do
 	function Vector3.FromDream(Vector)
 		return Vector3.new(Vector.x, Vector.y, Vector.z)
 	end
-
-	function Vector3.new(x,y,z)
+	
+	function Vector3.new(x,y,z,w)
 		local Object = setmetatable({
 			X = x,
 			Y = y,
 			Z = z,
+			W = w or 1, -- Optional distance component, any operator (aside from multiplication) will remove the w component as of currently
 			Type = "Vector3"
 		}, { -- I have no idea how to organize this mess
 			__unm = function (t)
@@ -421,18 +422,18 @@ do
 			end,
 			__add = function (t1, t2)
 				if type(t1) == "number" then
-					return Vector3.new(t1 + t2.X, t1 + t2.Y, t1 + t2.Z)
+					return Vector3.new(t1 + t2.X, t1 + t2.Y, t1 + t2.Z, t2.W)
 				elseif type(t2) == "number" then
-					return Vector3.new(t1.X + t2, t1.Y + t2, t1.Z + t2)
+					return Vector3.new(t1.X + t2, t1.Y + t2, t1.Z + t2, t1.W)
 				else
-					return Vector3.new(t1.X + t2.X, t1.Y + t2.Y, t1.Z + t2.Z)
+					return Vector3.new(t1.X + t2.X, t1.Y + t2.Y, t1.Z + t2.Z, t1.W)
 				end
 			end,
 			__sub = function (t1, t2)
 				if type(t2) == "number" then
-					return Vector3.new(t1.X - t2, t1.Y - t2, t1.Z - t2)
+					return Vector3.new(t1.X - t2, t1.Y - t2, t1.Z - t2, t2.W)
 				else
-					return Vector3.new(t1.X - t2.X, t1.Y - t2.Y, t1.Z - t2.Z)
+					return Vector3.new(t1.X - t2.X, t1.Y - t2.Y, t1.Z - t2.Z, t1.W)
 				end
 			end,
 			__tostring = function (t)
@@ -440,11 +441,11 @@ do
 			end,
 			__mul = function (t1, t2)
 				if type(t2) == "number" then
-					return Vector3.new(t1.X * t2, t1.Y * t2, t1.Z * t2)
+					return Vector3.new(t1.X * t2, t1.Y * t2, t1.Z * t2, t1.W)
 				elseif type(t1) == "number" then
-					return Vector3.new(t2.X * t1, t2.Y * t1, t2.Z * t1)
+					return Vector3.new(t2.X * t1, t2.Y * t1, t2.Z * t1, t2.W)
 				else
-					return Vector3.new(t1.X * t2.X, t1.Y * t2.Y, t1.Z * t2.Z)
+					return Vector3.new(t1.X * t2.X, t1.Y * t2.Y, t1.Z * t2.Z, t1.W)
 				end
 			end,
 			__div = function (t1, t2)

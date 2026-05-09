@@ -25,9 +25,18 @@ function Camera:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
     local RayOrigin = self.Position -- RayOrigin is always assumed to be where the camera is for now
 
     local Denom = PlaneAxis.Dot(RayDirection)
-    local Value = (PlaneOrigin - RayOrigin).Dot(PlaneAxis) / Denom
+    local Distance = (PlaneOrigin - RayOrigin).Dot(PlaneAxis) / Denom
 
-    return RayOrigin + Value * RayDirection
+    local Final = RayOrigin + Distance * RayDirection
+    Final.W = Distance
+
+    return Final
+end
+
+function Camera:LocalRayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
+    local Plane = self:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
+
+    return Plane - PlaneOrigin
 end
 
 function Camera:GetFocalLength()

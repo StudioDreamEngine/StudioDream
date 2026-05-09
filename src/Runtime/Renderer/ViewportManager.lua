@@ -55,17 +55,15 @@ function ViewportManager.Update(dt)
 end
 
 function ViewportManager.Render()
-    Profiler:start("Render Viewports")
-        for _, Viewport in pairs(ViewportManager.Viewports) do
-            if Viewport:IsA("Viewport2D") then
-                Profiler:start("2D Viewport")
-                ViewportManager.RenderViewport2D(Viewport)
-                Profiler:stop()
-            else
-                ViewportManager.RenderViewport3D(Viewport)
-            end
+    for _, Viewport in pairs(ViewportManager.Viewports) do
+        if Viewport:IsA("Viewport2D") then
+            Profiler:start("2D Viewport")
+            ViewportManager.RenderViewport2D(Viewport)
+            Profiler:stop()
+        else
+            ViewportManager.RenderViewport3D(Viewport)
         end
-    Profiler:stop()
+    end
 
     RootViewport = Things.Root.RootViewport
     ViewportManager.RenderCanvas(RootViewport)

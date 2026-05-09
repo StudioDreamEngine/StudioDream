@@ -12,8 +12,8 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     love.graphics.setCanvas()
 end
 
-function Backend.GetMouseDown()
-    return love.mouse.isDown(1)
+function Backend.GetMouseDown(Button)
+    return love.mouse.isDown(Button or 1)
 end
 
 function Backend.GetWindowSize()

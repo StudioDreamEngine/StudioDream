@@ -1,10 +1,11 @@
 local LoveEvents = {}
 
-LoveEvents.KeyPressed = Signal:New("KeyPressed")
-LoveEvents.KeyReleased = Signal:New("KeyReleased")
+LoveEvents.KeyPressed = Signal:New("KeyPress")
+LoveEvents.KeyReleased = Signal:New("KeyRelease")
 
-LoveEvents.MousePressed = Signal:New("MousePressed")
-LoveEvents.MouseReleased = Signal:New("MouseReleased")
+LoveEvents.MousePressed = Signal:New("MousePress")
+LoveEvents.MouseReleased = Signal:New("MouseRelease")
+LoveEvents.MouseMoved = Signal:New("MouseMove")
 
 LoveEvents.Resize = Signal:New("Resize")
 
