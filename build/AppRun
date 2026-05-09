@@ -21,6 +21,6 @@ if [ -z "$LUA_CPATH" ]; then
     LUA_CPATH=";"
 fi
 
-export LUA_CPATH="$APPDIR/lib/galvanic/?.so;$LUA_CPATH"
+export LUA_CPATH="$APPDIR/lib/studio-dream/?.so;$LUA_CPATH"
 
-exec "$APPDIR/bin/Galvanic-Webinary" "$@"
+exec "$APPDIR/bin/StudioDream" "$@"

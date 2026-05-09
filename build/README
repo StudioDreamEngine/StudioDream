@@ -1,7 +1,6 @@
 To run linux build: 
 
 ```
-chmod +x ./linux.sh
 ./linux.sh
 ```
 
