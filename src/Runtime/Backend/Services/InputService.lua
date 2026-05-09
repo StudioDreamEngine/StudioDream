@@ -17,7 +17,10 @@ function InputService.Init()
     -- Pass the value itself as we assume the enum is used anyways
     LoveEvents.MousePressed:Connect(function(_,_,button) InputService.MouseDown.Invoke(button) end)
     LoveEvents.MouseReleased:Connect(function(_,_,button) InputService.MouseUp.Invoke(button) end)
-    LoveEvents.MouseMoved:Connect(function(x,y,dx,dy) InputService.MouseMoved.Invoke(nil, x,y) end)
+    LoveEvents.MouseMoved:Connect(function(x,y,dx,dy) 
+        local MouseObject = { Position = Vector2.new(x,y), Delta = Vector2.new(dx,dy) } ---@class InputMouseObject
+        InputService.MouseMoved.Invoke(nil, MouseObject) 
+    end)
 
     LoveEvents.KeyPressed:Connect(function(Key) 
         InputService.InputBegan.Invoke(Key)

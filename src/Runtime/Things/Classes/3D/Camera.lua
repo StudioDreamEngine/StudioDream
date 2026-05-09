@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
----@class Camera: Thing
-local Camera = Things.Extend("Thing")
+---@class Camera: Base3D
+local Camera = Things.Extend("Base3D")
 
 function Camera:new()
     Camera.super.new(self)
@@ -10,13 +10,11 @@ function Camera:new()
         Visible = true,
         Icon = "Camera"
     }
-    self.Position = Vector3.new(0, 0, 0)
-    self.Orientation = Vector3.new(0, 0, 0)
 
     self.FieldOfView = 70 -- FOV
-
-    self.DreamCamera = Dream.camera
     self.Viewport = nil
+
+    self.Drawable = Dream.camera
 end
 
 -- From https://stackoverflow.com/a/23976134
@@ -80,34 +78,7 @@ function Camera:Update(dt)
         self.Viewport = Environment.Viewport
     end
 
-    local _Camera = self.DreamCamera
-
-    local keyDown = love.keyboard.isDown
-
-    local speed = 0.2
-
-    if keyDown('w') then
-        self.Position.X = self.Position.X + math.cos(self.Orientation.Y - math.pi / 2) * speed
-        self.Position.Z = self.Position.Z + math.sin(self.Orientation.Y - math.pi / 2) * speed
-    end
-    if keyDown("s") then
-		self.Position.X = self.Position.X + math.cos(self.Orientation.Y + math.pi - math.pi / 2) * speed
-		self.Position.Z = self.Position.Z + math.sin(self.Orientation.Y + math.pi - math.pi / 2) * speed
-	end
-	if keyDown("a") then
-		self.Position.X = self.Position.X + math.cos(self.Orientation.Y - math.pi / 2 - math.pi / 2) * speed
-		self.Position.Z = self.Position.Z + math.sin(self.Orientation.Y - math.pi / 2 - math.pi / 2) * speed
-	end
-	if keyDown("d") then
-		self.Position.X = self.Position.X + math.cos(self.Orientation.Y + math.pi / 2 - math.pi / 2) * speed
-		self.Position.Z = self.Position.Z + math.sin(self.Orientation.Y + math.pi / 2 - math.pi / 2) * speed
-	end
-    
-    _Camera:resetTransform()
-    _Camera:translate(self.Position.X, self.Position.Y, self.Position.Z)
-    _Camera:rotateX(self.Orientation.X)
-    _Camera:rotateY(self.Orientation.Y)
-    _Camera:rotateZ(self.Orientation.Z)
+    Camera.super.Update(self, dt)
 end
 
 return Camera
