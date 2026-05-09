@@ -1,0 +1,3 @@
+local StudioCamera = {}
+
+return StudioCamera
