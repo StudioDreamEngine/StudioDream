@@ -2,8 +2,8 @@
 local Things = Runtime.Things
 local StudioLayout = {}
 
-local Theme = require("Studio.UI.Theme")
-
+StudioLayout.Theme = require("Studio.UI.Theme")
+local Theme = StudioLayout.Theme
 function StudioLayout.CreateWindowContainer(Transform)
     local Windows = {}
     
@@ -14,7 +14,10 @@ function StudioLayout.CreateWindowContainer(Transform)
         BackgroundColor = Theme.WindowColor,
         Name = "Properties",
         Layer = 1,
-        Parent = StudioLayout.Windows
+        Parent = StudioLayout.Windows,
+        CornerRadius = 5,
+        OutlineSize = 5,
+        OutlineColor = Theme.OutlineColor
     }
     
     Windows.BackWindow = Runtime.Things.Create("Square") {
@@ -24,7 +27,8 @@ function StudioLayout.CreateWindowContainer(Transform)
         BackgroundColor = Theme.BackWindowColor,
         Name = "BackWindow",
         Layer = 2,
-        Parent = Windows.Container
+        Parent = Windows.Container,
+        CornerRadius = 2.5,
     }
 
     return Windows.BackWindow

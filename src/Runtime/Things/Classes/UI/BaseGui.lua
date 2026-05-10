@@ -126,6 +126,8 @@ function BaseGui:new()
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
 
+    self.DebugLine = false
+
     self.Proxy.Property("Size", "Position", "Layer", "Pivot", "SquareAxis", "ListOrder")
     self.Proxy.Property("BackgroundColor", "ForegroundColor", "BackgroundTransparency", "ForegroundTransparency")
     self.Proxy.PropertyAccess("AbsolutePosition", "AbsoluteSize")
@@ -134,6 +136,12 @@ end
 function BaseGui:DrawStyle()
     Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
     self:Draw()
+
+    local AbsoluteSize = self.AbsoluteSize
+
+    if self.DebugLine then
+        love.graphics.rectangle("line", 0,0, AbsoluteSize.X, AbsoluteSize.Y)
+    end
 
     Runtime.Backend2D.SetColor(Color.new(1))
 end
