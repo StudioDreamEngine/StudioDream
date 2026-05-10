@@ -1,6 +1,8 @@
 ---@class InputService
 local InputService = {}
 
+local funnyjokesonu = false
+
 function InputService.Init()
     InputService.InputBegan = Signal:New("InputBeganSignal")
     InputService.InputEnded = Signal:New("InputEndSignal")
@@ -19,6 +21,7 @@ function InputService.Init()
 
     LoveEvents.KeyPressed:Connect(InputService.InputBegan.Invoke)
     LoveEvents.KeyReleased:Connect(InputService.InputEnded.Invoke)
+
 end
 
 InputService.KeyDown = Runtime.Backend2D.KeyDown
@@ -28,8 +31,8 @@ function InputService.KeyDownNumber(Key)
     return InputService.KeyDown(Key) and 1 or 0
 end
 
-function InputService.Update()
-
+function InputService.Update(dt)
+    
 end
 
 return InputService
