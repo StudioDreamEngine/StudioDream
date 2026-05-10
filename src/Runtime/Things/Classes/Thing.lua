@@ -238,7 +238,7 @@ function Thing:ClearAllChildren(NameFilter)
     for ChildUUID,_ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)
         if not NameFilter[Child.Name] then
-            Things.Remove(Child)
+            Child:OnRemove()
         end
     end 
 
