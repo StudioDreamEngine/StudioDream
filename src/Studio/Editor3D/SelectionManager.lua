@@ -1,11 +1,10 @@
 local SelectionThing = {}
 local Things = Runtime.Things
 
-SelectionThing.CurrentlySelecting = nil
-
 function SelectionThing.Init()
     local SelectionPriority = Runtime.SelectionPriority
-    local ToolManager = Studio.Editor3D.ToolManager
+    local Editor3D = Studio.Editor3D
+    local ToolManager = Editor3D.ToolManager
 
     SelectionPriority.BindSignal(function(IsDown)
         if (not IsDown) then return end
@@ -15,16 +14,16 @@ function SelectionThing.Init()
 
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
-        if SelectionThing.CurrentlySelecting then
-            SelectionThing.CurrentlySelecting:SetOutline(false)
+        if Editor3D.Selecting then
+            Editor3D.Selecting:SetOutline(false)
             ToolManager.Deselect()
         end
 
         if Raycast then
-            SelectionThing.CurrentlySelecting = Raycast.Thing
-            SelectionThing.CurrentlySelecting:SetOutline(true)
+            Editor3D.Selecting = Raycast.Thing
+            Editor3D.Selecting:SetOutline(true)
 
-            ToolManager.Select(SelectionThing.CurrentlySelecting)
+            ToolManager.Select(Editor3D.Selecting)
         end
     end, 1)
 end
