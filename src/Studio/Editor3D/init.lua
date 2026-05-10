@@ -4,6 +4,8 @@ local Editor3D = {}
 Editor3D.SelectionManager = require("Studio.Editor3D.SelectionManager")
 Editor3D.ToolManager = require("Studio.Editor3D.ToolManager")
 
+Editor3D.Selecting = nil
+
 function Editor3D.Init()
     Editor3D.StudioCamera = require("Studio.Editor3D.StudioCamera")
 
