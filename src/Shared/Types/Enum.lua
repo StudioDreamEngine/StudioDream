@@ -187,6 +187,8 @@ for _, Enum in pairs(Enums) do
     Enum.NameFromValue = function(Value)
         return table.find(Enum, Value)
     end
+
+    Enum.None = nil
 end
 
 return Enums

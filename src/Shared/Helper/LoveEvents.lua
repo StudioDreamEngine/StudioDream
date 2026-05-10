@@ -9,6 +9,8 @@ LoveEvents.MouseMoved = Signal:New("MouseMove")
 
 LoveEvents.Resize = Signal:New("Resize")
 
+LoveEvents.TextInput = Signal:New("TextInput")
+
 ---@param Event Signal
 for EventName, Event in pairs(LoveEvents) do
     love[string.lower(EventName)] = function(...) Event.Invoke(nil, ...) end

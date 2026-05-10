@@ -8,7 +8,7 @@ function HUD:new()
 
     self.Explorer = {
         Visible = true,
-        UseNewIcon = true,
+        
         Icon = "HUD"
     }
 end

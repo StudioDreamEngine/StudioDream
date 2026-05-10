@@ -9,7 +9,6 @@ function Mesh:new()
 
     self.Explorer = {
         Visible = true,
-        UseNewIcon = true,
         Icon = "MeshPart"
     }
 

@@ -4,27 +4,13 @@ return function ()
     local Environment = Things.GetRoot("Environment")
     local Viewport = Things.Root.RootViewport
 
-    ---@module 'TextButton'
-    local SaveTest = Things.Create("TextButton") {
+    ---@class TextInput
+    local TestInput = Things.Create("TextInput") {
         Parent = Viewport,
-        Text = "Save",
-        Position = Pivot2D.FromScale(0,0.8)
+        Position = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(1,1),
+        Layer = 100
     }
-
-    SaveTest.Clicked:Connect(function()
-        Runtime.Serializer.Save()
-    end)
-
-    ---@module 'TextButton'
-    local LoadTest = Things.Create("TextButton") {
-        Parent = Viewport,
-        Text = "Load",
-        Position = Pivot2D.FromScale(0.1,0.8)
-    }
-
-    LoadTest.Clicked:Connect(function()
-        Runtime.Serializer.Load()
-    end)
 
     -- 3d test
     ---@class Mesh

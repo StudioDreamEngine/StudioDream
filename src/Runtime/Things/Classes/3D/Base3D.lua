@@ -9,7 +9,6 @@ function Base3D:new()
 
     self.Explorer = {
         Visible = false,
-        UseNewIcon = true,
         Icon = "MeshPart"
     }
 

@@ -9,7 +9,6 @@ function Primitive:new()
 
     self.Explorer = {
         Visible = true,
-        UseNewIcon = true,
         Icon = "Scene"
     }
     self.Shape = Enum.Shape.Brick

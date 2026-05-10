@@ -4,9 +4,7 @@ local InputService = {}
 local funnyjokesonu = false
 
 function InputService.Init()
-    InputService.InputBegan = Signal:New("InputBeganSignal")
-    InputService.InputEnded = Signal:New("InputEndSignal")
-
+    InputService.KeyEvent = Signal:New("KeyEvent")
     InputService.MouseEvent = Signal:New("MouseEventSignal")
     InputService.MouseMoved = Signal:New("MouseMoveSignal")
 
@@ -19,9 +17,8 @@ function InputService.Init()
         InputService.MouseMoved.Invoke(nil, MouseObject) 
     end)
 
-    LoveEvents.KeyPressed:Connect(InputService.InputBegan.Invoke)
-    LoveEvents.KeyReleased:Connect(InputService.InputEnded.Invoke)
-
+    LoveEvents.KeyPressed:Connect(function(key) InputService.KeyEvent.Invoke(key, true)  end)
+    LoveEvents.KeyReleased:Connect(function(key) InputService.KeyEvent.Invoke(key, false)  end)
 end
 
 InputService.KeyDown = Runtime.Backend2D.KeyDown
