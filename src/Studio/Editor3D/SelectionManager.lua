@@ -6,6 +6,8 @@ function SelectionThing.Init()
     local Editor3D = Studio.Editor3D
     local ToolManager = Editor3D.ToolManager
 
+    SelectionThing.Selected = Signal:New("SelectionSignal")
+
     SelectionPriority.BindSignal(function(IsDown)
         if (not IsDown) then return end
 
