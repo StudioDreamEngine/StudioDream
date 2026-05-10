@@ -31,7 +31,10 @@ end
 function BaseConstraint:SetParent(NewParent)
     self:Unbind()
     BaseConstraint.super.SetParent(self, NewParent)
-    self:Bind()
+
+    if NewParent then
+        self:Bind()
+    end
 end
 
 return BaseConstraint
