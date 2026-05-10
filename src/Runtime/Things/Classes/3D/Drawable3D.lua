@@ -11,6 +11,7 @@ function Drawable3D:new()
 
     self.Drawable = nil ---@class DreamObject
     self.Outline = false
+    self.Material = "None"
 end
 
 function Drawable3D:OnRemove()
