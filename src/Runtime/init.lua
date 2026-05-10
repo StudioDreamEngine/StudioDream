@@ -23,6 +23,8 @@ function Runtime.Init()
     Runtime.Renderer.Init()
     Runtime.Things.Init()
 
+    Runtime.Backend.PostInit()
+
     Runtime.Serializer = require("Runtime.Serialization")
 
     Profiler = Dream.delton

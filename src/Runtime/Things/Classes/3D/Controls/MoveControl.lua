@@ -1,7 +1,7 @@
 -- Moveable axis control
 local Things = Runtime.Things
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
-local SelectionPriority = Studio.SelectionPriority
+local SelectionPriority = Runtime.SelectionPriority
 
 ---@class MoveControl: Control3D
 local MoveControl = Things.Extend("Control3D")

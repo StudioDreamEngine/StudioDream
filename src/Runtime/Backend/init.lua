@@ -4,12 +4,18 @@ local Backend = {}
 
 function Backend.Init()
     Runtime.InterfaceManager = require("Runtime.Backend.InterfaceManager")
+    Runtime.SelectionPriority = require("Runtime.Backend.SelectionPriority")
+
     Runtime.InterfaceManager.Init()
 
     Runtime.ScriptUtil = require("Runtime.Backend.ScriptUtility")
     Runtime.ObjectProxy = require("Runtime.Backend.ObjectProxy")
 
     Runtime.Services = require("Runtime.Backend.Services")
+end
+
+function Backend.PostInit()
+    Runtime.SelectionPriority.Init()
 end
 
 function Backend.Update(dt)

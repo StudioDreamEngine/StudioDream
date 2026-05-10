@@ -14,6 +14,42 @@ local InverseLookup = {
     }
 }
 
+function InputService.InputChanged()
+    local UUID = CreateUUID()
+    local SignalCool = Signal:New("SignalDefaultWowz")
+    InputService.EventsConnected.Changed[UUID] = SignalCool
+    return SignalCool
+end
+
+--[[function InputService.JoystickConnect(ContollerID)
+    local InputServiceed = {}
+
+    local joysticks = love.joystick.getJoysticks()
+    local js = joysticks[ContollerID]
+
+    function InputServiceed:HasController()
+        if not js and not #joysticks>1 then
+            return false
+        else
+            return true
+        end
+    end
+
+    function InputServiceed:GetControllerName()
+        js:getName()
+    end
+
+    function InputServiceed:GetJoyAxis(JoyId)
+        if JoyId == 1 then
+            return Vector2.new(js:getAxis(1),js:getAxis(2))
+        elseif JoyId == 2 then
+            return Vector2.new(js:getAxis(3),js:getAxis(4))
+        end
+    end
+
+    return InputServiceed
+end]]
+
 --[[
     Takes a ray direction and checks where that ray intersects on a 2d plane
 
