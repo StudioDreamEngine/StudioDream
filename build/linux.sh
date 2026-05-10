@@ -1,28 +1,31 @@
 #!/usr/bin/env bash
 
 COMPILED="../src"
-DIST="../dist/linux"
+DIST="../dist"
+
+chmod +x appimagetool.AppImage
 
 # Create the love archive
+echo Creating build...
 cd $COMPILED
-zip -9 -r ../build/Galvanic-Webinary.love . -x "./CLibraries/*"
+zip -9 -r ../build/StudioDream.love . -x "./CLibraries/*"
 cd ../build
 
 # We need to make sure the appimage is executable
 ./love.AppImage --appimage-extract
 
 SQUASH_ROOT="./squashfs-root"
-LIBRARIES="$SQUASH_ROOT/lib/galvanic/"
-EXTERNAL="$SQUASH_ROOT/share/galvanic/"
+LIBRARIES="$SQUASH_ROOT/lib/studio-dream/"
+EXTERNAL="$SQUASH_ROOT/share/studio-dream/"
 
 # Setup appimage
 cp AppRun "$SQUASH_ROOT/AppRun"
 cp love.desktop "$SQUASH_ROOT/love.desktop"
-cp -r "./galvanic.png" "$SQUASH_ROOT/galvanic.png"
+cp -r "./Studio.png" "$SQUASH_ROOT/Studio.png"
 
 # Setup executable
-cat "$SQUASH_ROOT/bin/love" Galvanic-Webinary.love > "$SQUASH_ROOT/bin/Galvanic-Webinary"
-chmod +x "$SQUASH_ROOT/bin/Galvanic-Webinary"
+cat "$SQUASH_ROOT/bin/love" StudioDream.love > "$SQUASH_ROOT/bin/StudioDream"
+chmod +x "$SQUASH_ROOT/bin/StudioDream"
 
 # Setup dependencies
 mkdir $LIBRARIES
@@ -30,7 +33,8 @@ cp -r "$COMPILED/CLibraries/linux/." $LIBRARIES
 
 # Cleanup
 rm "$SQUASH_ROOT/love.svg"
-rm "Galvanic-Webinary.love"
+rm "StudioDream.love"
 
 # Build appimage
-./appimagetool.AppImage $SQUASH_ROOT "$DIST/GalvanicWebinary.AppImage"
+echo Building AppImage..
+./appimagetool.AppImage $SQUASH_ROOT "$DIST/StudioDream.AppImage"

@@ -33,6 +33,10 @@ local Enums = {
         MiddleClick = 3,
         RightClick = 2
     },
+    MouseMode = {
+        Free = 1,
+        Locked = 2
+    },
     InputCode = {
         -- Keyboard
         RightArrow = 'right',

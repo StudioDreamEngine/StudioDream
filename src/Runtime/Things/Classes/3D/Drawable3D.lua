@@ -11,7 +11,8 @@ function Drawable3D:new()
 
     self.Drawable = nil ---@class DreamObject
     self.Outline = false
-    self.Material = "None"
+    self.Scale= Vector3.new(1, 1, 1)
+    self.Proxy.Property("Scale")
 end
 
 function Drawable3D:OnRemove()
@@ -34,6 +35,9 @@ end
 
 function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
+    self.Drawable:scaleWorld(self.Scale.ToDream())
+
+    self.Size = self.Scale * self.Drawable:getBoundingSphere().size
 
     for _, Mesh in pairs(self.Drawable:getAllMeshes()) do
         Mesh[1].material.stencil = self.Outline

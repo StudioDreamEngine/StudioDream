@@ -8,7 +8,9 @@ function SelectionThing.Init()
 
     local ToolManager = Studio.Editor3D.ToolManager
 
-    InputService.MouseDown:Connect(function()
+    InputService.MouseEvent:Connect(function(IsDown)
+        if (not IsDown) then return end
+
         local Environment = Things.Root:GetEnvironment() ---@class Environment
         local Camera = Environment:GetCamera() ---@class Camera
 

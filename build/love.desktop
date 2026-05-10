@@ -1,10 +1,10 @@
 [Desktop Entry]
-Name=GALVANIC WEBINARY
+Name=StudioDream
 Comment=The unquestionably awesome 2D game engine
 MimeType=application/x-love-game;
-Exec=Galvanic-Webinary %f
+Exec=StudioDream %f
 Type=Application
 Categories=Game;
 Terminal=false
-Icon=galvanic
+Icon=Studio
 NoDisplay=true
