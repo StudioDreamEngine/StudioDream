@@ -126,7 +126,8 @@ function BaseGui:new()
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
 
-    self.Proxy.Property("Size", "Position", "Layer", "Pivot", "BackgroundColor", "ForegroundColor")
+    self.Proxy.Property("Size", "Position", "Layer", "Pivot", "SquareAxis", "ListOrder")
+    self.Proxy.Property("BackgroundColor", "ForegroundColor", "BackgroundTransparency", "ForegroundTransparency")
     self.Proxy.PropertyAccess("AbsolutePosition", "AbsoluteSize")
 end
 

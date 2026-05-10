@@ -1,8 +1,7 @@
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
----@module 'BaseGui'
----@class Image2D
+---@class Image2D: BaseGui
 local Image2D = Things.Extend("BaseGui")
 
 function Image2D:new()

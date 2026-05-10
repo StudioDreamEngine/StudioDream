@@ -13,6 +13,8 @@ function ListLayout:new()
     self.Padding = 0
 
     self.RemainingSize = 0
+
+    self.Proxy.Property("Direction", "Padding")
 end
 
 function ListLayout:Update()

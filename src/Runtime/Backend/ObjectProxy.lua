@@ -15,12 +15,8 @@ return { new = function()
 
     -- Add a property that can be serialized and used by scripts
     function ObjectProxy.Property(...)
-        for i, v in pairs(table.pack(...)) do
-            if i ~= "n" then
-                ObjectProxy.Serializable[v] = true
-                ObjectProxy.Accessible[v] = true
-            end
-        end
+        ObjectProxy.PropertyAccess(...)
+        ObjectProxy.PropertySerialize(...)
     end
 
     -- Add an accessible only property
@@ -32,9 +28,23 @@ return { new = function()
         end
     end
 
+    -- Add an serializable only property
+    function ObjectProxy.PropertySerialize(...)
+        for i, v in pairs(table.pack(...)) do
+            if i ~= "n" then
+                ObjectProxy.Serializable[v] = true
+            end
+        end
+    end
+
     function ObjectProxy.IsAccessible(Property)
         return ObjectProxy.Accessible[Property]
     end
+
+    -- For now, if its both accessible and serializable, its writable
+    --[[function ObjectProxy.IsWritable(Property)
+        return ObjectProxy.Accessible[Property] and ObjectProxy.Serializable[Property]
+    end]]
 
     --[[
         Add a call that needs some form of instance proxy conversion when used

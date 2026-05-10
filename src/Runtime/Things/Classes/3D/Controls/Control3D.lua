@@ -10,6 +10,8 @@ function Control3D:new()
     self.Adornee = nil ---@class Drawable3D
     self.AdornObject = Runtime.Backend3D.CreateAdorn("MoveAdorn")
     self.Adorns = {}
+
+    self.Proxy.Property("Adornee")
 end
 
 return Control3D

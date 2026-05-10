@@ -15,6 +15,8 @@ function Camera:new()
     self.Viewport = nil
 
     self.Drawable = Dream.camera
+
+    self.Proxy.Property("FieldOfView")
 end
 
 -- From https://stackoverflow.com/a/23976134

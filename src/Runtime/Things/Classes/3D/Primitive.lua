@@ -15,6 +15,8 @@ function Primitive:new()
     
     self._LastShape = self.Shape
     self:CheckShape()
+
+    self.Proxy.Property("Shape")
 end
 
 function Primitive:CheckShape()
