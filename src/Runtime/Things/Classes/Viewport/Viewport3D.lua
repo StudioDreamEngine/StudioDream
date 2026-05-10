@@ -7,7 +7,7 @@ function Viewport3D:new()
     Viewport3D.super.new(self)
     self.Explorer = {
         Visible = true,
-        UseNewIcon = true,
+        
         Icon = "Viewport_3D"
     }
 

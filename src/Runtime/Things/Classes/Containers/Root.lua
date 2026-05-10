@@ -7,7 +7,7 @@ function Root:new()
     Root.super.new(self)
 
     self.Explorer = {
-        UseNewIcon = true,
+        
         Visible = true,
         Icon = "Root",
     }

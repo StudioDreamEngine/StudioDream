@@ -1,8 +1,7 @@
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
----@module 'Square'
----@class Text
+---@class Text: Square
 local Text = Things.Extend("Square")
 
 function Text:new()
@@ -10,7 +9,6 @@ function Text:new()
 
     self.Explorer = {
         Visible = true,
-        UseNewIcon = true,
         Icon = "Text"
     }
 
@@ -18,76 +16,39 @@ function Text:new()
     self.TextScaled = true
 
     self.Text = "Placeholder"
-    
+
     self.AlignX = Enum.AlignmentX.Center
     self.AlignY = Enum.AlignmentY.Center
 
-    self.FontFile = nil
-
-    self.RenderFont = nil
-    self.TextBounds = Vector2.zero
+    self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
 
     self:AttemptWrap(self.AbsoluteSize)
 end
 
-function Text:PerformWrap(CurrentSize, WrapLength)
-    self.RenderFont = love.graphics.newFont(self.FontFile or "Assets/Fonts/Roboto/Roboto-Medium.ttf",CurrentSize)
+function Text:AttemptWrap(Size)
+    self.RenderClass.PassProperties({
+        Text = self.Text,
+        Font = self.Font
+    })
 
-    local width, lines = self.RenderFont:getWrap(self.Text, WrapLength)
+    self.RenderClass.AttemptWrap(Size, self.TextScaled, self.TextSize)
+end
 
-    -- should simplify this y axis equation tbh
-    return Vector2.new(width, #lines * self.RenderFont:getHeight())
+function Text:SetText(Text)
+    self.Text = Text
+    self:AttemptWrap(self.AbsoluteSize)
 end
 
 function Text:SetAbsoluteSize(New)
     Text.super.SetAbsoluteSize(self, New)
-
     self:AttemptWrap(New)
-end
-
-function Text:AttemptWrap(NewSize)
-    local ContainerSize = NewSize
-
-    local TextSize
-
-    if self.TextScaled then
-        local CurrentSize = math.max(ContainerSize.Y,1)
-
-        repeat
-            TextSize = self:PerformWrap(CurrentSize, ContainerSize.X)
-
-            CurrentSize = CurrentSize - 1
-        until ContainerSize.Y > TextSize.Y or CurrentSize <= 1
-    else
-        TextSize = self:PerformWrap(self.TextSize, ContainerSize.X)
-    end
-
-    self.TextBounds = TextSize
-
-    return TextSize, self.RenderFont
 end
 
 function Text:Draw()
     Text.super.Draw(self)
 
-    local CurrentSize = self.AbsoluteSize
-
-    local Divisor = 2
-
-    --[[if self.AlignY == Enum.AlignmentY.Bottom then
-        Divisor = 1
-    elseif self.AlignY == Enum.AlignmentY.Center then
-        Divisor = 2
-    end]]
-
-    local TextPosition = Vector2.new(0,CurrentSize.Y/Divisor - self.TextBounds.Y/Divisor)
-    
-    love.graphics.setFont(self.RenderFont)
-    Runtime.Backend2D.SetColor(Color.new(1,0,0))
-
-    love.graphics.rectangle("line", TextPosition.X, TextPosition.Y, self.TextBounds.X, self.TextBounds.Y)
     Runtime.Backend2D.SetColor(self.ForegroundColor)
-    love.graphics.printf(self.Text, TextPosition.X, TextPosition.Y, self.TextBounds.X, self.AlignX)
+    self.RenderClass.Render(self.AlignX, self.AbsoluteSize)
 end
 
 return Text

@@ -2,8 +2,7 @@ local Things = Runtime.Things
 
 -- We should maybe merge this and ImageButton, for now however this will be how it works
 -- using @module here gives the lua language server a base type to use!
----@module 'Text'
----@class TextButton
+---@class TextButton: Text
 local TextButton = Things.Extend("Text")
 
 function TextButton:new()
@@ -11,7 +10,6 @@ function TextButton:new()
 
     self.Explorer = {
         Visible = true,
-        UseNewIcon = true,
         Icon = "TextButton"
     }
 

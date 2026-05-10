@@ -17,6 +17,8 @@ function Render.Init()
     Backend3D.Init()
 
     Render.ViewportManager.Init()
+    
+    Render.ClassText = require("Runtime.Renderer.Class.Text")
 end
 
 function Render.Render()

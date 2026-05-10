@@ -77,7 +77,7 @@ function BaseGui:GetAbsoluteSize()
         local Scale = (ParentElement.AbsoluteSize * self.Size.Scale)
 
         if self.SquareAxis then
-            Scale = Vector2.new(Scale[self.SquareAxis], Scale[self.SquareAxis])
+            Scale = Vector2.one * Scale[self.SquareAxis]
         end
     
         AbsoluteSize = AbsoluteSize + Scale
