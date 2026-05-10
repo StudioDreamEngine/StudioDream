@@ -105,9 +105,11 @@ function Things.Update(dt)
     Profiler:start("Update Objects")
 
     for _, Thing in pairs(Objects) do
-        Profiler:start("Update Object - "..Thing.Name)
-        Thing:Update(dt)
-        Profiler:stop()
+        if Thing.Parent then -- sorta hacky fix
+            Profiler:start("Update Object - "..Thing.Name)
+            Thing:Update(dt)
+            Profiler:stop()
+        end
     end
 
     Profiler:stop()

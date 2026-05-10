@@ -237,12 +237,12 @@ function Thing:ClearAllChildren(NameFilter)
 
     for ChildUUID,_ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)
-        if not NameFilter[Child.Name] then
-            Child:OnRemove()
+
+        if not table.find(NameFilter, Child.Name) then
+            Child:OnRemove(NameFilter)
+            self.Children[Child.UUID] = nil
         end
     end 
-
-    self.Children = {}
 end
 
 function Thing:Update() end
