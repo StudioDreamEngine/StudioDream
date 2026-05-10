@@ -11,9 +11,7 @@ function Drawable3D:new()
 
     self.Drawable = nil ---@class DreamObject
     self.Outline = false
-
-    self.Scale        = Vector3.new(1, 1, 1)
-
+    self.Scale= Vector3.new(1, 1, 1)
     self.Proxy.Property("Scale")
 end
 
