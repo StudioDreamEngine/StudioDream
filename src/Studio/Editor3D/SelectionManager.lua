@@ -5,7 +5,6 @@ SelectionThing.CurrentlySelecting = nil
 
 function SelectionThing.Init()
     local SelectionPriority = Runtime.SelectionPriority
-
     local ToolManager = Studio.Editor3D.ToolManager
 
     SelectionPriority.BindSignal(function(IsDown)

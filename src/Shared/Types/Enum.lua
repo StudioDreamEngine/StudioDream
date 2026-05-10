@@ -37,6 +37,10 @@ local Enums = {
         Free = 1,
         Locked = 2
     },
+    SquareAxis = {
+        X = "X",
+        Y = "Y"
+    },
     InputCode = {
         -- Keyboard
         RightArrow = 'right',

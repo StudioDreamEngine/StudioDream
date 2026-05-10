@@ -74,7 +74,13 @@ function BaseGui:GetAbsoluteSize()
     local ParentElement = self:GetParentElement()
 
     if ParentElement then -- Only do this if we found a parent element
-        AbsoluteSize = AbsoluteSize + (ParentElement.AbsoluteSize * self.Size.Scale)
+        local Scale = (ParentElement.AbsoluteSize * self.Size.Scale)
+
+        if self.SquareAxis then
+            Scale = Vector2.new(Scale[self.SquareAxis], Scale[self.SquareAxis])
+        end
+    
+        AbsoluteSize = AbsoluteSize + Scale
     end
 
     return AbsoluteSize
@@ -102,6 +108,7 @@ function BaseGui:new()
     self.Position = Pivot2D.FromOffset(0, 0)
 
     self.AutomaticSize = nil
+    self.SquareAxis = nil
     self.ListOrder = 0
 
     self.ColorMultiplier = 1
@@ -130,10 +137,6 @@ function BaseGui:DrawStyle()
     Runtime.Backend2D.SetColor(Color.new(0,0,1))
     local AbsoluteSize = self.AbsoluteSize
     love.graphics.rectangle("line", 0,0, AbsoluteSize.X, AbsoluteSize.Y)
-
-    --Runtime.Backend2D.SetColor(Color.new(0,1,0))
-    --local ContentSize = self:GetContentSize()
-    --love.graphics.rectangle("line", 0,0, ContentSize.X, ContentSize.Y)
 
     Runtime.Backend2D.SetColor(Color.new(1))
 end

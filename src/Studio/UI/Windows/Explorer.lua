@@ -27,8 +27,9 @@ function Explorer.CreateNode(Object, Depth)
     }
     local NodeIcon = Things.Create("Image2D") {
         Size = Pivot2D.new(0,0.1,0,1),
-        Pivot = Vector2.new(0,0.5),
-        Position = Pivot2D.FromScale(-0.1,0.5),
+        SquareAxis = Enum.SquareAxis.Y,
+        Pivot = Vector2.new(1,0.5),
+        Position = Pivot2D.FromScale(0,0.5),
         Image = ("Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png") or "Assets/EditorIcons/Icon_Not_Found.png",
         Parent = NodeInner
     }
