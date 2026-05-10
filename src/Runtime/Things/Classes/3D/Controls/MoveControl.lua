@@ -1,6 +1,7 @@
 -- Moveable axis control
 local Things = Runtime.Things
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
+local SelectionPriority = Studio.SelectionPriority
 
 ---@class MoveControl: Control3D
 local MoveControl = Things.Extend("Control3D")
@@ -29,10 +30,8 @@ function MoveControl:GetPlane()
 end
 
 function MoveControl:ConnectEvents()
-    self.MouseEvent = InputService.MouseEvent:Connect(function(Button, IsDown)
+    self.MouseEvent = SelectionPriority.BindSignal(function(IsDown)
         if IsDown then
-            if (not self.Adornee) then return end
-
             self.StartMove.Invoke()
 
             self.Down = self.Hovering
@@ -40,8 +39,10 @@ function MoveControl:ConnectEvents()
             self.InitalOffset = self:GetPlane()
         else
             self.Down = false 
-        self.EndMove.Invoke() 
+            self.EndMove.Invoke() 
         end
+    end, 2, function ()
+        return self.Hovering or self.Down
     end)
 
     self.MouseMoved = InputService.MouseMoved:Connect(function(MouseObject)
@@ -52,7 +53,7 @@ function MoveControl:ConnectEvents()
 end
 
 function MoveControl:DisconnectEvents()
-    self.MouseEvent:Disconnect()
+    SelectionPriority.UnbindSignal(self.MouseEvent)
     self.MouseMoved:Disconnect()
 end
 

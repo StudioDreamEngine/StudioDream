@@ -7,7 +7,10 @@ function ToolManager.Init()
 end
 
 function ToolManager.Deselect()
-    if CurrentTool then CurrentTool.Destroy() end
+    if CurrentTool then 
+        CurrentTool.Destroy()
+        CurrentTool = nil
+    end
 end
 
 function ToolManager.Select(NewSelection)

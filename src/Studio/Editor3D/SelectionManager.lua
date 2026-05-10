@@ -4,11 +4,11 @@ local Things = Runtime.Things
 SelectionThing.CurrentlySelecting = nil
 
 function SelectionThing.Init()
-    local InputService = Runtime.Services.Service("InputService") ---@class InputService
+    local SelectionPriority = Studio.SelectionPriority
 
     local ToolManager = Studio.Editor3D.ToolManager
 
-    InputService.MouseEvent:Connect(function(IsDown)
+    SelectionPriority.BindSignal(function(IsDown)
         if (not IsDown) then return end
 
         local Environment = Things.Root:GetEnvironment() ---@class Environment
@@ -18,7 +18,7 @@ function SelectionThing.Init()
 
         if SelectionThing.CurrentlySelecting then
             SelectionThing.CurrentlySelecting:SetOutline(false)
-            --MoveControl.Adornee = nil
+            ToolManager.Deselect()
         end
 
         if Raycast then
@@ -27,7 +27,7 @@ function SelectionThing.Init()
 
             ToolManager.Select(SelectionThing.CurrentlySelecting)
         end
-    end, Enum.MouseButton.LeftClick)
+    end, 1)
 end
 
 return SelectionThing

@@ -39,7 +39,6 @@ function Move.Init()
     MoveControl.EndMove:Connect(function()
         EndDrag()
     end)
-
 end
 
 function Move.Update()
