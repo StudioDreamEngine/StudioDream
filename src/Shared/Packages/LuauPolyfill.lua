@@ -472,7 +472,9 @@ do
 		end
 
 		function Object.Unit()
-			return Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
+			local Unit = Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
+
+			return (Object.Magnitude() > 0) and Unit or Vector3.zero
 		end
 
 		function Object.Cross(SecondVector)

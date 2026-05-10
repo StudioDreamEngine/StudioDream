@@ -11,6 +11,7 @@ function Studio.Init()
 end
 
 function Studio.Update(dt)
+    Studio.Editor3D.Update(dt)
 end
 
 return Studio

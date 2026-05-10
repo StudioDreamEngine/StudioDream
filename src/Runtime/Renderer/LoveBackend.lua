@@ -16,12 +16,12 @@ function Backend.GetMouseDown(Button)
     return love.mouse.isDown(Button or 1)
 end
 
-function Backend.GetWindowSize()
-    return Vector2.new(love.graphics.getWidth(), love.graphics.getHeight())
+function Backend.SetMousePosition(Position)
+    love.mouse.setPosition(Position.X, Position.Y)
 end
 
-function Backend.NewImage(Path)
-    return love.graphics.newImage(Path)
+function Backend.GetWindowSize()
+    return Vector2.new(love.graphics.getWidth(), love.graphics.getHeight())
 end
 
 function Backend.GetMousePosition()
@@ -33,12 +33,13 @@ function Backend.SetColor(Color, Transparency)
     love.graphics.setColor(Color.R, Color.G, Color.B, Transparency)
 end
 
-function Backend.RenderCanvas(Canvas)
-    love.graphics.draw(Canvas)
-end
-
 function Backend.NewCanvas(Size)
     return love.graphics.newCanvas(Size.X, Size.Y)
 end
+
+Backend.SetMouseVisible = love.mouse.setVisible
+Backend.KeyDown = love.keyboard.isDown
+Backend.NewImage = love.graphics.newImage
+Backend.RenderCanvas = love.graphics.draw
 
 return Backend

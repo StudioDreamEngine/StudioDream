@@ -32,7 +32,7 @@ function ViewportManager.RenderViewport2D(Viewport)
             love.graphics.pop()
         end
 
-        love.graphics.circle("fill", Viewport.MousePosition.X, Viewport.MousePosition.Y, 10)
+        --love.graphics.circle("fill", Viewport.MousePosition.X, Viewport.MousePosition.Y, 10)
     end)
 end
 
