@@ -37,7 +37,6 @@ function Thing:new()
     }
 
     self.Proxy.Property("Parent", "Name")
-    self.Proxy.PropertyAccess("UUID")
 end
 
 --[[
