@@ -9,18 +9,27 @@ function Square:new()
 
     self.CornerRadius = 0
 
+    self.OutlineSize = 0
+    self.OutlineColor = Color.new(0,0,0)
+
     self.Explorer = {
         Visible = true,
         Icon = "Square"
     }
 
-    self.Proxy.Property("CornerRadius")
+    self.Proxy.Property("CornerRadius", "OutlineSize")
 end
 
 function Square:Draw()
     local Size = self.AbsoluteSize
 
     love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
+
+    if self.OutlineSize > 0 then
+        love.graphics.setLineWidth(self.OutlineSize)
+        Runtime.Backend2D.SetColor(self.OutlineColor)
+        love.graphics.rectangle("line", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
+    end
 end
 
 return Square

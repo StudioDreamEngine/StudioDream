@@ -135,10 +135,6 @@ function BaseGui:DrawStyle()
     Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
     self:Draw()
 
-    Runtime.Backend2D.SetColor(Color.new(0,0,1))
-    local AbsoluteSize = self.AbsoluteSize
-    love.graphics.rectangle("line", 0,0, AbsoluteSize.X, AbsoluteSize.Y)
-
     Runtime.Backend2D.SetColor(Color.new(1))
 end
 
