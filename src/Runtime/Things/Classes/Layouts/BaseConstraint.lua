@@ -18,7 +18,7 @@ end
 
 function BaseConstraint:Unbind()
     for _, Object in pairs(self.Objects) do
-        Object:UnbindConstraint(self)
+        Object:UnbindConstraints(self)
     end
 
     self.Objects = {}
@@ -32,6 +32,7 @@ function BaseConstraint:SetParent(NewParent)
     self:Unbind()
     BaseConstraint.super.SetParent(self, NewParent)
 
+    -- TODO: Also re-bind all objects when a new object is added!
     if NewParent then
         self:Bind()
     end

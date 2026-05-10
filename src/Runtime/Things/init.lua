@@ -102,11 +102,17 @@ function Things.Remove(Thing)
 end
 
 function Things.Update(dt)
-    Profiler:start("Update Objects")
+    Profiler:start("Update Things")
 
     for _, Thing in pairs(Objects) do
-        if Thing.Parent then -- sorta hacky fix
-            Profiler:start("Update Object - "..Thing.Name)
+        --[[
+            HACK (i think)
+            Fixes issue where things can still update even when not parented,
+            Presumably we'd fix this by figuring out what causes that in the first place, 
+            but this works too - Bloctans
+        ]]
+        if Thing.Parent then
+            Profiler:start("Update Class - "..Thing.Name)
             Thing:Update(dt)
             Profiler:stop()
         end
