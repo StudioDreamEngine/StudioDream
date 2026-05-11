@@ -40,9 +40,6 @@ function ListLayout:Update()
         end
     end
 
-    -- Temporary, change in the future PLEASE
-    self.Parent:UpdateChildTransforms()
-
     self.RemainingSize = TotalSpace - (ListPos - self.Padding)
 end
 

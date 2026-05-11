@@ -11,8 +11,6 @@ function Viewport:new()
     self.Adornee = nil
     self.RenderFolder = nil -- idk what to name this
 
-    self.QueuedUpdate = false
-
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
     self.DisplayList = {}
 end
@@ -38,7 +36,6 @@ function Viewport:SetAbsoluteSize(New)
     Viewport.super.SetAbsoluteSize(self, New)
 
     printVerbose("Queued viewport update for: "..self.Name)
-    self.QueuedUpdate = true
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, New)
 end
 

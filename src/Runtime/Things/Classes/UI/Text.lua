@@ -21,8 +21,6 @@ function Text:new()
     self.AlignY = Enum.AlignmentY.Center
 
     self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
-
-    self:AttemptWrap(self.AbsoluteSize)
 end
 
 function Text:AttemptWrap(Size)
@@ -36,12 +34,13 @@ end
 
 function Text:SetText(Text)
     self.Text = Text
-    self:AttemptWrap(self.AbsoluteSize)
+    self:InvalidateRendering()
 end
 
-function Text:SetAbsoluteSize(New)
-    Text.super.SetAbsoluteSize(self, New)
-    self:AttemptWrap(New)
+function Text:ProcessInvalidation()
+    Text.super.ProcessInvalidation(self)
+    
+    self:AttemptWrap(self.AbsoluteSize)
 end
 
 function Text:Draw()

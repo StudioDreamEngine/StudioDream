@@ -41,6 +41,7 @@ return function ()
     Scheduler = require("Shared.Helper.Scheduler")
     Utils = require("Shared.Helper.Utils")
     LoveEvents = require("Shared.Helper.LoveEvents")
+    Profiler = require("Shared.Helper.Profiler")
 
     -- Types
     Pivot2D = require("Shared.Types.Pivot2D")

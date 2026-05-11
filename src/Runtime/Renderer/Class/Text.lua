@@ -26,15 +26,17 @@ return function()
         local TextBounds
 
         if TextScaled then
-            Profiler:start("Attempt Textscaled wrap")
             local CurrentSize = math.max(ContainerSize.Y,1)
+            local InvalidationCount = 0
 
             repeat
                 TextBounds = PerformWrap(CurrentSize, ContainerSize.X)
 
                 CurrentSize = CurrentSize - 1
+                InvalidationCount = InvalidationCount + 1
             until ContainerSize.Y > TextBounds.Y or CurrentSize <= 1
-            Profiler:stop()
+
+            --printVerbose("Invalidated TextSize "..InvalidationCount.." Times")
         else
             TextBounds = PerformWrap(TextSize, ContainerSize.X)
         end

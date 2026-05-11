@@ -57,9 +57,9 @@ end
 function ViewportManager.Render()
     for _, Viewport in pairs(ViewportManager.Viewports) do
         if Viewport:IsA("Viewport2D") then
-            Profiler:start("2D Viewport")
+            Profiler.Start("2D Viewport")
             ViewportManager.RenderViewport2D(Viewport)
-            Profiler:stop()
+            Profiler.End()
         else
             ViewportManager.RenderViewport3D(Viewport)
         end

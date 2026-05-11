@@ -126,7 +126,8 @@ function BaseGui:new()
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
 
-    self.DebugLine = false
+    self.WasInvalidated = false
+    self.EverInvalidated = false
 
     self.Proxy.Property("Size", "Position", "Layer", "Pivot", "SquareAxis", "ListOrder")
     self.Proxy.Property("BackgroundColor", "ForegroundColor", "BackgroundTransparency", "ForegroundTransparency")
@@ -134,26 +135,11 @@ function BaseGui:new()
 end
 
 function BaseGui:DrawStyle()
+    if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
+
     Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
     self:Draw()
-
-    local AbsoluteSize = self.AbsoluteSize
-
-    if self.DebugLine then
-        love.graphics.rectangle("line", 0,0, AbsoluteSize.X, AbsoluteSize.Y)
-    end
-
     Runtime.Backend2D.SetColor(Color.new(1))
-end
-
-function BaseGui:UpdateChildTransforms()
-    self:UpdateTransforms()
-
-    for _, v in pairs(self:GetChildren()) do
-        if v:IsA("BaseGui") then
-            v:UpdateChildTransforms()
-        end
-    end
 end
 
 function BaseGui:UpdateTransforms()
@@ -168,23 +154,50 @@ function BaseGui:UpdateTransforms()
     self.AbsolutePosition = self:GetAbsolutePosition()
 end
 
+function BaseGui:ProcessInvalidation()
+    self:UpdateTransforms()
+    self.EverInvalidated = true
+    self.WasInvalidated = false
+
+    -- We cant simply mark invalidation, if we did then invalidation would be frame-dependent, which is bad!
+    for _, v in pairs(self:GetChildren()) do
+        if v:IsA("BaseGui") then
+            v:ProcessInvalidation()
+            --v:InvalidateRendering()
+        end
+    end
+end
+
+-- TODO: Also be able to store causes of invalidation within a frame
+function BaseGui:InvalidateRendering()
+    self.WasInvalidated = true
+end
+
 function BaseGui:SetParent(NewParent)
     BaseGui.super.SetParent(self, NewParent)
-    self:UpdateTransforms()
+    self:ProcessInvalidation()
 end
 
 function BaseGui:SetPosition(New)
     self.Position = New
-    self:UpdateTransforms()
+    self:InvalidateRendering()
 end
 
 function BaseGui:SetSize(New)
     self.Size = New
-    self:UpdateTransforms()
+    self:InvalidateRendering()
 end
 
 function BaseGui:SetAbsoluteSize(NewSize)
     self.AbsoluteSize = NewSize
+end
+
+function BaseGui:Update(dt)
+    BaseGui.super.Update(dt)
+
+    if self.WasInvalidated then
+        self:ProcessInvalidation()
+    end
 end
 
 return BaseGui

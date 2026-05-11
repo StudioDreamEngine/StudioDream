@@ -15,7 +15,7 @@ Runtime.Renderer = require("Runtime.Renderer")
 Runtime.Backend = require("Runtime.Backend")
 
 function Runtime.Init()
-    Profiler = Dream.delton
+    Profiler.Init()
 
     Runtime.Backend.Init()
 
@@ -39,14 +39,14 @@ function Runtime.Render()
 end
 
 function Runtime.Update(dt)
-    Profiler:start("StudioDream - Update")
+    Profiler.Start("StudioDream - Update")
 
         require("Shared").Update(dt) -- this garbage was probably me :3 - bloctans
         Runtime.Backend.Update(dt)
         Runtime.Renderer.ViewportManager.Update(dt) -- temporary
         Runtime.Things.Update(dt)
 
-    Profiler:stop()
+    Profiler.End()
 end
 
 return Runtime

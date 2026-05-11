@@ -102,7 +102,7 @@ function Things.Remove(Thing)
 end
 
 function Things.Update(dt)
-    Profiler:start("Update Things")
+    Profiler.Start("Update Things")
 
     for _, Thing in pairs(Objects) do
         --[[
@@ -112,13 +112,13 @@ function Things.Update(dt)
             but this works too - Bloctans
         ]]
         if Thing.Parent then
-            Profiler:start("Update Class - "..Thing.Name)
+            Profiler.Start("Update Class - "..Thing.Name)
             Thing:Update(dt)
-            Profiler:stop()
+            Profiler.End()
         end
     end
 
-    Profiler:stop()
+    Profiler.End()
 end
 
 return Things
