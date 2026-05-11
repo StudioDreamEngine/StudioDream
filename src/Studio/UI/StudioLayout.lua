@@ -35,14 +35,14 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
 end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
-    local Window = require("Studio.UI.Windows."..WindowType)
+    local Window = require("Studio.UI."..WindowType)
     Window.Init(WindowContainer)
 end
 
 function StudioLayout.CreateWindow(WindowType, Transform, Parent)
     local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Parent)
 
-    StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
+    StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
 end
 
 --[[

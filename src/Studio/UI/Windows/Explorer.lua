@@ -45,6 +45,7 @@ function Explorer.CreateNode(Object, Depth)
         Image = ("Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png") or "Assets/EditorIcons/Icon_Not_Found.png",
         Parent = NodeInner
     }
+    
     return Node
 end
 
