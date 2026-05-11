@@ -42,8 +42,6 @@ return function()
                 CurrentSize = CurrentSize - 1
                 InvalidationCount = InvalidationCount + 1
             until ContainerSize.Y > TextBounds.Y or CurrentSize <= 1
-
-            --printVerbose("Invalidated TextSize "..InvalidationCount.." Times")
         else
             TextBounds, Scale = PerformWrap(TextSize, ContainerSize.X)
         end

@@ -53,21 +53,21 @@ function BaseGui:GetDisplayPosition()
     return Position
 end
 
---[[function BaseGui:GetContentSize()
+function BaseGui:GetContentSize()
     local Size = Vector2.zero
 
     for _, v in pairs(self:GetChildren()) do
         if v:IsA("BaseGui") then
             local AbsoluteEnd = v.Position.Offset + v.AbsoluteSize
 
-            if AbsoluteEnd.X > Size.X and AbsoluteEnd.Y > Size.Y then
-                Size = AbsoluteEnd
-            end
+            -- Cant use elseif's here - we need to be able to check both axises
+            if AbsoluteEnd.X > Size.X then Size = Vector2.new(AbsoluteEnd.X, Size.Y) end
+            if AbsoluteEnd.Y > Size.Y then Size = Vector2.new(Size.X, AbsoluteEnd.Y) end
         end
     end
 
     return Size
-end]]
+end
 
 function BaseGui:GetAbsoluteSize()
     local AbsoluteSize = self.Size.Offset

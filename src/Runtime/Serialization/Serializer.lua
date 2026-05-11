@@ -15,8 +15,6 @@ end
 function Serializer.ConfigureTargets()
     local Root = Things.Root
     Root.EnvironmentViewport = Root:FindFirstChild("Environment")
-
-    Things.HierachyChanged:Invoke() -- TEMPORARY
 end
 
 function Serializer.Deserialize(Content)

@@ -4,14 +4,6 @@ return function ()
     local Environment = Things.GetRoot("Environment")
     local Viewport = Things.Root.RootViewport
 
-    ---@class TextInput
-    local TestInput = Things.Create("TextInput") {
-        Parent = Viewport,
-        Position = Pivot2D.FromScale(1,1),
-        Pivot = Vector2.new(1,1),
-        Layer = 100
-    }
-
     -- 3d test
     ---@class Mesh
     local Mesh = Things.Create("Mesh") {}

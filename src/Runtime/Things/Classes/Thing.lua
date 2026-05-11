@@ -20,6 +20,7 @@ function Thing:new()
     self.TruelySerializable = true
 
     self.ParentChanged = Signal:New("ParentChanged")
+    self.ChildrenChanged = Signal:New("ChildrenChanged")
     
     self.Proxy = Runtime.ObjectProxy.new()
 
@@ -145,8 +146,6 @@ function Thing:SetParent(NewParent)
         error("Cannot parent Thing to itself.")
     end
 
-    local OldParent = self.parent
-
     if self.Parent then
         self.Parent.Children[self.UUID] = nil
     end
@@ -159,13 +158,6 @@ function Thing:SetParent(NewParent)
 
     self.TruelySerializable = CheckSerializable(self)
     self.ParentChanged.Invoke()
-
-    Things.HierachyChanged:Invoke(self, OldParent, NewParent)
-
-    --if self.TruelySerializable then -- Dont call for now
-        --print("Fire HierachyChanged")
-        --Things.HierachyChanged:Invoke(self, OldParent, NewParent)
-    --end
 end
 
 function Thing:DescendantOf()

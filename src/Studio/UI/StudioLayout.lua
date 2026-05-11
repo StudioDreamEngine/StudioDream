@@ -13,7 +13,7 @@ function StudioLayout.CreateWindowContainer(Transform)
         Pivot = Transform.Pivot,
         BackgroundColor = Theme.WindowColor,
         Name = "Properties",
-        Layer = 1,
+        Layer = Transform.Layer or 1,
         Parent = StudioLayout.Windows,
         CornerRadius = 5,
         OutlineSize = 5,
@@ -75,7 +75,7 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.25,.5),
         Position = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(1,1),
-        ZIndex = 3
+        Layer = 3
     })
 end
 
