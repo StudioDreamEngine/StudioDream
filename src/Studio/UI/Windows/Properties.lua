@@ -11,11 +11,11 @@ local function CreatePropertyNode(Window,PropertyTxt)
     local BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.FromScale(1,0.05),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.StudioLayout.Theme.WindowColor,
+        BackgroundColor = Studio.Theme.WindowColor,
         Layer = 3,
         Parent = Window,
         OutlineSize = 2,
-        OutlineColor = Studio.StudioLayout.Theme.OutlineColor
+        OutlineColor = Studio.Theme.OutlineColor
     }
 
     Things.Create("Text") {
@@ -33,7 +33,7 @@ local function CreatePropertyNode(Window,PropertyTxt)
         Size = Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.StudioLayout.Theme.OutlineColor,
+        BackgroundColor = Studio.Theme.OutlineColor,
         Layer = 3,
         Name = "Frame",
         Parent = BaseProperty,
