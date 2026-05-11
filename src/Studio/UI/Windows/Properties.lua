@@ -3,7 +3,7 @@ local Things = Runtime.Things
 
 local Frames = {
     ["string"] = function(Propertyframe)
-
+        
     end
 }
 
@@ -14,21 +14,30 @@ local function CreatePropertyNode(Window,PropertyTxt)
         BackgroundColor = Studio.StudioLayout.Theme.WindowColor,
         Layer = 3,
         Parent = Window,
-        CornerRadius = 10,
         OutlineSize = 2,
         OutlineColor = Studio.StudioLayout.Theme.OutlineColor
     }
 
     Things.Create("Text") {
-        Size =  Pivot2D.FromScale(1,1),
+        Size =  Pivot2D.FromScale(0.5,1),
+        Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
         Text = PropertyTxt,
+        Name = "PropertyName",
         Parent = BaseProperty,
         BackgroundTransparency = 1,
         ForegroundColor = Color.new(1,1,1)
     }
 
-    -- Make another square for Frames!!! so they can suport options
+    Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
+        Size = Pivot2D.FromScale(0.5,1),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Pivot = Vector2.new(0,0.5),
+        BackgroundColor = Studio.StudioLayout.Theme.OutlineColor,
+        Layer = 3,
+        Name = "Frame",
+        Parent = BaseProperty,
+    }
 
     return BaseProperty
 end
@@ -36,10 +45,7 @@ end
 function PropertiesRender.Init(Window)
 
     Studio.Editor3D.OnSelect:Connect(function(Thing)
-        local Benchmark = Profiler.Benchmark("Invalidate Properties", true)
-
         Window:ClearAllChildren()
-
         local index = 0
         for Property,v in pairs(Thing.Proxy.Accessible) do
             index=index+1
@@ -47,7 +53,7 @@ function PropertiesRender.Init(Window)
             Node.ListOrder = index
         end
 
-        Benchmark.End()
+        --Benchmark.End()
 
         --[[Things.Create("ListLayout") {
             Parent = Window,
