@@ -32,4 +32,20 @@ function Color.new(R,G,B)
     return Object
 end
 
+function Color.FromRGB(R,G,B)
+    return Color.new(R/255, G/255, B/255)
+end
+
+function Color.FromHex(Hex)
+    if string.sub(Hex, 1,1) == "#" then
+        Hex = string.sub(Hex, 2,-1)
+    end
+
+    local R = tonumber(string.sub(Hex,1,2), 16)
+    local G = tonumber(string.sub(Hex,3,4), 16)
+    local B = tonumber(string.sub(Hex,5,6), 16)
+
+    return Color.FromRGB(R,G,B)
+end
+
 return Color
