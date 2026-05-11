@@ -29,7 +29,9 @@ function Text:AttemptWrap(Size)
         Font = self.Font
     })
 
+    --local Benchmark = Profiler.Benchmark("TextScaled Wrap")
     self.RenderClass.AttemptWrap(Size, self.TextScaled, self.TextSize)
+    --Benchmark.End()
 end
 
 function Text:SetText(Text)
