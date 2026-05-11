@@ -1,3 +1,0 @@
-local TopBar = {}
-
-return TopBar

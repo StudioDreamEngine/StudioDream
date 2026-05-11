@@ -2,9 +2,13 @@
 -- Why yall blaming me vro!!!
 local Studio = {}
 
+Studio.Theme = require("Studio.Theme")
+
 Studio.Editor3D = require("Studio.Editor3D")
-Studio.StudioLayout = require("Studio.UI.StudioLayout")
+
 function Studio.Init()
+    Studio.StudioLayout = require("Studio.UI.StudioLayout")
+    
     Studio.StudioLayout.CreateLayout()
     Studio.Editor3D.Init()
 end

@@ -1,9 +1,9 @@
 -- Major.Minor.Patch
-VERSION = "0.2.1"
+VERSION = "0.2.2"
 
 FLAGS = {
     ModeTarget = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
-    Verbose = true
+    Verbose = false
 }
 
 function love.conf(t)

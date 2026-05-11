@@ -2,9 +2,9 @@
 local Things = Runtime.Things
 local StudioLayout = {}
 
-StudioLayout.Theme = require("Studio.UI.Theme")
-local Theme = StudioLayout.Theme
-function StudioLayout.CreateWindowContainer(Transform)
+local Theme = Studio.Theme
+
+function StudioLayout.CreateWindowContainer(Transform, Parent)
     local Windows = {}
     
     Windows.Container = Runtime.Things.Create("Square") { 
@@ -14,7 +14,7 @@ function StudioLayout.CreateWindowContainer(Transform)
         BackgroundColor = Theme.WindowColor,
         Name = "Properties",
         Layer = Transform.Layer or 1,
-        Parent = StudioLayout.Windows,
+        Parent = Parent or StudioLayout.Windows,
         CornerRadius = 5,
         OutlineSize = 5,
         OutlineColor = Theme.OutlineColor
@@ -34,11 +34,15 @@ function StudioLayout.CreateWindowContainer(Transform)
     return Windows.BackWindow
 end
 
-function StudioLayout.CreateWindow(WindowType, Transform)
-    local WindowContainer = StudioLayout.CreateWindowContainer(Transform)
-
+function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     local Window = require("Studio.UI.Windows."..WindowType)
     Window.Init(WindowContainer)
+end
+
+function StudioLayout.CreateWindow(WindowType, Transform, Parent)
+    local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Parent)
+
+    StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
 end
 
 --[[
@@ -46,12 +50,25 @@ end
     idk how this entire flow system should work at all
 ]]
 
-function StudioLayout.CreateLayout()
+function StudioLayout.CreateTopbar()
     StudioLayout.TopBar = Things.Create("Square") {
         Parent = Things.Root.RootViewport,
         Size = Pivot2D.FromScale(1,0.15),
         BackgroundColor = Theme.WindowColor
     }
+
+    local TopbarInner = Things.Create("Square") {
+        Parent = StudioLayout.TopBar,
+        Position = Pivot2D.FromScale(0,0.3),
+        Size = Pivot2D.FromScale(1,0.7),
+        BackgroundTransparency = 1
+    }
+
+    StudioLayout.CreateWindowHandler("TopBar", TopbarInner)
+end
+
+function StudioLayout.CreateLayout()
+    StudioLayout.CreateTopbar()
 
     StudioLayout.Windows = Things.Create("Square") {
         Parent = Things.Root.RootViewport,

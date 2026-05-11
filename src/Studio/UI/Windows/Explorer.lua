@@ -12,11 +12,11 @@ function Explorer.CreateNode(Object, Depth)
     local Node = Things.Create("Square") { 
         Size = Pivot2D.FromScale(1,0.05),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.StudioLayout.Theme.WindowColor,
+        BackgroundColor = Studio.Theme.WindowColor,
         Layer = 3,
         Parent = Window,
         OutlineSize = 2,
-        OutlineColor = Studio.StudioLayout.Theme.OutlineColor
+        OutlineColor = Studio.Theme.OutlineColor
     }
 
     local NodeInner = Things.Create("Square") {
