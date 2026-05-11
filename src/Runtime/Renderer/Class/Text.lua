@@ -26,6 +26,7 @@ return function()
         local TextBounds
 
         if TextScaled then
+            Profiler:start("Attempt Textscaled wrap")
             local CurrentSize = math.max(ContainerSize.Y,1)
 
             repeat
@@ -33,6 +34,7 @@ return function()
 
                 CurrentSize = CurrentSize - 1
             until ContainerSize.Y > TextBounds.Y or CurrentSize <= 1
+            Profiler:stop()
         else
             TextBounds = PerformWrap(TextSize, ContainerSize.X)
         end

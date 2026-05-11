@@ -17,7 +17,7 @@ function Square:new()
         Icon = "Square"
     }
 
-    self.Proxy.Property("CornerRadius", "OutlineSize")
+    self.Proxy.Property("CornerRadius", "OutlineSize", "OutlineColor")
 end
 
 function Square:Draw()

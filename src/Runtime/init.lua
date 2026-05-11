@@ -15,6 +15,8 @@ Runtime.Renderer = require("Runtime.Renderer")
 Runtime.Backend = require("Runtime.Backend")
 
 function Runtime.Init()
+    Profiler = Dream.delton
+
     Runtime.Backend.Init()
 
     Runtime.Backend2D = Runtime.Renderer.Get2DBackend()
@@ -26,8 +28,6 @@ function Runtime.Init()
     Runtime.Backend.PostInit()
 
     Runtime.Serializer = require("Runtime.Serialization")
-
-    Profiler = Dream.delton
 
     print("Runtime Initalized")
 end

@@ -158,7 +158,7 @@ end
 
 function BaseGui:UpdateTransforms()
     local NewSize = self:GetAbsoluteSize()
-
+    
     if NewSize.Magnitude() == 0 then
         printVerbose("Ignoring Transform update due to size")
         return
