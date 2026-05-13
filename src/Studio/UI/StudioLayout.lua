@@ -11,20 +11,20 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         Size = Transform.Size,
         Position = Transform.Position,
         Pivot = Transform.Pivot,
-        BackgroundColor = Theme.WindowColor,
+        BackgroundColor = Theme.Secondary,
         Name = "Properties",
         Layer = Transform.Layer or 1,
         Parent = Parent or StudioLayout.Windows,
         CornerRadius = 5,
         OutlineSize = 5,
-        OutlineColor = Theme.OutlineColor
+        OutlineColor = Theme.Outline
     }
     
     Windows.BackWindow = Runtime.Things.Create("Square") {
         Size = Pivot2D.FromScale(0.95,0.95),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
-        BackgroundColor = Theme.BackWindowColor,
+        BackgroundColor = Theme.Primary,
         Name = "BackWindow",
         Layer = 2,
         Parent = Windows.Container,
@@ -54,7 +54,7 @@ function StudioLayout.CreateTopbar()
     StudioLayout.TopBar = Things.Create("Square") {
         Parent = Things.Root.RootViewport,
         Size = Pivot2D.FromScale(1,0.15),
-        BackgroundColor = Theme.WindowColor
+        BackgroundColor = Theme.Primary
     }
 
     local TopbarInner = Things.Create("Square") {
@@ -79,7 +79,7 @@ function StudioLayout.CreateLayout()
     }
 
     StudioLayout.CreateWindow("Explorer", {
-        Size = Pivot2D.FromScale(0.25,.9),
+        Size = Pivot2D.FromScale(0.25,.5),
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0)
     })

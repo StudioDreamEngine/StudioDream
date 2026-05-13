@@ -10,6 +10,9 @@ return { new = function()
     ObjectProxy.Proxies = {}
     ObjectProxy.Overrides = {}
 
+    -- Virtuals for Info functions
+    function ObjectProxy.ConstraintUpdator() end
+
     -- Code reuse.... 
     -- Fucking hell cant do shit in this codebase
 
@@ -34,6 +37,12 @@ return { new = function()
             if i ~= "n" then
                 ObjectProxy.Serializable[v] = true
             end
+        end
+    end
+
+    function ObjectProxy.Info(InInfo)
+        for i, v in pairs(InInfo) do
+            ObjectProxy[i] = v
         end
     end
 

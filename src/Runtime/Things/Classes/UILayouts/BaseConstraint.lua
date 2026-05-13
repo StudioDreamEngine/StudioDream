@@ -16,12 +16,27 @@ function BaseConstraint:Bind()
     error("BaseConstraint:Bind() is a virtual function, and cannot be called, override the function to use it")
 end
 
-function BaseConstraint:Unbind()
-    for _, Object in pairs(self.Objects) do
-        Object:UnbindConstraints(self)
+function BaseConstraint:BindObject(Object)
+    if (not Object:IsA(self.ObjectFilter)) then
+        return
     end
 
-    self.Objects = {}
+    for _, Property in pairs(self.ConstraintProperties) do
+        Object:BindConstraint(self, Property) 
+    end
+
+    self.Objects[Object.UUID] = Object
+end
+
+function BaseConstraint:UnbindObject(Object)
+    self.Objects[Object.UUID] = nil
+    Object:UnbindConstraints(self)
+end
+
+function BaseConstraint:Unbind()
+    for _, Object in pairs(self.Objects) do
+        self:UnbindObject(Object)
+    end
 end
 
 function BaseConstraint:SetConstraint(Object, Property, Value)

@@ -132,6 +132,10 @@ function BaseGui:new()
     self.Proxy.Property("Size", "Position", "Layer", "Pivot", "SquareAxis", "ListOrder")
     self.Proxy.Property("BackgroundColor", "ForegroundColor", "BackgroundTransparency", "ForegroundTransparency")
     self.Proxy.PropertyAccess("AbsolutePosition", "AbsoluteSize")
+
+    self.Proxy.Info({
+        ConstraintUpdator = self.InvalidateRendering
+    })
 end
 
 function BaseGui:DrawStyle()

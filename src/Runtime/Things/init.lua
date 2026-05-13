@@ -5,6 +5,8 @@ local Things = {}
 local Objects = {}
 local Classes = {}
 
+local ObjectsCreated = 0
+
 function Things.Init()
     Classes = Utils.LoadModules("Runtime/Things/Classes/")
 
@@ -74,6 +76,8 @@ end
 function Things.New(ThingType, CustomUUID)
     local Thing = Things.Type(ThingType)()
 
+    ObjectsCreated = ObjectsCreated + 1
+
     assert(Thing, "Invalid type ("..ThingType..")")
     assert(Thing.UUID, ThingType.." is not a thing! did you forget to call the superfunctions?")
 
@@ -81,6 +85,8 @@ function Things.New(ThingType, CustomUUID)
 
     Thing.Name = ThingType
     Thing.ClassName = ThingType
+    
+    Thing.NumericalID = ObjectsCreated
 
     if CustomUUID then
         Thing.UUID = CustomUUID

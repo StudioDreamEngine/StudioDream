@@ -29,6 +29,7 @@
 	Version 1.3.1
 ]]
 
+-- CHANGE THESE!!!
 POLYFILL_FLAGS = {
 	Verbose = FLAGS.Verbose, -- If verbose printing is enabled
 	utf8 = true -- If you do not have a utf8 library, set this to false
@@ -308,6 +309,8 @@ do
 			__sub = function (t1, t2)
 				if type(t2) == "number" then
 					return Vector2.new(t1.X - t2, t1.Y - t2)
+				elseif type(t1) == "number" then
+					return Vector2.new(t1 - t2.X, t1 - t2.Y)
 				else
 					return Vector2.new(t1.X - t2.X, t1.Y - t2.Y)
 				end

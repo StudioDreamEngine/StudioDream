@@ -7,9 +7,11 @@ Studio.Theme = require("Studio.Theme")
 Studio.Editor3D = require("Studio.Editor3D")
 
 function Studio.Init()
-    Studio.StudioLayout = require("Studio.UI.StudioLayout")
-    
-    Studio.StudioLayout.CreateLayout()
+    Studio.Layout = require("Studio.UI.StudioLayout")
+    Studio.Components = require("Studio.UI.Components")
+
+    Studio.Layout.CreateLayout()
+
     Studio.Editor3D.Init()
 end
 

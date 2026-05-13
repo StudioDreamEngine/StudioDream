@@ -24,6 +24,10 @@ local Enums = {
         iOS = "iOS",
         Linux = "Linux",
     },
+    Hierachy = {
+        Added = "added",
+        Removed = "removed"
+    },
     AutomaticSize = {
         Y = "Y",
         X = "X"

@@ -1,9 +1,11 @@
 
 local BlueNight = {
-    NodeColor = Color.new(0.314, 0.294, 0.502),
-    WindowColor = Color.FromHex("#151953"),
-    BackWindowColor = Color.FromHex("#2c2a77"),
-    OutlineColor = Color.FromHex("#0d1029"),
+    Outline = Color.FromHex("#0d1029"),
+    SecondaryOutline = Color.FromHex("#9090b0"),
+    Secondary = Color.FromHex("#151953"),
+    Primary = Color.FromHex("#2c2a77"),
+    Accent = Color.FromHex("#4c4cff"),
+    Text = Color.FromHex("#ffffff")
 }
 
 local DarkSky = {

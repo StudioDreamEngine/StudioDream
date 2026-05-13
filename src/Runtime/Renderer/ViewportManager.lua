@@ -1,6 +1,8 @@
 local Things
 local ViewportManager = {}
 
+local Resizes = 0
+
 local RootViewport
 
 function ViewportManager.Init()

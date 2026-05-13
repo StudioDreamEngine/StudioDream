@@ -10,6 +10,8 @@ function ListLayout:new()
     self.ObjectFilter = "BaseGui"
 
     self.Direction = Enum.LayoutDirection.Vertical
+    self.Alignment = Enum.AlignmentX.Left
+
     self.Padding = 0
 
     self.RemainingSize = 0
@@ -20,27 +22,43 @@ end
 function ListLayout:Update()
     ListLayout.super.Update(self)
 
-    local ListPos = 0
-
     table.sort(self.Objects, function (a, b)
         return (a.ListOrder < b.ListOrder)
     end)
 
     local Vertical = (self.Direction == Enum.LayoutDirection.Vertical)
-    local TotalSpace = self.Parent.AbsoluteSize[Vertical and "X" or "Y"]
+
+    local Axis = Vertical and "Y" or "X"
+    local OpposingAxis = Vertical and "X" or "Y"
+    local AxisVector = Vector2[Vertical and "yAxis" or "xAxis"]
+    local OpposingVector = Vector2[Vertical and "xAxis" or "yAxis"]
+
+    local TotalSpace = self.Parent.AbsoluteSize[Axis]
+    local OpposingSpace = self.Parent.AbsoluteSize[OpposingAxis]
+
+    local ContentSize = 0
+    local Positions = {}
+
+    for _, Object in pairs(self.Objects) do
+        Positions[Object.UUID] = ContentSize
+        
+        ContentSize = ContentSize + Object.AbsoluteSize[Axis] + self.Padding
+    end
 
     ---@param Object BaseGui
     for _, Object in pairs(self.Objects) do
-        if Vertical then
-            self:SetConstraint(Object, "Position", Pivot2D.FromOffset(0,ListPos))
-            ListPos = ListPos + Object.AbsoluteSize.Y + self.Padding
-        else
-            self:SetConstraint(Object, "Position", Pivot2D.FromOffset(ListPos,0))
-            ListPos = ListPos + Object.AbsoluteSize.X + self.Padding
+        local Position = Positions[Object.UUID]
+
+        if self.Alignment == Enum.AlignmentX.Center then
+            Position = Position + (-ContentSize + TotalSpace)/2
         end
+
+        self:SetConstraint(Object, "Position", Pivot2D.FromOffset(
+            (Position * AxisVector) - ((-OpposingSpace + Object.AbsoluteSize)/2 * OpposingVector)
+        ))
     end
 
-    self.RemainingSize = TotalSpace - (ListPos - self.Padding)
+    self.RemainingSize = TotalSpace - (ContentSize - self.Padding)
 end
 
 return ListLayout

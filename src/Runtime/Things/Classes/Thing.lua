@@ -29,6 +29,7 @@ function Thing:new()
     self.Unreferenced = false
 
     self.UUID = CreateUUID()
+    self.NumericalID = 0
 
     self.Overrides = {}
 
@@ -38,6 +39,12 @@ function Thing:new()
     }
 
     self.Proxy.Property("Parent", "Name")
+    --[[self.Proxy.Info({
+        Groups = {
+            -- TODO
+        },
+        ConstraintUpdator = nil -- Function that constraints use on update for an object
+    })]]
 end
 
 --[[
@@ -62,6 +69,7 @@ function Thing:SetConstraint(Object, Property, Value)
     local Current = self.Overrides[Property]
 
     if Current.Object == Object then
+        self.Proxy.ConstraintUpdator(self)
         Current.Value = Value
     end
 end
@@ -146,11 +154,15 @@ function Thing:SetParent(NewParent)
         error("Cannot parent Thing to itself.")
     end
 
-    if self.Parent then
-        self.Parent.Children[self.UUID] = nil
+    local OldParent = self.Parent
+
+    if OldParent then
+        OldParent.ChildrenChanged.Invoke(Enum.Hierachy.Removed, self)
+        OldParent.Children[self.UUID] = nil
     end
 
     if NewParent then
+        NewParent.ChildrenChanged.Invoke(Enum.Hierachy.Added, self)
         NewParent.Children[self.UUID] = self
     end
 
