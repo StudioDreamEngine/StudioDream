@@ -22,10 +22,6 @@ end
 function ListLayout:Update()
     ListLayout.super.Update(self)
 
-    table.sort(self.Objects, function (a, b)
-        return (a.ListOrder < b.ListOrder)
-    end)
-
     local Vertical = (self.Direction == Enum.LayoutDirection.Vertical)
 
     local Axis = Vertical and "Y" or "X"
@@ -38,6 +34,10 @@ function ListLayout:Update()
 
     local ContentSize = 0
     local Positions = {}
+
+    table.sort(self.Objects, function(a, b)
+        return (a.ListOrder < b.ListOrder)
+    end)
 
     for _, Object in pairs(self.Objects) do
         Positions[Object.UUID] = ContentSize

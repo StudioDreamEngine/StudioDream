@@ -14,21 +14,14 @@ function Text:new()
 
     self.TextSize = 12
     self.TextScaled = true
-
     self.Text = "Placeholder"
-
-    self.AlignX = Enum.AlignmentX.Center
-    self.AlignY = Enum.AlignmentY.Center
+    
+    self.Align = Vector2.zero
 
     self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
 end
 
 function Text:AttemptWrap(Size)
-    self.RenderClass.PassProperties({
-        Text = self.Text,
-        Font = self.Font
-    })
-
     --local Benchmark = Profiler.Benchmark("TextScaled Wrap")
     self.RenderClass.AttemptWrap(Size, self.TextScaled, self.TextSize)
     --Benchmark.End()
@@ -48,8 +41,10 @@ end
 function Text:Draw()
     Text.super.Draw(self)
 
+    self.RenderClass.Text = self.Text
+
     Runtime.Backend2D.SetColor(self.ForegroundColor)
-    self.RenderClass.Render(self.AlignX, self.AbsoluteSize)
+    self.RenderClass.Render(self.AbsoluteSize, self.Align)
 end
 
 return Text

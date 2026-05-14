@@ -181,6 +181,14 @@ do
 		end
 	end
 
+	function table.removeValue(list, value)
+		local valueIndex = table.find(list, value)
+
+		if valueIndex then
+			table.remove(list, valueIndex)
+		end
+	end
+
 ---@diagnostic disable-next-line: duplicate-set-field
 	function table.pack(...)
 		return {n = select("#", ...), ...}
@@ -285,6 +293,7 @@ do
 			end
 		end
 
+		---@class Vector2
 		local Object = setmetatable({
 			X = x,
 			Y = y,
@@ -413,6 +422,7 @@ do
 	end
 	
 	function Vector3.new(x,y,z,w)
+		---@class Vector3
 		local Object = setmetatable({
 			X = x,
 			Y = y,

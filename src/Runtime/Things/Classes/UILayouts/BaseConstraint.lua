@@ -25,11 +25,11 @@ function BaseConstraint:BindObject(Object)
         Object:BindConstraint(self, Property) 
     end
 
-    self.Objects[Object.UUID] = Object
+    table.insert(self.Objects, Object)
 end
 
 function BaseConstraint:UnbindObject(Object)
-    self.Objects[Object.UUID] = nil
+    table.removeValue(self.Objects, Object)
     Object:UnbindConstraints(self)
 end
 

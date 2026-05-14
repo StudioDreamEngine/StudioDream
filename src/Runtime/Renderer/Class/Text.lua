@@ -11,15 +11,10 @@ return function()
 
     local function PerformWrap(CurrentSize, WrapLength)
         local Scale = 32 / CurrentSize
-
         local width, lines = Text.RenderFont:getWrap(Text.Text, WrapLength * Scale)
 
         -- should simplify this y axis equation tbh
         return Vector2.new(width/Scale, (#lines * Text.RenderFont:getHeight())/Scale), Scale
-    end
-
-    function Text.PassProperties(Properties)
-        for i, p in pairs(Properties) do Text[i] = p end
     end
 
     function Text.SetFont(Font)
@@ -50,13 +45,13 @@ return function()
         Text.Scale = Scale
     end
 
-    function Text.Render(LoveAlign, ContainerSize)
-        local TextPosition = Vector2.new(0,ContainerSize.Y/2 - Text.TextBounds.Y/2)
+    function Text.Render(ContainerSize, Alignment)
+        local TextPosition = Vector2.new(0,ContainerSize.Y/2 - Text.TextBounds.Y/2) + Utils.GetAlignment(Alignment, ContainerSize, Text.TextBounds)*Text.Scale
 
         love.graphics.setFont(Text.RenderFont)
         love.graphics.push()
         love.graphics.scale(1/Text.Scale)
-        love.graphics.printf(Text.Text, TextPosition.X, TextPosition.Y, Text.TextBounds.X*Text.Scale, LoveAlign)
+        love.graphics.printf(Text.Text, TextPosition.X, TextPosition.Y, (Text.TextBounds*Text.Scale).X)
         love.graphics.pop()
     end
 

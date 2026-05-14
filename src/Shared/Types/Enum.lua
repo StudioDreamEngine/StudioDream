@@ -1,13 +1,13 @@
 local Enums = {
     AlignmentX = {
-        Left = "left",
-        Center = "center",
-        Right = "right"
+        Left = 0,
+        Center = 0.5,
+        Right = 1
     },
     AlignmentY = {
-        Top = "left",
-        Center = "center",
-        Bottom = "right"
+        Top = 0,
+        Center = 0.5,
+        Bottom = 1
     },
     Shape = {
         Brick = 'brick',
