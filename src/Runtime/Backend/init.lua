@@ -9,7 +9,7 @@ function Backend.Init()
     Runtime.InterfaceManager.Init()
 
     Runtime.ScriptUtil = require("Runtime.Backend.ScriptUtility")
-    Runtime.ObjectProxy = require("Runtime.Backend.ObjectProxy")
+    Runtime.ObjectProxy = require("Runtime.Things.ObjectProxy")
 
     Runtime.Services = require("Runtime.Backend.Services")
 end

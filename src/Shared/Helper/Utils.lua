@@ -19,7 +19,7 @@ end
 
 function Utils.TypeOf(Object)
     if type(Object) == "table" then
-        return Object.Type or "Undefined/Table"
+        return Object.Type or "Table"
     else
         return type(Object)
     end

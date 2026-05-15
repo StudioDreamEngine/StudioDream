@@ -83,6 +83,8 @@ function Things.New(ThingType, CustomUUID)
     assert(Thing, "Invalid type ("..ThingType..")")
     assert(Thing.UUID, ThingType.." is not a thing! did you forget to call the superfunctions?")
 
+    Thing.Proxy.GenerateTypes(Thing)
+
     Thing.__tostring = function(self) return "<"..ThingType..">"..self.Name end
 
     Thing.Name = ThingType

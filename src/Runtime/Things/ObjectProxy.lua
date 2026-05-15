@@ -7,6 +7,8 @@ return { new = function()
     ObjectProxy.Serializable = {}
     ObjectProxy.Accessible = {}
 
+    ObjectProxy.Types = {}
+
     ObjectProxy.Proxies = {}
     ObjectProxy.Overrides = {}
 
@@ -48,6 +50,14 @@ return { new = function()
 
     function ObjectProxy.IsAccessible(Property)
         return ObjectProxy.Accessible[Property]
+    end
+
+    function ObjectProxy.GenerateTypes(Thing)
+        for PropertyName, _ in pairs(ObjectProxy.Accessible) do
+            local Property = Thing[PropertyName]
+
+            ObjectProxy.Types[PropertyName] = Utils.TypeOf(Property)
+        end
     end
 
     -- For now, if its both accessible and serializable, its writable
