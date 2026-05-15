@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 local Components = {}
 
-function Components.CreateButton(Name, Function, Properties)
+function Components.CreateButton(Name, Properties)
     Properties.Text = Name
     Properties.CornerRadius = 7
     Properties.Align = Vector2.one * .5
