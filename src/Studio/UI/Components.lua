@@ -4,8 +4,8 @@ local Components = {}
 function Components.CreateButton(Name, Function, Properties)
     Properties.Text = Name
     Properties.CornerRadius = 7
-    Properties.Align = Vector2.one * .5
-
+    Properties.AlignX = Enum.AlignmentX.Center
+    Properties.AlignY = Enum.AlignmentY.Center
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)
     Button.Clicked:Connect(Function)
@@ -18,6 +18,7 @@ function Components.CreateStyle(Type, Properties)
     Properties.ForegroundColor = Studio.Theme.Text
     Properties.OutlineSize = 2
     Properties.OutlineColor = Studio.Theme.SecondaryOutline
+   
 
     return Things.Create(Type) (Properties)
 end

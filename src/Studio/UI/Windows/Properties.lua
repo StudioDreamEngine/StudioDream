@@ -1,11 +1,6 @@
+
 local PropertiesRender = {}
 local Things = Runtime.Things
-
-local Frames = {
-    ["string"] = function(Propertyframe)
-        
-    end
-}
 
 local function CreatePropertyNode(Window,PropertyTxt)
     local BaseProperty = Things.Create("Square") { 
