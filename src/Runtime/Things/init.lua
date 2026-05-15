@@ -62,6 +62,8 @@ function Things.Create(Object, UUID)
 
     return function(Properties)
         for Index, Value in pairs(Properties) do
+            --if Object[Index]
+
             if tonumber(Index) then
                 Value.Parent = Object
             else

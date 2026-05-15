@@ -21,6 +21,8 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 	---@class Signal
 	local EventObject = {}
 	local Events = {}
+
+	EventObject.Type = "Signal"
 	
 	local function NewEventID() 
 		return CreateUUID()
@@ -40,6 +42,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 		---@class SignalConnection
 		local SingleEventObject = {}
 
+		SingleEventObject.Type = "SignalConnection"
 		SingleEventObject.EventId = EventId
 		SingleEventObject.EventName = EventName
 
