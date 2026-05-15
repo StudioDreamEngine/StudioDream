@@ -8,7 +8,7 @@ function Components.CreateButton(Name, Properties)
 
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)
-    Button.Clicked:Connect(Function)
+    --Button.Clicked:Connect(Function)
 
     return Button
 end
