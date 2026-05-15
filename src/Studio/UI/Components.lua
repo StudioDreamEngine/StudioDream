@@ -1,14 +1,14 @@
 local Things = Runtime.Things
 local Components = {}
 
-function Components.CreateButton(Name, Function, Properties)
+function Components.CreateButton(Name, Properties)
     Properties.Text = Name
     Properties.CornerRadius = 7
     Properties.AlignX = Enum.AlignmentX.Center
     Properties.AlignY = Enum.AlignmentY.Center
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)
-    Button.Clicked:Connect(Function)
+    --Button.Clicked:Connect(Function)
 
     return Button
 end
