@@ -29,6 +29,10 @@ function Utils.AssertType(Object, ExpectedType, Extra)
     assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
 end
 
+function Utils.DoesFileExist(Directory)
+    return love.filesystem.getInfo(Directory) and true or false
+end
+
 function Utils.LoadModules(Path)
     local Classes = {}
     local ClassesList = Utils.GetFolderDescendants(Path, false, true)
