@@ -2,7 +2,58 @@
 local PropertiesRender = {}
 local Things = Runtime.Things
 
-local function CreatePropertyNode(Window,PropertyTxt)
+local PropertyTypes = { -- I really dont want to keep all this stuff here
+    ["string"] = function(FrameOption,Thing,Property) -- maybe a signal for when the option is changed? like u stop typing the new object name ect ect
+
+        local Stringthing = Things.Create("TextInput") {
+            Size = Pivot2D.FromScale(1,1),
+            Text = tostring(Thing[Property]),
+            Parent = FrameOption
+        }
+        Stringthing.FocusEnd:Connect(function()
+            Thing[Property] = Stringthing.Text
+
+            Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
+            
+            --print(Studio.Layout.WindowsCreated)
+
+            Studio.Layout.WindowsCreated["Windows.Explorer"].Update() -- Change this pls :skull:
+        end)
+    end,
+    ["boolean"] = function(FrameOption)
+        Things.Create("ImageButton") {
+            Size = Pivot2D.FromScale(1,1),
+            Parent = FrameOption,
+            Image = "Assets/Icons/Engine/boolean.png"
+        }
+    end,
+    ["Vector3"] = function(FrameOption,Thing,Property) -- maybe a signal for when the option is changed? like u stop typing the new object name ect ect
+
+        local VectorThing = Things.Create("TextInput") {
+            Size = Pivot2D.FromScale(1,1),
+            Parent = FrameOption,
+            Text = tostring(Thing[Property])
+        }
+
+        VectorThing.FocusEnd:Connect(function()
+            local SplitVecText = string.split(VectorThing.Text,",")
+            local RebuildVector = Vector3.new(tonumber(SplitVecText[1]),tonumber(SplitVecText[2]),tonumber(SplitVecText[3]))
+            Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
+            Thing[Property] = RebuildVector
+        end)
+    end,
+    ["Not_Found"] = function(FrameOption)
+        Things.Create("Text") {
+            Text = "Property Type not found! WIP!",
+            ForegroundColor = Color.new(1,1,1),
+            BackgroundTransparency = 1,
+            Size = Pivot2D.FromScale(1,1),
+            Parent = FrameOption
+        }
+    end
+}
+
+local function CreatePropertyNode(Window,PropertyTxt,Type,Thing)
     local BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.FromScale(1,0.05),
         Pivot = Vector2.new(0,0),
@@ -24,7 +75,7 @@ local function CreatePropertyNode(Window,PropertyTxt)
         ForegroundColor = Color.new(1,1,1)
     }
 
-    Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
+    local Option = Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
         Size = Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
@@ -33,6 +84,12 @@ local function CreatePropertyNode(Window,PropertyTxt)
         Name = "Frame",
         Parent = BaseProperty,
     }
+
+    if PropertyTypes[Type] then
+        PropertyTypes[Type](Option,Thing,PropertyTxt) -- make this update if a property was changed, aka for updating positions ect ect ✌️
+    else
+        PropertyTypes["Not_Found"](Option,Thing,PropertyTxt)
+    end
 
     return BaseProperty
 end
@@ -43,16 +100,23 @@ function PropertiesRender.Init(Window)
         Window:ClearAllChildren()
         local index = 0
         for Property,v in pairs(Thing.Proxy.Accessible) do
+            local Type
+            if Thing.Proxy.Types[Property] then Type = Thing.Proxy.Types[Property] end
+            print(Property,Type)
             index=index+1
-            local Node = CreatePropertyNode(Window,Property)
+            local Node = CreatePropertyNode(Window,Property,Type,Thing)
             Node.ListOrder = index
         end
 
         --Benchmark.End()
 
-        --[[Things.Create("ListLayout") {
+        Things.Create("ListLayout") {
             Parent = Window,
-        }]]
+        }
+    end)
+
+    Studio.Editor3D.OnDeselect:Connect(function()
+         Window:ClearAllChildren()
     end)
 end
 

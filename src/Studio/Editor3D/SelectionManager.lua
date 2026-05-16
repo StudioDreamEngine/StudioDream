@@ -17,6 +17,7 @@ function SelectionThing.Init()
         if Editor3D.Selecting then
             Editor3D.Selecting:SetOutline(false)
             ToolManager.Deselect()
+           -- Editor3D.OnDeselect.Invoke()
         end
 
         if Raycast then

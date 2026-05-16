@@ -32,7 +32,6 @@ return function ()
 
     -- Packages
     Dream = require("Shared.Packages.3DreamEngine")
-    Object = require("Shared.Packages.classic")
     Binser = require("Shared.Packages.Binser")
     FileDialog = require("Shared.Packages.filedialog")
 
@@ -44,12 +43,7 @@ return function ()
     Profiler = require("Shared.Helper.Profiler")
 
     -- Types
-    Pivot2D = require("Shared.Types.Pivot2D")
-    Transform2D = require("Shared.Types.Transform2D")
-    Enum = require("Shared.Types.Enum")
-    Color = require("Shared.Types.Color")
-    Rect = require("Shared.Types.Rect")
-    Transform3D = require("Shared.Types.Transform3D")
+    require("Shared.SetupTypes")()
 
     -- Globals
     GlobalTick = 0

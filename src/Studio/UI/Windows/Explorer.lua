@@ -75,7 +75,7 @@ function Explorer.CreateTree(Object, Depth)
 end
 
 --[[
-    My idea for this is 
+    My idea for this is ???!
 ]]
 
 function Explorer.Init(WindowContainer)
@@ -86,6 +86,12 @@ function Explorer.Init(WindowContainer)
     Things.Create("ListLayout") {
         Parent = Window
     }
+end
+
+function Explorer.Update() -- Super wip!
+    Window:ClearAllChildren()
+    
+    Explorer.Init(Window)
 end
 
 return Explorer

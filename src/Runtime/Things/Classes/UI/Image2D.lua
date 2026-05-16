@@ -13,6 +13,9 @@ function Image2D:new()
     }
     
     self.Image = nil
+    self.ImageRect = nil
+
+    self.Proxy.Property("Rect ImageRect")
 end
 
 function Image2D:SetImage(NewImage)
