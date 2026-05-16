@@ -4,6 +4,8 @@ local StudioLayout = {}
 
 local Theme = Studio.Theme
 
+StudioLayout.WindowsCreated = {}
+
 function StudioLayout.CreateWindowContainer(Transform, Parent)
     local Windows = {}
     
@@ -37,6 +39,7 @@ end
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     local Window = require("Studio.UI."..WindowType)
     Window.Init(WindowContainer)
+    StudioLayout.WindowsCreated[WindowType] = Window
 end
 
 function StudioLayout.CreateWindow(WindowType, Transform, Parent)

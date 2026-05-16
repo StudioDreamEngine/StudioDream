@@ -6,6 +6,8 @@ Editor3D.ToolManager = require("Studio.Editor3D.ToolManager")
 
 Editor3D.Selecting = nil
 Editor3D.OnSelect = Signal:New("SelectionSignal")
+Editor3D.OnDeselect = Signal:New("UnSelectionSignal")
+Editor3D.PropertyChanged = Signal:New("ChangedProperty")
 
 function Editor3D.Init()
     Editor3D.StudioCamera = require("Studio.Editor3D.StudioCamera")

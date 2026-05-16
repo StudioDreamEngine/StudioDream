@@ -18,10 +18,15 @@ function TextInput:new()
     self.Placeholder = "Text" -- TODO
     self.Text = ""
 
+    self.FocusEnd = Signal:New("TextInputFocus_End")
+    self.FocusStart = Signal:New("TextInputFocus_Start")
+
     self.BackspaceEvent = InputService.KeyEvent:Connect(function(IsDown)
         if IsDown then
-            self:SetText(string.sub(self.Text, 0, -2))
-            self.BackspaceDown = GlobalTick
+            if self.InputActive then
+                self:SetText(string.sub(self.Text, 0, -2))
+                self.BackspaceDown = GlobalTick
+            end
         else
             self.BackspaceDown = nil
         end
@@ -34,6 +39,9 @@ function TextInput:new()
     end)
 
     Runtime.InterfaceManager.OnClick:Connect(function()
+        if self.Hovering ~= self.InputActive then -- kinda of ass pls optimize this later if possible! :innocent:
+            self["Focus" .. (self.Hovering and "Start" or "End") ].Invoke()
+        end
         self.InputActive = self.Hovering
     end)
 end
