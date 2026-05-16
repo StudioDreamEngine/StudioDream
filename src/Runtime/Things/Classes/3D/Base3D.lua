@@ -17,7 +17,7 @@ function Base3D:new()
 
     self.Anchored    = true
 
-    self.Proxy.Property("Transform", "Anchored")
+    self.Proxy.Property("Transform3D Transform", "boolean Anchored")
 end
 
 function Base3D:Update(dt)

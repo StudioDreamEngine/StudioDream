@@ -129,9 +129,9 @@ function BaseGui:new()
     self.WasInvalidated = false
     self.EverInvalidated = false
 
-    self.Proxy.Property("Size", "Position", "Layer", "Pivot", "SquareAxis", "ListOrder")
-    self.Proxy.Property("BackgroundColor", "ForegroundColor", "BackgroundTransparency", "ForegroundTransparency")
-    self.Proxy.PropertyAccess("AbsolutePosition", "AbsoluteSize")
+    self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum SquareAxis", "number ListOrder")
+    self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency")
+    self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
     self.Proxy.Info({
         ConstraintUpdator = self.InvalidateRendering

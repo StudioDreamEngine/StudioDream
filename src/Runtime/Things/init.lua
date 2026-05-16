@@ -79,11 +79,11 @@ function Things.New(ThingType, CustomUUID)
     local Thing = Things.Type(ThingType)()
 
     ObjectsCreated = ObjectsCreated + 1
+    
+    print(Thing.Proxy.Types)
 
     assert(Thing, "Invalid type ("..ThingType..")")
     assert(Thing.UUID, ThingType.." is not a thing! did you forget to call the superfunctions?")
-
-    Thing.Proxy.GenerateTypes(Thing)
 
     Thing.__tostring = function(self) return "<"..ThingType..">"..self.Name end
 

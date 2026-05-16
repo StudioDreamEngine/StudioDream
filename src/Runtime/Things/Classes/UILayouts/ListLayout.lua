@@ -16,7 +16,7 @@ function ListLayout:new()
 
     self.RemainingSize = 0
 
-    self.Proxy.Property("Direction", "Padding")
+    self.Proxy.Property("Enum Direction", "number Padding")
 end
 
 function ListLayout:Update()

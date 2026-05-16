@@ -38,7 +38,7 @@ function Thing:new()
         Icon = "Square"
     }
 
-    self.Proxy.Property("Parent", "Name")
+    self.Proxy.Property("string Parent", "string Name")
     --[[self.Proxy.Info({
         Groups = {
             -- TODO

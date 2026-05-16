@@ -11,7 +11,7 @@ function Control3D:new()
     self.AdornObject = Runtime.Backend3D.CreateAdorn("MoveAdorn")
     self.Adorns = {}
 
-    self.Proxy.Property("Adornee")
+    self.Proxy.Property("Thing Adornee")
 end
 
 return Control3D

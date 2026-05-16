@@ -18,6 +18,21 @@ return { new = function()
     -- Code reuse.... 
     -- Fucking hell cant do shit in this codebase
 
+    local function ProcessProperty(Table, Property)
+        local Split = string.split(Property, " ")
+        local Name, Type = nil, "undefined"
+
+        if #Split > 1 then
+            Name = Split[2]
+            Type = Split[1]
+        else
+            Name = Property
+        end
+
+        Table[Name] = true
+        ObjectProxy.Types[Name] = Type
+    end
+
     -- Add a property that can be serialized and used by scripts
     function ObjectProxy.Property(...)
         ObjectProxy.PropertyAccess(...)
@@ -28,7 +43,7 @@ return { new = function()
     function ObjectProxy.PropertyAccess(...)
         for i, v in pairs(table.pack(...)) do
             if i ~= "n" then
-                ObjectProxy.Accessible[v] = true
+                ProcessProperty(ObjectProxy.Accessible, v)
             end
         end
     end
@@ -37,7 +52,7 @@ return { new = function()
     function ObjectProxy.PropertySerialize(...)
         for i, v in pairs(table.pack(...)) do
             if i ~= "n" then
-                ObjectProxy.Serializable[v] = true
+                ProcessProperty(ObjectProxy.Serializable, v)
             end
         end
     end
@@ -50,14 +65,6 @@ return { new = function()
 
     function ObjectProxy.IsAccessible(Property)
         return ObjectProxy.Accessible[Property]
-    end
-
-    function ObjectProxy.GenerateTypes(Thing)
-        for PropertyName, _ in pairs(ObjectProxy.Accessible) do
-            local Property = Thing[PropertyName]
-
-            ObjectProxy.Types[PropertyName] = Utils.TypeOf(Property)
-        end
     end
 
     -- For now, if its both accessible and serializable, its writable

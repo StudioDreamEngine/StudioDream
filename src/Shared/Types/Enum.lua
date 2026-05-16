@@ -192,6 +192,7 @@ for _, Enum in pairs(Enums) do
         return table.find(Enum, Value)
     end
 
+    Enum.Type = "Enum"
     Enum.None = nil
 end
 

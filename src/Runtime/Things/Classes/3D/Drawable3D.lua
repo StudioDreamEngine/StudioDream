@@ -13,7 +13,7 @@ function Drawable3D:new()
     self.Outline = false
     self.Scale = Vector3.new(1, 1, 1)
 
-    self.Proxy.Property("Scale", "Outline")
+    self.Proxy.Property("Vector3 Scale", "boolean Outline")
 end
 
 function Drawable3D:OnRemove()

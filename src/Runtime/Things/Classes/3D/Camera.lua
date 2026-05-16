@@ -16,7 +16,7 @@ function Camera:new()
 
     self.Drawable = Dream.camera
 
-    self.Proxy.Property("FieldOfView")
+    self.Proxy.Property("number FieldOfView")
 end
 
 -- From https://stackoverflow.com/a/23976134
