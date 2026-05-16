@@ -45,11 +45,13 @@ function Image2D:SetImageRect(NewRect)
 end
 
 function Image2D:Draw()
-    if (not self.ImageFile) then return end -- TODO: Placeholder image
+    if (not self.ImageQuad) then return end -- TODO: Placeholder image
+
+    local _,_,w,h = self.ImageQuad:getViewport()
 
     -- Proper scaling of images
-    local ScaleX = self.AbsoluteSize.X/self.ImageFile:getWidth()
-    local ScaleY = self.AbsoluteSize.Y/self.ImageFile:getHeight()
+    local ScaleX = self.AbsoluteSize.X/w
+    local ScaleY = self.AbsoluteSize.Y/h
 
     love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,ScaleX,ScaleY)
 end
