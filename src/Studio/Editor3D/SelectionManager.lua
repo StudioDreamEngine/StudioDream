@@ -1,11 +1,22 @@
 local SelectionThing = {}
 local Things = Runtime.Things
 
+local Editor3D
+local ToolManager
+
+local function DeselectThing()
+    if Editor3D.Selecting then -- 💀💀💀💀💀
+        Editor3D.Selecting:SetOutline(false)
+        ToolManager.Deselect()
+        -- Editor3D.OnDeselect.Invoke()
+    end
+end
+
 function SelectionThing.Init()
     local SelectionPriority = Runtime.SelectionPriority
-    local Editor3D = Studio.Editor3D
-    local ToolManager = Editor3D.ToolManager
-
+    Editor3D = Studio.Editor3D
+    ToolManager = Editor3D.ToolManager
+    local LastSelection = nil
     SelectionPriority.BindSignal(function(IsDown)
         if (not IsDown) then return end
 
@@ -14,18 +25,22 @@ function SelectionThing.Init()
 
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
-        if Editor3D.Selecting then
-            Editor3D.Selecting:SetOutline(false)
-            ToolManager.Deselect()
-           -- Editor3D.OnDeselect.Invoke()
-        end
-
-        if Raycast then
+        if Raycast and not Raycast.NotOnViewport then
+            DeselectThing()
             Editor3D.Selecting = Raycast.Thing
+            LastSelection = Editor3D.Selecting
             Editor3D.Selecting:SetOutline(true)
 
             ToolManager.Select(Editor3D.Selecting)
             Editor3D.OnSelect.Invoke(Editor3D.Selecting)
+        elseif Raycast and Raycast.NotOnViewport then-- 💀💀💀💀💀
+            Editor3D.Selecting = LastSelection
+            Editor3D.Selecting:SetOutline(true)
+
+            --ToolManager.Select(Editor3D.Selecting)
+            --Editor3D.OnSelect.Invoke(Editor3D.Selecting)
+        else
+            DeselectThing()
         end
     end, 1)
 end
