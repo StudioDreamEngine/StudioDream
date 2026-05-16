@@ -8,9 +8,9 @@ function InterfaceManager.Init()
 
     LoveEvents.MousePressed:Connect(function(x,y,button)
         if button == 1 then
-            InterfaceManager.OnClick:Invoke()
+            InterfaceManager.OnClick.Invoke()
         elseif button == 2 then
-            InterfaceManager.OnRightClick:Invoke()
+            InterfaceManager.OnRightClick.Invoke()
         end
     end)
 end

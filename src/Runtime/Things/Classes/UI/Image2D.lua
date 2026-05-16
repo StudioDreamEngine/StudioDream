@@ -32,6 +32,11 @@ function Image2D:SetImage(NewImage)
 end
 
 function Image2D:SetImageRect(NewRect)
+    if (not self.ImageFile) then 
+        print("Attempted to set image rect but cannot")
+        return 
+    end
+
     local Width, Height = self.ImageFile:getDimensions()
     local Size = Vector2.new(Width, Height)
 
