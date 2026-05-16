@@ -37,6 +37,10 @@ function Backend.NewCanvas(Size)
     return love.graphics.newCanvas(Size.X, Size.Y)
 end
 
+function Backend.NewQuad(Rect, ImageSize)
+    return love.graphics.newQuad(Rect.Min.X, Rect.Min.Y, Rect.Max.X, Rect.Max.Y, ImageSize.X, ImageSize.Y)
+end
+
 Backend.SetMouseVisible = love.mouse.setVisible
 Backend.KeyDown = love.keyboard.isDown
 Backend.NewImage = love.graphics.newImage

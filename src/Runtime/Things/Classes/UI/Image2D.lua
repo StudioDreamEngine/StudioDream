@@ -14,6 +14,8 @@ function Image2D:new()
     
     self.Image = nil
     self.ImageRect = nil
+    
+    self.ImageQuad = nil
 
     self.Proxy.Property("Rect ImageRect")
 end
@@ -21,6 +23,12 @@ end
 function Image2D:SetImage(NewImage)
     self.Image = NewImage
     self.ImageFile = Runtime.Backend2D.NewImage(NewImage)
+
+    local Width, Height = self.ImageFile:getDimensions()
+    local Size = Vector2.new(Width, Height)
+
+    self.ImageRect = Rect.new(Vector2.zero, Size)
+    self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect, Size)
 end
 
 function Image2D:Draw()
@@ -30,7 +38,7 @@ function Image2D:Draw()
     local ScaleX = self.AbsoluteSize.X/self.ImageFile:getWidth()
     local ScaleY = self.AbsoluteSize.Y/self.ImageFile:getHeight()
 
-    love.graphics.draw(self.ImageFile,0,0,0,ScaleX, ScaleY)
+    love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,ScaleX,ScaleY)
 end
 
 return Image2D
