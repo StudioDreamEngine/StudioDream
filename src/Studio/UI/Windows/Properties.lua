@@ -21,21 +21,36 @@ local PropertyTypes = { -- I really dont want to keep all this stuff here
         end)
     end,
     ["boolean"] = function(FrameOption)
-         Things.Create("ImageButton") {
+        Things.Create("ImageButton") {
             Size = Pivot2D.FromScale(1,1),
             Parent = FrameOption,
             Image = "Assets/Icons/Engine/boolean.png"
-         }
+        }
     end,
     ["Vector3"] = function(FrameOption,Thing,Property) -- maybe a signal for when the option is changed? like u stop typing the new object name ect ect
 
-        Things.Create("TextInput") {
+        local VectorThing = Things.Create("TextInput") {
             Size = Pivot2D.FromScale(1,1),
             Parent = FrameOption,
             Text = tostring(Thing[Property])
         }
-        
+
+        VectorThing.FocusEnd:Connect(function()
+            local SplitVecText = string.split(VectorThing.Text,",")
+            local RebuildVector = Vector3.new(tonumber(SplitVecText[1]),tonumber(SplitVecText[2]),tonumber(SplitVecText[3]))
+            Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
+            Thing[Property] = RebuildVector
+        end)
     end,
+    ["Not_Found"] = function(FrameOption)
+        Things.Create("Text") {
+            Text = "Property Type not found! WIP!",
+            ForegroundColor = Color.new(1,1,1),
+            BackgroundTransparency = 1,
+            Size = Pivot2D.FromScale(1,1),
+            Parent = FrameOption
+        }
+    end
 }
 
 local function CreatePropertyNode(Window,PropertyTxt,Type,Thing)
@@ -71,7 +86,9 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing)
     }
 
     if PropertyTypes[Type] then
-        PropertyTypes[Type](Option,Thing,PropertyTxt)
+        PropertyTypes[Type](Option,Thing,PropertyTxt) -- make this update if a property was changed, aka for updating positions ect ect ✌️
+    else
+        PropertyTypes["Not_Found"](Option,Thing,PropertyTxt)
     end
 
     return BaseProperty

@@ -80,7 +80,7 @@ function Things.New(ThingType, CustomUUID)
 
     ObjectsCreated = ObjectsCreated + 1
     
-    print(Thing.Proxy.Types)
+    --print(Thing.Proxy.Types)
 
     assert(Thing, "Invalid type ("..ThingType..")")
     assert(Thing.UUID, ThingType.." is not a thing! did you forget to call the superfunctions?")
