@@ -6,11 +6,15 @@ function Components.CreateButton(Name, Properties)
     Properties.CornerRadius = 7
     Properties.AlignX = Enum.AlignmentX.Center
     Properties.AlignY = Enum.AlignmentY.Center
+
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)
-    --Button.Clicked:Connect(Function)
 
     return Button
+end
+
+function Components.CreateDropdown(Position, Choices)
+    
 end
 
 function Components.CreateStyle(Type, Properties)
@@ -19,7 +23,6 @@ function Components.CreateStyle(Type, Properties)
     Properties.OutlineSize = 2
     Properties.OutlineColor = Studio.Theme.SecondaryOutline
    
-
     return Things.Create(Type) (Properties)
 end
 

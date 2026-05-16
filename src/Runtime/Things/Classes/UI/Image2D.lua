@@ -31,6 +31,14 @@ function Image2D:SetImage(NewImage)
     self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect, Size)
 end
 
+function Image2D:SetImageRect(NewRect)
+    local Width, Height = self.ImageFile:getDimensions()
+    local Size = Vector2.new(Width, Height)
+
+    self.ImageRect = NewRect
+    self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect, Size)
+end
+
 function Image2D:Draw()
     if (not self.ImageFile) then return end -- TODO: Placeholder image
 

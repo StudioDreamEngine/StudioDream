@@ -34,6 +34,7 @@ return function ()
     Dream = require("Shared.Packages.3DreamEngine")
     Binser = require("Shared.Packages.Binser")
     FileDialog = require("Shared.Packages.filedialog")
+    Tweener = require("Shared.Packages.Tweener")
 
     -- Helpers
     Signal = require("Shared.Helper.Signal")
