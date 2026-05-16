@@ -6,7 +6,7 @@ local TabsList = require("Studio.UI.TopBar.Tabs") -- God this indexing is killin
 local Tabs = {}
 
 function TopBar.ChangeTab(TabName)
-
+    print("New tab")
 end
 
 function TopBar.CreateTab(TabName, Tab)

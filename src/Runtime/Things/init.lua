@@ -62,9 +62,9 @@ function Things.Create(Object, UUID)
 
     return function(Properties)
         for Index, Value in pairs(Properties) do
-            --if Object[Index]
-
-            if tonumber(Index) then
+            if Utils.TypeOf(Object[Index]) == "Signal" then
+                Object[Index]:Connect(Value)
+            elseif tonumber(Index) then
                 Value.Parent = Object
             else
                 Things.SetProperty(Object, Index, Value)
@@ -79,8 +79,6 @@ function Things.New(ThingType, CustomUUID)
     local Thing = Things.Type(ThingType)()
 
     ObjectsCreated = ObjectsCreated + 1
-    
-    print(Thing.Proxy.Types)
 
     assert(Thing, "Invalid type ("..ThingType..")")
     assert(Thing.UUID, ThingType.." is not a thing! did you forget to call the superfunctions?")
