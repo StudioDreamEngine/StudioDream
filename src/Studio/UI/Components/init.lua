@@ -46,7 +46,7 @@ function Components.ShowDropdown(Position, Choices, Size)
     for _, Choice in pairs(Choices) do
         local Button = Components.CreateStyle("TextButton", {
             Text = Choice.Text,
-            OnClick = Choice.Function,
+            Clicked = Choice.Function,
             Size = Pivot2D.new(0,1,Size.Y or 20,0),
             Parent = DropdownFrame
         })
