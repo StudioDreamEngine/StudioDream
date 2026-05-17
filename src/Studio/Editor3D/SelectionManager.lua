@@ -4,16 +4,28 @@ local Things = Runtime.Things
 local Editor3D
 local ToolManager
 
-SelectionThing.Selected = Signal:New("SomethingGotSelected")
-SelectionThing.Unselected = Signal:New("SomethingGotUnselected")
+SelectionThing.IsGetObjToPutOnVal = false
+
+SelectionThing.GetObjOnVal = Signal:New("GetThingToPutOnAProperty")
+
+function SelectionThing.GetObjToFalse()
+    love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
+    SelectionThing.IsGetObjToPutOnVal = false
+end
 
 local function DeselectThing()
     if Editor3D.Selecting then -- 💀💀💀💀💀
-        SelectionThing.Unselected.Invoke(Editor3D.Selecting)
         Editor3D.Selecting:SetOutline(false)
-        ToolManager.Deselect()
         -- Editor3D.OnDeselect.Invoke()
     end
+    SelectionThing.GetObjToFalse()
+    ToolManager.Deselect()
+end
+
+function SelectionThing:StartGrabToPutOnValue()
+    SelectionThing.IsGetObjToPutOnVal = true
+    love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/HoldingObj.png", 0,0))
+    return SelectionThing.GetObjOnVal
 end
 
 function SelectionThing.Init()
@@ -29,17 +41,20 @@ function SelectionThing.Init()
 
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
-        if Raycast and not Raycast.NotOnViewport then
+        if Raycast and not Raycast.NotOnViewport then -- IF STATEMENTS CHAOS!! AHHHH!!
             if LastSelection~=Editor3D.Selecting then
-                SelectionThing.Selected.Invoke(Editor3D.Selecting)
                 DeselectThing()
             end
-            Editor3D.Selecting = Raycast.Thing
-            LastSelection = Editor3D.Selecting
-            Editor3D.Selecting:SetOutline(true)
-
-            ToolManager.Select(Editor3D.Selecting)
-            Editor3D.OnSelect.Invoke(Editor3D.Selecting)
+            if not SelectionThing.IsGetObjToPutOnVal then
+                Editor3D.Selecting = Raycast.Thing
+                LastSelection = Editor3D.Selecting
+                Editor3D.Selecting:SetOutline(true)
+                ToolManager.Select(Editor3D.Selecting)
+                Editor3D.OnSelect.Invoke(Editor3D.Selecting)
+            else
+                SelectionThing.GetObjOnVal.Invoke(Raycast.Thing)
+                SelectionThing.GetObjToFalse()
+            end
         elseif Raycast and Raycast.NotOnViewport then-- 💀💀💀💀💀
             return
         else

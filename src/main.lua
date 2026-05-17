@@ -14,7 +14,7 @@ function love.load()
 
     print("Target is ready.")
 
-    love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursor.png", 0,0))
+    love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
 end
 
 local DeltaTime
