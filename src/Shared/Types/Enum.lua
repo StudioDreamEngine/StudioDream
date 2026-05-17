@@ -45,6 +45,25 @@ local Enums = {
         X = "X",
         Y = "Y"
     },
+    EasingStyle = {
+        Linear = "linear",
+        Quad = "Quad",
+        Quart = "Quart",
+        Quint = "Quint",
+        Cubic = "Cubic",
+        Sine = "Sine",
+        Expo = "Expo",
+        Circ = "Circ",
+        Elastic = "Elastic",
+        Back = "Back",
+        Bounce = "Bounce",
+    },
+    EasingMode = {
+        In = "in",
+        Out = "out",
+        InOut = "inOut",
+        OutIn = "outIn"
+    },
     InputCode = {
         -- Keyboard
         RightArrow = 'right',

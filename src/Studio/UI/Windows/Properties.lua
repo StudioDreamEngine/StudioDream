@@ -22,7 +22,7 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing)
         Name = "PropertyName",
         Parent = BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Color.new(1,1,1)
+        ForegroundColor = Studio.Theme.Text
     }
 
     local Option = Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!

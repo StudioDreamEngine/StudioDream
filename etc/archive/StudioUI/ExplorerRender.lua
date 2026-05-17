@@ -13,6 +13,7 @@ local WindowColor = Color.new(0.106, 0.09, 0.188)
 local BackWindowColor = Color.new(0.149, 0.129, 0.333)
 
 local function RenderIcon(IconName, VectorPos, Container)
+    local Icon = Utils.DoesFileExist("Assets/EditorIcons/16/" .. IconName .. ".png") and "Assets/EditorIcons/16/" .. IconName .. ".png" or "Assets/EditorIcons/16/File_Not_Found.png"local Icon = Utils.DoesFileExist("Assets/EditorIcons/16/" .. IconName .. ".png") and "Assets/EditorIcons/16/" .. IconName .. ".png" or "Assets/EditorIcons/16/File_Not_Found.png"
     local ImageThing = Things.Create("Image2D") {
         Size = Pivot2D.FromScale(Vector2.one * IconsSize),
         Image = "Assets/EditorIcons/16/" .. IconName .. ".png",

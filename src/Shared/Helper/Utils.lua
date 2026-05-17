@@ -33,6 +33,16 @@ function Utils.DoesFileExist(Directory)
     return love.filesystem.getInfo(Directory) and true or false
 end
 
+function Utils.GetEnumNameByValue(EnumName,Val) -- i dont got any other ideas on how to do this
+    local EnumGot = Enum[EnumName]
+    for i,v in pairs(EnumGot) do
+        if v == Val then
+            return i
+        end
+    end
+    return nil
+end
+
 function Utils.LoadModules(Path)
     local Classes = {}
     local ClassesList = Utils.GetFolderDescendants(Path, false, true)

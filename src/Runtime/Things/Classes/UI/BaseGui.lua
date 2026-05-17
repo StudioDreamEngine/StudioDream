@@ -120,6 +120,8 @@ function BaseGui:new()
     self.ForegroundTransparency = 0
     self.ForegroundColor = Color.new(0)
 
+    --self.Rotation = 0
+
     self.Layer = 0
     self.Pivot = Vector2.zero -- TODO: Add functionality
 

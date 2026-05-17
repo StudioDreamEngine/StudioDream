@@ -1,20 +1,27 @@
-local Tween = {}
+local TweenService = {}
 
 local ActiveTweens = {}
 
-function Tween.StartTween(Time, Subject, Target, Style)
-    local UUID = CreateUUID()
+function TweenService.Init()
+    
+end
 
+function TweenService.Create(Time, Subject, Target, Style, InOrOut)
+    local UUID = CreateUUID()
+    InOrOut = InOrOut or "in"
+    Style = Style or "linear"
+    local FinishedStyle = (Style~="linear") and InOrOut..Style or "linear"
+    print(FinishedStyle)
     ActiveTweens[UUID] = {
         StartTime = GlobalTick,
-        Tween = Tween.new(Time, Subject, Target, Style)
+        Tween = Tweener.new(Time, Subject, Target, FinishedStyle)
     }
 
     return UUID
 end
 
 -- Internal function to step util tweens
-function Tween.Update(dt)
+function TweenService.Update(dt)
     for UUID, Tween in pairs(ActiveTweens) do
         local Alpha = GlobalTick - Tween.StartTime
 
@@ -30,4 +37,4 @@ function Tween.Update(dt)
     end
 end
 
-return Tween
+return TweenService

@@ -46,14 +46,15 @@ function Explorer.CreateNode(Object, Depth)
         Name = "NodeText",
         Parent = NodeInner,
         BackgroundTransparency = 1,
-        ForegroundColor = Color.new(1,1,1)
+        ForegroundColor = Studio.Theme.Text
     }
+    local Icon = Utils.DoesFileExist("Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png") and "Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png" or "Assets/EditorIcons/File_Not_Found.png"
     local NodeIcon = Things.Create("Image2D") {
         Size = Pivot2D.new(0,0.1,0,1),
         SquareAxis = Enum.SquareAxis.Y,
         Pivot = Vector2.new(1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
-        Image = ("Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png") or "Assets/EditorIcons/Icon_Not_Found.png",
+        Image = Icon,
         Parent = NodeInner
     }
     

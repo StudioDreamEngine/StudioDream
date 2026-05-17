@@ -1,16 +1,14 @@
 local Things = Runtime.Things
 
--- We should maybe merge this and ImageButton, for now however this will be how it works
--- using @module here gives the lua language server a base type to use!
----@class TextButton: Text
-local TextButton = Things.Extend("Image2D")
+---@class ImageButton: Image
+local ImageButton = Things.Extend("Image2D")
 
-function TextButton:new()
-    TextButton.super.new(self)
+function ImageButton:new()
+    ImageButton.super.new(self)
 
     self.Explorer = {
         Visible = true,
-        Icon = "TextButton"
+        Icon = "ImageButton"
     }
 
     self.Hovering = false 
@@ -20,7 +18,6 @@ function TextButton:new()
     
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering then return end
-        
         self.Clicked.Invoke()
     end)
 
@@ -31,9 +28,8 @@ function TextButton:new()
     end)
 end
 
-function TextButton:Update(dt)
-    TextButton.super.Update(self)
-
+function ImageButton:Update(dt)
+    ImageButton.super.Update(self)
     local DisplayUI = self:GetDisplayUI()
     if (not DisplayUI) then return end
 
@@ -47,4 +43,4 @@ function TextButton:Update(dt)
     self.ColorMultiplier = Multiplier
 end
 
-return TextButton
+return ImageButton

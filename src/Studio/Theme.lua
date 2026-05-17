@@ -2,6 +2,7 @@
 local BlueNight = {
     Outline = Color.FromHex("#0d1029"),
     SecondaryOutline = Color.FromHex("#9090b0"),
+    Thirdry = Color.FromHex("#13152e"),
     Secondary = Color.FromHex("#151953"),
     Primary = Color.FromHex("#2c2a77"),
     Accent = Color.FromHex("#4c4cff"),
