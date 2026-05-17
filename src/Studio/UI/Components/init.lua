@@ -26,41 +26,64 @@ function Components.Init()
     })
 end
 
-function Components.ShowDropdown(Position, Choices, Size)
+function Components.ShowDropdown(Position, Choices, Size, CreateOne)
     if (not Size) then Size = {} end
 
+    local ButtonsActions = {}
+
+    local CurrentDropdown = DropdownFrame
     -- Special code for positioning below an object
     if Position.Type == "Thing" then
         Size = Position.AbsoluteSize
         Position = Position.DisplayPosition + (Position.AbsoluteSize * Vector2.yAxis)
     end
 
+    if CreateOne then
+        CurrentDropdown = Components.CreateStyle("Square", {
+        Name = "DropdownElement",
+        AutomaticSize = Enum.AutomaticSize.Y,
+        Size = Pivot2D.FromOffset(200,0),
+        Layer = 100
+    })
+    end
+
     local Dropdown = {}
 
-    DropdownFrame:ClearAllChildren()
-    DropdownFrame:SetPosition(Pivot2D.FromOffset(Position))
-    DropdownFrame.Visible = true
+    CurrentDropdown:ClearAllChildren()
+    CurrentDropdown:SetPosition(Pivot2D.FromOffset(Position))
+    CurrentDropdown.Visible = true
 
-    DropdownFrame:SetSize(Pivot2D.FromOffset(Size.X or 200,0))
+    CurrentDropdown:SetSize(Pivot2D.FromOffset(Size.X or 200,0))
 
     for _, Choice in pairs(Choices) do
         local Button = Components.CreateStyle("TextButton", {
             Text = Choice.Text,
             Clicked = Choice.Function,
             Size = Pivot2D.new(0,1,Size.Y or 20,0),
-            Parent = DropdownFrame
+            Parent = CurrentDropdown
         })
 
         Button.OutlineColor = Studio.Theme.Tertiary
+        table.insert(ButtonsActions,Button.Clicked)
     end
 
     Things.Create("ListLayout") {
-        Parent = DropdownFrame
+        Parent = CurrentDropdown
     }
 
     function Dropdown:RemoveDropdown()
-        DropdownFrame.Visible = false
+        for i,v in pairs(ButtonsActions) do
+            print(v)
+            v:Destroy()
+        end
+        if CreateOne then
+            Things.Remove(CurrentDropdown)
+        else
+            CurrentDropdown.Visible = false
+        end
     end
+
+    CurrentDropdown:SetParent(Things.Root.RootViewport) -- This makes them appear already loaded dont remove!
 
     return Dropdown
 end

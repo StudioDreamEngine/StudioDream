@@ -20,7 +20,7 @@ local function GenerateList(Option,Frame,Thing)
         })
     end
 
-    GeneratedList = Studio.Components.ShowDropdown(Frame,Choices,Vector2.new(100,10))
+    GeneratedList = Studio.Components.ShowDropdown(Frame,Choices,Vector2.new(100,10),true)
 end
 
 local Size = Vector2.new(64,64)

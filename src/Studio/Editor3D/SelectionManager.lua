@@ -4,8 +4,12 @@ local Things = Runtime.Things
 local Editor3D
 local ToolManager
 
+SelectionThing.Selected = Signal:New("SomethingGotSelected")
+SelectionThing.Unselected = Signal:New("SomethingGotUnselected")
+
 local function DeselectThing()
     if Editor3D.Selecting then -- 💀💀💀💀💀
+        SelectionThing.Unselected.Invoke(Editor3D.Selecting)
         Editor3D.Selecting:SetOutline(false)
         ToolManager.Deselect()
         -- Editor3D.OnDeselect.Invoke()
@@ -26,7 +30,10 @@ function SelectionThing.Init()
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
         if Raycast and not Raycast.NotOnViewport then
-            DeselectThing()
+            if LastSelection~=Editor3D.Selecting then
+                SelectionThing.Selected.Invoke(Editor3D.Selecting)
+                DeselectThing()
+            end
             Editor3D.Selecting = Raycast.Thing
             LastSelection = Editor3D.Selecting
             Editor3D.Selecting:SetOutline(true)

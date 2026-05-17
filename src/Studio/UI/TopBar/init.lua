@@ -10,14 +10,17 @@ function TopBar.ChangeTab(TabName)
 end
 
 function TopBar.CreateTab(TabName, Tab)
-    -- Adds to tab list - This is sorta temporary unless we plan to not allow for customization
+    -- Adds to tab list - This is sorta temporary unless we plan to not allow for customization (Still deciding on this, probably not 🔥)
+    local CurrentShowingDropDown
+
     Studio.Components.CreateButton(TabName, {
         Parent = TopBar.TabsMenu,
         Size = Pivot2D.FromScale(0.1,0.8),
         Clicked = function()
             TopBar.ChangeTab(TabName)
 
-            Components.ShowDropdown(Runtime.Backend2D.GetMousePosition(), {
+            if not CurrentShowingDropDown then
+                CurrentShowingDropDown = Components.ShowDropdown(Runtime.Backend2D.GetMousePosition(), {
                 {
                     Text = "Text",
                     Function = function ()
@@ -31,6 +34,10 @@ function TopBar.CreateTab(TabName, Tab)
                     end
                 }
             })
+            else
+                CurrentShowingDropDown:RemoveDropdown()
+                CurrentShowingDropDown = nil
+            end
         end
     })
 

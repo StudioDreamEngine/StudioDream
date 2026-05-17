@@ -11,7 +11,7 @@ function Primitive:new()
         Visible = true,
         Icon = "Scene"
     }
-    self.Shape = Enum.Shape.Brick
+    self.Shape = Enum.Shape.Cube
     
     self._LastShape = self.Shape
     self:CheckShape()

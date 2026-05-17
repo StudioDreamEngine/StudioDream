@@ -10,7 +10,7 @@ local Enums = {
         Bottom = 1
     },
     Shape = {
-        Brick = 'brick',
+        Cube = 'cube',
         Ball = 'ball',
         Wedge = 'wedge',
         Arrow = 'arrow',
