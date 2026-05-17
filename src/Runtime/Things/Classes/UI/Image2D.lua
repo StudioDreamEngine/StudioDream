@@ -18,6 +18,8 @@ function Image2D:new()
     self.ImageQuad = nil
 
     self.Proxy.Property("Rect ImageRect")
+
+    self:SetImage("Assets/Icons/Studio.png")
 end
 
 function Image2D:SetImage(NewImage)

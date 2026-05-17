@@ -16,6 +16,7 @@ function Environment:new()
     self.Camera = nil
 end
 
+-- TODO: Move to Camera?
 function Environment:Raycast(origin, direction)
     return Runtime.Backend3D.Raycast(origin, direction, Runtime.Backend3D.GetWorld())
 end

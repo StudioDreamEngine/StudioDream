@@ -6,53 +6,50 @@ local TabsList = require("Studio.UI.TopBar.Tabs") -- God this indexing is killin
 local Tabs = {}
 
 function TopBar.ChangeTab(TabName)
-    print("New tab")
+    for _, Tab in pairs(Tabs) do
+        Tab:SetVisible(false)
+    end
+
+    Tabs[TabName]:SetVisible(true)
+end
+
+function TopBar.GetTool(Tool)
+    return require("Studio.UI.TopBar.Tools."..Tool)
 end
 
 function TopBar.CreateTab(TabName, Tab)
     -- Adds to tab list - This is sorta temporary unless we plan to not allow for customization (Still deciding on this, probably not 🔥)
-    local CurrentShowingDropDown
-
     Studio.Components.CreateButton(TabName, {
         Parent = TopBar.TabsMenu,
         Size = Pivot2D.FromScale(0.1,0.8),
         Clicked = function()
             TopBar.ChangeTab(TabName)
-
-            if not CurrentShowingDropDown then
-                CurrentShowingDropDown = Components.ShowDropdown(Runtime.Backend2D.GetMousePosition(), {
-                {
-                    Text = "Text",
-                    Function = function ()
-                        print("A")
-                    end
-                },
-                {
-                    Text = "Text2",
-                    Function = function ()
-                        print("A")
-                    end
-                }
-            })
-            else
-                CurrentShowingDropDown:RemoveDropdown()
-                CurrentShowingDropDown = nil
-            end
         end
     })
 
-    Tabs[TabName] = {}
-
-    local TabContainer = Things.Create("Square") {
-        Size = Pivot2D.FromScale(1,1),
-        BackgroundTransparency = 1
+    local SingleTab = Things.Create("Square") {
+        Size = Pivot2D.new(-12,1,-12,1),
+        Pivot = Vector2.one * .5,
+        Position = Pivot2D.FromScale(.5,.5),
+        BackgroundTransparency = 1,
+        Parent = TopBar.TabContainer
     }
 
-    for _, Item in pairs(Tab) do
-        local Component = Item.Component
+    Things.Create("ListLayout") {
+        Direction = Enum.LayoutDirection.Horizontal,
+        Parent = SingleTab,
+        Padding = 5
+    }
 
-        
+    for Order, Item in pairs(Tab) do
+        local Component = Item.Component
+        local Tool = TopBar.GetTool(Component)(Item.Arguments)
+
+        Tool.ListOrder = Order
+        Tool:SetParent(SingleTab)
     end
+
+    Tabs[TabName] = SingleTab
 end
 
 function TopBar.Init(WindowContainer)

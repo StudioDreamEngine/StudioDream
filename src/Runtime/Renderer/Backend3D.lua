@@ -49,7 +49,8 @@ function Backend3D.Raycast(Origin, Direction, WorldObject)
             Thing = Object.ClassReference,
             Position = CastResult:getPosition(),
             Normal = CastResult:getNormal(),
-            UV = CastResult:getUV()
+            UV = CastResult:getUV(),
+            Type = "CastResult"
         }
 
         return FriendlyCastResult

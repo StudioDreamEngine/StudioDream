@@ -12,7 +12,7 @@ function Camera:new()
     }
 
     self.FieldOfView = 70 -- FOV
-    self.Viewport = nil
+    self.Viewport = nil -- This should be set by the viewport/environment, not by itself
 
     self.Drawable = Dream.camera
 

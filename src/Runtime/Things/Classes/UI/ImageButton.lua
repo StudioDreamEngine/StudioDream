@@ -1,6 +1,6 @@
 local Things = Runtime.Things
 
----@class ImageButton: Image
+---@class ImageButton: Image2D
 local ImageButton = Things.Extend("Image2D")
 
 function ImageButton:new()
