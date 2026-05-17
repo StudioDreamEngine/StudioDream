@@ -14,6 +14,7 @@ local Enums = {
         Ball = 'ball',
         Wedge = 'wedge',
         Arrow = 'arrow',
+        Brick = 'brick'
     },
     LayoutDirection = {
         Horizontal = "Horizontal",

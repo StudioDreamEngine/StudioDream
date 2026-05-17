@@ -4,6 +4,7 @@ return {
             Component = "ToolbarButton",
             Arguments = {
                 Name = "Move",
+                Icon = "MoveIcon",
                 OnClick = function()
                     print("Move clicked")
                 end
