@@ -11,6 +11,7 @@ function Studio.Init()
     Studio.Components = require("Studio.UI.Components")
 
     Studio.Layout.CreateLayout()
+    Studio.Components.Init()
 
     Studio.Editor3D.Init()
 end

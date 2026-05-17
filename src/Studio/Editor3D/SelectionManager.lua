@@ -34,11 +34,7 @@ function SelectionThing.Init()
             ToolManager.Select(Editor3D.Selecting)
             Editor3D.OnSelect.Invoke(Editor3D.Selecting)
         elseif Raycast and Raycast.NotOnViewport then-- 💀💀💀💀💀
-            Editor3D.Selecting = LastSelection
-            Editor3D.Selecting:SetOutline(true)
-
-            --ToolManager.Select(Editor3D.Selecting)
-            --Editor3D.OnSelect.Invoke(Editor3D.Selecting)
+            return
         else
             DeselectThing()
         end

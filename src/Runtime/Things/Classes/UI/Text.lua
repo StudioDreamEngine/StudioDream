@@ -32,8 +32,8 @@ function Text:SetText(Text)
     self:InvalidateRendering()
 end
 
-function Text:ProcessInvalidation()
-    Text.super.ProcessInvalidation(self)
+function Text:ProcessInvalidation(Origin)
+    Text.super.ProcessInvalidation(self, Origin)
     
     self:AttemptWrap(self.AbsoluteSize)
 end

@@ -16,6 +16,21 @@ function TopBar.CreateTab(TabName, Tab)
         Size = Pivot2D.FromScale(0.1,0.8),
         Clicked = function()
             TopBar.ChangeTab(TabName)
+
+            Components.ShowDropdown(Runtime.Backend2D.GetMousePosition(), {
+                {
+                    Text = "Text",
+                    Function = function ()
+                        print("A")
+                    end
+                },
+                {
+                    Text = "Text2",
+                    Function = function ()
+                        print("A")
+                    end
+                }
+            })
         end
     })
 

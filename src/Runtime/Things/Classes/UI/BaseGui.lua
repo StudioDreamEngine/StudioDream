@@ -58,7 +58,8 @@ function BaseGui:GetContentSize()
 
     for _, v in pairs(self:GetChildren()) do
         if v:IsA("BaseGui") then
-            local AbsoluteEnd = v.Position.Offset + v.AbsoluteSize
+            local PositionProp = v:GetProperty("Position")
+            local AbsoluteEnd = PositionProp.Offset + v.AbsoluteSize
 
             -- Cant use elseif's here - we need to be able to check both axises
             if AbsoluteEnd.X > Size.X then Size = Vector2.new(AbsoluteEnd.X, Size.Y) end
@@ -81,6 +82,13 @@ function BaseGui:GetAbsoluteSize()
         end
     
         AbsoluteSize = AbsoluteSize + Scale
+    end
+
+    if self.AutomaticSize then
+        local ContentSize = self:GetContentSize()
+        local Opposing = (self.AutomaticSize == Enum.AutomaticSize.X) and Vector2.yAxis or Vector2.xAxis
+
+        AbsoluteSize = (ContentSize * self.AutomaticSize) + (AbsoluteSize * Opposing)
     end
 
     return AbsoluteSize
@@ -128,6 +136,8 @@ function BaseGui:new()
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
 
+    self.Visible = true
+
     self.WasInvalidated = false
     self.EverInvalidated = false
 
@@ -143,9 +153,11 @@ end
 function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
-    Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
-    self:Draw()
-    Runtime.Backend2D.SetColor(Color.new(1))
+    if self.Visible then
+        Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
+        self:Draw()
+        Runtime.Backend2D.SetColor(Color.new(1))
+    end
 end
 
 function BaseGui:UpdateTransforms()
@@ -160,7 +172,7 @@ function BaseGui:UpdateTransforms()
     self.AbsolutePosition = self:GetAbsolutePosition()
 end
 
-function BaseGui:ProcessInvalidation()
+function BaseGui:ProcessInvalidation(Origin)
     self:UpdateTransforms()
     self.EverInvalidated = true
     self.WasInvalidated = false
@@ -168,9 +180,14 @@ function BaseGui:ProcessInvalidation()
     -- We cant simply mark invalidation, if we did then invalidation would be frame-dependent, which is bad!
     for _, v in pairs(self:GetChildren()) do
         if v:IsA("BaseGui") then
-            v:ProcessInvalidation()
+            v:ProcessInvalidation(Origin)
             --v:InvalidateRendering()
         end
+    end
+
+    -- Hacky but works, might not work with nested AutomaticSizes however, Although I guess that prob wont be a feature anyways
+    if (Origin == self) and self.Parent and self.Parent.AutomaticSize then
+        self.Parent:UpdateTransforms()
     end
 end
 
@@ -181,7 +198,7 @@ end
 
 function BaseGui:SetParent(NewParent)
     BaseGui.super.SetParent(self, NewParent)
-    self:ProcessInvalidation()
+    self:ProcessInvalidation(self)
 end
 
 function BaseGui:SetPosition(New)
@@ -202,7 +219,7 @@ function BaseGui:Update(dt)
     BaseGui.super.Update(dt)
 
     if self.WasInvalidated then
-        self:ProcessInvalidation()
+        self:ProcessInvalidation(self)
     end
 end
 

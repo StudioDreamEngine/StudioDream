@@ -29,8 +29,8 @@ local Enums = {
         Removed = "removed"
     },
     AutomaticSize = {
-        Y = "Y",
-        X = "X"
+        Y = Vector2.yAxis,
+        X = Vector2.xAxis
     },
     MouseButton = {
         LeftClick = 1,
