@@ -58,8 +58,9 @@ return function(FrameOption,Thing,Property)
     TextClick.Clicked:Connect(function()
         print(EnumLock)
         local OgPos = Button.Position
-        Button.Position.Scale = Pivot2D.FromScale(Button.Position.Scale.X,Button.Position.Scale.Y-0.05)
-        Runtime.Services.Service("Tween").Create(0.5,Button,{Position = OgPos},Enum.EasingStyle.Sine,Enum.EasingMode.Out)
+        --[[Button.Position = Pivot2D.FromScale(Button.Position.Scale.X,Button.Position.Scale.Y-0.05)
+        Runtime.Services.Service("Tween").Create(0.5,Button,{Position = OgPos},Enum.EasingStyle.Sine,Enum.EasingMode.Out)]]
+
         if not ConnectFunction then
             ConnectFunction = ChangedOption:Connect(function()
                 print("Bleh")

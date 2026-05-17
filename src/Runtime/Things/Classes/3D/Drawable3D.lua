@@ -36,7 +36,7 @@ end
 
 function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
-    self.Drawable:scaleWorld(self.Scale.ToDream())
+    self.Drawable:scale(self.Scale.ToDream())
 
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size
 

@@ -11,7 +11,7 @@ function TweenService.Create(Time, Subject, Target, Style, InOrOut)
     InOrOut = InOrOut or "in"
     Style = Style or "linear"
     local FinishedStyle = (Style~="linear") and InOrOut..Style or "linear"
-    print(FinishedStyle)
+    print(Target)
     ActiveTweens[UUID] = {
         StartTime = GlobalTick,
         Tween = Tweener.new(Time, Subject, Target, FinishedStyle)

@@ -35,7 +35,7 @@ function ImageButton:Update(dt)
 
     local ObjectRect = self:GetRect()
 
-    self.Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
+    self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
 
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
 

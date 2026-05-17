@@ -251,6 +251,7 @@ local function copyTables(destination, keysTable, valuesTable)
   if mt and getmetatable(destination) == nil then
     setmetatable(destination, mt)
   end
+  
   for k,v in pairs(keysTable) do
     if type(v) == 'table' then
       destination[k] = copyTables({}, v, valuesTable[k])
@@ -259,32 +260,6 @@ local function copyTables(destination, keysTable, valuesTable)
     end
   end
   return destination
-end
-
--- TODO: Unnesscessary?
-local function checkSubjectAndTargetRecursively(subject, target, path)
-  path = path or {}
-  local targetType, newPath
-  for k,targetValue in pairs(target) do
-    targetType, newPath = type(targetValue), copyTables({}, path)
-    table.insert(newPath, tostring(k))
-    if targetType == 'number' then
-      assert(type(subject[k]) == 'number', "Parameter '" .. table.concat(newPath,'/') .. "' is missing from subject or isn't a number")
-    elseif targetType == 'boolean' then
-      assert(type(subject[k]) == 'boolean', "Parameter '" .. table.concat(newPath,'/') .. "' is missing from subject or isn't a boolean")
-    elseif targetType == 'table' then
-      checkSubjectAndTargetRecursively(subject[k], targetValue, newPath)
-    end
-  end
-end
-
-local function checkNewParams(duration, subject, target, easing)
-  assert(type(duration) == 'number' and duration > 0, "duration must be a positive number. Was " .. tostring(duration))
-  local tsubject = type(subject)
-  assert(tsubject == 'table' or tsubject == 'userdata', "subject must be a table or userdata. Was " .. tostring(subject))
-  assert(type(target)== 'table', "target must be a table. Was " .. tostring(target))
-  assert(type(easing)=='function', "easing must be a function. Was " .. tostring(easing))
-  checkSubjectAndTargetRecursively(subject, target)
 end
 
 local function getEasingFunction(easing)
@@ -337,7 +312,6 @@ function Tween:set(clock)
     copyTables(self.subject, self.target)
 
   else
-
     performEasingOnSubject(self.subject, self.target, self.initial, self.clock, self.duration, self.easing)
 
   end
@@ -359,7 +333,6 @@ end
 
 function tween.new(duration, subject, target, easing)
   easing = getEasingFunction(easing)
-  checkNewParams(duration, subject, target, easing)
   return setmetatable({
     duration  = duration,
     subject   = subject,
