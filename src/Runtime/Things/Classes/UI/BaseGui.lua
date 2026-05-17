@@ -152,10 +152,22 @@ function BaseGui:new()
     })
 end
 
+function BaseGui:IsVisible()
+    local Visible = true
+
+    self:GetParentCallback(function(Parent)
+        if Parent:IsA("BaseGui") and (not Parent.Visible) then
+            Visible = false
+        end
+    end)
+
+    return Visible
+end
+
 function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
-    if self.Visible then
+    if self.Visible and self:IsVisible() then
         Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
         self:Draw()
         Runtime.Backend2D.SetColor(Color.new(1))

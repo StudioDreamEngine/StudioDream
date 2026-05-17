@@ -26,50 +26,40 @@ function Components.Init()
     })
 end
 
-function Components.ShowDropdown(Position, Choices, Size, BaseThing, CreateOne)
+function Components.ShowDropdown(Position, Choices, Size)
     if (not Size) then Size = {} end
-    
-    local CurrentDropdown = DropdownFrame
 
-    if CreateOne then 
-        CurrentDropdown = Components.CreateStyle("Square", {
-            Parent = Things.Root.RootViewport,
-            Name = "DropdownElement",
-            AutomaticSize = Enum.AutomaticSize.Y,
-            Size = Pivot2D.FromOffset(200,0),
-            Layer = 100
-        })
+    -- Special code for positioning below an object
+    if Position.Type == "Thing" then
+        Size = Position.AbsoluteSize
+        Position = Position.DisplayPosition + (Position.AbsoluteSize * Vector2.yAxis)
     end
 
     local Dropdown = {}
 
-    CurrentDropdown:ClearAllChildren()
-    CurrentDropdown:SetPosition(BaseThing and Pivot2D.new(Position+BaseThing.AbsolutePosition) or Pivot2D.FromOffset(Position))
-    CurrentDropdown.Visible = true
+    DropdownFrame:ClearAllChildren()
+    DropdownFrame:SetPosition(Pivot2D.FromOffset(Position))
+    DropdownFrame.Visible = true
 
-    CurrentDropdown:SetSize(Size.X or 200,0)
+    DropdownFrame:SetSize(Pivot2D.FromOffset(Size.X or 200,0))
 
     for _, Choice in pairs(Choices) do
         local Button = Components.CreateStyle("TextButton", {
             Text = Choice.Text,
             OnClick = Choice.Function,
             Size = Pivot2D.new(0,1,Size.Y or 20,0),
-            Parent = CurrentDropdown
+            Parent = DropdownFrame
         })
 
         Button.OutlineColor = Studio.Theme.Tertiary
     end
 
     Things.Create("ListLayout") {
-        Parent = CurrentDropdown
+        Parent = DropdownFrame
     }
 
     function Dropdown:RemoveDropdown()
-        if CreateOne then
-            Things.Remove(CurrentDropdown)
-        else
-            print("Function is using made in dropdown, that one cant be deleted bud!!")
-        end
+        DropdownFrame.Visible = false
     end
 
     return Dropdown

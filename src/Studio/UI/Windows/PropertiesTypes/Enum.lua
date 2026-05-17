@@ -20,16 +20,19 @@ local function GenerateList(Option,Frame,Thing)
         })
     end
 
-    GeneratedList = Studio.Components.ShowDropdown(Pivot2D.FromScale(0,1),Choices,{["X"] = 1},Frame,true)
+    GeneratedList = Studio.Components.ShowDropdown(Frame,Choices,Vector2.new(100,10))
 end
+
 local Size = Vector2.new(64,64)
 local LineUp = {
     ["true"] = Vector2.new(64,0),
     ["false"] = Vector2.new(0,0),
 }
+
 local function ChangeButton(But,Property)
     But:SetImageRect(Rect.new(LineUp[tostring(Property)],Size))
 end
+
 return function(FrameOption,Thing,Property) 
     local EnumLock = false
     local ConnectFunction
@@ -50,9 +53,6 @@ return function(FrameOption,Thing,Property)
         Parent = TextClick,
     }
 
-   --[[ local OgPos = Button.Position
-    Button.Position.Scale = Pivot2D.FromScale(Button.Position.Scale.X,Button.Position.Scale.Y-0.05)
-    Runtime.Services.Service("Tween").Create(0.5,Button,{Position = OgPos},Enum.EasingStyle.Sine,Enum.EasingMode.Out)]]
     ChangeButton(Button,EnumLock)
 
     TextClick.Clicked:Connect(function()
@@ -66,7 +66,14 @@ return function(FrameOption,Thing,Property)
         end
         EnumLock = not EnumLock
         ChangeButton(Button,EnumLock)
-        if not EnumLock then Runtime.Things.Remove(GeneratedList) else GenerateList(Property,FrameOption,Thing) end
+
+        if EnumLock then
+            GenerateList(Property,FrameOption,Thing)
+        else
+            if (not GeneratedList) then return end -- Guard Clauses mikl! Guard clauses
+            
+            GeneratedList.RemoveDropdown()
+        end
     end)
 
 end

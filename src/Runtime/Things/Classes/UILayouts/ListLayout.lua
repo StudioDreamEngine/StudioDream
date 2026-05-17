@@ -36,7 +36,7 @@ function ListLayout:Update()
     local Positions = {}
 
     table.sort(self.Objects, function(a, b)
-        return (a.ListOrder < b.ListOrder)
+        return (a.ListOrder < b.ListOrder) or (a.NumericalID < b.NumericalID)
     end)
 
     for _, Object in pairs(self.Objects) do
