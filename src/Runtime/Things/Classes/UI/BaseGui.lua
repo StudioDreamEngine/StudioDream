@@ -47,7 +47,7 @@ function BaseGui:GetDisplayPosition()
     local Position = self:GetOffsetPosition()
 
     if ParentElement then
-        Position = Position + ParentElement:GetDisplayPosition()
+        Position = Position + ParentElement.DisplayPosition
     end
 
     return Position
@@ -136,6 +136,8 @@ function BaseGui:new()
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
 
+    self.DisplayPosition = Vector2.zero
+
     self.Visible = true
 
     self.WasInvalidated = false
@@ -170,6 +172,7 @@ function BaseGui:UpdateTransforms()
 
     self:SetAbsoluteSize(NewSize)
     self.AbsolutePosition = self:GetAbsolutePosition()
+    self.DisplayPosition = self:GetDisplayPosition()
 end
 
 function BaseGui:ProcessInvalidation(Origin)
