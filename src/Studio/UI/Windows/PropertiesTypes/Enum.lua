@@ -4,39 +4,23 @@ local ChangedOption = Signal:New("BlehBleh")
 local function GenerateList(Option,Frame,Thing)
     local Enum = Enum[Option]
     local Index = 0
-    local FrameScaleBy = Runtime.Things.Create("Square") {
-        Pivot = Vector2.new(0,0),
-        Position = Pivot2D.FromScale(0,1),
-        Size = Pivot2D.FromScale(1,1),
-        Parent = Frame,
-        BackgroundColor = Studio.Theme.Secondary,
-        Layer = 90,
-    }
     Runtime.Things.Create("ListLayout") {
         Parent = FrameScaleBy,
     }
+    local Choices = {}
     for i,v in pairs(Enum) do
         Index=Index+1
-        local SelfFunc
-        local Button2 = Runtime.Things.Create("TextButton") {
+        table.insert(Choices,{
             Text = tostring(i),
-            ForegroundColor = Studio.Theme.Text,
-            BackgroundColor = Studio.Theme.Thirdry,
-            Size = Pivot2D.FromScale(1,0.15),
-            ListOrder = Index,
-            OutlineSize = 1,
-            OutlineColor = Studio.Theme.Outline,
-            Parent = FrameScaleBy
-        }
-        SelfFunc = Button2.Clicked:Connect(function()
-            Thing[Option] = v
-            ChangedOption.Invoke()
-            SelfFunc:Disconnect()
-            Runtime.Things.Remove(GeneratedList)
-        end)
-        FrameScaleBy:SetSize(Pivot2D.FromScale(1,Index))
+            Function = function()
+                Thing[Option] = v
+                ChangedOption.Invoke()
+                GeneratedList:RemoveDropdown()
+            end
+        })
     end
-    GeneratedList = FrameScaleBy
+
+    GeneratedList = Studio.Components.ShowDropdown(Pivot2D.FromScale(0,1),Choices,{["X"] = 1},Frame,true)
 end
 local Size = Vector2.new(64,64)
 local LineUp = {

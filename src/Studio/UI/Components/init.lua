@@ -26,31 +26,51 @@ function Components.Init()
     })
 end
 
-function Components.ShowDropdown(Position, Choices, Size)
+function Components.ShowDropdown(Position, Choices, Size, BaseThing, CreateOne)
     if (not Size) then Size = {} end
     
+    local CurrentDropdown = DropdownFrame
+
+    if CreateOne then 
+        CurrentDropdown = Components.CreateStyle("Square", {
+            Parent = Things.Root.RootViewport,
+            Name = "DropdownElement",
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Size = Pivot2D.FromOffset(200,0),
+            Layer = 100
+        })
+    end
+
     local Dropdown = {}
 
-    DropdownFrame:ClearAllChildren()
-    DropdownFrame:SetPosition(Pivot2D.FromOffset(Position))
-    DropdownFrame.Visible = true
+    CurrentDropdown:ClearAllChildren()
+    CurrentDropdown:SetPosition(BaseThing and Pivot2D.new(Position+BaseThing.AbsolutePosition) or Pivot2D.FromOffset(Position))
+    CurrentDropdown.Visible = true
 
-    DropdownFrame:SetSize(Pivot2D.FromOffset(Size.X or 200,0))
+    CurrentDropdown:SetSize(Size.X or 200,0)
 
     for _, Choice in pairs(Choices) do
         local Button = Components.CreateStyle("TextButton", {
             Text = Choice.Text,
             OnClick = Choice.Function,
             Size = Pivot2D.new(0,1,Size.Y or 20,0),
-            Parent = DropdownFrame
+            Parent = CurrentDropdown
         })
 
         Button.OutlineColor = Studio.Theme.Tertiary
     end
 
     Things.Create("ListLayout") {
-        Parent = DropdownFrame
+        Parent = CurrentDropdown
     }
+
+    function Dropdown:RemoveDropdown()
+        if CreateOne then
+            Things.Remove(CurrentDropdown)
+        else
+            print("Function is using made in dropdown, that one cant be deleted bud!!")
+        end
+    end
 
     return Dropdown
 end

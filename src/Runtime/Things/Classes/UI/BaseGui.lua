@@ -218,6 +218,10 @@ function BaseGui:SetAbsoluteSize(NewSize)
     self.AbsoluteSize = NewSize
 end
 
+function BaseGui:SetDisplayPosition(NewSize)
+    self.DisplayPosition = NewSize
+end
+
 function BaseGui:Update(dt)
     BaseGui.super.Update(dt)
 
