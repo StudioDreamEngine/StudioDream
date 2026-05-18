@@ -17,6 +17,7 @@ function Primitive:new()
     self:CheckShape()
 
     self.Proxy.Property("Enum Shape")
+    self.Proxy.Group("Visuals", "Shape")
 end
 
 function Primitive:CheckShape()

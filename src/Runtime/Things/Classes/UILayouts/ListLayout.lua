@@ -40,13 +40,15 @@ function ListLayout:Update()
     end)
 
     for _, Object in pairs(self.Objects) do
-        Positions[Object.UUID] = ContentSize
-        
-        ContentSize = ContentSize + Object.AbsoluteSize[Axis] + self.Padding
+        if Object.Visible then
+            Positions[Object.UUID] = ContentSize
+            ContentSize = ContentSize + Object.AbsoluteSize[Axis] + self.Padding
+        end
     end
 
     ---@param Object BaseGui
     for _, Object in pairs(self.Objects) do
+        if Object.Visible then
         local Position = Positions[Object.UUID]
 
         if self.Alignment == Enum.AlignmentX.Center then
@@ -56,6 +58,7 @@ function ListLayout:Update()
         self:SetConstraint(Object, "Position", Pivot2D.FromOffset(
             (Position * AxisVector) - ((-OpposingSpace + Object.AbsoluteSize)/2 * OpposingVector)
         ))
+        end
     end
 
     self.RemainingSize = TotalSpace - (ContentSize - self.Padding)
