@@ -92,7 +92,7 @@ function Components.CreateStyle(Type, Properties)
     Properties.BackgroundColor = Studio.Theme.Secondary
     Properties.ForegroundColor = Studio.Theme.Text
     Properties.OutlineSize = 2
-    Properties.OutlineColor = Studio.Theme.SecondaryOutline
+    Properties.OutlineColor = Studio.Theme.Outline
    
     return Things.Create(Type) (Properties)
 end

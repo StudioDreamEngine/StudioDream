@@ -9,8 +9,9 @@ local function GenerateList(Option,Frame,Thing)
     }
     local Choices = {}
     for i,v in pairs(Enum) do
-        Index=Index+1
-        table.insert(Choices,{
+        if i ~= "Type" or i ~=  "NameFromValue" then
+            Index=Index+1
+            table.insert(Choices,{
             Text = tostring(i),
             Function = function()
                 Thing[Option] = v
@@ -18,6 +19,7 @@ local function GenerateList(Option,Frame,Thing)
                 GeneratedList:RemoveDropdown()
             end
         })
+        end
     end
 
     GeneratedList = Studio.Components.ShowDropdown(Frame,Choices,Vector2.new(100,10),true)
