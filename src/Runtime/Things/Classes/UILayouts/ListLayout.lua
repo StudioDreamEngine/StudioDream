@@ -6,8 +6,8 @@ local ListLayout = Things.Extend("ParentConstraint")
 function ListLayout:new()
     ListLayout.super.new(self)
 
-    self.ConstraintProperties = {"Position"}
-    self.ObjectFilter = "BaseGui"
+    self.ConstraintProperties = {"Position"} -- These are the properties that will be controled by the object
+    self.ObjectFilter = "BaseGui" -- These are the objects that can be binded, if an object that isnt this is passed into BindObject, its ignored
 
     self.Direction = Enum.LayoutDirection.Vertical
     self.Alignment = Enum.AlignmentX.Left
@@ -24,6 +24,7 @@ function ListLayout:Update()
 
     local Vertical = (self.Direction == Enum.LayoutDirection.Vertical)
 
+    -- Define the axises we will be using in order to calculate stuff
     local Axis = Vertical and "Y" or "X"
     local OpposingAxis = Vertical and "X" or "Y"
     local AxisVector = Vector2[Vertical and "yAxis" or "xAxis"]
@@ -35,10 +36,12 @@ function ListLayout:Update()
     local ContentSize = 0
     local Positions = {}
 
+    -- Sort the objects so they appear how they are supposed to
     table.sort(self.Objects, function(a, b)
         return (a.ListOrder < b.ListOrder) or (a.NumericalID < b.NumericalID)
     end)
 
+    -- Pass 1: Handle the inital layout of the objects
     for _, Object in pairs(self.Objects) do
         if Object.Visible then
             Positions[Object.UUID] = ContentSize
@@ -46,6 +49,7 @@ function ListLayout:Update()
         end
     end
 
+    -- Pass 2: Handle the positioning and alignment of all objects
     ---@param Object BaseGui
     for _, Object in pairs(self.Objects) do
         if Object.Visible then

@@ -50,11 +50,17 @@ function Thing:new()
 end
 
 --[[
-    Binds a constraint
-    a constraint is basically a system for overriding a certain property with the values given by something else
+    CONSTRAINTS
+    A constraint is basically a system for overriding a certain property with the values given by something else
     
-    We provide these basic functions for the contraints
-    its up to the class itself to handle the rest, like unbinding on parent change and toggling
+    You can bind a constraint, which sets up a property to be used as a constraint
+    Only one object is allowed to use a constraint at once
+
+    Then you can set a constraint, which will allow you to change the property value, without changing the real one
+    (ASSUMING you were the last object that binded to that property)
+
+    if you want to use the constraint, OR the regular version (depending on if a constaint exists for the property), 
+    you can do Thing:GetProperty(Property)
 
     the idea is that theres 2 behaviors for this on the class side:
         - Children: Binds contraints to the children of the objects parent
