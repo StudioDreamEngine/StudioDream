@@ -11,19 +11,18 @@ local function UpdateButton(Button,Property)
 end
 
 return function(FrameOption,Thing,Property)
-       
-        local Button = Runtime.Things.Create("ImageButton") {
-            Image = "Assets/Icons/Engine/Boolean.png",
-            Size = Pivot2D.FromScale(1,1),
-            SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
-            Parent = FrameOption,
-        }
+    local Button = Runtime.Things.Create("ImageButton") {
+        Image = "Assets/Icons/Engine/Boolean.png",
+        Size = Pivot2D.FromScale(1,1),
+        SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
+        Parent = FrameOption,
+    }
 
+    UpdateButton(Button,Thing[Property])
+
+    Button.Clicked:Connect(function()
+        print("Hi")
+        Thing[Property] = not Thing[Property] -- works sometimes????
         UpdateButton(Button,Thing[Property])
-
-        Button.Clicked:Connect(function()
-            print("Hi")
-            Thing[Property] = not Thing[Property] -- works sometimes????
-            UpdateButton(Button,Thing[Property])
-        end)
-    end
+    end)
+end

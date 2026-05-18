@@ -1,24 +1,24 @@
 local GeneratedList
 local ChangedOption = Signal:New("BlehBleh")
 
+-- Creates the list of Enums for the dropdown
 local function GenerateList(Option,Frame,Thing)
     local Enum = Enum[Option]
     local Index = 0
-    Runtime.Things.Create("ListLayout") {
-        Parent = FrameScaleBy,
-    }
     local Choices = {}
+
     for i,v in pairs(Enum) do
-        if i ~= "Type" or i ~=  "NameFromValue" then
+        if i ~= "Type" or i ~= "NameFromValue" then
             Index=Index+1
+
             table.insert(Choices,{
-            Text = tostring(i),
-            Function = function()
-                Thing[Option] = v
-                ChangedOption.Invoke()
-                GeneratedList:RemoveDropdown()
-            end
-        })
+                Text = tostring(i),
+                Function = function()
+                    Thing[Option] = v
+                    ChangedOption.Invoke()
+                    GeneratedList:RemoveDropdown()
+                end
+            })
         end
     end
 
@@ -46,6 +46,7 @@ return function(FrameOption,Thing,Property)
         Size = Pivot2D.FromScale(1,1),
         Parent = FrameOption
     }
+
     local Button = Runtime.Things.Create("Image2D") {
         Image = "Assets/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
@@ -59,9 +60,6 @@ return function(FrameOption,Thing,Property)
 
     TextClick.Clicked:Connect(function()
         print(EnumLock)
-        local OgPos = Button.Position
-        --[[Button.Position = Pivot2D.FromScale(Button.Position.Scale.X,Button.Position.Scale.Y-0.05)
-        Runtime.Services.Service("Tween").Create(0.5,Button,{Position = OgPos},Enum.EasingStyle.Sine,Enum.EasingMode.Out)]]
 
         if not ConnectFunction then
             ConnectFunction = ChangedOption:Connect(function()
@@ -71,6 +69,7 @@ return function(FrameOption,Thing,Property)
                 ChangeButton(Button,EnumLock)
             end)
         end
+
         EnumLock = not EnumLock
         ChangeButton(Button,EnumLock)
 
