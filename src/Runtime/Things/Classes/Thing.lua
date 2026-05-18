@@ -39,6 +39,7 @@ function Thing:new()
     }
 
     self.Proxy.Property("Thing Parent", "string Name")
+    self.Proxy.Group("General", "Parent", "Name")
 
     --[[self.Proxy.Info({
         Groups = {

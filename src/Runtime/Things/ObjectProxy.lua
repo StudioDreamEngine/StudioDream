@@ -8,6 +8,7 @@ return { new = function()
     ObjectProxy.Accessible = {}
 
     ObjectProxy.Types = {}
+    ObjectProxy.Groups = {}
 
     ObjectProxy.Proxies = {}
     ObjectProxy.Overrides = {}
@@ -53,6 +54,18 @@ return { new = function()
         for i, v in pairs(table.pack(...)) do
             if i ~= "n" then
                 ProcessProperty(ObjectProxy.Serializable, v)
+            end
+        end
+    end
+
+    function ObjectProxy.Group(Group, ...)
+        if (not ObjectProxy.Groups[Group]) then
+            ObjectProxy.Groups[Group] = {}
+        end
+
+        for i, v in pairs(table.pack(...)) do
+            if i ~= "n" then
+                table.insert(ObjectProxy.Groups[Group], v)
             end
         end
     end
