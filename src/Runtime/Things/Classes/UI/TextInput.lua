@@ -33,7 +33,7 @@ function TextInput:new()
     end, Enum.InputCode.Backspace)
 
     self.InputEvent = LoveEvents.TextInput:Connect(function(Key)
-        if (not self.InputActive) then return end
+        if (not self.InputActive or not self:IsVisible()) then return end
 
         self:SetText(self.Text..Key)
     end)

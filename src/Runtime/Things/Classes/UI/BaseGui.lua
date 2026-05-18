@@ -147,6 +147,8 @@ function BaseGui:new()
     self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency")
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
+    self.Proxy.Group("Transform", "Size", "Position", "Pivot")
+
     self.Proxy.Info({
         ConstraintUpdator = self.InvalidateRendering
     })

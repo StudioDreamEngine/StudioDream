@@ -73,7 +73,6 @@ function Components.ShowDropdown(Position, Choices, Size, CreateOne)
 
     function Dropdown:RemoveDropdown()
         for i,v in pairs(ButtonsActions) do
-            print(v)
             v:Destroy()
         end
         if CreateOne then

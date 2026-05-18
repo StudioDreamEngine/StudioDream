@@ -17,7 +17,7 @@ function TextButton:new()
     self.Clicked = Signal:New("ButtonClicked")
     
     Runtime.InterfaceManager.OnClick:Connect(function()
-        if not self.Hovering then return end
+        if not self.Hovering or not self:IsVisible() then return end
         
         self.Clicked.Invoke()
     end)
