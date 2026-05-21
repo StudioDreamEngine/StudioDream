@@ -80,8 +80,9 @@ function Explorer.CreateTree(Object, Depth)
 end
 
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
+local Selecting
 
-local MouseDown
+local Hovering
 
 function Explorer.Init(WindowContainer)
     Window = WindowContainer
@@ -93,9 +94,13 @@ function Explorer.Init(WindowContainer)
     }
 
     InputService.MouseEvent:Connect(function(IsDown)
-        MouseDown = IsDown
+        if IsDown then
+            Selecting = Hovering
+        else
+            
 
-        -- TODOk
+            Selecting = nil
+        end
     end, Enum.MouseButton.LeftClick)
 end
 
@@ -105,15 +110,20 @@ function Explorer.Redraw()
 end
 
 function Explorer.Update(dt)
-    local Hovering
+    Hovering = nil
 
-    for _, Object in pairs(Explorer.Tree) do
-        if Object.Hovering then Hovering = Object end
+    for Thing, Object in pairs(Explorer.Tree) do
+        if Object.Hovering then 
+            Hovering = {
+                Node = Object,
+                Thing = Thing
+            }
+        end
     end
 
-    print(Hovering)
-
-    
+    if Selecting then
+        
+    end
 end
 
 return Explorer

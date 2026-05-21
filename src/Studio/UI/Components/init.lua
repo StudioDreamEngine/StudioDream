@@ -26,26 +26,27 @@ function Components.Init()
     })
 end
 
-function Components.ShowDropdown(Position, Choices, Size, CreateOne)
+function Components.ShowDropdown(Position, Choices, Size)--, CreateOne)
     if (not Size) then Size = {} end
 
     local ButtonsActions = {}
 
     local CurrentDropdown = DropdownFrame
+    
     -- Special code for positioning below an object
     if Position.Type == "Thing" then
         Size = Position.AbsoluteSize
         Position = Position.DisplayPosition + (Position.AbsoluteSize * Vector2.yAxis)
     end
 
-    if CreateOne then
+    --[[if CreateOne then
         CurrentDropdown = Components.CreateStyle("Square", {
         Name = "DropdownElement",
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = Pivot2D.FromOffset(200,0),
         Layer = 100
     })
-    end
+    end]]
 
     local Dropdown = {}
 
@@ -73,14 +74,14 @@ function Components.ShowDropdown(Position, Choices, Size, CreateOne)
     }
 
     function Dropdown:RemoveDropdown()
-        for i,v in pairs(ButtonsActions) do
+        --[[for i,v in pairs(ButtonsActions) do
             v:Destroy()
         end
         if CreateOne then
             Things.Remove(CurrentDropdown)
-        else
-            CurrentDropdown.Visible = false
-        end
+        else]]
+        CurrentDropdown.Visible = false
+        --end
     end
 
     CurrentDropdown:SetParent(Things.Root.RootViewport) -- This makes them appear already loaded dont remove!

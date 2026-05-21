@@ -18,11 +18,12 @@ local function DeselectThing()
         Editor3D.Selecting:SetOutline(false)
         -- Editor3D.OnDeselect.Invoke()
     end
+    
     SelectionThing.GetObjToFalse()
     ToolManager.Deselect()
 end
 
-function SelectionThing:StartGrabToPutOnValue()
+function SelectionThing.StartGrabToPutOnValue()
     SelectionThing.IsGetObjToPutOnVal = true
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/HoldingObj.png", 0,0))
     return SelectionThing.GetObjOnVal
@@ -33,6 +34,7 @@ function SelectionThing.Init()
     Editor3D = Studio.Editor3D
     ToolManager = Editor3D.ToolManager
     local LastSelection = nil
+
     SelectionPriority.BindSignal(function(IsDown)
         if (not IsDown) then return end
 
@@ -41,21 +43,24 @@ function SelectionThing.Init()
 
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
-        if Raycast and not Raycast.NotOnViewport then -- IF STATEMENTS CHAOS!! AHHHH!!
+        if Raycast and Raycast.OnViewport then -- IF STATEMENTS CHAOS!! AHHHH!!
             if LastSelection~=Editor3D.Selecting then
                 DeselectThing()
             end
+
             if not SelectionThing.IsGetObjToPutOnVal then
                 Editor3D.Selecting = Raycast.Thing
-                LastSelection = Editor3D.Selecting
                 Editor3D.Selecting:SetOutline(true)
+
+                LastSelection = Editor3D.Selecting
+
                 ToolManager.Select(Editor3D.Selecting)
                 Editor3D.OnSelect.Invoke(Editor3D.Selecting)
             else
                 SelectionThing.GetObjOnVal.Invoke(Raycast.Thing)
                 SelectionThing.GetObjToFalse()
             end
-        elseif Raycast and Raycast.NotOnViewport then-- 💀💀💀💀💀
+        elseif Raycast and (not Raycast.OnViewport) then-- 💀💀💀💀💀
             return
         else
             DeselectThing()

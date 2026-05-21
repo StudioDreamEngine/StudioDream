@@ -11,7 +11,8 @@ return function(FrameOption,Thing,Property)
 
     Button.Clicked:Connect(function()
         if not Studio.Editor3D.SelectionManager.IsGetObjToPutOnVal then
-            CurrentGetConnect = Studio.Editor3D.SelectionManager:StartGrabToPutOnValue()
+            CurrentGetConnect = Studio.Editor3D.SelectionManager.StartGrabToPutOnValue()
+            
             CurrentGetConnect:Connect(function(NewThing)
                 if NewThing == Thing then return end
                 if Property == "Parent" then Thing:SetParent(NewThing) else Thing[Property] = NewThing end

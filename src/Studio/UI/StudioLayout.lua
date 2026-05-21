@@ -38,6 +38,7 @@ end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     local Window = require("Studio.UI."..WindowType)
+    Window.Container = WindowContainer -- TODO: Remove from Init
     Window.Init(WindowContainer)
 
     if StudioLayout.Handles[WindowType] then
@@ -53,12 +54,21 @@ function StudioLayout.CreateWindow(WindowType, Transform, Parent)
     StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
 end
 
+-- Remove any window handle that starts with "Window.", as other handles are used for the topbar, which is immutable
+function StudioLayout.RemoveWindow(WindowType)
+    local Handle = StudioLayout.GetHandle(WindowType, "Destroy")
+
+    Handle.Container:Destroy()
+end
+
 -- Calls a function within a different window handle
 function StudioLayout.GetHandle(WindowType, Function, ...)
     local HasHandle = StudioLayout.Handles["Windows."..WindowType] -- For now, we can only get handles of windows, not the topbar
 
     if HasHandle then
         HasHandle[Function](...)
+
+        return HasHandle
     end
 end
 
