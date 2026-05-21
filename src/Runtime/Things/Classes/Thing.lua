@@ -90,6 +90,10 @@ function Thing:UnbindConstraints(Object)
     end
 end
 
+function Thing:__tostring()
+    return self.Name..": "..self.ClassName
+end
+
 function Thing:FindConstraintOfType(Type)
     for _, Data in pairs(self.Overrides) do
         if Data.Object:IsA(Type) then

@@ -37,7 +37,7 @@ function Things.SetDebugObject(Object) Things.DebugObj = Object end
 
 
 function Things.Type(ThingType) 
-    assert(Classes[ThingType], "Thing Class "..ThingType.." doesnt exist!")
+    assert(ThingType, "Invalid type ("..ThingType..")")
     return require(Classes[ThingType]) 
 end
 
@@ -80,10 +80,7 @@ function Things.New(ThingType, CustomUUID)
 
     ObjectsCreated = ObjectsCreated + 1
 
-    assert(Thing, "Invalid type ("..ThingType..")")
     assert(Thing.UUID, ThingType.." is not a thing! did you forget to call the superfunctions?")
-
-    Thing.__tostring = function(self) return "<"..ThingType..">"..self.Name end
 
     Thing.Name = ThingType
     Thing.ClassName = ThingType

@@ -60,7 +60,8 @@ function Components.ShowDropdown(Position, Choices, Size, CreateOne)
             Text = Choice.Text,
             Clicked = Choice.Function,
             Size = Pivot2D.new(0,1,Size.Y or 20,0),
-            Parent = CurrentDropdown
+            Parent = CurrentDropdown,
+            BackgroundTransparency = 1
         })
 
         Button.OutlineColor = Studio.Theme.Tertiary

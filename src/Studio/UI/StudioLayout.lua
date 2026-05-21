@@ -4,7 +4,7 @@ local StudioLayout = {}
 
 local Theme = Studio.Theme
 
-StudioLayout.WindowsCreated = {}
+StudioLayout.Handles = {}
 
 function StudioLayout.CreateWindowContainer(Transform, Parent)
     local Windows = {}
@@ -39,13 +39,27 @@ end
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     local Window = require("Studio.UI."..WindowType)
     Window.Init(WindowContainer)
-    StudioLayout.WindowsCreated[WindowType] = Window
+
+    if StudioLayout.Handles[WindowType] then
+        error("Cannot have more than one of the same Window Handler Type!")
+    end
+
+    StudioLayout.Handles[WindowType] = Window
 end
 
 function StudioLayout.CreateWindow(WindowType, Transform, Parent)
     local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Parent)
 
     StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
+end
+
+-- Calls a function within a different window handle
+function StudioLayout.GetHandle(WindowType, Function, ...)
+    local HasHandle = StudioLayout.Handles["Windows."..WindowType] -- For now, we can only get handles of windows, not the topbar
+
+    if HasHandle then
+        HasHandle[Function](...)
+    end
 end
 
 --[[
@@ -97,6 +111,14 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(1,1),
         Layer = 3
     })
+end
+
+function StudioLayout.Update(dt)
+    for _, Handler in pairs(StudioLayout.Handles) do
+        if Handler.Update then
+            Handler.Update(dt)
+        end
+    end
 end
 
 return StudioLayout
