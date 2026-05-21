@@ -189,6 +189,13 @@ function BaseGui:UpdateTransforms()
     self.DisplayPosition = self:GetDisplayPosition()
 end
 
+function BaseGui:InvalidateAutomaticSize()
+    if self.Parent.AutomaticSize then
+        self.Parent:UpdateTransforms()
+        self.Parent:InvalidateAutomaticSize()
+    end
+end
+
 function BaseGui:ProcessInvalidation(Origin)
     self:UpdateTransforms()
     self.EverInvalidated = true
@@ -201,11 +208,6 @@ function BaseGui:ProcessInvalidation(Origin)
             --v:InvalidateRendering()
         end
     end
-
-    -- Hacky but works, might not work with nested AutomaticSizes however, Although I guess that prob wont be a feature anyways
-    if (Origin == self) and self.Parent and self.Parent.AutomaticSize then
-        self.Parent:UpdateTransforms()
-    end
 end
 
 -- TODO: Also be able to store causes of invalidation within a frame
@@ -214,8 +216,8 @@ function BaseGui:InvalidateRendering()
 end
 
 function BaseGui:SetParent(NewParent)
-    BaseGui.super.SetParent(self, NewParent)
     self:ProcessInvalidation(self)
+    BaseGui.super.SetParent(self, NewParent)
 end
 
 function BaseGui:SetPosition(New)
@@ -241,6 +243,7 @@ function BaseGui:Update(dt)
 
     if self.WasInvalidated then
         self:ProcessInvalidation(self)
+        self:InvalidateAutomaticSize()
     end
 end
 

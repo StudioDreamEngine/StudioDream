@@ -18,6 +18,7 @@ end
 
 function Studio.Update(dt)
     Studio.Editor3D.Update(dt)
+    Studio.Layout.Update(dt)
 end
 
 return Studio

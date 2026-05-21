@@ -19,7 +19,7 @@ return function(FrameOption,Thing,Property)
                 if NewThing == Thing then return end
                 if Property == "Parent" then Thing:SetParent(NewThing) else Thing[Property] = NewThing end
                 Button:SetText(Thing[Property].Name)
-                Studio.Layout.WindowsCreated["Windows.Explorer"].Update()
+                Studio.Layout.GetHandle("Explorer", "Redraw")
                 CurrentGetConnect:Destroy()
             end)
         else

@@ -7,8 +7,6 @@ local Order = 0
 local Window
 
 function Explorer.CreateNode(Object, Depth)
-    -- Temporary
-
     local Node = Things.Create("Square") { 
         Size = Pivot2D.FromScale(1,0.05),
         Pivot = Vector2.new(0,0),
@@ -27,13 +25,15 @@ function Explorer.CreateNode(Object, Depth)
         Parent = Node,
     }
 
-    local NodeInner = Things.Create("Square") {
+    local NodeInner = Things.Create("TextButton") {
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
         Size = Pivot2D.new(-Depth*20,1,0,1),
         BackgroundColor = Studio.Theme.Secondary,
+        Text = "",
         Parent = Node,
         Layer = 3,
+        Name = Object.Name,
         OutlineSize = 1,
         OutlineColor = Studio.Theme.Primary
     }
@@ -48,7 +48,9 @@ function Explorer.CreateNode(Object, Depth)
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.Text
     }
+    
     local Icon = Utils.DoesFileExist("Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png") and "Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png" or "Assets/EditorIcons/File_Not_Found.png"
+    
     local NodeIcon = Things.Create("Image2D") {
         Size = Pivot2D.new(0,0.1,0,1),
         SquareAxis = Enum.SquareAxis.Y,
@@ -58,15 +60,17 @@ function Explorer.CreateNode(Object, Depth)
         Parent = NodeInner
     }
     
-    return Node
+    return Node, NodeInner
 end
 
 function Explorer.CreateTree(Object, Depth)
     Order = Order + 1
 
-    local Node = Explorer.CreateNode(Object, Depth)
+    local Node, NodeInner = Explorer.CreateNode(Object, Depth)
     Node.ListOrder = Order
     Node:SetParent(Window)
+
+    Explorer.Tree[Object] = NodeInner
 
     for _, Child in pairs(Object:GetChildren()) do
         if Child.TruelySerializable then
@@ -75,9 +79,9 @@ function Explorer.CreateTree(Object, Depth)
     end
 end
 
---[[
-    My idea for this is ???!
-]]
+local InputService = Runtime.Services.Service("InputService") ---@class InputService
+
+local MouseDown
 
 function Explorer.Init(WindowContainer)
     Window = WindowContainer
@@ -87,12 +91,29 @@ function Explorer.Init(WindowContainer)
     Things.Create("ListLayout") {
         Parent = Window
     }
+
+    InputService.MouseEvent:Connect(function(IsDown)
+        MouseDown = IsDown
+
+        -- TODOk
+    end, Enum.MouseButton.LeftClick)
 end
 
-function Explorer.Update() -- Super wip!
+function Explorer.Redraw()
     Window:ClearAllChildren()
-    
     Explorer.Init(Window)
+end
+
+function Explorer.Update(dt)
+    local Hovering
+
+    for _, Object in pairs(Explorer.Tree) do
+        if Object.Hovering then Hovering = Object end
+    end
+
+    print(Hovering)
+
+    
 end
 
 return Explorer
