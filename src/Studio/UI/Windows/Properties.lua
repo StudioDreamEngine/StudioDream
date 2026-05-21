@@ -121,9 +121,13 @@ local function CreateGroup(GroupName,Window)
 end
 
 function PropertiesRender.Init(Window)
-
+    local BaseWindow
     Studio.Editor3D.OnSelect:Connect(function(Thing)
-        Window:ClearAllChildren()
+        if BaseWindow then Things.Remove(BaseWindow) end
+        BaseWindow = Things.Create("Square") { 
+            Size = Pivot2D.FromScale(1,1),
+            BackgroundTransparency = 1,
+        }
         local index = 0
         --[[for Property,v in pairs(Thing.Proxy.Accessible) do
             local Type
@@ -134,7 +138,7 @@ function PropertiesRender.Init(Window)
             Node.ListOrder = index
         end]]
         for GroupName,v in pairs(Thing.Proxy.Groups) do
-            local GroupCreated = CreateGroup(GroupName,Window)
+            local GroupCreated = CreateGroup(GroupName,BaseWindow)
             local List,Base = GroupCreated:ReturnThings()
             for v,Property in pairs(Thing.Proxy.Groups[GroupName]) do
                 local Type
@@ -147,12 +151,14 @@ function PropertiesRender.Init(Window)
         --Benchmark.End()
 
         Things.Create("ListLayout") {
-            Parent = Window,
+            Parent = BaseWindow,
         }
+
+        BaseWindow:SetParent(Window)
     end)
 
     Studio.Editor3D.OnDeselect:Connect(function()
-         Window:ClearAllChildren()
+        Things.Remove(BaseWindow)
     end)
 end
 

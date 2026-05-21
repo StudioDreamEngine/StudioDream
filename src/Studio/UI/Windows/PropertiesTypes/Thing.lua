@@ -3,10 +3,13 @@ return function(FrameOption,Thing,Property)
 
     local Button = Runtime.Things.Create("TextButton") {
             Text = tostring(Thing[Property].Name),
-            Size = Pivot2D.FromScale(1,1),
-            BackgroundTransparency = 1,
             ForegroundColor = Studio.Theme.Text,
+            BackgroundColor = Studio.Theme.Secondary,
+            Size = Pivot2D.FromScale(0.97,0.95),
+            Position = Pivot2D.FromScale(0.5,0.5),
+            Pivot = Vector2.new(0.5,0.5),
             Parent = FrameOption,
+            CornerRadius=5
         }
 
     Button.Clicked:Connect(function()
