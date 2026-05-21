@@ -42,9 +42,12 @@ return function(FrameOption,Thing,Property)
     local TextClick = Runtime.Things.Create("TextButton") {
         Text = tostring(Utils.GetEnumNameByValue(Property,Thing[Property])),
         ForegroundColor = Studio.Theme.Text,
-        BackgroundTransparency = 1,
-        Size = Pivot2D.FromScale(1,1),
-        Parent = FrameOption
+        BackgroundColor = Studio.Theme.Secondary,
+        Size = Pivot2D.FromScale(0.97,0.95),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Pivot = Vector2.new(0.5,0.5),
+        Parent = FrameOption,
+        CornerRadius=5
     }
 
     local Button = Runtime.Things.Create("Image2D") {
