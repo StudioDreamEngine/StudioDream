@@ -43,7 +43,7 @@ return {
                 Name = "Insert Thing",
                 Icon = "InsertIcon",
                 OnClick = function()
-                    print("Open the dropdown here!")
+                    
                 end
             }
         },

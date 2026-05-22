@@ -20,6 +20,10 @@ function Square:new()
     self.Proxy.Property("number CornerRadius", "number OutlineSize", "Color OutlineColor")
 end
 
+function Square:SetOutlineSize(number)
+    self.OutlineSize = number
+end
+
 function Square:Draw()
     local Size = self.AbsoluteSize
 

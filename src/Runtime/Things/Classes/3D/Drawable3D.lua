@@ -11,11 +11,13 @@ function Drawable3D:new()
 
     self.Drawable = nil ---@class DreamObject
     self.Outline = false
+    self.MeshPath = nil
     self.Scale = Vector3.new(1, 1, 1)
 
-    self.Proxy.Property("Vector3 Scale", "boolean Outline")
+    self.Proxy.Property("Vector3 Scale", "boolean Outline", "FilePath MeshPath")
     self.Proxy.Group("Transform", "Scale")
     self.Proxy.Group("Outline", "Outline")
+    self.Proxy.Group("Visuals", "MeshPath")
 end
 
 function Drawable3D:OnRemove()
@@ -29,11 +31,11 @@ end
 
 function Drawable3D:LoadObject(Path)
     if (not Path) then
-        Path = "Scripty"
+        Path = "Assets/DefaultMeshes/Scripty"
     end
 
     self.MeshPath = Path
-    self.Drawable = Runtime.Backend3D.LoadObject("Assets/DefaultMeshes/"..Path, self)
+    self.Drawable = Runtime.Backend3D.LoadObject(Path, self)
 end
 
 function Drawable3D:Update(dt)
