@@ -39,7 +39,7 @@ function SelectionThing.Init()
         if (not IsDown) then return end
 
         local Environment = Things.Root:GetEnvironment() ---@class Environment
-        local Camera = Environment:GetCamera() ---@class Camera
+        local Camera = Environment.Camera ---@class Camera
 
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 

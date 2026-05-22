@@ -10,8 +10,6 @@ function Viewport3D:new()
         
         Icon = "Viewport_3D"
     }
-
-    self.Camera = nil
 end
 
 function Viewport3D:SetAbsoluteSize(New)
@@ -26,7 +24,7 @@ end
 
 -- Pain
 function Viewport3D:GetCamera()
-    return self:GetTarget().Camera or self.Camera
+    return self:GetTarget().Camera
 end
 
 function Viewport3D:SubmitContainerChildren(Container)

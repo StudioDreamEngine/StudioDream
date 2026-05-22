@@ -94,11 +94,14 @@ function Explorer.Init(WindowContainer)
     }
 
     InputService.MouseEvent:Connect(function(IsDown)
-        if IsDown then
+        if IsDown then -- Drag Start
             Selecting = Hovering
-        else
-            
+            return
+        end
 
+        -- Drag End
+        if Hovering and Selecting then
+            Selecting.Thing:SetParent(Hovering.Thing)
             Selecting = nil
         end
     end, Enum.MouseButton.LeftClick)

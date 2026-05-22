@@ -71,16 +71,4 @@ function Camera:GetMouseRay()
     return self:VectorToWorldSpace(self.Viewport.MousePosition)
 end
 
-function Camera:Update(dt)
-    local Environment = Things.GetRoot("Environment")
-
-    if (not Environment.Viewport) then
-        return
-    else
-        self.Viewport = Environment.Viewport
-    end
-
-    Camera.super.Update(self, dt)
-end
-
 return Camera
