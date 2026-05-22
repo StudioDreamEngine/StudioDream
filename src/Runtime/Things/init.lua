@@ -64,8 +64,6 @@ function Things.Create(Object, UUID)
         for Index, Value in pairs(Properties) do
             if Utils.TypeOf(Object[Index]) == "Signal" then
                 Object[Index]:Connect(Value)
-            elseif tonumber(Index) then
-                Value.Parent = Object
             else
                 Things.SetProperty(Object, Index, Value)
             end

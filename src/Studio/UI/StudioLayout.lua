@@ -109,17 +109,17 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.75,.9),
     })
 
-    StudioLayout.CreateWindow("Explorer", {
-        Size = Pivot2D.FromScale(0.25,.5),
-        Position = Pivot2D.FromScale(1,0),
-        Pivot = Vector2.new(1,0)
-    })
-
     StudioLayout.CreateWindow("Properties", {
         Size = Pivot2D.FromScale(0.25,.5),
         Position = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(1,1),
-        Layer = 3
+        Layer = 3,
+    })
+
+    StudioLayout.CreateWindow("Explorer", {
+        Size = Pivot2D.FromScale(0.25,.5),
+        Position = Pivot2D.FromScale(1,0),
+        Pivot = Vector2.new(1,0)
     })
 end
 

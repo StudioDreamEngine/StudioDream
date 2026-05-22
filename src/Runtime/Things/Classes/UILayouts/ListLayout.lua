@@ -53,15 +53,15 @@ function ListLayout:Update()
     ---@param Object BaseGui
     for _, Object in pairs(self.Objects) do
         if Object.Visible then
-        local Position = Positions[Object.UUID]
+            local Position = Positions[Object.UUID]
 
-        if self.Alignment == Enum.AlignmentX.Center then
-            Position = Position + (-ContentSize + TotalSpace)/2
-        end
+            if self.Alignment == Enum.AlignmentX.Center then
+                Position = Position + (-ContentSize + TotalSpace)/2
+            end
 
-        self:SetConstraint(Object, "Position", Pivot2D.FromOffset(
-            (Position * AxisVector) - ((-OpposingSpace + Object.AbsoluteSize)/2 * OpposingVector)
-        ))
+            self:SetConstraint(Object, "Position", Pivot2D.FromOffset(
+                (Position * AxisVector) - ((-OpposingSpace + Object.AbsoluteSize)/2 * OpposingVector)
+            ))
         end
     end
 

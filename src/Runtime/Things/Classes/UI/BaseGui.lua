@@ -217,8 +217,8 @@ function BaseGui:InvalidateRendering()
 end
 
 function BaseGui:SetParent(NewParent)
-    self:ProcessInvalidation(self)
     BaseGui.super.SetParent(self, NewParent)
+    self:ProcessInvalidation(self)
 end
 
 function BaseGui:SetPosition(New)

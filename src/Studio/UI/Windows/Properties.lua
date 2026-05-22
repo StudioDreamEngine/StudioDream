@@ -124,10 +124,12 @@ function PropertiesRender.Init(Window)
     local BaseWindow
     Studio.Editor3D.OnSelect:Connect(function(Thing)
         if BaseWindow then Things.Remove(BaseWindow) end
+
         BaseWindow = Things.Create("Square") { 
             Size = Pivot2D.FromScale(1,1),
-            BackgroundTransparency = 1,
+            BackgroundTransparency = 1
         }
+
         local index = 0
         --[[for Property,v in pairs(Thing.Proxy.Accessible) do
             local Type
@@ -137,6 +139,7 @@ function PropertiesRender.Init(Window)
             local Node = CreatePropertyNode(Window,Property,Type,Thing)
             Node.ListOrder = index
         end]]
+
         for GroupName,v in pairs(Thing.Proxy.Groups) do
             local GroupCreated = CreateGroup(GroupName,BaseWindow)
             local List,Base = GroupCreated:ReturnThings()
