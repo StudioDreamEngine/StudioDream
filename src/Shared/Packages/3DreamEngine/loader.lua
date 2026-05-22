@@ -139,10 +139,7 @@ function lib:loadObject(path, args)
 	local found = { }
 	local newest = 0
 	for _, typ in ipairs(lib.supportedFiles) do
-		--BlehBlehImHereDumass
 		local info = love.filesystem.getInfo(path .. "." .. typ)
-		--local info,err = io.open(path.."."..typ,"r")
-		print(info,err)
 		if info then
 			found[typ] = info.modtime or 0
 			newest = math.max(info.modtime or 0, newest)

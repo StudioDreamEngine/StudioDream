@@ -1,3 +1,7 @@
+local For = {
+    ["MeshPath"] = "3D File",
+}
+
 return function(FrameOption,Thing,Property)
     local MainText = Runtime.Things.Create("TextButton") {
         Text = Thing[Property],
@@ -11,7 +15,7 @@ return function(FrameOption,Thing,Property)
     }
 
     MainText.Clicked:Connect(function()
-        local NewPath = FileDialog.OpenFileDialog("Choose 3D File for mesh path")
+        local NewPath = FileDialog.OpenFileDialog("Choose "..For[Property].." for "..Property)
         Thing[Property] = NewFile
         if Property == "MeshPath" then Thing:LoadObject(NewPath) end
         MainText.Text = Thing[Property]
