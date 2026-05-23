@@ -61,6 +61,7 @@ return function(self, obj, file)
 			end
 		elseif v[1] == "o" then
 			print(v)
+			print(debug.traceback())
 			local meshID
 			if obj.args.decodeBlenderNames then
 				meshID = string.match(l:sub(3), "(.*)_.*") or l:sub(3)
