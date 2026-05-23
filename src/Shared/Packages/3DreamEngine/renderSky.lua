@@ -18,9 +18,16 @@ function lib:renderSky(transformProj, camTransform, transformScale)
 	elseif type(self.sky_texture) == "userdata" and self.sky_texture:getTextureType() == "cube" then
 		--cubemap
 		local shader = self:getBasicShader("sky_cube")
+		local CurrentCube = nil
 		love.graphics.setShader(shader)
 		shader:send("transformProj", transformProj)
-		local mesh = self.cubeObject.meshes.Cube:getMesh()
+		print("Getting Cube")
+		for i,v in pairs(self.cubeObject.meshes) do
+			print(i,v)
+			--CurrentCube = i
+		end
+		print(type(CurrentCube))
+		local mesh = CurrentCube:getMesh()
 		mesh:setTexture(self.sky_texture)
 		love.graphics.draw(mesh)
 	elseif type(self.sky_texture) == "userdata" and self.sky_texture:getTextureType() == "2d" then

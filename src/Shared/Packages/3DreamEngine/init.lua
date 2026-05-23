@@ -167,6 +167,7 @@ if love.graphics then
 	lib.skyObject = lib:loadObject(lib.root .. "/objects/sky", { ignoreMissingMaterials = true })
 	lib.cubeObject = lib:loadObject(lib.root .. "/objects/cube", { ignoreMissingMaterials = true })
 	lib.planeObject = lib:loadObject(lib.root .. "/objects/plane", { ignoreMissingMaterials = true })
+	print("Loaded Objects")
 	
 	--default textures
 	local pix = love.image.newImageData(2, 2)
