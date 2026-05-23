@@ -11,6 +11,8 @@ function Viewport2D:new()
     self.MousePosition = Vector2.zero
     self.InitalInvalidation = false
 
+    self.TopLayer = {}
+
     self.Explorer = {
         Visible = true,
         Icon = "Viewport_2D"
@@ -30,6 +32,19 @@ local function SortByDepth(List)
 	return TempList
 end
 
+function Viewport2D:SubmitChild(Child)
+    self.CurrentOrder = self.CurrentOrder + 1
+
+    Utils.AssertType(Child.Position, "Pivot2D", Child.Name)
+
+    -- Check if the viewport has given a request to update the transforms
+    self:SendChild(Child, self.CurrentOrder)
+
+    if (not Child:IsA("Viewport")) then
+        self:SubmitContainerChildren(Child)
+    end
+end
+
 -- Submit the children of an object/thing to the display list
 function Viewport2D:SubmitContainerChildren(Container)
     --[[
@@ -41,15 +56,10 @@ function Viewport2D:SubmitContainerChildren(Container)
     local SortedChildren = SortByDepth(Container:GetChildren())
     
     for _, Child in pairs(SortedChildren) do
-        self.CurrentOrder = self.CurrentOrder + 1
-
-        Utils.AssertType(Child.Position, "Pivot2D", Child.Name)
-
-        -- Check if the viewport has given a request to update the transforms
-        self:SendChild(Child, self.CurrentOrder)
-
-        if (not Child:IsA("Viewport")) then
-            self:SubmitContainerChildren(Child)
+        if Child:IsAlwaysOnTop() then
+            table.insert(self.TopLayer, Child)
+        else
+            self:SubmitChild(Child)
         end
     end
 end
@@ -58,7 +68,14 @@ end
 function Viewport2D:CreateDisplayList()
     self.CurrentOrder = 1
     self.DisplayList = {}
+    self.TopLayer = {}
+    
     self:SubmitContainerChildren(self.RenderFolder or self)
+
+    -- Now submit our objects that are supposed to be always on top
+    for _, Child in pairs(self.TopLayer) do
+        self:SubmitChild(Child)
+    end
 end
 
 function Viewport2D:Update(dt)

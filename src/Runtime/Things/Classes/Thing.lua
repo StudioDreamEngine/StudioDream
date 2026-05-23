@@ -161,9 +161,23 @@ function Thing:IsSerializable()
     return self.TruelySerializable
 end
 
-function Thing:SetParent(NewParent)
+function Thing:CheckRecursion(NewParent)
+    if (not NewParent) then return end
+
     if NewParent == self then
-        error("Cannot parent Thing to itself.")
+        return "Parent recursion: Attempted to parent to self"
+    elseif NewParent:DescendantOf(self) then
+        return "Parent recursion: Attempted to parent to descendant of self"
+    end
+end
+
+function Thing:SetParent(NewParent)
+    local CouldRecurse = self:CheckRecursion(NewParent)
+
+    if CouldRecurse then
+        print(CouldRecurse)
+
+        return false, CouldRecurse
     end
 
     local OldParent = self.Parent
@@ -182,25 +196,14 @@ function Thing:SetParent(NewParent)
 
     self.TruelySerializable = CheckSerializable(self)
     self.ParentChanged.Invoke()
+
+    return true
 end
 
-function Thing:DescendantOf()
-    local ReturnedDescendant = {}
-
-    -- We should improve this, maybe getchildren with a callback>?
-    local function GetChildOf(ThingTo)
-        for ChildUUID, _ in pairs(ThingTo.Children) do
-            local Child = Things.Get(ChildUUID) -- dont forget this is a thing!!#@!@
-            table.insert(ReturnedDescendant, Child)
-            if ThingTo.Children then
-                GetChildOf(ThingTo)
-            end
-        end
-    end
-    
-    GetChildOf(self)
-
-    return ReturnedDescendant
+function Thing:DescendantOf(Object)
+    return self:GetParentCallback(function(ParentObject)
+        return ParentObject == Object
+    end)
 end
 
 function Thing:IsA(ObjectType)
@@ -235,7 +238,6 @@ end
 -- TODO: Also, couldnt we just call DescendantOf on the Descendant to check if the thing is an ancestor?
 -- Idk what is this supost to do so im leaving it like this!!
 function Thing:AncestorOf(Descendant)
-    
 end
 
 function Thing:FindFirstChild(Name)

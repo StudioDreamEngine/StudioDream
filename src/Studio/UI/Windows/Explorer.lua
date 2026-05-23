@@ -94,14 +94,26 @@ function Explorer.Init(WindowContainer)
     }
 
     InputService.MouseEvent:Connect(function(IsDown)
-        if IsDown then -- Drag Start
+        if IsDown and Hovering then -- Drag Start
             Selecting = Hovering
+            Selecting.Node:SetMouseLocked(true)
+
+            Explorer.Tree[Selecting.Thing] = nil
+
             return
         end
 
         -- Drag End
-        if Hovering and Selecting then
-            Selecting.Thing:SetParent(Hovering.Thing)
+        if Selecting then
+            Selecting.Node:SetMouseLocked(false)
+
+            if Hovering then
+                Selecting.Thing:SetParent(Hovering.Thing)
+                Explorer.Redraw()
+            else
+                Explorer.Tree[Selecting.Thing] = Selecting.Node
+            end
+
             Selecting = nil
         end
     end, Enum.MouseButton.LeftClick)
@@ -122,10 +134,6 @@ function Explorer.Update(dt)
                 Thing = Thing
             }
         end
-    end
-
-    if Selecting then
-        
     end
 end
 

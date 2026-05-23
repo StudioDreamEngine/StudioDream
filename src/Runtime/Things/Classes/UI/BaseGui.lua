@@ -21,10 +21,11 @@ end
 function BaseGui:GetAbsolutePosition()
     local ParentElement = self:GetParentElement()
     local Position = self:GetOffsetPosition()
+    local Display = self:GetDisplayUI() ---@class Viewport2D
 
     if ParentElement then
         -- we need to now make sure the parent element is displaying to the same viewport
-        local SameDisplayUI = (ParentElement:GetDisplayUI() == self:GetDisplayUI())
+        local SameDisplayUI = (ParentElement:GetDisplayUI() == Display)
 
         -- If it isnt, stop here, dont get the position of the next one
         if (not SameDisplayUI) then 
@@ -34,11 +35,19 @@ function BaseGui:GetAbsolutePosition()
         Position = Position + ParentElement.AbsolutePosition
     end
 
+    if self.MouseLocked then
+        Position = Display.MousePosition + self.LockOrigin
+    end
+
     return Position
 end
 
 function BaseGui:GetRect()
     return Rect.new(self.AbsolutePosition, self.AbsoluteSize)
+end
+
+function BaseGui:IsAlwaysOnTop()
+    return self.MouseLocked
 end
 
 -- Get true position from display point on part or the screen
@@ -119,6 +128,10 @@ function BaseGui:new()
     self.SquareAxis = nil
     self.ListOrder = 0
 
+    -- Utility boolean for implementing draggable ui objects
+    self.MouseLocked = false -- I didnt wanna implement this as a thing in explorer
+    self.LockOrigin = Vector2.zero
+
     self.ColorMultiplier = 1
 
     self.BackgroundColor = Color.new(1)
@@ -167,6 +180,16 @@ function BaseGui:IsVisible()
     return Visible
 end
 
+function BaseGui:SetMouseLocked(NewLocked)
+    local Display = self:GetDisplayUI() ---@class Viewport2D
+
+    if NewLocked then
+        self.LockOrigin = self.AbsolutePosition - Display.MousePosition
+    end
+
+    self.MouseLocked = NewLocked
+end
+
 function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
@@ -187,7 +210,7 @@ function BaseGui:UpdateTransforms()
 
     self:SetAbsoluteSize(NewSize)
     self.AbsolutePosition = self:GetAbsolutePosition()
-    self.DisplayPosition = self:GetDisplayPosition()
+    --self.DisplayPosition = self:GetDisplayPosition()
 end
 
 function BaseGui:InvalidateAutomaticSize()

@@ -67,9 +67,10 @@ function Components.CreateDropdown(Position,Choices,Size) -- Advanced dropdown!!
     Components.CreateStyle("ListLayout", {
         Parent = CurrentDropdown
     })
+
     if Position.Type == "Thing" then
         Size = Position.AbsoluteSize
-        Position = Position.DisplayPosition + (Position.AbsoluteSize * Vector2.yAxis)
+        Position = Position.AbsolutePosition + (Position.AbsoluteSize * Vector2.yAxis)
     end
 
     CurrentDropdown:SetSize(Pivot2D.FromOffset(Size.X or 200,0))
