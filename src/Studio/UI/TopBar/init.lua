@@ -3,6 +3,8 @@ local Components = Studio.Components
 local Things = Runtime.Things
 
 local TabsList = require("Studio.UI.TopBar.Tabs") -- God this indexing is killing me
+local ButtonList = require("Studio.UI.TopBar.TopButtons")
+local RequiredButtons = {}
 local Tabs = {}
 
 function TopBar.ChangeTab(TabName)
@@ -52,6 +54,16 @@ function TopBar.CreateTab(TabName, Tab)
     Tabs[TabName] = SingleTab
 end
 
+function TopBar.CreateButton(Table)
+    if not RequiredButtons[Table.Component] then
+        local ButtonsOnTopThing = require("Studio.UI.TopBar.ButtonsOnTop."..Table.Component)
+        print(ButtonsOnTopThing)
+        RequiredButtons[Table.Component] = ButtonsOnTopThing
+    end
+    local Button = RequiredButtons[Table.Component](Table.Arguments)
+    Button:SetParent(TopBar.TopperBarContainer)
+end
+
 function TopBar.Init(WindowContainer)
     TopBar.TabsMenu = Components.CreateStyle("Square", {
         Position = Pivot2D.FromScale(0,0),
@@ -72,6 +84,25 @@ function TopBar.Init(WindowContainer)
         BackgroundTransparency = 1,
         Parent = WindowContainer
     })
+
+    TopBar.TopperBarContainer = Components.CreateStyle("Square", {
+        Position = Pivot2D.FromScale(0.5,0),
+        Size = Pivot2D.FromScale(1,0.41),
+        Pivot = Vector2.new(0.5,1),
+        BackgroundTransparency = 1,
+        Parent = WindowContainer
+    })
+
+    Things.Create("ListLayout") {
+        Alignment = Enum.AlignmentX.Left,
+        Direction = Enum.LayoutDirection.Horizontal,
+        Parent = TopBar.TopperBarContainer,
+        Padding = 10,
+    }
+
+    for i,Tab in pairs(ButtonList) do
+        TopBar.CreateButton(Tab)
+    end
 
     for TabName, Tab in pairs(TabsList) do
         TopBar.CreateTab(TabName, Tab)

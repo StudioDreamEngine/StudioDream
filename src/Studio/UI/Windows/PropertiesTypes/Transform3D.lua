@@ -1,4 +1,4 @@
-return function(FrameOption,Thing,Property) -- Scrapped for now
+return function(FrameOption,Thing,Property)
     print(Thing[Property])
     Runtime.Things.Create("Text") {
         Text = tostring(Thing[Property]),

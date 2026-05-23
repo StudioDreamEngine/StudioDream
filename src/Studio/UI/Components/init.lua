@@ -4,8 +4,7 @@ local Components = {}
 function Components.CreateButton(Name, Properties)
     Properties.Text = Name
     Properties.CornerRadius = 7
-    Properties.AlignX = Enum.AlignmentX.Center
-    Properties.AlignY = Enum.AlignmentY.Center
+    Properties.Align = Vector2.new(0.5,0.5)
 
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)

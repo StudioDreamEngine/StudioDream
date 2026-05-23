@@ -138,7 +138,7 @@ function BaseGui:new()
     self.BackgroundTransparency = 0
 
     -- Used for stuff like text
-    self.ForegroundTransparency = 0
+    self.ForegroundTransparency = 1
     self.ForegroundColor = Color.new(0)
 
     --self.Rotation = 0

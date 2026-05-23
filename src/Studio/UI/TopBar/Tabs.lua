@@ -1,4 +1,28 @@
 return {
+    Hud = {
+        {
+            Component = "ToolbarButton",
+            Arguments = {
+                Name = "WIP!",
+                Icon = "InsertIcon",
+                OnClick = function()
+                    
+                end
+            }
+        },
+    },
+    Plugins = {
+        {
+            Component = "ToolbarButton",
+            Arguments = {
+                Name = "WIP!",
+                Icon = "RotIcon",
+                OnClick = function()
+                    
+                end
+            }
+        },
+    },
     General = {
         { -- Tools
             Component = "ToolbarButton",
@@ -50,5 +74,5 @@ return {
         --[[{
             Component = "Insert"
         }]]
-    }
+    },
 }
