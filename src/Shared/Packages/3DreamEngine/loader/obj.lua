@@ -14,6 +14,7 @@ return function(self, obj, file)
 	obj.meshes["object"] = mesh
 	
 	for _, l in pairs(string.split(file, "\n")) do
+		l = string.gsub(l, "\r", "") -- thanks trusti
 		local v = string.split(l, " ")
 		
 		if v[1] == "v" then

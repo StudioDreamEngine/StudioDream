@@ -1,43 +1,34 @@
-local SelectionThing = {}
+local SelectionManager = {}
 local Things = Runtime.Things
 
 local Editor3D
 local ToolManager
 local LastSelection    
 
-SelectionThing.IsGetObjToPutOnVal = false
+SelectionManager.ObjectPicker = false
+SelectionManager.ObjectPickerEvent = Signal:New("GetThingToPutOnAProperty")
 
-SelectionThing.GetObjOnVal = Signal:New("GetThingToPutOnAProperty")
-
-function SelectionThing.GetObjToFalse()
-    love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
-    SelectionThing.IsGetObjToPutOnVal = false
-end
-
-local function DeselectThing()
+function SelectionManager.DeselectObject()
     if Editor3D.Selecting then -- 💀💀💀💀💀
         if Editor3D.Selecting.SetOutline then Editor3D.Selecting:SetOutline(false) end
         local Tree = Studio.Layout.GetWindow("Explorer").Tree
         local ObjNode = Tree[Editor3D.Selecting]
-        if ObjNode then ObjNode:SetBackgroundColor(Studio.Theme.Secondary) end
+
+        if ObjNode then ObjNode.BackgroundColor = Studio.Theme.Secondary end
+
         -- Editor3D.OnDeselect.Invoke()
     end
-    SelectionThing.GetObjToFalse()
+
+    SelectionManager.ObjectPicker = false
     ToolManager.Deselect()
 end
 
-function SelectionThing.StartGrabToPutOnValue()
-    SelectionThing.IsGetObjToPutOnVal = true
-    love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/HoldingObj.png", 0,0))
-    return SelectionThing.GetObjOnVal
-end
-
-function SelectionThing.SelectThing(Thing)
-    if LastSelection~=Thing then
-        DeselectThing()
+function SelectionManager.SelectObject(Thing)
+    if LastSelection ~= Thing then
+        SelectionManager.DeselectObject()
     end
 
-    if not SelectionThing.IsGetObjToPutOnVal then
+    if not SelectionManager.ObjectPicker then
         Editor3D.Selecting = Thing
         
         if Editor3D.Selecting.SetOutline then
@@ -51,16 +42,16 @@ function SelectionThing.SelectThing(Thing)
 
         local Tree = Studio.Layout.GetWindow("Explorer").Tree
         local ObjNode = Tree[Thing]
+        
         if ObjNode then  
-            ObjNode:SetBackgroundColor(Studio.Theme.Selecting)
+            ObjNode.BackgroundColor = Studio.Theme.Selecting
         end
     else
-        SelectionThing.GetObjOnVal.Invoke(Thing)
-        SelectionThing.GetObjToFalse()
+        SelectionManager.ObjectPickerEvent.Invoke(Thing)
     end
 end
 
-function SelectionThing.Init()
+function SelectionManager.Init()
     local SelectionPriority = Runtime.SelectionPriority
     Editor3D = Studio.Editor3D
     ToolManager = Editor3D.ToolManager
@@ -73,14 +64,12 @@ function SelectionThing.Init()
 
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
-        if Raycast and Raycast.OnViewport then -- IF STATEMENTS CHAOS!! AHHHH!!
-            SelectionThing.SelectThing(Raycast.Thing)
-        elseif Raycast and (not Raycast.OnViewport) then-- 💀💀💀💀💀
-            return
+        if Raycast then -- IF STATEMENTS CHAOS!! AHHHH!!
+            SelectionManager.SelectObject(Raycast.Thing)
         else
-            DeselectThing()
+            SelectionManager.DeselectObject()
         end
     end, 1)
 end
 
-return SelectionThing
+return SelectionManager

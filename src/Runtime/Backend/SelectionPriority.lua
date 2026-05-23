@@ -1,4 +1,4 @@
--- Manage the priority of selection signals
+-- Manage the priority of selection signals on the viewport
 local SelectionPriority = {}
 
 local Signals = {}
@@ -10,6 +10,11 @@ function SelectionPriority.Init()
 end
 
 function SelectionPriority.Call(IsDown)
+    local EnvironmentViewport = Runtime.Things.Root.EnvironmentViewport
+    if (not Utils.IntersectPoint2D(EnvironmentViewport:GetRect(), EnvironmentViewport.MousePosition)) then
+        return
+    end
+
     --[[if (not IsDown) then
         
     end]]

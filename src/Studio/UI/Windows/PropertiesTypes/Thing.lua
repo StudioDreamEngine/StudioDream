@@ -1,26 +1,6 @@
 return function(FrameOption,Thing,Property)
-    local CurrentGetConnect
-    --[[local Choices =  {
-        {
-            Type = "Button",
-            Text = "Bleh",
-            SubText = "Test",
-            Function = function()
-                print("Test")
-            end
-        },
-        {
-            Type = "Separator",
-        },
-         {
-            Type = "Button",
-            Text = "Bleh",
-            SubText = "Test",
-            Function = function()
-                print("Test")
-            end
-        },
-    }]]
+    local SelectionManager = Studio.Editor3D.SelectionManager
+
     local Button = Runtime.Things.Create("TextButton") {
             Text = tostring(Thing[Property].Name),
             ForegroundColor = Studio.Theme.Text,
@@ -33,20 +13,20 @@ return function(FrameOption,Thing,Property)
     }
 
     Button.Clicked:Connect(function()
-        if not Studio.Editor3D.SelectionManager.IsGetObjToPutOnVal then
-            CurrentGetConnect = Studio.Editor3D.SelectionManager.StartGrabToPutOnValue()
-            
-            CurrentGetConnect:Connect(function(NewThing)
+        if not SelectionManager.ObjectPicker then
+            SelectionManager.ObjectPicker = true
+
+            SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
                 if NewThing == Thing then return end
-                if Property == "Parent" then Thing:SetParent(NewThing) else Thing[Property] = NewThing end
+                
+                Runtime.Things.SetProperty(Thing, Property, NewThing)
+
                 Button:SetText(Thing[Property].Name)
                 Studio.Layout.GetHandle("Explorer", "Redraw")
-                CurrentGetConnect:Destroy()
             end)
         else
-            Studio.Editor3D.SelectionManager.GetObjToFalse()
+            SelectionManager.ObjectPicker = false
         end
-        --Studio.Components.CreateDropdown(Button,Choices,Vector2.new(100,10),true)
     end)
 
 end

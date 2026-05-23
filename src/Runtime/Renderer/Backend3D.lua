@@ -36,7 +36,6 @@ end
 function Backend3D.Raycast(Origin, Direction, WorldObject)
     assert(WorldObject, "Internal raycast function requires a WorldObject!")
 
-    local EnvironmentViewport =  Runtime.Things.Root.EnvironmentViewport
     local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream())
 
     if CastResult then
@@ -49,7 +48,6 @@ function Backend3D.Raycast(Origin, Direction, WorldObject)
             Position = CastResult:getPosition(),
             Normal = CastResult:getNormal(),
             UV = CastResult:getUV(),
-            OnViewport = Utils.IntersectPoint2D(EnvironmentViewport:GetRect(), EnvironmentViewport.MousePosition), -- TODO: We should discard the raycast if it is not on screen
             Type = "CastResult"
         }
 
