@@ -46,6 +46,10 @@ local Enums = {
         X = "X",
         Y = "Y"
     },
+    AudioType = {
+        Static = "static",
+        Stream = "stream",
+    },
     EasingStyle = {
         Linear = "linear",
         Quad = "Quad",
