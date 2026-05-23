@@ -15,8 +15,6 @@ return function(self, obj, file)
 	
 	for _, l in pairs(string.split(file, "\n")) do
 		local v = string.split(l, " ")
-
-		print(v)
 		
 		if v[1] == "v" then
 			table.insert(vertices, { tonumber(v[2]), tonumber(v[3]), tonumber(v[4]) })
@@ -62,6 +60,7 @@ return function(self, obj, file)
 				meshNormals:append(normals[tonumber(v2[3])] or { 1, 0, 0 })
 			end
 		elseif v[1] == "o" then
+			print(v)
 			local meshID
 			if obj.args.decodeBlenderNames then
 				meshID = string.match(l:sub(3), "(.*)_.*") or l:sub(3)
