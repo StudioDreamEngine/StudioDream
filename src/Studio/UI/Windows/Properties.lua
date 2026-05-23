@@ -67,7 +67,7 @@ local function CreateGroup(GroupName,Window)
         OutlineSize = 2,
         OutlineColor = Studio.Theme.Outline
     }
-    Things.Create("Text") {
+    local TextWow = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
@@ -96,7 +96,7 @@ local function CreateGroup(GroupName,Window)
         Pivot = Vector2.new(1,0.5),
         Parent = BaseGroup,
     }
-
+    TextWow:SetFont("Assets/Fonts/Roboto/Roboto-Bold.ttf")
     Things.Create("ListLayout") {
         Parent = GroupList,
     }

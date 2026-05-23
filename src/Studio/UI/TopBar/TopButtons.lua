@@ -37,7 +37,7 @@ return {
     {
         Component = "Button",
         Arguments = {
-            Name = "Plugins",
+            Name = "Plugins (Soon)",
             OnClick = function()
                 print("Move clicked")
             end

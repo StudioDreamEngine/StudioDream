@@ -23,8 +23,8 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
     }
     
     Windows.BackWindow = Runtime.Things.Create("Square") {
-        Size = Pivot2D.FromScale(0.95,0.95),
-        Position = Pivot2D.FromScale(0.5,0.5),
+        Size = Pivot2D.FromScale(0.95,0.9),
+        Position = Pivot2D.FromScale(0.5,0.51),
         Pivot = Vector2.new(0.5,0.5),
         BackgroundColor = Theme.Primary,
         Name = "BackWindow",
@@ -33,7 +33,18 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         CornerRadius = 2.5,
     }
 
-    return Windows.BackWindow
+    Windows.Namer = Runtime.Things.Create("Text") {
+        Size = Pivot2D.FromScale(1,0.05),
+        Position = Pivot2D.FromScale(0.5,0.01),
+        Pivot = Vector2.new(0.5,0),
+        Parent = Windows.Container,
+        Layer = Windows.Container.Layer+5,
+        BackgroundTransparency = 1,
+        ForegroundColor = Studio.Theme.Text,
+        Align = Vector2.new(0.5,0.5)
+    }
+    Windows.Namer:SetFont("Assets/Fonts/Roboto/Roboto-MediumItalic.ttf")
+    return Windows
 end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
@@ -50,8 +61,8 @@ end
 
 function StudioLayout.CreateWindow(WindowType, Transform, Parent)
     local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Parent)
-
-    StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
+    WindowContainer.Namer.Text = WindowType
+    StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer.BackWindow)
 end
 
 -- Remove any window handle that starts with "Window.", as other handles are used for the topbar, which is immutable

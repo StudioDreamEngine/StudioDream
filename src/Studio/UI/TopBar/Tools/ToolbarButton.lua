@@ -32,6 +32,6 @@ return function(Args)
         Align = Vector2.xAxis * .5, -- TODO: Move to alignmentx and y
         Text = Args.Name
     }
-
+    Text:SetFont("Assets/Fonts/Roboto/Roboto-Bold.ttf")
     return ButtonContainer
 end

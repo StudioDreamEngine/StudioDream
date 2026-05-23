@@ -17,11 +17,11 @@ return function()
         return Vector2.new(width/Scale, (#lines * Text.RenderFont:getHeight())/Scale), Scale
     end
 
-    function Text.SetFont(Font)
+    function Text:SetFont(Font)
         Text.RenderFont = love.graphics.newFont(Font or "Assets/Fonts/Roboto/Roboto-Medium.ttf",32)
     end
 
-    Text.SetFont()
+    Text:SetFont()
 
     function Text.AttemptWrap(NewSize, TextScaled, TextSize)
         local ContainerSize = NewSize

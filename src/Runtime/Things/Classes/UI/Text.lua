@@ -47,4 +47,9 @@ function Text:Draw()
     self.RenderClass.Render(self.AbsoluteSize, self.Align)
 end
 
+function Text:SetFont(NewFont)
+    self.RenderClass:SetFont(NewFont)
+    self:InvalidateRendering()
+end
+
 return Text

@@ -8,7 +8,7 @@ function Components.CreateButton(Name, Properties)
 
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)
-
+    Button:SetFont("Assets/Fonts/Roboto/Roboto-Bold.ttf")
     return Button
 end
 
