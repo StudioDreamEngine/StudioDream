@@ -17,6 +17,9 @@ function TextButton:new()
     self.HoverColorMultiplier = 0.75
     self.ClickingColorMultiplier = 0.5
 
+    -- not implemented yet
+    self.SinkHovering = false -- If true, blocks hovering from being true on objects lower than its layer
+
     self.Clicked = Signal:New("ButtonClicked")
     
     Runtime.InterfaceManager.OnClick:Connect(function()

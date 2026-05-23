@@ -151,6 +151,7 @@ function lib:loadObject(path, args)
 		if found[typ] then
 			--load object
 			self.deltonLoad:start("parser")
+			print(path .. "." .. typ)
 			local file = love.filesystem.read(path .. "." .. typ)
 
 			self.loader[typ](self, obj, file)

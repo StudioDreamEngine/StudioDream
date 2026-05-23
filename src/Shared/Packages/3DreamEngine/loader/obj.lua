@@ -15,6 +15,8 @@ return function(self, obj, file)
 	
 	for _, l in pairs(string.split(file, "\n")) do
 		local v = string.split(l, " ")
+
+		print(v)
 		
 		if v[1] == "v" then
 			table.insert(vertices, { tonumber(v[2]), tonumber(v[3]), tonumber(v[4]) })
