@@ -25,6 +25,7 @@ function Thing:new()
     self.Proxy = Runtime.ObjectProxy.new()
 
     self.PropertyChanged = Signal:New("SomethingChanged")
+    self.AttributeChanged = Signal:New("AttributeChangedWow")
 
     self.Children = {}
     self.Parent = nil ---@type Thing

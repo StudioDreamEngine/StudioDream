@@ -3,6 +3,7 @@ local Things = Runtime.Things
 
 local Editor3D
 local ToolManager
+local LastSelection    
 
 SelectionThing.IsGetObjToPutOnVal = false
 
@@ -15,10 +16,10 @@ end
 
 local function DeselectThing()
     if Editor3D.Selecting then -- 💀💀💀💀💀
-        Editor3D.Selecting:SetOutline(false)
+        if Editor3D.Selecting.SetOutline then Editor3D.Selecting:SetOutline(false) end
         local Tree = Studio.Layout.GetWindow("Explorer").Tree
         local ObjNode = Tree[Editor3D.Selecting]
-        if ObjNode then print("Hello") ObjNode:SetBackgroundColor(ObjNode:GetAttribute("OriginalColor")) end
+        if ObjNode then ObjNode:SetBackgroundColor(Studio.Theme.Secondary) end
         -- Editor3D.OnDeselect.Invoke()
     end
     SelectionThing.GetObjToFalse()
@@ -43,18 +44,16 @@ function SelectionThing.SelectThing(Thing)
             Editor3D.Selecting:SetOutline(true)
         end
 
-        local Tree = Studio.Layout.GetWindow("Explorer").Tree
-        local ObjNode = Tree[Editor3D.Selecting]
-        if ObjNode then  
-            ObjNode:SetBackgroundColor(Studio.Theme.Selecting)
-        end
-        if ObjNode and not ObjNode:GetAttribute("OriginalColor") then
-            ObjNode:SetAttribute("OriginalColor",ObjNode.BackgroundColor)
-        end
         LastSelection = Editor3D.Selecting
 
         ToolManager.Select(Editor3D.Selecting)
         Editor3D.OnSelect.Invoke(Editor3D.Selecting)
+
+        local Tree = Studio.Layout.GetWindow("Explorer").Tree
+        local ObjNode = Tree[Thing]
+        if ObjNode then  
+            ObjNode:SetBackgroundColor(Studio.Theme.Selecting)
+        end
     else
         SelectionThing.GetObjOnVal.Invoke(Thing)
         SelectionThing.GetObjToFalse()
@@ -65,7 +64,6 @@ function SelectionThing.Init()
     local SelectionPriority = Runtime.SelectionPriority
     Editor3D = Studio.Editor3D
     ToolManager = Editor3D.ToolManager
-    local LastSelection = nil
 
     SelectionPriority.BindSignal(function(IsDown)
         if (not IsDown) then return end
