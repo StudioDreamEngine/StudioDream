@@ -73,6 +73,11 @@ function Things.Create(Object, UUID)
     end
 end
 
+local function WatchThingChange(Thing,Name)
+    -- This would loop thoght all the tables inside thing, and make them a metatable, maybe the metatables would be saved in a table to keep stuff more organized? idk
+end
+
+
 function Things.New(ThingType, CustomUUID)
     local Thing = Things.Type(ThingType)()
 
