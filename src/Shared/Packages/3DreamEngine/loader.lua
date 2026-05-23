@@ -146,25 +146,13 @@ function lib:loadObject(path, args)
 		end
 	end
 	
-	--skip old 3do files
-	if args.skip3do or found["3do"] and found["3do"] < newest then
-		found["3do"] = nil
-	end
-	
 	--load files
 	for _, typ in ipairs(lib.supportedFiles) do
 		if found[typ] then
 			--load object
 			self.deltonLoad:start("parser")
-			local failed = self.loader[typ](self, obj, path .. "." .. typ)
+			self.loader[typ](self, obj, path .. "." .. typ)
 			self.deltonLoad:stop()
-			
-			--skip further modifying and exporting if already packed as 3do
-			--also skips mesh loading since it is done manually
-			if typ == "3do" and not failed then
-				goto skipWhen3do
-				break
-			end
 		end
 	end
 	
@@ -176,23 +164,11 @@ function lib:loadObject(path, args)
 	--extract positions, physics, ...
 	self:processObject(obj)
 	
-	:: skipWhen3do ::
-	
-	
 	--create meshes, link library entries, ...
 	self:finishObject(obj)
 	
 	self.deltonLoad:stop()
-	
-	--3do exporter
-	--todo temporary disable, and I feel like automatically doing stuff is not preferred
-	if obj.args.export3do and false then
-		self:export3do(obj)
-		
-		--doing that enforces loading the exported 3do object instead, making sure the first load behaves the same as the other ones
-		args.skip3do = false
-		return self:loadObject(path, args)
-	end
+
 	return obj
 end
 
