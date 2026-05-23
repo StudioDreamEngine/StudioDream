@@ -1,3 +1,10 @@
+local Info = {
+    ["Testing"] = {
+        Lock = false,
+        Dropdown = nil
+    }
+}
+
 return {
     { 
         Component = "Image",
@@ -30,7 +37,40 @@ return {
         Arguments = {
             Name = "Help",
             OnClick = function()
-                print("Move clicked")
+                love.system.openURL("https://deltarune.com/lancer/")
+            end
+        }
+    },
+    {
+        Component = "Button",
+        Arguments = {
+            Name = "Testing",
+            OnClick = function(Button)
+                print(Button)
+                Info.Testing.Locks = not Info.Testing.Locks
+                if Info.Testing.Locks then
+                    Info.Testing.Dropdown = Studio.Components.CreateDropdown(Button,{
+                    {
+                        Type = "Button",
+                        Text = "Play",
+                        SubText = "Test your project",
+                        Function = function(TheTabButton)
+                            Info.Testing.Locks = false
+                            Info.Testing.Dropdown:Remove()
+                        end
+                    },
+                    {
+                        Type = "Button",
+                        Text = "Stop",
+                        Function = function(TheTabButton)
+                            Info.Testing.Locks = false
+                            Info.Testing.Dropdown:Remove()
+                        end
+                    },
+                })
+                else
+                    Info.Testing.Dropdown:Remove()
+                end
             end
         }
     },

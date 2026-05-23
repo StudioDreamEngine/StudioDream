@@ -30,11 +30,13 @@ local ChoiceTypes = {
     ["Button"] = function(Func,Parent,Text)
         local Button = Components.CreateStyle("TextButton", {
             Text = Text,
-            Clicked = Func,
-            Size = Pivot2D.new(0,1,20,0),
+            Size = Pivot2D.new(0,1,10,0),
             Parent = Parent,
-            BackgroundTransparency = 1
+            BackgroundTransparency = 1,
+            Align = Vector2.new(0,0.5),
+            TextScaled = true,
         })
+        Button.Clicked:Connect(function() Func(Button) end)
         Button:SetOutlineSize(0)
         return Button.Clicked
     end,
@@ -101,6 +103,13 @@ function Components.CreateDropdown(Position,Choices,Size) -- Advanced dropdown!!
     end
 
     CurrentDropdown:SetParent(Things.Root.RootViewport)
+    
+    function Dropdown:Remove()
+        for i,v in pairs(CurrentButtonactions) do
+            v:Destroy()
+        end
+        Things.Remove(CurrentDropdown)
+    end
 
     return Dropdown
 end
