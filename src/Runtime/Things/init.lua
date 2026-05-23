@@ -92,6 +92,9 @@ function Things.New(ThingType, CustomUUID)
     local Proxy = setmetatable({}, {
         __metatable = getmetatable(Thing),
         __index = Thing,
+        __tostring = function (t)
+            return Thing.Name..": "..Thing.ClassName.." ("..Thing.UUID..")"
+        end,
         __newindex = function (_, k, v)
             Thing.PropertyChanged.Invoke(k,v)
             --print("Thing "..Thing.Name..", Changed "..k.." To "..tostring(v).." Their old Value is: "..tostring(Thing[k]))

@@ -59,7 +59,7 @@ local function CreateGroup(GroupName,Window)
     GroupToReturn.IsOpen = true
 
     local BaseGroup = Things.Create("Square") { 
-        Size = Pivot2D.FromScale(1,0.07),
+        Size = Pivot2D.new(0,1,30,0),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.Theme.Tertiary,
         Layer = 3,
@@ -123,7 +123,8 @@ end
 function PropertiesRender.Init(Window)
     local BaseWindow
     Studio.Editor3D.OnSelect:Connect(function(Thing)
-        if BaseWindow then Things.Remove(BaseWindow) end
+        print("Clear")
+        Window:ClearAllChildren()
 
         BaseWindow = Things.Create("Square") { 
             Size = Pivot2D.FromScale(1,1),
@@ -161,7 +162,7 @@ function PropertiesRender.Init(Window)
     end)
 
     Studio.Editor3D.OnDeselect:Connect(function()
-        Things.Remove(BaseWindow)
+        Window:ClearAllChildren()
     end)
 end
 

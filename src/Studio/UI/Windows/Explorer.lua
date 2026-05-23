@@ -1,4 +1,6 @@
 local Things = Runtime.Things
+local SelectionManager = Studio.Editor3D.SelectionManager
+
 local Explorer = {}
 
 Explorer.Tree = {}
@@ -81,8 +83,31 @@ end
 
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 local Selecting
-
 local Hovering
+
+local function HandleDragStart()
+    Selecting = Hovering
+    Selecting.Node:SetMouseLocked(true)
+
+    local Object = Selecting.Thing
+
+    SelectionManager.SelectObject(Object)
+    Explorer.Tree[Object] = nil
+end
+
+local function HandleDragEnd()
+    Selecting.Node:SetMouseLocked(false)
+
+    if Hovering then
+        local CouldParent = Selecting.Thing:SetParent(Hovering.Thing)
+
+        if CouldParent then Explorer.Redraw() end
+    else
+        Explorer.Tree[Selecting.Thing] = Selecting.Node
+    end
+
+    Selecting = nil
+end
 
 function Explorer.Init(WindowContainer)
     Window = WindowContainer
@@ -95,28 +120,13 @@ function Explorer.Init(WindowContainer)
 
     InputService.MouseEvent:Connect(function(IsDown)
         if IsDown and Hovering then -- Drag Start
-            Selecting = Hovering
-            Selecting.Node:SetMouseLocked(true)
-
-            Studio.Editor3D.SelectionManager.SelectThing(Selecting.Thing)
-            --print(Selecting.Thing)
-            Explorer.Tree[Selecting.Thing] = nil
-
+            HandleDragStart()
             return
         end
 
         -- Drag End
         if Selecting then
-            Selecting.Node:SetMouseLocked(false)
-
-            if Hovering then
-                Selecting.Thing:SetParent(Hovering.Thing)
-                Explorer.Redraw()
-            else
-                Explorer.Tree[Selecting.Thing] = Selecting.Node
-            end
-
-            Selecting = nil
+            HandleDragEnd()
         end
     end, Enum.MouseButton.LeftClick)
 end
@@ -135,6 +145,12 @@ function Explorer.Update(dt)
                 Node = Object,
                 Thing = Thing
             }
+        end
+
+        if Thing == Studio.Editor3D.Selecting then
+            Object.BackgroundColor = Studio.Theme.Selecting
+        else
+            Object.BackgroundColor = Studio.Theme.Secondary
         end
     end
 end

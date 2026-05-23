@@ -96,7 +96,7 @@ do
 
 			-- Tables as indexes currently arent supported, skip
 			if type(i) == "table" then
-				i = "Indexed Table"
+				i = "Indexed Table ("..tostring(i)..")"
 			end
 
 			-- Handle the value side

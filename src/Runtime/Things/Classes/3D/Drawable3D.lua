@@ -16,7 +16,6 @@ function Drawable3D:new()
 
     self.Proxy.Property("Vector3 Scale", "boolean Outline", "FilePath MeshPath")
     self.Proxy.Group("Transform", "Scale")
-    self.Proxy.Group("Outline", "Outline")
     self.Proxy.Group("Visuals", "MeshPath")
 end
 

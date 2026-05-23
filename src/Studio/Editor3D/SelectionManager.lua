@@ -8,15 +8,15 @@ local LastSelection
 SelectionManager.ObjectPicker = false
 SelectionManager.ObjectPickerEvent = Signal:New("GetThingToPutOnAProperty")
 
-function SelectionManager.DeselectObject()
+function SelectionManager.DeselectObject(DontInvoke)
     if Editor3D.Selecting then -- 💀💀💀💀💀
         if Editor3D.Selecting.SetOutline then Editor3D.Selecting:SetOutline(false) end
-        local Tree = Studio.Layout.GetWindow("Explorer").Tree
-        local ObjNode = Tree[Editor3D.Selecting]
 
-        if ObjNode then ObjNode.BackgroundColor = Studio.Theme.Secondary end
+        Editor3D.Selecting = nil
 
-        -- Editor3D.OnDeselect.Invoke()
+        if (not DontInvoke) then
+            Editor3D.OnDeselect.Invoke()
+        end
     end
 
     SelectionManager.ObjectPicker = false
@@ -25,26 +25,21 @@ end
 
 function SelectionManager.SelectObject(Thing)
     if LastSelection ~= Thing then
-        SelectionManager.DeselectObject()
+        SelectionManager.DeselectObject(true)
     end
 
     if not SelectionManager.ObjectPicker then
         Editor3D.Selecting = Thing
-        
-        if Editor3D.Selecting.SetOutline then
-            Editor3D.Selecting:SetOutline(true)
-        end
-
         LastSelection = Editor3D.Selecting
 
-        ToolManager.Select(Editor3D.Selecting)
         Editor3D.OnSelect.Invoke(Editor3D.Selecting)
-
-        local Tree = Studio.Layout.GetWindow("Explorer").Tree
-        local ObjNode = Tree[Thing]
         
-        if ObjNode then  
-            ObjNode.BackgroundColor = Studio.Theme.Selecting
+        if Thing:IsA("Drawable3D") then
+            if Editor3D.Selecting.SetOutline then
+                Editor3D.Selecting:SetOutline(true)
+            end
+
+            ToolManager.Select(Editor3D.Selecting)
         end
     else
         SelectionManager.ObjectPickerEvent.Invoke(Thing)

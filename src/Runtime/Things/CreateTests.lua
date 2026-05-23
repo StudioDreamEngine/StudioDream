@@ -25,7 +25,7 @@ return function ()
         Shape = "wedge"
     }
 
-    brick.Transform = Transform3D.FromPosition(0, -1, 0)
+    brick.Transform = Transform3D.FromPosition(0, -10, 0)
     brick.Scale     = Vector3.new(512, 8, 512)
 
     ball.Transform = Transform3D.FromPosition(1, 0, 0)
