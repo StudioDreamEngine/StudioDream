@@ -97,7 +97,9 @@ function Explorer.Init(WindowContainer)
         if IsDown and Hovering then -- Drag Start
             Selecting = Hovering
             Selecting.Node:SetMouseLocked(true)
-
+            --print(Selecting.Node.ObjectReferencing)
+            Studio.Editor3D.SelectionManager.SelectThing(Selecting.Thing)
+            --print(Selecting.Thing)
             Explorer.Tree[Selecting.Thing] = nil
 
             return

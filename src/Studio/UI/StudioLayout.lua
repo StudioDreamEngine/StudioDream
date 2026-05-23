@@ -72,6 +72,14 @@ function StudioLayout.GetHandle(WindowType, Function, ...)
     end
 end
 
+function StudioLayout.GetWindow(WindowType)
+    local HasHandle = StudioLayout.Handles["Windows."..WindowType]
+
+    if HasHandle then
+        return HasHandle
+    end
+end
+
 --[[
     How should we even handle layouts
     idk how this entire flow system should work at all

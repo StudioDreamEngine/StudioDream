@@ -18,7 +18,10 @@ function ToolManager.Select(NewSelection)
 
     CurrentTool = ToolManager.Move
     CurrentTool.Selection = NewSelection
-    CurrentTool.Init()
+    
+    if NewSelection.Transform and not NewSelection:IsA("Camera") then
+        CurrentTool.Init()
+    end
 end
 
 function ToolManager.Update(dt)

@@ -93,8 +93,8 @@ function Things.New(ThingType, CustomUUID)
         __metatable = getmetatable(Thing),
         __index = Thing,
         __newindex = function (_, k, v)
-            -- Property change detection, Add your event code here
-
+            Thing.PropertyChanged.Invoke(k,v)
+            --print("Thing "..Thing.Name..", Changed "..k.." To "..tostring(v).." Their old Value is: "..tostring(Thing[k]))
             Thing[k] = v
         end
     })

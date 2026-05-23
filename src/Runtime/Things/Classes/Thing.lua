@@ -24,6 +24,8 @@ function Thing:new()
     
     self.Proxy = Runtime.ObjectProxy.new()
 
+    self.PropertyChanged = Signal:New("SomethingChanged")
+
     self.Children = {}
     self.Parent = nil ---@type Thing
     self.Unreferenced = false
@@ -38,9 +40,12 @@ function Thing:new()
         Icon = "Square"
     }
 
+    self.Attributes = {}
+
     self.Proxy.Property("Thing Parent", "string Name")
     self.Proxy.Group("General", "Parent", "Name")
 
+    self.Proxy.Group("Attributes")
     --[[self.Proxy.Info({
         Groups = {
             -- TODO
@@ -102,6 +107,19 @@ function Thing:FindConstraintOfType(Type)
     end
 end
 
+function Thing:SetAttribute(Name,Value)
+    self.Attributes[Name] = Value
+    self.Proxy.Property(Name.." "..type(Value))
+    self.Proxy.Group("Attributes",Name)
+end
+
+function Thing:GetAttribute(Name)
+    return self.Attributes[Name]
+end
+
+function Thing:RemoveAttribute(Name)
+    self.Attributes[Name] = nil
+end
 -- Get the property or the override for it
 -- If you dont want the overriden property, dont use this
 function Thing:GetProperty(Property)

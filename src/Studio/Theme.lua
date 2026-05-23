@@ -7,6 +7,8 @@ local BlueNight = {
     Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
     Primary = Color.FromHex("#2c2a77"), -- This color is for the main parts, containers and such
     
+    Selecting = Color.FromHex("#2821ff"),
+
     Text = Color.FromHex("#ffffff")
 }
 
