@@ -1,6 +1,6 @@
 return function(FrameOption,Thing,Property)
     local CurrentGetConnect
-    local Choices =  {
+    --[[local Choices =  {
         {
             Type = "Button",
             Text = "Bleh",
@@ -20,7 +20,7 @@ return function(FrameOption,Thing,Property)
                 print("Test")
             end
         },
-    }
+    }]]
     local Button = Runtime.Things.Create("TextButton") {
             Text = tostring(Thing[Property].Name),
             ForegroundColor = Studio.Theme.Text,
@@ -33,7 +33,7 @@ return function(FrameOption,Thing,Property)
     }
 
     Button.Clicked:Connect(function()
-        --[[if not Studio.Editor3D.SelectionManager.IsGetObjToPutOnVal then
+        if not Studio.Editor3D.SelectionManager.IsGetObjToPutOnVal then
             CurrentGetConnect = Studio.Editor3D.SelectionManager.StartGrabToPutOnValue()
             
             CurrentGetConnect:Connect(function(NewThing)
@@ -45,8 +45,8 @@ return function(FrameOption,Thing,Property)
             end)
         else
             Studio.Editor3D.SelectionManager.GetObjToFalse()
-        end]]
-        Studio.Components.CreateDropdown(Button,Choices,Vector2.new(100,10),true)
+        end
+        --Studio.Components.CreateDropdown(Button,Choices,Vector2.new(100,10),true)
     end)
 
 end
