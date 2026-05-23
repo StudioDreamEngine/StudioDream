@@ -22,6 +22,13 @@ function Base3D:new()
     self.Proxy.Group("Transform", "Transform")
 end
 
+---@return Environment
+function Base3D:GetWorld()
+    return self:GetParentCallback(function(ParentObject)
+        return ParentObject:IsA("Environment")
+    end)
+end
+
 function Base3D:Update(dt)
     ---@class DreamObject
     local Drawable = self.Drawable

@@ -86,7 +86,7 @@ function MoveControl:new()
 end
 
 function MoveControl:OnRemove()
-    Runtime.Backend3D.RemoveObject(self.AdornObject.UUID)
+    Runtime.Backend3D.RemoveAdorn(self.AdornObject.UUID)
     self:DisconnectEvents()
 
     MoveControl.super.OnRemove(self)

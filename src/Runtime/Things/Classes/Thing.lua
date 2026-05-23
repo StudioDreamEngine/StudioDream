@@ -135,6 +135,12 @@ function Thing:FindFirstAncestorWithClass(Class)
     end)
 end
 
+--[[
+    In certain cases, we may get something like a non-proxied version of an object returned, 
+    first off, this should never happen, if it does, tell bloctans
+
+    but, if regular comparison isnt working, use this
+]]
 function Thing:Is(Thing2)
     return (Thing.UUID == Thing2.UUID)
 end

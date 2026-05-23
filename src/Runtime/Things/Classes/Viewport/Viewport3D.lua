@@ -22,24 +22,19 @@ function Viewport3D:SetRenderFolder(NewRenderFolder)
     self.RenderFolder = NewRenderFolder
 end
 
+function Viewport3D:GetWorld()
+    assert(self.RenderFolder, "RenderFolder not specified before rendering started!")
+
+    return self.RenderFolder.DreamWorld
+end
+
 -- Pain
 function Viewport3D:GetCamera()
     return self:GetTarget().Camera
 end
 
-function Viewport3D:SubmitContainerChildren(Container)
-    for _, Child in pairs(Container:GetChildren()) do
-        if Child:IsA("Base3D") then
-            self:SendChild(Child.Drawable)
-        end
-    end
-end
-
 function Viewport3D:Update(dt)
     Viewport3D.super.Update(self,dt)
-
-    self.DisplayList = {}
-    self:SubmitContainerChildren(self:GetTarget())
 end
 
 return Viewport3D

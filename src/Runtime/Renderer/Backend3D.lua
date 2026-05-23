@@ -1,6 +1,6 @@
 ---@diagnostic disable: inject-field
 local Backend3D = {}
-local DreamWorld, DreamAdorns
+local DreamAdorns
 
 local Raycast = Dream:getExtension("raytrace")
 
@@ -10,16 +10,19 @@ function Backend3D.Init()
     Dream:setSky(love.graphics.newCubeImage("Assets/sky.png"))
     Dream:setDistortionMargin()
 
-    -- Stores the entire world, and the objects the runtime sees
-    DreamWorld = Dream:newObject()
-    DreamWorld.name = "DreamWorld"
-
     -- Stores Objects that are not nesscessarily part of the enviornment itself, instead intended to be visible only to the object using them and 3dreamengine
     DreamAdorns = Dream:newObject()
     DreamAdorns.name = "DreamAdorns"
 end
 
-function Backend3D.GetWorld() return DreamWorld end
+---@return DreamObject
+function Backend3D.CreateWorld()
+    local DreamWorld = Dream:newObject()
+    DreamWorld.name = "DreamWorld"
+
+    return DreamWorld
+end
+
 function Backend3D.GetAdorns() return DreamAdorns end
 
 --- Assign all DreamObjects the ClassReference object, instead of merging the object into one single mesh
@@ -42,9 +45,14 @@ function Backend3D.Raycast(Origin, Direction, WorldObject)
         local Object = CastResult:getObject()
         assert(Object.ClassReference, "Raycast returned object with no ClassReference!")
 
+        local ThingClass = Object.ClassReference
+        
+        -- Env world objects always assume to return thing objects
+        if WorldObject.IsEnv then ThingClass = Runtime.Things.Get(ThingClass) end
+
         ---@class CastResult
         local FriendlyCastResult = {
-            Thing = Runtime.Things.Get(Object.ClassReference),
+            Thing = ThingClass,
             Position = CastResult:getPosition(),
             Normal = CastResult:getNormal(),
             UV = CastResult:getUV(),
@@ -66,7 +74,7 @@ function Backend3D.CreateAdorn(Name)
     return Object
 end
 
-local function LoadObjectBase(Path, Reference)
+function Backend3D.LoadObject(Path, Reference)
     local DreamObject = Dream:loadObject(Path)
     AssignClassReference(DreamObject, Reference)
 
@@ -74,25 +82,14 @@ local function LoadObjectBase(Path, Reference)
 end
 
 function Backend3D.LoadAdorn(Path, Parent, Reference)
-    local DreamObject = LoadObjectBase(Path, Reference)
+    local DreamObject = Backend3D.LoadObject(Path, Reference)
 
     Parent.objects[CreateUUID()] = DreamObject
     return DreamObject
 end
 
-function Backend3D.LoadObject(Path, Object)
-    local DreamObject = LoadObjectBase(Path, Object)
-    DreamWorld.objects[Object] = DreamObject
-
-    return DreamObject
-end
-
-function Backend3D.RemoveObject(Object)
-    if type(Object) == "table" then
-        DreamWorld.objects[Object.UUID] = nil
-    else -- assume adorn
-        DreamAdorns.objects[Object] = nil
-    end
+function Backend3D.RemoveAdorn(Object)
+    DreamAdorns.objects[Object] = nil
 end
 
 return Backend3D

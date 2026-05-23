@@ -42,7 +42,7 @@ end
 function ViewportManager.RenderViewport3D(Viewport)
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
-        Dream:draw(Runtime.Backend3D.GetWorld())
+        Dream:draw(Viewport:GetWorld())
         Dream:draw(Runtime.Backend3D.GetAdorns())
         Dream:present()
     end)

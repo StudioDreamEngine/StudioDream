@@ -21,7 +21,6 @@ end
 
 function Drawable3D:OnRemove()
     Drawable3D.super.OnRemove(self)
-    Runtime.Backend3D.RemoveObject(self)
 end
 
 function Drawable3D:SetOutline(Toggle)
