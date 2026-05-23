@@ -15,6 +15,8 @@ function love.load()
     print("Target is ready.")
 
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
+    local StartSound = love.audio.newSource("/Assets/DefaultSounds/Jingle.wav", "static")
+    love.audio.play(StartSound)
 end
 
 local DeltaTime
