@@ -73,11 +73,6 @@ function Things.Create(Object, UUID)
     end
 end
 
-local function WatchThingChange(Thing,Name)
-    -- This would loop thoght all the tables inside thing, and make them a metatable, maybe the metatables would be saved in a table to keep stuff more organized? idk
-end
-
-
 function Things.New(ThingType, CustomUUID)
     local Thing = Things.Type(ThingType)()
 
@@ -94,9 +89,19 @@ function Things.New(ThingType, CustomUUID)
         Thing.UUID = CustomUUID
     end
 
-    Objects[Thing.UUID] = Thing
+    local Proxy = setmetatable({}, {
+        __metatable = getmetatable(Thing),
+        __index = Thing,
+        __newindex = function (_, k, v)
+            -- Property change detection, Add your event code here
 
-    return Thing
+            Thing[k] = v
+        end
+    })
+
+    Objects[Proxy.UUID] = Proxy
+
+    return Proxy
 end
 
 function Things.Get(UUID)

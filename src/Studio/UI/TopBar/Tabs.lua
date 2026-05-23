@@ -34,9 +34,9 @@ return {
             Component = "Seperator"
         }, 
         -- Make here Tools config, like move tool grid, rotate config ect ect
-        {
-            Component = "Seperator"
-        }, -- Insert/Studio stuff
+        --{
+        --    Component = "Seperator"
+        --}, -- Insert/Studio stuff
         {
             Component = "ToolbarButton",
             Arguments = {

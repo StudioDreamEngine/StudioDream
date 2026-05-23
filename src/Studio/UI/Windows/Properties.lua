@@ -144,11 +144,9 @@ function PropertiesRender.Init(Window)
             local GroupCreated = CreateGroup(GroupName,BaseWindow)
             local List,Base = GroupCreated:ReturnThings()
             for v,Property in pairs(Thing.Proxy.Groups[GroupName]) do
-                print(Property)
                 local Type
                 if Thing.Proxy.Types[Property] then Type = Thing.Proxy.Types[Property] end
                 index=index+1
-                print(Type)
                 local Node = CreatePropertyNode(List,Property,Type,Thing)
                 Node.ListOrder = index
             end

@@ -30,6 +30,8 @@ function MoveControl:GetPlane()
 end
 
 function MoveControl:ConnectEvents()
+    print("Connect move events")
+
     self.MouseEvent = SelectionPriority.BindSignal(function(IsDown)
         if IsDown then
             self.StartMove.Invoke()
@@ -100,7 +102,8 @@ function MoveControl:Update(dt)
     local CameraDistance = (Transform.Position - Camera.Position).Magnitude()
     CameraDistance = math.sqrt(CameraDistance) / 8 -- Black magic, Literally black magic.
 
-    local Hovering = Runtime.Backend3D.Raycast(Camera.Position, Camera:GetMouseRay()*500, self.AdornObject)
+    local Hovering = Runtime.Backend3D.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)
+
     self.Hovering = Hovering and Hovering.Thing
 
     for Axis, Adorn in pairs(self.Adorns) do

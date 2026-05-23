@@ -20,7 +20,7 @@ function InterfaceManager.Update(dt)
     local ViewportManager = Runtime.Renderer.ViewportManager
 
     for _, Viewport in pairs(ViewportManager.Viewports) do
-        Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport:GetDisplayPosition()
+        Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport.AbsolutePosition
     end
 end
 

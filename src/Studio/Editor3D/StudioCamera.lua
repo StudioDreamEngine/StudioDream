@@ -22,8 +22,8 @@ function StudioCamera.Init()
         if (not HoldingCamera) then return end
 
         local Delta = MouseObject.Delta
-        CameraRotation.X = CameraRotation.X + Delta.X/200
-        CameraRotation.Y = CameraRotation.Y - Delta.Y/200
+        CameraRotation.X = CameraRotation.X + Delta.X/300
+        CameraRotation.Y = CameraRotation.Y - Delta.Y/300
     end)
 end
 

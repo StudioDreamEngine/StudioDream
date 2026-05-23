@@ -116,7 +116,7 @@ function Components.ShowDropdown(Position, Choices, Size)--, CreateOne)
     -- Special code for positioning below an object
     if Position.Type == "Thing" then
         Size = Position.AbsoluteSize
-        Position = Position.DisplayPosition + (Position.AbsoluteSize * Vector2.yAxis)
+        Position = Position.AbsolutePosition + (Position.AbsoluteSize * Vector2.yAxis)
     end
 
     --[[if CreateOne then
