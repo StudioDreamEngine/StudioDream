@@ -37,6 +37,7 @@ local function loadBuffer(node)
 		local f = node.uri:find("base64")
 		return lib.base64.decode(node.uri:sub(f + 7)) --todo
 	else
+		error("node.uri from filesystem is currently unsupported")
 		return love.filesystem.read(directory .. node.uri)
 	end
 end
@@ -82,6 +83,7 @@ end
 
 local function loadImage(node)
 	if node.uri then
+		error("node.uri is currently unsupported")
 		return love.image.newImageData(directory .. node.uri)
 	elseif node.bufferView then
 		local bufferView = cached(loadBufferView, file.bufferViews[node.bufferView + 1])
@@ -329,11 +331,11 @@ local function loadSkeletalSampler(node)
 	}
 end
 
-return function(self, obj, path, header, blob)
-	file = header or self.json.decode(love.filesystem.read(path))
+return function(self, obj, inFile, header, blob)
+	file = header or self.json.decode(inFile)
 	binary = blob
 	rootObject = obj
-	directory = path:match("(.*[/\\])")
+	--directory = path:match("(.*[/\\])")
 	
 	--load scenes
 	if file.scenes then

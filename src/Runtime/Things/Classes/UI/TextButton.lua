@@ -16,6 +16,7 @@ function TextButton:new()
     self.Hovering = false 
     self.HoverColorMultiplier = 0.75
     self.ClickingColorMultiplier = 0.5
+
     self.Clicked = Signal:New("ButtonClicked")
     
     Runtime.InterfaceManager.OnClick:Connect(function()
@@ -37,7 +38,7 @@ function TextButton:Update(dt)
 
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
 
-    local Multiplier = (self.ClickingColorMultiplier and 0.5) or (self.Hovering and self.HoverColorMultiplier) or 1
+    local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
     self.ColorMultiplier = Multiplier
 end
 

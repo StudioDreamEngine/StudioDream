@@ -174,11 +174,8 @@ local function addMesh(self, mat, id, inputs, vertexMapping, meshData, vcount)
 	end
 end
 
-return function(self, obj, path)
+return function(self, obj, file)
 	local handler = self.xmlTreeHandler:new()
-	
-	--parse
-	local file = love.filesystem.read(path)
 	
 	--compressed (50 4B 03 04 magic number)
 	local magic = { string.byte(file, 1, 4) }

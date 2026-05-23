@@ -2,7 +2,7 @@
 #obj - Wavefront OBJ file
 --]]
 
-return function(self, obj, path)
+return function(self, obj, file)
 	--store vertices, normals and texture coordinates
 	local vertices = { }
 	local normals = { }
@@ -13,7 +13,7 @@ return function(self, obj, path)
 	local mesh = self:newMesh(material)
 	obj.meshes["object"] = mesh
 	
-	for l in love.filesystem.lines(path) do
+	for _, l in pairs(string.split(file, "\n")) do
 		local v = string.split(l, " ")
 		
 		if v[1] == "v" then

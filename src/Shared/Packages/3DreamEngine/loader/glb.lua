@@ -2,8 +2,7 @@ local function uint32(a, b, c, d)
 	return a + b * 256 + c * 256 ^ 2 + d * 256 ^ 3
 end
 
-return function(self, obj, path)
-	local file = love.filesystem.read(path)
+return function(self, obj, file)
 	local magic = uint32(file:byte(1, 4))
 	local version = uint32(file:byte(5, 8))
 	local length = uint32(file:byte(9, 12))
@@ -25,5 +24,5 @@ return function(self, obj, path)
 		binary = file:sub(index + 8, index + 7 + binaryChunkLength)
 	end
 	
-	return self.loader.gltf(self, obj, path, json, binary)
+	return self.loader.gltf(self, obj, file, json, binary)
 end

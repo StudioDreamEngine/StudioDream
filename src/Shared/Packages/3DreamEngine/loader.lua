@@ -151,7 +151,9 @@ function lib:loadObject(path, args)
 		if found[typ] then
 			--load object
 			self.deltonLoad:start("parser")
-			self.loader[typ](self, obj, path .. "." .. typ)
+			local file = love.filesystem.read(path .. "." .. typ)
+
+			self.loader[typ](self, obj, file)
 			self.deltonLoad:stop()
 		end
 	end
@@ -160,12 +162,39 @@ function lib:loadObject(path, args)
 		error("object " .. obj.name .. " not found (" .. path .. ")")
 	end
 	
+	self:processObject(obj) --extract positions, physics, ...
+	self:finishObject(obj) --create meshes, link library entries, ...
 	
-	--extract positions, physics, ...
-	self:processObject(obj)
+	self.deltonLoad:stop()
+
+	return obj
+end
+
+---Load an object using the IO library
+---@param path string @ Path to object without extension
+---@param args table
+function lib:loadObjectIo(path, args)
+	--set default args
+	args = prepareArgs(args)
 	
-	--create meshes, link library entries, ...
-	self:finishObject(obj)
+	local n = string.split(path, "/")
+	local dir = #n > 1 and table.concat(n, "/", 1, #n - 1) or ""
+	
+	local obj = self:newObject()
+	obj.args = args
+	obj.dir = dir
+	
+	self.deltonLoad:start("load " .. obj.name)
+	
+	local types = string.split(path, ".")
+	types = types[#types]
+	
+	local path = table.concat(types, ".", 0, -2)
+	print(path)
+	
+	
+	self:processObject(obj) --extract positions, physics, ...
+	self:finishObject(obj) --create meshes, link library entries, ...
 	
 	self.deltonLoad:stop()
 
