@@ -6,7 +6,7 @@ return function ()
 
     -- 3d test
     ---@class Mesh
-    local Mesh = Things.Create("Mesh") {}
+    --[[local Mesh = Things.Create("Mesh") {}
 
     ---@class Primitive
     local brick = Things.Create("Primitive") {
@@ -36,5 +36,5 @@ return function ()
     ball:SetParent(Environment)
     wedge:SetParent(Environment)
 
-    Things.SetDebugObject(Mesh)
+    Things.SetDebugObject(Mesh)]]
 end
