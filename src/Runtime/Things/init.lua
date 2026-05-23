@@ -89,7 +89,9 @@ function Things.New(ThingType, CustomUUID)
         Thing.UUID = CustomUUID
     end
 
-    local Proxy = setmetatable({}, {
+    local Proxy = setmetatable({
+        Proxied = true
+    }, {
         __metatable = getmetatable(Thing),
         __index = Thing,
         __tostring = function (t)

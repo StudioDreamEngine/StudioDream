@@ -44,7 +44,7 @@ function Backend3D.Raycast(Origin, Direction, WorldObject)
 
         ---@class CastResult
         local FriendlyCastResult = {
-            Thing = Object.ClassReference,
+            Thing = Runtime.Things.Get(Object.ClassReference),
             Position = CastResult:getPosition(),
             Normal = CastResult:getNormal(),
             UV = CastResult:getUV(),
@@ -82,7 +82,7 @@ end
 
 function Backend3D.LoadObject(Path, Object)
     local DreamObject = LoadObjectBase(Path, Object)
-    DreamWorld.objects[Object.UUID] = DreamObject
+    DreamWorld.objects[Object] = DreamObject
 
     return DreamObject
 end

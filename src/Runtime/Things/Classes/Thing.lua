@@ -135,8 +135,6 @@ function Thing:FindFirstAncestorWithClass(Class)
     end)
 end
 
--- From what I know, the == operator cannot have its behavior changed via metatables properly
--- This is the second best option.
 function Thing:Is(Thing2)
     return (Thing.UUID == Thing2.UUID)
 end

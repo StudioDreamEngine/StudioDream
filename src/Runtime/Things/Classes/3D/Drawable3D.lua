@@ -34,7 +34,7 @@ function Drawable3D:LoadObject(Path)
     end
 
     self.MeshPath = Path
-    self.Drawable = Runtime.Backend3D.LoadObject(Path, self)
+    self.Drawable = Runtime.Backend3D.LoadObject(Path, self.UUID)
 end
 
 function Drawable3D:Update(dt)
