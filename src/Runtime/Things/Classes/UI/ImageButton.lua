@@ -15,7 +15,7 @@ function ImageButton:new()
 
     self.Clicked = Signal:New("ButtonClicked")
     self.RightClicked = Signal:New("ButtonRightClicked")
-    
+
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering or not self:IsVisible() then return end
         self.Clicked.Invoke()

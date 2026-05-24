@@ -28,7 +28,7 @@ local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         Name = "PropertyName",
         Parent = BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text
+        ForegroundColor = Studio.Theme.Text2
     }
 
     local Option = Runtime.Things.Create("TextInput") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
@@ -40,7 +40,7 @@ local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         Name = "Frame",
         Text = tostring(Vector3.new(Value.X,Value.Y,Value.Z)),
         Parent = BaseProperty,
-        ForegroundColor = Studio.Theme.Text
+        ForegroundColor = Studio.Theme.Text2
     }
 
     Runtime.Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
@@ -75,9 +75,10 @@ end
 
 return function(FrameOption,Thing,Property,ActualNode)
     print(Thing[Property])
-    local Button = Runtime.Things.Create("Image2D") {
+    local Button = Runtime.Things.Create("ImageButton") {
         Image = "Assets/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
+        BackgroundColor = Studio.Theme.Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),

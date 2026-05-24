@@ -2,6 +2,7 @@ local Splash = {}
 local Things = Runtime.Things
 
 local SplashStatus ---@class Text
+local SplashShadow ---@class Text
 local SplashLogo ---@class Image2D
 local SplashLogoOutline ---@class Image2D
 local SplashContainer ---@class Square
@@ -9,6 +10,7 @@ local SplashContainer ---@class Square
 function Splash.ChangeStatus(NewStatus)
     Scheduler.Yield()
     SplashStatus:SetText(NewStatus)
+    SplashShadow:SetText(NewStatus)
 end
 
 function Splash.Out()
@@ -44,12 +46,24 @@ function Splash.Init()
         BackgroundColor = Color.FromHex("#222650")
     }
 
+    SplashShadow = Things.Create("Text") {
+        Parent = SplashContainer,
+        Text = "Loading...",
+        Size = Pivot2D.FromScale(1,.1),
+        Align = Vector2.new(.5,0),
+        ForegroundColor = Color.new(0,0,0),
+        BackgroundTransparency = 1,
+        ForegroundTransparency = 0.5,
+        Position = Pivot2D.FromScale(0,.71)
+    }
+
     SplashStatus = Things.Create("Text") {
         Parent = SplashContainer,
         Text = "Loading...",
         Size = Pivot2D.FromScale(1,.1),
         Align = Vector2.new(.5,0),
         ForegroundColor = Color.new(1,1,1),
+        Layer = 2,
         BackgroundTransparency = 1,
         Position = Pivot2D.FromScale(0,.7)
     }

@@ -76,6 +76,9 @@ function TopBar.Init()
     for TabName, Tab in pairs(TabsList) do
         TopBar.CreateTab(TabName, Tab)
     end
+    for _, Tab in pairs(Tabs) do
+        Tab.Visible = false
+    end
 end
 
 return TopBar

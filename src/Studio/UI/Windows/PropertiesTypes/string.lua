@@ -3,7 +3,7 @@ return function(FrameOption,Thing,Property)
         Size = Pivot2D.FromScale(1,1),
         Text = tostring(Thing[Property]),
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text,
+        ForegroundColor = Studio.Theme.Text2,
         Parent = FrameOption
     }
 

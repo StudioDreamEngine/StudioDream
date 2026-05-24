@@ -4,7 +4,7 @@ return function(FrameOption,Thing,Property) -- maybe a signal for when the optio
         Size = Pivot2D.FromScale(1,1),
         Text = tostring(Thing[Property]),
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text,
+        ForegroundColor = Studio.Theme.Text2,
         Parent = FrameOption
     }
 
