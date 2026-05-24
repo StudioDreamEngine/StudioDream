@@ -30,11 +30,12 @@ local ChoiceTypes = {
     ["Button"] = function(Func,Parent,Text)
         local Button = Components.CreateStyle("TextButton", {
             Text = Text,
-            Size = Pivot2D.new(0,1,10,0),
+            Size = Pivot2D.FromScale(1,0.8),
+            Position = Pivot2D.FromScale(0,0.5),
+            Pivot = Vector2.new(0,0.5),
             Parent = Parent,
             BackgroundTransparency = 1,
             Align = Vector2.new(0,0.5),
-            TextScaled = true,
         })
         Button.Clicked:Connect(function() Func(Button) end)
         Button:SetOutlineSize(0)
@@ -90,15 +91,28 @@ function Components.CreateDropdown(Position,Choices,Size) -- Advanced dropdown!!
         if Choice.SubText then
             local SubText = Components.CreateStyle("Text", {
                 Text = Choice.SubText,
-                Size = Pivot2D.FromScale(0.5,1),
+                Size = Pivot2D.FromScale(1,0.8),
                 Pivot = Vector2.new(1,0.5),
                 Position = Pivot2D.FromScale(1,0.5),
                 Parent = CurrentSection,
                 BackgroundTransparency = 1,
                 OutlineSize = 0.1,
-                Align = Vector2.new(1,1),
+                Align = Vector2.new(0.5,0.5),
             })
             SubText:SetOutlineSize(0)
+        end
+        if Choice.SubImage then
+            local Image = Components.CreateStyle("Image2D", {
+                Image = Choice.SubImage,
+                Size = Pivot2D.FromScale(1,1),
+                SquareAxis = Enum.SquareAxis.Y,
+                Pivot = Vector2.new(1,0.5),
+                Position = Pivot2D.FromScale(1,0.5),
+                Parent = CurrentSection,
+                Align = Vector2.new(0.5,0.5),
+                BackgroundColor = Color.new(1)
+            })
+            Image.BackgroundColor = Color.new(1)
         end
     end
 

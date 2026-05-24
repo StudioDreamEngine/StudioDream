@@ -13,6 +13,8 @@ function Backend.Init()
 
     Runtime.Services = require("Runtime.Backend.Services")
     Runtime.Phys = require("Runtime.Backend.PhysicsEngine")
+
+    Runtime.Cursor = require("Runtime.Backend.CursorHandle")
 end
 
 function Backend.PostInit()

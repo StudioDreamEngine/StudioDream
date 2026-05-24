@@ -8,9 +8,9 @@ local LineUp_Button = {
     ["false"] = Vector2.new(0,0),
 }
 
-local function CreatePropertyNode(Window,PropertyTxt,Type,Thing)
+local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
     local BaseProperty = Things.Create("Square") { 
-        Size = Pivot2D.new(0,1,20,0),
+        Size = Pivot2D.new(0,1,15,0),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.Theme.Secondary,
         Layer = 3,
@@ -39,12 +39,12 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing)
         Name = "Frame",
         Parent = BaseProperty,
     }
-
+    BaseProperty.ListOrder = Index
     if Utils.DoesFileExist("Studio/UI/Windows/PropertiesTypes/"..Type..".lua") then
         if not RequiredPropertyTypes[Type] then
             RequiredPropertyTypes[Type] = require("Studio/UI/Windows/PropertiesTypes/"..Type)
         end
-        RequiredPropertyTypes[Type](Option,Thing,PropertyTxt)
+        RequiredPropertyTypes[Type](Option,Thing,PropertyTxt,BaseProperty)
         --PropertyTypes[Type](Option,Thing,PropertyTxt) -- make this update if a property was changed, aka for updating positions ect ect ✌️
     else
         --PropertyTypes["Not_Found"](Option,Thing,PropertyTxt)
@@ -59,7 +59,7 @@ local function CreateGroup(GroupName,Window)
     GroupToReturn.IsOpen = true
 
     local BaseGroup = Things.Create("Square") { 
-        Size = Pivot2D.new(0,1,30,0),
+        Size = Pivot2D.new(0,1,20,0),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.Theme.Tertiary,
         Layer = 3,
@@ -148,8 +148,7 @@ function PropertiesRender.Init(Window)
                 local Type
                 if Thing.Proxy.Types[Property] then Type = Thing.Proxy.Types[Property] end
                 index=index+1
-                local Node = CreatePropertyNode(List,Property,Type,Thing)
-                Node.ListOrder = index
+                local Node = CreatePropertyNode(List,Property,Type,Thing,index)
             end
         end
         --Benchmark.End()

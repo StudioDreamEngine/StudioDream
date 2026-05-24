@@ -16,17 +16,29 @@ function TextButton:new()
     self.Hovering = false 
     self.HoverColorMultiplier = 0.75
     self.ClickingColorMultiplier = 0.5
-
+    --self.LastHover = false
+    
     -- not implemented yet
     self.SinkHovering = false -- If true, blocks hovering from being true on objects lower than its layer
 
     self.Clicked = Signal:New("ButtonClicked")
     
+    self.ChangeCursorWhileHovering = true
+
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering or not self:IsVisible() then return end
         
         self.Clicked.Invoke()
     end)
+
+    self.Proxy.Property("boolean ChangeCursorWhileHovering","boolean Hovering")
+
+    --[[self.PropertyChanged:Connect(function(Value,Property)
+        if Property == "Hovering" and self.ChangeCursorWhileHovering and (self.LastHover~=self.Hovering) then
+            print(self.Hovering)
+            Runtime.Cursor.ChangeCursor(Value and "Hovering" or "Main")
+        end
+    end)]]
 end
 
 function TextButton:Update(dt)
@@ -37,10 +49,15 @@ function TextButton:Update(dt)
 
     local ObjectRect = self:GetRect()
 
+    --self.LastHover = self.Hovering
     self.Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
 
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
-
+   --[[ if self.Hovering then
+        Runtime.Cursor.ChangeCursor("Hovering")
+    else
+        Runtime.Cursor.ChangeCursor("Main") -- Change ts
+    end]]
     local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
     self.ColorMultiplier = Multiplier
 end

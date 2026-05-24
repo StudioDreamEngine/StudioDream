@@ -12,20 +12,26 @@ return function(FrameOption,Thing,Property)
         CornerRadius=5
     }
 
-    Button.Clicked:Connect(function()
+    Button.Clicked:Connect(function() -- Someone fucked this
+        print(SelectionManager.ObjectPicker)
         if not SelectionManager.ObjectPicker then
             SelectionManager.ObjectPicker = true
+            Runtime.Cursor.ChangeCursor("HoldingObj")
 
             SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
-                if NewThing == Thing then return end
-                
+                if NewThing == Thing then 
+                    Runtime.Cursor.ChangeCursor("Main")
+                    return 
+                end
+                SelectionManager.ObjectPicker = false
                 Runtime.Things.SetProperty(Thing, Property, NewThing)
-
                 Button:SetText(Thing[Property].Name)
                 Studio.Layout.GetHandle("Explorer", "Redraw")
             end)
+            
         else
             SelectionManager.ObjectPicker = false
+            Runtime.Cursor.ChangeCursor("Main")
         end
     end)
 

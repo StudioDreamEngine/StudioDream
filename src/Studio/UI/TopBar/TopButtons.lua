@@ -53,7 +53,7 @@ return {
                     {
                         Type = "Button",
                         Text = "Play",
-                        SubText = "Test your project",
+                        SubImage = "Assets/Icons/Client.png",
                         Function = function(TheTabButton)
                             Info.Testing.Locks = false
                             Info.Testing.Dropdown:Remove()
