@@ -12,6 +12,7 @@ function Backend.Init()
     Runtime.ObjectProxy = require("Runtime.Things.ObjectProxy")
 
     Runtime.Services = require("Runtime.Backend.Services")
+    Runtime.Phys = require("Runtime.Backend.PhysicsEngine")
 end
 
 function Backend.PostInit()

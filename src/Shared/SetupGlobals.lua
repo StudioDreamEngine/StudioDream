@@ -31,10 +31,16 @@ return function ()
     print("Polyfill Ready, Loading shared components")
 
     -- Packages
+    print("Starting bullet3")
+    local BulletModule = require("Shared.Packages.bullet3min")
+    BulletModule.init()
+    print("Continuing package loading")
+
     Dream = require("Shared.Packages.3DreamEngine")
     Binser = require("Shared.Packages.Binser")
     FileDialog = require("Shared.Packages.filedialog")
     Tweener = require("Shared.Packages.Tweener")
+    Bullet = BulletModule.bindings
 
     -- Helpers
     Signal = require("Shared.Helper.Signal")

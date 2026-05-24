@@ -1,6 +1,11 @@
 local Things = Runtime.Things
 local Backend3D = Runtime.Backend3D
 
+local collisionConfiguration = Bullet.btDefaultCollisionConfiguration()
+local dispatcher = Bullet.btCollisionDispatcher(collisionConfiguration)
+local overlappingPairCache = Bullet.btDbvtBroadphase()
+local solver = Bullet.btSequentialImpulseConstraintSolver()
+
 ---@class Environment: Thing
 local Environment = Things.Extend("Thing")
 
@@ -15,28 +20,69 @@ function Environment:new()
     self.Viewport = nil
     self.Camera = nil
 
+    self.StepPhysics = false
+    self.Gravity = -10
+
     self.DreamWorld = Backend3D:CreateWorld()
     self.DreamWorld.IsEnv = true
+
+    self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
+    self.PhysicsWorld:setGravity(Vector3.new(0, self.Gravity, 0).ToBullet())
+
+    self.PhysicsBodies = {}
 end
 
 function Environment:Raycast(origin, direction)
     return Runtime.Backend3D.Raycast(origin, direction, self.DreamWorld)
 end
 
-function Environment:ManageWorld()
+function Environment:RemoveBody(Child)
+    if Child.PhysicsBody then
+        self.PhysicsBodies[Child] = nil
+        self.PhysicsWorld:removeRigidBody(Child.PhysicsBody)
+    end
+end
+
+function Environment:HandlePhysicsHierachy(Child)
+    if (not self.PhysicsBodies[Child]) then
+        self.PhysicsBodies[Child] = true
+        self.PhysicsWorld:addRigidBody(Child.PhysicsBody)
+    end
+end
+
+function Environment:ManageWorldHierachy()
     self.DreamWorld.objects = {}
+    local Descendants = {}
 
     for _, Child in pairs(self:GetDescendants()) do
         if Child:IsA("Drawable3D") then
             self.DreamWorld.objects[Child.UUID] = Child.Drawable
+
+            if Child.PhysicsBody then
+                self:HandlePhysicsHierachy(Child)
+            end
+
+            table.insert(Descendants, Child)
         end
+    end
+
+    return Descendants
+end
+
+function Environment:PostStep(Descendants)
+    for _, Child in pairs(Descendants) do
+        Child.Transform = Runtime.Phys.FromBullet(Child:GetPhysicsTransform())
     end
 end
 
 function Environment:Update(dt)
     Environment.super.Update(self, dt)
 
-    self:ManageWorld()
+    local Descendants = self:ManageWorldHierachy()
+
+    self.PhysicsWorld:stepSimulation(dt, 2)
+    self:PostStep(Descendants)
+
     self.Camera.Viewport = self.Viewport
 end
 

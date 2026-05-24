@@ -88,6 +88,10 @@ function Vector3.new(x,y,z,w)
         return Dream.vec3(Object.X, Object.Y, Object.Z)
     end
 
+    function Object.ToBullet()
+        return Bullet.btVector3(Object.X, Object.Y, Object.Z)
+    end
+
     function Object.Unit()
         local Unit = Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
 

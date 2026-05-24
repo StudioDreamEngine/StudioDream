@@ -29,7 +29,7 @@ function Move.Init()
         SelectingObj = Move.Selection
         Info.OffsetTo = Plane
 
-        SelectingObj.Transform = Transform3D.FromPosition(Info.StartPosObj.X + Info.OffsetTo.X,Info.StartPosObj.Y + Info.OffsetTo.Y,Info.StartPosObj.Z + Info.OffsetTo.Z)
+        SelectingObj:SetTransform(Transform3D.FromPosition(Info.StartPosObj.X + Info.OffsetTo.X,Info.StartPosObj.Y + Info.OffsetTo.Y,Info.StartPosObj.Z + Info.OffsetTo.Z))
     end)
 
     MoveControl.StartMove:Connect(function()

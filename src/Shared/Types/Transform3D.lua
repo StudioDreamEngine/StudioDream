@@ -11,6 +11,7 @@ local function NewTransform(Matrix)
     Object.Side = Vector3.new(Matrix[1], Matrix[5], Matrix[9])
     Object.Up = Vector3.new(Matrix[2], Matrix[6], Matrix[10]) 
 
+    ---@return DreamMat4
     function Object.GetMatrix() return Matrix end
 
     return setmetatable({}, {

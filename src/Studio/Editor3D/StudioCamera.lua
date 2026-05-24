@@ -38,7 +38,7 @@ function StudioCamera.Update(dt)
 
     CameraPosition = CameraPosition + Direction*dt*4
 
-    Camera.Transform = Transform3D.FromPosition(CameraPosition) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0)
+    Camera:SetTransform(Transform3D.FromPosition(CameraPosition) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0))
 end
 
 return StudioCamera

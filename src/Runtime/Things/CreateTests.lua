@@ -6,35 +6,37 @@ return function ()
 
     -- 3d test
     ---@class Mesh
-    local Mesh = Things.Create("Mesh") {}
+    --local Mesh = Things.Create("Mesh") {}
 
     ---@class Primitive
     local brick = Things.Create("Primitive") {
-        Name = "Primitive"
+        Name = "Ground"
     }
     
     ---@class Primitive
     local ball = Things.Create("Primitive") {
         Name = "Primitive",
-        Shape = "ball"
+        Shape = "ball",
+        Dynamic = true
     }
 
     ---@class Primitive
     local wedge = Things.Create("Primitive") {
         Name = "Primitive",
-        Shape = "wedge"
+        Shape = "wedge",
+        Dynamic = true
     }
 
-    brick.Transform = Transform3D.FromPosition(0, -10, 0)
-    brick.Scale     = Vector3.new(512, 8, 512)
+    brick:SetTransform(Transform3D.FromPosition(0, -10, 0))
+    brick.Scale     = Vector3.new(512,5,512)
 
-    ball.Transform = Transform3D.FromPosition(1, 0, 0)
-    wedge.Transform = Transform3D.FromPosition(-1, 0, -10)
+    --ball:SetTransform(Transform3D.FromPosition(10, 0, 0))
+    wedge:SetTransform(Transform3D.FromPosition(0, 10, 0))
 
-    Mesh:SetParent(Environment)
+    --Mesh:SetParent(Environment)
     brick:SetParent(Environment)
     ball:SetParent(Environment)
     wedge:SetParent(Environment)
 
-    Things.SetDebugObject(Mesh)
+    --Things.SetDebugObject(Mesh)
 end

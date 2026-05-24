@@ -15,10 +15,10 @@ function Base3D:new()
     self.Position     = Vector3.new(1,1,1)
     self.Transform    = Transform3D.FromPosition(0,0,0)
 
-    self.Anchored    = true
+    self.Dynamic = false
 
-    self.Proxy.Property("Transform3D Transform", "boolean Anchored")
-    self.Proxy.Group("Physics", "Anchored")
+    self.Proxy.Property("Transform3D Transform", "boolean Dynamic")
+    self.Proxy.Group("Physics", "Dynamic")
     self.Proxy.Group("Transform", "Transform")
 end
 
@@ -27,6 +27,10 @@ function Base3D:GetWorld()
     return self:GetParentCallback(function(ParentObject)
         return ParentObject:IsA("Environment")
     end)
+end
+
+function Base3D:SetTransform(NewTransform)
+    self.Transform = NewTransform
 end
 
 function Base3D:Update(dt)
