@@ -14,8 +14,7 @@ local function NewTransform(Matrix)
     ---@return DreamMat4
     function Object.GetMatrix() return Matrix end
 
-    return setmetatable({}, {
-        __index = Object,
+    return setmetatable(Object, {
         __mul = function (t1, t2)
             if t1.Type == "Transform3D" and t2.Type == "Transform3D" then
                 return NewTransform(t1.GetMatrix() * t2.GetMatrix())

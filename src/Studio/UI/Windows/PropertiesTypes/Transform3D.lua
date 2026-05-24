@@ -1,5 +1,4 @@
 return function(FrameOption,Thing,Property)
-    print(Thing[Property])
     Runtime.Things.Create("Text") {
         Text = tostring(Thing[Property]),
         ForegroundColor = Studio.Theme.Text,
