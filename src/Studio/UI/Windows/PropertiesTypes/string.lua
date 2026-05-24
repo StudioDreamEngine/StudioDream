@@ -13,6 +13,6 @@ return function(FrameOption,Thing,Property)
         
         --print(Studio.Layout.WindowsCreated)
 
-        Studio.Layout.GetHandle("Explorer", "Redraw") -- Change this pls :skull:
+        Studio.Layout.CallHandle("Explorer", "Redraw") -- Change this pls :skull:
     end)
 end

@@ -1,6 +1,7 @@
 local Pivot2D = {}
 
 function Pivot2D.new(OffsetX, ScaleX, OffsetY, ScaleY)
+    ---@class Pivot2D
     local PivotObject = {}
 
     PivotObject.Offset = Vector2.new(OffsetX, OffsetY)

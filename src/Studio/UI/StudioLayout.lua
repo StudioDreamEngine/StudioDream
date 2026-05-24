@@ -43,7 +43,8 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         ForegroundColor = Studio.Theme.Text,
         Align = Vector2.new(0.5,0.5)
     }
-    Windows.Namer:SetFont("Assets/Fonts/Roboto/Roboto-MediumItalic.ttf")
+    Windows.Namer:SetFont("Assets/Fonts/Roboto/Roboto-Medium.ttf")
+
     return Windows
 end
 
@@ -65,29 +66,36 @@ function StudioLayout.CreateWindow(WindowType, Transform, Parent)
     StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer.BackWindow)
 end
 
+-- Robuxxy worst nightmare
+function StudioLayout.ToggleWindow(Window, Toggle)
+    StudioLayout.GetHandle(Window).Container.Visible = Toggle
+end
+
+---@param To Pivot2D
+function StudioLayout.MoveWindow(Window, To)
+    StudioLayout.GetHandle(Window).Container:SetPosition(To)
+end
+
 -- Remove any window handle that starts with "Window.", as other handles are used for the topbar, which is immutable
 function StudioLayout.RemoveWindow(WindowType)
-    local Handle = StudioLayout.GetHandle(WindowType, "Destroy")
+    local Handle = StudioLayout.CallHandle(WindowType, "Destroy")
 
     Handle.Container:Destroy()
 end
 
--- Calls a function within a different window handle
-function StudioLayout.GetHandle(WindowType, Function, ...)
+function StudioLayout.GetHandle(WindowType)
     local HasHandle = StudioLayout.Handles["Windows."..WindowType] -- For now, we can only get handles of windows, not the topbar
 
-    if HasHandle then
-        HasHandle[Function](...)
-
-        return HasHandle
-    end
+    if HasHandle then return HasHandle end
 end
 
-function StudioLayout.GetWindow(WindowType)
-    local HasHandle = StudioLayout.Handles["Windows."..WindowType]
+function StudioLayout.CallHandle(WindowType, Function, ...)
+    local Handle = StudioLayout.GetHandle(WindowType)
 
-    if HasHandle then
-        return HasHandle
+    if Handle then
+        Handle[Function](...)
+
+        return Handle
     end
 end
 
@@ -103,6 +111,13 @@ function StudioLayout.CreateTopbar()
         BackgroundColor = Theme.Primary
     }
 
+    local MenuBar = Things.Create("Square") {
+        Parent = StudioLayout.TopBar,
+        Position = Pivot2D.FromScale(0,0.0),
+        Size = Pivot2D.FromScale(1,0.3),
+        BackgroundTransparency = 1
+    }
+
     local TopbarInner = Things.Create("Square") {
         Parent = StudioLayout.TopBar,
         Position = Pivot2D.FromScale(0,0.3),
@@ -111,6 +126,7 @@ function StudioLayout.CreateTopbar()
     }
 
     StudioLayout.CreateWindowHandler("TopBar", TopbarInner)
+    StudioLayout.CreateWindowHandler("MenuBar", MenuBar)
 end
 
 function StudioLayout.CreateLayout()

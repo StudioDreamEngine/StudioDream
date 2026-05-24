@@ -3,6 +3,7 @@ local Things = Runtime.Things
 
 local SplashStatus ---@class Text
 local SplashLogo ---@class Image2D
+local SplashLogoOutline ---@class Image2D
 local SplashContainer ---@class Square
 
 function Splash.ChangeStatus(NewStatus)
@@ -24,6 +25,11 @@ function Splash.Out()
         Size = Pivot2D.FromScale(0.1,0.1),
         BackgroundTransparency = 1
     }, Enum.EasingStyle.ExpoOut, 1).Play()
+
+    TweenService.Create(SplashLogoOutline, {
+        Size = Pivot2D.FromScale(2,2),
+        BackgroundTransparency = 1
+    }, Enum.EasingStyle.ExpoOut, 2).Play()
 
     TweenService.CreateAndPlay(SplashContainer, {
         BackgroundTransparency = 1
@@ -50,9 +56,19 @@ function Splash.Init()
 
     SplashLogo = Things.Create("Image2D") {
         Size = Pivot2D.FromScale(.35,.35),
+        Layer = 2,
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.5,.4),
         SquareAxis = Enum.SquareAxis.Y,
+        Parent = SplashContainer
+    }
+
+    SplashLogoOutline = Things.Create("Image2D") {
+        Size = Pivot2D.FromScale(.25,.25),
+        Pivot = Vector2.new(.5,.5),
+        Position = Pivot2D.FromScale(.5,.4),
+        SquareAxis = Enum.SquareAxis.Y,
+        Image = "Assets/SplashOutline.png",
         Parent = SplashContainer
     }
 

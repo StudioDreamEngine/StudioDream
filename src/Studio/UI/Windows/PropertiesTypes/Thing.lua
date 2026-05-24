@@ -26,7 +26,7 @@ return function(FrameOption,Thing,Property)
                 SelectionManager.ObjectPicker = false
                 Runtime.Things.SetProperty(Thing, Property, NewThing)
                 Button:SetText(Thing[Property].Name)
-                Studio.Layout.GetHandle("Explorer", "Redraw")
+                Studio.Layout.CallHandle("Explorer", "Redraw")
             end)
             
         else
