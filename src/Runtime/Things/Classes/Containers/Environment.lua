@@ -80,8 +80,10 @@ function Environment:Update(dt)
 
     local Descendants = self:ManageWorldHierachy()
 
-    self.PhysicsWorld:stepSimulation(dt, 2)
-    self:PostStep(Descendants)
+    if self.StepPhysics then
+        self.PhysicsWorld:stepSimulation(dt, 2)
+        self:PostStep(Descendants)
+    end
 
     self.Camera.Viewport = self.Viewport
 end

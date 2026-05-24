@@ -57,6 +57,11 @@ return {
                         Function = function(TheTabButton)
                             Info.Testing.Locks = false
                             Info.Testing.Dropdown:Remove()
+
+                            ---@class Environment
+                            local Environment = Runtime.Things.Root:GetEnvironment()
+
+                            Environment.StepPhysics = true
                         end
                     },
                     {
@@ -65,6 +70,11 @@ return {
                         Function = function(TheTabButton)
                             Info.Testing.Locks = false
                             Info.Testing.Dropdown:Remove()
+
+                            ---@class Environment
+                            local Environment = Runtime.Things.Root:GetEnvironment()
+
+                            Environment.StepPhysics = false
                         end
                     },
                 })
