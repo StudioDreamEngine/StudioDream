@@ -38,6 +38,7 @@ end
 function Drawable3D:SetTransform(NewTransform)
     Drawable3D.super.SetTransform(self, NewTransform)
     self.PhysicsBody:setWorldTransform(Runtime.Phys.ToBullet(NewTransform))
+    self.PhysicsBody:activate()
 end
 
 function Drawable3D:SetDynamic(NewDynamic)

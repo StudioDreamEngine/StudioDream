@@ -12,11 +12,11 @@ return function ()
     local brick = Things.Create("Primitive") {
         Name = "Ground"
     }
-    
+
     ---@class Primitive
     local ball = Things.Create("Primitive") {
-        Name = "Primitive",
-        Shape = "ball",
+        Name = "Ball",
+        Shape = Enum.Shape.Ball,
         Dynamic = true
     }
 
@@ -27,10 +27,9 @@ return function ()
         Dynamic = true
     }
 
-    brick:SetTransform(Transform3D.FromPosition(0, -10, 0))
     brick.Scale     = Vector3.new(512,5,512)
+    brick:SetTransform(Transform3D.FromPosition(0, -10, 0))
 
-    --ball:SetTransform(Transform3D.FromPosition(10, 0, 0))
     wedge:SetTransform(Transform3D.FromPosition(0, 10, 0))
 
     --Mesh:SetParent(Environment)
