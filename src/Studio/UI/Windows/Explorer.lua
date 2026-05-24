@@ -109,8 +109,8 @@ local function HandleDragEnd()
     Selecting = nil
 end
 
-function Explorer.Init(WindowContainer)
-    Window = WindowContainer
+function Explorer.Init()
+    Window = Explorer.Container
 
     Explorer.CreateTree(Things.Root, 0)
 

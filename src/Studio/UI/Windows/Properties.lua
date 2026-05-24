@@ -120,7 +120,9 @@ local function CreateGroup(GroupName,Window)
     return GroupToReturn
 end
 
-function PropertiesRender.Init(Window)
+function PropertiesRender.Init()
+    local Window = PropertiesRender.Container
+
     local BaseWindow
     Studio.Editor3D.OnSelect:Connect(function(Thing)
         print("Clear")

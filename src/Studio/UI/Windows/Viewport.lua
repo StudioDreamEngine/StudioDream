@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 local Viewport = {}
 
-function Viewport.Init(WindowContainer)
+function Viewport.Init()
     local Environment = Things.GetRoot("Environment")
     
     ---@type Viewport3D
@@ -9,7 +9,7 @@ function Viewport.Init(WindowContainer)
         RenderFolder = Environment,
         Name = "MainViewport",
         Size = Pivot2D.FromScale(1,1),
-        Parent = WindowContainer
+        Parent = Viewport.Container
     }
     Things.Root.EnvironmentViewport = EnvironmentViewport
 end

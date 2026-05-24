@@ -52,12 +52,12 @@ function TopBar.CreateTab(TabName, Tab)
     Tabs[TabName] = SingleTab
 end
 
-function TopBar.Init(WindowContainer)
+function TopBar.Init()
     TopBar.TabsMenu = Components.CreateStyle("Square", {
         Position = Pivot2D.FromScale(0,0),
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,0.3),
-        Parent = WindowContainer
+        Parent = TopBar.Container
     })
 
     Things.Create("ListLayout") {
@@ -70,7 +70,7 @@ function TopBar.Init(WindowContainer)
         Position = Pivot2D.FromScale(0,0.3),
         Size = Pivot2D.FromScale(1,0.7),
         BackgroundTransparency = 1,
-        Parent = WindowContainer
+        Parent = TopBar.Container
     })
 
     for TabName, Tab in pairs(TabsList) do

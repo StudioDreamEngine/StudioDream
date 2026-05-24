@@ -16,11 +16,11 @@ function TopBar.CreateButton(Table)
     Button:SetParent(TopBar.TopperBarContainer)
 end
 
-function TopBar.Init(WindowContainer)
+function TopBar.Init()
     TopBar.TopperBarContainer = Components.CreateStyle("Square", {
         Size = Pivot2D.FromScale(1,1),
         BackgroundTransparency = 1,
-        Parent = WindowContainer
+        Parent = TopBar.Container
     })
 
     Things.Create("ListLayout") {

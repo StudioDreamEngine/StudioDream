@@ -50,8 +50,8 @@ end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     local Window = require("Studio.UI."..WindowType)
-    Window.Container = WindowContainer -- TODO: Remove from Init
-    Window.Init(WindowContainer)
+    Window.Container = WindowContainer
+    Window.Init()
 
     if StudioLayout.Handles[WindowType] then
         error("Cannot have more than one of the same Window Handler Type!")
@@ -144,6 +144,14 @@ function StudioLayout.CreateLayout()
     StudioLayout.CreateWindow("Viewport", {
         Size = Pivot2D.FromScale(0.75,.9),
     })
+
+    --[[StudioLayout.CreateWindow("InsertObject", {
+        Size = Pivot2D.FromScale(0.25,.5),
+        Position = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(1,1),
+        Layer = 3,
+        Visible = false
+    })]]
 
     StudioLayout.CreateWindow("Properties", {
         Size = Pivot2D.FromScale(0.25,.5),
