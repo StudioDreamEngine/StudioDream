@@ -117,6 +117,7 @@ function StudioLayout.CreateLayout()
     StudioLayout.CreateTopbar()
 
     StudioLayout.Windows = Things.Create("Square") {
+        Name = "WindowContainer",
         Parent = Things.Root.RootViewport,
         Pivot = Vector2.new(0,1),
         Position = Pivot2D.FromScale(0,1),

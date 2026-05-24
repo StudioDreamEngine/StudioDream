@@ -20,7 +20,7 @@ end
 
 ---@return Camera
 function Root:GetCamera()
-    return self.EnvironmentViewport:GetCamera()
+    return self.EnvironmentViewport and self.EnvironmentViewport:GetCamera()
 end
 
 function Root:GetEnvironment()

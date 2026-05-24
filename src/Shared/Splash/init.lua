@@ -1,3 +1,76 @@
 local Splash = {}
+local Things = Runtime.Things
+
+local SplashStatus ---@class Text
+local SplashLogo ---@class Image2D
+local SplashContainer ---@class Square
+
+function Splash.ChangeStatus(NewStatus)
+    Scheduler.Yield()
+    SplashStatus:SetText(NewStatus)
+end
+
+function Splash.Out()
+    local StartSound = love.audio.newSource("/Assets/DefaultSounds/Jingle.wav", "static")
+    love.audio.play(StartSound) -- Temporary?
+
+    local TweenService = Runtime.Services.Service("TweenService") ---@class TweenService
+
+    TweenService.CreateAndPlay(SplashLogo, {
+        Size = Pivot2D.FromScale(.45,.45)
+    }, Enum.EasingStyle.ExpoOut, .2)
+
+    TweenService.Create(SplashLogo, {
+        Size = Pivot2D.FromScale(0.1,0.1),
+        BackgroundTransparency = 1
+    }, Enum.EasingStyle.ExpoOut, 1).Play()
+
+    TweenService.CreateAndPlay(SplashContainer, {
+        BackgroundTransparency = 1
+    }, Enum.EasingStyle.Linear, 1)
+end
+
+function Splash.Init()
+    SplashContainer = Things.Create("Square") {
+        Parent = Things.Root.RootViewport,
+        Layer = 999,
+        Size = Pivot2D.FromScale(1,1),
+        BackgroundColor = Color.FromHex("#222650")
+    }
+
+    SplashStatus = Things.Create("Text") {
+        Parent = SplashContainer,
+        Text = "Loading...",
+        Size = Pivot2D.FromScale(1,.1),
+        Align = Vector2.new(.5,0),
+        ForegroundColor = Color.new(1,1,1),
+        BackgroundTransparency = 1,
+        Position = Pivot2D.FromScale(0,.7)
+    }
+
+    SplashLogo = Things.Create("Image2D") {
+        Size = Pivot2D.FromScale(.35,.35),
+        Pivot = Vector2.new(.5,.5),
+        Position = Pivot2D.FromScale(.5,.4),
+        SquareAxis = Enum.SquareAxis.Y,
+        Parent = SplashContainer
+    }
+
+    Scheduler.NewTask(Splash.Load)
+end
+
+function Splash.Load()
+    Splash.ChangeStatus("Setting Up bullet physics")
+    Shared.SetupBullet()
+
+    Splash.ChangeStatus("Finishing Runtime setup")
+    Runtime.PostInit()
+
+    Splash.ChangeStatus("Starting Target")
+    Shared.StartTarget()
+    Splash.ChangeStatus("")
+
+    Splash.Out()
+end
 
 return Splash

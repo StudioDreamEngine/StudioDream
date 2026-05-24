@@ -1,27 +1,3 @@
-local function Example()
-    local ExampleSignal = Signal:New("TestSignal") -- This creates a new signal object, the first arg is the event name, useful for debugging, and the second arg is blocking, which currently isnt used and is optional
-
-    -- connections can also have listeners, Which act as a filter
-    ExampleSignal:Connect(function()
-        print("I fire on Listener1")
-    end, "Listener1")
-
-    ExampleSignal:Connect(function()
-        print("I fire on Listener2")
-    end, "Listener2")
-
-    -- connections with no listener fires even if a listener is present
-    ExampleSignal:Connect(function()
-        print("I fire on both listeners")
-    end)
-
-    ExampleSignal.Invoke()
-end
-
-local function PrintInfo()
-
-end
-
 -- Seperate parts of the game like the runtime will also have their own globals
 -- in the future we could perhaps make an api for handling creation of globals, depends tho
 return function ()
@@ -31,16 +7,10 @@ return function ()
     print("Polyfill Ready, Loading shared components")
 
     -- Packages
-    print("Starting bullet3")
-    local BulletModule = require("Shared.Packages.bullet3min")
-    BulletModule.init()
-    print("Continuing package loading")
-
     Dream = require("Shared.Packages.3DreamEngine")
     Binser = require("Shared.Packages.Binser")
     FileDialog = require("Shared.Packages.filedialog")
     TweenFunctions = require("Shared.Packages.Tweener")
-    Bullet = BulletModule.bindings
 
     -- Helpers
     Signal = require("Shared.Helper.Signal")
@@ -56,4 +26,11 @@ return function ()
     GlobalTick = 0
 
     --Example()
+
+    -- Load the second stage of globals
+    return function()
+        local BulletModule = require("Shared.Packages.bullet3min")
+        BulletModule.init()
+        Bullet = BulletModule.bindings
+    end
 end

@@ -1,3 +1,4 @@
+---@class TweenService
 local TweenService = {}
 
 -- t = time == how much time has to pass for the tweening to complete
@@ -22,12 +23,18 @@ function TweenService.Create(Subject, Target, Style, Time)
 
     local StartTime = 0
     Tween.Playing = false
+
+    local InitalValues = {}
     
     function Tween.Play()
         StartTime = GlobalTick
         Tween.Playing = true
 
         ActiveTweens[Tween.UUID] = Tween
+
+        for Name, _ in pairs(Target) do
+            InitalValues[Name] = Subject[Name]
+        end
 
         return Tween
     end
@@ -44,7 +51,7 @@ function TweenService.Create(Subject, Target, Style, Time)
 
     function Tween.Set(Alpha)
         for Name, Value in pairs(Target) do
-            local SubjectVal = Subject[Name]
+            local SubjectVal = InitalValues[Name]
             local TargetValue = 0
 
             if type(SubjectVal) == "table" and SubjectVal.Lerp then
@@ -60,8 +67,9 @@ function TweenService.Create(Subject, Target, Style, Time)
     function Tween.Update(dt)
         if (not Tween.Playing) then return end
 
-        local Elapsed = GlobalTick-StartTime
-        if (Elapsed/Time) >= 1 then 
+        local Elapsed = (GlobalTick-StartTime)
+
+        if Elapsed/Time >= 1 then 
             Tween.Stop(true) 
             return
         end
@@ -74,7 +82,10 @@ function TweenService.Create(Subject, Target, Style, Time)
 end
 
 function TweenService.CreateAndPlay(Subject, Target, Style, Time)
-    return TweenService.Create(Subject, Target, Style, Time).Play()
+    local Tween = TweenService.Create(Subject, Target, Style, Time).Play()
+    Scheduler.Yield(Time)
+
+    return Tween
 end
 
 -- Internal function to step util tweens

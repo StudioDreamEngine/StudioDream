@@ -2,18 +2,18 @@ print("Please Wait...")
 Shared = require("Shared")
 
 function love.load()
-    require("Shared.SetupGlobals")()
+    love.graphics.clear(1,0,0)
+    love.graphics.present()
+    
+    Shared.SetupBullet = require("Shared.SetupGlobals")()
     
     print("StudioDream V"..VERSION..", Target: "..FLAGS.ModeTarget)
-    print("Shared Components ready, Initalizing Target")
 
-    Shared.StartTarget()
+    Shared.Init()
 
-    print("Target is ready.")
+    print("Runtime is ready.")
 
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
-    local StartSound = love.audio.newSource("/Assets/DefaultSounds/Jingle.wav", "static")
-    love.audio.play(StartSound)
 end
 
 local DeltaTime

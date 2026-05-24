@@ -249,6 +249,11 @@ function BaseGui:SetPosition(New)
     self:InvalidateRendering()
 end
 
+function BaseGui:SetPivot(New)
+    self.Pivot = New
+    self:InvalidateRendering()
+end
+
 function BaseGui:SetSize(New)
     self.Size = New
     self:InvalidateRendering()

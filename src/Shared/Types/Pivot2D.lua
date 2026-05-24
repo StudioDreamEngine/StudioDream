@@ -12,7 +12,7 @@ function Pivot2D.new(OffsetX, ScaleX, OffsetY, ScaleY)
         local Offset = PivotObject.Offset.Lerp(OtherPivot.Offset, Alpha)
         local Scale = PivotObject.Scale.Lerp(OtherPivot.Scale, Alpha)
 
-        return PivotObject.new(Offset.X, Scale.X, Offset.Y, Scale.Y)
+        return Pivot2D.new(Offset.X, Scale.X, Offset.Y, Scale.Y)
     end
 
     return PivotObject

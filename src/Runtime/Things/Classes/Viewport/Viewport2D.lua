@@ -9,7 +9,6 @@ function Viewport2D:new()
     Viewport2D.super.new(self)
 
     self.MousePosition = Vector2.zero
-    self.InitalInvalidation = false
 
     self.TopLayer = {}
 
@@ -82,11 +81,6 @@ function Viewport2D:Update(dt)
     Viewport2D.super.Update(self, dt)
 
     self:CreateDisplayList()
-
-    if (not self.InitalInvalidation) then
-        self.InitalInvalidation = true
-        self:InvalidateRendering()
-    end
 end
 
 return Viewport2D

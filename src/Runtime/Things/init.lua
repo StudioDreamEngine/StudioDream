@@ -6,17 +6,20 @@ local Objects = {}
 local Classes = {}
 
 local ObjectsCreated = 0
+local CreateRoot
 
 function Things.Init()
     Classes = Utils.LoadModules("Runtime/Things/Classes/")
+    CreateRoot = require("Runtime.Things.CreateRoot")
 
-    Things.Root = require("Runtime.Things.CreateRoot")()
+    Things.Root = CreateRoot.CreateRoot()
 
     print("Tree Created")
-
-    require("Runtime.Things.CreateTests")()
 end
 
+function Things.CreateEnviornment()
+    CreateRoot.CreateEnviornment(Things.Root)
+end
 
 function Things.GetRoot(Object)
     assert(Things.Root, "Tree hasnt been created yet! are you trying to access it before creation?")

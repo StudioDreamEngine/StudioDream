@@ -15,13 +15,16 @@ function Runtime.Init()
     Runtime.Renderer.Init()
     Runtime.Things.Init()
 
+    print("Runtime Initalized")
+end
+
+function Runtime.PostInit()
     Runtime.Backend.PostInit()
+    Runtime.Things.CreateEnviornment()
 
     Runtime.Serializer = require("Runtime.Serialization")
 
-    --Shared.
-
-    print("Runtime Initalized")
+    require("Runtime.Things.CreateTests")()
 end
 
 function Runtime.Render()
@@ -31,14 +34,9 @@ function Runtime.Render()
 end
 
 function Runtime.Update(dt)
-    Profiler.Start("StudioDream - Update")
-
-        Shared.UpdateRuntime(dt)
-        Runtime.Backend.Update(dt)
-        Runtime.Renderer.ViewportManager.Update(dt) -- temporary
-        Runtime.Things.Update(dt)
-
-    Profiler.End()
+    Runtime.Backend.Update(dt)
+    Runtime.Renderer.ViewportManager.Update(dt) -- temporary
+    Runtime.Things.Update(dt)
 end
 
 return Runtime

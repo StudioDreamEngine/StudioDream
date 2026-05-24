@@ -11,31 +11,52 @@ local Extensions = {
 package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?."..Extensions[CurrentOS]
 
 --Start actual stuff
-Shared.Splash = require("Shared.Splash")
+local StartedTarget = false
 
-local Target
+function Shared.Init()
+    local SharedInit = Profiler.Benchmark("Shared - Init", true)
 
-function Shared.StartTarget()
+    print("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")
     Runtime.Init()
 
-    ---@module "Studio"
-    Target = require(FLAGS.ModeTarget)
-    Target.Init()
+    print("Start splash")
+    Shared.Splash = require("Shared.Splash")
+    Shared.Splash.Init()
+
+    SharedInit.End()
 end
 
 function Shared.Render()
     Runtime.Render()
 end
 
-function Shared.UpdateRuntime(dt)
+function Shared.Update(dt)
     GlobalTick = GlobalTick + dt
-    Scheduler.Update()
+
+    Profiler.Start("StudioDream - Update")
+        Scheduler.Update()
+        Runtime.Update(dt)
+
+        if StartedTarget then
+            Shared.UpdateTarget(dt)
+        end
+    Profiler.End()
 end
 
-function Shared.Update(dt)
+-- Target-Related stuff
+local Target
+
+function Shared.StartTarget()
+    ---@module "Studio"
+    Target = require(FLAGS.ModeTarget)
+    Target.Init()
+
+    StartedTarget = true
+end
+
+function Shared.UpdateTarget(dt)
     Target.Update(dt)
-    Runtime.Update(dt)
 end
 
 return Shared

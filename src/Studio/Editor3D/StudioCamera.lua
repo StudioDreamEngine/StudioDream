@@ -29,6 +29,7 @@ end
 
 function StudioCamera.Update(dt)
     local Camera = Runtime.Things.Root:GetCamera()
+    if (not Camera) then return end
 
     local KeyDownNum = InputService.KeyDownNumber
 

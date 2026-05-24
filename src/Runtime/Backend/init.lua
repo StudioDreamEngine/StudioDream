@@ -4,7 +4,6 @@ local Backend = {}
 
 function Backend.Init()
     Runtime.InterfaceManager = require("Runtime.Backend.InterfaceManager")
-    Runtime.SelectionPriority = require("Runtime.Backend.SelectionPriority")
 
     Runtime.InterfaceManager.Init()
 
@@ -12,12 +11,13 @@ function Backend.Init()
     Runtime.ObjectProxy = require("Runtime.Things.ObjectProxy")
 
     Runtime.Services = require("Runtime.Backend.Services")
-    Runtime.Phys = require("Runtime.Backend.PhysicsEngine")
-
     Runtime.Cursor = require("Runtime.Backend.CursorHandle")
 end
 
 function Backend.PostInit()
+    Runtime.Phys = require("Runtime.Backend.PhysicsEngine")
+
+    Runtime.SelectionPriority = require("Runtime.Backend.SelectionPriority")
     Runtime.SelectionPriority.Init()
 end
 

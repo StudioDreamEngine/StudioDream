@@ -1,16 +1,26 @@
 local Things = Runtime.Things
+local CreateRoot = {}
 
--- Create our DataModel/Root here
-return function()
-    ---@class Root
-    local Root = Things.Create("Root", "Root") {
-        Name = "Root"
-    }
-
+function CreateRoot.CreateEnviornment(Root)
     ---@class Environment
     local Environment = Things.Create("Environment") {
         Name = "Environment",
         Parent = Root
+    }
+
+    ---@module 'Camera'
+    local Camera = Things.Create("Camera") {
+        Name = 'Camera',
+        Parent = Environment
+    }
+
+    Environment.Camera = Camera
+end
+
+function CreateRoot.CreateRoot()
+    ---@class Root
+    local Root = Things.Create("Root", "Root") {
+        Name = "Root"
     }
 
     local HUD = Things.Create("HUD") {
@@ -26,24 +36,9 @@ return function()
         Parent = Root
     }
 
-    --[[local EnvViewport = Things.Create("Viewport3D") {
-        Size = Pivot2D.FromScale(0.75,0.8),
-        Position = Pivot2D.FromScale(0,0),
-        Parent = Viewport,
-        RenderFolder = Environment,
-        Name = "MainViewport"
-    }]]
-
-    ---@module 'Camera'
-    local Camera = Things.Create("Camera") {
-        Name = 'Camera',
-        Parent = Environment
-    }
-
-    Environment.Camera = Camera
     Root.RootViewport = Viewport
-
-    -- All test-related root stuff is moved to CreateTests.lua
 
     return Root
 end
+
+return CreateRoot
