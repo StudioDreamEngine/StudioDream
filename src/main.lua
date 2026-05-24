@@ -2,7 +2,7 @@ print("Please Wait...")
 Shared = require("Shared")
 
 function love.load()
-    love.graphics.clear(1,0,0)
+    love.graphics.clear(0.5,0.5,0.5)
     love.graphics.present()
     
     Shared.SetupBullet = require("Shared.SetupGlobals")()
