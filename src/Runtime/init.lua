@@ -1,15 +1,5 @@
 local Runtime = {}
 
--- Configure CPath
-local CurrentOS = love.system.getOS()
-
-local Extensions = {
-    Linux = "so",
-    Windows = "dll"
-}
-
-package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?."..Extensions[CurrentOS]
-
 Runtime.Things = require("Runtime.Things")
 Runtime.Renderer = require("Runtime.Renderer")
 Runtime.Backend = require("Runtime.Backend")
@@ -29,6 +19,8 @@ function Runtime.Init()
 
     Runtime.Serializer = require("Runtime.Serialization")
 
+    --Shared.
+
     print("Runtime Initalized")
 end
 
@@ -41,7 +33,7 @@ end
 function Runtime.Update(dt)
     Profiler.Start("StudioDream - Update")
 
-        require("Shared").Update(dt) -- this garbage was probably me :3 - bloctans
+        Shared.UpdateRuntime(dt)
         Runtime.Backend.Update(dt)
         Runtime.Renderer.ViewportManager.Update(dt) -- temporary
         Runtime.Things.Update(dt)

@@ -229,117 +229,16 @@ end
 
 tween.easing = {
   linear    = linear,
-  inQuad    = inQuad,    outQuad    = outQuad,    inOutQuad    = inOutQuad,    outInQuad    = outInQuad,
-  inCubic   = inCubic,   outCubic   = outCubic,   inOutCubic   = inOutCubic,   outInCubic   = outInCubic,
-  inQuart   = inQuart,   outQuart   = outQuart,   inOutQuart   = inOutQuart,   outInQuart   = outInQuart,
-  inQuint   = inQuint,   outQuint   = outQuint,   inOutQuint   = inOutQuint,   outInQuint   = outInQuint,
-  inSine    = inSine,    outSine    = outSine,    inOutSine    = inOutSine,    outInSine    = outInSine,
-  inExpo    = inExpo,    outExpo    = outExpo,    inOutExpo    = inOutExpo,    outInExpo    = outInExpo,
-  inCirc    = inCirc,    outCirc    = outCirc,    inOutCirc    = inOutCirc,    outInCirc    = outInCirc,
-  inElastic = inElastic, outElastic = outElastic, inOutElastic = inOutElastic, outInElastic = outInElastic,
-  inBack    = inBack,    outBack    = outBack,    inOutBack    = inOutBack,    outInBack    = outInBack,
-  inBounce  = inBounce,  outBounce  = outBounce,  inOutBounce  = inOutBounce,  outInBounce  = outInBounce
+  inQuad    = inQuad,    outQuad    = outQuad,    --inOutQuad    = inOutQuad,    outInQuad    = outInQuad,
+  inCubic   = inCubic,   outCubic   = outCubic,   --inOutCubic   = inOutCubic,   outInCubic   = outInCubic,
+  inQuart   = inQuart,   outQuart   = outQuart,   --inOutQuart   = inOutQuart,   outInQuart   = outInQuart,
+  inQuint   = inQuint,   outQuint   = outQuint,   --inOutQuint   = inOutQuint,   outInQuint   = outInQuint,
+  inSine    = inSine,    outSine    = outSine,    --inOutSine    = inOutSine,    outInSine    = outInSine,
+  inExpo    = inExpo,    outExpo    = outExpo,    --inOutExpo    = inOutExpo,    outInExpo    = outInExpo,
+  inCirc    = inCirc,    outCirc    = outCirc,    --inOutCirc    = inOutCirc,    outInCirc    = outInCirc,
+  inElastic = inElastic, outElastic = outElastic, --inOutElastic = inOutElastic, outInElastic = outInElastic,
+  inBack    = inBack,    outBack    = outBack,    --inOutBack    = inOutBack,    outInBack    = outInBack,
+  inBounce  = inBounce,  outBounce  = outBounce,  --inOutBounce  = inOutBounce,  outInBounce  = outInBounce
 }
-
-
-
--- private stuff
-
-local function copyTables(destination, keysTable, valuesTable)
-  valuesTable = valuesTable or keysTable
-  local mt = getmetatable(keysTable)
-  if mt and getmetatable(destination) == nil then
-    setmetatable(destination, mt)
-  end
-  
-  for k,v in pairs(keysTable) do
-    if type(v) == 'table' then
-      destination[k] = copyTables({}, v, valuesTable[k])
-    else
-      destination[k] = valuesTable[k]
-    end
-  end
-  return destination
-end
-
-local function getEasingFunction(easing)
-  easing = easing or "linear"
-  if type(easing) == 'string' then
-    local name = easing
-    easing = tween.easing[name]
-    if type(easing) ~= 'function' then
-      error("The easing function name '" .. name .. "' is invalid")
-    end
-  end
-  return easing
-end
-
-local function performEasingOnSubject(subject, target, initial, clock, duration, easing)
-  local t,b,c,d
-  for k,v in pairs(target) do
-    if type(v) == 'table' then
-      performEasingOnSubject(subject[k], v, initial[k], clock, duration, easing)
-    elseif type(v) == "boolean" then
-      if clock > 0 then
-        subject[k] = v
-      end
-    elseif type(v) == "number" or type(v) == "boolean" then
-      t,b,c,d = clock, initial[k], v - initial[k], duration
-      subject[k] = easing(t,b,c,d)
-    end
-  end
-end
-
--- Tween methods
-
-local Tween = {}
-local Tween_mt = {__index = Tween}
-
-function Tween:set(clock)
-  assert(type(clock) == 'number', "clock must be a positive number or 0")
-
-  self.initial = self.initial or copyTables({}, self.target, self.subject)
-  self.clock = clock
-
-  if self.clock <= 0 then
-
-    self.clock = 0
-    copyTables(self.subject, self.initial)
-
-  elseif self.clock >= self.duration then -- the tween has expired
-
-    self.clock = self.duration
-    copyTables(self.subject, self.target)
-
-  else
-    performEasingOnSubject(self.subject, self.target, self.initial, self.clock, self.duration, self.easing)
-
-  end
-
-  return self.clock >= self.duration
-end
-
-function Tween:reset()
-  return self:set(0)
-end
-
-function Tween:update(dt)
-  assert(type(dt) == 'number', "dt must be a number")
-  return self:set(self.clock + dt)
-end
-
-
--- Public interface
-
-function tween.new(duration, subject, target, easing)
-  easing = getEasingFunction(easing)
-  return setmetatable({
-    duration  = duration,
-    subject   = subject,
-    target    = target,
-    easing    = easing,
-    clock     = 0
-  }, Tween_mt)
-end
 
 return tween
