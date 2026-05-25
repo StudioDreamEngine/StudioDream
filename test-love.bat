@@ -1,5 +1,5 @@
 @ECHO off
 
 cd src
-lovec .
+love .
 cd ..
