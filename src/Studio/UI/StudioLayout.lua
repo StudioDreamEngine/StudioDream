@@ -152,8 +152,8 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("InsertObject", {
-        Size = Pivot2D.FromScale(0.25,.5),
-        Position = Pivot2D.FromScale(1,1),
+        Size = Pivot2D.FromScale(0.25,.25),
+        Position = Pivot2D.FromScale(.5,1),
         Pivot = Vector2.new(1,1),
         Layer = 3,
         Visible = true
