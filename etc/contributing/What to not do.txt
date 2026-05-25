@@ -1,0 +1,6 @@
+1. Do not return non-proxied objects
+    Non-proxied object: 
+        An object that doesnt have a proxy metatable for detecting property changes, usually returned by
+        stuff that gets an object by having the object itself return itself
+
+    This is an issue for comparison operations, because of the fact that a non-proxied object isnt the same as a proxied object to lua

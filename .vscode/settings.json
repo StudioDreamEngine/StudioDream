@@ -6,10 +6,8 @@
         "Dream"
     ],
     "Lua.diagnostics.disable": [
-        "need-check-nil",
-        "duplicate-set-field",
+        "inject-field",
         "undefined-field",
-        "redundant-parameter",
         "deprecated"
     ],
     "Lua.workspace.library": [

@@ -25,6 +25,45 @@ function Components.Init()
     })
 end
 
+function Components.CreateIconObject(Name, Icon)
+    local NodeInner = Things.Create("TextButton") {
+        Position = Pivot2D.FromScale(1,0),
+        Pivot = Vector2.new(1,0),
+        --Size = Pivot2D.new(-Depth*20,1,0,1),
+        Size = Pivot2D.new(0,1,20,0),
+        BackgroundColor = Studio.Theme.Secondary,
+        Text = "",
+        --Parent = Node,
+        Layer = 3,
+        Name = Name,
+        OutlineSize = 1,
+        OutlineColor = Studio.Theme.Primary
+    }
+
+    local NodeText = Things.Create("Text") {
+        Size =  Pivot2D.FromScale(0.5,1),
+        Position = Pivot2D.FromScale(0,0.5),
+        Pivot = Vector2.new(0,0.5),
+        Text = Name,
+        Name = "NodeText",
+        Parent = NodeInner,
+        BackgroundTransparency = 1,
+        ForegroundColor = Studio.Theme.Text
+    }
+    
+    local Icon = Utils.DoesFileExist("Assets/EditorIcons/" .. Icon .. ".png") and "Assets/EditorIcons/" .. Icon .. ".png" or "Assets/EditorIcons/File_Not_Found.png"
+    
+    local NodeIcon = Things.Create("Image2D") {
+        Size = Pivot2D.new(0,0.1,0,1),
+        SquareAxis = Enum.SquareAxis.Y,
+        Pivot = Vector2.new(1,0.5),
+        Position = Pivot2D.FromScale(0,0.5),
+        Image = Icon,
+        Parent = NodeInner
+    }
+
+    return NodeInner
+end
 
 local ChoiceTypes = {
     ["Button"] = function(Func,Parent,Text)
@@ -141,15 +180,6 @@ function Components.ShowDropdown(Position, Choices, Size)--, CreateOne)
         Position = Position.AbsolutePosition + (Position.AbsoluteSize * Vector2.yAxis)
     end
 
-    --[[if CreateOne then
-        CurrentDropdown = Components.CreateStyle("Square", {
-        Name = "DropdownElement",
-        AutomaticSize = Enum.AutomaticSize.Y,
-        Size = Pivot2D.FromOffset(200,0),
-        Layer = 100
-    })
-    end]]
-
     local Dropdown = {}
 
     CurrentDropdown:ClearAllChildren()
@@ -162,6 +192,7 @@ function Components.ShowDropdown(Position, Choices, Size)--, CreateOne)
         local Button = Components.CreateStyle("TextButton", {
             Text = Choice.Text,
             Clicked = Choice.Function,
+            Name = "SimpleDropdown",
             Size = Pivot2D.new(0,1,Size.Y or 20,0),
             Parent = CurrentDropdown,
             BackgroundTransparency = 1
@@ -176,14 +207,7 @@ function Components.ShowDropdown(Position, Choices, Size)--, CreateOne)
     }
 
     function Dropdown:RemoveDropdown()
-        --[[for i,v in pairs(ButtonsActions) do
-            v:Destroy()
-        end
-        if CreateOne then
-            Things.Remove(CurrentDropdown)
-        else]]
         CurrentDropdown.Visible = false
-        --end
     end
 
     CurrentDropdown:SetParent(Things.Root.RootViewport) -- This makes them appear already loaded dont remove!

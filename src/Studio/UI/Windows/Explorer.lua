@@ -27,40 +27,9 @@ function Explorer.CreateNode(Object, Depth)
         Parent = Node,
     }
 
-    local NodeInner = Things.Create("TextButton") {
-        Position = Pivot2D.FromScale(1,0),
-        Pivot = Vector2.new(1,0),
-        Size = Pivot2D.new(-Depth*20,1,0,1),
-        BackgroundColor = Studio.Theme.Secondary,
-        Text = "",
-        Parent = Node,
-        Layer = 3,
-        Name = Object.Name,
-        OutlineSize = 1,
-        OutlineColor = Studio.Theme.Primary
-    }
-
-    local NodeText = Things.Create("Text") {
-        Size =  Pivot2D.FromScale(0.5,1),
-        Position = Pivot2D.FromScale(0,0.5),
-        Pivot = Vector2.new(0,0.5),
-        Text = Object.Name,
-        Name = "NodeText",
-        Parent = NodeInner,
-        BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text
-    }
-    
-    local Icon = Utils.DoesFileExist("Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png") and "Assets/EditorIcons/" .. Object.Explorer.Icon .. ".png" or "Assets/EditorIcons/File_Not_Found.png"
-    
-    local NodeIcon = Things.Create("Image2D") {
-        Size = Pivot2D.new(0,0.1,0,1),
-        SquareAxis = Enum.SquareAxis.Y,
-        Pivot = Vector2.new(1,0.5),
-        Position = Pivot2D.FromScale(0,0.5),
-        Image = Icon,
-        Parent = NodeInner
-    }
+    local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Explorer.Icon)
+    NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
+    NodeInner:SetParent(Node)
     
     return Node, NodeInner
 end
@@ -112,11 +81,7 @@ end
 function Explorer.Init()
     Window = Explorer.Container
 
-    Explorer.CreateTree(Things.Root, 0)
-
-    Things.Create("ListLayout") {
-        Parent = Window
-    }
+    Explorer.Redraw()
 
     InputService.MouseEvent:Connect(function(IsDown)
         if IsDown and Hovering then -- Drag Start
@@ -133,7 +98,12 @@ end
 
 function Explorer.Redraw()
     Window:ClearAllChildren()
-    Explorer.Init(Window)
+    
+    Explorer.CreateTree(Things.Root, 0)
+
+    Things.Create("ListLayout") {
+        Parent = Window
+    }
 end
 
 function Explorer.Update(dt)

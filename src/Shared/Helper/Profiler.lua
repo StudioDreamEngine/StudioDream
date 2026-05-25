@@ -12,13 +12,13 @@ function Profiler.Benchmark(Name, AlertStart)
     local Start = os.clock()
 
     if AlertStart then
-        printVerbose("Starting Benchmark: "..Name)
+        print("Starting Benchmark: "..Name)
     end
 
     function Benchmark.End()
         local Diff = os.clock() - Start
 
-        printVerbose("Completed Benchmark: "..Name.." in "..tostring(Diff*1000).."ms")
+        print("Completed Benchmark: "..Name.." in "..tostring(Diff*1000).."ms")
     end
 
     return Benchmark

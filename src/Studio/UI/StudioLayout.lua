@@ -14,7 +14,7 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         Position = Transform.Position,
         Pivot = Transform.Pivot,
         BackgroundColor = Theme.Secondary,
-        Name = "Properties",
+        Name = "WindowContainer",
         Layer = Transform.Layer or 1,
         Parent = Parent or StudioLayout.Windows,
         CornerRadius = 5,
@@ -31,6 +31,7 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         Layer = 2,
         Parent = Windows.Container,
         CornerRadius = 2.5,
+        Serializable = false
     }
 
     Windows.Namer = Runtime.Things.Create("Text") {
@@ -41,6 +42,7 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         Layer = Windows.Container.Layer+5,
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.Text,
+        Name = "WindowText",
         Align = Vector2.new(0.5,0.5)
     }
     Windows.Namer:SetFont("Assets/Fonts/Roboto/Roboto-Medium.ttf")
@@ -63,6 +65,7 @@ end
 function StudioLayout.CreateWindow(WindowType, Transform, Parent)
     local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Parent)
     WindowContainer.Namer.Text = WindowType
+
     StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer.BackWindow)
 end
 
@@ -107,12 +110,14 @@ end
 function StudioLayout.CreateTopbar()
     StudioLayout.TopBar = Things.Create("Square") {
         Parent = Things.Root.RootViewport,
+        Name = "TopBar",
         Size = Pivot2D.FromScale(1,0.15),
         BackgroundColor = Theme.Primary
     }
 
     local MenuBar = Things.Create("Square") {
         Parent = StudioLayout.TopBar,
+        Name = "MenuBar",
         Position = Pivot2D.FromScale(0,0.0),
         Size = Pivot2D.FromScale(1,0.3),
         BackgroundTransparency = 1
@@ -120,6 +125,7 @@ function StudioLayout.CreateTopbar()
 
     local TopbarInner = Things.Create("Square") {
         Parent = StudioLayout.TopBar,
+        Name = "ToolBar",
         Position = Pivot2D.FromScale(0,0.3),
         Size = Pivot2D.FromScale(1,0.7),
         BackgroundTransparency = 1
@@ -145,13 +151,13 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.75,.9),
     })
 
-    --[[StudioLayout.CreateWindow("InsertObject", {
+    StudioLayout.CreateWindow("InsertObject", {
         Size = Pivot2D.FromScale(0.25,.5),
         Position = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(1,1),
         Layer = 3,
-        Visible = false
-    })]]
+        Visible = true
+    })
 
     StudioLayout.CreateWindow("Properties", {
         Size = Pivot2D.FromScale(0.25,.5),

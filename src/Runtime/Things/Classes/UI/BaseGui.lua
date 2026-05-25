@@ -5,34 +5,27 @@ local Things = Runtime.Things
 ---@class BaseGui: Thing
 local BaseGui = Things.Extend("Thing")
 
-function BaseGui:GetOffsetPosition()
+function BaseGui:GetOffsetPosition(ParentRect)
     local PositionProp = self:GetProperty("Position")
 
     local Position = PositionProp.Offset - (self.Pivot * self.AbsoluteSize)
-    local ParentElement = self:GetParentElement()
+    ParentRect = ParentRect or self:GetParentRect()
 
-    if ParentElement then
-        Position = Position + (PositionProp.Scale * ParentElement.AbsoluteSize)
+    if ParentRect then
+        Position = Position + (PositionProp.Scale * ParentRect.Size)
     end
 
     return Position
 end
 
-function BaseGui:GetAbsolutePosition()
-    local ParentElement = self:GetParentElement()
-    local Position = self:GetOffsetPosition()
+function BaseGui:GetAbsolutePosition(ParentRect)
+    ParentRect = ParentRect or self:GetParentRect(true)
+
+    local Position = self:GetOffsetPosition(ParentRect)
     local Display = self:GetDisplayUI() ---@class Viewport2D
 
-    if ParentElement then
-        -- we need to now make sure the parent element is displaying to the same viewport
-        local SameDisplayUI = (ParentElement:GetDisplayUI() == Display)
-
-        -- If it isnt, stop here, dont get the position of the next one
-        if (not SameDisplayUI) then 
-            return Position 
-        end
-
-        Position = Position + ParentElement.AbsolutePosition
+    if ParentRect then
+        Position = Position + ParentRect.Origin
     end
 
     if self.MouseLocked then
@@ -48,18 +41,6 @@ end
 
 function BaseGui:IsAlwaysOnTop()
     return self.MouseLocked
-end
-
--- Get true position from display point on part or the screen
-function BaseGui:GetDisplayPosition()
-    local ParentElement = self:GetParentElement()
-    local Position = self:GetOffsetPosition()
-
-    if ParentElement then
-        Position = Position + ParentElement.DisplayPosition
-    end
-
-    return Position
 end
 
 function BaseGui:GetContentSize()
@@ -79,12 +60,12 @@ function BaseGui:GetContentSize()
     return Size
 end
 
-function BaseGui:GetAbsoluteSize()
+function BaseGui:GetAbsoluteSize(ParentRect)
     local AbsoluteSize = self.Size.Offset
-    local ParentElement = self:GetParentElement()
+    ParentRect = ParentRect or self:GetParentRect()
 
-    if ParentElement then -- Only do this if we found a parent element
-        local Scale = (ParentElement.AbsoluteSize * self.Size.Scale)
+    if ParentRect then -- Only do this if we found a parent element
+        local Scale = (ParentRect.Size * self.Size.Scale)
 
         if self.SquareAxis then
             Scale = Vector2.one * Scale[self.SquareAxis]
@@ -106,6 +87,18 @@ end
 -- Find the parent element rendering this object, not really needed
 function BaseGui:GetParentElement()
     return (self.Parent and self.Parent:IsA("BaseGui")) and self.Parent
+end
+
+function BaseGui:GetParentRect(SameDisplay)
+    local ParentElement = self:GetParentElement() ---@class BaseGui
+
+    if ParentElement then
+        if SameDisplay and (ParentElement:GetDisplayUI() ~= self:GetDisplayUI()) then
+            return
+        end
+
+        return ParentElement:GetRect()
+    end
 end
 
 -- Find the parent Viewport2D rendering this object
@@ -148,8 +141,6 @@ function BaseGui:new()
 
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
-
-    self.DisplayPosition = Vector2.zero
 
     self.Visible = true
 
@@ -210,7 +201,6 @@ function BaseGui:UpdateTransforms()
 
     self:SetAbsoluteSize(NewSize)
     self.AbsolutePosition = self:GetAbsolutePosition()
-    --self.DisplayPosition = self:GetDisplayPosition()
 end
 
 function BaseGui:InvalidateAutomaticSize()

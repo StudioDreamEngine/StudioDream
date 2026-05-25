@@ -1,0 +1,48 @@
+Organization:
+    Editor: Handles the actual editor part of the engine
+    Packages: Shared Packages
+    Runtime: Seperate runtime library, most engine code will go here
+
+models will be considered scenes, when you insert one into Environment and edit it, it acts as a reference in a way, you are editing the file, not the Environment
+
+Naming:
+    Properties will be renamed to Inspector
+    Instances are Things
+
+Thing Related stuff:
+    Explorer/Game Layout:
+        Environment (Serialized as pre-defined scene in project settings)
+        UI (Shortcut to pre-defined scene in project settings)
+        Services (Created on runtime, not serialized)
+        Viewport (Not Serialized, Hidden, this contains the studio ui or client ui)
+        (Rest are the folders within the project repo, allowing for more customization)
+
+    Thing Classes:
+        BaseGui
+            Viewport3D - Display a 3D scene in the root ui
+            Viewport2D - Display a 2D scene in the root ui
+
+        (to extend classes: Add an extend key to the returned table)
+
+    Idea for displaying things:
+        We start from the Viewport thing, this is a Viewport2D object that simply submits its contents to the 2d visual engine
+        Viewport3D objects will do the same thing, except they are submitted to 3DreamEngine.
+
+        For now, Viewport3D will submit anything to a singleton renderer
+        and Viewport2D can choose which renderer to submit to
+    
+    Thing Ideas:
+        Things will be a general object type, for example, an Highlight thing could be used for a model, to display the outline on it
+        or on a UI, to make an outline on the UI thing, so every thing could connect to itself by this system
+
+        Why? This would make our job simplier, we could add on the thing on what to do in a 2D or 3D scene, or what to do in specifc cases like, being
+        a child of a UI or Model thing, ect ect
+        This also makes the user curious, "How should this work on this?" or "What happends if i use this on a 2D/3D scene?", They explore more the engine
+        Making it fun and easy to learn
+
+How should layouts be handled or objects that change the position/behavior of parent objects?
+    was thinking we simply just handle this at the level of the Viewport Module or someth
+
+Global Functions:
+    Root: Access the root of the game itself
+    GetService: Get a service, maybe should be part of a root global?

@@ -121,6 +121,7 @@ end
 function Thing:RemoveAttribute(Name)
     self.Attributes[Name] = nil
 end
+
 -- Get the property or the override for it
 -- If you dont want the overriden property, dont use this
 function Thing:GetProperty(Property)

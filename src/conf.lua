@@ -3,7 +3,7 @@ VERSION = "0.3.2"
 
 FLAGS = {
     ModeTarget = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
-    Verbose = true
+    Verbose = false
 }
 
 function love.conf(t)

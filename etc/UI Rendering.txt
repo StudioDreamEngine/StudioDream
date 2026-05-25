@@ -1,0 +1,22 @@
+(We're gonna ignore Viewports and assume this is being rendered under the main Viewport)
+
+Stage 1: Invalidation (Handles the Positioning and Sizing of elements)
+    When studiodream wants to render a ui element, it first needs to know two things:
+        - The Size of the object on the screen (AbsoluteSize)
+        - The Position of the object on the screen (AbsolutePosition)
+
+    In order to determine this, we need to invalidate, or, (re)calculate where the object is on the screen
+    
+    When an object has its position, size or anything else that may change how what those two values should be, BaseGui:InvalidateRendering() is called
+    This sets a flag to then re-calculate its position and size next frame
+
+    The details of this are not important right now, but once its re-calculated, the new absolute size and position are given to the object
+    And we go onto the display list
+
+Stage 2: The Display List (Handles layering of elements)
+    This simply recurses through the viewport, sorts the elements by layer (like sibling z-index), then is added to the display list
+
+    This display list is passed to the renderer
+
+Stage 3: Rendering (Handles rendering and visiblity of elements)
+    Simply goes through the display list, translates to a position, then draws the object itself with love2d api calls

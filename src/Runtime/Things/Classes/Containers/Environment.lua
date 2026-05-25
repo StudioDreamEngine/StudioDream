@@ -21,13 +21,13 @@ function Environment:new()
     self.Camera = nil
 
     self.StepPhysics = false
-    self.Gravity = -10
+    self.Gravity = Vector3.new(0,-10,0)
 
     self.DreamWorld = Backend3D:CreateWorld()
     self.DreamWorld.IsEnv = true
 
     self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
-    self.PhysicsWorld:setGravity(Vector3.new(0, self.Gravity, 0).ToBullet())
+    self.PhysicsWorld:setGravity(self.Gravity.ToBullet())
 
     self.PhysicsBodies = {}
 end

@@ -1,14 +1,17 @@
 local Things = Runtime.Things
-local Template = {}
+local InsertObject = {}
 
-Template.Container = nil ---@class Square
+InsertObject.Container = nil ---@class Square
 
-function Template.Init()
+function InsertObject.Init()
+    InsertObject.ScrollContainer = Things.Create("Square") { -- Not a scroll container for now
+        Size = Pivot2D.FromScale(1,1),
+        Parent = InsertObject.Container
+    }
+end
+
+function InsertObject.Update(dt)
     
 end
 
-function Template.Update(dt)
-    
-end
-
-return Template
+return InsertObject
