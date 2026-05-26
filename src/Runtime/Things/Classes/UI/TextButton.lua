@@ -8,11 +8,6 @@ local TextButton = Things.Extend("Text")
 function TextButton:new()
     TextButton.super.new(self)
 
-    self.Explorer = {
-        Visible = true,
-        Icon = "TextButton"
-    }
-
     self.Hovering = false 
     self.HoverColorMultiplier = 0.75
     self.ClickingColorMultiplier = 0.5
@@ -31,14 +26,19 @@ function TextButton:new()
         self.Clicked.Invoke()
     end)
 
-    self.Proxy.Property("boolean ChangeCursorWhileHovering","boolean Hovering")
-
     --[[self.PropertyChanged:Connect(function(Value,Property)
         if Property == "Hovering" and self.ChangeCursorWhileHovering and (self.LastHover~=self.Hovering) then
             print(self.Hovering)
             Runtime.Cursor.ChangeCursor(Value and "Hovering" or "Main")
         end
     end)]]
+end
+
+function TextButton:DefineAPI()
+    TextButton.super.DefineAPI(self)
+
+    self.Proxy.Icon("TextButton")
+    self.Proxy.Property("boolean ChangeCursorWhileHovering","boolean Hovering")
 end
 
 function TextButton:Update(dt)

@@ -6,15 +6,16 @@ local Camera = Things.Extend("Base3D")
 function Camera:new()
     Camera.super.new(self)
 
-    self.Explorer = {
-        Visible = true,
-        Icon = "Camera"
-    }
-
     self.FieldOfView = 70 -- FOV
     self.Viewport = nil -- This should be set by the viewport/environment, not by itself
 
     self.Drawable = Dream.camera
+end
+
+function Camera:DefineAPI()
+    Camera.super.DefineAPI(self)
+
+    self.Proxy.Icon("Camera")
 
     self.Proxy.Property("number FieldOfView")
 end

@@ -6,20 +6,20 @@ local Image2D = Things.Extend("BaseGui")
 
 function Image2D:new()
     Image2D.super.new(self)
-
-    self.Explorer = {
-        Visible = true,
-        Icon = "photo"
-    }
     
     self.Image = nil
     self.ImageRect = nil
     
     self.ImageQuad = nil
 
-    self.Proxy.Property("Rect ImageRect")
-
     self:SetImage("Assets/Icons/Studio.png")
+end
+
+function Image2D:DefineAPI()
+    Image2D.super.DefineAPI(self)
+
+    self.Proxy.Icon("photo")
+    self.Proxy.Property("Rect ImageRect")
 end
 
 function Image2D:SetImage(NewImage)

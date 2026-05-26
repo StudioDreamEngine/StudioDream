@@ -17,6 +17,10 @@ function Drawable3D:new()
     self.PhysicsShape = nil
 
     self.Scale = Vector3.new(1, 1, 1)
+end
+
+function Drawable3D:DefineAPI()
+    Drawable3D.super.DefineAPI(self)
 
     self.Proxy.Property("Vector3 Scale", "boolean Outline", "FilePath MeshPath")
     self.Proxy.Group("Transform", "Scale")

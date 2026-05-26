@@ -21,6 +21,7 @@ end
 function Runtime.PostInit()
     Runtime.Backend.PostInit()
     Runtime.Things.CreateEnviornment()
+    Runtime.Things.CreateApiDump()
 
     Runtime.Serializer = require("Runtime.Serialization")
 

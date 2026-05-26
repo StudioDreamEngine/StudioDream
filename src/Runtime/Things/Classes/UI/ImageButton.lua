@@ -28,6 +28,12 @@ function ImageButton:new()
     end)
 end
 
+function ImageButton:DefineAPI()
+    ImageButton.super.DefineAPI(self)
+
+    self.Proxy.Icon("ImageButton")
+end
+
 function ImageButton:Update(dt)
     ImageButton.super.Update(self)
     local DisplayUI = self:GetDisplayUI()

@@ -7,11 +7,6 @@ local Text = Things.Extend("Square")
 function Text:new()
     Text.super.new(self)
 
-    self.Explorer = {
-        Visible = true,
-        Icon = "Text"
-    }
-
     self.TextSize = 12
     self.TextScaled = true
     self.Text = "Placeholder"
@@ -19,6 +14,12 @@ function Text:new()
     self.Align = Vector2.zero
 
     self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
+end
+
+function Text:DefineAPI()
+    Text.super.DefineAPI(self)
+
+    self.Proxy.Icon("Text")
 end
 
 function Text:AttemptWrap(Size)

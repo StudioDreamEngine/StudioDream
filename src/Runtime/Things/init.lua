@@ -5,6 +5,8 @@ local Things = {}
 local Objects = {}
 local Classes = {}
 
+Things.API = {}
+
 local ObjectsCreated = 0
 local CreateRoot
 
@@ -15,6 +17,17 @@ function Things.Init()
     Things.Root = CreateRoot.CreateRoot()
 
     print("Tree Created")
+end
+
+function Things.CreateApiDump()
+    for Class, _ in pairs(Classes) do
+        local ClassObject = Things.Type(Class)() ---@class Thing
+        ClassObject:DefineAPI()
+        
+        Things.API[Class] = ClassObject.Proxy
+    end
+
+    print(Things.API["Thing"])
 end
 
 function Things.CreateEnviornment()
@@ -39,9 +52,10 @@ function Things.SetDebugObject(Object) Things.DebugObj = Object end
 
 
 
+
 function Things.Type(ThingType) 
     assert(ThingType, "Invalid type ("..ThingType..")")
-    return require(Classes[ThingType]) 
+    return require(Classes[ThingType])
 end
 
 function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
@@ -78,6 +92,8 @@ end
 
 function Things.New(ThingType, CustomUUID)
     local Thing = Things.Type(ThingType)()
+    Thing:new()
+    Thing:DefineAPI()
 
     ObjectsCreated = ObjectsCreated + 1
 

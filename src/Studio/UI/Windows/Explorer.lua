@@ -27,7 +27,7 @@ function Explorer.CreateNode(Object, Depth)
         Parent = Node,
     }
 
-    local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Explorer.Icon)
+    local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon)
     NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeInner:SetParent(Node)
     

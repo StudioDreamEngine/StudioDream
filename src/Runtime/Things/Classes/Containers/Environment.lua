@@ -32,6 +32,13 @@ function Environment:new()
     self.PhysicsBodies = {}
 end
 
+function Environment:DefineAPI()
+    Environment.super.DefineAPI(self)
+
+    self.Proxy.Icon("Environment")
+    self.Proxy.Property("Vector3 Gravity", "boolean StepPhysics")
+end
+
 function Environment:Raycast(origin, direction)
     return Runtime.Backend3D.Raycast(origin, direction, self.DreamWorld)
 end

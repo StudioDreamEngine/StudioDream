@@ -5,11 +5,12 @@ local Viewport3D = Things.Extend("Viewport")
 
 function Viewport3D:new()
     Viewport3D.super.new(self)
-    self.Explorer = {
-        Visible = true,
-        
-        Icon = "Viewport_3D"
-    }
+end
+
+function Viewport3D:DefineAPI()
+    Viewport3D.super.DefineAPI(self)
+
+    self.Proxy.Icon("Viewport_3D")
 end
 
 function Viewport3D:SetAbsoluteSize(New)

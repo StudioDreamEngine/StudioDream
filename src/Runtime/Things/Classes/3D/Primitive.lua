@@ -7,14 +7,16 @@ local Primitive = Things.Extend("Drawable3D")
 function Primitive:new()
     Primitive.super.new(self)
 
-    self.Explorer = {
-        Visible = true,
-        Icon = "Scene"
-    }
     self.Shape = Enum.Shape.Cube
     
     self._LastShape = self.Shape
     self:CheckShape()
+end
+
+function Primitive:DefineAPI()
+    Primitive.super.DefineAPI(self)
+
+    self.Proxy.Icon("Scene")
 
     self.Proxy.Property("Enum Shape")
     self.Proxy.Group("Visuals", "Shape")

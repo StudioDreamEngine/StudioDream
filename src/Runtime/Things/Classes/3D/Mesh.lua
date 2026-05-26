@@ -7,15 +7,16 @@ local Mesh = Things.Extend("Drawable3D")
 function Mesh:new()
     Mesh.super.new(self)
 
-    self.Explorer = {
-        Visible = true,
-        Icon = "MeshPart"
-    }
-
     self.TextureFile = nil -- Maybe make this a table so we can put normals, and that super cool and realist stuff???
     self.Anchored = true
 
     self:LoadObject()
+end
+
+function Mesh:DefineAPI()
+    Mesh.super.DefineAPI(self)
+
+    self.Proxy.Icon("MeshPart")
 end
 
 function Mesh:OnRemove()

@@ -146,6 +146,10 @@ function BaseGui:new()
 
     self.WasInvalidated = false
     self.EverInvalidated = false
+end
+
+function BaseGui:DefineAPI()
+    BaseGui.super.DefineAPI(self)
 
     self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum SquareAxis", "number ListOrder")
     self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency")

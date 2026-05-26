@@ -43,7 +43,7 @@ function Utils.GetEnumNameByValue(EnumName,Val) -- i dont got any other ideas on
     return nil
 end
 
-function Utils.LoadModules(Path)
+function Utils.LoadModules(Path, Require)
     local Classes = {}
     local ClassesList = Utils.GetFolderDescendants(Path, false, true)
 
@@ -51,7 +51,7 @@ function Utils.LoadModules(Path)
         local Path = string.split(v, "%/")
         local Name = Path[#Path]
 
-        Classes[Name] = v
+        Classes[Name] = Require and require(v) or v
     end
 
     return Classes

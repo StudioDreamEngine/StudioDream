@@ -11,12 +11,14 @@ function Viewport2D:new()
     self.MousePosition = Vector2.zero
 
     self.TopLayer = {}
-
-    self.Explorer = {
-        Visible = true,
-        Icon = "Viewport_2D"
-    }
 end
+
+function Viewport2D:DefineAPI()
+    Viewport2D.super.DefineAPI(self)
+
+    self.Proxy.Icon("Viewport_2D")
+end
+
 
 local function SortByDepth(List)
     local TempList = {}

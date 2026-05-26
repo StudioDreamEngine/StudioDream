@@ -4,6 +4,9 @@
 return { new = function()
     local ObjectProxy = {}
 
+    ObjectProxy.Creatable = false
+    ObjectProxy.ExplorerIcon = "Square"
+
     ObjectProxy.Serializable = {}
     ObjectProxy.Accessible = {}
 
@@ -34,10 +37,18 @@ return { new = function()
         ObjectProxy.Types[Name] = Type
     end
 
+    function ObjectProxy.Icon(Icon)
+        ObjectProxy.ExplorerIcon = Icon
+    end
+
     -- Add a property that can be serialized and used by scripts
     function ObjectProxy.Property(...)
         ObjectProxy.PropertyAccess(...)
         ObjectProxy.PropertySerialize(...)
+    end
+
+    function ObjectProxy.MakeCreatable()
+        ObjectProxy.Creatable = true
     end
 
     -- Add an accessible only property

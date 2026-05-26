@@ -11,11 +11,10 @@ function Square:new()
 
     self.OutlineSize = 0
     self.OutlineColor = Color.new(0,0,0)
+end
 
-    self.Explorer = {
-        Visible = true,
-        Icon = "Square"
-    }
+function Square:DefineAPI()
+    Square.super.DefineAPI(self)
 
     self.Proxy.Property("number CornerRadius", "number OutlineSize", "Color OutlineColor")
 end

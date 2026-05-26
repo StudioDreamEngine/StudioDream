@@ -15,6 +15,10 @@ function ListLayout:new()
     self.Padding = 0
 
     self.RemainingSize = 0
+end
+
+function ListLayout:DefineAPI()
+    ListLayout.super.DefineAPI(self)
 
     self.Proxy.Property("Enum Direction", "number Padding")
 end

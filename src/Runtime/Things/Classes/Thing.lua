@@ -21,8 +21,6 @@ function Thing:new()
 
     self.ParentChanged = Signal:New("ParentChanged")
     self.ChildrenChanged = Signal:New("ChildrenChanged")
-    
-    self.Proxy = Runtime.ObjectProxy.new()
 
     self.PropertyChanged = Signal:New("SomethingChanged")
     self.AttributeChanged = Signal:New("AttributeChangedWow")
@@ -36,23 +34,22 @@ function Thing:new()
 
     self.Overrides = {}
 
-    self.Explorer = {
-        Visible = true,
-        Icon = "Square"
-    }
-
     self.Attributes = {}
-
-    self.Proxy.Property("Thing Parent", "string Name")
-    self.Proxy.Group("General", "Parent", "Name")
-
-    self.Proxy.Group("Attributes")
     --[[self.Proxy.Info({
         Groups = {
             -- TODO
         },
         ConstraintUpdator = nil -- Function that constraints use on update for an object
     })]]
+end
+
+function Thing:DefineAPI()
+    self.Proxy = Runtime.ObjectProxy.new()
+
+    self.Proxy.Property("Thing Parent", "string Name")
+    self.Proxy.Group("General", "Parent", "Name")
+
+    self.Proxy.Group("Attributes")
 end
 
 --[[
