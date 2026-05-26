@@ -2,6 +2,7 @@
 -- basically stores all api related stuff, icons, if an object is creatable, etc etc
 
 return { new = function()
+    ---@class ObjectProxy
     local ObjectProxy = {}
 
     ObjectProxy.Creatable = false

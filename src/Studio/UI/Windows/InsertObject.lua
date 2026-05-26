@@ -8,6 +8,21 @@ function InsertObject.Init()
         Size = Pivot2D.FromScale(1,1),
         Parent = InsertObject.Container
     }
+
+    for ClassName, Class in pairs(Runtime.Things.API) do
+        if Class.Creatable then
+            local IconObject = Studio.Components.CreateIconObject(ClassName, Class.ExplorerIcon)
+
+            IconObject.Pivot = Vector2.zero
+            IconObject.Size = Pivot2D.new(-20,1,20,0)
+            IconObject:SetParent(InsertObject.ScrollContainer)
+        end
+    end
+
+    Things.Create("ListLayout") {
+        Parent = InsertObject.ScrollContainer,
+        Alignment = Enum.AlignmentX.Right
+    }
 end
 
 function InsertObject.Update(dt)
