@@ -39,6 +39,7 @@ function TextButton:DefineAPI()
 
     self.Proxy.Icon("TextButton")
     self.Proxy.Property("boolean ChangeCursorWhileHovering","boolean Hovering")
+    self.Proxy.MakeCreatable()
 end
 
 function TextButton:Update(dt)

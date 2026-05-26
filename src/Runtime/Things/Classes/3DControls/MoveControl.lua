@@ -85,6 +85,12 @@ function MoveControl:new()
     end
 end
 
+function MoveControl:DefineAPI()
+    MoveControl.super.DefineAPI(self)
+    
+    self.Proxy.MakeCreatable()
+end
+
 function MoveControl:OnRemove()
     Runtime.Backend3D.RemoveAdorn(self.AdornObject.UUID)
     self:DisconnectEvents()

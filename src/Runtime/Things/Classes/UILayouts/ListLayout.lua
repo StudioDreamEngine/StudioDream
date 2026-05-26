@@ -21,6 +21,7 @@ function ListLayout:DefineAPI()
     ListLayout.super.DefineAPI(self)
 
     self.Proxy.Property("Enum Direction", "number Padding")
+    self.Proxy.MakeCreatable()
 end
 
 function ListLayout:Update()

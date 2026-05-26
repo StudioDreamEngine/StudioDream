@@ -20,6 +20,7 @@ function Primitive:DefineAPI()
 
     self.Proxy.Property("Enum Shape")
     self.Proxy.Group("Visuals", "Shape")
+    self.Proxy.MakeCreatable()
 end
 
 function Primitive:CheckShape()

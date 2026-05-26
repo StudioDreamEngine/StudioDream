@@ -17,6 +17,7 @@ function Viewport2D:DefineAPI()
     Viewport2D.super.DefineAPI(self)
 
     self.Proxy.Icon("Viewport_2D")
+    self.Proxy.MakeCreatable()
 end
 
 

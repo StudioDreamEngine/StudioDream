@@ -1,5 +1,5 @@
 -- idk what to call this
--- basically stores what properties are accessible, serializable, and what calls need their objects proxied
+-- basically stores all api related stuff, icons, if an object is creatable, etc etc
 
 return { new = function()
     local ObjectProxy = {}

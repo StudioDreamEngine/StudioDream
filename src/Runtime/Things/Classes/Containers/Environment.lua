@@ -37,6 +37,7 @@ function Environment:DefineAPI()
 
     self.Proxy.Icon("Environment")
     self.Proxy.Property("Vector3 Gravity", "boolean StepPhysics")
+    self.Proxy.MakeCreatable()
 end
 
 function Environment:Raycast(origin, direction)

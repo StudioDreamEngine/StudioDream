@@ -26,8 +26,6 @@ function Things.CreateApiDump()
         
         Things.API[Class] = ClassObject.Proxy
     end
-
-    print(Things.API["Thing"])
 end
 
 function Things.CreateEnviornment()

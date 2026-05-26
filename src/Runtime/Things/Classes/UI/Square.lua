@@ -17,6 +17,7 @@ function Square:DefineAPI()
     Square.super.DefineAPI(self)
 
     self.Proxy.Property("number CornerRadius", "number OutlineSize", "Color OutlineColor")
+    self.Proxy.MakeCreatable()
 end
 
 function Square:SetOutlineSize(number)

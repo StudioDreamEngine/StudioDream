@@ -32,6 +32,7 @@ function ImageButton:DefineAPI()
     ImageButton.super.DefineAPI(self)
 
     self.Proxy.Icon("ImageButton")
+    self.Proxy.MakeCreatable()
 end
 
 function ImageButton:Update(dt)

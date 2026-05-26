@@ -20,6 +20,7 @@ function Text:DefineAPI()
     Text.super.DefineAPI(self)
 
     self.Proxy.Icon("Text")
+    self.Proxy.MakeCreatable()
 end
 
 function Text:AttemptWrap(Size)

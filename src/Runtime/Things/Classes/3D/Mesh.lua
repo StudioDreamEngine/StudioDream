@@ -17,6 +17,7 @@ function Mesh:DefineAPI()
     Mesh.super.DefineAPI(self)
 
     self.Proxy.Icon("MeshPart")
+    self.Proxy.MakeCreatable()
 end
 
 function Mesh:OnRemove()

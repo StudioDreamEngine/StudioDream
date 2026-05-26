@@ -20,6 +20,7 @@ function Image2D:DefineAPI()
 
     self.Proxy.Icon("photo")
     self.Proxy.Property("Rect ImageRect")
+    self.Proxy.MakeCreatable()
 end
 
 function Image2D:SetImage(NewImage)
