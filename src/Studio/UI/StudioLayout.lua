@@ -43,7 +43,7 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.Text,
         Name = "WindowText",
-        Align = Vector2.new(0.5,0.5)
+        Alignment = Vector2.new(0.5,0.5)
     }
     Windows.Namer:SetFont("Assets/Fonts/Roboto/Roboto-Medium.ttf")
 

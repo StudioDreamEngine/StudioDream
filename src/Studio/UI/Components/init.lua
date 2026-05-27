@@ -4,7 +4,7 @@ local Components = {}
 function Components.CreateButton(Name, Properties)
     Properties.Text = Name
     Properties.CornerRadius = 7
-    Properties.Align = Vector2.new(0.5,0.5)
+    Properties.Alignment = Vector2.new(0.5,0.5)
 
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)
@@ -74,7 +74,7 @@ local ChoiceTypes = {
             Pivot = Vector2.new(0,0.5),
             Parent = Parent,
             BackgroundTransparency = 1,
-            Align = Vector2.new(0,0.5),
+            Alignment = Vector2.new(0,0.5),
         })
         Button.Clicked:Connect(function() Func(Button) end)
         Button:SetOutlineSize(0)
@@ -136,7 +136,7 @@ function Components.CreateDropdown(Position,Choices,Size) -- Advanced dropdown!!
                 Parent = CurrentSection,
                 BackgroundTransparency = 1,
                 OutlineSize = 0.1,
-                Align = Vector2.new(0.5,0.5),
+                Alignment = Vector2.new(0.5,0.5),
             })
             SubText:SetOutlineSize(0)
         end
@@ -148,7 +148,7 @@ function Components.CreateDropdown(Position,Choices,Size) -- Advanced dropdown!!
                 Pivot = Vector2.new(1,0.5),
                 Position = Pivot2D.FromScale(1,0.5),
                 Parent = CurrentSection,
-                Align = Vector2.new(0.5,0.5),
+                Alignment = Vector2.new(0.5,0.5),
                 BackgroundColor = Color.new(1)
             })
             Image.BackgroundColor = Color.new(1)

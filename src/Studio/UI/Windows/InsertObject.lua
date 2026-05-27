@@ -21,7 +21,7 @@ function InsertObject.Init()
 
     Things.Create("ListLayout") {
         Parent = InsertObject.ScrollContainer,
-        Alignment = Enum.AlignmentX.Right
+        Alignment = Enum.Alignment.TopRight
     }
 end
 

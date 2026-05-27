@@ -10,7 +10,7 @@ function ListLayout:new()
     self.ObjectFilter = "BaseGui" -- These are the objects that can be binded, if an object that isnt this is passed into BindObject, its ignored
 
     self.Direction = Enum.LayoutDirection.Vertical
-    self.Alignment = Enum.AlignmentX.Left
+    self.Alignment = Vector2.zero
 
     self.Padding = 0
 
@@ -60,12 +60,10 @@ function ListLayout:Update()
         if Object.Visible then
             local Position = Positions[Object.UUID]
 
-            if self.Alignment == Enum.AlignmentX.Center then
-                Position = Position + (-ContentSize + TotalSpace)/2
-            end
+            local BoundsSize = (Object.AbsoluteSize * OpposingVector) + (ContentSize * AxisVector)
 
             self:SetConstraint(Object, "Position", Pivot2D.FromOffset(
-                (Position * AxisVector) - ((-OpposingSpace + Object.AbsoluteSize)/2 * OpposingVector)
+                (Position * AxisVector) + Utils.GetAlignment(self.Alignment, self.Parent.AbsoluteSize, BoundsSize)
             ))
         end
     end

@@ -24,7 +24,7 @@ function TopBar.Init()
     })
 
     Things.Create("ListLayout") {
-        Alignment = Enum.AlignmentX.Left,
+        Alignment = Enum.Alignment.TopLeft,
         Direction = Enum.LayoutDirection.Horizontal,
         Parent = TopBar.TopperBarContainer,
         Padding = 10,

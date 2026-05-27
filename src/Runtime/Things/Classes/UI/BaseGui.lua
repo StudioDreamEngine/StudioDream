@@ -28,7 +28,7 @@ function BaseGui:GetAbsolutePosition(ParentRect)
         Position = Position + ParentRect.Origin
     end
 
-    if self.MouseLocked then
+    if self.MouseLocked and Display then
         Position = Display.MousePosition + self.LockOrigin
     end
 
@@ -257,9 +257,7 @@ function BaseGui:SetAbsoluteSize(NewSize)
     self.AbsoluteSize = NewSize
 end
 
-function BaseGui:Update(dt)
-    BaseGui.super.Update(dt)
-
+function BaseGui:Invalidate(dt)
     if self.WasInvalidated then
         self:ProcessInvalidation(self)
         self:InvalidateAutomaticSize()

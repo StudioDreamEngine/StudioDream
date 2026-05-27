@@ -1,13 +1,14 @@
 local Enums = {
-    AlignmentX = {
-        Left = 0,
-        Center = 0.5,
-        Right = 1
-    },
-    AlignmentY = {
-        Top = 0,
-        Center = 0.5,
-        Bottom = 1
+    Alignment = {
+        TopLeft = Vector2.zero,
+        TopRight = Vector2.new(1,0),
+        TopCenter = Vector2.new(.5,0),
+        MiddleLeft = Vector2.new(0,0.5),
+        MiddleRight = Vector2.new(1,0.5),
+        Center = Vector2.new(0.5,0.5),
+        BottomLeft = Vector2.new(0,1),
+        BottomRight = Vector2.new(1,1),
+        BottomCenter = Vector2.new(0.5,1),
     },
     Shape = {
         Cube = 'cube',

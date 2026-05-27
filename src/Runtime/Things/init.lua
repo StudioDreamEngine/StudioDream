@@ -136,8 +136,8 @@ function Things.Remove(Thing)
     Objects[Thing.UUID] = nil
 end
 
-function Things.Update(dt)
-    Profiler.Start("Update Things")
+function Things.UpdatePass(Name, dt)
+    Profiler.Start("Update Classes - "..Name)
 
     for _, Thing in pairs(Objects) do
         --[[
@@ -147,13 +147,18 @@ function Things.Update(dt)
             but this works too - Bloctans
         ]]
         if Thing.Parent then
-            Profiler.Start("Update Class - "..Thing.Name)
-            Thing:Update(dt)
+            Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
+            Thing[Name](Thing, dt)
             Profiler.End()
         end
     end
 
     Profiler.End()
+end
+
+function Things.Update(dt)
+    Things.UpdatePass("Update")
+    Things.UpdatePass("Invalidate")
 end
 
 return Things

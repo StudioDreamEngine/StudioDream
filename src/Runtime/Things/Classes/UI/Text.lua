@@ -11,7 +11,7 @@ function Text:new()
     self.TextScaled = true
     self.Text = "Placeholder"
     
-    self.Align = Vector2.zero
+    self.Alignment = Vector2.zero
 
     self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
 end
@@ -46,7 +46,7 @@ function Text:Draw()
     self.RenderClass.Text = self.Text
 
     Runtime.Backend2D.SetColor(self.ForegroundColor,self.ForegroundTransparency)
-    self.RenderClass.Render(self.AbsoluteSize, self.Align)
+    self.RenderClass.Render(self.AbsoluteSize, self.Alignment)
 end
 
 function Text:SetFont(NewFont)

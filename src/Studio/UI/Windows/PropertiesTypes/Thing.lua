@@ -13,22 +13,16 @@ return function(FrameOption,Thing,Property)
     }
 
     Button.Clicked:Connect(function() -- Someone fucked this
-        print(SelectionManager.ObjectPicker)
         if not SelectionManager.ObjectPicker then
-            SelectionManager.ObjectPicker = true
+            SelectionManager.ObjectPicker = Thing
             Runtime.Cursor.ChangeCursor("HoldingObj")
 
             SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
-                if NewThing == Thing then 
-                    Runtime.Cursor.ChangeCursor("Main")
-                    return 
-                end
-                SelectionManager.ObjectPicker = false
                 Runtime.Things.SetProperty(Thing, Property, NewThing)
                 Button:SetText(Thing[Property].Name)
+                
                 Studio.Layout.CallHandle("Explorer", "Redraw")
             end)
-            
         else
             SelectionManager.ObjectPicker = false
             Runtime.Cursor.ChangeCursor("Main")

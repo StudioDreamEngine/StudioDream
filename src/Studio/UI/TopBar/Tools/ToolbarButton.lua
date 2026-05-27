@@ -29,7 +29,7 @@ return function(Args)
         Size = Pivot2D.FromScale(1,0.3),
         ForegroundColor = Studio.Theme.Text,
         BackgroundTransparency = 1,
-        Align = Vector2.xAxis * .5, -- TODO: Move to alignmentx and y
+        ment = Enum.Alignment.TopLeft,
         Text = Args.Name
     }
     Text:SetFont("Assets/Fonts/Roboto/Roboto-Bold.ttf")

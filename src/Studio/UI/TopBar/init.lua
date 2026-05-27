@@ -61,7 +61,7 @@ function TopBar.Init()
     })
 
     Things.Create("ListLayout") {
-        Alignment = Enum.AlignmentX.Center,
+        Alignment = Enum.Alignment.Center,
         Direction = Enum.LayoutDirection.Horizontal,
         Parent = TopBar.TabsMenu
     }

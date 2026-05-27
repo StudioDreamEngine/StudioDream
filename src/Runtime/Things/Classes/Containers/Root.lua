@@ -17,6 +17,12 @@ function Root:new()
     self.RootViewport = nil
 end
 
+function Root:DefineAPI()
+    Root.super.DefineAPI(self)
+
+    self.Proxy.Icon("Root")
+end
+
 ---@return Camera
 function Root:GetCamera()
     return self.EnvironmentViewport and self.EnvironmentViewport:GetCamera()

@@ -24,25 +24,34 @@ function SelectionManager.DeselectObject(DontInvoke)
 end
 
 function SelectionManager.SelectObject(Thing)
+    if not SelectionManager.ObjectPicker then
+        SelectionManager.SelectObjectInternal(Thing)
+    else
+        if SelectionManager.ObjectPicker ~= Thing then 
+            SelectionManager.ObjectPicker = false
+            SelectionManager.ObjectPickerEvent.Invoke(Thing)
+        end
+
+        Runtime.Cursor.ChangeCursor("Main")
+    end
+end
+
+function SelectionManager.SelectObjectInternal(Thing)
     if LastSelection ~= Thing then
         SelectionManager.DeselectObject(true)
     end
 
-    if not SelectionManager.ObjectPicker then
-        Editor3D.Selecting = Thing
-        LastSelection = Editor3D.Selecting
+    Editor3D.Selecting = Thing
+    LastSelection = Editor3D.Selecting
 
-        Editor3D.OnSelect.Invoke(Editor3D.Selecting)
-        
-        if Thing:IsA("Drawable3D") then
-            if Editor3D.Selecting.SetOutline then
-                Editor3D.Selecting:SetOutline(true)
-            end
-
-            ToolManager.Select(Editor3D.Selecting)
+    Editor3D.OnSelect.Invoke(Editor3D.Selecting)
+    
+    if Thing:IsA("Drawable3D") then
+        if Editor3D.Selecting.SetOutline then
+            Editor3D.Selecting:SetOutline(true)
         end
-    else
-        SelectionManager.ObjectPickerEvent.Invoke(Thing)
+
+        ToolManager.Select(Editor3D.Selecting)
     end
 end
 
