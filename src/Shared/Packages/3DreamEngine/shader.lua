@@ -11,6 +11,7 @@ local testForOpenES = true
 --enables auto shader validator
 if _DEBUGMODE and love.graphics then
 	love.graphics.newShader_old = love.graphics.newShader
+	
 	function love.graphics.newShader(pixel, vertex, name)
 		local status, err = love.graphics.validateShader(testForOpenES, pixel, vertex)
 		if not status then
@@ -30,7 +31,7 @@ if _DEBUGMODE and love.graphics then
 		end
 		local sh = love.graphics.newShader_old(pixel, vertex)
 		local warnings = sh:getWarnings()
-		if #warnings ~= 29 then
+		if #warnings > 0 then
 			if not vertex and #pixel < 1024 and not pixel:find("\n") then
 				print(pixel)
 			end

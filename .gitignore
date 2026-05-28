@@ -6,3 +6,4 @@ desktop.ini
 # Build stuff
 build/squashfs-root/
 dist/StudioDream.AppImage
+love/

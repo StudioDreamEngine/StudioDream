@@ -9,9 +9,9 @@ uniform Image canvas_distortion;
 uniform Image canvas_exposure;
 uniform Image canvas_stencil;
 
-uniform vec3 viewPos;
+uniform highp vec3 viewPos;
 
-uniform float exposure;
+uniform mediump float exposure;
 
 #ifdef FOG_ENABLED
 varying vec3 viewVec;

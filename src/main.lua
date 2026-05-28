@@ -6,6 +6,10 @@ function love.load()
     love.graphics.present()
     
     Shared.SetupBullet = require("Shared.SetupGlobals")()
+
+    if FLAGS.Compat then
+        print("StudioDream is running in compatability mode, expect crashes or graphics issues")
+    end
     
     print("StudioDream V"..VERSION..", Target: "..FLAGS.ModeTarget)
 

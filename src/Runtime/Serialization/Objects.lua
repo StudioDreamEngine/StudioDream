@@ -5,8 +5,8 @@ local TypeSerializers = Utils.LoadModules("Runtime/Serialization/Types/")
 
 function Objects.HandleType(Property, Type, Deserialize)
     if (not TypeSerializers[Type]) then error(Type.." needs serializer") end
-    local Serializer = require(TypeSerializers[Type])
 
+    local Serializer = require(TypeSerializers[Type])
     return Deserialize and Serializer.Deserialize(Property) or Serializer.Serialize(Property)
 end
 

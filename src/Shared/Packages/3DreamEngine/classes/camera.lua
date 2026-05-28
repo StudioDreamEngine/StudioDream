@@ -118,7 +118,11 @@ function class:getPerspectiveTransform(canvases)
 	local scale = math.tan(fov * math.pi / 360)
 	local r = scale * n * self.aspect
 	local t = scale * n
-	local m = canvases.mode == "direct" and 1 or -1
+	local m = 1
+
+	if love.getVersion() < 12 then
+		m = canvases.mode == "direct" and 1 or -1
+	end
 	
 	--optimized matrix multiplication by removing constants
 	--looks like a mess, but its only the opengl projection multiplied by the camera

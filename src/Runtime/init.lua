@@ -6,7 +6,7 @@ Runtime.Backend = require("Runtime.Backend")
 
 function Runtime.Init()
     Profiler.Init()
-
+    
     Runtime.Backend.Init()
 
     Runtime.Backend2D = Runtime.Renderer.Get2DBackend()

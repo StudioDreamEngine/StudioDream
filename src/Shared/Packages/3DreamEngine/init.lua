@@ -19,7 +19,7 @@ if lib.root:sub(-4) == "init" then
 end
 
 --supported canvas formats
-lib.canvasFormats = love.graphics and love.graphics.getCanvasFormats() or { }
+lib.canvasFormats = love.graphics.getTextureFormats and love.graphics.getTextureFormats({canvas=true}) or love.graphics.getCanvasFormats()
 
 --mobile mode sets lower graphics settings by default
 lib.IS_MOBILE = false

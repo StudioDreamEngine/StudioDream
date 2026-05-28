@@ -18,12 +18,12 @@ varying highp vec3 varyingBitangent; //vertex bi tangent for pixel shader
 #endif
 
 varying float depth;               //depth
-uniform float stencil;
+uniform mediump float stencil;
 
 varying float varyingEmissionFactor; //unlike additive emission this factor
 
-uniform float translucency;
-uniform float alphaCutoff;
+uniform mediump float translucency;
+uniform mediump float alphaCutoff;
 
 #ifdef DEPTH_AVAILABLE
 uniform Image depthTexture;

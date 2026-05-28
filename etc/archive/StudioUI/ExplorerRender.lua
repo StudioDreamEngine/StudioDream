@@ -29,10 +29,8 @@ local function RenderTextLabel(Text, VectorPos, Container,SpecialPos,SpecialSize
         TextSize = SpecialSize or 12,
         ForegroundColor = Color.new(1),
         BackgroundTransparency = 1,
-        AlignX = Enum.AlignmentX.Left,
         TextScaled = true,
         Pivot = Vector2.new(0,0.5),
-        AlingY = Enum.AlignmentY.Top,
         Layer = 9,
         Parent = Container
     }
