@@ -46,6 +46,14 @@ function TextInput:new()
     end)
 end
 
+function TextInput:DefineAPI()
+    TextInput.super.DefineAPI(self)
+
+    self.Proxy.Icon("TextInput")
+    self.Proxy.MakeCreatable()
+end
+
+
 function TextInput:OnRemove()
     self.BackspaceEvent:Disconnect()
     TextInput.super.OnRemove(self)

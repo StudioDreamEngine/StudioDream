@@ -8,6 +8,14 @@ Explorer.Tree = {}
 local Order = 0
 local Window
 
+local function CountChildren(Object)
+    local index = 0
+    for i,v in pairs(Object:GetChildren()) do
+        index=index+1
+    end
+    return index
+end
+
 function Explorer.CreateNode(Object, Depth)
     local Node = Things.Create("Square") { 
         Size = Pivot2D.FromScale(1,0.05),
@@ -26,11 +34,15 @@ function Explorer.CreateNode(Object, Depth)
         BackgroundTransparency = 0.5,
         Parent = Node,
     }
+    print(CountChildren(Object)) -- ts aint printing bro!
+    if CountChildren(Object) > 1 then print("Wow") end
 
     local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon)
     NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeInner:SetParent(Node)
-    
+
+
+
     return Node, NodeInner
 end
 
@@ -82,7 +94,7 @@ function Explorer.Init()
     Window = Explorer.Container
 
     Explorer.Redraw()
-
+    
     InputService.MouseEvent:Connect(function(IsDown)
         if IsDown and Hovering then -- Drag Start
             HandleDragStart()

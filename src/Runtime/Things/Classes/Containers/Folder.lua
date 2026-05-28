@@ -14,6 +14,13 @@ function Folder:new()
     }
 end
 
+function Folder:DefineAPI()
+    Folder.super.DefineAPI(self)
+
+    self.Proxy.Icon("Folder")
+    self.Proxy.MakeCreatable()
+end
+
 function Folder:Update(dt) 
 end
 

@@ -6,7 +6,7 @@ local Image2D = Things.Extend("BaseGui")
 
 function Image2D:new()
     Image2D.super.new(self)
-    
+
     self.Image = nil
     self.ImageRect = nil
     
@@ -18,7 +18,7 @@ end
 function Image2D:DefineAPI()
     Image2D.super.DefineAPI(self)
 
-    self.Proxy.Icon("photo")
+    self.Proxy.Icon("Image2D")
     self.Proxy.Property("Rect ImageRect")
     self.Proxy.MakeCreatable()
 end
