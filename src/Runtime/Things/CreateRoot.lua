@@ -37,6 +37,7 @@ function CreateRoot.CreateRoot()
     }
 
     Root.RootViewport = Viewport
+    Runtime.Renderer.ViewportManager.SetRootViewport(Viewport) -- Indexing kills me but whatever
 
     return Root
 end

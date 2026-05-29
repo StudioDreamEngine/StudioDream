@@ -25,13 +25,6 @@ function TextButton:new()
         
         self.Clicked.Invoke()
     end)
-
-    --[[self.PropertyChanged:Connect(function(Value,Property)
-        if Property == "Hovering" and self.ChangeCursorWhileHovering and (self.LastHover~=self.Hovering) then
-            print(self.Hovering)
-            Runtime.Cursor.ChangeCursor(Value and "Hovering" or "Main")
-        end
-    end)]]
 end
 
 function TextButton:DefineAPI()
@@ -50,15 +43,9 @@ function TextButton:Update(dt)
 
     local ObjectRect = self:GetRect()
 
-    --self.LastHover = self.Hovering
     self.Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
 
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
-   --[[ if self.Hovering then
-        Runtime.Cursor.ChangeCursor("Hovering")
-    else
-        Runtime.Cursor.ChangeCursor("Main") -- Change ts
-    end]]
     local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
     self.ColorMultiplier = Multiplier
 end

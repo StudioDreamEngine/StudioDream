@@ -23,7 +23,7 @@ function Runtime.PostInit()
     Runtime.Things.CreateEnviornment()
     Runtime.Things.CreateApiDump()
 
-    Runtime.Serializer = require("Runtime.Serialization")
+    Runtime.Project = require("Runtime.Project")
 
     require("Runtime.Things.CreateTests")()
 end

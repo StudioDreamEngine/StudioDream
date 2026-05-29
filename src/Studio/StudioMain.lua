@@ -10,8 +10,10 @@ function Studio.Init()
     Studio.Layout = require("Studio.UI.StudioLayout")
     Studio.Components = require("Studio.UI.Components")
 
-    Studio.Layout.CreateLayout()
+    Studio.ProjectManager = require("Studio.ProjectManager")
+
     Studio.Components.Init()
+    Studio.Layout.CreateLayout()
 
     Studio.Editor3D.Init()
 end
@@ -19,6 +21,7 @@ end
 function Studio.Update(dt)
     Studio.Editor3D.Update(dt)
     Studio.Layout.Update(dt)
+    Studio.Components.Update(dt)
 end
 
 return Studio

@@ -45,7 +45,7 @@ function Text:Draw()
 
     self.RenderClass.Text = self.Text
 
-    Runtime.Backend2D.SetColor(self.ForegroundColor,self.ForegroundTransparency)
+    Runtime.Backend2D.SetColor(self.ForegroundColor,1-self.ForegroundTransparency)
     self.RenderClass.Render(self.AbsoluteSize, self.Alignment)
 end
 

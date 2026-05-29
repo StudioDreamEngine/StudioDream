@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 local Objects = {}
 
-local TypeSerializers = Utils.LoadModules("Runtime/Serialization/Types/")
+local TypeSerializers = Utils.LoadModules("Runtime/Project/Types/")
 
 function Objects.HandleType(Property, Type, Deserialize)
     if (not TypeSerializers[Type]) then error(Type.." needs serializer") end
@@ -10,7 +10,25 @@ function Objects.HandleType(Property, Type, Deserialize)
     return Deserialize and Serializer.Deserialize(Property) or Serializer.Serialize(Property)
 end
 
+-- Used for updating Thing.TruelySerializable
+local function CheckSerializable(Object)
+    local Serializable = true
 
+    ---@param ParentThing Thing
+    Object:GetParentCallback(function(ParentThing)
+        if not (ParentThing.Serializable) and not (ParentThing:IsA("Root")) then
+            Serializable = false
+        end
+    end)
+
+    -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
+    -- Return false if object itself isnt serializable
+    if (not Object.Serializable) then
+        return false
+    end
+
+    return Serializable
+end
 
 
 -- Serialize all things under a root object as a table of objects
@@ -20,7 +38,7 @@ function Objects.SerializeObjects(Root)
 
     ---@param DescendantObject Thing
     for _, DescendantObject in pairs(Root:GetDescendants()) do
-        if DescendantObject.TruelySerializable then -- Only serialize if we can
+        if CheckSerializable(DescendantObject) then -- Only serialize if we can
             Final[DescendantObject.UUID] = Objects.SerializeObject(DescendantObject)
         end
     end
@@ -37,12 +55,14 @@ function Objects.SerializeObject(Object)
         local Property = Object[PropertyName]
         local Type = Utils.TypeOf(Property)
 
-        Property = Objects.HandleType(Property, Type, false)
+        if Type ~= "nil" then
+            Property = Objects.HandleType(Property, Type, false)
 
-        ObjectData[PropertyName] = {
-            Type = Type,
-            Value = Property
-        }
+            ObjectData[PropertyName] = {
+                Type = Type,
+                Value = Property
+            }
+        end
     end
 
     return {

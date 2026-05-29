@@ -44,7 +44,7 @@ function Explorer.CreateTree(Object, Depth)
     Explorer.Tree[Object] = NodeInner
 
     for _, Child in pairs(Object:GetChildren()) do
-        if Child.TruelySerializable then
+        if Child.Serializable then
             Explorer.CreateTree(Child, Depth + 1)
         end
     end

@@ -12,6 +12,8 @@ function Backend.Init()
 
     Runtime.Services = require("Runtime.Backend.Services")
     Runtime.Cursor = require("Runtime.Backend.CursorHandle")
+
+    Runtime.BackendFS = require("Runtime.Backend.BackendFS")
 end
 
 function Backend.PostInit()

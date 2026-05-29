@@ -158,26 +158,6 @@ function Thing:GetParentCallback(Callback)
 	return Parent
 end
 
--- Used for updating Thing.TruelySerializable
-local function CheckSerializable(self)
-    local Serializable = true
-
-    ---@param ParentThing Thing
-    self:GetParentCallback(function(ParentThing)
-        if not (ParentThing.Serializable) and not (ParentThing:IsA("Root")) then
-            Serializable = false
-        end
-    end)
-
-    -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
-    -- Return false if object itself isnt serializable
-    if (not self.Serializable) then
-        return false
-    end
-
-    return Serializable
-end
-
 function Thing:IsSerializable()
     return self.TruelySerializable
 end
@@ -215,7 +195,6 @@ function Thing:SetParent(NewParent)
 
     self.Parent = NewParent
 
-    self.TruelySerializable = CheckSerializable(self)
     self.ParentChanged.Invoke()
 
     return true

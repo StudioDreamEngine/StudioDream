@@ -1,8 +1,6 @@
 local Things
 local ViewportManager = {}
 
-local Resizes = 0
-
 local RootViewport
 
 function ViewportManager.Init()
@@ -11,11 +9,13 @@ function ViewportManager.Init()
     ViewportManager.Viewports = {}
 
     LoveEvents.Resize:Connect(function(w,h)
-        if RootViewport then
-            print("Resize detected, Updating RootViewport...")
-            RootViewport:SetSize(Pivot2D.FromOffset(w,h))
-        end
+        print("Resize detected, Updating RootViewport...")
+        RootViewport:SetSize(Pivot2D.FromOffset(w,h))
     end)
+end
+
+function ViewportManager.SetRootViewport(InRoot)
+    RootViewport = InRoot
 end
 
 function ViewportManager.CreateViewport(Viewport, Size)
@@ -69,7 +69,6 @@ function ViewportManager.Render()
         end
     end
 
-    RootViewport = Things.Root.RootViewport
     ViewportManager.RenderCanvas(RootViewport)
 end
 

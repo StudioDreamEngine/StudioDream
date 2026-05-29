@@ -11,6 +11,10 @@ ffi.cdef[[
 	char const * const * aFilterPatterns, /* NULL or char const * lFilterPatterns[2]={"*.png","*.jpg"}; */
 	char const * aSingleFilterDescription, /* NULL or "image files" */
 	int aAllowMultipleSelects ) ;
+
+	char const * tinyfd_selectFolderDialog (
+	char const * const aTitle ,
+	char const * const aDefaultPath ) ;
 ]]
 
 function FileDialog.OpenFileDialog(Title)
@@ -19,5 +23,13 @@ function FileDialog.OpenFileDialog(Title)
 	-- I love ffi so much, i love when it crashes on me with no error!
 	return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
 end
+
+function FileDialog.OpenFolderDialog(Title)
+    local ReturnPathC = tinyfiledialog.tinyfd_selectFolderDialog(Title, nil)
+
+	-- I love ffi so much, i love when it crashes on me with no error!
+	return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
+end
+
 
 return FileDialog

@@ -157,8 +157,8 @@ function Things.UpdatePass(Name, dt)
 end
 
 function Things.Update(dt)
-    Things.UpdatePass("Update")
-    Things.UpdatePass("Invalidate")
+    Things.UpdatePass("Update", dt)
+    Things.UpdatePass("Invalidate", dt)
 end
 
 return Things

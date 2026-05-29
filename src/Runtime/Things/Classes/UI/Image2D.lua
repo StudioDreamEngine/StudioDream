@@ -11,6 +11,7 @@ function Image2D:new()
     self.ImageRect = nil
     
     self.ImageQuad = nil
+    self.ForegroundColor = Color.new(1)
 
     self:SetImage("Assets/Icons/Studio.png")
 end
@@ -56,6 +57,7 @@ function Image2D:Draw()
     local ScaleX = self.AbsoluteSize.X/w
     local ScaleY = self.AbsoluteSize.Y/h
 
+    Runtime.Backend2D.SetColor(self.ForegroundColor, 1-self.ForegroundTransparency)
     love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,ScaleX,ScaleY)
 end
 
