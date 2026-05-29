@@ -13,6 +13,11 @@ function HUD:new()
     }
 end
 
+function HUD:DefineAPI()
+    HUD.super.DefineAPI(self)
+    self.Proxy.Icon("HUD")
+end
+
 function HUD:Update(dt) end
 
 return HUD
