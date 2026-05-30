@@ -16,6 +16,23 @@ function InsertObject.Init()
             IconObject.Pivot = Vector2.zero
             IconObject.Size = Pivot2D.new(-20,1,20,0)
             IconObject:SetParent(InsertObject.ScrollContainer)
+            IconObject.Clicked:Connect(function()
+                Studio.Components.CreateOptionWindow("Are you sure you want to insert "..ClassName.."?",{
+                    {
+                        Text = "Yes",
+                        OnClick = function()
+                            Things.Create(ClassName) {
+                                Parent = Things.GetRoot("Environment"),
+                               
+                            }
+                             Studio.Layout.CallHandle("Explorer", "Redraw")
+                        end
+                    },
+                    {
+                        Text = "No"
+                    },
+                })
+            end)
         end
     end
 

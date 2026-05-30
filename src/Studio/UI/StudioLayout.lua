@@ -6,7 +6,7 @@ local Theme = Studio.Theme
 
 StudioLayout.Handles = {}
 
-function StudioLayout.CreateWindowContainer(Transform, Parent)
+function StudioLayout.CreateWindowContainer(Transform, Parent, DoesIncludeName)
     local Windows = {}
     
     Windows.Container = Runtime.Things.Create("Square") { 
@@ -23,8 +23,8 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
     }
     
     Windows.BackWindow = Runtime.Things.Create("Square") {
-        Size = Pivot2D.FromScale(0.95,0.9),
-        Position = Pivot2D.FromScale(0.5,0.51),
+        Size = DoesIncludeName and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.95,0.9),
+        Position = DoesIncludeName and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.51),
         Pivot = Vector2.new(0.5,0.5),
         BackgroundColor = Theme.Primary,
         Name = "BackWindow",
@@ -34,7 +34,8 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         Serializable = false
     }
 
-    Windows.Namer = Runtime.Things.Create("Text") {
+    if not DoesIncludeName then
+        Windows.Namer = Runtime.Things.Create("Text") {
         Size = Pivot2D.FromScale(1,0.05),
         Position = Pivot2D.FromScale(0.5,0.01),
         Pivot = Vector2.new(0.5,0),
@@ -46,6 +47,7 @@ function StudioLayout.CreateWindowContainer(Transform, Parent)
         Alignment = Vector2.new(0.5,0.5)
     }
     Windows.Namer:SetFont("Assets/Fonts/Roboto/Roboto-Medium.ttf")
+    end
 
     return Windows
 end
@@ -62,9 +64,9 @@ function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     StudioLayout.Handles[WindowType] = Window
 end
 
-function StudioLayout.CreateWindow(WindowType, Transform, Parent)
-    local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Parent)
-    WindowContainer.Namer.Text = WindowType
+function StudioLayout.CreateWindow(WindowType, Transform, Parent, IncludeName)
+    local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Parent, IncludeName)
+    if not IncludeName then  WindowContainer.Namer.Text = WindowType end
 
     StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer.BackWindow)
 end
@@ -149,7 +151,7 @@ function StudioLayout.CreateLayout()
 
     StudioLayout.CreateWindow("Viewport", {
         Size = Pivot2D.FromScale(0.75,.9),
-    })
+    },nil,true)
 
     StudioLayout.CreateWindow("InsertObject", {
         Size = Pivot2D.FromScale(0.25,.25),
@@ -171,6 +173,7 @@ function StudioLayout.CreateLayout()
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0)
     })
+
 end
 
 function StudioLayout.Update(dt)

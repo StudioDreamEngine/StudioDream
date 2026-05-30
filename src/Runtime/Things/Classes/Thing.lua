@@ -127,6 +127,14 @@ function Thing:GetProperty(Property)
     return HasOverride or self[Property]
 end
 
+function Thing:Destroy()
+    Things.Remove(self)
+end
+
+function Thing:Clone()
+    -- Does nothin for now!!
+end
+
 function Thing:FindFirstAncestorWithClass(Class)
     return self:GetParentCallback(function(Object)
         return Object:IsA(Class)

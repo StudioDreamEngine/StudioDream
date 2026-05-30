@@ -123,8 +123,8 @@ end
 
 function PropertiesRender.Init()
     local Window = PropertiesRender.Container
-
     local BaseWindow
+    
     Studio.Editor3D.OnSelect:Connect(function(Thing)
         print("Clear")
         Window:ClearAllChildren()

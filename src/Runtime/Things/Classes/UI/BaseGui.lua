@@ -151,12 +151,12 @@ end
 function BaseGui:DefineAPI()
     BaseGui.super.DefineAPI(self)
 
-    self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum SquareAxis", "number ListOrder")
+    self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum SquareAxis", "number ListOrder", "boolean Visible")
     self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency")
     self.Proxy.Property("number ColorMultiplier")
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
-    self.Proxy.Group("Transform", "Size", "Position", "Pivot")
+    self.Proxy.Group("Transform", "Size", "Position", "Pivot", "Visible")
     self.Proxy.Group("Color Multipliers", "ColorMultiplier")
     self.Proxy.Info({
         ConstraintUpdator = self.InvalidateRendering

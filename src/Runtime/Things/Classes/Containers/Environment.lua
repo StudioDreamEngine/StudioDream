@@ -37,6 +37,9 @@ function Environment:DefineAPI()
 
     self.Proxy.Icon("Environment")
     self.Proxy.Property("Vector3 Gravity", "boolean StepPhysics")
+    
+    self.Proxy.Group("Physics", "Gravity", "StepPhysics")
+
     self.Proxy.MakeCreatable()
 end
 

@@ -106,6 +106,7 @@ function Explorer.Init()
             HandleDragEnd()
         end
     end, Enum.MouseButton.LeftClick)
+
 end
 
 function Explorer.Redraw()

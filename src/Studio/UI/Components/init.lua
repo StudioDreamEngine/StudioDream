@@ -30,6 +30,7 @@ function Components.Init()
     })
 
     Components.AdvancedDropdown = require("Studio.UI.Components.AdvancedDropdown")
+    Components.CreateOptionWindow = require("Studio.UI.Components.USure")
 end
 
 function Components.CreateIconObject(Name, Icon)
