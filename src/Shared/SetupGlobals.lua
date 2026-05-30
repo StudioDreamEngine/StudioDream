@@ -11,6 +11,7 @@ return function ()
     Binser = require("Shared.Packages.Binser")
     FileDialog = require("Shared.Packages.filedialog")
     TweenFunctions = require("Shared.Packages.Tweener")
+    NativeFS = require("Shared.Packages.nativefs")
 
     -- Helpers
     Signal = require("Shared.Helper.Signal")

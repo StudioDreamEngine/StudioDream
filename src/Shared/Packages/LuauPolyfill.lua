@@ -267,6 +267,7 @@ do
 end
 
 -- UUID --
+math.randomseed(os.clock())
 function _G.CreateUUID()
 	local UUID = ""
 

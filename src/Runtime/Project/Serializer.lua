@@ -5,14 +5,7 @@ local Serializer = {}
 Serializer.Objects = require("Runtime.Project.Objects")
 
 function Serializer.Serialize(Scene)
-    local ObjectTable = {
-        Scene = Scene.UUID,
-        Objects = Serializer.Objects.SerializeObjects(Things.Root)
-    }
-
-    local file = love.filesystem.openFile("test", "w")
-    file:write(table.format(ObjectTable))
-    file:close()
+    local ObjectTable = Serializer.Objects.SerializeObjects(Scene)
 
     return Binser.serialize(ObjectTable)
 end

@@ -3,7 +3,9 @@ local ProjectManager = {}
 
 -- Load a project
 function ProjectManager.LoadProject()
-    FileDialog.OpenFolderDialog("Load Project")
+    local LoadPath = FileDialog.OpenFolderDialog("Load Project")
+
+    Runtime.Project.Load(LoadPath)
 end
 
 -- Save the project to a new directory

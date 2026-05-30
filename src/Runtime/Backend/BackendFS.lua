@@ -11,6 +11,20 @@ function BackendFS.WriteFile(Path, Data)
     File:close()
 end
 
+function BackendFS.FileExists(Path)
+    return NativeFS.getInfo(Mount..Path)
+end
+
+function BackendFS.ListDirectory(Path)
+    return NativeFS.getDirectoryItems(Mount..Path)
+end
+
+function BackendFS.CreateDirectory(Path)
+    print(NativeFS.getInfo(Mount..Path))
+
+    NativeFS.createDirectory(Mount..Path)
+end
+
 function BackendFS.ReadFile(Path)
     local File = BackendFS.OpenFile(Path, "r")
     local FileData = File:read()
@@ -20,7 +34,7 @@ function BackendFS.ReadFile(Path)
 end
 
 function BackendFS.MountProject(Project)--, MountZip)
-    Mount = Project.."/"
+    Mount = Project.."/"    
 end
 
 return BackendFS

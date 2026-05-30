@@ -48,10 +48,21 @@ return function()
     function Text.Render(ContainerSize, Alignment)
         local TextPosition = Vector2.new(0,ContainerSize.Y/2 - Text.TextBounds.Y/2) + Utils.GetAlignment(Alignment, ContainerSize, Text.TextBounds)*Text.Scale
 
+        local AlignmentX
+
+        -- Temporary
+        if Alignment.X < .4 then
+            AlignmentX = "left"
+        elseif Alignment.X > .6 then
+            AlignmentX = "right"
+        else
+            AlignmentX = "center"
+        end
+
         love.graphics.setFont(Text.RenderFont)
         love.graphics.push()
         love.graphics.scale(1/Text.Scale)
-        love.graphics.printf(Text.Text, TextPosition.X, TextPosition.Y, (Text.TextBounds*Text.Scale).X)
+        love.graphics.printf(Text.Text, TextPosition.X, TextPosition.Y, (Text.TextBounds*Text.Scale).X, AlignmentX)
         love.graphics.pop()
     end
 

@@ -49,7 +49,7 @@ return function(Choices)
         local UsingPosition, UsingSize = Position, Size -- idk what to call this
 
         if Position.Type == "Thing" then
-            UsingSize = Size and Vector2.new(Position.AbsoluteSize.X, Position.AbsoluteSize.Y/Size.Y) or Position.AbsoluteSize
+            UsingSize = Size and Vector2.new(Position.AbsoluteSize.X, Position.AbsoluteSize.Y*Size.Y) or Position.AbsoluteSize
             UsingPosition = Position.AbsolutePosition + (Position.AbsoluteSize * Vector2.yAxis)
         end
 
