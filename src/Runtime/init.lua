@@ -1,6 +1,7 @@
 local Runtime = {}
 
 Runtime.Things = require("Runtime.Things")
+Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
 Runtime.Backend = require("Runtime.Backend")
 

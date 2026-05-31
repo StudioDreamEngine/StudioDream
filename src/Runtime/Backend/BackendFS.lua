@@ -16,7 +16,7 @@ function BackendFS.FileExists(Path)
 end
 
 function BackendFS.ListDirectory(Path)
-    return NativeFS.getDirectoryItems(Mount..Path)
+    return NativeFS.getDirectoryItems(Mount..(Path or ""))
 end
 
 function BackendFS.CreateDirectory(Path)

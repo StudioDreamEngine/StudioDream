@@ -3,7 +3,7 @@ local CreateRoot = {}
 
 function CreateRoot.CreateEnviornment(Root)
     ---@class Environment
-    local Environment = Things.Create("Environment") {
+    local Environment = Things.Create("Environment", "Environment") {
         Name = "Environment",
         Parent = Root
     }
@@ -23,7 +23,7 @@ function CreateRoot.CreateRoot()
         Name = "Root"
     }
 
-    local HUD = Things.Create("HUD") {
+    local HUD = Things.Create("HUD", "Gui") {
         Name = "HUD",
         Parent = Root
     }

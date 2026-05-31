@@ -144,7 +144,7 @@ do
 			if #Table == table.length(Table) then
 				Index = ""
 			elseif type(i) == "string" or type(i) == "number" then
-				Index = "["..(string.find(i, "[%p%s]") and "\""..i.."\"" or i).."] = "
+				Index = (string.find(i, "[%p%s]") and "[\""..i.."\"]" or i).." = "
 			else
 				Index = "[\""..type(i).."\"] = "
 			end

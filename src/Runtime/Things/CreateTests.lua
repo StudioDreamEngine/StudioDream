@@ -31,6 +31,14 @@ return function ()
         Parent = Environment
     }
 
+    Runtime.BackendFS.MountProject("../tests/ProjectTest/")
+    --Runtime.Resources.RegisterIdentifier("ResourceTest", "Field of Hopes and Dreams.mp3")
+    Runtime.Resources.RegisterIdentifier("ResourceTest", "GK_NTTE.wav")
+
+    Things.Create("Audio") {
+        Resource = "ResourceTest"
+    }
+
     brick.Scale     = Vector3.new(512,5,512)
     brick:SetTransform(Transform3D.FromPosition(0, -10, 0))
 

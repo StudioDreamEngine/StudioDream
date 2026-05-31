@@ -1,0 +1,18 @@
+Scenes:
+    for now there will just be one main scene, that simply is just loaded into the datamodel
+    although in the future my idea for scenes is that they can be created and edited directly, but exist seperately from the root scene
+
+Resource Identifiation:
+    each resource gets a unique id, that identifies it within the project or the scene
+    
+    if you wanna reorganize it then you need to drag both the identifier file and resource itself into whatever new folder, 
+    otherwise it loses its connection to that resource
+
+Resource Loading:
+    My idea is that objects can have a resource object tied via a "Resourcable" class
+    
+    Saving:
+        Simply save to the path provided by the resource's id
+
+    Loading:
+        Recurse through all directories, check for new resources and add them as ids

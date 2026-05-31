@@ -1,5 +1,5 @@
 local Project = {}
-local Serializer = require("Runtime.Project.Serializer")
+local Scenes = require("Runtime.Project.Scenes")
 local Resources = require("Runtime.Project.Resources")
 
 local BackendFS = Runtime.BackendFS
@@ -8,8 +8,9 @@ function Project.Load(ProjectPath)
     BackendFS.MountProject(ProjectPath)
     Resources.Load()
 
-    local File = BackendFS.ReadFile("project.sdrm")
-    Serializer.Deserialize(File)
+    Scenes.LoadScene("MainScene.sds")
+
+    --Scenes.ConfigureTargets()
 end
 
 -- Remount to a new directory and save project
@@ -21,8 +22,7 @@ end
 
 function Project.Save()
     -- Once we have several scenes, sdrm should just store the configuration
-    local ProjectData = Serializer.Serialize(Runtime.Things.Root)
-    BackendFS.WriteFile("project.sdrm", ProjectData)
+    Scenes.SaveScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
 end
 
 return Project
