@@ -17,7 +17,11 @@ end
 ---@class Square
 local DropdownFrame
 
-function Components.RegisterUpdator(Updator) Updators[CreateUUID()] = Updator end
+function Components.RegisterUpdator(Updator) 
+    local UUID = CreateUUID()
+    Updators[UUID] = Updator 
+    return UUID
+end
 function Components.UnregisterUpdator(UUID) Updators[UUID] = nil end
 
 function Components.Init()
@@ -30,7 +34,7 @@ function Components.Init()
     })
 
     Components.AdvancedDropdown = require("Studio.UI.Components.AdvancedDropdown")
-    Components.CreateOptionWindow = require("Studio.UI.Components.USure")
+    Components.CreateDialog = require("Studio.UI.Components.DialogWindows").CreateDialogWindow
 end
 
 function Components.CreateIconObject(Name, Icon)

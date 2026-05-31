@@ -21,6 +21,9 @@ local Enums = {
         Horizontal = "Horizontal",
         Vertical = "Vertical"
     },
+    StudioDialog = {
+        Option = "Option"
+    },
     Device = {
         Android = "Android",
         iOS = "iOS",

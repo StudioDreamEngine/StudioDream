@@ -1,3 +1,4 @@
+-- Handle the serialization of scene objects/things
 local Things = Runtime.Things
 local Objects = {}
 

@@ -32,6 +32,10 @@ function Things.CreateEnviornment()
     CreateRoot.CreateEnviornment(Things.Root)
 end
 
+function Things.GetRootViewport()
+    return Things.GetRoot("ViewportInternal")
+end
+
 function Things.GetRoot(Object)
     assert(Things.Root, "Tree hasnt been created yet! are you trying to access it before creation?")
 

@@ -29,6 +29,11 @@ function Text:AttemptWrap(Size)
     --Benchmark.End()
 end
 
+function Text:SetTextScaled(TextScaled)
+    self.TextScaled = TextScaled
+    self:InvalidateRendering()
+end
+
 function Text:SetText(Text)
     self.Text = Text
     self:InvalidateRendering()

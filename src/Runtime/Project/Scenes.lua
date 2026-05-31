@@ -1,4 +1,4 @@
--- Simple binary Scenes
+-- handle serialization of Simple binary Scenes
 local Things = Runtime.Things
 local Scenes = {}
 
@@ -13,17 +13,9 @@ function Scenes.SaveScene(Path, Target)
     BackendFS.WriteFile(Path, Data)
 end
 
--- Re-configure targets for project if needed
-function Scenes.ConfigureTargets()
-    local Root = Things.Root
-
-    Root.EnvironmentViewport:SetRenderFolder(Root:FindFirstChild("Environment"))
-end
-
 function Scenes.LoadScene(Path)
     local Content = BackendFS.ReadFile(Path)
     local Table = Binser.deserialize(Content)[1]
-    Things.ClearRoot()
 
     Scenes.Objects.DeserializeObjects(Table)
 end
