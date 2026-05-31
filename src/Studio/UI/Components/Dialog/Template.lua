@@ -1,5 +1,3 @@
-local CurrentWindow = nil
-
 return function(Options)
     local Object = {}
 

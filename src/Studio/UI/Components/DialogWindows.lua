@@ -24,7 +24,6 @@ end
 
 function DialogWindows.CreateDialogWindow(Type, Options)
     DialogWindows.DestroyDialogWindow()
-
     DialogFade.Visible = true
 
     local ModuleDialog = require("Studio.UI.Components.Dialog."..Type)
