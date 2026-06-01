@@ -20,7 +20,8 @@ function Image2D:DefineAPI()
     Image2D.super.DefineAPI(self)
 
     self.Proxy.Icon("Image2D")
-    self.Proxy.Property("Rect ImageRect")
+    self.Proxy.Property("Rect ImageRect","FilePath ImageFile")
+    self.Proxy.Group("Visuals","ImageFile","ImageRect")
     self.Proxy.MakeCreatable()
 end
 

@@ -13,16 +13,19 @@ local function GenerateList(Option,Frame,Thing)
 
             table.insert(Choices,{
                 Text = tostring(i),
+                Type = "Button",
                 Function = function()
                     Thing[Option] = v
                     ChangedOption.Invoke()
-                    GeneratedList:RemoveDropdown()
+                    GeneratedList.Remove()
                 end
             })
         end
     end
 
-    GeneratedList = Studio.Components.ShowDropdown(Frame,Choices,Vector2.new(100,10),true)
+    GeneratedList = Studio.Components.AdvancedDropdown(Choices)
+    GeneratedList.Setup(Frame, Vector2.new(0,1))
+    GeneratedList.Toggle(true)
 end
 
 local Size = Vector2.new(64,64)
@@ -82,7 +85,7 @@ return function(FrameOption,Thing,Property)
         else
             if (not GeneratedList) then return end -- Guard Clauses mikl! Guard clauses
             
-            GeneratedList.RemoveDropdown()
+            GeneratedList.Remove()
         end
     end)
 

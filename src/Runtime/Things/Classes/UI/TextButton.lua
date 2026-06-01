@@ -31,11 +31,15 @@ function TextButton:DefineAPI()
     TextButton.super.DefineAPI(self)
 
     self.Proxy.Icon("TextButton")
-    self.Proxy.Property("boolean ChangeCursorWhileHovering","boolean Hovering")
+    self.Proxy.Property("boolean ChangeCursorWhileHovering","boolean Hovering","number HoverColorMultiplier","number ClickingColorMultiplier","boolean SinkHovering")
+    self.Proxy.Group("Hovering","ChangeCursorWhileHovering","Hovering","HoverColorMultiplier","ClickingColorMultiplier","SinkHovering")
     self.Proxy.MakeCreatable()
 end
 
 function TextButton:Update(dt)
+
+    Profiler.Start("StudioDream - Draw TextButton")
+    
     TextButton.super.Update(self)
 
     local DisplayUI = self:GetDisplayUI()
@@ -48,6 +52,8 @@ function TextButton:Update(dt)
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
     local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
     self.ColorMultiplier = Multiplier
+
+    Profiler.End()
 end
 
 return TextButton

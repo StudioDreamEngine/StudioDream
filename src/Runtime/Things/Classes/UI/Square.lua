@@ -27,6 +27,8 @@ end
 function Square:Draw()
     local Size = self.AbsoluteSize
 
+    Profiler.Start("StudioDream - Square Draw")
+    
     love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
 
     if self.OutlineSize > 0 then
@@ -34,6 +36,8 @@ function Square:Draw()
         Runtime.Backend2D.SetColor(self.OutlineColor)
         love.graphics.rectangle("line", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
     end
+    
+    Profiler.End()
 end
 
 return Square

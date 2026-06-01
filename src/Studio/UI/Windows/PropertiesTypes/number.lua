@@ -8,7 +8,7 @@ return function(FrameOption,Thing,Property)
     }
 
     Stringthing.FocusEnd:Connect(function()
-        Thing[Property] = Stringthing.Text
+        Thing[Property] = tonumber(Stringthing.Text)
         --Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
         
         --print(Studio.Layout.WindowsCreated)
