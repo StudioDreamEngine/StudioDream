@@ -119,8 +119,13 @@ function Things.New(ThingType, CustomUUID)
             return Thing.Name..": "..Thing.ClassName.." ("..Thing.UUID..")"
         end,
         __newindex = function (_, k, v)
+
+            --Profiler.Start("Thing Property Changed")
+
             Thing.PropertyChanged.Invoke(k,v)
             --print("Thing "..Thing.Name..", Changed "..k.." To "..tostring(v).." Their old Value is: "..tostring(Thing[k]))
+
+           -- Profiler.End()
 
             Thing[k] = v
         end

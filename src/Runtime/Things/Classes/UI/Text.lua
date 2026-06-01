@@ -20,6 +20,8 @@ function Text:DefineAPI()
     Text.super.DefineAPI(self)
 
     self.Proxy.Icon("Text")
+    self.Proxy.Property("string Text","Enum Alignment","boolean TextScaled","number TextSize")
+    self.Proxy.Group("Text", "Text","Alignment","TextScaled","TextSize")
     self.Proxy.MakeCreatable()
 end
 

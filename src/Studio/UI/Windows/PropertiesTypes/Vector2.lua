@@ -14,7 +14,7 @@ return function(FrameOption,Thing,Property) -- maybe a signal for when the optio
             
             local RebuildVector = Vector2.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01)
             
-            Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
+            --Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
             Thing[Property] = RebuildVector
             VectorThing.Text = tostring(Thing[Property])
         end)
