@@ -31,10 +31,6 @@ return function ()
         Parent = Environment
     }
 
-    local Audio = Things.Create("Audio") {
-        Resource = "Internal/GK_NTTE.wav"
-    }
-
     brick.Scale     = Vector3.new(512,5,512)
     brick:SetTransform(Transform3D.FromPosition(0, -10, 0))
 
