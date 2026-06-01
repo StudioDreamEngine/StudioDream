@@ -1,10 +1,18 @@
 local Size = Vector2.new(64,64)
 
-local IsOpen = true
-local CreatedNodes = {}
+local LineUp = {
+    ["true"] = Vector2.new(64,0),
+    ["false"] = Vector2.new(0,0),
+}
 
-local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
-    print(Value)
+return function(FrameOption,Thing,Property,ActualNode)
+    print(Thing[Property])
+
+    local IsOpen = true
+    local CreatedNodes = {}
+
+    local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
+        
     local BaseProperty = Runtime.Things.Create("Square") { 
         Size = Pivot2D.new(0,1,15,0),
         Pivot = Vector2.new(0,0),
@@ -34,7 +42,7 @@ local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         BackgroundColor = Studio.Theme.Outline,
         Layer = 3,
         Name = "Frame",
-        Text = tostring(Vector3.new(Value.X,Value.Y,Value.Z)),
+        Text = tostring(Vector2.new(Value.X,Value.Y)),
         Parent = BaseProperty,
         ForegroundColor = Studio.Theme.Text2
     }
@@ -55,8 +63,8 @@ local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         local ToFilter = string.gsub(Option.Text,"%a","")
         local SplitVecText = string.split(ToFilter,",")
 
-        Thing:SetTransform(Transform3D["From"..Name](tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
-        Option.Text = tostring(Vector3.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
+        --Thing:SetTransform(Transform3D["From"..Name](tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
+        Option.Text = tostring(Vector2.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01))
     end)
 
     Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
@@ -65,19 +73,12 @@ local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         end
     end)
 
-end
+    end
 
-local LineUp = {
-    ["true"] = Vector2.new(64,0),
-    ["false"] = Vector2.new(0,0),
-}
 
-local function ChangeButton(But,Property)
-    But:SetImageRect(Rect.new(LineUp[tostring(Property)],Size))
-end
-
-return function(FrameOption,Thing,Property,ActualNode)
-    print(Thing[Property])
+    local function ChangeButton(But,Property)
+        But:SetImageRect(Rect.new(LineUp[tostring(Property)],Size))
+    end
 
     local Button = Runtime.Things.Create("ImageButton") {
         Image = "Assets/Icons/Engine/OpenMenu.png",
@@ -88,6 +89,7 @@ return function(FrameOption,Thing,Property,ActualNode)
         Pivot = Vector2.new(1,0.5),
         Parent = FrameOption,
     }
+
     local TextToEverythin = Runtime.Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0,0.5),
@@ -97,18 +99,22 @@ return function(FrameOption,Thing,Property,ActualNode)
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.Text2
     }
+
     ChangeButton(Button,IsOpen)
     print(Thing[Property])
-    --[[Button.Clicked:Connect(function()
+
+    Button.Clicked:Connect(function()
         IsOpen = not IsOpen
         ChangeButton(Button,IsOpen)
         for i,v in pairs(CreatedNodes) do
             v.Visible = IsOpen
         end
 
-        TextToEverythin:SetText((not IsOpen) and ("{"..tostring(Thing[Property].Position).."}") or "")
+        TextToEverythin:SetText((not IsOpen) and ("{"..tostring(Thing[Property].Scale).."}".."{"..tostring(Thing[Property].Offset).."}") or "")
         
     end)
-    CreateOption(FrameOption,"Position",Thing[Property].Position,Thing,Property)
+
+    CreateOption(FrameOption,"Scale",Thing[Property].Scale,Thing,Property)
+    CreateOption(FrameOption,"Offset",Thing[Property].Offset,Thing,Property)
     --CreateOption(FrameOption,"Angle",Thing[Property].Position,Thing,Property)]]
 end

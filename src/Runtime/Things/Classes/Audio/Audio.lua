@@ -11,6 +11,12 @@ function Audio:new()
     self.Resource = nil
 end
 
+function Audio:DefineAPI()
+    Audio.super.DefineAPI(self)
+
+    self.Proxy.Icon("Audio")
+end
+
 function Audio:SetResource(IdentifierID)
     self.Resource = Resources.GetIdentifier(IdentifierID)
     print(self.Resource)

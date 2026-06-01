@@ -10,13 +10,23 @@ local LineUp_Button = {
 
 local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
     local BaseProperty = Things.Create("Square") { 
-        Size = Pivot2D.new(0,1,15,0),
+        Size = Pivot2D.new(0,1,20,0),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.Theme.Secondary,
         Layer = 3,
         Parent = Window,
-        OutlineSize = 2,
-        OutlineColor = Studio.Theme.Outline
+        --OutlineSize = 2,
+        --OutlineColor = Studio.Theme.Outline
+    }
+    
+    Things.Create("Square") { 
+        Size = Pivot2D.FromScale(0.95,0.05),
+        Pivot = Vector2.new(0,0),
+        BackgroundColor = Studio.Theme.Outline,
+        Layer = 3,
+        Parent = BaseProperty,
+        --OutlineSize = 2,
+        --OutlineColor = Studio.Theme.Outline
     }
 
     Things.Create("Text") {
