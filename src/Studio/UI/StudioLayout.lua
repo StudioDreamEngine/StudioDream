@@ -6,7 +6,7 @@ local Theme = Studio.Theme
 
 StudioLayout.Handles = {}
 
-function StudioLayout.CreateWindowContainer(Transform, Parent, DoesIncludeName)
+function StudioLayout.CreateWindowContainer(Transform, DontIncludeName)
     local Windows = {}
     
     Windows.Container = Runtime.Things.Create("Square") { 
@@ -16,15 +16,15 @@ function StudioLayout.CreateWindowContainer(Transform, Parent, DoesIncludeName)
         BackgroundColor = Theme.Secondary,
         Name = "WindowContainer",
         Layer = Transform.Layer or 1,
-        Parent = Parent or StudioLayout.Windows,
+        Parent = StudioLayout.Windows,
         CornerRadius = 5,
         OutlineSize = 5,
         OutlineColor = Theme.Outline
     }
     
     Windows.BackWindow = Runtime.Things.Create("Square") {
-        Size = DoesIncludeName and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.95,0.9),
-        Position = DoesIncludeName and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.51),
+        Size = DontIncludeName and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.95,0.9),
+        Position = DontIncludeName and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.51),
         Pivot = Vector2.new(0.5,0.5),
         BackgroundColor = Theme.Primary,
         Name = "BackWindow",
@@ -34,8 +34,10 @@ function StudioLayout.CreateWindowContainer(Transform, Parent, DoesIncludeName)
         Serializable = false
     }
 
-    if not DoesIncludeName then
-        Windows.Namer = Runtime.Things.Create("Text") {
+    -- GUARD CLAUSES MIKL
+    if DontIncludeName then return Windows end
+
+    Windows.Namer = Runtime.Things.Create("Text") {
         Size = Pivot2D.FromScale(1,0.05),
         Position = Pivot2D.FromScale(0.5,0.01),
         Pivot = Vector2.new(0.5,0),
@@ -44,10 +46,9 @@ function StudioLayout.CreateWindowContainer(Transform, Parent, DoesIncludeName)
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.Text,
         Name = "WindowText",
-        Alignment = Vector2.new(0.5,0.5)
+        Alignment = Vector2.new(0.5,0.5),
+        Font = "Assets/Fonts/Roboto/Roboto-Medium.ttf"
     }
-    Windows.Namer:SetFont("Assets/Fonts/Roboto/Roboto-Medium.ttf")
-    end
 
     return Windows
 end
@@ -64,9 +65,8 @@ function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     StudioLayout.Handles[WindowType] = Window
 end
 
-function StudioLayout.CreateWindow(WindowType, Transform, Parent, IncludeName)
-    local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Parent, IncludeName)
-    if not IncludeName then  WindowContainer.Namer.Text = WindowType end
+function StudioLayout.CreateWindow(WindowType, Transform, IncludeName)
+    local WindowContainer = StudioLayout.CreateWindowContainer(Transform)
 
     StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer.BackWindow)
 end
@@ -151,7 +151,7 @@ function StudioLayout.CreateLayout()
 
     StudioLayout.CreateWindow("Viewport", {
         Size = Pivot2D.FromScale(0.75,.9),
-    },nil,true)
+    })
 
     StudioLayout.CreateWindow("InsertObject", {
         Size = Pivot2D.FromScale(0.25,.25),

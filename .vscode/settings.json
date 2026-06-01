@@ -10,7 +10,8 @@
         "undefined-field",
         "deprecated",
         "need-check-nil",
-        "duplicate-set-field"
+        "duplicate-set-field",
+        "cast-local-type"
     ],
     "Lua.workspace.library": [
         "${3rd}/love2d/library"

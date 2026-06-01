@@ -24,6 +24,10 @@ function ViewportManager.CreateViewport(Viewport, Size)
     return Canvas
 end
 
+local function RectStencil(Rect)
+    love.graphics.rectangle("fill", 0,0,Rect.X, Rect.Y)
+end
+
 -- Render the contents of a 2d viewport
 function ViewportManager.RenderViewport2D(Viewport)
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
@@ -31,8 +35,19 @@ function ViewportManager.RenderViewport2D(Viewport)
 
         for _, Element in pairs(Viewport.DisplayList) do
             love.graphics.push()
-            love.graphics.translate(Element.Child.AbsolutePosition.X,Element.Child.AbsolutePosition.Y)
-            Element.Child:DrawStyle()
+            love.graphics.translate(Element.AbsolutePosition.X,Element.AbsolutePosition.Y)
+
+            --[[if Element.MaskSize then -- Rectangle mask, prob should move this into DrawStyle
+                love.graphics.stencil(function()
+                    RectStencil(Element.MaskSize)
+                end, "replace", 1)
+
+                love.graphics.setStencilTest("greater", 0)
+            end]]
+
+            Element:DrawStyle()
+
+            --love.graphics.setStencilTest()
             love.graphics.pop()
         end
 

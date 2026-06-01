@@ -7,8 +7,9 @@ LoveEvents.MousePressed = Signal:New("MousePress")
 LoveEvents.MouseReleased = Signal:New("MouseRelease")
 LoveEvents.MouseMoved = Signal:New("MouseMove")
 
-LoveEvents.Resize = Signal:New("Resize")
+LoveEvents.WheelMoved = Signal:New("WheelMoved")
 
+LoveEvents.Resize = Signal:New("Resize")
 LoveEvents.TextInput = Signal:New("TextInput")
 
 ---@param Event Signal

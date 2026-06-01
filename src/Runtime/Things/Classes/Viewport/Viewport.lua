@@ -23,9 +23,7 @@ end
 function Viewport:SendChild(Child, Order)
     Order = Order or #self.DisplayList+1
 
-    self.DisplayList[Order] = {
-        Child = Child
-    }
+    self.DisplayList[Order] = Child
 end
 
 function Viewport:GetTarget()

@@ -2,7 +2,7 @@
 local Backend = {}
 
 function Backend.CanvasCall(Canvas, DrawFunction)
-    love.graphics.setCanvas(Canvas)
+    love.graphics.setCanvas({ Canvas, stencil=true })
     love.graphics.push()
     love.graphics.origin() -- just in case
 

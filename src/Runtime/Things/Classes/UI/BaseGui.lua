@@ -4,11 +4,11 @@ local Things = Runtime.Things
 ---@class BaseGui: Thing
 local BaseGui = Things.Extend("Thing")
 
-function BaseGui:GetOffsetPosition(ParentRect)
+function BaseGui:GetOffsetPosition()
     local PositionProp = self:GetProperty("Position")
 
     local Position = PositionProp.Offset - (self.Pivot * self.AbsoluteSize)
-    ParentRect = ParentRect or self:GetParentRect()
+    local ParentRect = self:GetParentRect()
 
     if ParentRect then
         Position = Position + (PositionProp.Scale * ParentRect.Size)
@@ -17,10 +17,10 @@ function BaseGui:GetOffsetPosition(ParentRect)
     return Position
 end
 
-function BaseGui:GetAbsolutePosition(ParentRect)
-    ParentRect = ParentRect or self:GetParentRect(true)
+function BaseGui:GetAbsolutePosition()
+    local ParentRect = self:GetParentRect(true)
 
-    local Position = self:GetOffsetPosition(ParentRect)
+    local Position = self:GetOffsetPosition()
     local Display = self:GetDisplayUI() ---@class Viewport2D
 
     if ParentRect then
@@ -59,9 +59,9 @@ function BaseGui:GetContentSize()
     return Size
 end
 
-function BaseGui:GetAbsoluteSize(ParentRect)
+function BaseGui:GetAbsoluteSize()
     local AbsoluteSize = self.Size.Offset
-    ParentRect = ParentRect or self:GetParentRect()
+    local ParentRect = self:GetParentRect()
 
     if ParentRect then -- Only do this if we found a parent element
         local Scale = (ParentRect.Size * self.Size.Scale)
@@ -96,7 +96,7 @@ function BaseGui:GetParentRect(SameDisplay)
             return
         end
 
-        return ParentElement:GetRect()
+        return ParentElement:GetProperty("Rect")
     end
 end
 
@@ -115,10 +115,16 @@ function BaseGui:new()
 
     self.Size = Pivot2D.FromOffset(50, 50)
     self.Position = Pivot2D.FromOffset(0, 0)
+    self.Pivot = Vector2.zero -- TODO: Add functionality
+    --self.Rotation = 0
+
+    self.Layer = 0
 
     self.AutomaticSize = nil
     self.SquareAxis = nil
     self.ListOrder = 0
+
+    self.Rect = Rect.new(Vector2.zero, Vector2.zero)
 
     -- Utility boolean for implementing draggable ui objects
     self.MouseLocked = false -- I didnt wanna implement this as a thing in explorer
@@ -132,11 +138,6 @@ function BaseGui:new()
     -- Used for stuff like text
     self.ForegroundTransparency = 0
     self.ForegroundColor = Color.new(0)
-
-    --self.Rotation = 0
-
-    self.Layer = 0
-    self.Pivot = Vector2.zero -- TODO: Add functionality
 
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
@@ -204,6 +205,8 @@ function BaseGui:UpdateTransforms()
 
     self:SetAbsoluteSize(NewSize)
     self.AbsolutePosition = self:GetAbsolutePosition()
+
+    self.Rect = Rect.new(self.AbsolutePosition, self.AbsoluteSize)
 end
 
 function BaseGui:InvalidateAutomaticSize()

@@ -20,7 +20,6 @@ function Viewport2D:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-
 local function SortByDepth(List)
     local TempList = {}
 

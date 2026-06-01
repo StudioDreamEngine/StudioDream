@@ -107,6 +107,14 @@ return function(Choices)
 
     CurrentDropdown:SetParent(Things.Root.RootViewport)
 
+    function Dropdown.MoveToMouse()
+        local MousePos = Things.Root.RootViewport.MousePosition
+        
+        Position = Pivot2D.FromOffset(MousePos)
+    end
+
+    function Dropdown.SetSize(InSize) Size = InSize end
+
     function Dropdown.Setup(InPosition, InSize)
         Position = InPosition
         Size = InSize
@@ -124,6 +132,7 @@ return function(Choices)
             v:Disconnect()
         end
 
+        Components.UnregisterUpdator(Updator)
         Things.Remove(CurrentDropdown)
     end
 
