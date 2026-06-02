@@ -11,11 +11,13 @@ function ScrollContainer:new()
         
     end)
 
-    self:BindConstraint(self, "Rect")
+    --self:BindConstraint(self, "Rect")
 end
 
 function ScrollContainer:Update(dt)
-    self:SetConstraint(self, "Rect", Rect.new(Vector2.new(0,math.sin(GlobalTick)), Vector2.new(100,100)))
+    ScrollContainer.super.Update(self, dt)
+
+    --self:SetConstraint(self, "Rect", Rect.new(Vector2.new(0,math.sin(GlobalTick)*100), Vector2.new(100,100)))
 end
 
 return ScrollContainer

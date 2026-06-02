@@ -37,9 +37,6 @@ function TextButton:DefineAPI()
 end
 
 function TextButton:Update(dt)
-
-    Profiler.Start("StudioDream - Draw TextButton")
-    
     TextButton.super.Update(self)
 
     local DisplayUI = self:GetDisplayUI()
@@ -52,8 +49,6 @@ function TextButton:Update(dt)
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
     local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
     self.ColorMultiplier = Multiplier
-
-    Profiler.End()
 end
 
 return TextButton

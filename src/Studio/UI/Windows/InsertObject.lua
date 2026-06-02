@@ -2,14 +2,20 @@ local Things = Runtime.Things
 local InsertObject = {}
 
 InsertObject.Container = nil ---@class Square
+InsertObject.TargetObject = nil
+
+function InsertObject.Close()
+    Studio.Layout.ToggleWindow(InsertObject, false)
+end
 
 function InsertObject.Init()
-    InsertObject.ScrollContainer = Things.Create("Square") { -- Not a scroll container for now
+    InsertObject.ScrollContainer = Things.Create("ScrollContainer") { -- Not a scroll container for now
         Size = Pivot2D.FromScale(1,0.9),
         Position = Pivot2D.FromScale(0,1),
         Pivot = Vector2.new(0,1),
         Parent = InsertObject.Container
     }
+
     InsertObject.SearchBar = Things.Create("TextInput") {
         Size = Pivot2D.FromScale(1,0.1),
         Position = Pivot2D.FromScale(0.5,0),
@@ -34,6 +40,8 @@ function InsertObject.Init()
             IconObject.Name = ClassName
             IconObject:SetParent(InsertObject.ScrollContainer)
             IconObject.Clicked:Connect(function()
+                InsertObject.Close()
+
                 Studio.Components.CreateDialog(Enum.StudioDialog.Option,{
                     Text = "Are you sure you want to insert "..ClassName.."?",
                     Choices = {
@@ -41,14 +49,14 @@ function InsertObject.Init()
                             Text = "Yes",
                             OnClick = function()
                                 Things.Create(ClassName) {
-                                    Parent = Things.GetRoot("Environment"),
-                                
+                                    Parent = InsertObject.TargetObject,
                                 }
+
                                 Studio.Layout.CallHandle("Explorer", "Redraw")
                             end
                         },
                         {
-                            Text = "No"
+                            Text = "No",
                         },
                     }
                 })

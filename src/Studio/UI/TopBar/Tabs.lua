@@ -67,7 +67,7 @@ return {
                 Name = "Insert Thing",
                 Icon = "InsertIcon",
                 OnClick = function()
-                    
+                    Studio.Editor3D.OpenInsertWindow()
                 end
             }
         },

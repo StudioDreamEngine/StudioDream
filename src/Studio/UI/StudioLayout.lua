@@ -9,27 +9,27 @@ StudioLayout.Handles = {}
 function StudioLayout.CreateWindowContainer(Transform, DontIncludeName)
     local Windows = {}
     
-    Windows.Container = Runtime.Things.Create("Square") { 
+    Windows.FullContainer = Runtime.Things.Create("Square") { 
         Size = Transform.Size,
         Position = Transform.Position,
         Pivot = Transform.Pivot,
         BackgroundColor = Theme.Secondary,
         Name = "WindowContainer",
         Layer = Transform.Layer or 1,
-        Parent = StudioLayout.Windows,
+        Parent = Transform.TopLevel and Things.Root.RootViewport or StudioLayout.Windows,
         CornerRadius = 5,
         OutlineSize = 5,
         OutlineColor = Theme.Outline
     }
     
-    Windows.BackWindow = Runtime.Things.Create("Square") {
+    Windows.Container = Runtime.Things.Create("Square") {
         Size = DontIncludeName and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.95,0.9),
         Position = DontIncludeName and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.51),
         Pivot = Vector2.new(0.5,0.5),
         BackgroundColor = Theme.Primary,
         Name = "BackWindow",
         Layer = 2,
-        Parent = Windows.Container,
+        Parent = Windows.FullContainer,
         CornerRadius = 2.5,
         Serializable = false
     }
@@ -53,9 +53,15 @@ function StudioLayout.CreateWindowContainer(Transform, DontIncludeName)
     return Windows
 end
 
+function StudioLayout.GetMouseContext(Context)
+    -- TODO: Choose pivot point of object based on where it is on the screen, pivot point is simply added to the final position, it doesnt change the object pivot (maybe)
+    return Things.GetRootViewport().MousePosition
+end
+
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     local Window = require("Studio.UI."..WindowType)
-    Window.Container = WindowContainer
+    Window.FullContainer = WindowContainer.FullContainer
+    Window.Container = WindowContainer.Container
     Window.Init()
 
     if StudioLayout.Handles[WindowType] then
@@ -65,26 +71,25 @@ function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     StudioLayout.Handles[WindowType] = Window
 end
 
-function StudioLayout.CreateWindow(WindowType, Transform, IncludeName)
+function StudioLayout.CreateWindow(WindowType, Transform)
     local WindowContainer = StudioLayout.CreateWindowContainer(Transform)
 
-    StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer.BackWindow)
+    StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
 end
 
 -- Robuxxy worst nightmare
 function StudioLayout.ToggleWindow(Window, Toggle)
-    StudioLayout.GetHandle(Window).Container.Visible = Toggle
+    Window.FullContainer.Visible = Toggle
 end
 
 ---@param To Pivot2D
 function StudioLayout.MoveWindow(Window, To)
-    StudioLayout.GetHandle(Window).Container:SetPosition(To)
+    Window.FullContainer:SetPosition(To)
 end
 
 -- Remove any window handle that starts with "Window.", as other handles are used for the topbar, which is immutable
 function StudioLayout.RemoveWindow(WindowType)
     local Handle = StudioLayout.CallHandle(WindowType, "Destroy")
-
     Handle.Container:Destroy()
 end
 
@@ -133,8 +138,8 @@ function StudioLayout.CreateTopbar()
         BackgroundTransparency = 1
     }
 
-    StudioLayout.CreateWindowHandler("TopBar", TopbarInner)
-    StudioLayout.CreateWindowHandler("MenuBar", MenuBar)
+    StudioLayout.CreateWindowHandler("TopBar", { Container = TopbarInner })
+    StudioLayout.CreateWindowHandler("MenuBar", { Container = MenuBar })
 end
 
 function StudioLayout.CreateLayout()
@@ -146,6 +151,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0,1),
         Position = Pivot2D.FromScale(0,1),
         Size = Pivot2D.FromScale(1,0.85),
+        Layer = 10,
         BackgroundTransparency = 1
     }
 
@@ -156,9 +162,9 @@ function StudioLayout.CreateLayout()
     StudioLayout.CreateWindow("InsertObject", {
         Size = Pivot2D.FromScale(0.25,.25),
         Position = Pivot2D.FromScale(.5,1),
-        Pivot = Vector2.new(1,1),
-        Layer = 3,
-        Visible = true
+        Pivot = Vector2.new(0,0),
+        Layer = 100,
+        TopLevel = true
     })
 
     StudioLayout.CreateWindow("Properties", {
@@ -174,6 +180,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(1,0)
     })
 
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
 end
 
 function StudioLayout.Update(dt)

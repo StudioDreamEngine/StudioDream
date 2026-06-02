@@ -7,7 +7,19 @@ Editor3D.ToolManager = require("Studio.Editor3D.ToolManager")
 Editor3D.Selecting = nil
 Editor3D.OnSelect = Signal:New("SelectionSignal")
 Editor3D.OnDeselect = Signal:New("UnSelectionSignal")
+
 Editor3D.PropertyChanged = Signal:New("ChangedProperty")
+
+function Editor3D.OpenInsertWindow(Object)
+    local WindowHandle = Studio.Layout.GetHandle("InsertObject")
+
+    print(WindowHandle)
+
+    Studio.Layout.MoveWindow(WindowHandle, Pivot2D.FromOffset(Studio.Layout.GetMouseContext(WindowHandle.Container)))
+    Studio.Layout.ToggleWindow(WindowHandle, true)
+
+    WindowHandle.TargetObject = Object or Runtime.Things.GetRoot("Environment")
+end
 
 function Editor3D.Init()
     Editor3D.StudioCamera = require("Studio.Editor3D.StudioCamera")
