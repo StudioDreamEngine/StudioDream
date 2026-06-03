@@ -92,6 +92,11 @@ function BaseGui:GetParentRect(SameDisplay)
     local ParentElement = self:GetParentElement() ---@class BaseGui
 
     if ParentElement then
+        -- If its a scroll container, we need its parentrect object to be able to offset the object itself
+        if ParentElement:IsA("ScrollContainer") then 
+            SameDisplay = false 
+        end
+
         if SameDisplay and (ParentElement:GetDisplayUI() ~= self:GetDisplayUI()) then
             return
         end
@@ -191,6 +196,17 @@ function BaseGui:DrawStyle()
     if self.Visible and self:IsVisible() then
         Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
         self:Draw()
+
+        local Rect = self:GetProperty("Rect")
+
+        love.graphics.setLineWidth(1)
+
+        Runtime.Backend2D.SetColor(Color.new(0,0,1))
+        love.graphics.rectangle("line", 0, 0, self.AbsoluteSize.X, self.AbsoluteSize.Y)
+
+        Runtime.Backend2D.SetColor(Color.new(1,0,0))
+        love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
+
         Runtime.Backend2D.SetColor(Color.new(1))
     end
 end

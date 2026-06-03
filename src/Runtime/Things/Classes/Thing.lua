@@ -76,12 +76,17 @@ function Thing:BindConstraint(Object, Property)
     }
 end
 
-function Thing:SetConstraint(Object, Property, Value)
+function Thing:SetConstraint(Object, Property, Value, DontUpdate)
     local Current = self.Overrides[Property]
 
     if Current.Object == Object then
-        self.Proxy.ConstraintUpdator(self)
+        if not DontUpdate then
+            self.Proxy.ConstraintUpdator(self)
+        end
+
         Current.Value = Value
+    else
+        print("Couldnt set constraint")
     end
 end
 
@@ -123,7 +128,7 @@ end
 -- If you dont want the overriden property, dont use this
 function Thing:GetProperty(Property)
     local HasOverride = (self.Overrides[Property] and self.Overrides[Property].Value)
-
+    
     return HasOverride or self[Property]
 end
 

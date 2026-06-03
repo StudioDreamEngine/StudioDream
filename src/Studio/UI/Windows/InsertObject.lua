@@ -13,14 +13,15 @@ function InsertObject.Init()
         Size = Pivot2D.FromScale(1,0.9),
         Position = Pivot2D.FromScale(0,1),
         Pivot = Vector2.new(0,1),
-        Parent = InsertObject.Container
+        Parent = InsertObject.Container,
+        Layer = 100
     }
 
     InsertObject.SearchBar = Things.Create("TextInput") {
         Size = Pivot2D.FromScale(1,0.1),
-        Position = Pivot2D.FromScale(0.5,0),
-        Pivot = Vector2.new(0.5,0),
-        Parent = InsertObject.Container,
+        Position = Pivot2D.FromScale(0,0),
+        Pivot = Vector2.new(0,0),
+        Parent = InsertObject.ScrollContainer,
         ForegroundColor = Studio.Theme.Text,
         BackgroundColor = Studio.Theme.Secundary,
         OutlineColor = Studio.Theme.Outline,
@@ -35,8 +36,8 @@ function InsertObject.Init()
         if Class.Creatable then
             local IconObject = Studio.Components.CreateIconObject(ClassName, Class.ExplorerIcon)
 
-            IconObject.Pivot = Vector2.zero
-            IconObject.Size = Pivot2D.new(-20,1,20,0)
+            IconObject:SetPivot(Vector2.zero)
+            IconObject:SetSize(Pivot2D.new(-20,1,20,0))
             IconObject.Name = ClassName
             IconObject:SetParent(InsertObject.ScrollContainer)
             IconObject.Clicked:Connect(function()

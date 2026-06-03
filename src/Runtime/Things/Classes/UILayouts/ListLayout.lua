@@ -31,12 +31,12 @@ function ListLayout:Update()
 
     -- Define the axises we will be using in order to calculate stuff
     local Axis = Vertical and "Y" or "X"
-    local OpposingAxis = Vertical and "X" or "Y"
     local AxisVector = Vector2[Vertical and "yAxis" or "xAxis"]
     local OpposingVector = Vector2[Vertical and "xAxis" or "yAxis"]
 
-    local TotalSpace = self.Parent.AbsoluteSize[Axis]
-    local OpposingSpace = self.Parent.AbsoluteSize[OpposingAxis]
+    local ParentSize = self.Parent:GetRect().Size
+
+    local TotalSpace = ParentSize[Axis]
 
     local ContentSize = 0
     local Positions = {}
@@ -63,7 +63,7 @@ function ListLayout:Update()
             local BoundsSize = (Object.AbsoluteSize * OpposingVector) + (ContentSize * AxisVector)
 
             self:SetConstraint(Object, "Position", Pivot2D.FromOffset(
-                (Position * AxisVector) + Utils.GetAlignment(self.Alignment, self.Parent.AbsoluteSize, BoundsSize)
+                (Position * AxisVector) + Utils.GetAlignment(self.Alignment, ParentSize, BoundsSize)
             ))
         end
     end
