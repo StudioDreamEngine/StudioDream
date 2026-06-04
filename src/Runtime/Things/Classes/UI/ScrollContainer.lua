@@ -8,7 +8,7 @@ function ScrollContainer:new()
     ScrollContainer.super.new(self)
 
     self.WheelMoved = LoveEvents.WheelMoved:Connect(function(_, y)
-        
+        print(y>0 and "up" or "down")
     end)
 
     self:BindConstraint("Scroll", "ChildRect")

@@ -35,6 +35,8 @@ function Thing:new()
     self.Overrides = {}
 
     self.Attributes = {}
+
+    self.HelloImATestThing = false
     --[[self.Proxy.Info({
         Groups = {
             -- TODO
@@ -47,7 +49,8 @@ function Thing:DefineAPI()
     self.Proxy = Runtime.ObjectProxy.new()
 
     self.Proxy.Property("Thing Parent", "string Name")
-    self.Proxy.Group("General", "Parent", "Name")
+    self.Proxy.Property("Button HelloImATestThing")
+    self.Proxy.Group("General", "Parent", "Name", "HelloImATestThing")
 
     self.Proxy.Group("Attributes")
 end
@@ -137,7 +140,12 @@ function Thing:Destroy()
 end
 
 function Thing:Clone()
-    -- Does nothin for now!!
+    local NewThing = Utils.UltraCloneTable(self)
+    print(self)
+    print(NewThing)
+    for i,v in pairs(NewThing:GetDescendants()) do
+        print(i,v)
+    end
 end
 
 function Thing:FindFirstAncestorWithClass(Class)

@@ -132,9 +132,16 @@ local function CreateGroup(GroupName,Window)
 end
 
 function PropertiesRender.Init()
-    local Window = PropertiesRender.Container
+    local Window = Things.Create("ScrollContainer") { 
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        --BackgroundColor = Studio.Theme.Secondary,
+        Parent =  PropertiesRender.Container,
+    }
+
     local BaseWindow
-    
+
     Studio.Editor3D.OnSelect:Connect(function(Thing)
         print("Clear")
         Window:ClearAllChildren()

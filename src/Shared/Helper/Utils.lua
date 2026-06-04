@@ -33,6 +33,26 @@ function Utils.DoesFileExist(Directory)
     return love.filesystem.getInfo(Directory) and true or false
 end
 
+function Utils.UltraCloneTable(Table)
+
+    local function loopthought(Table,TableToRegister)
+        for i,v in pairs(Table) do
+            if type(v) ~= "table" then 
+                TableToRegister[i] = v
+                print("Registrated "..i)
+            else
+                TableToRegister[i] = {}
+                loopthought(TableToRegister[i],TableToRegister[i])
+                print("Opended "..i)
+            end
+        end
+    end
+
+    local TableToReturn = {}
+    loopthought(TableToReturn,TableToReturn)
+    return TableToReturn
+end
+
 function Utils.GetEnumNameByValue(EnumName,Val) -- i dont got any other ideas on how to do this
     local EnumGot = Enum[EnumName]
     for i,v in pairs(EnumGot) do
