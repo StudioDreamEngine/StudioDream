@@ -81,7 +81,7 @@ function MoveControl:new()
     self:ConnectEvents()
 
     for _, Axis in pairs(Lookup) do
-        self.Adorns[Axis] = Runtime.Backend3D.LoadAdorn("Assets/DefaultMeshes/arrow", self.AdornObject, Axis)
+        self.Adorns[Axis] = Runtime.Backend3D.LoadAdorn("Internal/DefaultMeshes/arrow.obj", self.AdornObject, Axis)
     end
 end
 

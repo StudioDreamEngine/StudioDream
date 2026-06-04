@@ -6,7 +6,7 @@ return function ()
 
     -- 3d test
     ---@class Mesh
-    --local Mesh = Things.Create("Mesh") {}
+    local Mesh = Things.Create("Mesh") {}
 
     ---@class Primitive
     local brick = Things.Create("Primitive") {
@@ -36,7 +36,7 @@ return function ()
 
     wedge:SetTransform(Transform3D.FromPosition(0, 10, 0))
 
-    --Mesh:SetParent(Environment)
+    Mesh:SetParent(Environment)
     brick:SetParent(Environment)
     ball:SetParent(Environment)
     wedge:SetParent(Environment)

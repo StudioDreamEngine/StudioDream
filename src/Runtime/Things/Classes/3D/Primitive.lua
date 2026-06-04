@@ -25,7 +25,7 @@ end
 
 function Primitive:CheckShape()
     if self._LastShape ~= self.Shape or not self.Drawable then
-        self:LoadObject("Assets/DefaultMeshes/"..self.Shape)
+        self:SetResource("Internal/DefaultMeshes/"..self.Shape..".obj")
         printVerbose("Made new Drawable")
     end
 

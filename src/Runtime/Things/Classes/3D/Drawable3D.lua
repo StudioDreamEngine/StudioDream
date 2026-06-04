@@ -11,7 +11,7 @@ function Drawable3D:new()
 
     self.Outline = false
     self.Drawable = nil ---@class DreamObject
-    self.MeshPath = nil
+    self.Resource = nil
 
     self.PhysicsBody = nil
     self.PhysicsShape = nil
@@ -61,13 +61,8 @@ function Drawable3D:CreateBody()
     self.PhysicsBody = Runtime.Phys.CreateBody(self.PhysicsShape, Runtime.Phys.ToBullet(self.Transform), self.Dynamic)
 end
 
-function Drawable3D:LoadObject(Path)
-    if (not Path) then
-        Path = "Assets/DefaultMeshes/Scripty"
-    end
-
-    self.MeshPath = Path
-    self.Drawable = Runtime.Backend3D.LoadObject(Path, self.UUID)
+function Drawable3D:SetResource(NewResource)
+    self.Drawable = Runtime.Backend3D.LoadObject(NewResource, self.UUID)
 
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size
 

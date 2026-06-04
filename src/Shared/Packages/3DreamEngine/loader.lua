@@ -171,27 +171,20 @@ function lib:loadObject(path, args)
 end
 
 ---Load an object using the IO library
----@param path string @ Path to object without extension
+---@param bytes string
 ---@param args table
-function lib:loadObjectIo(path, args)
+function lib:loadObjectBytes(bytes, type, args)
 	--set default args
 	args = prepareArgs(args)
-	
-	local n = string.split(path, "/")
-	local dir = #n > 1 and table.concat(n, "/", 1, #n - 1) or ""
-	
+
 	local obj = self:newObject()
 	obj.args = args
-	obj.dir = dir
 	
 	self.deltonLoad:start("load " .. obj.name)
-	
-	local types = string.split(path, ".")
-	types = types[#types]
-	
-	local path = table.concat(types, ".", 0, -2)
-	print(path)
-	
+	self.deltonLoad:start("parser")
+
+	self.loader[type](self, obj, bytes)
+	self.deltonLoad:stop()
 	
 	self:processObject(obj) --extract positions, physics, ...
 	self:finishObject(obj) --create meshes, link library entries, ...

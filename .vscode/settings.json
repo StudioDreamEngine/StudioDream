@@ -7,11 +7,7 @@
     ],
     "Lua.diagnostics.disable": [
         "inject-field",
-        "undefined-field",
-        "deprecated",
-        "need-check-nil",
-        "duplicate-set-field",
-        "cast-local-type"
+        "undefined-field"
     ],
     "Lua.workspace.library": [
         "${3rd}/love2d/library"

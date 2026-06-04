@@ -35,7 +35,7 @@ function BaseGui:GetAbsolutePosition()
 end
 
 function BaseGui:GetRect()
-    return Rect.new(self.AbsolutePosition, self.AbsoluteSize)
+    return self:GetProperty("ChildRect")
 end
 
 function BaseGui:IsAlwaysOnTop()
@@ -101,7 +101,7 @@ function BaseGui:GetParentRect(SameDisplay)
             return
         end
 
-        return ParentElement:GetProperty("Rect")
+        return ParentElement:GetRect()
     end
 end
 
@@ -129,7 +129,7 @@ function BaseGui:new()
     self.SquareAxis = nil
     self.ListOrder = 0
 
-    self.Rect = Rect.new(Vector2.zero, Vector2.zero)
+    self.ChildRect = Rect.new(Vector2.zero, Vector2.zero) -- Rect used 
 
     -- Utility boolean for implementing draggable ui objects
     self.MouseLocked = false -- I didnt wanna implement this as a thing in explorer
@@ -197,7 +197,7 @@ function BaseGui:DrawStyle()
         Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
         self:Draw()
 
-        local Rect = self:GetProperty("Rect")
+        local Rect = self:GetProperty("ChildRect")
 
         love.graphics.setLineWidth(1)
 
@@ -222,7 +222,7 @@ function BaseGui:UpdateTransforms()
     self:SetAbsoluteSize(NewSize)
     self.AbsolutePosition = self:GetAbsolutePosition()
 
-    self.Rect = Rect.new(self.AbsolutePosition, self.AbsoluteSize)
+    self.ChildRect = Rect.new(self.AbsolutePosition, self.AbsoluteSize)
 end
 
 function BaseGui:InvalidateAutomaticSize()

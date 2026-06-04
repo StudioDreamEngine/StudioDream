@@ -12,9 +12,8 @@ function Resources.GetStudioPath(IdentifierID)
     local PathSplit = string.split(IdentifierID, "/")
 
     if PathSplit[1] == "Internal" then
-        PathSplit = table.concat(PathSplit, "/", 2)
-
-        local InternalPath = Path.new(PathSplit, IdentifierID)
+        local PathString = table.concat(PathSplit, "/", 2)
+        local InternalPath = Path.new(PathString, IdentifierID)
         InternalPath.Internal = true
     
         return InternalPath
@@ -45,7 +44,7 @@ function Resources.LoadResource(FilePath)
         Contents = Runtime.BackendFS.ReadFile(FilePath.FilePath)
     end
 
-    local Resource = LoaderModule(Contents)
+    local Resource = LoaderModule(Contents, FilePath.FileType)
 
     LoadedResources[FilePath.Identifier] = Resource
 end

@@ -74,15 +74,18 @@ function Backend3D.CreateAdorn(Name)
     return Object
 end
 
-function Backend3D.LoadObject(Path, Reference)
-    local DreamObject = Dream:loadObject(Path)
+function Backend3D.LoadObject(Identifier, Reference)
+    local ResourceIdentifier = Runtime.Resources.GetIdentifier(Identifier)
+    local Resource = Runtime.Resources.GetResource(ResourceIdentifier)
+
+    local DreamObject = Dream:loadObjectBytes(Resource.Bytes, Resource.Type)
     AssignClassReference(DreamObject, Reference)
 
     return DreamObject
 end
 
-function Backend3D.LoadAdorn(Path, Parent, Reference)
-    local DreamObject = Backend3D.LoadObject(Path, Reference)
+function Backend3D.LoadAdorn(Identifier, Parent, Reference)
+    local DreamObject = Backend3D.LoadObject(Identifier, Reference)
 
     Parent.objects[CreateUUID()] = DreamObject
     return DreamObject

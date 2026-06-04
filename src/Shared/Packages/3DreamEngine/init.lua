@@ -72,15 +72,6 @@ lib.delton = require(lib.root .. "/libs/delton"):new(256)
 lib.deltonLoad = require(lib.root .. "/libs/delton"):new(1)
 lib.deltonLoad.maxAge = 999999
 
-if not _DEBUGMODE then
-	lib.delton.start = function() end
-	lib.delton.stop = lib.delton.start
-	lib.delton.step = lib.delton.start
-	lib.deltonLoad.start = function() end
-	lib.deltonLoad.stop = lib.delton.start
-	lib.deltonLoad.step = lib.delton.start
-end
-
 --load sub modules
 require(lib.root .. "/functions")
 require(lib.root .. "/settings")
