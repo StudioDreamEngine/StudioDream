@@ -139,12 +139,14 @@ function Thing:Destroy()
     Things.Remove(self)
 end
 
-function Thing:Clone()
-    local NewThing = Utils.UltraCloneTable(self)
-    print(self)
-    print(NewThing)
-    for i,v in pairs(NewThing:GetDescendants()) do
-        print(i,v)
+function Thing:Clone() -- SHOULD be working idk why it inst
+    local NewThing = Things.New(self.ClassName)
+    for Property,Val in pairs(self.Proxy.Accessible) do 
+        if self.Proxy.Types[Property] then
+            Type = self[Property] 
+            print(Property,Type)
+            Things.SetProperty(NewThing,Property,Type)
+        end
     end
 end
 
