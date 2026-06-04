@@ -61,6 +61,7 @@ function Drawable3D:CreateBody()
     self.PhysicsBody = Runtime.Phys.CreateBody(self.PhysicsShape, Runtime.Phys.ToBullet(self.Transform), self.Dynamic)
 end
 
+-- Hacky mesh resource system because dream loads an object directly from a file's contents
 function Drawable3D:SetResource(NewResource)
     self.Drawable = Runtime.Backend3D.LoadObject(NewResource, self.UUID)
 
