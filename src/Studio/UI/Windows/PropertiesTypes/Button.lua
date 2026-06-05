@@ -1,4 +1,6 @@
-return function(FrameOption,Thing,Property) 
+local ButtonTest = {}
+
+function ButtonTest.Start(FrameOption,Thing,Property) 
     local Stringthing = Runtime.Things.Create("TextButton") {
         Size = Pivot2D.FromScale(1,1),
         Text = "Imatestthing",
@@ -11,3 +13,5 @@ return function(FrameOption,Thing,Property)
         local Cloned = Thing:Clone()
     end)
 end
+
+return ButtonTest

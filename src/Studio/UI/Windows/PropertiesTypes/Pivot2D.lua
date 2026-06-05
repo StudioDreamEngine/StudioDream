@@ -1,3 +1,5 @@
+local Pivoted = {}
+
 local Size = Vector2.new(64,64)
 
 local LineUp = {
@@ -5,7 +7,9 @@ local LineUp = {
     ["false"] = Vector2.new(0,0),
 }
 
-return function(FrameOption,Thing,Property,ActualNode)
+local SomethingUpdated = Signal:New("Wow")
+
+function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
     print(Thing[Property])
 
     local IsOpen = true
@@ -67,10 +71,8 @@ return function(FrameOption,Thing,Property,ActualNode)
         Option.Text = tostring(Vector2.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01))
     end)
 
-    Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
-        if WhatProperty == "Transform" then
-            Option:SetText(tostring(NewVal[Name]))
-        end
+    SomethingUpdated:Connect(function(NewVal)
+        Option:SetText(tostring(NewVal[Name]))
     end)
 
     end
@@ -118,3 +120,9 @@ return function(FrameOption,Thing,Property,ActualNode)
     CreateOption(FrameOption,"Offset",Thing[Property].Offset,Thing,Property)
     --CreateOption(FrameOption,"Angle",Thing[Property].Position,Thing,Property)]]
 end
+
+function Transform3Dee.Update(NewValue)
+    SomethingUpdated.Invoke(NewValue)
+end
+
+return Pivoted

@@ -1,3 +1,5 @@
+local FilePathd = {}
+
 local For = {
     ["MeshPath"] = "3D File",
 }
@@ -8,7 +10,7 @@ local Is3DFile = {
     ".glb"
 }
 
-return function(FrameOption,Thing,Property)
+function FilePathd.Start(FrameOption,Thing,Property)
     local MainText = Runtime.Things.Create("TextButton") {
         Text = Thing[Property],
         ForegroundColor = Studio.Theme.Text,
@@ -36,3 +38,5 @@ return function(FrameOption,Thing,Property)
         -- Find a way to check if the select file is a 3D file, maybe using string.sub? 💃💃
     end)
 end
+
+return FilePathd

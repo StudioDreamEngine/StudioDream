@@ -1,4 +1,6 @@
-return function(FrameOption) -- Scrapped for now
+local Template = {}
+
+function Template.Start(FrameOption) -- Scrapped for now
     Runtime.Things.Create("Text") {
         Text = "Property Type not found! WIP!",
         ForegroundColor = Studio.Theme.Text,
@@ -7,3 +9,5 @@ return function(FrameOption) -- Scrapped for now
         Parent = FrameOption
     }
 end
+
+return Template
