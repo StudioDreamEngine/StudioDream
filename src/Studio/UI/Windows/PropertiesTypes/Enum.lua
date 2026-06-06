@@ -1,3 +1,5 @@
+local Enumed = {}
+
 local GeneratedList
 local ChangedOption = Signal:New("BlehBleh")
 
@@ -38,7 +40,7 @@ local function ChangeButton(But,Property)
     But:SetImageRect(Rect.new(LineUp[tostring(Property)],Size))
 end
 
-return function(FrameOption,Thing,Property) 
+function Enumed.Start(FrameOption,Thing,Property) 
     local EnumLock = false
     local ConnectFunction
     
@@ -90,3 +92,5 @@ return function(FrameOption,Thing,Property)
     end)
 
 end
+
+return Enumed

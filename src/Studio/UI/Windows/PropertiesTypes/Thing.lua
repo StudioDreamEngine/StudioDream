@@ -1,7 +1,10 @@
-return function(FrameOption,Thing,Property)
+local Thingy = {}
+local Button
+
+function Thingy.Start(FrameOption,Thing,Property)
     local SelectionManager = Studio.Editor3D.SelectionManager
 
-    local Button = Runtime.Things.Create("TextButton") {
+    Button = Runtime.Things.Create("TextButton") {
         Text = tostring(Thing[Property].Name),
         ForegroundColor = Studio.Theme.Text,
         BackgroundColor = Studio.Theme.Primary,
@@ -30,3 +33,9 @@ return function(FrameOption,Thing,Property)
     end)
 
 end
+
+function Thingy.Update(NewVal)
+    Button:SetText(tostring(NewVal.Name))
+end
+
+return Thingy

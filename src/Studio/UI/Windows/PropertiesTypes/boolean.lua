@@ -1,3 +1,5 @@
+local Boo = {}
+
 local LineUp = {
     ["true"] = Vector2.new(64,0),
     ["false"] = Vector2.new(128,0),
@@ -10,7 +12,7 @@ local function UpdateButton(Button,Property)
     Button:SetImageRect(Rect.new(LineUp[tostring(Property)],Size))
 end
 
-return function(FrameOption,Thing,Property)
+function Boo.Start(FrameOption,Thing,Property)
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Icons/Engine/Boolean.png",
         Size = Pivot2D.FromScale(1,1),
@@ -26,3 +28,5 @@ return function(FrameOption,Thing,Property)
         UpdateButton(Button,Thing[Property])
     end)
 end
+
+return Boo

@@ -55,7 +55,16 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         if not RequiredPropertyTypes[Type] then
             RequiredPropertyTypes[Type] = require("Studio/UI/Windows/PropertiesTypes/"..Type)
         end
-        RequiredPropertyTypes[Type](Option,Thing,PropertyTxt,BaseProperty)
+        RequiredPropertyTypes[Type].Start(Option,Thing,PropertyTxt,BaseProperty)
+
+        if RequiredPropertyTypes[Type].Update then
+            RequiredPropertyTypes[Type].ToDisconnect = Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
+                if WhatProperty and WhatProperty == RequiredPropertyTypes[Type].CustomConnect or WhatProperty == PropertyTxt then
+                    RequiredPropertyTypes[Type].Update(NewVal)
+                end
+            end)
+        end
+
         --PropertyTypes[Type](Option,Thing,PropertyTxt) -- make this update if a property was changed, aka for updating positions ect ect ✌️
     else
         --PropertyTypes["Not_Found"](Option,Thing,PropertyTxt)
@@ -132,6 +141,14 @@ local function CreateGroup(GroupName,Window)
     return GroupToReturn
 end
 
+local function DisconnectEverythin()
+    for i,v in pairs(RequiredPropertyTypes) do
+        if v.ToDisconnect then
+            v.ToDisconnect:Disconnect()
+        end
+    end
+end
+
 function PropertiesRender.Init()
     local Window = PropertiesRender.Container --[[Things.Create("ScrollContainer") { 
         Size = Pivot2D.FromScale(1,1),
@@ -145,6 +162,9 @@ function PropertiesRender.Init()
 
     Studio.Editor3D.OnSelect:Connect(function(Thing)
         print("Clear")
+
+        DisconnectEverythin()
+
         Window:ClearAllChildren()
 
         BaseWindow = Things.Create("Square") { 
@@ -185,6 +205,7 @@ function PropertiesRender.Init()
     end)
 
     Studio.Editor3D.OnDeselect:Connect(function()
+        DisconnectEverythin()
         Window:ClearAllChildren()
     end)
 end

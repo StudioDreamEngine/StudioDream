@@ -1,6 +1,8 @@
-return function(FrameOption,Thing,Property) -- maybe a signal for when the option is changed? like u stop typing the new object name ect ect
+local VectorTwo = {}
+local VectorThing
+function VectorTwo.Start(FrameOption,Thing,Property) -- maybe a signal for when the option is changed? like u stop typing the new object name ect ect
 
-        local VectorThing = Runtime.Things.Create("TextInput") {
+    VectorThing = Runtime.Things.Create("TextInput") {
         Size = Pivot2D.FromScale(1,1),
         Text = tostring(Thing[Property]),
         BackgroundTransparency = 1,
@@ -19,3 +21,9 @@ return function(FrameOption,Thing,Property) -- maybe a signal for when the optio
             VectorThing.Text = tostring(Thing[Property])
         end)
     end
+
+function VectorTwo.Update(NewVal)
+    VectorThing:SetText(tostring(NewVal))
+end
+
+return VectorTwo

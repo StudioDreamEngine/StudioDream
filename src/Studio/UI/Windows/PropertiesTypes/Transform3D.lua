@@ -1,7 +1,13 @@
+local Transform3Dee = {}
+
+Transform3Dee.CustomConnect = "Transform"
+
 local Size = Vector2.new(64,64)
 
 local IsOpen = true
 local CreatedNodes = {}
+
+local SomethingUpdated = Signal:New("Wow")
 
 local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
     print(Value)
@@ -59,10 +65,9 @@ local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         Option.Text = tostring(Vector3.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
     end)
 
-    Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
-        if WhatProperty == "Transform" then
-            Option:SetText(tostring(NewVal[Name]))
-        end
+    SomethingUpdated:Connect(function(NewVal)
+        --print("Hi")
+        Option:SetText(tostring(NewVal[Name]))
     end)
 
 end
@@ -76,7 +81,7 @@ local function ChangeButton(But,Property)
     But:SetImageRect(Rect.new(LineUp[tostring(Property)],Size))
 end
 
-return function(FrameOption,Thing,Property,ActualNode)
+function Transform3Dee.Start(FrameOption,Thing,Property,ActualNode)
     print(Thing[Property])
 
     local Button = Runtime.Things.Create("ImageButton") {
@@ -111,3 +116,9 @@ return function(FrameOption,Thing,Property,ActualNode)
     CreateOption(FrameOption,"Position",Thing[Property].Position,Thing,Property)
     --CreateOption(FrameOption,"Angle",Thing[Property].Position,Thing,Property)
 end
+
+function Transform3Dee.Update(NewValue)
+    SomethingUpdated.Invoke(NewValue)
+end
+
+return Transform3Dee

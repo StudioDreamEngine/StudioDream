@@ -17,6 +17,8 @@ function love.load()
 
     print("Runtime is ready.")
 
+    --love.graphics.captureScreenshot("Welcome ".. os.time() .. ".png")
+
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
 end
 

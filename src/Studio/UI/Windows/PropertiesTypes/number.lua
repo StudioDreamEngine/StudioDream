@@ -1,5 +1,7 @@
-return function(FrameOption,Thing,Property) 
-    local Stringthing = Runtime.Things.Create("TextInput") {
+local Numbered = {}
+local Stringthing
+function Numbered.Start(FrameOption,Thing,Property) 
+    Stringthing = Runtime.Things.Create("TextInput") {
         Size = Pivot2D.FromScale(1,1),
         Text = tostring(Thing[Property]),
         BackgroundTransparency = 1,
@@ -16,3 +18,9 @@ return function(FrameOption,Thing,Property)
         Studio.Layout.CallHandle("Explorer", "Redraw") -- Change this pls :skull:
     end)
 end
+
+function Numbered.Update(NewVal)
+    Stringthing:SetText(tostring(NewVal))
+end
+
+return Numbered
