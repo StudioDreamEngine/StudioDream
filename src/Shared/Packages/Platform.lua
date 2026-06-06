@@ -1,6 +1,7 @@
-local FileDialog = {}
-local ffi = require("ffi")
+-- General cross-platform functions for random stuff
+local ffi = require('ffi')
 
+local C = ffi.C
 local tinyfiledialog = ffi.load(package.searchpath("tinyfiledialogs64", package.cpath))
 
 ffi.cdef[[
@@ -17,19 +18,44 @@ ffi.cdef[[
 	char const * const aDefaultPath ) ;
 ]]
 
-function FileDialog.OpenFileDialog(Title)
+-- POSIX standard functions that should work on all OS'es (Android, Linux, MacOS, Windows) assuming microsoft decides to not be different for once
+ffi.cdef([[
+    int execvp(char const* path, const char* argv[]);
+]])
+
+local Platform = {}
+
+function Platform.Execute(...)
+	local Args = table.pack(...)
+
+	-- we REALLY shouldnt be doing this, but exec force closes the program
+	os.execute(table.concat(Args, " "))
+
+	--[[local Args = table.pack(...)
+	local ArgsProcessed = {}
+
+	for i, v in pairs(Args) do
+		if i ~= "n" then
+			table.insert(ArgsProcessed, tostring(v))
+		end
+	end
+
+	local ArgsC = ffi.new("const char*["..(Args.n+1).."]", ArgsProcessed)
+	local a = C.execvp(ArgsC[0], ArgsC)]]
+end
+
+function Platform.OpenFileDialog(Title)
     local ReturnPathC = tinyfiledialog.tinyfd_openFileDialog(Title, nil, 2, nil, nil, 0) 
 
 	-- I love ffi so much, i love when it crashes on me with no error!
 	return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
 end
 
-function FileDialog.OpenFolderDialog(Title)
+function Platform.OpenFolderDialog(Title)
     local ReturnPathC = tinyfiledialog.tinyfd_selectFolderDialog(Title, nil)
 
 	-- I love ffi so much, i love when it crashes on me with no error!
 	return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
 end
 
-
-return FileDialog
+return Platform

@@ -48,7 +48,7 @@ return {
                 {
                     Type = "Button",
                     Text = "Play",
-                    SubImage = "Assets/Icons/Client.png",
+                    SubResource = "Assets/Icons/Client.png",
                     Function = function(T)
                         ---@class Environment
                         local Environment = Runtime.Things.Root:GetEnvironment()

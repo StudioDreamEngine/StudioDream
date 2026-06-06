@@ -14,16 +14,12 @@ end
 function Audio:DefineAPI()
     Audio.super.DefineAPI(self)
 
+    self.Proxy.Property("Resource Resource")
     self.Proxy.Icon("Audio")
 end
 
-function Audio:SetResource(IdentifierID)
-    self.Resource = Resources.GetIdentifier(IdentifierID)
-    print(self.Resource)
-
-    ---@class love.Source
-    self.SoundObject = Resources.GetResource(self.Resource)
-    self.SoundObject:play()
+function Audio:SetResource(Identifier)
+    self.SoundObject, self.Resource = Resources.LoadFromIdentifier(Identifier)
 end
 
 return Audio

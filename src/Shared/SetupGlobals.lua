@@ -9,7 +9,7 @@ return function ()
     -- Packages
     Dream = require("Shared.Packages.3DreamEngine")
     Binser = require("Shared.Packages.Binser")
-    FileDialog = require("Shared.Packages.filedialog")
+    Platform = require("Shared.Packages.Platform")
     TweenFunctions = require("Shared.Packages.Tweener")
     NativeFS = require("Shared.Packages.nativefs")
 

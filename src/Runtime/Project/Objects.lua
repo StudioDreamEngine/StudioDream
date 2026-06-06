@@ -8,7 +8,9 @@ function Objects.HandleType(Property, Type, Deserialize)
     if (not TypeSerializers[Type]) then error(Type.." needs serializer") end
 
     local Serializer = require(TypeSerializers[Type])
-    return Deserialize and Serializer.Deserialize(Property) or Serializer.Serialize(Property)
+    local Result = Deserialize and Serializer.Deserialize(Property) or Serializer.Serialize(Property)
+
+    return Result
 end
 
 -- Used for updating Thing.TruelySerializable
@@ -84,10 +86,12 @@ function Objects.DeserializeObject(ObjectData)
         local Type = PropertyData.Type
         local Property = Objects.HandleType(PropertyData.Value, Type, true)
 
-        if Type == "Thing" then
-            RelocationQueue[PropertyName] = Property
-        else
-            Properties[PropertyName] = Property
+        if Property then -- Only apply property if it exists
+            if Type == "Thing" then
+                RelocationQueue[PropertyName] = Property
+            else
+                Properties[PropertyName] = Property
+            end
         end
     end
 

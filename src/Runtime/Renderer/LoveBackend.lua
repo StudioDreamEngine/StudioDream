@@ -2,6 +2,8 @@
 local Backend = {}
 
 function Backend.CanvasCall(Canvas, DrawFunction)
+    local OldCanvas = love.graphics.getCanvas()
+
     love.graphics.setCanvas({ Canvas, stencil=true })
     love.graphics.push()
     love.graphics.origin() -- just in case
@@ -9,7 +11,7 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     DrawFunction()
 
     love.graphics.pop()
-    love.graphics.setCanvas()
+    love.graphics.setCanvas(OldCanvas)
 end
 
 function Backend.GetMouseDown(Button)

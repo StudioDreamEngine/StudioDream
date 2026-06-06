@@ -11,12 +11,13 @@ function BaseScript:new()
     self.ScriptContents = nil
     self.ScriptTask = nil
     self.Require = nil -- Required table if it exists
+end
 
-    self.Explorer = {
-        Visible = true,
-        
-        Icon = self.IsModule and "Requireable_Script" or "Script"
-    }
+function BaseScript:DefineAPI()
+    BaseScript.super.DefineAPI(self)
+
+    self.Proxy.Icon("Script")
+    self.Proxy.MakeCreatable()
 end
 
 -- Called on initalization of the script

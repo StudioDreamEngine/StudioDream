@@ -17,7 +17,7 @@ return function(Args)
         Size = Pivot2D.FromScale(0.7,0.7),
         SquareAxis = Enum.SquareAxis.Y,
         Parent = ButtonContainer,
-        Image = "Assets/EditorIcons/TabIcons/"..Args.Icon..".png",
+        Resource = "Internal/EditorIcons/TabIcons/"..Args.Icon..".png",
         Pivot = Vector2.xAxis * .5,
         Position = Pivot2D.FromScale(0.5,0),
     }

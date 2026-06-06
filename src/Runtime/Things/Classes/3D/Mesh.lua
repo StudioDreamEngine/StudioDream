@@ -3,6 +3,7 @@ local Things = Runtime.Things
 -- using @module here gives the lua language server a base type to use!
 ---@class Mesh: Drawable3D
 local Mesh = Things.Extend("Drawable3D")
+local DefaultMesh = Runtime.Resources.GetIdentifier("Internal/DefaultMeshes/Scripty.glb")
 
 function Mesh:new()
     Mesh.super.new(self)
@@ -10,7 +11,7 @@ function Mesh:new()
     self.TextureFile = nil -- Maybe make this a table so we can put normals, and that super cool and realist stuff???
     self.Anchored = true
 
-    self:SetResource("Internal/DefaultMeshes/Scripty.glb")
+    self:SetResource(DefaultMesh)
 end
 
 function Mesh:DefineAPI()

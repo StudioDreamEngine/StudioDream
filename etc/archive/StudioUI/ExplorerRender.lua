@@ -16,7 +16,7 @@ local function RenderIcon(IconName, VectorPos, Container)
     local Icon = Utils.DoesFileExist("Assets/EditorIcons/16/" .. IconName .. ".png") and "Assets/EditorIcons/16/" .. IconName .. ".png" or "Assets/EditorIcons/16/File_Not_Found.png"local Icon = Utils.DoesFileExist("Assets/EditorIcons/16/" .. IconName .. ".png") and "Assets/EditorIcons/16/" .. IconName .. ".png" or "Assets/EditorIcons/16/File_Not_Found.png"
     local ImageThing = Things.Create("Image2D") {
         Size = Pivot2D.FromScale(Vector2.one * IconsSize),
-        Image = "Assets/EditorIcons/16/" .. IconName .. ".png",
+        Resource = "Assets/EditorIcons/16/" .. IconName .. ".png",
         Parent = Container
     }
 end

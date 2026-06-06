@@ -66,11 +66,28 @@ local InputService = Runtime.Services.Service("InputService") ---@class InputSer
 local Selecting
 local Hovering
 
+local LastClick = 0
+
+local function HandleDoubleClick(ClickedObject)
+    if ClickedObject:IsA("BaseScript") then
+        Platform.Execute("code", ".")
+    end
+end
+
 local function HandleDragStart()
     Selecting = Hovering
-    Selecting.Node:SetMouseLocked(true)
 
     local Object = Selecting.Thing
+
+    if GlobalTick - LastClick < 0.4 then -- Process Double Click
+        HandleDoubleClick(Object)
+
+        return
+    end
+
+    LastClick = GlobalTick
+
+    Selecting.Node:SetMouseLocked(true)
 
     SelectionManager.SelectObject(Object)
     Explorer.Tree[Object] = nil

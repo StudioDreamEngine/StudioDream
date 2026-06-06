@@ -45,8 +45,6 @@ function TextInput:new()
             self["Focus" .. (self.Hovering and "Start" or "End") ].Invoke()
         end
         self.InputActive = self.Hovering
-        love.keyboard.setTextInput(self.InputActive)
-        print(self.InputActive)
     end)
 end
 

@@ -22,7 +22,7 @@ return function(FrameOption,Thing,Property)
     }
 
     MainText.Clicked:Connect(function()
-        local NewPath = FileDialog.OpenFileDialog("Choose "..For[Property].." for "..Property)
+        local NewPath = Platform.OpenFileDialog("Choose "..For[Property].." for "..Property)
         print(NewPath)
         --Thing[Property] = NewFile
         if type(NewPath) ~= "boolean" then

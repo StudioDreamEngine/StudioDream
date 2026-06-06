@@ -7,6 +7,12 @@ local FormatLookup = require("Runtime.Resources.FormatLookup")
 
 function Resources.RegisterIdentifier(Identifier, FilePath) Identifiers[Identifier] = Path.new(FilePath, Identifier) end
 
+function Resources.RegisterMissing(FilePath)
+    print(FilePath.Identifier.." is missing! old path: "..FilePath.FilePath)
+
+    table.insert(Resources.Missing, FilePath)
+end
+
 -- sorta hack for studio assets
 function Resources.GetStudioPath(IdentifierID)
     local PathSplit = string.split(IdentifierID, "/")
@@ -22,7 +28,10 @@ end
 
 -- Get the identifier, which holds the file path itself, 
 function Resources.GetIdentifier(IdentifierID) 
-    return Resources.GetStudioPath(IdentifierID) or Identifiers[IdentifierID] 
+    local ReturnIdentifier = Resources.GetStudioPath(IdentifierID) or Identifiers[IdentifierID]
+    assert(ReturnIdentifier, IdentifierID.." Doesnt exist!")
+
+    return ReturnIdentifier
 end
 
 function Resources.ClearIdentifier() 
@@ -31,6 +40,16 @@ function Resources.ClearIdentifier()
 end
 
 Resources.ClearIdentifier()
+
+-- Takes an Identifier object or ID and returns the Resource, alongside its Identifier
+function Resources.LoadFromIdentifier(Identifier)
+    if Utils.TypeOf(Identifier) == "string" then
+        printVerbose("Calling LoadFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
+        Identifier = Runtime.Resources.GetIdentifier(Identifier)
+    end
+
+    return Resources.GetResource(Identifier), Identifier
+end
 
 function Resources.LoadResource(FilePath)
     local Format = FormatLookup[FilePath.FileType]

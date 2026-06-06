@@ -22,9 +22,9 @@ end
 function Drawable3D:DefineAPI()
     Drawable3D.super.DefineAPI(self)
 
-    self.Proxy.Property("Vector3 Scale", "boolean Outline", "FilePath MeshPath")
+    self.Proxy.Property("Vector3 Scale", "boolean Outline", "Resource Resource")
     self.Proxy.Group("Transform", "Scale")
-    self.Proxy.Group("Visuals", "MeshPath")
+    self.Proxy.Group("Visuals", "Resource")
 end
 
 function Drawable3D:OnRemove()

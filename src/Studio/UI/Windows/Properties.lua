@@ -50,6 +50,7 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         Parent = BaseProperty,
     }
     BaseProperty.ListOrder = Index
+
     if Utils.DoesFileExist("Studio/UI/Windows/PropertiesTypes/"..Type..".lua") then
         if not RequiredPropertyTypes[Type] then
             RequiredPropertyTypes[Type] = require("Studio/UI/Windows/PropertiesTypes/"..Type)
@@ -99,7 +100,7 @@ local function CreateGroup(GroupName,Window)
         OutlineColor = Studio.Theme.Outline
     }
     local Button = Runtime.Things.Create("ImageButton") {
-        Image = "Assets/Icons/Engine/OpenMenu.png",
+        Resource = "Internal/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
         BackgroundColor = Studio.Theme.Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
@@ -167,6 +168,9 @@ function PropertiesRender.Init()
             for v,Property in pairs(Thing.Proxy.Groups[GroupName]) do
                 local Type
                 if Thing.Proxy.Types[Property] then Type = Thing.Proxy.Types[Property] end
+
+                assert(Type, Thing.ClassName.." has improperly defined property "..Property)
+
                 index=index+1
                 local Node = CreatePropertyNode(List,Property,Type,Thing,index)
             end

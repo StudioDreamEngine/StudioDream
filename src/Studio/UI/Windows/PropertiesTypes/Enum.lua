@@ -54,7 +54,7 @@ return function(FrameOption,Thing,Property)
     }
 
     local Button = Runtime.Things.Create("Image2D") {
-        Image = "Assets/Icons/Engine/OpenMenu.png",
+        Resource = "Internal/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
         BackgroundColor = Studio.Theme.Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!

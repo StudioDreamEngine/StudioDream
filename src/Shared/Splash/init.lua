@@ -83,7 +83,7 @@ function Splash.Init()
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.5,.4),
         SquareAxis = Enum.SquareAxis.Y,
-        Image = "Assets/SplashOutline.png",
+        Resource = "Internal/SplashOutline.png",
         Parent = SplashContainer
     }
 

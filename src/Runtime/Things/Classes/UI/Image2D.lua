@@ -3,37 +3,37 @@ local Things = Runtime.Things
 -- using @module here gives the lua language server a base type to use!
 ---@class Image2D: BaseGui
 local Image2D = Things.Extend("BaseGui")
+local DefaultIdentifier = Runtime.Resources.GetIdentifier("Internal/Icons/Studio.png")
 
 function Image2D:new()
     Image2D.super.new(self)
 
-    self.Image = nil
+    self.ImageFile = nil
     self.ImageRect = nil
-    
     self.ImageQuad = nil
+    
     self.ForegroundColor = Color.new(1)
 
-    self:SetImage("Assets/Icons/Studio.png")
+    self:SetResource(DefaultIdentifier)
 end
 
 function Image2D:DefineAPI()
     Image2D.super.DefineAPI(self)
 
     self.Proxy.Icon("Image2D")
-    self.Proxy.Property("Rect ImageRect","FilePath ImageFile")
-    self.Proxy.Group("Visuals","ImageFile","ImageRect")
+    self.Proxy.Property("Rect ImageRect","Resource Resource")
+    self.Proxy.Group("Visuals","Resource","ImageRect")
+
     self.Proxy.MakeCreatable()
 end
 
-function Image2D:SetImage(NewImage)
-    self.Image = NewImage
-    self.ImageFile = Runtime.Backend2D.NewImage(NewImage)
+function Image2D:SetResource(Identifier)
+    self.ImageFile, self.Resource = Runtime.Resources.LoadFromIdentifier(Identifier)
 
     local Width, Height = self.ImageFile:getDimensions()
     local Size = Vector2.new(Width, Height)
 
-    self.ImageRect = Rect.new(Vector2.zero, Size)
-    self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect, Size)
+    self:SetImageRect(Rect.new(Vector2.zero, Size))
 end
 
 function Image2D:SetImageRect(NewRect)

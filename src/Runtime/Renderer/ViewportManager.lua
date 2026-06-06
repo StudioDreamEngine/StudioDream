@@ -30,6 +30,7 @@ end
 
 -- Render the contents of a 2d viewport
 function ViewportManager.RenderViewport2D(Viewport)
+    Profiler.Start("Render 2D Viewport")
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         love.graphics.clear()
 
@@ -53,20 +54,31 @@ function ViewportManager.RenderViewport2D(Viewport)
 
         --love.graphics.circle("fill", Viewport.MousePosition.X, Viewport.MousePosition.Y, 10)
     end)
+    Profiler.End()
 end
 
 -- Render the contents of a 3d viewport
 function ViewportManager.RenderViewport3D(Viewport)
+    Profiler.Start("Render 3D Viewport")
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
         Dream:draw(Viewport:GetWorld())
         Dream:draw(Runtime.Backend3D.GetAdorns())
         Dream:present()
     end)
+    Profiler.End()
 end
 
 -- Render the canvas itself to the screen
-function ViewportManager.RenderCanvas(Viewport) Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas) end
+function ViewportManager.RenderCanvas(Viewport) 
+    if Viewport:IsA("Viewport2D") then
+        ViewportManager.RenderViewport2D(Viewport)
+    else
+        ViewportManager.RenderViewport3D(Viewport)
+    end
+
+    Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas) 
+end
 
 function ViewportManager.Update(dt)
     --TestCamera:update(dt,75)
@@ -74,16 +86,6 @@ function ViewportManager.Update(dt)
 end
 
 function ViewportManager.Render()
-    for _, Viewport in pairs(ViewportManager.Viewports) do
-        if Viewport:IsA("Viewport2D") then
-            Profiler.Start("2D Viewport")
-            ViewportManager.RenderViewport2D(Viewport)
-            Profiler.End()
-        else
-            ViewportManager.RenderViewport3D(Viewport)
-        end
-    end
-
     ViewportManager.RenderCanvas(RootViewport)
 end
 

@@ -75,8 +75,7 @@ function Backend3D.CreateAdorn(Name)
 end
 
 function Backend3D.LoadObject(Identifier, Reference)
-    local ResourceIdentifier = Runtime.Resources.GetIdentifier(Identifier)
-    local Resource = Runtime.Resources.GetResource(ResourceIdentifier)
+    local Resource, ResourceIdentifier = Runtime.Resources.LoadFromIdentifier(Identifier)
 
     local DreamObject = Dream:loadObjectBytes(Resource.Bytes, Resource.Type)
     AssignClassReference(DreamObject, Reference)

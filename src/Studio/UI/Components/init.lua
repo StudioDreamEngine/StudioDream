@@ -60,15 +60,16 @@ function Components.CreateIconObject(Name, Icon)
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.Text
     }
-    
-    local Icon = Utils.DoesFileExist("Assets/EditorIcons/" .. Icon .. ".png") and "Assets/EditorIcons/" .. Icon .. ".png" or "Assets/EditorIcons/File_Not_Found.png"
+
+    local NotFoundIcon = Runtime.Resources.GetIdentifier("Internal/EditorIcons/File_Not_Found.png")
+    local Icon = Runtime.Resources.GetIdentifier("Internal/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
     
     local NodeIcon = Things.Create("Image2D") {
         Size = Pivot2D.new(0,0.1,0,1),
         SquareAxis = Enum.SquareAxis.Y,
         Pivot = Vector2.new(1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
-        Image = Icon,
+        Resource = Icon,
         Parent = NodeInner
     }
 
