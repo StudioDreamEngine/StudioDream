@@ -1,4 +1,4 @@
-local Client = {}
+Client = {}
 
 function Client.Init()
     

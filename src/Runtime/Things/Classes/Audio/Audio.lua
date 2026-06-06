@@ -19,7 +19,7 @@ function Audio:DefineAPI()
 end
 
 function Audio:SetResource(Identifier)
-    self.SoundObject, self.Resource = Resources.LoadFromIdentifier(Identifier)
+    self.SoundObject, self.Resource = Resources.LoadFromIdentifier(Identifier, self.UUID)
 end
 
 return Audio

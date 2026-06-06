@@ -10,33 +10,36 @@ function BaseScript:new()
 
     self.ScriptContents = nil
     self.ScriptTask = nil
-    self.Require = nil -- Required table if it exists
+    self.Resource = nil
+
+    self.Required = nil
 end
 
 function BaseScript:DefineAPI()
     BaseScript.super.DefineAPI(self)
 
     self.Proxy.Icon("Script")
+    self.Proxy.Property("Resource Resource")
+
     self.Proxy.MakeCreatable()
 end
 
--- Called on initalization of the script
-function BaseScript:Load()
-    if self.Require then
-        print("Reloading already loaded script")
-        return self.Require
-    end
-
-    local Contents = "return function()\n"..self.ScriptContents.."\nend"
-
-    local Globals = ScriptUtil.CreateGlobals(self)
-    local ModuleFunction = load(Contents, self.Name, "t", Globals)()
+function BaseScript:Require()
+    if (not self.ModuleFunction) then return end
 
     self.ScriptTask = Scheduler.NewTask(function()
-        self.Require = ModuleFunction()
+        self.Required = self.ModuleFunction()
     end)
 
-    return self.Require
+    return self.Required
 end
+
+function BaseScript:SetResource(Identifier)
+    self.ModuleFunction, self.Resource = Runtime.Resources.LoadFromIdentifier(Identifier, self.UUID)
+    self.ModuleFunction = self.ModuleFunction()
+
+    setfenv(self.ModuleFunction, ScriptUtil.CreateGlobals(self))
+end
+
 
 return BaseScript

@@ -55,6 +55,7 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         if not RequiredPropertyTypes[Type] then
             RequiredPropertyTypes[Type] = require("Studio/UI/Windows/PropertiesTypes/"..Type)
         end
+
         RequiredPropertyTypes[Type].Start(Option,Thing,PropertyTxt,BaseProperty)
 
         if RequiredPropertyTypes[Type].Update then
@@ -145,6 +146,7 @@ local function DisconnectEverythin()
     for i,v in pairs(RequiredPropertyTypes) do
         if v.ToDisconnect then
             v.ToDisconnect:Disconnect()
+            v.ToDisconnect = nil
         end
     end
 end
@@ -204,7 +206,7 @@ function PropertiesRender.Init()
         BaseWindow:SetParent(Window)
     end)
 
-    Studio.Editor3D.OnDeselect:Connect(function()
+    Studio.Editor3D.OnDeselect:Connect(function(Thing)
         DisconnectEverythin()
         Window:ClearAllChildren()
     end)

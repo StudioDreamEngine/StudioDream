@@ -5,6 +5,10 @@ function BackendFS.OpenFile(Path, Mode)
     return love.filesystem.openNativeFile(Mount..Path, Mode)
 end
 
+function BackendFS.GetFullPath(FilePath)
+    return Mount..FilePath.FilePath
+end
+
 function BackendFS.WriteFile(Path, Data)
     local File = BackendFS.OpenFile(Path, "w")
     File:write(Data)

@@ -1,3 +1,4 @@
+-- General script utils for studio and runtime
 local ScriptUtil = {}
 local Things = Runtime.Things
 
@@ -10,6 +11,25 @@ local function ProxyIndex(Instance, Key)
     else
         return Instance[Key]
     end
+end
+
+---@param ScriptObject BaseScript
+function ScriptUtil.HandleOpenScript(ScriptObject)
+    if (not ScriptObject.Resource) then
+        -- Create new resource for object
+        local Identifier, _ = Runtime.Resources.RegisterIdentifierFromFile(ScriptObject.Name, "lua")
+        ScriptObject:SetResource(Identifier)
+    end
+
+    local ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor")
+
+    if (not ConfiguredEditor) then
+        ConfiguredEditor = Platform.OpenFileDialog("Configure Editor")
+
+        Studio.SettingsManager.ChangeSetting("CodeEditor", ConfiguredEditor)
+    end
+
+    Platform.Execute(ConfiguredEditor, Runtime.BackendFS.GetFullPath(ScriptObject.Resource))
 end
 
 function ScriptUtil.SetProperty(Object, Index, Value)

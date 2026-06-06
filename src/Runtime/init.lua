@@ -23,6 +23,8 @@ function Runtime.PostInit()
     Runtime.Things.CreateEnviornment()
     Runtime.Things.CreateApiDump()
 
+    Runtime.Resources.Init()
+
     Runtime.Project = require("Runtime.Project")
 
     require("Runtime.Things.CreateTests")()

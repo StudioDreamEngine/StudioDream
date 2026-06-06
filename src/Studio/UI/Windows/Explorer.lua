@@ -69,21 +69,20 @@ local Hovering
 local LastClick = 0
 
 local function HandleDoubleClick(ClickedObject)
+    -- I'd make this a little more advanced but scripts are most likely gonna be the only thing here
     if ClickedObject:IsA("BaseScript") then
-        Platform.Execute("code", ".")
+        Runtime.ScriptUtil.HandleOpenScript(ClickedObject)
     end
 end
 
 local function HandleDragStart()
-    Selecting = Hovering
-
-    local Object = Selecting.Thing
-
     if GlobalTick - LastClick < 0.4 then -- Process Double Click
-        HandleDoubleClick(Object)
-
+        HandleDoubleClick(Hovering.Thing)
         return
     end
+
+    Selecting = Hovering
+    local Object = Selecting.Thing
 
     LastClick = GlobalTick
 

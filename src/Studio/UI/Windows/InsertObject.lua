@@ -49,9 +49,9 @@ function InsertObject.Init()
                         {
                             Text = "Yes",
                             OnClick = function()
-                                Things.Create(ClassName) {
+                                local CreatedObject = Things.Create(ClassName) {
                                     Parent = InsertObject.TargetObject,
-                                }
+                                }  
 
                                 Studio.Layout.CallHandle("Explorer", "Redraw")
                             end

@@ -15,7 +15,7 @@ function SelectionManager.DeselectObject(DontInvoke)
         Editor3D.Selecting = nil
 
         if (not DontInvoke) then
-            Editor3D.OnDeselect.Invoke()
+            Editor3D.OnDeselect.Invoke(Editor3D.Selecting)
         end
     end
 

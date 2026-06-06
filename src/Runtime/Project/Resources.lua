@@ -15,22 +15,12 @@ local function RecurseProject(Path)
 end
 
 function Resources.HandleIdentifier(FilePath, FileType)
-    local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
-    local Identifier
+    local _, HasIdentifier = Runtime.Resources.RegisterIdentifierFromFile(FilePath, FileType)
 
-    if (not HasIdentifier) then -- Create a new identifier
-        Identifier = CreateUUID()
-        BackendFS.WriteFile(FilePath..".uid", Identifier)
-    else
-        Identifier = BackendFS.ReadFile(FilePath..".uid")
-
-        if HasIdentifier.type == "directory" then
-            print(FilePath)
-            RecurseProject(FilePath)
-        end
+    if HasIdentifier and HasIdentifier.type == "directory" then
+        print(FilePath)
+        RecurseProject(FilePath)
     end
-
-    Runtime.Resources.RegisterIdentifier(Identifier, FilePath.."."..FileType)
 end
 
 -- Besides scenes in the future perhaps, nothing is needed here for now

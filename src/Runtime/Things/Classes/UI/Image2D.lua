@@ -28,7 +28,7 @@ function Image2D:DefineAPI()
 end
 
 function Image2D:SetResource(Identifier)
-    self.ImageFile, self.Resource = Runtime.Resources.LoadFromIdentifier(Identifier)
+    self.ImageFile, self.Resource = Runtime.Resources.LoadFromIdentifier(Identifier, self.UUID)
 
     local Width, Height = self.ImageFile:getDimensions()
     local Size = Vector2.new(Width, Height)

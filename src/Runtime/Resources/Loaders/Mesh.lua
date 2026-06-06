@@ -1,6 +1,6 @@
-return function(MeshBytes, Type)
+return function(MeshBytes, Identifier)
     return {
         Bytes = MeshBytes,
-        Type = Type
+        Type = Identifier.FileType
     }
 end

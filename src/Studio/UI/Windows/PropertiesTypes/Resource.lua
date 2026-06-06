@@ -1,15 +1,5 @@
 local FilePathd = {}
 
-local For = {
-    ["MeshPath"] = "3D File",
-}
-
-local Is3DFile = {
-    ".obj",
-    ".fbx",
-    ".glb"
-}
-
 function FilePathd.Start(FrameOption,Thing,Property)
     local MainText = Runtime.Things.Create("TextButton") {
         Text = Thing[Property],
@@ -24,18 +14,9 @@ function FilePathd.Start(FrameOption,Thing,Property)
     }
 
     MainText.Clicked:Connect(function()
-        local NewPath = Platform.OpenFileDialog("Choose "..For[Property].." for "..Property)
-        print(NewPath)
-        --Thing[Property] = NewFile
-        if type(NewPath) ~= "boolean" then
-            local FileType = string.sub(NewPath,-4,-1)
-            print(FileType)
-            if Is3DFile[FilePath] then
-                if Property == "MeshPath" then Thing:LoadObject(NewPath) end
-                MainText.Text = Thing[Property]
-            end
-        end
-        -- Find a way to check if the select file is a 3D file, maybe using string.sub? 💃💃
+        local NewPath = Platform.OpenFileDialog("Select a resource for this object.")
+        
+        
     end)
 end
 

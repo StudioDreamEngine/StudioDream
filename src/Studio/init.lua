@@ -1,12 +1,29 @@
-local Editor = {}
+-- Only named StudioMain cuz init.lua is taken by the main script for stepping this version of the client... MIKL...
+-- Why yall blaming me vro!!!
+Studio = {}
 
-function Editor.Init()
-    Studio = require("Studio.StudioMain")
-    Studio.Init()
+function Studio.Init()
+    Studio.Theme = require("Studio.Theme")
+    Studio.Editor3D = require("Studio.Editor3D")
+
+    Studio.Layout = require("Studio.UI.StudioLayout")
+    Studio.Components = require("Studio.UI.Components")
+
+    Studio.ProjectManager = require("Studio.ProjectManager")
+    Studio.SettingsManager = require("Studio.SettingsManager")
+
+    Studio.SettingsManager.Init()
+
+    Studio.Components.Init()
+    Studio.Layout.CreateLayout()
+
+    Studio.Editor3D.Init()
 end
 
-function Editor.Update(dt)
-    Studio.Update(dt)
+function Studio.Update(dt)
+    Studio.Editor3D.Update(dt)
+    Studio.Layout.Update(dt)
+    Studio.Components.Update(dt)
 end
 
-return Editor
+return Studio
