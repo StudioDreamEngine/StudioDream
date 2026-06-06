@@ -91,10 +91,8 @@ function Splash.Init()
 end
 
 function Splash.Load()
-    Splash.ChangeStatus("Setting Up bullet physics")
-    Shared.SetupBullet()
-
     Splash.ChangeStatus("Finishing Runtime setup")
+    Shared.SetupBullet()
     Runtime.PostInit()
 
     Splash.ChangeStatus("Starting Target")

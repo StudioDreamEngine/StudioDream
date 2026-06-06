@@ -3,12 +3,9 @@ local Runtime = {}
 Runtime.Things = require("Runtime.Things")
 Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
-Runtime.Backend = require("Runtime.Backend")
 
 function Runtime.Init()
     Profiler.Init()
-    
-    Runtime.Backend.Init()
 
     Runtime.Backend2D = Runtime.Renderer.Get2DBackend()
     Runtime.Backend3D = Runtime.Renderer.Get3DBackend()
@@ -20,7 +17,9 @@ function Runtime.Init()
 end
 
 function Runtime.PostInit()
-    Runtime.Backend.PostInit()
+    Runtime.Backend = require("Runtime.Backend")
+    Runtime.Backend.Init()
+
     Runtime.Things.CreateEnviornment()
     Runtime.Things.CreateApiDump()
 
@@ -37,7 +36,10 @@ function Runtime.Render()
 end
 
 function Runtime.Update(dt)
-    Runtime.Backend.Update(dt)
+    if Runtime.Backend then
+        Runtime.Backend.Update(dt)
+    end
+    
     Runtime.Renderer.ViewportManager.Update(dt) -- temporary
     Runtime.Things.Update(dt)
 end

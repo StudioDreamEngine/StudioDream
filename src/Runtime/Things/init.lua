@@ -14,6 +14,8 @@ function Things.Init()
     Classes = Utils.LoadModules("Runtime/Things/Classes/")
     CreateRoot = require("Runtime.Things.CreateRoot")
 
+    Things.ObjectProxy = require("Runtime.Things.ObjectProxy")
+
     Things.Root = CreateRoot.CreateRoot()
 
     print("Tree Created")

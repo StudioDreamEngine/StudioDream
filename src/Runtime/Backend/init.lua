@@ -4,19 +4,15 @@ local Backend = {}
 
 function Backend.Init()
     Runtime.InterfaceManager = require("Runtime.Backend.InterfaceManager")
-
     Runtime.InterfaceManager.Init()
 
     Runtime.ScriptUtil = require("Runtime.Backend.ScriptUtility")
-    Runtime.ObjectProxy = require("Runtime.Things.ObjectProxy")
 
     Runtime.Services = require("Runtime.Backend.Services")
     Runtime.Cursor = require("Runtime.Backend.CursorHandle")
 
     Runtime.BackendFS = require("Runtime.Backend.BackendFS")
-end
 
-function Backend.PostInit()
     Runtime.Phys = require("Runtime.Backend.PhysicsEngine")
 
     Runtime.SelectionPriority = require("Runtime.Backend.SelectionPriority")

@@ -46,7 +46,7 @@ function Thing:new()
 end
 
 function Thing:DefineAPI()
-    self.Proxy = Runtime.ObjectProxy.new()
+    self.Proxy = Things.ObjectProxy.new()
 
     self.Proxy.Property("Thing Parent", "string Name")
     self.Proxy.Property("Button HelloImATestThing")
