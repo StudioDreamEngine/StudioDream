@@ -2,12 +2,17 @@ local Resources = {}
 
 local LoaderModPath = "Runtime.Resources.Loaders."
 local Identifiers, LoadedResources
-
 local ObjectReferences = {}
 
 local FormatLookup = require("Runtime.Resources.FormatLookup")
 
-function Resources.RegisterIdentifierFromFile(FilePath, FileType)
+function Resources.Init()
+    LoveEvents.Focus:Connect(function()
+        --Resources.ReloadResources()
+    end)
+end
+
+function Resources.LoadIdentifier(FilePath, FileType)
     local BackendFS = Runtime.BackendFS
 
     local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
@@ -37,12 +42,6 @@ function Resources.RegisterMissing(FilePath)
     print(FilePath.Identifier.." is missing! old path: "..FilePath.FilePath)
 
     table.insert(Resources.Missing, FilePath)
-end
-
-function Resources.Init()
-    LoveEvents.Focus:Connect(function()
-        --Resources.ReloadResources()
-    end)
 end
 
 -- sorta hack for studio assets

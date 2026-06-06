@@ -15,7 +15,7 @@ local function RecurseProject(Path)
 end
 
 function Resources.HandleIdentifier(FilePath, FileType)
-    local _, HasIdentifier = Runtime.Resources.RegisterIdentifierFromFile(FilePath, FileType)
+    local _, HasIdentifier = Runtime.Resources.LoadIdentifier(FilePath, FileType)
 
     if HasIdentifier and HasIdentifier.type == "directory" then
         print(FilePath)

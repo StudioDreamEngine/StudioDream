@@ -15,12 +15,13 @@ end
 
 ---@param ScriptObject BaseScript
 function ScriptUtil.HandleOpenScript(ScriptObject)
+    -- Create new resource for object if none is found
     if (not ScriptObject.Resource) then
-        -- Create new resource for object
-        local Identifier, _ = Runtime.Resources.RegisterIdentifierFromFile(ScriptObject.Name, "lua")
+        local Identifier, _ = Runtime.Resources.LoadIdentifier(ScriptObject.Name, "lua")
         ScriptObject:SetResource(Identifier)
     end
 
+    -- Configure editor if needed
     local ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor")
 
     if (not ConfiguredEditor) then
@@ -29,6 +30,7 @@ function ScriptUtil.HandleOpenScript(ScriptObject)
         Studio.SettingsManager.ChangeSetting("CodeEditor", ConfiguredEditor)
     end
 
+    -- Open the script
     Platform.Execute(ConfiguredEditor, Runtime.BackendFS.GetFullPath(ScriptObject.Resource))
 end
 
