@@ -22,6 +22,7 @@ end
 
 function ListLayout:BindObject(_child)
     ListLayout.super.BindObject(self, _child)
+    --print(_child.Name, "binded to", self.Name)
     self:UpdateLayout()
 
     self.OnChangedEvents[_child] = _child.PropertyChanged:Connect(function(Value, Key)
@@ -36,7 +37,7 @@ function ListLayout:UnbindObject(_child)
     
     if self.OnChangedEvents[_child] ~= nil then
         self.OnChangedEvents[_child]:Disconnect()
-        --self.OnChangedEvents[_child] = nil
+        self.OnChangedEvents[_child] = nil
     end
 end
 
