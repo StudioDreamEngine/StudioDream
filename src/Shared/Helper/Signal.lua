@@ -47,7 +47,8 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 		SingleEventObject.EventName = EventName
 
 		function SingleEventObject:Disconnect() 
-			--print(SingleEventObject.EventName.." Disconnected")
+			assert(SingleEventObject.EventId, "Attempted to disconnect already-disconnected Signal.")
+
 			Events[SingleEventObject.EventId] = nil
 			SingleEventObject = {}
 		end
