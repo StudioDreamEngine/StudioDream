@@ -36,7 +36,7 @@ function ListLayout:UnbindObject(_child)
     ListLayout.super.UnbindObject(self, _child)
     if self.OnChangedEvents[_child] ~= nil then
         self.OnChangedEvents[_child]:Disconnect()
-        --self.OnChangedEvents[_child] = nil
+        self.OnChangedEvents[_child] = nil
     end
 end
 
