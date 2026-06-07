@@ -126,7 +126,10 @@ function Things.New(ThingType, CustomUUID)
 
             --Profiler.Start("Thing Property Changed")
 
-            Thing.PropertyChanged.Invoke(k,v)
+            if Thing[k] ~= v then
+                Thing.PropertyChanged.Invoke(k,v)
+            end
+            
             --print("Thing "..Thing.Name..", Changed "..k.." To "..tostring(v).." Their old Value is: "..tostring(Thing[k]))
 
            -- Profiler.End()

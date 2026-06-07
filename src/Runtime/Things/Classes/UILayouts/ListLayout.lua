@@ -15,6 +15,7 @@ function ListLayout:new()
     self.Padding = 0
 
     self.RemainingSize = 0
+    self.ShouldUpdate = false
     
     self.OnChangedEvents = {}
 end
@@ -23,13 +24,14 @@ function ListLayout:BindObject(_child)
     ListLayout.super.BindObject(self, _child)
     --print(_child.Name, "binded to", self.Name)
     self:UpdateLayout()
+
     self.OnChangedEvents[_child] = _child.PropertyChanged:Connect(function(Value, Key)
         if Key == "AbsoluteSize" then
-            print(_child.Name, Value)
-            self:UpdateLayout()
+            self:RequestUpdateLayout()
         end
     end)
 end
+
 function ListLayout:UnbindObject(_child)
     ListLayout.super.UnbindObject(self, _child)
     if self.OnChangedEvents[_child] ~= nil then
@@ -48,7 +50,14 @@ end
 function ListLayout:Update()
     ListLayout.super.Update(self)
 
+    if self.ShouldUpdate then
+        self:UpdateLayout()
+        self.ShouldUpdate = false
+    end
+end
 
+function ListLayout:RequestUpdateLayout()
+    self.ShouldUpdate = true
 end
 
 function ListLayout:UpdateLayout()

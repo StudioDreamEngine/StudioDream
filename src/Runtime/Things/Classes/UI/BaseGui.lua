@@ -219,7 +219,10 @@ function BaseGui:UpdateTransforms()
         return
     end
 
-    self:SetAbsoluteSize(NewSize)
+    if (not NewSize.Is(self.AbsoluteSize)) then
+        self:SetAbsoluteSize(NewSize)
+    end
+
     self.AbsolutePosition = self:GetAbsolutePosition()
 
     self.ChildRect = Rect.new(self.AbsolutePosition, self.AbsoluteSize)
