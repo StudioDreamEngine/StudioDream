@@ -15,6 +15,26 @@ function ListLayout:new()
     self.Padding = 0
 
     self.RemainingSize = 0
+    
+    self.OnChangedEvents = {}
+end
+
+function ListLayout:BindObject(_child)
+    ListLayout.super.BindObject(self, _child)
+    self:UpdateLayout()
+    self.OnChangedEvents[_child] = _child.PropertyChanged:Connect(function(Value, Key)
+        if Key == "AbsoluteSize" then
+            print(_child.Name, Value)
+            self:UpdateLayout()
+        end
+    end)
+end
+function ListLayout:UnbindObject(_child)
+    ListLayout.super.UnbindObject(self, _child)
+    if self.OnChangedEvents[_child] ~= nil then
+        self.OnChangedEvents[_child]:Disconnect()
+        --self.OnChangedEvents[_child] = nil
+    end
 end
 
 function ListLayout:DefineAPI()
@@ -27,6 +47,10 @@ end
 function ListLayout:Update()
     ListLayout.super.Update(self)
 
+
+end
+
+function ListLayout:UpdateLayout()
     local Vertical = (self.Direction == Enum.LayoutDirection.Vertical)
 
     -- Define the axises we will be using in order to calculate stuff
