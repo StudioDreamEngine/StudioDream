@@ -122,6 +122,7 @@ function Things.New(ThingType, CustomUUID)
             return Thing.Name..": "..Thing.ClassName.." ("..Thing.UUID..")"
         end,
         __newindex = function (_, k, v)
+            --print("__newindex", _, k, v)
 
             --Profiler.Start("Thing Property Changed")
 

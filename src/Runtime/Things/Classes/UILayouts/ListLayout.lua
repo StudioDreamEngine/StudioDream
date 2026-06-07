@@ -21,6 +21,7 @@ end
 
 function ListLayout:BindObject(_child)
     ListLayout.super.BindObject(self, _child)
+    --print(_child.Name, "binded to", self.Name)
     self:UpdateLayout()
     self.OnChangedEvents[_child] = _child.PropertyChanged:Connect(function(Value, Key)
         if Key == "AbsoluteSize" then
