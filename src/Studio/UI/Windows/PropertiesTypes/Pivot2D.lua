@@ -121,7 +121,7 @@ function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
     --CreateOption(FrameOption,"Angle",Thing[Property].Position,Thing,Property)]]
 end
 
-function Transform3Dee.Update(NewValue)
+function Transform3D.Update(NewValue)
     SomethingUpdated.Invoke(NewValue)
 end
 
