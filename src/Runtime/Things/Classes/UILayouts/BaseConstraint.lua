@@ -27,6 +27,8 @@ function BaseConstraint:BindObject(Object)
         Object:BindConstraint(self, Property) 
     end
 
+    
+
     table.insert(self.Objects, Object)
 end
 
