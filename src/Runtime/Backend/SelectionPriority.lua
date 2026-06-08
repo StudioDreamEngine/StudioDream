@@ -11,7 +11,8 @@ end
 
 function SelectionPriority.Call(IsDown)
     local EnvironmentViewport = Runtime.Things.Root.EnvironmentViewport
-    if (not Utils.IntersectPoint2D(EnvironmentViewport:GetRect(), EnvironmentViewport.MousePosition)) then
+
+    if IsDown and (not Utils.IntersectPoint2D(Rect.new(Vector2.zero, EnvironmentViewport.AbsoluteSize), EnvironmentViewport.MousePosition)) then
         return
     end
 
@@ -24,12 +25,14 @@ function SelectionPriority.Call(IsDown)
     }
 
     for _, SignalData in pairs(Signals) do
-        if SignalData.CheckFunction() and SignalData.Priority > HighestPriority.Priority then
+        if SignalData.CheckFunction(IsDown) and SignalData.Priority > HighestPriority.Priority then
             HighestPriority = SignalData
         end
     end
 
-    HighestPriority.Function(IsDown)
+    if HighestPriority.Function then
+        HighestPriority.Function(IsDown)
+    end
 end
 
 function SelectionPriority.BindSignal(Function, Priority, CheckFunction)

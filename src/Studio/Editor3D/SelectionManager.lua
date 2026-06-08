@@ -60,9 +60,7 @@ function SelectionManager.Init()
     Editor3D = Studio.Editor3D
     ToolManager = Editor3D.ToolManager
 
-    SelectionPriority.BindSignal(function(IsDown)
-        if (not IsDown) then return end
-
+    SelectionPriority.BindSignal(function()
         local Environment = Things.Root:GetEnvironment() ---@class Environment
         local Camera = Environment.Camera ---@class Camera
 
@@ -73,7 +71,9 @@ function SelectionManager.Init()
         else
             SelectionManager.DeselectObject()
         end
-    end, 1)
+    end, 1, function(IsDown)
+        return IsDown
+    end)
 end
 
 return SelectionManager
