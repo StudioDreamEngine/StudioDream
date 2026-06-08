@@ -19,7 +19,7 @@ function Scenes.ConfigureTargetsTemp()
     ---@class Thing
     local Environment = Things.GetRoot("Environment")
 
-    --Environment.Camera = Environment:FindFirstChild("Camera")
+    Environment.Camera = Environment:FindFirstChild("Camera")
 end
 
 function Scenes.LoadScene(Path)
