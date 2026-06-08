@@ -163,8 +163,6 @@ function PropertiesRender.Init()
     local BaseWindow
 
     Studio.Editor3D.OnSelect:Connect(function(Thing)
-        print("Clear")
-
         DisconnectEverythin()
 
         Window:ClearAllChildren()

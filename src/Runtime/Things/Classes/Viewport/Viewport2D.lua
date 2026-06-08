@@ -11,6 +11,7 @@ function Viewport2D:new()
     self.MousePosition = Vector2.zero
 
     self.TopLayer = {}
+    self.Hovering = nil
 end
 
 function Viewport2D:DefineAPI()
@@ -35,6 +36,8 @@ end
 
 function Viewport2D:SubmitChild(Child)
     self.CurrentOrder = self.CurrentOrder + 1
+
+    Child.AbsoluteLayer = self.CurrentOrder
 
     Utils.AssertType(Child.Position, "Pivot2D", Child.Name)
 
@@ -79,10 +82,22 @@ function Viewport2D:CreateDisplayList()
     end
 end
 
+--[[function Viewport2D:HandleHovering()
+    if Utils.IntersectPoint2D(self:GetRect(), self.MousePosition) then
+            
+    end
+end]]
+
 function Viewport2D:Update(dt)
     Viewport2D.super.Update(self, dt)
 
     self:CreateDisplayList()
+
+    --[[local CurrentHovering, CurrentHoveringLayer = nil, 0
+
+    for _, Object in pairs(self.DisplayList) do
+    
+    end]]
 end
 
 return Viewport2D

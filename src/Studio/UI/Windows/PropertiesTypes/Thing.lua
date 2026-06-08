@@ -5,7 +5,7 @@ function Thingy.Start(FrameOption,Thing,Property)
     local SelectionManager = Studio.Editor3D.SelectionManager
 
     Button = Runtime.Things.Create("TextButton") {
-        Text = tostring(Thing[Property].Name),
+        Text = Thing[Property] and Thing[Property].Name or "None",
         ForegroundColor = Studio.Theme.Text,
         BackgroundColor = Studio.Theme.Primary,
         Size = Pivot2D.FromScale(0.97,0.95),

@@ -36,9 +36,10 @@ function Environment:DefineAPI()
     Environment.super.DefineAPI(self)
 
     self.Proxy.Icon("Environment")
-    self.Proxy.Property("Vector3 Gravity", "boolean StepPhysics")
+    self.Proxy.Property("Vector3 Gravity", "boolean StepPhysics", "Thing Camera")
     
     self.Proxy.Group("Physics", "Gravity", "StepPhysics")
+    self.Proxy.Group("Rendering", "Camera")
 
     self.Proxy.MakeCreatable()
 end
@@ -96,7 +97,9 @@ function Environment:Update(dt)
         self:PostStep(Descendants)
     end
 
-    self.Camera.Viewport = self.Viewport
+    if self.Camera then
+        self.Camera.Viewport = self.Viewport
+    end
 end
 
 return Environment

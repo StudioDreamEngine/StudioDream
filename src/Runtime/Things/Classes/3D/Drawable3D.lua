@@ -22,13 +22,9 @@ end
 function Drawable3D:DefineAPI()
     Drawable3D.super.DefineAPI(self)
 
-    self.Proxy.Property("Vector3 Scale", "boolean Outline", "Resource Resource")
+    self.Proxy.Property("Vector3 Scale", "boolean Outline")
     self.Proxy.Group("Transform", "Scale")
-    self.Proxy.Group("Visuals", "Resource")
-end
-
-function Drawable3D:OnRemove()
-    Drawable3D.super.OnRemove(self)
+    self.Proxy.Group("Visuals")
 end
 
 function Drawable3D:SetOutline(Toggle)
@@ -63,6 +59,7 @@ end
 
 -- Hacky mesh resource system because dream loads an object directly from a file's contents
 function Drawable3D:SetResource(NewResource)
+    self.Resource = NewResource
     self.Drawable = Runtime.Backend3D.LoadObject(NewResource, self.UUID)
 
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size

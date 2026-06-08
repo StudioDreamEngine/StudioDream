@@ -34,11 +34,6 @@ function Primitive:CheckShape()
     self._LastShape = self.Shape
 end
 
-function Primitive:OnRemove()
-    Primitive.super.OnRemove(self)
-    Runtime.Backend3D.RemoveObject(self)
-end
-
 function Primitive:Update(dt)
     self:CheckShape()
 

@@ -8,7 +8,7 @@ function Project.Load(ProjectPath)
     BackendFS.MountProject(ProjectPath)
     Resources.Load()
 
-    --Scenes.LoadScene("MainScene.sds")
+    Scenes.LoadScene("MainScene.sds")
 end
 
 -- Remount to a new directory and save project

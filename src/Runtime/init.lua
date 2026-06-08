@@ -27,7 +27,7 @@ function Runtime.PostInit()
 
     Runtime.Project = require("Runtime.Project")
 
-    require("Runtime.Things.CreateTests")()
+    --require("Runtime.Things.CreateTests")()
     Runtime.Project.Load("../tests/ProjectTest/")
 end
 

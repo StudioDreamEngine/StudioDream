@@ -64,6 +64,11 @@ function SelectionManager.Init()
         local Environment = Things.Root:GetEnvironment() ---@class Environment
         local Camera = Environment.Camera ---@class Camera
 
+        if (not Camera) then 
+            print("Selection by mouse requires a camera") 
+            return
+        end
+
         local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
 
         if Raycast then -- IF STATEMENTS CHAOS!! AHHHH!!

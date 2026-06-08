@@ -36,7 +36,6 @@ function Thing:new()
 
     self.Attributes = {}
 
-    self.HelloImATestThing = false
     --[[self.Proxy.Info({
         Groups = {
             -- TODO
@@ -49,8 +48,7 @@ function Thing:DefineAPI()
     self.Proxy = Things.ObjectProxy.new()
 
     self.Proxy.Property("Thing Parent", "string Name")
-    self.Proxy.Property("Button HelloImATestThing")
-    self.Proxy.Group("General", "Parent", "Name", "HelloImATestThing")
+    self.Proxy.Group("General", "Parent", "Name")
 
     self.Proxy.Group("Attributes")
 end

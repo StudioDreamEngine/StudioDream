@@ -34,8 +34,6 @@ function Explorer.CreateNode(Object, Depth)
         BackgroundTransparency = 0.5,
         Parent = Node,
     }
-    print(CountChildren(Object)) -- ts aint printing bro!
-    if CountChildren(Object) > 1 then print("Wow") end
 
     local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon)
     NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))

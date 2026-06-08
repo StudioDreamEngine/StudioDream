@@ -7,14 +7,6 @@ function CreateRoot.CreateEnviornment(Root)
         Name = "Environment",
         Parent = Root
     }
-
-    ---@module 'Camera'
-    local Camera = Things.Create("Camera") {
-        Name = 'Camera',
-        Parent = Environment
-    }
-
-    Environment.Camera = Camera
 end
 
 function CreateRoot.CreateRoot()

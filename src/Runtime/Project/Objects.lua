@@ -4,8 +4,8 @@ local Objects = {}
 
 local TypeSerializers = Utils.LoadModules("Runtime/Project/Types/")
 
-function Objects.HandleType(Property, Type, Deserialize)
-    if (not TypeSerializers[Type]) then error(Type.." needs serializer") end
+function Objects.HandleType(Property, Type, Deserialize, Identifier)
+    if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier..")") end
 
     local Serializer = require(TypeSerializers[Type])
     local Result = Deserialize and Serializer.Deserialize(Property) or Serializer.Serialize(Property)
@@ -42,7 +42,7 @@ function Objects.SerializeObjects(Root)
     ---@param DescendantObject Thing
     for _, DescendantObject in pairs(Root:GetDescendants()) do
         if CheckSerializable(DescendantObject) then -- Only serialize if we can
-            Final[DescendantObject.UUID] = Objects.SerializeObject(DescendantObject)
+            Final[DescendantObject.UUID] = Objects.SerializeObject(DescendantObject, Root)
         end
     end
 
@@ -50,17 +50,26 @@ function Objects.SerializeObjects(Root)
 end
 
 ---@param Object Thing
-function Objects.SerializeObject(Object)
+function Objects.SerializeObject(Object, Root)
     local SerializedProperties = Object.Proxy.Serializable
     local ObjectData = {}
+
+    printVerbose("Serializing Properties for "..Object.Name)
 
     for PropertyName, _ in pairs(SerializedProperties) do
         local Property = Object[PropertyName]
         local Type = Utils.TypeOf(Property)
 
         if Type ~= "nil" then
-            Property = Objects.HandleType(Property, Type, false)
-
+            printVerbose(PropertyName, Property, Type)
+            
+            -- Special case to resolve all root objects to the scene UUID for interchangability
+            if (Type == "Thing") and (Property.UUID == Root.UUID) then 
+                Property = "Scene" 
+            else
+                Property = Objects.HandleType(Property, Type, false, PropertyName)
+            end
+            
             ObjectData[PropertyName] = {
                 Type = Type,
                 Value = Property
@@ -100,11 +109,17 @@ function Objects.DeserializeObject(ObjectData)
 end
 
 -- Deserialize the contents of the object given above
-function Objects.DeserializeObjects(Root)
+--[[
+    Objects: The list of objects being deserialized
+    Root: The target, or where the objects will be deserialized to
+]]
+function Objects.DeserializeObjects(ObjectsTable, Root)
+    Root:ClearAllChildren()
+
     local RelocationQueues = {}
 
     -- Part 1: Deserialize all objects
-    for _, Object in pairs(Root) do
+    for _, Object in pairs(ObjectsTable) do
         local Object, RelocationQueue = Objects.DeserializeObject(Object)
 
         RelocationQueues[Object] = RelocationQueue
@@ -113,6 +128,8 @@ function Objects.DeserializeObjects(Root)
     -- Part 2: Relocate objects
     for Object, RelocationQueue in pairs(RelocationQueues) do
         for PropertyName, UUID in pairs(RelocationQueue) do
+            if UUID == "Scene" then UUID = Root.UUID end -- Resolve all root objects to the actual parent
+
             Things.SetProperty(Object, PropertyName, Things.Get(UUID))
         end
     end

@@ -17,13 +17,10 @@ end
 function Mesh:DefineAPI()
     Mesh.super.DefineAPI(self)
 
+    self.Proxy.Property("Resource Resource")
+
     self.Proxy.Icon("MeshPart")
     self.Proxy.MakeCreatable()
-end
-
-function Mesh:OnRemove()
-    Mesh.super.OnRemove(self)
-    Runtime.Backend3D.RemoveObject(self)
 end
 
 function Mesh:Update(dt)

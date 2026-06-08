@@ -10,7 +10,7 @@ local CreatedNodes = {}
 local SomethingUpdated = Signal:New("Wow")
 
 local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
-    print(Value)
+    --print(Value)
     local BaseProperty = Runtime.Things.Create("Square") { 
         Size = Pivot2D.new(0,1,15,0),
         Pivot = Vector2.new(0,0),
@@ -82,7 +82,7 @@ local function ChangeButton(But,Property)
 end
 
 function Transform3Dee.Start(FrameOption,Thing,Property,ActualNode)
-    print(Thing[Property])
+    --print(Thing[Property])
 
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Icons/Engine/OpenMenu.png",
