@@ -64,6 +64,8 @@ end
 -- Yield task until it can be resumed
 -- If no yield time is passed, it will be resumed the next possible frame
 function Scheduler.Yield(YieldTime)
+    assert((not YieldTime) or (type(YieldTime) == "number"), "Invalid Yieldtime! Expected number, got "..(YieldTime or "nil"))
+
     local Task = coroutine.running()
 
     if (not Task) then
