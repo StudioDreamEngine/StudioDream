@@ -44,6 +44,8 @@ function Thing:new()
     })]]
 end
 
+function Thing:OnReady() end
+
 function Thing:DefineAPI()
     self.Proxy = Things.ObjectProxy.new()
 

@@ -10,6 +10,9 @@ function Primitive:new()
     self.Shape = Enum.Shape.Cube
     
     self._LastShape = self.Shape
+end
+
+function Primitive:OnReady()
     self:CheckShape()
 end
 

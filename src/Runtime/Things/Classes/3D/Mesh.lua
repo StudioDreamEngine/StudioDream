@@ -10,7 +10,9 @@ function Mesh:new()
 
     self.TextureFile = nil -- Maybe make this a table so we can put normals, and that super cool and realist stuff???
     self.Anchored = true
+end
 
+function Mesh:OnReady()
     self:SetResource(DefaultMesh)
 end
 

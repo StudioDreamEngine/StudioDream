@@ -1,4 +1,5 @@
 -- Manage the priority of selection signals on the viewport
+-- You might wonder: Why Runtime? well... its because of the 3DControls!
 local SelectionPriority = {}
 
 local Signals = {}
@@ -12,13 +13,14 @@ end
 function SelectionPriority.Call(IsDown)
     local EnvironmentViewport = Runtime.Things.Root.EnvironmentViewport
 
-    if IsDown and (not Utils.IntersectPoint2D(Rect.new(Vector2.zero, EnvironmentViewport.AbsoluteSize), EnvironmentViewport.MousePosition)) then
+    if (not EnvironmentViewport) then
+        print("No EnvironmentViewport is specified currently, skipping SelectionPriority call...")
         return
     end
 
-    --[[if (not IsDown) then
-        
-    end]]
+    if IsDown and (not Utils.IntersectPoint2D(Rect.new(Vector2.zero, EnvironmentViewport.AbsoluteSize), EnvironmentViewport.MousePosition)) then
+        return
+    end
     
     local HighestPriority = {
         Priority = 0

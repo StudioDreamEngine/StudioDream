@@ -36,6 +36,8 @@ function Splash.Out()
     TweenService.CreateAndPlay(SplashContainer, {
         BackgroundTransparency = 1
     }, Enum.EasingStyle.Linear, 1)
+
+    SplashContainer:Destroy()
 end
 
 function Splash.Init()

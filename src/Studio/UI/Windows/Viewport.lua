@@ -11,6 +11,7 @@ function Viewport.Init()
         Size = Pivot2D.FromScale(1,1),
         Parent = Viewport.Container
     }
+    
     Things.Root.EnvironmentViewport = EnvironmentViewport
 end
 
