@@ -7,6 +7,39 @@ local Script = Things.Extend("BaseScript")
 
 function Script:new()
     Script.super.new(self) 
+
+    self.Enabled = false
+    self.RestartOnEnable = true -- TODO: Add support
+end
+
+function Script:OnRemove()
+    Script.super.OnRemove(self)
+
+    Runtime.ScriptManager.Unregister(self)
+end
+
+function Script:DefineAPI()
+    Script.super.DefineAPI(self)
+
+    self.Proxy.Property("boolean Enabled")--, "boolean RestartOnEnable")
+    self.Proxy.Group("Script", "Enabled")--, "RestartOnEnable")
+end
+
+function Script:AttemptLoad()
+    Runtime.ScriptManager.RequestLoad(self)
+end
+
+function Script:SetEnabled(Enabled)
+    self.Enabled = Enabled
+
+    if (not Enabled) then
+        if (not self.ScriptTask) then return end
+
+        Scheduler.CancelTask(self.ScriptTask)
+        self.ScriptTask = nil
+    else
+        self:AttemptLoad()
+    end
 end
 
 return Script

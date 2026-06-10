@@ -19,6 +19,8 @@ function Project.SaveTo(ProjectPath)
 end
 
 function Project.Save()
+    print("Saving Project...")
+
     -- Once we have several scenes, sdrm should just store the configuration
     Scenes.SaveScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
 end

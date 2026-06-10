@@ -308,7 +308,7 @@ local function InternalPrint(IsVerbose, ...)
 		end
 	end
 
-	local FinalString = (IsVerbose and "[VERBOSE] " or "[REGULAR] ")..Path..":"..(LineNumber)..":"
+	local FinalString = "["..os.clock()..(IsVerbose and " - VERBOSE] " or "] ")..Path..":"..(LineNumber)..":"
 
 	for _, v in pairs(FormattedPrintTable) do
 		FinalString = FinalString.." "..v

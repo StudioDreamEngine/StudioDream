@@ -34,6 +34,16 @@ function Scheduler.GetTasks()
     return i
 end
 
+function Scheduler.PauseTask(Task, Paused)
+    local CurrentTask = coroutine.running()
+
+    assert(CurrentTask ~= Task, "Cannot currently run PauseTask in the current task!")
+
+    PausedTasks[Task] = {
+
+    }
+end
+
 -- Cancel task
 function Scheduler.CancelTask(Thread)
     if (coroutine.status(Thread) == "running") then

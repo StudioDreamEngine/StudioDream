@@ -24,7 +24,7 @@ function BaseScript:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function BaseScript:Require()
+function BaseScript:Load()
     if (not self.ModuleFunction) then return end
 
     self.ScriptTask = Scheduler.NewTask(function()

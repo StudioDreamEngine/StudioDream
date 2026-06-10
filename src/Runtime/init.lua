@@ -4,6 +4,8 @@ Runtime.Things = require("Runtime.Things")
 Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
 
+local RestartArg
+
 function Runtime.Init()
     Profiler.Init()
 
@@ -14,6 +16,17 @@ function Runtime.Init()
     Runtime.Things.Init()
 
     print("Runtime Initalized")
+end
+
+function Runtime.RequestRestart(NextTarget)
+    local Benchmark = Profiler.Benchmark("Restart StudioDream", true)
+
+    Runtime.Project.Save()
+
+    Dream:requestKill(function()
+        Benchmark.End()
+        love.event.restart(NextTarget)
+    end)
 end
 
 function Runtime.PostInit()

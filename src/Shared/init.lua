@@ -49,7 +49,7 @@ local Target
 
 function Shared.StartTarget()
     ---@module "Studio"
-    Target = require(FLAGS.ModeTarget)
+    Target = require(love.restart or FLAGS.ModeTarget)
     Target.Init()
 
     StartedTarget = true

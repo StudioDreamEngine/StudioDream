@@ -1,11 +1,12 @@
 local Things = Runtime.Things
 
----@module "Thing"
----@class RequirableScript
+---@class RequirableScript: BaseScript
 local RequirableScript = Things.Extend("BaseScript")
 
 function RequirableScript:new()
     RequirableScript.super.new(self)
 end
+
+function RequirableScript:Require() return RequirableScript:Load() end
 
 return RequirableScript

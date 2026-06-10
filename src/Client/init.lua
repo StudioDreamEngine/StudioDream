@@ -14,6 +14,9 @@ function Client.Init()
 
     StudioCamera = require("Client.StudioCamera")
     StudioCamera.Init()
+
+    print(Things.GetRoot("Environment"):GetDescendants())
+    Runtime.ScriptManager.StartScripts()
 end
 
 function Client.Update(dt)

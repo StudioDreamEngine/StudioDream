@@ -4,6 +4,7 @@ local Things = Runtime.Things
 ---@class Thing: ClassicObject
 local Thing = Object:extend()
 
+-- Fired as soon as the object is initally created
 function Thing:new()
     --[[
         This is used for the engine type, its so that other parts can know that THIS table is an instance, 
@@ -29,6 +30,8 @@ function Thing:new()
     self.Parent = nil ---@type Thing
     self.Unreferenced = false
 
+    self.WasParented = false
+
     self.UUID = CreateUUID()
     self.NumericalID = 0
 
@@ -44,8 +47,12 @@ function Thing:new()
     })]]
 end
 
+--[[
+    Fired once the most basic parts of an object are initally configured (UUID, ClassName, API, Properties)
+]]
 function Thing:OnReady() end
 
+-- Fired only during API dump and after inital creation
 function Thing:DefineAPI()
     self.Proxy = Things.ObjectProxy.new()
 
@@ -195,6 +202,9 @@ function Thing:CheckRecursion(NewParent)
     end
 end
 
+-- Fired on inital parenting, might move to event later, called after ParentChanged and ChildrenChanged events are invoked
+function Thing:OnInitalParent(NewParent) end
+
 function Thing:SetParent(NewParent)
     local CouldRecurse = self:CheckRecursion(NewParent)
 
@@ -217,8 +227,10 @@ function Thing:SetParent(NewParent)
     end
 
     self.Parent = NewParent
-
     self.ParentChanged.Invoke()
+    
+    if (not self.WasParented) then self:OnInitalParent(NewParent) end
+    self.WasParented = true
 
     return true
 end

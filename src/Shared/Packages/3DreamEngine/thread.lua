@@ -60,6 +60,9 @@ while true do
 			
 			--send result
 			resultsChannel:push({ "image", msg.path, combined })
+		elseif msg.task == "kill" then
+			busyChannel:pop()
+			break
 		end
 		busyChannel:pop()
 	end

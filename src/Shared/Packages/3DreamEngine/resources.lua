@@ -31,6 +31,21 @@ function lib:getLoaderThreadUsage()
 	return todo, working, done
 end
 
+local killRequested
+
+function lib:pushAllThreads(func)
+	for _, Thread in pairs(lib.threads) do func(Thread) end
+end
+
+-- request to kill all 3dreamengine threads, resource updating is paused 
+function lib:requestKill(killCallback)
+	killRequested = killCallback
+
+	lib:pushAllThreads(function()
+		lib.jobsChannel:push({ task = "kill" })
+	end)
+end
+
 --scan for image files and adds path to image library
 local imageFormats = table.toSet({ "tga", "png", "gif", "bmp", "exr", "hdr", "dds", "dxt", "pkm", "jpg", "jpe", "jpeg", "jp2" })
 local images = { }
@@ -57,6 +72,19 @@ scan("")
 
 ---Updates active resource tasks (mesh loading, texture loading, ...)
 function lib:update()
+	if killRequested then
+		print("Kill requested, waiting for threads to finish processing...")
+
+		local stillRunning = false
+
+		lib:pushAllThreads(function(thread)
+			if thread:isRunning() then stillRunning = true end
+		end)
+
+		if stillRunning then return end -- Cannot run callback, threads are still processing...
+		killRequested()
+	end
+
 	--fetch new job
 	local msg = self.resultsChannel:pop()
 	if msg then
