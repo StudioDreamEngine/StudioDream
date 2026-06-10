@@ -152,13 +152,13 @@ local function DisconnectEverythin()
 end
 
 function PropertiesRender.Init()
-    local Window = PropertiesRender.Container --[[Things.Create("ScrollContainer") { 
+    local Window = Things.Create("ScrollContainer") { 
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         --BackgroundColor = Studio.Theme.Secondary,
         Parent =  PropertiesRender.Container,
-    }]]
+    }
 
     local BaseWindow
 

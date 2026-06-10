@@ -1,5 +1,6 @@
 local Components = Studio.Components
 local Things = Runtime.Things
+local Tween = Runtime.Services.Service("TweenService")
 
 local ChoiceTypes = {
     ["Button"] = function(Choice, Parent)
@@ -32,7 +33,53 @@ local ChoiceTypes = {
     end,
 }
 
+local IsATableToTrans = {
+    ["TextButton"] = "ForegroundTransparency",
+    ["Text"] = "ForegroundTransparency",
+    ["Square"] = "BackgroundTransparency",
+    ["Image2D"] = "ForegroundTransparency"
+}
+local IsASecondToTrans = {
+     ["TextButton"] = "OutlineTransparency",
+    ["Text"] = "OutlineTransparency",
+    ["Square"] = "OutlineTransparency",
+}
+local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
+    for i,v in pairs(CurrentDropdown:GetDescendants()) do
+        if v.ClassName ~= "ListLayout" then 
+            local ThingTo = IsATableToTrans[v.ClassName]
+            local ThingTwo = IsASecondToTrans[v.ClassName]
+            v[ThingTo] = IsTrue and 0 or 1
+            if ThingTwo then v[ThingTwo] = IsTrue and 1 or 0 end
+        end
+    end
+    for i,v in pairs(CurrentDropdown:GetDescendants()) do
+        if v.ClassName ~= "ListLayout" then 
+            local ThingTwo = IsASecondToTrans[v.ClassName]
+            local ThingTo = IsATableToTrans[v.ClassName]
+            if IsTrue then
+                if ThingTwo then 
+                    Tween.Create(CurrentDropdown, {[ThingTo] = 0,[ThingTwo] = 1}, Enum.EasingStyle.Linear, .1).Play()
+                else
+                    Tween.Create(CurrentDropdown, {[ThingTo] = 0}, Enum.EasingStyle.Linear, .1).Play()
+                end
+            else
+                if ThingTwo then 
+                    Tween.Create(CurrentDropdown, {[ThingTo] = 1,[ThingTwo] = 0}, Enum.EasingStyle.Linear, .1).Play()
+                else
+                    Tween.Create(CurrentDropdown, {[ThingTo] = 1}, Enum.EasingStyle.Linear, .1).Play()
+                end
+            end
+        end
+      --  CurrentDropdown.Visible = IsTrue
+    end
+    Scheduler.Yield(.1)
+    Dropdown.Visible = IsTrue
+    CurrentDropdown.Visible = IsTrue
+end
+
 return function(Choices)
+    print("Wwowoww")
     local Dropdown = {}
     local BindedEvents = {}
     local CurrentDropdown = Components.CreateStyle("Square", {
@@ -121,8 +168,11 @@ return function(Choices)
     Dropdown.Visible = false
 
     function Dropdown.Toggle(Visible)
-        Dropdown.Visible = Visible
-        CurrentDropdown.Visible = Visible
+        print("hi")
+        ToggleAnim(CurrentDropdown,Dropdown,Visible)
+        print("hi")
+        --Dropdown.Visible = Visible
+        --CurrentDropdown.Visible = Visible
     end
     
     function Dropdown.Remove()

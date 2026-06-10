@@ -1,3 +1,7 @@
+local Locks = {
+    ["Insert"] = false
+}
+
 return {
     Hud = {
         {
@@ -67,7 +71,12 @@ return {
                 Name = "Insert Thing",
                 Icon = "InsertIcon",
                 OnClick = function()
-                    Studio.Editor3D.OpenInsertWindow()
+                    Locks.Insert = not Locks.Insert
+                    if Locks.Insert then
+                        Studio.Editor3D.OpenInsertWindow()
+                    else
+                        Studio.Editor3D.CloseInsertWindow()
+                    end
                 end
             }
         },

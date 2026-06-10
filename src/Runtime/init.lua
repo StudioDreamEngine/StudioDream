@@ -14,7 +14,26 @@ function Runtime.Init()
     Runtime.Renderer.Init()
     Runtime.Things.Init()
 
+    FLAGS.ModeTarget = love.restart or "Studio"
+
+    Runtime.ChangeAppIcon("/Assets/Icons/"..FLAGS.ModeTarget..".png")
+
     print("Runtime Initalized")
+end
+
+function Runtime.RequestCurrentMode()
+    local ToReturn = FLAGS.ModeTarget
+    if type(ToReturn)=="string"then
+        return ToReturn
+    elseif type(ToReturn)=="boolean"then
+        print(ToReturn)
+        return (ToReturn) and "Client" or "Studio"
+    end
+end
+
+function Runtime.ChangeAppIcon(ToWhat)
+    local Thing = love.image.newImageData(ToWhat)
+    love.window.setIcon(Thing)
 end
 
 function Runtime.RequestRestart(NextTarget)
@@ -38,16 +57,20 @@ function Runtime.PostInit()
     Runtime.Resources.Init()
 
     Runtime.Project = require("Runtime.Project")
-
-    Runtime.Things.Create("TextButton") {
+    print("Running: "..tostring(Runtime.RequestCurrentMode()))
+    if Runtime.RequestCurrentMode() == "Client" then
+        Runtime.Things.Create("TextButton") {
         Parent = Runtime.Things.GetRootViewport(),
-        Size = Pivot2D.FromScale(0.2,0.2),
+        Size = Pivot2D.FromScale(0.1,0.1),
         Layer = 1000,
-        Text = "Attempt target change",
+        Text = "Placeholder Client to studio!!!",
         Clicked = function()
-            Runtime.RequestRestart("Client")
+            print(love.restart)
+            print(Runtime.RequestCurrentMode())
+            Runtime.RequestRestart("Studio")
         end
     }
+    end
 
     --require("Runtime.Things.CreateTests")()
     Runtime.Project.Load("../tests/ProjectTest/")

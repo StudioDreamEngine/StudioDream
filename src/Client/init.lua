@@ -17,6 +17,8 @@ function Client.Init()
 
     print(Things.GetRoot("Environment"):GetDescendants())
     Runtime.ScriptManager.StartScripts()
+    local Environment = Runtime.Things.Root:GetEnvironment()
+    Environment.StepPhysics = true
 end
 
 function Client.Update(dt)

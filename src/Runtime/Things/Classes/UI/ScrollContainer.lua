@@ -11,6 +11,8 @@ function ScrollContainer:new()
 
     self.CanvasSize = Pivot2D.FromScale(1,2)
 
+    self.Hovering = false
+
     self.WheelMoved = LoveEvents.WheelMoved:Connect(function(_, y)
         self.ScrollTarget = self.ScrollTarget + y*40
     end)
@@ -30,10 +32,18 @@ end
 function ScrollContainer:Update(dt)
     ScrollContainer.super.Update(self, dt)
 
-    self.ScrollPosition = math.lerp(self.ScrollPosition, self.ScrollTarget, .4)
-
+    --if self.Hovering then
+        self.ScrollPosition = math.lerp(self.ScrollPosition, self.ScrollTarget, .4)
+    --end
     local MaxScroll = self:GetCanvasSize().Y
 
+    local ObjectRect = self:GetRect()
+    local DisplayUI = self:GetDisplayUI()
+
+    if (not DisplayUI) then return end
+
+    --self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
+    --print(self.Hovering)
     -- Elastic scroll bounding, because why not
     if self.ScrollTarget > 0 then
         self.ScrollTarget = self.ScrollTarget + (0 - self.ScrollTarget)*dt*12

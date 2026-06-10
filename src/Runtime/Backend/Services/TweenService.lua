@@ -81,8 +81,13 @@ function TweenService.Create(Subject, Target, Style, Time)
     return Tween
 end
 
-function TweenService.CreateAndPlay(Subject, Target, Style, Time)
+function TweenService.LinkTick(tick)
+    -- Doesnt exist now sorrey!
+end
+
+function TweenService.CreateAndPlay(Subject, Target, Style, Time, Wow)
     local Tween = TweenService.Create(Subject, Target, Style, Time).Play()
+    if not Time then print("Not given Time! Please try again!") return end
     Scheduler.Yield(Time)
 
     return Tween

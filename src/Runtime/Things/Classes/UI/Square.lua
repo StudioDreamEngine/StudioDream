@@ -11,6 +11,7 @@ function Square:new()
 
     self.OutlineSize = 0
     self.OutlineColor = Color.new(0,0,0)
+    self.OutlineTransparency = 1
 end
 
 function Square:DefineAPI()
@@ -31,7 +32,7 @@ function Square:Draw()
 
     if self.OutlineSize > 0 then
         love.graphics.setLineWidth(self.OutlineSize)
-        Runtime.Backend2D.SetColor(self.OutlineColor)
+        Runtime.Backend2D.SetColor(self.OutlineColor,self.OutlineTransparency)
         love.graphics.rectangle("line", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
     end
 end

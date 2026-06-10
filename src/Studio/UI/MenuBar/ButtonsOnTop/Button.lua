@@ -14,6 +14,7 @@ return function(Args)
         local Dropdown = Components.AdvancedDropdown(Args.Dropdown)
 
         ButtonContainer.Clicked:Connect(function()
+            print("hello")
             Dropdown.Setup(ButtonContainer, Vector2.new(0,0.5))
             Dropdown.Toggle(not Dropdown.Visible)
         end)

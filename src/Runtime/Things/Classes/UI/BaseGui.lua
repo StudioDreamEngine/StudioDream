@@ -202,12 +202,12 @@ function BaseGui:DrawStyle()
         love.graphics.setLineWidth(1)
 
         Runtime.Backend2D.SetColor(Color.new(0,0,1))
-        love.graphics.rectangle("line", 0, 0, self.AbsoluteSize.X, self.AbsoluteSize.Y)
+        --love.graphics.rectangle("line", 0, 0, self.AbsoluteSize.X, self.AbsoluteSize.Y)
 
         Runtime.Backend2D.SetColor(Color.new(1,0,0))
-        love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
+       -- love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
 
-        Runtime.Backend2D.SetColor(Color.new(1))
+       Runtime.Backend2D.SetColor(Color.new(1))
     end
 end
 

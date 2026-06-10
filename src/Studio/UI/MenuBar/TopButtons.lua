@@ -50,22 +50,10 @@ return {
                     Text = "Play",
                     SubResource = "Assets/Icons/Client.png",
                     Function = function(T)
-                        ---@class Environment
-                        local Environment = Runtime.Things.Root:GetEnvironment()
-
-                        Environment.StepPhysics = true
+                        Runtime.RequestRestart(Runtime.RequestCurrentMode()~="Studio" and "Studio" or "Client")
                     end
                 },
-                {
-                    Type = "Button",
-                    Text = "Stop",
-                    Function = function()
-                        ---@class Environment
-                        local Environment = Runtime.Things.Root:GetEnvironment()
 
-                        Environment.StepPhysics = false
-                    end
-                },
             }
         }
     },
