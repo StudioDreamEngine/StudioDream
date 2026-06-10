@@ -101,7 +101,11 @@ function Splash.Load()
     Shared.StartTarget()
     Splash.ChangeStatus("")
 
-    Splash.Out()
+    if (not Runtime.FromRestart) then
+        Splash.Out()
+    else
+        SplashContainer:Destroy()
+    end
 end
 
 return Splash

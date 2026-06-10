@@ -3,8 +3,7 @@ local Runtime = {}
 Runtime.Things = require("Runtime.Things")
 Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
-
-local RestartArg
+Runtime.FromRestart = love.restart and true
 
 function Runtime.Init()
     Profiler.Init()
@@ -39,6 +38,16 @@ function Runtime.PostInit()
     Runtime.Resources.Init()
 
     Runtime.Project = require("Runtime.Project")
+
+    Runtime.Things.Create("TextButton") {
+        Parent = Runtime.Things.GetRootViewport(),
+        Size = Pivot2D.FromScale(0.2,0.2),
+        Layer = 1000,
+        Text = "Attempt target change",
+        Clicked = function()
+            Runtime.RequestRestart("Client")
+        end
+    }
 
     --require("Runtime.Things.CreateTests")()
     Runtime.Project.Load("../tests/ProjectTest/")
