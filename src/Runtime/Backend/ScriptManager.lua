@@ -3,6 +3,7 @@ local ScriptManager = {}
 local LoadQueued = {}
 local StartedScripts = false
 
+-- Queue a script for loading, as we may not want to start scripts immediately
 ---@param Script BaseScript
 function ScriptManager.RequestLoad(Script)
     if StartedScripts then Script:Load() return end

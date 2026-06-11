@@ -20,6 +20,8 @@ function Shared.Init()
     Runtime = require("Runtime")
     Runtime.Init()
 
+    Shared.Target = love.restart or FLAGS.ModeTarget
+
     print("Start splash")
     Shared.Splash = require("Shared.Splash")
     Shared.Splash.Init()
@@ -49,7 +51,7 @@ local Target
 
 function Shared.StartTarget()
     ---@module "Studio"
-    Target = require(love.restart or FLAGS.ModeTarget)
+    Target = require(Shared.Target)
     Target.Init()
 
     StartedTarget = true

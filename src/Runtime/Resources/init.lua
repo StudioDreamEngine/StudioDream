@@ -1,3 +1,4 @@
+-- Welcome to resource hell
 local Resources = {}
 
 local LoaderModPath = "Runtime.Resources.Loaders."

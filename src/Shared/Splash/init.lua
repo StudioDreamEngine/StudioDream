@@ -75,6 +75,7 @@ function Splash.Init()
         Size = Pivot2D.FromScale(.35,.35),
         Layer = 2,
         Pivot = Vector2.new(.5,.5),
+        Resource = "Internal/Icons/"..Shared.Target..".png",
         Position = Pivot2D.FromScale(.5,.4),
         SquareAxis = Enum.SquareAxis.Y,
         Parent = SplashContainer
