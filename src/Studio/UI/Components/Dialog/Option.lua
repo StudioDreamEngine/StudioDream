@@ -3,6 +3,14 @@ local CurrentWindow = nil
 return function(Options)
     local Object = {}
 
+    if (not Options.Choices) then
+        Options.Choices = {
+            {
+                Text = "Ok"
+            }
+        }
+    end
+
     function Object.CreateDialog()
         Runtime.Things.Create("Text") {
             Size = Pivot2D.FromScale(1,0.1),

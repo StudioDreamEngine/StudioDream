@@ -23,6 +23,8 @@ function Scenes.ConfigureTargetsTemp()
 end
 
 function Scenes.LoadScene(Path)
+    print("Loading Scene: "..Path)
+
     local Content = BackendFS.ReadFile(Path)
     local Table = Binser.deserialize(Content)[1]
 

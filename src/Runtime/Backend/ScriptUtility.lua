@@ -13,6 +13,29 @@ local function ProxyIndex(Instance, Key)
     end
 end
 
+local AllowedExecutableTypes = {"exe"}
+
+function ScriptUtil.ConfigureAndValidateEditor(EditorPath)
+    if (not EditorPath) then
+        EditorPath = Platform.OpenFileDialog("Configure Editor")
+    end
+
+    local InvalidFileType = true
+
+    if type(EditorPath) == "string" then
+        EditorPath = Path.new(EditorPath)
+        InvalidFileType = EditorPath.FileType and (not table.find(AllowedExecutableTypes, EditorPath.FileType))
+    end
+
+    if InvalidFileType then
+        Studio.Components.SimpleDialog("EditorPath was invalid, try opening the script again and re-configuring your editor.")
+        return
+    end
+
+    Studio.SettingsManager.ChangeSetting("CodeEditor", EditorPath.FilePath)
+    return EditorPath.FilePath
+end
+
 ---@param ScriptObject BaseScript
 function ScriptUtil.HandleOpenScript(ScriptObject)
     -- Create new resource for object if none is found
@@ -23,15 +46,12 @@ function ScriptUtil.HandleOpenScript(ScriptObject)
 
     -- Configure editor if needed
     local ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor")
-
-    if (not ConfiguredEditor) then
-        ConfiguredEditor = Platform.OpenFileDialog("Configure Editor")
-
-        Studio.SettingsManager.ChangeSetting("CodeEditor", ConfiguredEditor)
-    end
+    ConfiguredEditor = ScriptUtil.ConfigureAndValidateEditor(ConfiguredEditor)
 
     -- Open the script
-    Platform.Execute(ConfiguredEditor, Runtime.BackendFS.GetFullPath(ScriptObject.Resource))
+    if ConfiguredEditor then
+        Platform.Execute(ConfiguredEditor, Runtime.BackendFS.GetFullPath(ScriptObject.Resource))
+    end
 end
 
 function ScriptUtil.SetProperty(Object, Index, Value)

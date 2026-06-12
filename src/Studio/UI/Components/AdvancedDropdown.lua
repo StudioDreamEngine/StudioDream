@@ -44,6 +44,7 @@ local IsASecondToTrans = {
     ["Text"] = "OutlineTransparency",
     ["Square"] = "OutlineTransparency",
 }
+
 local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
     for i,v in pairs(CurrentDropdown:GetDescendants()) do
         if v.ClassName ~= "ListLayout" then 
@@ -52,6 +53,7 @@ local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
             v[ThingTo] = IsTrue and 0 or 1
             if ThingTwo then v[ThingTwo] = IsTrue and 1 or 0 end
         end
+        
     end
     for i,v in pairs(CurrentDropdown:GetDescendants()) do
         if v.ClassName ~= "ListLayout" then 

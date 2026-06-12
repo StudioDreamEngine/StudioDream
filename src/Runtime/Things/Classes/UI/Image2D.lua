@@ -58,7 +58,7 @@ function Image2D:Draw()
     local ScaleX = self.AbsoluteSize.X/w
     local ScaleY = self.AbsoluteSize.Y/h
 
-    Runtime.Backend2D.SetColor(self.ForegroundColor, 1-self.ForegroundTransparency)
+    self:SetColor("Foreground")
     love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,ScaleX,ScaleY)
 end
 

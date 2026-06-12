@@ -115,6 +115,12 @@ function BaseGui:Draw()
     error("BaseGui:Draw() is virtual and should not be called directly (from: "..self.Name..")")
 end
 
+function BaseGui:SetColor(ColorMode, Multiplier)
+    local TransparencyValue = (1 - self[ColorMode.."Transparency"]) * (1-self.Transparency)
+
+    Runtime.Backend2D.SetColor(self[ColorMode.."Color"] * (Multiplier and self.ColorMultiplier or 1), TransparencyValue)
+end
+
 function BaseGui:new() 
     BaseGui.super.new(self)
 
@@ -143,6 +149,8 @@ function BaseGui:new()
     -- Used for stuff like text
     self.ForegroundTransparency = 0
     self.ForegroundColor = Color.new(0)
+
+    self.Transparency = 0
 
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
@@ -194,7 +202,7 @@ function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
     if self.Visible and self:IsVisible() then
-        Runtime.Backend2D.SetColor(self.BackgroundColor * self.ColorMultiplier, 1-self.BackgroundTransparency)
+        self:SetColor("Background", true)
         self:Draw()
 
         local Rect = self:GetProperty("ChildRect")

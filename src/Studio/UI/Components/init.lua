@@ -37,6 +37,12 @@ function Components.Init()
     Components.CreateDialog = require("Studio.UI.Components.DialogWindows").CreateDialogWindow
 end
 
+function Components.SimpleDialog(Text)
+    Studio.Components.CreateDialog("Option", {
+        Text = Text,
+    })
+end
+
 function Components.CreateIconObject(Name, Icon)
     local NodeInner = Things.Create("TextButton") {
         Position = Pivot2D.FromScale(1,0),

@@ -21,6 +21,8 @@ end
 function Project.Save()
     print("Saving Project...")
 
+    love.window.setTitle("")
+
     -- Once we have several scenes, sdrm should just store the configuration
     Scenes.SaveScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
 end

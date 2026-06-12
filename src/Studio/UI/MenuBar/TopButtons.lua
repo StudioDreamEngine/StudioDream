@@ -50,7 +50,8 @@ return {
                     Text = "Play",
                     SubResource = "Assets/Icons/Client.png",
                     Function = function(T)
-                        Runtime.RequestRestart(Runtime.RequestCurrentMode()~="Studio" and "Studio" or "Client")
+                        Runtime.Project.Save()
+                        Runtime.RequestRestart("Client")
                     end
                 },
 

@@ -12,18 +12,6 @@ local DialogFade = Runtime.Things.Create("Square") {
 }
 local ActiveDialogWindow
 
-local IsATableToTrans = {
-    ["TextButton"] = "ForegroundTransparency",
-    ["Text"] = "ForegroundTransparency",
-    ["Square"] = "BackgroundTransparency",
-    ["Image2D"] = "ForegroundTransparency"
-}
-local IsASecondToTrans = {
-     ["TextButton"] = "OutlineTransparency",
-    ["Text"] = "OutlineTransparency",
-    ["Square"] = "OutlineTransparency",
-}
-
 local function ToggleAnim()
     local CurrentDropdown = ActiveDialogWindow
     local IsTrue = false
@@ -31,22 +19,12 @@ local function ToggleAnim()
         CurrentDropdown = CurrentDropdown.Window
         for i,v in pairs(CurrentDropdown:GetDescendants()) do
         if v.ClassName ~= "ListLayout" then 
-            local ThingTo = IsATableToTrans[v.ClassName]
-            local ThingTwo = IsASecondToTrans[v.ClassName]
-            v[ThingTo] = IsTrue and 0 or 1
-            if ThingTwo then v[ThingTwo] = IsTrue and 1 or 0 end
+            
         end
     end
     for i,v in pairs(CurrentDropdown:GetDescendants()) do
         if v.ClassName ~= "ListLayout" then 
-            local ThingTwo = IsASecondToTrans[v.ClassName]
-            local ThingTo = IsATableToTrans[v.ClassName]
-                
-            if ThingTwo then 
-                Tween.Create(CurrentDropdown, {[ThingTo] = 0,[ThingTwo] = 1}, Enum.EasingStyle.Linear, .1).Play()
-            else
-                Tween.Create(CurrentDropdown, {[ThingTo] = 0}, Enum.EasingStyle.Linear, .1).Play()
-            end
+            
         end
       --  CurrentDropdown.Visible = IsTrue
     end

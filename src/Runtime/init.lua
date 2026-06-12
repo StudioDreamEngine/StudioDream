@@ -39,8 +39,6 @@ end
 function Runtime.RequestRestart(NextTarget)
     local Benchmark = Profiler.Benchmark("Restart StudioDream", true)
 
-    Runtime.Project.Save()
-
     Dream:requestKill(function()
         Benchmark.End()
         love.event.restart(NextTarget)
