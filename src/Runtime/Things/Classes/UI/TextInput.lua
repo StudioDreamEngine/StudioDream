@@ -42,7 +42,6 @@ function TextInput:new()
 
     Runtime.InterfaceManager.OnClick:Connect(function()
         if self.Hovering ~= self.InputActive then 
-            print("Text Input "..self.Hovering)
             love.keyboard.setTextInput(self.Hovering)
 
             self["Focus" .. (self.Hovering and "Start" or "End") ].Invoke()
