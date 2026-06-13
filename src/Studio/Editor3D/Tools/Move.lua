@@ -14,6 +14,8 @@ local function StartDrag(Obj)
 end
 
 local function EndDrag()
+    Studio.EditorServices.Undo.RegisterUndo(SelectingObj,"Transform",Transform3D.FromPosition(Info.StartPosObj+Info.OffsetTo))
+    
     Info.StartPosObj = Vector3.zero
     Info.OffsetTo = Vector3.zero
 end
