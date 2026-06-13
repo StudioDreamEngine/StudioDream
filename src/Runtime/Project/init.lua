@@ -4,6 +4,8 @@ local Resources = require("Runtime.Project.Resources")
 
 local BackendFS = Runtime.BackendFS
 
+Project.SerializeType = Scenes.Objects.HandleType
+
 function Project.Load(ProjectPath)
     BackendFS.MountProject(ProjectPath)
     Resources.Load()
