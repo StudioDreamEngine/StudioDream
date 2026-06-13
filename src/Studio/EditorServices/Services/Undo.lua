@@ -30,7 +30,7 @@ function UndoService.DoIt()
 end
 
 function UndoService.RegisterUndo(undoFunction)
-    if #UndosSavedUp > UndoCurrent then
+    while #UndosSavedUp > UndoCurrent do
         table.remove(UndosSavedUp)
     end
 
