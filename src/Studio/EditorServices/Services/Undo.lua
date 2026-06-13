@@ -1,0 +1,33 @@
+local UndoService = {}
+
+local UndosSavedUp = {}
+local UndoCurrent = 0
+
+function UndoService.Undo()
+    if UndoCurrent <= 0 then
+        return
+    end
+
+    local UndoFunction = UndosSavedUp[UndoCurrent]
+    UndoCurrent -= 1
+
+    if UndoFunction then
+        UndoFunction()
+    end
+end
+
+function UndoService.RegisterUndo(undoFunction)
+    if #UndosSavedUp > UndoCurrent then
+        table.remove(UndosSavedUp)
+    end
+
+    table.insert(UndosSavedUp, undoFunction)
+    UndoCurrent += 1
+end
+
+function UndoService.Clear()
+    table.clear(UndosSavedUp)
+    UndoCurrent = 0
+end
+
+return UndoService

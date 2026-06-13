@@ -12,12 +12,15 @@ function Studio.Init()
     Studio.ProjectManager = require("Studio.ProjectManager")
     Studio.SettingsManager = require("Studio.SettingsManager")
 
+    Studio.EditorServices = require("Studio.EditorServices")
+
     Studio.SettingsManager.Init()
 
     Studio.Components.Init()
     Studio.Layout.CreateLayout()
 
     Studio.Editor3D.Init()
+    Studio.EditorServices.Init()
 end
 
 function Studio.Update(dt)
