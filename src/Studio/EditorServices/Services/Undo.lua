@@ -9,7 +9,20 @@ function UndoService.Undo()
     end
 
     local UndoFunction = UndosSavedUp[UndoCurrent]
-    UndoCurrent -= 1
+    UndoCurrent = UndoCurrent-1
+
+    if UndoFunction then
+        UndoFunction()
+    end
+end
+
+function UndoService.DoIt()
+    if UndoCurrent <= 0 then
+        return
+    end
+
+    local UndoFunction = UndosSavedUp[UndoCurrent]
+    UndoCurrent = UndoCurrent+1
 
     if UndoFunction then
         UndoFunction()
@@ -22,7 +35,7 @@ function UndoService.RegisterUndo(undoFunction)
     end
 
     table.insert(UndosSavedUp, undoFunction)
-    UndoCurrent += 1
+    UndoCurrent = UndoCurrent+1
 end
 
 function UndoService.Clear()
