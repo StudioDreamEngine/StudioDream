@@ -36,6 +36,8 @@ function UndoService.Init()
             if Key == Enum.InputCode.Z and Input:KeyDownNumber(Enum.InputCode.LeftCtrl) then
                 --print("hi")
                 UndoService.Undo()
+            elseif Key == Enum.InputCode.Y and Input:KeyDownNumber(Enum.InputCode.LeftCtrl) then
+                UndoService.DoIt()
             end
         end
     end)
