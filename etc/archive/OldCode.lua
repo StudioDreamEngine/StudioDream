@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 -- For now, there might be some shinanigans we can do with like .Cross() but idk
 local InverseLookup = {
     [Vector3.xAxis] = {

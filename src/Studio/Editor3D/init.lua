@@ -13,7 +13,7 @@ Editor3D.PropertyChanged = Signal:New("ChangedProperty")
 function Editor3D.OpenInsertWindow(Object)
     local WindowHandle = Studio.Layout.GetHandle("InsertObject")
 
-    Studio.Layout.MoveWindow(WindowHandle, Pivot2D.FromOffset(Studio.Layout.GetMouseContext(WindowHandle.Container)))
+    Studio.Layout.MoveWindow(WindowHandle, Studio.Layout.GetMouseContext(WindowHandle.Container))
     Studio.Layout.ToggleWindow(WindowHandle, true)
 
     WindowHandle.TargetObject = Object or Runtime.Things.GetRoot("Environment")
@@ -22,7 +22,7 @@ end
 function Editor3D.CloseInsertWindow(Object)
     local WindowHandle = Studio.Layout.GetHandle("InsertObject")
 
-    Studio.Layout.MoveWindow(WindowHandle, Pivot2D.FromOffset(Studio.Layout.GetMouseContext(WindowHandle.Container)))
+    Studio.Layout.MoveWindow(WindowHandle, Studio.Layout.GetMouseContext(WindowHandle.Container))
     Studio.Layout.ToggleWindow(WindowHandle, false)
 
     WindowHandle.TargetObject = Object or Runtime.Things.GetRoot("Environment")

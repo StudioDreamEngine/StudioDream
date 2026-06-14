@@ -200,6 +200,7 @@ function BaseGui:SetMouseLocked(NewLocked)
         self.LockOrigin = self.AbsolutePosition - Display.MousePosition
     end
 
+    print(NewLocked)
     self.MouseLocked = NewLocked
 end
 

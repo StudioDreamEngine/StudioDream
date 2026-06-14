@@ -76,7 +76,7 @@ local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
       --  CurrentDropdown.Visible = IsTrue
     end
     Scheduler.Yield(.1)
-    Dropdown:SetVisible(IsTrue)
+    Dropdown.Visible = IsTrue
     CurrentDropdown:SetVisible(IsTrue)
 end
 
@@ -157,7 +157,7 @@ return function(Choices)
     CurrentDropdown:SetParent(Things.Root.RootViewport)
 
     function Dropdown.MoveToMouse()
-        Position = Pivot2D.FromOffset(Studio.Layout.GetMouseContext(CurrentDropdown.AbsoluteSize))
+        Position = Studio.Layout.GetMouseContext(CurrentDropdown.AbsoluteSize)
     end
 
     function Dropdown.SetSize(InSize) Size = InSize end

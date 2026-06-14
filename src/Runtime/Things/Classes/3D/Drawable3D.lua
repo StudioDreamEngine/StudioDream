@@ -41,6 +41,13 @@ function Drawable3D:SetTransform(NewTransform)
     self.PhysicsBody:activate()
 end
 
+function Drawable3D:SetScale(NewScale)
+    self.Scale = NewScale
+
+    self.PhysicsShape = Runtime.Phys.ShapeFromMesh(self.Drawable:getAllMeshes(), self.Scale)
+    self:CreateBody()
+end
+
 function Drawable3D:SetDynamic(NewDynamic)
     self.Dynamic = NewDynamic
 
@@ -64,7 +71,7 @@ function Drawable3D:SetResource(NewResource)
 
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size
 
-    self.PhysicsShape = Runtime.Phys.CreateShape(self.Size*2)
+    self.PhysicsShape = Runtime.Phys.ShapeFromMesh(self.Drawable:getAllMeshes(), self.Scale)
 
     self:CreateBody()
 end

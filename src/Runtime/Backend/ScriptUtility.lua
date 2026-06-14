@@ -2,6 +2,9 @@
 local ScriptUtil = {}
 local Things = Runtime.Things
 
+local LoadQueued = {}
+local StartedScripts = false
+
 local function ProxyIndex(Instance, Key)
     if (not Instance[Key]) then
         -- Assume child
@@ -13,63 +16,33 @@ local function ProxyIndex(Instance, Key)
     end
 end
 
-local AllowedExecutableTypes = {"exe"}
+-- Queue a script for loading, as we may not want to start scripts immediately
+---@param Script BaseScript
+function ScriptUtil.RequestLoad(Script)
+    if StartedScripts then Script:Load() return end
 
-function ScriptUtil.ConfigureAndValidateEditor(EditorPath)
-    if (not EditorPath) then
-        EditorPath = Platform.OpenFileDialog("Configure Editor")
-    end
-
-    local InvalidFileType = true
-
-    if type(EditorPath) == "string" then
-        EditorPath = Path.new(EditorPath)
-        InvalidFileType = EditorPath.FileType and (not table.find(AllowedExecutableTypes, EditorPath.FileType))
-    end
-
-    if InvalidFileType then
-        Studio.Components.SimpleDialog("EditorPath was invalid, try opening the script again and re-configuring your editor.")
-        return
-    end
-
-    Studio.SettingsManager.ChangeSetting("CodeEditor", EditorPath.FilePath)
-    return EditorPath.FilePath
+    print("Queued Script for loading")
+    table.insert(LoadQueued, Script) 
 end
 
----@param ScriptObject BaseScript
-function ScriptUtil.HandleOpenScript(ScriptObject)
-    -- Create new resource for object if none is found
-    if (not ScriptObject.Resource) then
-        local Identifier, _ = Runtime.Resources.LoadIdentifier(ScriptObject.Name, "lua")
-        ScriptObject:SetResource(Identifier)
-    end
+function ScriptUtil.StartScripts()
+    StartedScripts = true
 
-    -- Configure editor if needed
-    local ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor")
-    ConfiguredEditor = ScriptUtil.ConfigureAndValidateEditor(ConfiguredEditor)
-
-    -- Open the script
-    if ConfiguredEditor then
-        Platform.Execute(ConfiguredEditor, Runtime.BackendFS.GetFullPath(ScriptObject.Resource))
-    end
+    ---@param Queued BaseScript
+    for _, Queued in pairs(LoadQueued) do Queued:Load() end
+    LoadQueued = {}
 end
 
-function ScriptUtil.SetProperty(Object, Index, Value)
-    local HasSetter = Object["Set"..Index]
-
-    if HasSetter then
-        HasSetter(Object, Value)
-    else
-        Object[Index] = Value
-    end
-end
-
+---@param Instance Thing
 function ScriptUtil.InstanceProxy(Instance)
     return setmetatable({
         UUID = Instance.UUID -- Maybe this will work for an == replacement? either way Thing:Is() will still exist
     }, {
         __index = function(_, k) return ProxyIndex(Instance, k) end,
-        __newindex = function(_,k,v) Things.SetProperty(Instance,k, v) end
+        __newindex = function(_,k,v) 
+            print(k,v)
+            Things.SetProperty(Instance,k, v)
+        end
     })
 end
 
@@ -78,11 +51,13 @@ function ScriptUtil.CreateGlobals(Script)
         script = Script,
         wait = Scheduler.Yield,
         print = print,
+        Root = Things.Root,
+        Service = Runtime.Services.Service,
 
-        ---@param Object Script
+        ---@param Object RequirableScript
         require = function(Object)
-            if Object:IsA("BaseScript") then
-                return Object:Load()
+            if Object:IsA("RequirableScript") then
+                return Object:Require()
             end
         end
     }
