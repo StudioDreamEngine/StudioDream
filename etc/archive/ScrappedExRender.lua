@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local Explorer = {}
 local HowTreeIsLooking = {}
 

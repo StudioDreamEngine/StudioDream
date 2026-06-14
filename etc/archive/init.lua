@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local UI = {}
 
 function UI.Init(Viewport)

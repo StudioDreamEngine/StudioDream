@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global, undefined-field
 local World = {}
 
 local light

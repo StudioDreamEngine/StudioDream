@@ -6,8 +6,8 @@
         "Dream"
     ],
     "Lua.diagnostics.disable": [
-        "inject-field",
-        "undefined-field"
+        "deprecated",
+        "inject-field"
     ],
     "Lua.workspace.library": [
         "${3rd}/love2d/library"
