@@ -55,7 +55,7 @@ end
 
 function StudioLayout.GetMouseContext(Context)
     -- TODO: Choose pivot point of object based on where it is on the screen, pivot point is simply added to the final position, it doesnt change the object pivot (maybe)
-    return Things.GetRootViewport().MousePosition
+    return Pivot2D.FromOffset(Things.GetRootViewport().MousePosition)
 end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)

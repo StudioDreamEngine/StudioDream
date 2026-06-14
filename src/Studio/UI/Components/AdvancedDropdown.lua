@@ -157,7 +157,7 @@ return function(Choices)
     CurrentDropdown:SetParent(Things.Root.RootViewport)
 
     function Dropdown.MoveToMouse()
-        Position = Pivot2D.FromOffset(Studio.Layout.GetMouseContext(CurrentDropdown.AbsoluteSize))
+        Position = Studio.Layout.GetMouseContext(CurrentDropdown.AbsoluteSize)
     end
 
     function Dropdown.SetSize(InSize) Size = InSize end
