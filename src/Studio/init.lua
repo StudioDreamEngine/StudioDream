@@ -12,7 +12,9 @@ function Studio.Init()
     Studio.ProjectManager = require("Studio.ProjectManager")
     Studio.SettingsManager = require("Studio.SettingsManager")
 
-    Studio.EditorServices = require("Studio.EditorServices")
+    Studio.Backend = require("Studio.Backend")
+    
+    Studio.EditorServices = Studio.Backend -- Mikl api backwards compat, remove later!
 
     Studio.SettingsManager.Init()
 
@@ -20,7 +22,7 @@ function Studio.Init()
     Studio.Layout.CreateLayout()
 
     Studio.Editor3D.Init()
-    Studio.EditorServices.Init()
+    Studio.Backend.Init()
 end
 
 function Studio.Update(dt)

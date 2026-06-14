@@ -69,7 +69,7 @@ local LastClick = 0
 local function HandleDoubleClick(ClickedObject)
     -- I'd make this a little more advanced but scripts are most likely gonna be the only thing here
     if ClickedObject:IsA("BaseScript") then
-        Runtime.ScriptUtil.HandleOpenScript(ClickedObject)
+        Studio.ScriptHandler.HandleOpenScript(ClickedObject)
     end
 end
 
