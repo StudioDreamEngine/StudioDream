@@ -13,6 +13,7 @@ function UndoService.Undo()
     if UndoFunction then
         UndoFunction()
     end
+    Studio.Layout.GetHandle("Notification").Notify("Un-did it","Info")
     print(UndoCurrent,UndosSavedUp)
 end
 
@@ -55,7 +56,7 @@ function UndoService.RegisterUndo(Obj,Property,Val)
     end
     table.insert(UndosSavedUp, undoFunction)
     UndoCurrent = UndoCurrent+1
-
+   
     print(UndoCurrent,UndosSavedUp)
 end
 

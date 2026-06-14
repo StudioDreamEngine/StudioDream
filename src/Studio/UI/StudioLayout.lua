@@ -6,7 +6,7 @@ local Theme = Studio.Theme.GetCurrentTheme()
 
 StudioLayout.Handles = {}
 
-function StudioLayout.CreateWindowContainer(Transform, DontIncludeName)
+function StudioLayout.CreateWindowContainer(Transform, HaveName)
     local Windows = {}
     
     Windows.FullContainer = Runtime.Things.Create("Square") { 
@@ -23,8 +23,8 @@ function StudioLayout.CreateWindowContainer(Transform, DontIncludeName)
     }
     
     Windows.Container = Runtime.Things.Create("Square") {
-        Size = DontIncludeName and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.95,0.9),
-        Position = DontIncludeName and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.51),
+        Size = (not HaveName) and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.95,0.9),
+        Position = (not HaveName) and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.51),
         Pivot = Vector2.new(0.5,0.5),
         BackgroundColor = Theme.Primary,
         Name = "BackWindow",
@@ -35,15 +35,15 @@ function StudioLayout.CreateWindowContainer(Transform, DontIncludeName)
     }
 
     -- GUARD CLAUSES MIKL
-    if DontIncludeName then return Windows end
-
+    if not HaveName then return Windows end
     Windows.Namer = Runtime.Things.Create("Text") {
-        Size = Pivot2D.FromScale(1,0.05),
-        Position = Pivot2D.FromScale(0.5,0.01),
-        Pivot = Vector2.new(0.5,0),
+        Size = Pivot2D.FromScale(0,0),
+        Position = Pivot2D.FromScale(0,0),
+        Pivot = Vector2.new(0,0),
         Parent = Windows.Container,
         Layer = Windows.Container.Layer+5,
         BackgroundTransparency = 1,
+        Text = HaveName,
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
         Name = "WindowText",
         Alignment = Vector2.new(0.5,0.5),
@@ -72,7 +72,7 @@ function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
 end
 
 function StudioLayout.CreateWindow(WindowType, Transform)
-    local WindowContainer = StudioLayout.CreateWindowContainer(Transform)
+    local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Transform.Name)
 
     StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
 end
@@ -175,9 +175,18 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("Explorer", {
+        Name = "Explorer",
         Size = Pivot2D.FromScale(0.25,.5),
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0)
+    })
+
+    StudioLayout.CreateWindow("Notification", {
+        Size = Pivot2D.FromScale(0.2,1),
+        Pivot = Vector2.new(0,0.5),
+        Position = Pivot2D.FromScale(0,0.5),
+        Layer = 100,
+        TopLevel = true
     })
 
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)

@@ -33,6 +33,12 @@ function Utils.DoesFileExist(Directory)
     return love.filesystem.getInfo(Directory) and true or false
 end
 
+function Utils.DebrisThing(Obj,Timer)
+    Scheduler.DelayTask(Timer,function()
+        Obj:Destroy()
+    end)
+end
+
 function Utils.UltraCloneTable(Table)
 
     local function loopthought(Table,TableToRegister)

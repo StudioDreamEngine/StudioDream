@@ -120,7 +120,7 @@ local function CreateGroup(GroupName,Window)
         Parent = BaseGroup,
     }
 
-    TextWow:SetFont("Assets/Fonts/Roboto/Roboto-Bold.ttf")
+    TextWow:SetFont(Studio.Theme.GetCurrentTheme().FontBold)
     Things.Create("ListLayout") {
         Parent = GroupList,
     }

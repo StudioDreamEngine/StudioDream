@@ -7,6 +7,11 @@ Explorer.Tree = {}
 
 local Order = 0
 local Window
+local AddButtonWow = {
+    Obj = nil,
+    Connect = nil,
+    IsInsertOpen = false
+}
 
 local function CountChildren(Object)
     local index = 0
@@ -14,6 +19,30 @@ local function CountChildren(Object)
         index=index+1
     end
     return index
+end
+
+local function CreateThingWhenSelect(Obj)
+    if not AddButtonWow.Obj then
+        AddButtonWow.Obj = Runtime.Things.Create("ImageButton") {
+            Resource = "Internal/Icons/Engine/AddThing.png",
+            Size = Pivot2D.FromScale(1,1),
+            Position = Pivot2D.FromScale(0.5,0),
+            Pivot = Vector2.new(1,0.0001),
+            SquareAxis = Enum.SquareAxis.Y,
+        }
+    end
+    if AddButtonWow.IsInsertOpen then
+        AddButtonWow.IsInsertOpen = false
+        Studio.Editor3D.CloseInsertWindow()
+    end
+    if not AddButtonWow.Connect then
+        AddButtonWow.Connect = AddButtonWow.Obj.Clicked:Connect(function()
+            AddButtonWow.IsInsertOpen = true
+            Studio.Editor3D.OpenInsertWindow(Obj)
+            Explorer.Redraw()
+        end)
+    end
+    AddButtonWow.Obj:SetParent(Obj)
 end
 
 function Explorer.CreateNode(Object, Depth)
@@ -95,7 +124,7 @@ local function HandleDragEnd()
 
     if Hovering then
         local CouldParent = Selecting.Thing:SetParent(Hovering.Thing)
-
+        print(CouldParent)
         if CouldParent then Explorer.Redraw() end
     else
         Explorer.Tree[Selecting.Thing] = Selecting.Node
@@ -146,6 +175,7 @@ function Explorer.Update(dt)
 
         if Thing == Studio.Editor3D.Selecting then
             Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Selecting
+            CreateThingWhenSelect(Object)
         else
             Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary
         end
