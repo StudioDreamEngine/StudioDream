@@ -3,8 +3,8 @@ local FilePathd = {}
 function FilePathd.Start(FrameOption,Thing,Property)
     local MainText = Runtime.Things.Create("TextButton") {
         Text = Thing[Property],
-        ForegroundColor = Studio.Theme.Text,
-        BackgroundColor = Studio.Theme.Primary,
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
         Size = Pivot2D.FromScale(0.97,0.95),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),

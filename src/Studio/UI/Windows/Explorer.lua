@@ -29,7 +29,7 @@ function Explorer.CreateNode(Object, Depth)
         Size = Pivot2D.FromScale(1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.Secondary,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Layer = 2,
         BackgroundTransparency = 0.5,
         Parent = Node,
@@ -145,9 +145,9 @@ function Explorer.Update(dt)
         end
 
         if Thing == Studio.Editor3D.Selecting then
-            Object.BackgroundColor = Studio.Theme.Selecting
+            Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Selecting
         else
-            Object.BackgroundColor = Studio.Theme.Secondary
+            Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary
         end
     end
 end

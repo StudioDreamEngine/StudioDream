@@ -14,12 +14,12 @@ local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
     local BaseProperty = Runtime.Things.Create("Square") { 
         Size = Pivot2D.new(0,1,15,0),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.Outline,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
         Parent = FrameOption.Parent.Parent,
         ListOrder = FrameOption.Parent.ListOrder+0.1,
         OutlineSize = 2,
-        OutlineColor = Studio.Theme.Outline
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
 
     Runtime.Things.Create("Text") {
@@ -30,26 +30,26 @@ local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         Name = "PropertyName",
         Parent = BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text2
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
     }
 
     local Option = Runtime.Things.Create("TextInput") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
         Size = Pivot2D.FromScale(0.49,1),
         Position = Pivot2D.FromScale(0.51,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.Outline,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
         Name = "Frame",
         Text = tostring(Vector3.new(Value.X,Value.Y,Value.Z)),
         Parent = BaseProperty,
-        ForegroundColor = Studio.Theme.Text2
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
     }
 
     Runtime.Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
         Size = Pivot2D.FromScale(0.015,0.85),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
-        BackgroundColor = Studio.Theme.Primary,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
         Layer = 3,
         Name = "Frame",
         Parent = BaseProperty,
@@ -87,7 +87,7 @@ function Transform3Dee.Start(FrameOption,Thing,Property,ActualNode)
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
-        BackgroundColor = Studio.Theme.Text,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
@@ -100,7 +100,7 @@ function Transform3Dee.Start(FrameOption,Thing,Property,ActualNode)
         Text = "",
         Parent = FrameOption,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text2
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
     }
     ChangeButton(Button,IsOpen)
     Button.Clicked:Connect(function()

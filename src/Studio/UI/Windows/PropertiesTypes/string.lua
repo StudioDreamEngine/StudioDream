@@ -6,14 +6,13 @@ function Stringed.Start(FrameOption,Thing,Property)
         Size = Pivot2D.FromScale(1,1),
         Text = tostring(Thing[Property]),
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text2,
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2,
         Parent = FrameOption
     }
 
     Stringthing.FocusEnd:Connect(function()
+        --Studio.EditorServices.Undo.RegisterUndo(Thing,Property,Thing[Property])
         Thing[Property] = Stringthing.Text
-        --Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
-        
         --print(Studio.Layout.WindowsCreated)
 
         Studio.Layout.CallHandle("Explorer", "Redraw") -- Change this pls :skull:

@@ -7,26 +7,27 @@ function UndoService.Undo()
     if UndoCurrent <= 0 then
         return
     end
-
-    local UndoFunction = UndosSavedUp[UndoCurrent]
     UndoCurrent = UndoCurrent-1
+    local UndoFunction = UndosSavedUp[UndoCurrent]
 
     if UndoFunction then
         UndoFunction()
     end
+    print(UndoCurrent,UndosSavedUp)
 end
 
 function UndoService.DoIt()
-    if UndoCurrent <= 0 then
+    if UndoCurrent >= #UndosSavedUp then
         return
     end
-
-    local UndoFunction = UndosSavedUp[UndoCurrent]
     UndoCurrent = UndoCurrent+1
+    local UndoFunction = UndosSavedUp[UndoCurrent]
 
     if UndoFunction then
         UndoFunction()
     end
+    print(UndoCurrent,UndosSavedUp)
+
 end
 
 function UndoService.Init()
@@ -44,8 +45,10 @@ function UndoService.Init()
 end
 
 function UndoService.RegisterUndo(Obj,Property,Val)
-    while #UndosSavedUp > UndoCurrent do
-        table.remove(UndosSavedUp)
+    for i,v in pairs(UndosSavedUp) do
+        if i > UndoCurrent then
+            UndosSavedUp[i] = nil
+        end
     end
     local undoFunction = function()
         Runtime.Things.SetProperty(Obj, Property, Val)

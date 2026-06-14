@@ -23,6 +23,10 @@ return function()
 
     Text:SetFont()
 
+    function Text:SetRenderMode(Far,Near)
+        Text.RenderFont:setFilter(Far,Near)
+    end
+
     function Text.AttemptWrap(NewSize, TextScaled, TextSize)
         local ContainerSize = NewSize
         local TextBounds, Scale
@@ -43,6 +47,11 @@ return function()
 
         Text.TextBounds = TextBounds
         Text.Scale = Scale
+    end
+
+    function Text.GetLetters()
+        local FinalLettersTable = {}
+        
     end
 
     function Text.Render(ContainerSize, Alignment)

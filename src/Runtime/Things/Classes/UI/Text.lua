@@ -12,7 +12,7 @@ function Text:new()
     self.Text = "Placeholder"
     
     self.Alignment = Vector2.zero
-
+    --self.DefaultFont = Studio.Theme.GetCurrentTheme().FontNormal
     self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
 end
 
@@ -45,6 +45,10 @@ function Text:ProcessInvalidation(Origin)
     Text.super.ProcessInvalidation(self, Origin)
     
     self:AttemptWrap(self.AbsoluteSize)
+end
+
+function Text:GetLetters()
+    
 end
 
 function Text:Draw()

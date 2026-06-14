@@ -22,9 +22,9 @@ function InsertObject.Init()
         Position = Pivot2D.FromScale(0,0),
         Pivot = Vector2.new(0,0),
         Parent = InsertObject.ScrollContainer,
-        ForegroundColor = Studio.Theme.Text,
-        BackgroundColor = Studio.Theme.Secundary,
-        OutlineColor = Studio.Theme.Outline,
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Secundary,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
         OutlineSize = 2,
     }
 

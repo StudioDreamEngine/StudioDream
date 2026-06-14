@@ -56,20 +56,20 @@ function DialogWindows.CreateDialogWindow(Type, Options)
         Size = Pivot2D.FromScale(0.4,0.3),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
-        BackgroundColor = Studio.Theme.Secondary,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Name = "WindowContainer",
         Layer = 999,
         Parent = Runtime.Things.GetRootViewport(),
         CornerRadius = 5,
         OutlineSize = 5,
-        OutlineColor = Studio.Theme.Outline
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
     
     DialogObject.Container = Runtime.Things.Create("Square") {
         Size = Pivot2D.FromScale(0.99,0.99) ,
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
-        BackgroundColor = Studio.Theme.Primary,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
         Name = "BackWindow",
         Layer = 2,
         Parent = DialogObject.Window,

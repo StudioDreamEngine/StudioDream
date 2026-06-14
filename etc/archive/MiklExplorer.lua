@@ -34,7 +34,7 @@ local function RenderNode(Thing, currentY, depth ,XPos, View)
        },
        BackgroundColor = NodeColor,
        Layer = 1,
-       ForegroundColor = Studio.Theme.Text,
+       ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
        Text = Thing.Name,
        BackgroundTransparency = 0.5
     }
