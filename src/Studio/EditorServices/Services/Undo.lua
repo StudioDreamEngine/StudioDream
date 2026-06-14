@@ -29,13 +29,31 @@ function UndoService.DoIt()
     end
 end
 
-function UndoService.RegisterUndo(undoFunction)
+function UndoService.Init()
+    local Input = Runtime.Services.Service("InputService")
+    Input.KeyEvent:Connect(function(DidItBegan,Key)
+        if DidItBegan then
+            if Key == Enum.InputCode.Z and Input:KeyDownNumber(Enum.InputCode.LeftCtrl) then
+                --print("hi")
+                UndoService.Undo()
+            elseif Key == Enum.InputCode.Y and Input:KeyDownNumber(Enum.InputCode.LeftCtrl) then
+                UndoService.DoIt()
+            end
+        end
+    end)
+end
+
+function UndoService.RegisterUndo(Obj,Property,Val)
     while #UndosSavedUp > UndoCurrent do
         table.remove(UndosSavedUp)
     end
-
+    local undoFunction = function()
+        Runtime.Things.SetProperty(Obj, Property, Val)
+    end
     table.insert(UndosSavedUp, undoFunction)
     UndoCurrent = UndoCurrent+1
+
+    print(UndoCurrent,UndosSavedUp)
 end
 
 function UndoService.Clear()

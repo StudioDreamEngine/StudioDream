@@ -46,7 +46,7 @@ function Backend3D.Raycast(Origin, Direction, WorldObject)
         assert(Object.ClassReference, "Raycast returned object with no ClassReference!")
 
         local ThingClass = Object.ClassReference
-        print(ThingClass)
+        --print(ThingClass)
 
         -- Env world objects always assume to return thing objects
         if WorldObject.IsEnv then ThingClass = Runtime.Things.Get(ThingClass) end
