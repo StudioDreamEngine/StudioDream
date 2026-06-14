@@ -23,7 +23,7 @@ local ChoiceTypes = {
             Size = Pivot2D.FromScale(0.9,0.35),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
-            BackgroundColor = Studio.Theme.Outline,
+            BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
             Parent = Parent
         }
     end,

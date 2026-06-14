@@ -5,7 +5,7 @@ function ButtonTest.Start(FrameOption,Thing,Property)
         Size = Pivot2D.FromScale(1,1),
         Text = "Imatestthing",
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text2,
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2,
         Parent = FrameOption
     }
 

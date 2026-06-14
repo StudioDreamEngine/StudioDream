@@ -10,7 +10,7 @@ function Components.CreateButton(Name, Properties)
 
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)
-    Button:SetFont("Assets/Fonts/Roboto/Roboto-Bold.ttf")
+    Button:SetFont(Studio.Theme.GetCurrentTheme().FontBold)
     return Button
 end
 
@@ -48,12 +48,12 @@ function Components.CreateIconObject(Name, Icon)
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
         Size = Pivot2D.new(0,1,20,0),
-        BackgroundColor = Studio.Theme.Secondary,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Text = "",
         Layer = 3,
         Name = Name,
         OutlineSize = 1,
-        OutlineColor = Studio.Theme.Primary
+        OutlineColor = Studio.Theme.GetCurrentTheme().Primary
     }
 
     local NodeText = Things.Create("Text") {
@@ -64,7 +64,7 @@ function Components.CreateIconObject(Name, Icon)
         Name = "NodeText",
         Parent = NodeInner,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text
     }
 
     local NotFoundIcon = Runtime.Resources.GetIdentifier("Internal/EditorIcons/File_Not_Found.png")
@@ -113,7 +113,7 @@ function Components.SimpleDropdown(Position, Choices, Size)
             BackgroundTransparency = 1
         })
 
-        Button.OutlineColor = Studio.Theme.Tertiary
+        Button.OutlineColor = Studio.Theme.GetCurrentTheme().Tertiary
         table.insert(ButtonsActions,Button.Clicked)
     end
 
@@ -131,10 +131,10 @@ function Components.SimpleDropdown(Position, Choices, Size)
 end
 
 function Components.CreateStyle(Type, Properties)
-    Properties.BackgroundColor = Studio.Theme.Secondary
-    Properties.ForegroundColor = Studio.Theme.Text
+    Properties.BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary
+    Properties.ForegroundColor = Studio.Theme.GetCurrentTheme().Text
     Properties.OutlineSize = 2
-    Properties.OutlineColor = Studio.Theme.Outline
+    Properties.OutlineColor = Studio.Theme.GetCurrentTheme().Outline
    
     return Things.Create(Type) (Properties)
 end

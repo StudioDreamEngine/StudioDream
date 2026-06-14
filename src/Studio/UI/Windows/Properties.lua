@@ -12,21 +12,21 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
     local BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,20,0),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.Secondary,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Layer = 3,
         Parent = Window,
         --OutlineSize = 2,
-        --OutlineColor = Studio.Theme.Outline
+        --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
     
     Things.Create("Square") { 
         Size = Pivot2D.FromScale(0.95,0.05),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.Outline,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
         Parent = BaseProperty,
         --OutlineSize = 2,
-        --OutlineColor = Studio.Theme.Outline
+        --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
 
     Things.Create("Text") {
@@ -37,14 +37,14 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         Name = "PropertyName",
         Parent = BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text
     }
 
     local Option = Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
         Size = Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.Outline,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
         Name = "Frame",
         Parent = BaseProperty,
@@ -82,11 +82,11 @@ local function CreateGroup(GroupName,Window)
     local BaseGroup = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,20,0),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.Tertiary,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Tertiary,
         Layer = 3,
         Parent = Window,
         OutlineSize = 2,
-        OutlineColor = Studio.Theme.Outline
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
     local TextWow = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,1),
@@ -96,29 +96,29 @@ local function CreateGroup(GroupName,Window)
         Name = "GroupNameDisplay",
         Parent = BaseGroup,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.Text
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text
     }
     local GroupList = Things.Create("Square") { 
         Size = Pivot2D.FromScale(1,1),
         AutomaticSize = Enum.AutomaticSize.Y,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0.5,1),
-        --BackgroundColor = Studio.Theme.Secondary,
+        --BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Layer = 3,
         Parent = Window,
         OutlineSize = 2,
-        OutlineColor = Studio.Theme.Outline
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
-        BackgroundColor = Studio.Theme.Text,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
         Parent = BaseGroup,
     }
-    TextWow:SetFont("Assets/Fonts/Roboto/Roboto-Bold.ttf")
+    TextWow:SetFont(Studio.Theme.GetCurrentTheme().FontBold)
     Things.Create("ListLayout") {
         Parent = GroupList,
     }
@@ -156,7 +156,7 @@ function PropertiesRender.Init()
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
-        --BackgroundColor = Studio.Theme.Secondary,
+        --BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Parent =  PropertiesRender.Container,
     }
 

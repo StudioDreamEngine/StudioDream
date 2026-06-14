@@ -27,6 +27,7 @@ function ListLayout:BindObject(_child)
 
     self.OnChangedEvents[_child] = _child.PropertyChanged:Connect(function(Value, Key)
         if Key == "AbsoluteSize" then
+            print("wow")
             self:RequestUpdateLayout()
         end
     end)
