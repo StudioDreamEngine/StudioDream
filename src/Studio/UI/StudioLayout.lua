@@ -79,7 +79,7 @@ end
 
 -- Robuxxy worst nightmare
 function StudioLayout.ToggleWindow(Window, Toggle)
-    Window.FullContainer.Visible = Toggle
+    Window.FullContainer:SetVisible(Toggle)
 end
 
 ---@param To Pivot2D

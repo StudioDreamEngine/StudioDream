@@ -76,8 +76,8 @@ local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
       --  CurrentDropdown.Visible = IsTrue
     end
     Scheduler.Yield(.1)
-    Dropdown.Visible = IsTrue
-    CurrentDropdown.Visible = IsTrue
+    Dropdown:SetVisible(IsTrue)
+    CurrentDropdown:SetVisible(IsTrue)
 end
 
 return function(Choices)

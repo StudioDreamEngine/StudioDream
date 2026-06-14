@@ -99,7 +99,7 @@ function Components.SimpleDropdown(Position, Choices, Size)
 
     CurrentDropdown:ClearAllChildren()
     CurrentDropdown:SetPosition(Pivot2D.FromOffset(Position))
-    CurrentDropdown.Visible = true
+    CurrentDropdown:SetVisible(true)
 
     CurrentDropdown:SetSize(Pivot2D.FromOffset(Size.X or 200,0))
 
@@ -122,7 +122,7 @@ function Components.SimpleDropdown(Position, Choices, Size)
     }
 
     function Dropdown:RemoveDropdown()
-        CurrentDropdown.Visible = false
+        CurrentDropdown:SetVisible(false)
     end
 
     CurrentDropdown:SetParent(Things.Root.RootViewport) -- This makes them appear already loaded dont remove!

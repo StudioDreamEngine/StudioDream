@@ -27,9 +27,9 @@ function BaseConstraint:BindObject(Object)
         Object:BindConstraint(self, Property) 
     end
 
-    
-
     table.insert(self.Objects, Object)
+
+    return true
 end
 
 function BaseConstraint:UnbindObject(Object)

@@ -7,10 +7,10 @@ local Tabs = {}
 
 function TopBar.ChangeTab(TabName)
     for _, Tab in pairs(Tabs) do
-        Tab.Visible = false
+        Tab:SetVisible(false)
     end
 
-    Tabs[TabName].Visible = true
+    Tabs[TabName]:SetVisible(true)
 end
 
 function TopBar.GetTool(Tool)
@@ -77,7 +77,7 @@ function TopBar.Init()
         TopBar.CreateTab(TabName, Tab)
     end
     for _, Tab in pairs(Tabs) do
-        Tab.Visible = false
+        Tab:SetVisible(false)
     end
 end
 

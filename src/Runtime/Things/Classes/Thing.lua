@@ -91,6 +91,7 @@ function Thing:SetConstraint(Object, Property, Value, DontUpdate)
 
     if Current.Object == Object then
         if not DontUpdate then
+            ---@diagnostic disable-next-line: redundant-parameter
             self.Proxy.ConstraintUpdator(self)
         end
 
@@ -298,6 +299,7 @@ function Thing:ClearAllChildren(NameFilter)
     end 
 end
 
+function Thing:PreInvalidate() end
 function Thing:Invalidate() end
 function Thing:Update() end
 
