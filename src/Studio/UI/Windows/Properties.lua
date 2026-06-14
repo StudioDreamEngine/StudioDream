@@ -109,6 +109,7 @@ local function CreateGroup(GroupName,Window)
         OutlineSize = 2,
         OutlineColor = Studio.Theme.Outline
     }
+
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
@@ -118,6 +119,7 @@ local function CreateGroup(GroupName,Window)
         Pivot = Vector2.new(1,0.5),
         Parent = BaseGroup,
     }
+
     TextWow:SetFont("Assets/Fonts/Roboto/Roboto-Bold.ttf")
     Things.Create("ListLayout") {
         Parent = GroupList,
@@ -131,11 +133,13 @@ local function CreateGroup(GroupName,Window)
 
     Button.Clicked:Connect(function()
         GroupToReturn.IsOpen = not GroupToReturn.IsOpen
-        GroupList.Visible = GroupToReturn.IsOpen
+
+        GroupList:SetVisible(GroupToReturn.IsOpen)
+
         UpdateButton()
     end)
 
-    function GroupToReturn:ReturnThings()
+    function GroupToReturn.ReturnThings()
         return GroupList,BaseGroup
     end
 
@@ -184,7 +188,8 @@ function PropertiesRender.Init()
 
         for GroupName,v in pairs(Thing.Proxy.Groups) do
             local GroupCreated = CreateGroup(GroupName,BaseWindow)
-            local List,Base = GroupCreated:ReturnThings()
+            local List,Base = GroupCreated.ReturnThings()
+
             for v,Property in pairs(Thing.Proxy.Groups[GroupName]) do
                 local Type
                 if Thing.Proxy.Types[Property] then Type = Thing.Proxy.Types[Property] end

@@ -54,19 +54,15 @@ return { new = function()
 
     -- Add an accessible only property
     function ObjectProxy.PropertyAccess(...)
-        for i, v in pairs(table.pack(...)) do
-            if i ~= "n" then
-                ProcessProperty(ObjectProxy.Accessible, v)
-            end
+        for i, v in pairs({...}) do
+            ProcessProperty(ObjectProxy.Accessible, v)
         end
     end
 
     -- Add an serializable only property
     function ObjectProxy.PropertySerialize(...)
-        for i, v in pairs(table.pack(...)) do
-            if i ~= "n" then
-                ProcessProperty(ObjectProxy.Serializable, v)
-            end
+        for i, v in pairs({...}) do
+            ProcessProperty(ObjectProxy.Serializable, v)
         end
     end
 
@@ -75,10 +71,8 @@ return { new = function()
             ObjectProxy.Groups[Group] = {}
         end
 
-        for i, v in pairs(table.pack(...)) do
-            if i ~= "n" then
-                table.insert(ObjectProxy.Groups[Group], v)
-            end
+        for i, v in pairs({...}) do
+            table.insert(ObjectProxy.Groups[Group], v)
         end
     end
 

@@ -109,7 +109,7 @@ function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
         IsOpen = not IsOpen
         ChangeButton(Button,IsOpen)
         for i,v in pairs(CreatedNodes) do
-            v.Visible = IsOpen
+            v:SetVisible(IsOpen)
         end
 
         TextToEverythin:SetText((not IsOpen) and ("{"..tostring(Thing[Property].Scale).."}".."{"..tostring(Thing[Property].Offset).."}") or "")

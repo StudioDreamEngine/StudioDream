@@ -25,11 +25,11 @@ function ListLayout:BindObject(_child)
     --print(_child.Name, "binded to", self.Name)
     self:UpdateLayout()
 
-    self.OnChangedEvents[_child] = _child.PropertyChanged:Connect(function(Value, Key)
-        if Key == "AbsoluteSize" then
+    if _child:IsA("BaseGui") then
+        self.OnChangedEvents[_child] = _child.PropagatedChange:Connect(function(Value, Key)
             self:RequestUpdateLayout()
-        end
-    end)
+        end)
+    end
 end
 
 function ListLayout:UnbindObject(_child)
@@ -48,8 +48,8 @@ function ListLayout:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function ListLayout:Update()
-    ListLayout.super.Update(self)
+function ListLayout:PreInvalidate()
+    ListLayout.super.PreInvalidate(self)
 
     if self.ShouldUpdate then
         self:UpdateLayout()

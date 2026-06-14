@@ -29,7 +29,8 @@ local function ToggleAnim()
       --  CurrentDropdown.Visible = IsTrue
     end
     Scheduler.Yield(.1)
-    CurrentDropdown.Visible = IsTrue
+    CurrentDropdown:SetVisible(IsTrue)    
+        
     end
 end
 
@@ -41,12 +42,12 @@ function DialogWindows.DestroyDialogWindow()
         ActiveDialogWindow.Window:Destroy()
         ActiveDialogWindow = nil
     end
-    DialogFade.Visible = false
+    DialogFade:SetVisible(false)
 end
 
 function DialogWindows.CreateDialogWindow(Type, Options)
     DialogWindows.DestroyDialogWindow()
-    DialogFade.Visible = true
+    DialogFade:SetVisible(true)
 
     local ModuleDialog = require("Studio.UI.Components.Dialog."..Type)
     local DialogObject = ModuleDialog(Options)

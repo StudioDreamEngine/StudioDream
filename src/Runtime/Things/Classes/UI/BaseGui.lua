@@ -131,6 +131,8 @@ function BaseGui:new()
 
     self.Layer = 0
 
+    self.PropagatedChange = Signal:New("PropagatedChange")
+
     self.AutomaticSize = nil
     self.SquareAxis = nil
     self.ListOrder = 0
@@ -156,6 +158,9 @@ function BaseGui:new()
     self.AbsoluteSize = self:GetAbsoluteSize()
 
     self.Visible = true
+    self.TruelyVisible = true
+
+    self.InvalidatedFrom = {}
 
     self.WasInvalidated = false
     self.EverInvalidated = false
@@ -185,7 +190,7 @@ function BaseGui:IsVisible()
         end
     end)
 
-    return Visible
+    return self.Visible and Visible
 end
 
 function BaseGui:SetMouseLocked(NewLocked)
@@ -201,19 +206,21 @@ end
 function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
-    if self.Visible and self:IsVisible() then
+    if self:IsVisible() then
         self:SetColor("Background", true)
         self:Draw()
 
-        local Rect = self:GetProperty("ChildRect")
+        if FLAGS.DebugDraw then
+            local Rect = self:GetProperty("ChildRect")
 
-        love.graphics.setLineWidth(1)
+            love.graphics.setLineWidth(1)
 
-        Runtime.Backend2D.SetColor(Color.new(0,0,1))
-        --love.graphics.rectangle("line", 0, 0, self.AbsoluteSize.X, self.AbsoluteSize.Y)
+            Runtime.Backend2D.SetColor(Color.new(0,0,1))
+            love.graphics.rectangle("line", 0, 0, self.AbsoluteSize.X, self.AbsoluteSize.Y)
 
-        Runtime.Backend2D.SetColor(Color.new(1,0,0))
-       -- love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
+            Runtime.Backend2D.SetColor(Color.new(1,0,0))
+            love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
+        end
 
        Runtime.Backend2D.SetColor(Color.new(1))
     end
@@ -229,6 +236,7 @@ function BaseGui:UpdateTransforms()
 
     if (not NewSize.Is(self.AbsoluteSize)) then
         self:SetAbsoluteSize(NewSize)
+        self.PropagatedChange.Invoke("AbsoluteSize", NewSize)
     end
 
     self.AbsolutePosition = self:GetAbsolutePosition()
@@ -238,13 +246,28 @@ end
 
 function BaseGui:InvalidateAutomaticSize()
     if self.Parent.AutomaticSize then
-        self.Parent:UpdateTransforms()
+        self.Parent:ProcessInvalidations()
         self.Parent:InvalidateAutomaticSize()
     end
 end
 
+-- Same as ProcessInvalidation, Except it doesnt Update WasInvalidated, and doesnt propagate, used for handling AutomaticSize changes
+function BaseGui:ProcessInvalidations()
+    self:UpdateTransforms() 
+
+    local NewVisible = self:IsVisible()
+
+    if self.TruelyVisible ~= NewVisible then
+        self.TruelyVisible = NewVisible
+
+        self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
+    end
+end
+
+-- Process the invalidation for an object
 function BaseGui:ProcessInvalidation(Origin)
-    self:UpdateTransforms()
+    self:ProcessInvalidations()
+
     self.EverInvalidated = true
     self.WasInvalidated = false
 
@@ -252,19 +275,25 @@ function BaseGui:ProcessInvalidation(Origin)
     for _, v in pairs(self:GetChildren()) do
         if v:IsA("BaseGui") then
             v:ProcessInvalidation(Origin)
-            --v:InvalidateRendering()
         end
     end
 end
 
 -- TODO: Also be able to store causes of invalidation within a frame
-function BaseGui:InvalidateRendering()
+function BaseGui:InvalidateRendering(...)
     self.WasInvalidated = true
 end
 
 function BaseGui:SetParent(NewParent)
     BaseGui.super.SetParent(self, NewParent)
+
+    self:InvalidateRendering()
     self:ProcessInvalidation(self)
+end
+
+function BaseGui:SetVisible(NewVisiblity)
+    self.Visible = NewVisiblity
+    self:InvalidateRendering()
 end
 
 function BaseGui:SetPosition(New)
