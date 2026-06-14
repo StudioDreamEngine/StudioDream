@@ -18,7 +18,10 @@ function VectorThree.Start(FrameOption,Thing,Property) -- maybe a signal for whe
         local RebuildVector = Vector3.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01)
             
         --Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
-        Thing[Property] = RebuildVector
+
+        --Thing[Property] = RebuildVector -- mikl for the love of god
+
+        Runtime.Things.SetProperty(Thing, Property, RebuildVector)
         VectorThing.Text = tostring(Thing[Property])
     end)
 end
