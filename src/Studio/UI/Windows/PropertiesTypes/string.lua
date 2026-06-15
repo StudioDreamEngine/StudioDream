@@ -11,7 +11,7 @@ function Stringed.Start(FrameOption,Thing,Property)
     }
 
     Stringthing.FocusEnd:Connect(function()
-        --Studio.EditorServices.Undo.RegisterUndo(Thing,Property,Thing[Property])
+        Studio.EditorServices.Undo.RegisterUndo(Thing,Property,Thing[Property])
         Thing[Property] = Stringthing.Text
         --print(Studio.Layout.WindowsCreated)
 

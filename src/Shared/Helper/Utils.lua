@@ -39,6 +39,12 @@ function Utils.DebrisThing(Obj,Timer)
     end)
 end
 
+function Utils.SendNotification(Message,Type)
+    --if Type ~= "Warn" or Type ~= "Info" or Type ~= "Error" then return end
+
+    Studio.Layout.GetHandle("Notification").Notify(Message,Type)
+end
+
 function Utils.UltraCloneTable(Table)
 
     local function loopthought(Table,TableToRegister)

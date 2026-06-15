@@ -13,7 +13,7 @@ function UndoService.Undo()
     if UndoFunction then
         UndoFunction()
     end
-   Studio.Layout.GetHandle("Notification").Notify("Un-did it","Info")
+    Studio.Layout.GetHandle("Notification").Notify("Un-did it","Info")
     print(UndoCurrent,UndosSavedUp)
 end
 

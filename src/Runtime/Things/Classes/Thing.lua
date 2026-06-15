@@ -200,8 +200,6 @@ function Thing:CheckRecursion(NewParent)
         return "Parent recursion: Attempted to parent to self"
     elseif NewParent:DescendantOf(self) then
         return "Parent recursion: Attempted to parent to descendant of self"
-    elseif NewParent == self.Parent then
-        return "Parent recursion: self already parented to new parent"
     end
 end
 
