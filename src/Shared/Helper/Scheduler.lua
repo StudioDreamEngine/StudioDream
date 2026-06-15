@@ -6,6 +6,7 @@
     Please make sure to yield tasks, because thats what allows the scheduler to actually perform the preemptive multitasking
 ]]
 
+---@class Scheduler
 local Scheduler = {}
 
 local ActiveTasks = {} -- List of current tasks that exist, note even if a task is paused it is still in this list.

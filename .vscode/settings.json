@@ -6,11 +6,13 @@
         "Dream"
     ],
     "Lua.diagnostics.disable": [
-        "deprecated",
-        "inject-field"
+        "deprecated", // this is lua 5.1
+        "inject-field", // adding functions
+        "undefined-field" // super arg
     ],
     "Lua.workspace.library": [
-        "${3rd}/love2d/library"
+        "${3rd}/love2d/library",
+        "./defs"
     ],
     "Lua.completion.autoRequire": false
 }

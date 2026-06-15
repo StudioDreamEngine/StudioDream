@@ -28,6 +28,7 @@ function Root:GetCamera()
     return self.EnvironmentViewport and self.EnvironmentViewport:GetCamera()
 end
 
+---@return Environment
 function Root:GetEnvironment()
     return self.EnvironmentViewport.RenderFolder
 end

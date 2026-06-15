@@ -49,10 +49,15 @@ end
 function ScriptUtil.CreateGlobals(Script)
     return {
         script = Script,
-        wait = Scheduler.Yield,
+        scheduler = Scheduler,
         print = print,
-        Root = Things.Root,
-        Service = Runtime.Services.Service,
+        root = Things.Root,
+        service = Runtime.Services.Service,
+
+        Transform3D = Transform3D,
+        Transform2D = Transform2D,
+        Vector2 = Vector2,
+        Vector3 = Vector3,
 
         ---@param Object RequirableScript
         require = function(Object)
