@@ -32,6 +32,10 @@ function Transform3D.FromAngle(X,Y,Z)
     return NewTransform(Matrix)
 end
 
+function Transform3D.FromMatrix(Matrix)
+    return NewTransform(Matrix)
+end
+
 function Transform3D.FromPosition(X,Y,Z)
     if (not Y) then
         local Pos = X

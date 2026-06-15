@@ -53,6 +53,11 @@ function ScriptUtil.CreateGlobals(Script)
         print = print,
         root = Things.Root,
         service = Runtime.Services.Service,
+        math = math,
+
+        time = function()
+            return GlobalTick
+        end,
 
         Transform3D = Transform3D,
         Transform2D = Transform2D,

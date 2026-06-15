@@ -16,7 +16,8 @@ function Client.Init()
     StudioCamera.Init()
 
     print(Things.GetRoot("Environment"):GetDescendants())
-    Runtime.ScriptManager.StartScripts()
+    Runtime.ScriptUtil.StartScripts()
+
     local Environment = Runtime.Things.Root:GetEnvironment()
     Environment.StepPhysics = true
 end
