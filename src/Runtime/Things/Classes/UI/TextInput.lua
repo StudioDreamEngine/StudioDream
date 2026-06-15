@@ -82,7 +82,7 @@ function TextInput:Update(dt)
     local DisplayUI = self:GetDisplayUI()
     if (not DisplayUI) then return end
 
-    self.Hovering = Utils.IntersectPoint2D(self:GetRect(), DisplayUI.MousePosition)
+    self.Hovering = Utils.IntersectPoint2D(self:GetChildRect(), DisplayUI.MousePosition)
     --[[print("-------")
     print(self.Hovering,self.UUID)
     print(self.InputActive)

@@ -42,7 +42,7 @@ function TextButton:Update(dt)
     local DisplayUI = self:GetDisplayUI()
     if (not DisplayUI) then return end
 
-    local ObjectRect = self:GetRect()
+    local ObjectRect = self:GetChildRect()
 
     self.Hovering = Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
 

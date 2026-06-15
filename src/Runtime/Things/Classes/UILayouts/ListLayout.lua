@@ -69,7 +69,7 @@ function ListLayout:UpdateLayout()
     local AxisVector = Vector2[Vertical and "yAxis" or "xAxis"]
     local OpposingVector = Vector2[Vertical and "xAxis" or "yAxis"]
 
-    local ParentSize = self.Parent:GetRect().Size
+    local ParentSize = self.Parent:GetChildRect().Size
 
     local TotalSpace = ParentSize[Axis]
 
