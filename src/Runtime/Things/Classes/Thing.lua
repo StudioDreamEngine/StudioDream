@@ -211,6 +211,7 @@ function Thing:SetParent(NewParent)
 
     if CouldRecurse then
         print(CouldRecurse)
+        printVerbose(debug.traceback())
 
         return false, CouldRecurse
     end

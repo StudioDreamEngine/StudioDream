@@ -1,3 +1,4 @@
+---@class RenderService
 local RenderService = {}
 
 -- Ignore the code blockout!! cus idk how to do services rn
