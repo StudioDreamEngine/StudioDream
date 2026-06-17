@@ -22,16 +22,22 @@ function TextInput:new()
     self.FocusStart = Signal:New("TextInputFocus_Start")
     self.Typed = Signal:New("TextInput_Typed")
     
-    self.BackspaceEvent = InputService.KeyEvent:Connect(function(IsDown)
-        if IsDown then
-            if self.InputActive then
-                self:SetText(string.sub(self.Text, 0, -2))
-                self.BackspaceDown = GlobalTick
+    self.KeyEvent = InputService.KeyEvent:Connect(function(Key, IsDown)
+        print(Key, IsDown)
+        if (IsDown) then
+            if (self.InputActive) then
+                if (Key == Enum.InputCode.Enter) then
+                    love.keyboard.setTextInput(false)
+                    self.FocusEnd.Invoke()
+                elseif (Key == Enum.InputCode.Backspace) then
+                    self:SetText(string.sub(self.Text, 0, -2))
+                    self.BackspaceDown = GlobalTick
+                end
             end
-        else
+        elseif (Key == Enum.InputCode.Backspace) then
             self.BackspaceDown = nil
         end
-    end, Enum.InputCode.Backspace)
+    end)
 
     self.InputEvent = LoveEvents.TextInput:Connect(function(Key)
         if (not self.InputActive or not self:IsVisible()) then return end

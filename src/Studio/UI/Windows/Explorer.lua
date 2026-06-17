@@ -152,7 +152,6 @@ function Explorer.Init()
     end, Enum.MouseButton.LeftClick)
     
     InputService.KeyEvent:Connect(function(Began, Key)
-        print("[Explorer]", Key)
         if (Key == "delete" and Editor3D.Selecting) then
             local toDelete = Editor3D.Selecting
             Editor3D.SelectionManager.DeselectObject()
