@@ -22,8 +22,7 @@ function TextInput:new()
     self.FocusStart = Signal:New("TextInputFocus_Start")
     self.Typed = Signal:New("TextInput_Typed")
     
-    self.KeyEvent = InputService.KeyEvent:Connect(function(Key, IsDown)
-        print(Key)
+    self.KeyEvent = InputService.KeyEvent:Connect(function(IsDown, Key)
         if (IsDown) then
             if (self.InputActive) then
                 if (Key == Enum.InputCode.Enter) then
@@ -31,6 +30,7 @@ function TextInput:new()
                     self.FocusEnd.Invoke()
                 elseif (Key == Enum.InputCode.Backspace) then
                     self:SetText(string.sub(self.Text, 0, -2))
+                    self.Typed.Invoke(self.Text)
                     self.BackspaceDown = GlobalTick
                 end
             end
