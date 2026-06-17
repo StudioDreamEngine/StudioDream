@@ -1,6 +1,8 @@
 print("Please Wait...")
 Shared = require("Shared")
 
+MYFPSCAPPER9001 = love.timer.getTime()
+
 function love.load()
     love.graphics.clear(0.5,0.5,0.5)
     love.graphics.present()
@@ -20,6 +22,8 @@ function love.load()
     --love.graphics.captureScreenshot("Welcome ".. os.time() .. ".png")
 
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
+
+    MYFPSCAPPER9001 = love.timer.getTime()
 end
 
 local DeltaTime
@@ -29,10 +33,19 @@ function love.draw()
     Shared.Render()
 
     love.graphics.setFont(DebugFont)
-    love.graphics.print(tostring(math.round(1/DeltaTime)).." FPS", 0, love.graphics:getHeight()-12)
+    love.graphics.print(tostring(math.round(1/DeltaTime)).." FPS", love.graphics:getWidth()-50, 0)
+
+    local MYFPSINATOR = love.timer.getTime()
+    if MYFPSCAPPER9001 <= MYFPSINATOR then
+        MYFPSCAPPER9001 = MYFPSINATOR
+        return
+    end
+    love.timer.sleep(MYFPSCAPPER9001 - MYFPSINATOR)
 end
 
 function love.update(dt)
+    MYFPSCAPPER9001 = MYFPSCAPPER9001 + 1/60
+
     Shared.Update(dt)
     
     DeltaTime = dt

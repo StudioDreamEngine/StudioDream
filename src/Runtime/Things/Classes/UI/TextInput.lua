@@ -22,8 +22,7 @@ function TextInput:new()
     self.FocusStart = Signal:New("TextInputFocus_Start")
     self.Typed = Signal:New("TextInput_Typed")
     
-    self.KeyEvent = InputService.KeyEvent:Connect(function(Key, IsDown)
-        print(Key)
+    self.KeyEvent = InputService.KeyEvent:Connect(function(IsDown, Key)
         if (IsDown) then
             if (self.InputActive) then
                 if (Key == Enum.InputCode.Enter) then
@@ -66,7 +65,7 @@ end
 
 
 function TextInput:OnRemove()
-    self.BackspaceEvent:Disconnect()
+    self.KeyEvent:Disconnect()
     TextInput.super.OnRemove(self)
 end
 
