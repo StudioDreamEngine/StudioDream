@@ -23,7 +23,7 @@ function TextInput:new()
     self.Typed = Signal:New("TextInput_Typed")
     
     self.KeyEvent = InputService.KeyEvent:Connect(function(Key, IsDown)
-        print(Key, IsDown)
+        print(Key)
         if (IsDown) then
             if (self.InputActive) then
                 if (Key == Enum.InputCode.Enter) then
