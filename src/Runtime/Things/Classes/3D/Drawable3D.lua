@@ -22,7 +22,7 @@ end
 function Drawable3D:DefineAPI()
     Drawable3D.super.DefineAPI(self)
 
-    self.Proxy.Property("Vector3 Scale", "boolean Outline")
+    self.Proxy.Property("Vector3 Scale")--, "boolean Outline")
     self.Proxy.Group("Transform", "Scale")
     self.Proxy.Group("Visuals")
 end

@@ -34,7 +34,7 @@ function BaseGui:GetAbsolutePosition()
     return Position
 end
 
-function BaseGui:GetRect()
+function BaseGui:GetChildRect()
     return self:GetProperty("ChildRect")
 end
 
@@ -101,7 +101,7 @@ function BaseGui:GetParentRect(SameDisplay)
             return
         end
 
-        return ParentElement:GetRect()
+        return ParentElement:GetChildRect()
     end
 end
 

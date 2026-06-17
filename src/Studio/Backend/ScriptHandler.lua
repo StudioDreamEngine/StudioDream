@@ -16,8 +16,8 @@ function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
     end
 
     if InvalidFileType then
-        Studio.Components.SimpleDialog("EditorPath was invalid, try opening the script again and re-configuring your editor.")
-        return
+        Studio.Components.SimpleDialog("EditorPath was invalid! Press ok to assign a new editor.")
+        return ScriptHandler.ConfigureAndValidateEditor()
     end
 
     Studio.SettingsManager.ChangeSetting("CodeEditor", EditorPath.FilePath)
