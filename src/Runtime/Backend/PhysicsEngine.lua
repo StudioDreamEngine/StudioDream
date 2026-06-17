@@ -47,10 +47,16 @@ end
 
 -- dream to bullet
 function PhysicsEngine.ToBullet(DreamTransform)
+    local Matrix = DreamTransform.GetMatrix()
+
     local Transform = Bullet.btTransform()
-    --Transform:setFromOpenGLMatrix(DreamTransform.GetMatrix())
-    Transform:setIdentity()
-    Transform:setOrigin(DreamTransform.Position.ToBullet())
+    Transform:setFromOpenGLMatrix({
+        Matrix[1], Matrix[5], Matrix[9], Matrix[13],
+		Matrix[2], Matrix[6], Matrix[10], Matrix[14],
+		Matrix[3], Matrix[7], Matrix[11], Matrix[15],
+		Matrix[4], Matrix[8], Matrix[12], Matrix[16],
+    })
+
     return Transform
 end
 
@@ -61,6 +67,11 @@ function PhysicsEngine.FromBullet(BulletTransform)
     local Transform = Transform3D.FromPosition(Origin:x(), Origin:y(), Origin:z())
 
     local Rotation = BulletTransform:getRotation()
+
+    ---@class DreamQuat
+    local Quat = Dream.quat.new(Rotation:x(),Rotation:y(),Rotation:z(),Rotation:w())
+
+    Transform = Transform * Transform3D.FromMatrix(Quat:toMatrix())
 
     return Transform
 end

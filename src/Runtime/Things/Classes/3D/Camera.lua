@@ -18,6 +18,7 @@ function Camera:DefineAPI()
     self.Proxy.Icon("Camera")
 
     self.Proxy.Property("number FieldOfView")
+    self.Proxy.MakeCreatable()
 end
 
 -- From https://stackoverflow.com/a/23976134

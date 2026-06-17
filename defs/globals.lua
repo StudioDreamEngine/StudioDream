@@ -7,6 +7,11 @@ root = {} ---@class Root
 ---@param Service string
 function service(Service) end
 
+---@return number
+function time()
+    
+end
+
 ---@param Object RequirableScript
 ---@return table
 function require(Object) end

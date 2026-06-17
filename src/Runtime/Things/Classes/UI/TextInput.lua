@@ -22,16 +22,22 @@ function TextInput:new()
     self.FocusStart = Signal:New("TextInputFocus_Start")
     self.Typed = Signal:New("TextInput_Typed")
     
-    self.BackspaceEvent = InputService.KeyEvent:Connect(function(IsDown)
-        if IsDown then
-            if self.InputActive then
-                self:SetText(string.sub(self.Text, 0, -2))
-                self.BackspaceDown = GlobalTick
+    self.KeyEvent = InputService.KeyEvent:Connect(function(IsDown, Key)
+        if (IsDown) then
+            if (self.InputActive) then
+                if (Key == Enum.InputCode.Enter) then
+                    love.keyboard.setTextInput(false)
+                    self.FocusEnd.Invoke()
+                elseif (Key == Enum.InputCode.Backspace) then
+                    self:SetText(string.sub(self.Text, 0, -2))
+                    self.Typed.Invoke(self.Text)
+                    self.BackspaceDown = GlobalTick
+                end
             end
-        else
+        elseif (Key == Enum.InputCode.Backspace) then
             self.BackspaceDown = nil
         end
-    end, Enum.InputCode.Backspace)
+    end)
 
     self.InputEvent = LoveEvents.TextInput:Connect(function(Key)
         if (not self.InputActive or not self:IsVisible()) then return end
@@ -60,7 +66,7 @@ end
 
 
 function TextInput:OnRemove()
-    self.BackspaceEvent:Disconnect()
+    self.KeyEvent:Disconnect()
     TextInput.super.OnRemove(self)
 end
 
@@ -82,7 +88,7 @@ function TextInput:Update(dt)
     local DisplayUI = self:GetDisplayUI()
     if (not DisplayUI) then return end
 
-    self.Hovering = Utils.IntersectPoint2D(self:GetRect(), DisplayUI.MousePosition)
+    self.Hovering = Utils.IntersectPoint2D(self:GetChildRect(), DisplayUI.MousePosition)
     --[[print("-------")
     print(self.Hovering,self.UUID)
     print(self.InputActive)

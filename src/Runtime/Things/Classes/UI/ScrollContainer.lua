@@ -14,6 +14,8 @@ function ScrollContainer:new()
     self.Hovering = false
 
     self.WheelMoved = LoveEvents.WheelMoved:Connect(function(_, y)
+        if (not self.Hovering) then return end
+
         self.ScrollTarget = self.ScrollTarget + y*40
     end)
 
@@ -32,18 +34,14 @@ end
 function ScrollContainer:Update(dt)
     ScrollContainer.super.Update(self, dt)
 
-    --if self.Hovering then
-        self.ScrollPosition = math.lerp(self.ScrollPosition, self.ScrollTarget, .4)
-    --end
+    self.ScrollPosition = math.lerp(self.ScrollPosition, self.ScrollTarget, .4)
+
     local MaxScroll = self:GetCanvasSize().Y
 
-    local ObjectRect = self:GetRect()
-    local DisplayUI = self:GetDisplayUI()
+    local ObjectRect = Rect.new(Vector2.zero, self.AbsoluteSize)
 
-    if (not DisplayUI) then return end
+    self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, self.MousePosition)
 
-    --self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
-    --print(self.Hovering)
     -- Elastic scroll bounding, because why not
     if self.ScrollTarget > 0 then
         self.ScrollTarget = self.ScrollTarget + (0 - self.ScrollTarget)*dt*12
@@ -51,7 +49,10 @@ function ScrollContainer:Update(dt)
         self.ScrollTarget = self.ScrollTarget + (-MaxScroll - self.ScrollTarget)*dt*12
     end
 
-    self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), self.AbsoluteSize))
+    -- Temporary optimization
+    if self.TruelyVisible then
+        self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), self.AbsoluteSize))
+    end
 end
 
 return ScrollContainer

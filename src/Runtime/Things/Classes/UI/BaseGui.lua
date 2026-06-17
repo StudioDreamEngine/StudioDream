@@ -34,7 +34,7 @@ function BaseGui:GetAbsolutePosition()
     return Position
 end
 
-function BaseGui:GetRect()
+function BaseGui:GetChildRect()
     return self:GetProperty("ChildRect")
 end
 
@@ -101,7 +101,7 @@ function BaseGui:GetParentRect(SameDisplay)
             return
         end
 
-        return ParentElement:GetRect()
+        return ParentElement:GetChildRect()
     end
 end
 
@@ -202,6 +202,7 @@ function BaseGui:SetMouseLocked(NewLocked)
 
     print(NewLocked)
     self.MouseLocked = NewLocked
+    self:InvalidateRendering()
 end
 
 function BaseGui:DrawStyle()
@@ -267,6 +268,8 @@ end
 
 -- Process the invalidation for an object
 function BaseGui:ProcessInvalidation(Origin)
+    --print("Invalidating from "..Origin.Name)
+
     self:ProcessInvalidations()
 
     self.EverInvalidated = true
@@ -317,7 +320,7 @@ function BaseGui:SetAbsoluteSize(NewSize)
 end
 
 function BaseGui:Invalidate(dt)
-    if self.WasInvalidated then
+    if self.WasInvalidated or self.MouseLocked then
         self:ProcessInvalidation(self)
         self:InvalidateAutomaticSize()
     end

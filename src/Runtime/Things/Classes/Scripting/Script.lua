@@ -14,8 +14,6 @@ end
 
 function Script:OnRemove()
     Script.super.OnRemove(self)
-
-    Runtime.ScriptManager.Unregister(self)
 end
 
 function Script:DefineAPI()
@@ -26,7 +24,7 @@ function Script:DefineAPI()
 end
 
 function Script:AttemptLoad()
-    Runtime.ScriptManager.RequestLoad(self)
+    ScriptUtil.RequestLoad(self)
 end
 
 function Script:SetEnabled(Enabled)

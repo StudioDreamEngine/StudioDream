@@ -40,7 +40,7 @@ function ImageButton:Update(dt)
     local DisplayUI = self:GetDisplayUI()
     if (not DisplayUI) then return end
 
-    local ObjectRect = self:GetRect()
+    local ObjectRect = self:GetChildRect()
 
     self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
 

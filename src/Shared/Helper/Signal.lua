@@ -109,7 +109,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 				-- When the table is packed, it ignores any nil args, so for unpacking to
 				-- work we have to nil any indexes that arent nil.
 				for i = 1,Args.n do 
-					if (not Args[i]) then 
+					if (not Args[i]) and (type(Args[i]) ~= "boolean") then 
 						Args[i] = nil 
 					end 
 				end

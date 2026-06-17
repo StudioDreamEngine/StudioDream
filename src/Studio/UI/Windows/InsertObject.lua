@@ -28,8 +28,11 @@ function InsertObject.Init()
         OutlineSize = 2,
     }
 
+    InsertObject.SearchText = ""
+
     InsertObject.SearchBar.Typed:Connect(function(NewText)
-        
+        InsertObject.SearchText = NewText
+        InsertObject.UpdateList()
     end)
 
     for ClassName, Class in pairs(Runtime.Things.API) do
@@ -69,6 +72,14 @@ function InsertObject.Init()
         Parent = InsertObject.ScrollContainer,
         Alignment = Enum.Alignment.TopRight
     }
+end
+
+function InsertObject.UpdateList()
+    for i, v in pairs(InsertObject.ScrollContainer:GetChildren()) do
+        if (v:IsA("TextButton")) then
+            v.Visible = InsertObject.SearchText=='' and true or string.find(v.Name:lower(), InsertObject.SearchText:lower())
+        end
+    end
 end
 
 function InsertObject.Update(dt)
