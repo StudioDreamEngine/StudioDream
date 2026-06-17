@@ -90,6 +90,7 @@ function Explorer.CreateTree(Object, Depth)
 end
 
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
+local Editor3D = Studio.Editor3D
 local Selecting
 local Hovering
 
@@ -149,6 +150,15 @@ function Explorer.Init()
             HandleDragEnd()
         end
     end, Enum.MouseButton.LeftClick)
+    
+    InputService.KeyEvent:Connect(function(Began, Key)
+        print("[Explorer]", Key)
+        if (Key == "delete" and Editor3D.Selecting) then
+            local toDelete = Editor3D.Selecting
+            Editor3D.SelectionManager.DeselectObject()
+            toDelete:Destroy()
+        end
+    end)
 
 end
 
