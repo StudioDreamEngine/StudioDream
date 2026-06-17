@@ -267,6 +267,8 @@ end
 
 -- Process the invalidation for an object
 function BaseGui:ProcessInvalidation(Origin)
+    --print("Invalidating from "..Origin.Name)
+
     self:ProcessInvalidations()
 
     self.EverInvalidated = true
@@ -317,7 +319,7 @@ function BaseGui:SetAbsoluteSize(NewSize)
 end
 
 function BaseGui:Invalidate(dt)
-    if self.WasInvalidated then
+    if self.WasInvalidated or self.MouseLocked then
         self:ProcessInvalidation(self)
         self:InvalidateAutomaticSize()
     end

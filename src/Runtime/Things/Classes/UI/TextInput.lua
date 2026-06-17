@@ -66,7 +66,7 @@ end
 
 
 function TextInput:OnRemove()
-    self.BackspaceEvent:Disconnect()
+    self.KeyEvent:Disconnect()
     TextInput.super.OnRemove(self)
 end
 

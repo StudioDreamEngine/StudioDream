@@ -300,7 +300,6 @@ function Thing:ClearAllChildren(NameFilter)
     end 
 end
 
-function Thing:PreInvalidate() end
 function Thing:Invalidate() end
 function Thing:Update() end
 

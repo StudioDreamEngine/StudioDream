@@ -48,8 +48,8 @@ function ListLayout:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function ListLayout:PreInvalidate()
-    ListLayout.super.PreInvalidate(self)
+function ListLayout:Invalidate()
+    ListLayout.super.Invalidate(self)
 
     if self.ShouldUpdate then
         self:UpdateLayout()

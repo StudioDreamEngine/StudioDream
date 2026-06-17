@@ -175,7 +175,6 @@ function Things.UpdatePass(Name, dt)
 end
 
 function Things.Update(dt)
-    Things.UpdatePass("PreInvalidate", dt)
     Things.UpdatePass("Invalidate", dt)
     Things.UpdatePass("Update", dt)
 end
