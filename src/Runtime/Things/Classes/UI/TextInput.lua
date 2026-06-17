@@ -30,6 +30,7 @@ function TextInput:new()
                     self.FocusEnd.Invoke()
                 elseif (Key == Enum.InputCode.Backspace) then
                     self:SetText(string.sub(self.Text, 0, -2))
+                    self.Typed.Invoke(self.Text)
                     self.BackspaceDown = GlobalTick
                 end
             end

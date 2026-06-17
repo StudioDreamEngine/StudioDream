@@ -156,6 +156,7 @@ function Explorer.Init()
             local toDelete = Editor3D.Selecting
             Editor3D.SelectionManager.DeselectObject()
             toDelete:Destroy()
+            Explorer.Redraw()
         end
     end)
 
