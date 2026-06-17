@@ -202,6 +202,7 @@ function BaseGui:SetMouseLocked(NewLocked)
 
     print(NewLocked)
     self.MouseLocked = NewLocked
+    self:InvalidateRendering()
 end
 
 function BaseGui:DrawStyle()
