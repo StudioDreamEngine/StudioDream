@@ -28,7 +28,7 @@ end
 function ScriptHandler.HandleOpenScript(ScriptObject)
     -- Create new resource for object if none is found
     if (not ScriptObject.Resource) then
-        local Identifier, _ = Runtime.Resources.LoadIdentifier(ScriptObject.Name, "lua")
+        local Identifier, _ = Runtime.Resources.LoadOrCreateIdentifier(ScriptObject.Name, "lua")
         ScriptObject:SetResource(Identifier)
     end
 

@@ -13,7 +13,8 @@ function Resources.Init()
     end)
 end
 
-function Resources.LoadIdentifier(FilePath, FileType)
+-- Given a file path, 
+function Resources.LoadOrCreateIdentifier(FilePath, FileType)
     local BackendFS = Runtime.BackendFS
 
     local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
@@ -37,15 +38,16 @@ function Resources.LoadIdentifier(FilePath, FileType)
     return Identifier, HasIdentifier
 end
 
+-- Configure (Register) an Identifier to be Associated with a File Path
 function Resources.RegisterIdentifier(Identifier, FilePath) Identifiers[Identifier] = Path.new(FilePath, Identifier) end
 
-function Resources.RegisterMissing(FilePath)
+-- Register an identifier as missing, used during project load
+function Resources.RegisterAsMissing(FilePath)
     print(FilePath.Identifier.." is missing! old path: "..FilePath.FilePath)
-
     table.insert(Resources.Missing, FilePath)
 end
 
--- sorta hack for studio assets
+-- Get an internal path for a studio asset
 function Resources.GetStudioPath(IdentifierID)
     local PathSplit = string.split(IdentifierID, "/")
 
@@ -58,7 +60,7 @@ function Resources.GetStudioPath(IdentifierID)
     end
 end
 
--- Get the identifier, which holds the file path itself, 
+-- Get an identifier from an IdentifierID
 function Resources.GetIdentifier(IdentifierID) 
     local ReturnIdentifier = Resources.GetStudioPath(IdentifierID) or Identifiers[IdentifierID]
     assert(ReturnIdentifier, IdentifierID.." Doesnt exist!")
@@ -88,7 +90,7 @@ end
 
 Resources.ClearIdentifier()
 
--- Takes an Identifier object or ID and returns the Resource, alongside its Identifier
+-- Get a resource from an IdentifierID or Identifier
 function Resources.LoadFromIdentifier(Identifier, Object)
     if Utils.TypeOf(Identifier) == "string" then
         printVerbose("Calling LoadFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
@@ -103,6 +105,7 @@ function Resources.LoadFromIdentifier(Identifier, Object)
     return Resources.GetResource(Identifier), Identifier
 end
 
+-- Internal function to Load a resource itself, called once per resource
 function Resources.LoadResource(FilePath)
     local Format = FormatLookup[FilePath.FileType]
 
@@ -120,6 +123,7 @@ function Resources.LoadResource(FilePath)
     LoadedResources[FilePath.Identifier] = Resource
 end
 
+-- Get a resource from an Identifier
 function Resources.GetResource(Identifier)
     if not LoadedResources[Identifier.Identifier] then
         Resources.LoadResource(Identifier)
