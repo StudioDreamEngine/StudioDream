@@ -39,6 +39,14 @@ function Utils.DebrisThing(Obj,Timer)
     end)
 end
 
+function Utils.CountTable(Table)
+    local index = 0
+    for i,v in pairs(Table) do
+        index=index+1
+    end
+    return index
+end
+
 function Utils.SendNotification(Message,Type)
     --if Type ~= "Warn" or Type ~= "Info" or Type ~= "Error" then return end
 

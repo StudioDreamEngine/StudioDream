@@ -22,6 +22,12 @@ function ScrollContainer:new()
     self:BindConstraint("Scroll", "ChildRect")
 end
 
+function ScrollContainer:DefineAPI()
+    ScrollContainer.super.DefineAPI(self)
+
+    self.Proxy.MakeCreatable()
+end
+
 function ScrollContainer:OnRemove()
     ScrollContainer.super.OnRemove(self)
 end

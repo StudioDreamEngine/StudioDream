@@ -1,6 +1,12 @@
 local Things = Runtime.Things
 local Components = Studio.Components
 local OpendDropdown = nil
+local CurrentButtonPressed = nil
+Runtime.InterfaceManager.OnClick:Connect(function()
+    if CurrentButtonPressed and not CurrentButtonPressed.Hovering then
+        OpendDropdown.Toggle(false)
+    end
+end)
 
 return function(Args)
     local ButtonContainer = Things.Create("TextButton") {
@@ -15,7 +21,7 @@ return function(Args)
         local Dropdown = Components.AdvancedDropdown(Args.Dropdown)
 
         ButtonContainer.Clicked:Connect(function()
-            if OpendDropdown then
+            if OpendDropdown and OpendDropdown ~= Dropdown then
                 OpendDropdown.Toggle(false)
             end
             print("hello")
@@ -23,6 +29,7 @@ return function(Args)
             Dropdown.Toggle(not Dropdown.Visible)
             if Dropdown.Visible then
                 OpendDropdown = Dropdown
+                CurrentButtonPressed = ButtonContainer
             end
         end)
     end
