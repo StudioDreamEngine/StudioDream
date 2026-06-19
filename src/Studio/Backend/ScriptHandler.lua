@@ -12,6 +12,8 @@ function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
 
     if type(EditorPath) == "string" then
         EditorPath = Path.new(EditorPath)
+        print(EditorPath)
+
         InvalidFileType = EditorPath.FileType and (not table.find(AllowedExecutableTypes, EditorPath.FileType))
     end
 
@@ -28,7 +30,7 @@ end
 function ScriptHandler.HandleOpenScript(ScriptObject)
     -- Create new resource for object if none is found
     if (not ScriptObject.Resource) then
-        local Identifier, _ = Runtime.Resources.LoadOrCreateIdentifier(ScriptObject.Name, "lua")
+        local Identifier, _ = Runtime.Resources.LoadOrCreateIdentifier(ScriptObject.Name..".lua")
         ScriptObject:SetResource(Identifier)
     end
 

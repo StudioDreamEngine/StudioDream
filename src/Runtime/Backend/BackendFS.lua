@@ -38,6 +38,10 @@ function BackendFS.ReadFile(Path)
     return FileData
 end
 
+function BackendFS.GetMount()
+    return Mount
+end
+
 function BackendFS.MountProject(Project)--, MountZip)
     Mount = Project.."/"    
 end
