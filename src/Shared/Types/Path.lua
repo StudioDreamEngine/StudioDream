@@ -9,7 +9,7 @@ function Path.new(FilePath, Identifier)
     
     PathObject.Type = "Path"
 
-    PathObject.FileType = SplitType[2]
+    PathObject.FileType = (#SplitType > 1) and SplitType[#SplitType] or nil
     PathObject.FileName = SplitPath[#SplitPath]
     PathObject.FilePath = FilePath
 

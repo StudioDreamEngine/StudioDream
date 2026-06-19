@@ -14,14 +14,14 @@ function Resources.Init()
 end
 
 -- Given a file path, register an identifier, or create the file and register the identifier for it
-function Resources.LoadOrCreateIdentifier(FilePath, FileType)
+function Resources.LoadOrCreateIdentifier(FilePath)
     local BackendFS = Runtime.BackendFS
 
     local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
-    local HasFile = BackendFS.FileExists(FilePath.."."..FileType)
+    local HasFile = BackendFS.FileExists(FilePath)
 
     if (not HasFile) then
-        Runtime.BackendFS.WriteFile(FilePath.."."..FileType, "")
+        Runtime.BackendFS.WriteFile(FilePath, "")
     end
     
     local Identifier
@@ -33,7 +33,7 @@ function Resources.LoadOrCreateIdentifier(FilePath, FileType)
         Identifier = BackendFS.ReadFile(FilePath..".uid")
     end
 
-    Resources.RegisterIdentifier(Identifier, FilePath.."."..FileType)
+    Resources.RegisterIdentifier(Identifier, FilePath)
 
     return Identifier, HasIdentifier
 end
@@ -41,13 +41,13 @@ end
 -- Configure (Register) an Identifier to be Associated with a File Path
 function Resources.RegisterIdentifier(Identifier, FilePath) Identifiers[Identifier] = Path.new(FilePath, Identifier) end
 
--- Register an identifier as missing, used during project load
+-- Register an IdentifierID as missing its identifier counterpart, used during project load
 function Resources.RegisterAsMissing(FilePath)
     print(FilePath.Identifier.." is missing! old path: "..FilePath.FilePath)
     table.insert(Resources.Missing, FilePath)
 end
 
--- Get an internal path for a studio asset
+-- Get an internal path for a studio asset, only used for studio.
 function Resources.GetStudioPath(IdentifierID)
     local PathSplit = string.split(IdentifierID, "/")
 
@@ -78,6 +78,7 @@ function Resources.ReloadResources()
     print("Reloading resources")
 
     -- It'd be nice if we could know WHICH were changed without checking them all but whatever
+    -- TODO: Also reload 
     for Object, Identifier in pairs(ObjectReferences) do
         LoadedResources[Identifier.Identifier] = nil
 

@@ -9,13 +9,13 @@ local function RecurseProject(Path)
         local FilePath = Path..string.split(v, "%.")[1]
 
         if not table.find(BlacklistedTypes, FileType) then
-            Resources.HandleIdentifier(FilePath, FileType)
+            Resources.HandleIdentifier(FilePath.."."..FileType)
         end
     end
 end
 
-function Resources.HandleIdentifier(FilePath, FileType)
-    local _, HasIdentifier = Runtime.Resources.LoadOrCreateIdentifier(FilePath, FileType)
+function Resources.HandleIdentifier(FilePath)
+    local _, HasIdentifier = Runtime.Resources.LoadOrCreateIdentifier(FilePath)
 
     if HasIdentifier and HasIdentifier.type == "directory" then
         print(FilePath)
