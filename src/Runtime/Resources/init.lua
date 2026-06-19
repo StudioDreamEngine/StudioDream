@@ -19,7 +19,7 @@ function Resources.LoadOrCreateIdentifier(FilePath, FileType)
 
     local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
     local HasFile = BackendFS.FileExists(FilePath.."."..FileType)
-
+    print(FilePath)
     if (not HasFile) then
         Runtime.BackendFS.WriteFile(FilePath.."."..FileType, "")
     end

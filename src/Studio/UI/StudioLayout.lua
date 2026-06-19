@@ -159,6 +159,11 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.75,.9),
     })
 
+    --[[StudioLayout.CreateWindow("Trollo",{
+        Size = Pivot2D.FromScale(0.25,.5),
+        TopLevel = true
+    })]]
+
     StudioLayout.CreateWindow("InsertObject", {
         Size = Pivot2D.FromScale(0.25,.25),
         Position = Pivot2D.FromScale(.5,1),

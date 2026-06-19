@@ -5,8 +5,9 @@ local LineUp = {
         ["pause"] = Vector2.new(0,0),
     }
 
+Template.CustomName = "Preview Sound"
+
 function Template.Start(FrameOption,Thing,Property,BaseProperty) -- Scrapped for now
-    BaseProperty:GetChild("PropertyName"):SetText("Preview Sound")
    -- BaseProperty:GetChild("PropertyName")
     local button = Runtime.Things.Create("ImageButton") {
         Size = Pivot2D.FromScale(1,1),
