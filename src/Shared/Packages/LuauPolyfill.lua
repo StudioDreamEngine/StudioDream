@@ -252,8 +252,7 @@ do
 	end
 
 	function math.seed()
-		local Mouse = math.abs(love.mouse.getX() + love.mouse.getY())
-		local Seed = Mouse + math.floor(os.clock()*1000000)
+		local Seed = math.floor(os.time() + os.clock() * 1000000000)
 		return Seed
 	end
 end
@@ -273,10 +272,12 @@ do
 end
 
 -- UUID --
+local Seed = math.seed()
+math.randomseed(Seed)
+
+print("UUID Seed: "..Seed)
 function _G.CreateUUID()
 	local UUID = ""
-
-	math.randomseed(math.seed())
 
 	for i = 1,4 do
 		for _ = 1,4 do
