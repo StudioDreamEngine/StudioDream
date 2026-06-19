@@ -250,6 +250,12 @@ do
 	function math.clamp(a, min, max)
 		return math.max(math.min(a, max), min)
 	end
+
+	function math.seed()
+		local Mouse = math.abs(love.mouse.getX() + love.mouse.getY())
+		local Seed = Mouse + math.floor(os.clock()*1000000)
+		return Seed
+	end
 end
 
 -- Task? General functions for easy acess
@@ -267,9 +273,10 @@ do
 end
 
 -- UUID --
-math.randomseed(os.clock())
 function _G.CreateUUID()
 	local UUID = ""
+
+	math.randomseed(math.seed())
 
 	for i = 1,4 do
 		for _ = 1,4 do

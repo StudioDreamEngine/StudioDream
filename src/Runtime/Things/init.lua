@@ -140,6 +140,8 @@ function Things.New(ThingType, CustomUUID)
         end
     })
 
+    assert(not Objects[Proxy.UUID], "UUID Collision, This isnt good!!")
+
     Objects[Proxy.UUID] = Proxy
 
     return Proxy

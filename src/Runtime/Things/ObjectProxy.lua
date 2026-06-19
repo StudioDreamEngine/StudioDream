@@ -11,6 +11,8 @@ return { new = function()
     ObjectProxy.Serializable = {}
     ObjectProxy.Accessible = {}
 
+    ObjectProxy.Attributes = {}
+
     ObjectProxy.Types = {}
     ObjectProxy.Groups = {}
 
@@ -46,6 +48,14 @@ return { new = function()
     function ObjectProxy.Property(...)
         ObjectProxy.PropertyAccess(...)
         ObjectProxy.PropertySerialize(...)
+    end
+
+    function ObjectProxy.Attribute(Property, Attribute)
+        if (not ObjectProxy.Attributes[Property]) then
+           ObjectProxy.Attributes[Property] = {} 
+        end
+
+        ObjectProxy.Attributes[Property][Attribute] = true
     end
 
     function ObjectProxy.MakeCreatable()
