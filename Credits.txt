@@ -10,5 +10,5 @@ Packages:
     3dreamengine/3DreamEngine (Github), Licensed under MIT
 
 Code Snippets:
-    Luawiz for improved object creation
+    Luawiz for improved object (Thing) creation
     Emk530 for utf8sub

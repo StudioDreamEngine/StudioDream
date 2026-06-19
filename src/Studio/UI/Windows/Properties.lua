@@ -10,6 +10,8 @@ local LineUp_Button = {
 
 local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
     local PropertyBased = {}
+    
+    Type = Thing.Proxy.Attributes[PropertyTxt] and Thing.Proxy.Attributes[PropertyTxt] or Type
 
     local BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,20,0),
