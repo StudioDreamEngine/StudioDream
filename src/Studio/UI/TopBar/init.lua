@@ -42,11 +42,13 @@ function TopBar.CreateTab(TabName, Tab)
     }
 
     for Order, Item in pairs(Tab) do
-        local Component = Item.Component
-        local Tool = TopBar.GetTool(Component)(Item.Arguments)
+        if type(Item) == "table" then
+            local Component = Item.Component
+            local Tool = TopBar.GetTool(Component)(Item.Arguments)
 
-        Tool.ListOrder = Order
-        Tool:SetParent(SingleTab)
+            Tool.ListOrder = Order
+            Tool:SetParent(SingleTab)
+        end
     end
 
     Tabs[TabName] = SingleTab
@@ -72,12 +74,16 @@ function TopBar.Init()
         BackgroundTransparency = 1,
         Parent = TopBar.Container
     })
-
-    for TabName, Tab in pairs(TabsList) do
-        TopBar.CreateTab(TabName, Tab)
+    
+    for i = 1, Utils.CountTable(TabsList) do
+        for TabName, Tab in pairs(TabsList) do
+            if Tab.Order == i then
+                TopBar.CreateTab(TabName, Tab)
+            end
+        end
     end
-    for _, Tab in pairs(Tabs) do
-        Tab:SetVisible(false)
+    for i, Tab in pairs(Tabs) do
+        if i ~= "General" then Tab:SetVisible(false) end
     end
 end
 

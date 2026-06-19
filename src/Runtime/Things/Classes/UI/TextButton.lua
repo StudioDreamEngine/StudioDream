@@ -17,7 +17,6 @@ function TextButton:new()
     self.SinkHovering = false -- If true, blocks hovering from being true on objects lower than its layer
 
     self.Clicked = Signal:New("ButtonClicked")
-    
     self.ChangeCursorWhileHovering = true
 
     Runtime.InterfaceManager.OnClick:Connect(function()

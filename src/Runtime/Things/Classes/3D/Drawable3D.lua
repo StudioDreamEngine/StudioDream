@@ -17,14 +17,17 @@ function Drawable3D:new()
     self.PhysicsShape = nil
 
     self.Scale = Vector3.new(1, 1, 1)
+
+    self.Material = nil
 end
 
 function Drawable3D:DefineAPI()
     Drawable3D.super.DefineAPI(self)
 
     self.Proxy.Property("Vector3 Scale")--, "boolean Outline")
+    self.Proxy.Property("Thing Material")
     self.Proxy.Group("Transform", "Scale")
-    self.Proxy.Group("Visuals")
+    self.Proxy.Group("Visuals", "Material")
 end
 
 function Drawable3D:SetOutline(Toggle)
@@ -33,6 +36,11 @@ end
 
 function Drawable3D:GetPhysicsTransform()
     return self.PhysicsBody:getWorldTransform()
+end
+
+function Drawable3D:DefineMaterial(Material)
+    self.Material = Material
+    self.Drawable:setMaterial(Material.DreamMaterial)
 end
 
 function Drawable3D:SetTransform(NewTransform)

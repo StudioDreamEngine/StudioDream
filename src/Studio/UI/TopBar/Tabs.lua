@@ -4,6 +4,7 @@ local Locks = {
 
 return {
     Hud = {
+        Order = 2,
         {
             Component = "ToolbarButton",
             Arguments = {
@@ -16,6 +17,7 @@ return {
         },
     },
     Plugins = {
+        Order = 3,
         {
             Component = "ToolbarButton",
             Arguments = {
@@ -28,6 +30,7 @@ return {
         },
     },
     General = {
+        Order = 1,
         { -- Tools
             Component = "ToolbarButton",
             Arguments = {

@@ -51,10 +51,7 @@ function Notify.Init()
         Alignment = Vector2.new(0,1),
         Padding = 5
     } 
-    print("hi")
-    Notify.Notify("hi","Info")
-    Notify.Notify("hi","Warn")
-    Notify.Notify("hi","Error")
+    Notify.Notify("Studio Loaded.","Info")
 end
 
 return Notify

@@ -135,6 +135,14 @@ function Thing:RemoveAttribute(Name)
     self.Attributes[Name] = nil
 end
 
+function Thing:GetChild(Name) -- THIS IS FOR INTERNAL!!
+    for i,v in pairs(self.Children) do
+        if v.Name == Name then
+            return self.Children[i]
+        end
+    end
+end
+
 -- Get the property or the override for it
 -- If you dont want the overriden property, dont use this
 function Thing:GetProperty(Property)

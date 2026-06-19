@@ -21,10 +21,21 @@ function Thingy.Start(FrameOption,Thing,Property)
             Runtime.Cursor.ChangeCursor("HoldingObj")
 
             SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
-                Runtime.Things.SetProperty(Thing, Property, NewThing)
-                Button:SetText(Thing[Property].Name)
+                if Property == "Material" then 
+                    if NewThing.ClassName == "Material" then 
+                        Runtime.Things.SetProperty(Thing, Property, NewThing)
+                        Button:SetText(Thing[Property].Name)
                 
-                Studio.Layout.CallHandle("Explorer", "Redraw")
+                        Studio.Layout.CallHandle("Explorer", "Redraw")
+                    else
+                        Utils.SendNotification("Picked thing ins't a Material","error")
+                    end
+                else
+                    Runtime.Things.SetProperty(Thing, Property, NewThing)
+                    Button:SetText(Thing[Property].Name)
+                
+                    Studio.Layout.CallHandle("Explorer", "Redraw")
+                end
             end)
         else
             SelectionManager.ObjectPicker = false

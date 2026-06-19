@@ -9,6 +9,8 @@ local LineUp_Button = {
 }
 
 local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
+    local PropertyBased = {}
+
     local BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,20,0),
         Pivot = Vector2.new(0,0),
@@ -19,7 +21,7 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
     
-    Things.Create("Square") { 
+    PropertyBased.BaseSquare = Things.Create("Square") { 
         Size = Pivot2D.FromScale(0.95,0.05),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
@@ -29,7 +31,7 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
 
-    Things.Create("Text") {
+    PropertyBased.PropertyName = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
@@ -105,6 +107,7 @@ local function CreateGroup(GroupName,Window)
         Position = Pivot2D.FromScale(0.5,1),
         --BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Layer = 3,
+        BackgroundTransparency = 1,
         Parent = Window,
         OutlineSize = 2,
         OutlineColor = Studio.Theme.GetCurrentTheme().Outline

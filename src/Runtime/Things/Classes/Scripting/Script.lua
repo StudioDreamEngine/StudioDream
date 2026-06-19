@@ -19,8 +19,8 @@ end
 function Script:DefineAPI()
     Script.super.DefineAPI(self)
 
-    self.Proxy.Property("boolean Enabled")--, "boolean RestartOnEnable")
-    self.Proxy.Group("Script", "Enabled")--, "RestartOnEnable")
+    self.Proxy.Property("boolean Enabled","boolean RestartOnEnable")--, "boolean RestartOnEnable")
+    self.Proxy.Group("Script", "Enabled", "RestartOnEnable")--, "RestartOnEnable")
 end
 
 function Script:AttemptLoad()
