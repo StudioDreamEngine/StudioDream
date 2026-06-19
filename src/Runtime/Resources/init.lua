@@ -13,7 +13,7 @@ function Resources.Init()
     end)
 end
 
--- Given a file path, 
+-- Given a file path, register an identifier, or create the file and register the identifier for it
 function Resources.LoadOrCreateIdentifier(FilePath, FileType)
     local BackendFS = Runtime.BackendFS
 
