@@ -25,6 +25,10 @@ function Vector3.FromDream(Vector)
     return Vector3.new(Vector.x, Vector.y, Vector.z)
 end
 
+function Vector3.FromBullet(Vector)
+    return Vector3.new(Vector:x(), Vector:y(), Vector:z())
+end
+
 function Vector3.new(x,y,z,w)
     ---@class Vector3
     local Object = setmetatable({

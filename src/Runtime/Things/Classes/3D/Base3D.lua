@@ -17,7 +17,6 @@ function Base3D:DefineAPI()
     Base3D.super.DefineAPI(self)
 
     self.Proxy.Property("Transform3D Transform", "boolean Dynamic")
-    self.Proxy.Group("Physics", "Dynamic")
     self.Proxy.Group("Transform", "Transform")
 end
 
