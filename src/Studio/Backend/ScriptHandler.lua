@@ -3,12 +3,14 @@ local ScriptHandler = {}
 
 local AllowedExecutableTypes = {"exe"}
 
-function ScriptHandler.HandleEditorPicker(EditorPath)
-    if (not EditorPath) then
-        EditorPath = Platform.OpenFileDialog("Configure Editor")
-        
-        return EditorPath
+function ScriptHandler.HandleEditorPicker()
+    local ChosenPath = Platform.OpenFileDialog("Configure Editor")
+
+    if ShouldReassign then
+        ScriptHandler.HandleEditorPicker(e)
     end
+
+    return FinalPath
 end
 
 function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
@@ -23,11 +25,11 @@ function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
 
     if InvalidFileType then
         Studio.Components.SimpleDialog("EditorPath was invalid! Press ok to assign a new editor.")
-        return ScriptHandler.ConfigureAndValidateEditor()
+        return nil, true
     end
 
     Studio.SettingsManager.ChangeSetting("CodeEditor", EditorPath.FilePath)
-    return EditorPath.FilePath
+    return EditorPath.FilePath, false
 end
 
 ---@param ScriptObject BaseScript
@@ -40,9 +42,6 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
 
     -- Configure editor if needed
     local ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor")
-    ConfiguredEditor = ScriptHandler.HandleEditorPicker()
-
-    ConfiguredEditor = ScriptHandler.ConfigureAndValidateEditor(ConfiguredEditor)
 
     -- Open the script
     if ConfiguredEditor then
