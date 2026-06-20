@@ -27,13 +27,12 @@ function FilePathd.Start(FrameOption,Thing,Property)
     }
 
     MainText.Clicked:Connect(function()
-        local NewPath = Platform.OpenFileDialog("Select a resource for this thing.")
+        Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath)
+            local Identifier, _ = Resources.LoadIdentifier(NewPath)
+            if (not Identifier) then print("Couldnt find identifier, not supported yet perhaps...?") return end
 
-        if NewPath then
-            local IdentifierWow = Resources.LoadOrCreateIdentifier(NewPath,"mp3")
-
-            Thing:SetResource(IdentifierWow)
-        end
+            Thing:SetResource(Identifier)
+        end)
     end)
 end
 

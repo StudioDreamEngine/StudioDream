@@ -15,12 +15,17 @@ end
 
 -- Given a file path (relative to root directory), load any file, inside or outside the project.
 function Resources.LoadIdentifier(FilePath)
-    local Mount = Runtime.BackendFS.GetMount()
+    local Mount = NativeFS.getFullPath(Runtime.BackendFS.GetMount())
+
+    print(FilePath)
 
     if (not string.find(FilePath, Mount)) then
-        print("Identifier outside of mount point")
+        print("Identifier outside of mount point currently not supported")
     else
-        print("Identifier within mount point")
+        local RelativePath = string.gsub(FilePath, Mount, "") -- This couldnt go wrong at all
+        print(RelativePath)
+
+        return Resources.LoadOrCreateIdentifier(RelativePath)
     end
 end
 

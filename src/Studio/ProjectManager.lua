@@ -3,16 +3,16 @@ local ProjectManager = {}
 
 -- Load a project
 function ProjectManager.LoadProject()
-    local LoadPath = Platform.OpenFolderDialog("Load Project")
-
-    Runtime.Project.Load(LoadPath)
+    Platform.OpenWithCallback("Load Project", Enum.OpenDialog.Folder, Runtime.Project.Load)
 end
 
 -- Save the project to a new directory
 function ProjectManager.SaveProjectTo()
-    local SavePath = Platform.OpenFolderDialog("Save Project To")
+    Platform.OpenWithCallback("Load Project", Enum.OpenDialog.Folder, Runtime.Project.SaveTo)
+end
 
-    Runtime.Project.SaveTo(SavePath)
+function ProjectManager.SaveProject()
+    Runtime.Project.Save()
 end
 
 return ProjectManager

@@ -21,6 +21,8 @@ function Mesh:DefineAPI()
 
     self.Proxy.Property("Resource Resource")
 
+    self.Proxy.Group("Visuals", "Resource")
+
     self.Proxy.Icon("MeshPart")
     self.Proxy.MakeCreatable()
 end

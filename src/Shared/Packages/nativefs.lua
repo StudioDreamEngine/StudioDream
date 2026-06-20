@@ -23,7 +23,7 @@ SOFTWARE.
 local ffi, bit = require('ffi'), require('bit')
 local C = ffi.C
 
-local fopen, getcwd, chdir, unlink, mkdir, rmdir
+local fopen, getcwd, chdir, unlink, mkdir, rmdir, realpath
 local BUFFERMODE, MODEMAP
 local ByteArray = ffi.typeof('unsigned char[?]')
 local function _ptr(p) return p ~= nil and p or nil end -- NULL pointer to nil
@@ -380,6 +380,10 @@ function nativefs.getDirectoryItemsInfo(path, filtertype)
 	return result or {}
 end
 
+function nativefs.getFullPath(Path)
+	return realpath(Path)
+end
+
 local function getInfo(path, file, filtertype)
 	local filepath = string.format('%s/%s', path, file)
 	return love.filesystem.getInfo(filepath, filtertype)
@@ -439,6 +443,12 @@ if ffi.os == 'Windows' then
 		FILE* _wfopen(const wchar_t* path, const wchar_t* mode);
 		int _wunlink(const wchar_t* path);
 		int _wrmdir(const wchar_t* path);
+
+		wchar_t *_wfullpath(
+			wchar_t *absPath,
+			const wchar_t *relPath,
+			size_t maxLength
+		);
 	]])
 
 	BUFFERMODE = { full = 0, line = 64, none = 4 }
@@ -465,6 +475,10 @@ if ffi.os == 'Windows' then
 	unlink = function(path) return C._wunlink(towidestring(path)) == 0 end
 	mkdir = function(path) return C.CreateDirectoryW(towidestring(path), nil) ~= 0 end
 	rmdir = function(path) return C._wrmdir(towidestring(path)) == 0 end
+
+	realpath = function(path) 
+		return toutf8string(C._wfullpath(nameBuffer, towidestring(path), MAX_PATH))
+	end
 else
 	BUFFERMODE = { full = 0, line = 1, none = 2 }
 
@@ -474,6 +488,7 @@ else
 		int unlink(const char* path);
 		int mkdir(const char* path, int mode);
 		int rmdir(const char* path);
+		char *realpath(const char* path, char* resolved_path);
 	]])
 
 	local nameBuffer = ByteArray(MAX_PATH)
@@ -483,6 +498,11 @@ else
 	chdir = function(path) return ffi.C.chdir(path) == 0 end
 	mkdir = function(path) return ffi.C.mkdir(path, 0x1ed) == 0 end
 	rmdir = function(path) return ffi.C.rmdir(path) == 0 end
+	realpath = function(path) 
+		local Path = C.realpath(path, nameBuffer)
+
+		return Path and ffi.string(Path) or nil
+	end
 
 	getcwd = function()
 		local cwd = _ptr(C.getcwd(nameBuffer, MAX_PATH))

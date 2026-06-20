@@ -44,6 +44,11 @@ function Environment:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
+function Environment:SetGravity(NewGravity)
+    self.Gravity = NewGravity
+    self.PhysicsWorld:setGravity(NewGravity.ToBullet())
+end
+
 function Environment:Raycast(origin, direction)
     return Runtime.Backend3D.Raycast(origin, direction, self.DreamWorld)
 end
@@ -93,8 +98,12 @@ function Environment:Update(dt)
     local Descendants = self:ManageWorldHierachy()
 
     if self.StepPhysics then
+        Profiler.Start("Step Simulation")
+
         self.PhysicsWorld:stepSimulation(dt, 2)
         self:PostStep(Descendants)
+
+        Profiler.End()
     end
 
     if self.Camera then

@@ -194,13 +194,13 @@ function StudioLayout.CreateLayout()
         TopLevel = true
     })
 
-    StudioLayout.CreateWindow("Start", {
+    --[[StudioLayout.CreateWindow("Start", {
         Size = Pivot2D.FromScale(0.5,0.6),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 300,
         TopLevel = true
-    })
+    })]]
 
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
 end

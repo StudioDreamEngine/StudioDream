@@ -296,7 +296,7 @@ local function loadObject(node)
 			end
 		end
 	end
-	
+
 	--meshes
 	if node.mesh then
 		object.meshes = cached(loadMeshes, file.meshes[node.mesh + 1])
