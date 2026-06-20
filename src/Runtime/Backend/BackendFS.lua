@@ -11,6 +11,7 @@ end
 
 function BackendFS.WriteFile(Path, Data)
     local File = BackendFS.OpenFile(Path, "w")
+    print(File)
     File:write(Data)
     File:close()
 end

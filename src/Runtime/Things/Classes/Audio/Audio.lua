@@ -20,7 +20,7 @@ function Audio:DefineAPI()
     self.Proxy.Property("Play_Button PlayButton")
     self.Proxy.Group("Audio","Resource","PlayButton")
     self.Proxy.Icon("Audio")
-
+    self.Proxy.Attribute("PlayButton","AudioPlayer")
     self.Proxy.MakeCreatable()
 end
 

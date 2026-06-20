@@ -8,11 +8,26 @@ local LineUp_Button = {
     ["false"] = Vector2.new(0,0),
 }
 
+local function ReturnFirst(table)
+    for i,v in pairs(table) do
+        return i
+    end
+end
+
 local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
     local PropertyBased = {}
-    
-    Type = Thing.Proxy.Attributes[PropertyTxt] and Thing.Proxy.Attributes[PropertyTxt] or Type
 
+    Type = (Thing.Proxy.Attributes[PropertyTxt] and not Thing.Proxy.Attributes[PropertyTxt].DoNotRenderOtherType) and ReturnFirst(Thing.Proxy.Attributes[PropertyTxt]) or Type
+
+    if Utils.DoesFileExist("Studio/UI/Windows/PropertiesTypes/"..Type..".lua") then
+        if not RequiredPropertyTypes[Type] then
+            RequiredPropertyTypes[Type] = require("Studio/UI/Windows/PropertiesTypes/"..Type)
+        end
+        --PropertyTypes[Type](Option,Thing,PropertyTxt) -- make this update if a property was changed, aka for updating positions ect ect ✌️
+    else
+        --PropertyTypes["Not_Found"](Option,Thing,PropertyTxt)
+    end
+    
     local BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,20,0),
         Pivot = Vector2.new(0,0),
@@ -37,7 +52,7 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         Size =  Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
-        Text = PropertyTxt,
+        Text = RequiredPropertyTypes[Type].CustomName or Type,
         Name = "PropertyName",
         Parent = BaseProperty,
         BackgroundTransparency = 1,
@@ -53,14 +68,10 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         Name = "Frame",
         Parent = BaseProperty,
     }
+
     BaseProperty.ListOrder = Index
 
-    if Utils.DoesFileExist("Studio/UI/Windows/PropertiesTypes/"..Type..".lua") then
-        if not RequiredPropertyTypes[Type] then
-            RequiredPropertyTypes[Type] = require("Studio/UI/Windows/PropertiesTypes/"..Type)
-        end
-
-        RequiredPropertyTypes[Type].Start(Option,Thing,PropertyTxt,BaseProperty)
+    RequiredPropertyTypes[Type].Start(Option,Thing,PropertyTxt,BaseProperty)
 
         if RequiredPropertyTypes[Type].Update then
             RequiredPropertyTypes[Type].ToDisconnect = Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
@@ -69,11 +80,6 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
                 end
             end)
         end
-
-        --PropertyTypes[Type](Option,Thing,PropertyTxt) -- make this update if a property was changed, aka for updating positions ect ect ✌️
-    else
-        --PropertyTypes["Not_Found"](Option,Thing,PropertyTxt)
-    end
 
     return BaseProperty
 end
