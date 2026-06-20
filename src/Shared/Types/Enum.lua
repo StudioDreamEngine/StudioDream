@@ -83,6 +83,11 @@ local Enums = {
         InOut = "inOut",
         OutIn = "outIn"
     },
+    ScaleTypes = {
+        Scretch = "stretch",
+        Fit = "fit",
+        Crop = "crop",
+    },
     InputCode = {
         -- Keyboard
         RightArrow = 'right',

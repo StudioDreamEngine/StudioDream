@@ -48,11 +48,13 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
 
+    print(PropertyTxt)
+
     PropertyBased.PropertyName = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
-        Text = RequiredPropertyTypes[Type].CustomName or Type,
+        Text = RequiredPropertyTypes[Type].CustomName or (PropertyTxt or "..."),
         Name = "PropertyName",
         Parent = BaseProperty,
         BackgroundTransparency = 1,

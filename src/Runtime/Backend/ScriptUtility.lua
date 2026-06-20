@@ -54,7 +54,7 @@ function ScriptUtil.CreateGlobals(Script)
         root = Things.Root,
         service = Runtime.Services.Service,
         math = math,
-
+        pairs = pairs,
         time = function()
             return GlobalTick
         end,

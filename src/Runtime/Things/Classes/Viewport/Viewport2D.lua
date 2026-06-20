@@ -11,11 +11,13 @@ function Viewport2D:new()
 
     self.TopLayer = {}
     self.Hovering = nil
+    self.RenderFolder = nil
 end
 
 function Viewport2D:DefineAPI()
     Viewport2D.super.DefineAPI(self)
 
+    self.Proxy.Property("Thing RenderFolder")
     self.Proxy.Icon("Viewport_2D")
     self.Proxy.MakeCreatable()
 end

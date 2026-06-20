@@ -5,6 +5,18 @@ local Things = Runtime.Things
 local Image2D = Things.Extend("BaseGui")
 local DefaultIdentifier = Runtime.Resources.GetIdentifier("Internal/Icons/Studio.png")
 
+local ScaleModes = {
+        ["stretch"] = function() end,
+        ["fit"] = function(self)
+            local AbSize = self.AbsoluteSize
+            local Width, Height = self.ImageFile:getDimensions()
+            local HeightScale = AbSize.Y/Height
+            local WidthScale = AbSize.X/Width
+
+            love.graphics.scale((HeightScale/WidthScale > 1) and WidthScale or HeightScale)
+        end
+    }
+
 function Image2D:new()
     Image2D.super.new(self)
 
@@ -12,6 +24,8 @@ function Image2D:new()
     self.ImageRect = nil
     self.ImageQuad = nil
     
+    self.ScaleType = "stretch"
+
     self.ForegroundColor = Color.new(1)
 
     self:SetResource(DefaultIdentifier)
@@ -49,17 +63,36 @@ function Image2D:SetImageRect(NewRect)
     self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect, Size)
 end
 
+function Image2D:UpdateAspect()
+    local AbSize = self.AbsoluteSize
+    local HeightScale = AbSize.Y/480
+    local WidthScale = AbSize.X/640
+
+    return (HeightScale/WidthScale > 1) and WidthScale or HeightScale
+end
+
+function Image2D:HandleScaleMode()
+    ScaleModes[self.ScaleType](self)
+end
+
 function Image2D:Draw()
     if (not self.ImageQuad) then return end -- TODO: Placeholder image
 
     local _,_,w,h = self.ImageQuad:getViewport()
 
     -- Proper scaling of images
-    local ScaleX = self.AbsoluteSize.X/w
-    local ScaleY = self.AbsoluteSize.Y/h
+    local ScaleX = 0
+    local ScaleY = 0
 
+    if self.ScaleType == "stretch" then -- Make them scale in the same thing??? idk :skull:
+        ScaleX = self.AbsoluteSize.X/w
+        ScaleY = self.AbsoluteSize.Y/h
+    end
+    
     self:SetColor("Foreground")
-    love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,ScaleX,ScaleY)
+
+    self:HandleScaleMode()
+    love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,ScaleX,ScaleY) -- Draw Image
 end
 
 return Image2D

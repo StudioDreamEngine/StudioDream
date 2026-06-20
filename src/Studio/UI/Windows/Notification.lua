@@ -11,7 +11,7 @@ function Notify.Notify(Message,Type)
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
-        Parent = Notify.Container,
+        --Parent = Notify.Container,
         CornerRadius = 5,
     }
     local NotifyImage = Things.Create("Image2D") {
@@ -40,6 +40,7 @@ function Notify.Notify(Message,Type)
             Tween.Create(v, ToTransparency[v.ClassName], Enum.EasingStyle.Linear, .2).Play()
         end
     end)
+    Window:SetParent(Notify.Container)
 end
 
 function Notify.Init()

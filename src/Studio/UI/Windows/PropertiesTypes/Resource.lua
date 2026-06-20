@@ -6,7 +6,7 @@ function FilePathd.Start(FrameOption,Thing,Property)
     local Attributes = Thing.Proxy.Attributes[Property] -- make attributes here do something like "only accept images/sounds/scenes" ect
 
     local MainText = Runtime.Things.Create("TextButton") {
-        Text = Thing[Property] or "...",
+        Text = Thing[Property] or "No resource found.",
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
         BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
         Size = Pivot2D.FromScale(0.97,0.95),
@@ -17,11 +17,22 @@ function FilePathd.Start(FrameOption,Thing,Property)
         CornerRadius=5
     }
     
+    Runtime.Things.Create("Image2D") {
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(1,0),
+        Position = Pivot2D.FromScale(1,0),
+        SquareAxis = Enum.SquareAxis.Y,
+        Resource = "Internal/Icons/Engine/InsertResource.png",
+        Parent = MainText
+    }
+
     MainText.Clicked:Connect(function()
         local NewPath = Platform.OpenFileDialog("Select a resource for this thing.")
-        local IdentifierWow = Resources.LoadOrCreateIdentifier(NewPath,"mp3")
-        if IdentifierWow then 
-        Thing:SetResource(IdentifierWow)
+        if NewPath then
+            local IdentifierWow = Resources.LoadOrCreateIdentifier(NewPath)
+            Thing:SetResource(IdentifierWow)
+        else
+            Utils.SendNotification("Choosen resource has not been found","error")
         end
     end)
 end
