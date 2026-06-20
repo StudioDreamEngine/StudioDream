@@ -37,9 +37,10 @@ function Components.Init()
     Components.CreateDialog = require("Studio.UI.Components.DialogWindows").CreateDialogWindow
 end
 
-function Components.SimpleDialog(Text)
+function Components.SimpleDialog(Text, Callback)
     Studio.Components.CreateDialog("Option", {
         Text = Text,
+        OnClick = Callback
     })
 end
 

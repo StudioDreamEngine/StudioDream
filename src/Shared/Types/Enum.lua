@@ -17,6 +17,10 @@ local Enums = {
         Arrow = 'arrow',
         Brick = 'brick'
     },
+    OpenDialog = {
+        Folder = "OpenFolderDialog",
+        File = "OpenFileDialog",
+    },
     LayoutDirection = {
         Horizontal = "Horizontal",
         Vertical = "Vertical"

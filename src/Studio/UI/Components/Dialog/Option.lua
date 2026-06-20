@@ -6,7 +6,8 @@ return function(Options)
     if (not Options.Choices) then
         Options.Choices = {
             {
-                Text = "Ok"
+                Text = "Ok",
+                OnClick = Options.OnClick
             }
         }
     end

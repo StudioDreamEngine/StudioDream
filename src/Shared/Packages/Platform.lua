@@ -48,6 +48,21 @@ function Platform.Execute(...)
 	local a = C.execvp(ArgsC[0], ArgsC)]]
 end
 
+--[[
+	Open a file or folder with a callback function
+
+	Returns Callback result and path if sucessful, otherwise nothing
+]]
+function Platform.OpenWithCallback(Title, Type, Callback)
+	local Path = Platform[Type](Title)
+
+	if Path then
+		return Callback(Path), Path
+	else
+		return
+	end
+end
+
 function Platform.OpenFileDialog(Title)
     local ReturnPathC = tinyfiledialog.tinyfd_openFileDialog(Title, nil, 2, nil, nil, 0) 
 

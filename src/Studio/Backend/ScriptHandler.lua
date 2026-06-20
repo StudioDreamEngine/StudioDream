@@ -2,18 +2,30 @@
 local ScriptHandler = {}
 
 local AllowedExecutableTypes = {"exe"}
+local ConfiguredEditor
 
-function ScriptHandler.HandleEditorPicker()
-    local ChosenPath = Platform.OpenFileDialog("Configure Editor")
-
-    if ShouldReassign then
-        ScriptHandler.HandleEditorPicker(e)
-    end
-
-    return FinalPath
+function ScriptHandler.ConfigureEditor()
+    Platform.OpenWithCallback(
+        "Configure an Editor", 
+        Enum.OpenDialog.File,
+        ScriptHandler.ValidateEditor
+    )
 end
 
-function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
+function ScriptHandler.ConfigureOrValidateEditor()
+    ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor") -- Re-sync setting
+    print(ConfiguredEditor)
+
+    if (not ConfiguredEditor) then -- If we do not find an editor at all, configure a new one
+        ScriptHandler.ConfigureEditor()
+    else -- Otherwise, validate the existing one
+        ScriptHandler.ValidateEditor(ConfiguredEditor)
+    end
+
+    Studio.SettingsManager.ChangeSetting("CodeEditor", ConfiguredEditor)
+end
+
+function ScriptHandler.ValidateEditor(EditorPath)
     local InvalidFileType = true
 
     if type(EditorPath) == "string" then
@@ -24,12 +36,11 @@ function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
     end
 
     if InvalidFileType then
-        Studio.Components.SimpleDialog("EditorPath was invalid! Press ok to assign a new editor.")
-        return nil, true
+        ConfiguredEditor = nil
+        Studio.Components.SimpleDialog("EditorPath was invalid! Press ok to assign a new editor.", ScriptHandler.ConfigureEditor)
+    else
+        ConfiguredEditor = EditorPath.FilePath
     end
-
-    Studio.SettingsManager.ChangeSetting("CodeEditor", EditorPath.FilePath)
-    return EditorPath.FilePath, false
 end
 
 ---@param ScriptObject BaseScript
@@ -41,7 +52,7 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
     end
 
     -- Configure editor if needed
-    local ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor")
+    ScriptHandler.ConfigureOrValidateEditor()
 
     -- Open the script
     if ConfiguredEditor then
