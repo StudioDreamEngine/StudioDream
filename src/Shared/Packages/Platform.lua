@@ -25,9 +25,9 @@ ffi.cdef([[
 
 local Platform = {}
 
-function Platform.()
+--[[function Platform.()
 	
-end
+end]]
 
 function Platform.Execute(...)
 	local Args = table.pack(...)
