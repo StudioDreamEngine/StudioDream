@@ -21,11 +21,12 @@ function InsertObject.Init()
         Size = Pivot2D.FromScale(1,0.1),
         Position = Pivot2D.FromScale(0,0),
         Pivot = Vector2.new(0,0),
-        Parent = InsertObject.ScrollContainer,
-        ForegroundColor = Studio.Theme.Text,
-        BackgroundColor = Studio.Theme.Secundary,
-        OutlineColor = Studio.Theme.Outline,
+        --ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Secundary,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
         OutlineSize = 2,
+        CornerRadius = 5,
+        Parent = InsertObject.ScrollContainer,
     }
 
     InsertObject.SearchText = ""
@@ -45,8 +46,11 @@ function InsertObject.Init()
             IconObject:SetParent(InsertObject.ScrollContainer)
             IconObject.Clicked:Connect(function()
                 InsertObject.Close()
-
-                Studio.Components.CreateDialog(Enum.StudioDialog.Option,{
+                local CreatedObject = Things.Create(ClassName) {
+                    Parent = InsertObject.TargetObject,
+                }  
+                Studio.Layout.CallHandle("Explorer", "Redraw")
+                --[[Studio.Components.CreateDialog(Enum.StudioDialog.Option,{
                     Text = "Are you sure you want to insert "..ClassName.."?",
                     Choices = {
                         {
@@ -63,7 +67,7 @@ function InsertObject.Init()
                             Text = "No",
                         },
                     }
-                })
+                })]]
             end)
         end
     end
@@ -78,6 +82,8 @@ function InsertObject.UpdateList()
     for i, v in pairs(InsertObject.ScrollContainer:GetChildren()) do
         if (v:IsA("TextButton")) then
             v.Visible = InsertObject.SearchText=='' and true or string.find(v.Name:lower(), InsertObject.SearchText:lower())
+        elseif not (v:IsA("TextInput")) then
+            v.Visible = InsertObject.SearchText=='' and true or false
         end
     end
 end

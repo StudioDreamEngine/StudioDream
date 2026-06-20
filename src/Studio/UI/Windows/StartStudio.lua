@@ -1,5 +1,0 @@
-local StartStudio = {}
-
-
-
-return StartStudio

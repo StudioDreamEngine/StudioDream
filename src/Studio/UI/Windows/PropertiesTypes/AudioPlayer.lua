@@ -19,7 +19,11 @@ function Template.Start(FrameOption,Thing,Property,BaseProperty) -- Scrapped for
     button:SetImageRect(Rect.new(LineUp.play,Vector2.new(64,64)))
 
     button.Clicked:Connect(function()
-        Thing:Play()
+        if Thing.Resource then
+            Thing:Play()
+        else
+            Utils.SendNotification("Audio thing doesnt has a Resource to play","error")
+        end
     end)
 end
 
