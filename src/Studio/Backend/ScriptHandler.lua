@@ -14,7 +14,7 @@ function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
         EditorPath = Path.new(EditorPath)
         print(EditorPath)
 
-        InvalidFileType = EditorPath.FileType and (not table.find(AllowedExecutableTypes, EditorPath.FileType))
+        InvalidFileType = EditorPath.FileType and (not table.find(AllowedExecutableTypes, EditorPath.FileType)) or false
     end
 
     if InvalidFileType then
@@ -40,6 +40,12 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
 
     -- Open the script
     if ConfiguredEditor then
+        print(ConfiguredEditor)
+
+        if string.find(ConfiguredEditor, " ") then
+            ConfiguredEditor = "\""..ConfiguredEditor.."\""
+        end
+
         Platform.Execute(ConfiguredEditor, Runtime.BackendFS.GetFullPath(ScriptObject.Resource))
     end
 end
