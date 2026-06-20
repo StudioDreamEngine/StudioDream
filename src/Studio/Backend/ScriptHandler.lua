@@ -3,11 +3,15 @@ local ScriptHandler = {}
 
 local AllowedExecutableTypes = {"exe"}
 
-function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
+function ScriptHandler.HandleEditorPicker(EditorPath)
     if (not EditorPath) then
         EditorPath = Platform.OpenFileDialog("Configure Editor")
+        
+        return EditorPath
     end
+end
 
+function ScriptHandler.ConfigureAndValidateEditor(EditorPath)
     local InvalidFileType = true
 
     if type(EditorPath) == "string" then
@@ -36,6 +40,8 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
 
     -- Configure editor if needed
     local ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor")
+    ConfiguredEditor = ScriptHandler.HandleEditorPicker()
+
     ConfiguredEditor = ScriptHandler.ConfigureAndValidateEditor(ConfiguredEditor)
 
     -- Open the script

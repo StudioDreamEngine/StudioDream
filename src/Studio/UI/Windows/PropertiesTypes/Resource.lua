@@ -19,9 +19,11 @@ function FilePathd.Start(FrameOption,Thing,Property)
     
     MainText.Clicked:Connect(function()
         local NewPath = Platform.OpenFileDialog("Select a resource for this thing.")
-        local IdentifierWow = Resources.LoadOrCreateIdentifier(NewPath,"mp3")
-        if IdentifierWow then 
-        Thing:SetResource(IdentifierWow)
+
+        if NewPath then
+            local IdentifierWow = Resources.LoadOrCreateIdentifier(NewPath,"mp3")
+
+            Thing:SetResource(IdentifierWow)
         end
     end)
 end

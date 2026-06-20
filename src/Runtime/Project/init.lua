@@ -5,10 +5,13 @@ local Resources = require("Runtime.Project.Resources")
 local BackendFS = Runtime.BackendFS
 
 Project.SerializeType = Scenes.Objects.HandleType
+Project.ProjectName = "Unnamed"
 
 function Project.Load(ProjectPath)
     BackendFS.MountProject(ProjectPath)
     Resources.Load()
+
+    Runtime.ChangeTitle()
 
     Scenes.LoadScene("MainScene.sds")
 end
@@ -22,8 +25,6 @@ end
 
 function Project.Save()
     print("Saving Project...")
-
-    love.window.setTitle("")
 
     -- Once we have several scenes, sdrm should just store the configuration
     Scenes.SaveScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))

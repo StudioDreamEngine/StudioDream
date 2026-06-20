@@ -25,10 +25,14 @@ function Runtime.RequestCurrentMode()
     local ToReturn = FLAGS.ModeTarget
     if type(ToReturn)=="string"then
         return ToReturn
-    elseif type(ToReturn)=="boolean"then
+    elseif type(ToReturn)=="boolean"then -- ?????? - Bloctans
         print(ToReturn)
         return (ToReturn) and "Client" or "Studio"
     end
+end
+
+function Runtime.ChangeTitle()
+    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION, Runtime.Project.ProjectName, Runtime.RequestCurrentMode()))
 end
 
 function Runtime.ChangeAppIcon(ToWhat)
@@ -56,18 +60,19 @@ function Runtime.PostInit()
 
     Runtime.Project = require("Runtime.Project")
     print("Running: "..tostring(Runtime.RequestCurrentMode()))
+
     if Runtime.RequestCurrentMode() == "Client" then
         Runtime.Things.Create("TextButton") {
-        Parent = Runtime.Things.GetRootViewport(),
-        Size = Pivot2D.FromScale(0.1,0.1),
-        Layer = 1000,
-        Text = "Placeholder Client to studio!!!",
-        Clicked = function()
-            print(love.restart)
-            print(Runtime.RequestCurrentMode())
-            Runtime.RequestRestart("Studio")
-        end
-    }
+            Parent = Runtime.Things.GetRootViewport(),
+            Size = Pivot2D.FromScale(0.1,0.1),
+            Layer = 1000,
+            Text = "Placeholder Client to studio!!!",
+            Clicked = function()
+                print(love.restart)
+                print(Runtime.RequestCurrentMode())
+                Runtime.RequestRestart("Studio")
+            end
+        }
     end
 
     --require("Runtime.Things.CreateTests")()

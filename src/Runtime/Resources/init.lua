@@ -13,15 +13,26 @@ function Resources.Init()
     end)
 end
 
--- Given a file path, register an identifier, or create the file and register the identifier for it
-function Resources.LoadOrCreateIdentifier(FilePath)
+-- Given a file path (relative to root directory), load any file, inside or outside the project.
+function Resources.LoadIdentifier(FilePath)
+    local Mount = Runtime.BackendFS.GetMount()
+
+    if (not string.find(FilePath, Mount)) then
+        print("Identifier outside of mount point")
+    else
+        print("Identifier within mount point")
+    end
+end
+
+-- Given a file path (relative to the project mount), register an identifier, or create the file and register the identifier for it
+function Resources.LoadOrCreateIdentifier(FilePath, FileData)
     local BackendFS = Runtime.BackendFS
 
     local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
     local HasFile = BackendFS.FileExists(FilePath)
 
     if (not HasFile) then
-        Runtime.BackendFS.WriteFile(FilePath, "")
+        Runtime.BackendFS.WriteFile(FilePath, FileData)
     end
     
     local Identifier
