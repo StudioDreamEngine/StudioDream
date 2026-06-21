@@ -1,9 +1,9 @@
 print("Please Wait...")
-Shared = require("Shared")
+require("Shared")
 
 MYFPSCAPPER9001 = love.timer.getTime()
 
-function love.load()
+function love.load(args)
     love.graphics.clear(0.5,0.5,0.5)
     love.graphics.present()
     
@@ -15,7 +15,7 @@ function love.load()
     
     print("StudioDream V"..VERSION..", Target: "..FLAGS.ModeTarget)
 
-    Shared.Init()
+    Shared.Init(args)
 
     print("Runtime is ready.")
 

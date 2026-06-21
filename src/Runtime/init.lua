@@ -49,7 +49,7 @@ function Runtime.RequestRestart(NextTarget)
     end)
 end
 
-function Runtime.PostInit()
+function Runtime.PostInit(ProjectPath)
     Runtime.Backend = require("Runtime.Backend")
     Runtime.Backend.Init()
 
@@ -68,15 +68,13 @@ function Runtime.PostInit()
             Layer = 1000,
             Text = "Placeholder Client to studio!!!",
             Clicked = function()
-                print(love.restart)
-                print(Runtime.RequestCurrentMode())
                 Runtime.RequestRestart("Studio")
             end
         }
     end
 
     --require("Runtime.Things.CreateTests")()
-    Runtime.Project.Load("../tests/ProjectTest/")
+    Runtime.Project.Load(ProjectPath or "../tests/ProjectTest/")
 end
 
 function Runtime.Render()

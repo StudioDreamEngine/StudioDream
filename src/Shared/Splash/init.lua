@@ -40,7 +40,7 @@ function Splash.Out()
     SplashContainer:Destroy()
 end
 
-function Splash.Init()
+function Splash.Create()
     SplashContainer = Things.Create("Square") {
         Parent = Things.Root.RootViewport,
         Layer = 999,
@@ -51,7 +51,7 @@ function Splash.Init()
 
     SplashShadow = Things.Create("Text") {
         Parent = SplashContainer,
-        Text = "Loading...",
+        Text = "Setting Up...",
         Size = Pivot2D.FromScale(1,.1),
         Alignment = Vector2.new(.5,0),
         ForegroundColor = Color.new(0,0,0),
@@ -62,7 +62,7 @@ function Splash.Init()
 
     SplashStatus = Things.Create("Text") {
         Parent = SplashContainer,
-        Text = "Loading...",
+        Text = "Setting Up...",
         Size = Pivot2D.FromScale(1,.1),
         Alignment = Vector2.new(.5,0),
         ForegroundColor = Color.new(1,1,1),
@@ -89,14 +89,11 @@ function Splash.Init()
         Resource = "Internal/SplashOutline.png",
         Parent = SplashContainer
     }
-
-    Scheduler.NewTask(Splash.Load)
 end
 
-function Splash.Load()
-    Splash.ChangeStatus("Finishing Runtime setup")
+function Splash.Load(ProjectPath)
     Shared.SetupBullet()
-    Runtime.PostInit()
+    Runtime.PostInit(ProjectPath)
 
     Splash.ChangeStatus("Starting Target")
     Shared.StartTarget()

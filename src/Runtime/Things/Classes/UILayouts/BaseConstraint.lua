@@ -52,11 +52,13 @@ end
 -- Make sure we un-bind and re-bind all objects on parent change
 function BaseConstraint:SetParent(NewParent)
     self:Unbind()
-    BaseConstraint.super.SetParent(self, NewParent)
+    local CouldParent, Reason = BaseConstraint.super.SetParent(self, NewParent)
 
     if NewParent then
         self:Bind()
     end
+
+    return CouldParent, Reason
 end
 
 return BaseConstraint

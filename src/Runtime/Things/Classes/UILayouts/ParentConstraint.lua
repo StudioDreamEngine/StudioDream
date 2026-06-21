@@ -11,19 +11,24 @@ end
 
 ---@param NewParent Thing
 function ParentConstraint:SetParent(NewParent)
-    ParentConstraint.super.SetParent(self, NewParent)
+    local CouldParent, Reason = ParentConstraint.super.SetParent(self, NewParent)
 
     if self.ChildrenEvent then self.ChildrenEvent:Disconnect() end -- Cleanup
-    if (not NewParent) then return end -- Parent would be nil, thus we cant connect a new event
-    
-    -- Check if any object in the parent is added or removed
-    self.ChildrenEvent = NewParent.ChildrenChanged:Connect(function(Child, EventType)
-        if EventType == Enum.Hierachy.Removed then
-            self:UnbindObject(Child)
-        else
-            self:BindObject(Child)
-        end
-    end)
+
+    -- Parent would be nil, thus we cant connect a new event
+    -- (No guard clause here do to return from superfunction)
+    if NewParent then 
+        -- Check if any object in the parent is added or removed
+        self.ChildrenEvent = NewParent.ChildrenChanged:Connect(function(Child, EventType)
+            if EventType == Enum.Hierachy.Removed then
+                self:UnbindObject(Child)
+            else
+                self:BindObject(Child)
+            end
+        end)
+    end
+
+    return CouldParent, Reason
 end
 
 -- Adds all the children of the parent object to the constraint

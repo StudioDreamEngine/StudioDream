@@ -8,6 +8,12 @@ Project.SerializeType = Scenes.Objects.HandleType
 Project.ProjectName = "Unnamed"
 
 function Project.Load(ProjectPath)
+    print(ProjectPath)
+
+    if (not NativeFS.getInfo(ProjectPath)) then
+        Shared.Abort("Couldnt load project: "..ProjectPath)
+    end
+
     BackendFS.MountProject(ProjectPath)
     Resources.Load()
 

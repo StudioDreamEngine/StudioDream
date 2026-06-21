@@ -17,63 +17,63 @@ function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
 
     local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         
-    local BaseProperty = Runtime.Things.Create("Square") { 
-        Size = Pivot2D.new(0,1,15,0),
-        Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
-        Layer = 3,
-        Parent = FrameOption.Parent.Parent,
-        ListOrder = FrameOption.Parent.ListOrder+0.1,
-        OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
-    }
+        local BaseProperty = Runtime.Things.Create("Square") { 
+            Size = Pivot2D.new(0,1,15,0),
+            Pivot = Vector2.new(0,0),
+            BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+            Layer = 3,
+            Parent = FrameOption.Parent.Parent,
+            ListOrder = FrameOption.Parent.ListOrder+0.1,
+            OutlineSize = 2,
+            OutlineColor = Studio.Theme.GetCurrentTheme().Outline
+        }
 
-    Runtime.Things.Create("Text") {
-        Size =  Pivot2D.FromScale(0.5,1),
-        Position = Pivot2D.FromScale(0.05,0.5),
-        Pivot = Vector2.new(0,0.5),
-        Text = Name,
-        Name = "PropertyName",
-        Parent = BaseProperty,
-        BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
-    }
+        Runtime.Things.Create("Text") {
+            Size =  Pivot2D.FromScale(0.5,1),
+            Position = Pivot2D.FromScale(0.05,0.5),
+            Pivot = Vector2.new(0,0.5),
+            Text = Name,
+            Name = "PropertyName",
+            Parent = BaseProperty,
+            BackgroundTransparency = 1,
+            ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
+        }
 
-    local Option = Runtime.Things.Create("TextInput") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
-        Size = Pivot2D.FromScale(0.49,1),
-        Position = Pivot2D.FromScale(0.51,0.5),
-        Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
-        Layer = 3,
-        Name = "Frame",
-        Text = tostring(Vector2.new(Value.X,Value.Y)),
-        Parent = BaseProperty,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
-    }
+        local Option = Runtime.Things.Create("TextInput") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
+            Size = Pivot2D.FromScale(0.49,1),
+            Position = Pivot2D.FromScale(0.51,0.5),
+            Pivot = Vector2.new(0,0.5),
+            BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+            Layer = 3,
+            Name = "Frame",
+            Text = tostring(Vector2.new(Value.X,Value.Y)),
+            Parent = BaseProperty,
+            ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
+        }
 
-    Runtime.Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
-        Size = Pivot2D.FromScale(0.015,0.85),
-        Position = Pivot2D.FromScale(0.5,0.5),
-        Pivot = Vector2.new(0.5,0.5),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
-        Layer = 3,
-        Name = "Frame",
-        Parent = BaseProperty,
-    }
+        Runtime.Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
+            Size = Pivot2D.FromScale(0.015,0.85),
+            Position = Pivot2D.FromScale(0.5,0.5),
+            Pivot = Vector2.new(0.5,0.5),
+            BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
+            Layer = 3,
+            Name = "Frame",
+            Parent = BaseProperty,
+        }
 
-    CreatedNodes[Name] = BaseProperty
+        CreatedNodes[Name] = BaseProperty
 
-    Option.FocusEnd:Connect(function()
-        local ToFilter = string.gsub(Option.Text,"%a","")
-        local SplitVecText = string.split(ToFilter,",")
+        Option.FocusEnd:Connect(function()
+            local ToFilter = string.gsub(Option.Text,"%a","")
+            local SplitVecText = string.split(ToFilter,",")
 
-        --Thing:SetTransform(Transform3D["From"..Name](tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
-        Option.Text = tostring(Vector2.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01))
-    end)
+            --Thing:SetTransform(Transform3D["From"..Name](tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
+            Option.Text = tostring(Vector2.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01))
+        end)
 
-    SomethingUpdated:Connect(function(NewVal)
-        Option:SetText(tostring(NewVal[Name]))
-    end)
+        SomethingUpdated:Connect(function(NewVal)
+            Option:SetText(tostring(NewVal[Name]))
+        end)
 
     end
 

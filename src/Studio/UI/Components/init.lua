@@ -35,6 +35,8 @@ function Components.Init()
 
     Components.AdvancedDropdown = require("Studio.UI.Components.AdvancedDropdown")
     Components.CreateDialog = require("Studio.UI.Components.DialogWindows").CreateDialogWindow
+
+    Shared.AbortAPI = Components.SimpleDialog
 end
 
 function Components.SimpleDialog(Text, Callback)

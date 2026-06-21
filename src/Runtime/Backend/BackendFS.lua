@@ -43,7 +43,7 @@ function BackendFS.GetMount()
 end
 
 function BackendFS.MountProject(Project)--, MountZip)
-    Mount = Project 
+    Mount = NativeFS.getFullPath(Project).."/"
 end
 
 return BackendFS

@@ -29,7 +29,7 @@ function Utils.AssertType(Object, ExpectedType, Extra)
     assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
 end
 
-function Utils.DoesFileExist(Directory)
+function Utils.FileExists(Directory)
     return love.filesystem.getInfo(Directory) and true or false
 end
 

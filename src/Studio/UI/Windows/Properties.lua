@@ -19,7 +19,7 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
 
     Type = (Thing.Proxy.Attributes[PropertyTxt] and not Thing.Proxy.Attributes[PropertyTxt].DoNotRenderOtherType) and ReturnFirst(Thing.Proxy.Attributes[PropertyTxt]) or Type
 
-    if Utils.DoesFileExist("Studio/UI/Windows/PropertiesTypes/"..Type..".lua") then
+    if Utils.FileExists("Studio/UI/Windows/PropertiesTypes/"..Type..".lua") then
         if not RequiredPropertyTypes[Type] then
             RequiredPropertyTypes[Type] = require("Studio/UI/Windows/PropertiesTypes/"..Type)
         end
@@ -48,7 +48,7 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
 
-    print(PropertyTxt)
+    --print(PropertyTxt)
 
     PropertyBased.PropertyName = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,1),

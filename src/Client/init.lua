@@ -10,6 +10,14 @@ function Client.Init()
         Size = Pivot2D.FromScale(1,1),
     }
 
+    local HudViewport = Things.Create("Viewport2D") {
+        RenderFolder = Things.GetRoot("HUD"),
+        Name = "HudViewport",
+        Size = Pivot2D.FromScale(1,1),
+        Layer = 2,
+        Parent = Things.GetRootViewport()
+    }
+
     Things.Root.EnvironmentViewport = EnvironmentViewport
 
     StudioCamera = require("Client.StudioCamera")

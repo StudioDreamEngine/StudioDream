@@ -15,7 +15,7 @@ end
 
 -- Given a file path (relative to root directory), load any file, inside or outside the project.
 function Resources.LoadIdentifier(FilePath)
-    local Mount = NativeFS.getFullPath(Runtime.BackendFS.GetMount())
+    local Mount = Runtime.BackendFS.GetMount()
 
     print(FilePath)
 
@@ -36,6 +36,10 @@ function Resources.LoadOrCreateIdentifier(FilePath, FileData)
     local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
     local HasFile = BackendFS.FileExists(FilePath)
 
+    if HasFile and HasFile.type == "directory" then
+        return nil, true
+    end
+
     if (not HasFile) then
         Runtime.BackendFS.WriteFile(FilePath, FileData)
     end
@@ -51,7 +55,7 @@ function Resources.LoadOrCreateIdentifier(FilePath, FileData)
 
     Resources.RegisterIdentifier(Identifier, FilePath)
 
-    return Identifier, HasIdentifier
+    return Identifier, false
 end
 
 -- Configure (Register) an Identifier to be Associated with a File Path

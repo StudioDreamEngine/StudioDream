@@ -1,4 +1,4 @@
-local Shared = {}
+Shared = {}
 
 -- Configure CPath
 local CurrentOS = love.system.getOS()
@@ -13,18 +13,36 @@ package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?.".
 --Start actual stuff
 local StartedTarget = false
 
-function Shared.Init()
+Shared.AbortAPI = nil
+
+function Shared.Abort(Msg)
+    if (not Shared.AbortAPI) then
+        print("ABORTED: "..Msg)
+        os.exit(-1)
+    else
+        Shared.AbortAPI("ABORTED: "..Msg)
+    end
+end
+
+function Shared.Init(Args)
+    print(Args)
+
     local SharedInit = Profiler.Benchmark("Shared - Init", true)
 
     print("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")
     Runtime.Init()
 
-    Shared.Target = love.restart or FLAGS.ModeTarget
+    Shared.Target = Args[1] or love.restart or FLAGS.ModeTarget
+
+    if (not Utils.FileExists(Shared.Target)) then
+        Shared.Abort("Invalid Target: "..Shared.Target)
+    end
 
     print("Start splash")
     Shared.Splash = require("Shared.Splash")
-    Shared.Splash.Init()
+    Shared.Splash.Create()
+    Scheduler.NewTask(Shared.Splash.Load, Args[2])
 
     SharedInit.End()
 end

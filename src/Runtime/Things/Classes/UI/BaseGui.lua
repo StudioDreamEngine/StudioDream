@@ -289,10 +289,12 @@ function BaseGui:InvalidateRendering(...)
 end
 
 function BaseGui:SetParent(NewParent)
-    BaseGui.super.SetParent(self, NewParent)
+    local CouldParent, Reason = BaseGui.super.SetParent(self, NewParent)
 
     self:InvalidateRendering()
     self:ProcessInvalidation(self)
+
+    return CouldParent, Reason
 end
 
 function BaseGui:SetVisible(NewVisiblity)

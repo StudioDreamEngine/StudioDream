@@ -13,5 +13,5 @@ copy /b "C:\Program Files\LOVE\love.exe"+StudioDream.love "dist/win/StudioDream.
 
 del StudioDream.love
 
-echo Make sure to include the DLL's within your love installation directory!
+echo Make sure to include the DLL's in your love installation directory within dist/win!
 echo Note: Game Icons need to be set via something like Resource hacker!

@@ -5,21 +5,25 @@ local BlacklistedTypes = {"uid", "sds", "sdrm"} -- sds is here for now
 
 local function RecurseProject(Path)
     for _, v in pairs(BackendFS.ListDirectory(Path)) do
-        local FileType = string.split(v, "%.")[2]
-        local FilePath = Path..string.split(v, "%.")[1]
+        local FileType = string.split(v, "%.")
+        FileType = FileType[#FileType]
+
+        local FilePath = Path..v
+
+        print(FileType)
 
         if not table.find(BlacklistedTypes, FileType) then
-            Resources.HandleIdentifier(FilePath.."."..FileType)
+            Resources.HandleIdentifier(FilePath)
         end
     end
 end
 
 function Resources.HandleIdentifier(FilePath)
-    local _, HasIdentifier = Runtime.Resources.LoadOrCreateIdentifier(FilePath)
+    local _, IsDirectory = Runtime.Resources.LoadOrCreateIdentifier(FilePath)
 
-    if HasIdentifier and HasIdentifier.type == "directory" then
+    if IsDirectory then
         print(FilePath)
-        RecurseProject(FilePath)
+        RecurseProject(FilePath.."/")
     end
 end
 

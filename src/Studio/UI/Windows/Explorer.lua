@@ -2,47 +2,40 @@ local Things = Runtime.Things
 local SelectionManager = Studio.Editor3D.SelectionManager
 
 local Explorer = {}
-
 Explorer.Tree = {}
+
+local AddButtonObject = Runtime.Things.Create("ImageButton") {
+    Resource = "Internal/Icons/Engine/AddThing.png",
+    Size = Pivot2D.FromScale(1,1),
+    Position = Pivot2D.FromScale(0.5,0),
+    Pivot = Vector2.new(1,0.0001),
+    SquareAxis = Enum.SquareAxis.Y,
+}
+
+local AddButtonWow = {}
 
 local Order = 0
 local Window
-local AddButtonWow = {
-    Obj = nil,
-    Connect = nil,
+
+AddButtonWow = {
+    Object = AddButtonObject,
+    Connect = AddButtonObject.Clicked:Connect(function()
+        print("Insert open")
+
+        AddButtonWow.IsInsertOpen = true
+        Studio.Editor3D.OpenInsertWindow(AddButtonWow.Object)
+        Explorer.Redraw()
+    end),
     IsInsertOpen = false
 }
 
-local function CountChildren(Object)
-    local index = 0
-    for i,v in pairs(Object:GetChildren()) do
-        index=index+1
-    end
-    return index
-end
-
-local function CreateThingWhenSelect(Obj)
-    if not AddButtonWow.Obj then
-        AddButtonWow.Obj = Runtime.Things.Create("ImageButton") {
-            Resource = "Internal/Icons/Engine/AddThing.png",
-            Size = Pivot2D.FromScale(1,1),
-            Position = Pivot2D.FromScale(0.5,0),
-            Pivot = Vector2.new(1,0.0001),
-            SquareAxis = Enum.SquareAxis.Y,
-        }
-    end
+local function ParentInserter(Obj)
     if AddButtonWow.IsInsertOpen then
         AddButtonWow.IsInsertOpen = false
         Studio.Editor3D.CloseInsertWindow()
     end
-    if not AddButtonWow.Connect then
-        AddButtonWow.Connect = AddButtonWow.Obj.Clicked:Connect(function()
-            AddButtonWow.IsInsertOpen = true
-            Studio.Editor3D.OpenInsertWindow(Obj)
-            Explorer.Redraw()
-        end)
-    end
-    AddButtonWow.Obj:SetParent(Obj)
+
+    AddButtonWow.Object:SetParent(Obj)
 end
 
 function Explorer.CreateNode(Object, Depth)
@@ -67,8 +60,6 @@ function Explorer.CreateNode(Object, Depth)
     local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon)
     NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeInner:SetParent(Node)
-
-
 
     return Node, NodeInner
 end
@@ -121,11 +112,13 @@ local function HandleDragStart()
 end
 
 local function HandleDragEnd()
+    print("Drag end")
     Selecting.Node:SetMouseLocked(false)
 
     if Hovering then
         local CouldParent = Selecting.Thing:SetParent(Hovering.Thing)
         print(CouldParent)
+
         if CouldParent then Explorer.Redraw() end
     else
         Explorer.Tree[Selecting.Thing] = Selecting.Node
@@ -185,7 +178,7 @@ function Explorer.Update(dt)
 
         if Thing == Studio.Editor3D.Selecting then
             Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Selecting
-            CreateThingWhenSelect(Object)
+            ParentInserter(Object)
         else
             Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary
         end
