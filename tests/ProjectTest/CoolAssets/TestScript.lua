@@ -17,6 +17,8 @@ end
 
 LoopThoughtEnv()
 
+Environment:FindFirstChild("Audio"):Play()
+
 scheduler.Yield(2)
 
 Environment:FindFirstChild("Ball"):SetVelocity(Vector3.new(0,40,0))

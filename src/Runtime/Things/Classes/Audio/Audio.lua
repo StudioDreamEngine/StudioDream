@@ -9,6 +9,8 @@ function Audio:new()
     Audio.super.new(self)
 
     self.Resource = nil
+    self.SoundObject = nil ---@class love.Source
+
     self.Playing = false
     self.PlayButton = nil
 end
@@ -25,8 +27,9 @@ function Audio:DefineAPI()
 end
 
 function Audio:Play()
-    print(self.Resource)
-    print(self.SoundObject)
+    if self.SoundObject then
+        self.SoundObject:play()
+    end
 end
 
 function Audio:SetResource(Identifier)

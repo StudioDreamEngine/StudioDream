@@ -10,8 +10,6 @@ local function RecurseProject(Path)
 
         local FilePath = Path..v
 
-        print(FileType)
-
         if not table.find(BlacklistedTypes, FileType) then
             Resources.HandleIdentifier(FilePath)
         end

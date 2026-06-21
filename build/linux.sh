@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
 
-COMPILED="../src"
+COMPILED="./compiled"
 DIST="../dist"
+
+python3 compile.py
 
 chmod +x appimagetool.AppImage
 
 # Create the love archive
 echo Creating build...
 cd $COMPILED
-zip -9 -r ../build/StudioDream.love . -x "./CLibraries/*"
-cd ../build
+zip -9 -r ../StudioDream.love . -x "./CLibraries/*"
+cd $OLDPWD
 
 # We need to make sure the appimage is executable
 ./love.AppImage --appimage-extract
@@ -38,3 +40,6 @@ rm "StudioDream.love"
 # Build appimage
 echo Building AppImage..
 ./appimagetool.AppImage $SQUASH_ROOT "$DIST/StudioDream.AppImage"
+
+echo
+echo Done! Built AppImage is within dist

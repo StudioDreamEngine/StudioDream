@@ -33,7 +33,7 @@ function Shared.Init(Args)
     Runtime = require("Runtime")
     Runtime.Init()
 
-    Shared.Target = Args[1] or love.restart or FLAGS.ModeTarget
+    Shared.Target = love.restart or Args[1] or FLAGS.ModeTarget
 
     if (not Utils.FileExists(Shared.Target)) then
         Shared.Abort("Invalid Target: "..Shared.Target)

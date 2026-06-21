@@ -4,6 +4,7 @@ require("Shared")
 MYFPSCAPPER9001 = love.timer.getTime()
 
 function love.load(args)
+
     love.graphics.clear(0.5,0.5,0.5)
     love.graphics.present()
     
@@ -18,6 +19,7 @@ function love.load(args)
     Shared.Init(args)
 
     print("Runtime is ready.")
+    print(jit)
 
     --love.graphics.captureScreenshot("Welcome ".. os.time() .. ".png")
 
