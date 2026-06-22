@@ -127,28 +127,23 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object)
     return Resources.GetResource(Identifier), Identifier
 end
 
--- Internal function to Load a resource itself, called once per resource
-function Resources.LoadResource(FilePath)
-    local Format = FormatLookup[FilePath.FileType]
-
-    local LoaderModule = require(LoaderModPath..Format)
-    local Contents
-
-    if FilePath.Internal then
-        Contents = love.filesystem.read("Assets/"..FilePath.FilePath)
-    else
-        Contents = Runtime.BackendFS.ReadFile(FilePath.FilePath)
-    end
-
-    local Resource = LoaderModule(Contents, FilePath)
-
-    LoadedResources[FilePath.Identifier] = Resource
-end
-
 -- Get a resource from an Identifier
 function Resources.GetResource(Identifier)
-    if not LoadedResources[Identifier.Identifier] then
-        Resources.LoadResource(Identifier)
+    if not LoadedResources[Identifier.Identifier] then -- If the resource isnt loaded yet, cache it
+        local Format = FormatLookup[Identifier.FileType]
+
+        local LoaderModule = require(LoaderModPath..Format)
+        local Contents
+
+        if Identifier.Internal then
+            Contents = love.filesystem.read("Assets/"..Identifier.FilePath)
+        else
+            Contents = Runtime.BackendFS.ReadFile(Identifier.FilePath)
+        end
+
+        local Resource = LoaderModule(Contents, Identifier)
+
+        LoadedResources[Identifier.Identifier] = Resource
     end
 
     return LoadedResources[Identifier.Identifier]
