@@ -35,7 +35,7 @@ function BaseScript:Load()
 end
 
 function BaseScript:SetResource(Identifier)
-    self.ModuleFunction, self.Resource = Runtime.Resources.LoadFromIdentifier(Identifier, self.UUID)
+    self.ModuleFunction, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID)
     self.ModuleFunction = self.ModuleFunction()
 
     setfenv(self.ModuleFunction, ScriptUtil.CreateGlobals(self))

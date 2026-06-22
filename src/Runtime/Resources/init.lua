@@ -14,7 +14,7 @@ function Resources.Init()
 end
 
 -- Given a file path (relative to system root), load any file, inside or outside the project.
-function Resources.LoadIdentifier(FilePath)
+function Resources.LoadIdentifierFromPath(FilePath)
     local Mount = Runtime.BackendFS.GetMount()
 
     print(Mount)
@@ -112,12 +112,13 @@ end
 Resources.ClearIdentifier()
 
 -- Get a resource from an IdentifierID or Identifier
-function Resources.LoadFromIdentifier(Identifier, Object)
+function Resources.LoadResourceFromIdentifier(Identifier, Object)
     if Utils.TypeOf(Identifier) == "string" then
-        printVerbose("Calling LoadFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
+        printVerbose("Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
         Identifier = Runtime.Resources.GetIdentifier(Identifier)
     end
 
+    -- TODO: Maybe move this to GetResource?
     if not Identifier.Internal then
         print("Adding "..Object.." to object references")
         ObjectReferences[Object] = Identifier

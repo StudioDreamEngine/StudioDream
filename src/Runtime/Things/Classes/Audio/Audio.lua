@@ -33,7 +33,7 @@ function Audio:Play()
 end
 
 function Audio:SetResource(Identifier)
-    self.SoundObject, self.Resource = Resources.LoadFromIdentifier(Identifier, self.UUID)
+    self.SoundObject, self.Resource = Resources.LoadResourceFromIdentifier(Identifier, self.UUID)
 end
 
 return Audio
