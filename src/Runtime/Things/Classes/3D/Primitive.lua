@@ -28,7 +28,7 @@ end
 
 function Primitive:CheckShape()
     if self._LastShape ~= self.Shape or not self.Drawable then
-        local PrimativeIdentifier = Runtime.Resources.GetIdentifier("Internal/DefaultMeshes/"..self.Shape..".obj")
+        local PrimativeIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/DefaultMeshes/"..self.Shape..".obj")
         self:SetResource(PrimativeIdentifier)
         
         printVerbose("Made new Drawable")

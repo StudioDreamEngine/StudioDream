@@ -5,7 +5,7 @@ function Serializer.Serialize(Value)
 end
 
 function Serializer.Deserialize(Value)
-    local Identifier = Runtime.Resources.GetIdentifier(Value.Identifier)
+    local Identifier = Runtime.Resources.GetIdentifierFromID(Value.Identifier)
 
     if not Identifier then
         Runtime.Resources.RegisterAsMissing(Value)

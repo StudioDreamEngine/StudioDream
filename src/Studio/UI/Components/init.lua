@@ -70,8 +70,8 @@ function Components.CreateIconObject(Name, Icon)
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text
     }
 
-    local NotFoundIcon = Runtime.Resources.GetIdentifier("Internal/EditorIcons/File_Not_Found.png")
-    local Icon = Runtime.Resources.GetIdentifier("Internal/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
+    local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/EditorIcons/File_Not_Found.png")
+    local Icon = Runtime.Resources.GetIdentifierFromID("Internal/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
     
     local NodeIcon = Things.Create("Image2D") {
         Size = Pivot2D.new(0,0.1,0,1),

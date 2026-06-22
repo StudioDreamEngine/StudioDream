@@ -14,7 +14,7 @@ function Resources.Init()
 end
 
 -- Given a file path (relative to system root), load any file, inside or outside the project.
-function Resources.LoadIdentifierFromPath(FilePath)
+function Resources.GetIdentifierIDFromPath(FilePath)
     local Mount = Runtime.BackendFS.GetMount()
 
     print(Mount)
@@ -81,7 +81,7 @@ function Resources.GetStudioPath(IdentifierID)
 end
 
 -- Get an identifier from an IdentifierID
-function Resources.GetIdentifier(IdentifierID) 
+function Resources.GetIdentifierFromID(IdentifierID) 
     local ReturnIdentifier = Resources.GetStudioPath(IdentifierID) or Identifiers[IdentifierID]
     assert(ReturnIdentifier, IdentifierID.." Doesnt exist!")
 
@@ -115,7 +115,7 @@ Resources.ClearIdentifier()
 function Resources.LoadResourceFromIdentifier(Identifier, Object)
     if Utils.TypeOf(Identifier) == "string" then
         printVerbose("Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
-        Identifier = Runtime.Resources.GetIdentifier(Identifier)
+        Identifier = Runtime.Resources.GetIdentifierFromID(Identifier)
     end
 
     -- TODO: Maybe move this to GetResource?

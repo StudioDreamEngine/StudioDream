@@ -3,7 +3,7 @@ local Things = Runtime.Things
 -- using @module here gives the lua language server a base type to use!
 ---@class Image2D: BaseGui
 local Image2D = Things.Extend("BaseGui")
-local DefaultIdentifier = Runtime.Resources.GetIdentifier("Internal/Icons/Studio.png")
+local DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Icons/Studio.png")
 
 local ScaleModes = {
         ["stretch"] = function(self) 

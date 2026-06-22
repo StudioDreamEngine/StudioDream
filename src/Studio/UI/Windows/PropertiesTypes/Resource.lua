@@ -28,7 +28,7 @@ function FilePathd.Start(FrameOption,Thing,Property)
 
     MainText.Clicked:Connect(function()
         Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath)
-            local Identifier, _ = Resources.LoadIdentifierFromPath(NewPath)
+            local Identifier, _ = Resources.GetIdentifierIDFromPath(NewPath)
             if (not Identifier) then print("Couldnt find identifier, not supported yet perhaps...?") return end
 
             Thing:SetResource(Identifier)
