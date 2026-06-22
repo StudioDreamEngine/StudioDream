@@ -13,10 +13,11 @@ function Resources.Init()
     end)
 end
 
--- Given a file path (relative to root directory), load any file, inside or outside the project.
+-- Given a file path (relative to system root), load any file, inside or outside the project.
 function Resources.LoadIdentifier(FilePath)
     local Mount = Runtime.BackendFS.GetMount()
 
+    print(Mount)
     print(FilePath)
 
     if (not string.find(FilePath, Mount)) then
@@ -36,9 +37,8 @@ function Resources.LoadOrCreateIdentifier(FilePath, FileData)
     local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
     local HasFile = BackendFS.FileExists(FilePath)
 
-    if HasFile and HasFile.type == "directory" then
-        return nil, true
-    end
+    -- This file is a directory, pass that along to the function that called this, as it may be used to handle loading/reloading all resources
+    if HasFile and HasFile.type == "directory" then return nil, true end
 
     if (not HasFile) then
         Runtime.BackendFS.WriteFile(FilePath, FileData)
