@@ -65,21 +65,22 @@ function Audio:SetResource(Identifier)
 end
 
 function Audio:SetLoop()
-    if self.SoundObject then
-        self.SoundObject:setVolume(self.Volume/100)
-        self.Duration = self.SoundObject:getDuration()
-        self.TimePosition = self.SoundObject:tell() -- this is a problem that will happend soon!!!!! i need to fix this now!!! like rn!! wow!
-        if self.TimePosition >= self.Duration then
-            self.StoppedPlaying.Invoke()
-        end
-        self.SoundObject:setLooping(self.DoesLoop)
+    self.SoundObject:setVolume(self.Volume/100)
+    self.Duration = self.SoundObject:getDuration()
+    self.TimePosition = self.SoundObject:tell() -- this is a problem that will happend soon!!!!! i need to fix this now!!! like rn!! wow!
+    if self.TimePosition >= self.Duration then
+        self.StoppedPlaying.Invoke()
     end
+    self.SoundObject:setLooping(self.DoesLoop)
 end
 
 function Audio:Update(dt)
     Audio.super.Update(dt)
-    self:SetLoop()
-    self.Playing = self.SoundObject:isPlaying()
+
+    if self.SoundObject then
+        self:SetLoop()
+        self.Playing = self.SoundObject:isPlaying()
+    end
 end
 
 return Audio

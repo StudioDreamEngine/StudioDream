@@ -8,7 +8,13 @@ function Objects.HandleType(Property, Type, Deserialize, Identifier)
     if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier..")") end
 
     local Serializer = require(TypeSerializers[Type])
-    local Result = Deserialize and Serializer.Deserialize(Property) or Serializer.Serialize(Property)
+    local Result
+
+    if Deserialize then
+        Result = Serializer.Deserialize(Property)
+    else
+        Result = Serializer.Serialize(Property)
+    end
 
     return Result
 end
