@@ -49,9 +49,7 @@ end
 function BackendFS.MountProject(Project)
     local FullPath = NativeFS.getFullPath(Project)
 
-    if love.system.getOS() == Enum.Platform.Windows then
-        FullPath = string.gsub(FullPath, "\\", "/")
-    else
+    if love.system.getOS() ~= Enum.Platform.Windows then
         FullPath = NativeFS.getFullPath(Project).."/"
     end
 
