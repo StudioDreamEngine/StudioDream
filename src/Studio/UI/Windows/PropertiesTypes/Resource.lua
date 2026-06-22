@@ -4,9 +4,9 @@ local Resources = Runtime.Resources
 function FilePathd.Start(FrameOption,Thing,Property)
 
     local Attributes = Thing.Proxy.Attributes[Property] -- make attributes here do something like "only accept images/sounds/scenes" ect
-
+    --print(Thing[Property])
     local MainText = Runtime.Things.Create("TextButton") {
-        Text = Thing[Property] or "No resource found.",
+        Text = Thing[Property].FileName or "No resource found.",
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
         BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
         Size = Pivot2D.FromScale(0.97,0.95),
@@ -28,10 +28,12 @@ function FilePathd.Start(FrameOption,Thing,Property)
 
     MainText.Clicked:Connect(function()
         Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath)
-            local Identifier, _ = Resources.GetIdentifierIDFromPath(NewPath)
-            if (not Identifier) then print("Couldnt find identifier, not supported yet perhaps...?") return end
-
+            local Identifier, _ = Resources.LoadIdentifier(NewPath)
+            if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","error") return end
+            local PathObj = Path.new(NewPath,Identifier)
+            --print(PathObj)
             Thing:SetResource(Identifier)
+            MainText:SetText(PathObj.FileName)
         end)
     end)
 end

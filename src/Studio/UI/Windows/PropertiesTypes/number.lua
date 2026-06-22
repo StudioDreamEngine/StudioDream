@@ -3,7 +3,7 @@ local Stringthing
 function Numbered.Start(FrameOption,Thing,Property) 
     Stringthing = Runtime.Things.Create("TextInput") {
         Size = Pivot2D.FromScale(1,1),
-        Text = tostring(Thing[Property]),
+        Text = tostring(math.round(Thing[Property])),
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text2,
         Parent = FrameOption
@@ -20,7 +20,7 @@ function Numbered.Start(FrameOption,Thing,Property)
 end
 
 function Numbered.Update(NewVal)
-    Stringthing:SetText(tostring(NewVal))
+    Stringthing:SetText(math.round(NewVal))
 end
 
 return Numbered

@@ -14,6 +14,8 @@ local function ReturnFirst(table)
     end
 end
 
+local SignalToReset = Signal:New("ResetWarnWow!!")
+
 local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
     local PropertyBased = {}
 
@@ -80,6 +82,12 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
                 if WhatProperty and WhatProperty == RequiredPropertyTypes[Type].CustomConnect or WhatProperty == PropertyTxt then
                     RequiredPropertyTypes[Type].Update(NewVal)
                 end
+            end)
+        end
+
+        if RequiredPropertyTypes[Type].WhenReset then
+            RequiredPropertyTypes[Type].SignalReset = SignalToReset:Connect(function()
+                RequiredPropertyTypes[Type].WhenReset(Thing)
             end)
         end
 
@@ -165,6 +173,10 @@ local function DisconnectEverythin()
             v.ToDisconnect:Disconnect()
             v.ToDisconnect = nil
         end
+        if v.SignalReset then
+            v.SignalReset:Disconnect()
+            v.SignalReset = nil
+        end
     end
 end
 
@@ -180,6 +192,7 @@ function PropertiesRender.Init()
     local BaseWindow
 
     Studio.Editor3D.OnSelect:Connect(function(Thing)
+        SignalToReset.Invoke()
         DisconnectEverythin()
 
         Window:ClearAllChildren()
