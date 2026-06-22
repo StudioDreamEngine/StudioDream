@@ -3,14 +3,14 @@ local Stringthing
 function Numbered.Start(FrameOption,Thing,Property) 
     Stringthing = Runtime.Things.Create("TextInput") {
         Size = Pivot2D.FromScale(1,1),
-        Text = tostring(math.round(Thing[Property])),
+        Text = tostring(Thing[Property]),
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text2,
         Parent = FrameOption
     }
 
     Stringthing.FocusEnd:Connect(function()
-        Thing[Property] = tonumber(Stringthing.Text)
+        Runtime.Things.SetProperty(Thing,Property,tonumber(Stringthing.Text))
         --Studio.Editor3D.PropertyChanged.Invoke(Thing,Property,Thing[Property])
         
         --print(Studio.Layout.WindowsCreated)
@@ -20,7 +20,7 @@ function Numbered.Start(FrameOption,Thing,Property)
 end
 
 function Numbered.Update(NewVal)
-    Stringthing:SetText(math.round(NewVal))
+    Stringthing:SetText(tostring(NewVal))
 end
 
 return Numbered

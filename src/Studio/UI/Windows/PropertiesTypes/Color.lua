@@ -1,0 +1,17 @@
+local ButtonTest = {}
+
+function ButtonTest.Start(FrameOption,Thing,Property) 
+    local Stringthing = Runtime.Things.Create("TextButton") {
+        Size = Pivot2D.FromScale(1,1),
+        Text = "Imatestthing",
+        BackgroundTransparency = 1,
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2,
+        Parent = FrameOption
+    }
+
+    Stringthing.Clicked:Connect(function()
+        print("wow")
+    end)
+end
+
+return ButtonTest
