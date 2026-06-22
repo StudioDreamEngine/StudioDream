@@ -99,7 +99,7 @@ function Splash.Load(ProjectPath)
     Shared.StartTarget()
     Splash.ChangeStatus("")
 
-    if (not Runtime.FromRestart) then
+    if (not love.restart) then
         Splash.Out()
     else
         SplashContainer:Destroy()

@@ -44,6 +44,10 @@ end
 
 function Project.Save()
     print("Saving Project...")
+    if not BackendFS.GetMount() then 
+        print("Abort save, no project found")
+        return 
+    end
 
     -- Once we have several scenes, sdrm should just store the configuration
     Scenes.SaveScene("Interface.sds", Runtime.Things.GetRoot("HUD"))

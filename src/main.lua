@@ -24,6 +24,64 @@ function love.load(args)
     MYFPSCAPPER9001 = love.timer.getTime()
 end
 
+local ERROR_SEPERATE = "---------------------------------------------------------------------------------------"
+
+function love.errorhandler(msg)
+    local traceback = debug.traceback(msg)
+
+    print(traceback)
+
+    local crash_extra = "Operating System: "..love.system.getOS()
+
+    local success, msg = pcall(Runtime.OnCrash)
+    
+    if (not success) then
+        crash_extra = crash_extra.."\nCouldnt save project: "..msg
+    end
+
+    local full_trace = crash_extra.."\n"..ERROR_SEPERATE.."\n"..traceback
+
+    -- I'd make this a little better, but eh its fine enough for now
+    love.system.setClipboardText(full_trace)
+
+    love.graphics.origin()
+    love.graphics.setColor(0,0,0,0.7)
+    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
+
+    love.graphics.setColor(1,0.2,0.2)
+
+    love.graphics.setFont(love.graphics.newFont(14))
+    local y = 5
+    local function Log(msg)
+        love.graphics.print(msg or "", 5, y)
+        y = y + 20
+    end
+
+    Log("Something happened!")
+    Log("The error has been copied to your clipboard, Press ESC to exit.")
+    Log()
+    for i,v in pairs(string.split(full_trace, "\n")) do
+        Log(v)
+    end
+    love.graphics.present()
+
+    return function()
+		love.event.pump()
+
+		for e, a, b, c in love.event.poll() do
+			if e == "quit" then
+				return 1
+            elseif e == "keypressed" and a == "escape" then
+				return 1
+			end
+		end
+
+		if love.timer then
+			love.timer.sleep(0.1)
+		end
+	end
+end
+
 local DeltaTime
 local DebugFont = love.graphics.newFont()
 

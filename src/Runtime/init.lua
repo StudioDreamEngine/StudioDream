@@ -3,7 +3,6 @@ local Runtime = {}
 Runtime.Things = require("Runtime.Things")
 Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
-Runtime.FromRestart = love.restart and true
 
 Runtime.LoadProjectCallback = function() end
 
@@ -81,6 +80,10 @@ function Runtime.Update(dt)
     
     Runtime.Renderer.ViewportManager.Update(dt) -- temporary
     Runtime.Things.Update(dt)
+end
+
+function Runtime.OnCrash()
+    Runtime.Project.Save()
 end
 
 return Runtime
