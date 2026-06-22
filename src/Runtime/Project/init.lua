@@ -26,13 +26,20 @@ function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then print("Aborting project load") return end
 
-    Runtime.LoadProjectCallback()
-    
-    Resources.Load()
-    Runtime.ChangeTitle()
+    local Success, Message = pcall(function()
+        Runtime.LoadProjectCallback()
+        
+        Resources.Load()
+        Runtime.ChangeTitle()
 
-    Scenes.LoadScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
-    Scenes.LoadScene("Interface.sds", Runtime.Things.GetRoot("HUD"))
+        Scenes.LoadScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
+        Scenes.LoadScene("Interface.sds", Runtime.Things.GetRoot("HUD"))
+    end)
+
+    if (not Success) then
+        print(Message)
+        Shared.Abort("Error while loading project: "..ProjectPath)
+    end
 end
 
 -- Remount to a new directory and save project

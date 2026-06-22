@@ -5,6 +5,8 @@ local LoaderModPath = "Runtime.Resources.Loaders."
 local Identifiers, LoadedResources
 local ObjectReferences = {}
 
+Resources.Missing = {}
+
 local FormatLookup = require("Runtime.Resources.FormatLookup")
 
 function Resources.Init()
@@ -14,7 +16,7 @@ function Resources.Init()
 end
 
 -- Given a file path (relative to system root), load any file, inside or outside the project.
-function Resources.GetIdentifierIDFromPath(FilePath)
+function Resources.LoadIdentifierIDFromPath(FilePath)
     local Mount = Runtime.BackendFS.GetMount()
 
     print(Mount)
@@ -82,10 +84,7 @@ end
 
 -- Get an identifier from an IdentifierID
 function Resources.GetIdentifierFromID(IdentifierID) 
-    local ReturnIdentifier = Resources.GetStudioPath(IdentifierID) or Identifiers[IdentifierID]
-    assert(ReturnIdentifier, IdentifierID.." Doesnt exist!")
-
-    return ReturnIdentifier
+    return Resources.GetStudioPath(IdentifierID) or Identifiers[IdentifierID]
 end
 
 function Resources.ClearIdentifier() 
