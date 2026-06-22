@@ -66,9 +66,11 @@ function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
         Option.FocusEnd:Connect(function()
             local ToFilter = string.gsub(Option.Text,"%a","")
             local SplitVecText = string.split(ToFilter,",")
-
+            local RebuildVector = Vector2.new(tonumber(SplitVecText[1]) or 0,tonumber(SplitVecText[2])or 0)
             --Thing:SetTransform(Transform3D["From"..Name](tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
-            Option.Text = tostring(Vector2.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01))
+            Option.Text = tostring(RebuildVector)
+            print(Thing[Property])
+            Runtime.Things.SetProperty(Thing, Property, Pivot2D["From"..Name](tonumber(SplitVecText[1]) or 0,tonumber(SplitVecText[2])or 0))
         end)
 
         SomethingUpdated:Connect(function(NewVal)
