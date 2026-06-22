@@ -23,7 +23,7 @@ function BaseGui:GetAbsolutePosition()
 
     local Position = self:GetOffsetPosition()
     local Display = self:GetDisplayUI() ---@class Viewport2D
-
+    
     if ParentRect then
         Position = Position + ParentRect.Origin
     end
