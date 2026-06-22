@@ -6,12 +6,12 @@ Client = {}
 function Client.Init()
     local EnvironmentViewport = Things.Create("Viewport3D") {
         Parent = Things.GetRootViewport(),
-        RenderFolder = Things.GetRoot("Environment"),
+        RenderContainer = Things.GetRoot("Environment"),
         Size = Pivot2D.FromScale(1,1),
     }
 
     local HudViewport = Things.Create("Viewport2D") {
-        RenderFolder = Things.GetRoot("HUD"),
+        RenderContainer = Things.GetRoot("HUD"),
         Name = "HudViewport",
         Size = Pivot2D.FromScale(1,1),
         Layer = 2,

@@ -8,6 +8,7 @@ function BaseGui:GetOffsetPosition()
     local PositionProp = self:GetProperty("Position")
 
     local Position = PositionProp.Offset - (self.Pivot * self.AbsoluteSize)
+
     local ParentRect = self:GetParentRect()
 
     if ParentRect then
@@ -83,9 +84,20 @@ function BaseGui:GetAbsoluteSize()
     return AbsoluteSize
 end
 
+-- Return the object, or the Container
+function BaseGui:GetUIObject(Object, Viewport)
+    if Object:IsA("ViewportContainer") then
+        return Object.Adornee -- PROXY: This returns the adornee assigned, which is assigned DIRECTLY. so there is NO proxy!
+    elseif Object:IsA(Viewport and "Viewport" or "BaseGui") then
+        return Object
+    end
+end
+
 -- Find the parent element rendering this object, not really needed
 function BaseGui:GetParentElement()
-    return (self.Parent and self.Parent:IsA("BaseGui")) and self.Parent
+    if (not self.Parent) then return end
+
+    return self:GetUIObject(self.Parent)
 end
 
 function BaseGui:GetParentRect(SameDisplay)
@@ -108,7 +120,9 @@ end
 -- Find the parent Viewport2D rendering this object
 -- TODO: Viewport2D should provide this directly to the object when the display list is created
 function BaseGui:GetDisplayUI()
-    return self:FindFirstAncestorWithClass("Viewport")
+    return self:GetParentCallback(function(Object)
+        return self:GetUIObject(Object, true)
+    end)
 end
 
 function BaseGui:Draw()
@@ -229,11 +243,6 @@ end
 
 function BaseGui:UpdateTransforms()
     local NewSize = self:GetAbsoluteSize()
-    
-    if NewSize.Magnitude() == 0 then
-        printVerbose("Ignoring Transform update due to size")
-        return
-    end
 
     if (not NewSize.Is(self.AbsoluteSize)) then
         self:SetAbsoluteSize(NewSize)

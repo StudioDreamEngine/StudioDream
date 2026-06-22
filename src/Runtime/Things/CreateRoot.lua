@@ -15,7 +15,7 @@ function CreateRoot.CreateRoot()
         Name = "Root"
     }
 
-    local HUD = Things.Create("HUD", "Gui") {
+    local HUD = Things.Create("GuiContainer", "Gui") {
         Name = "HUD",
         Parent = Root
     }

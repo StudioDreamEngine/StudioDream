@@ -19,15 +19,10 @@ function Viewport3D:SetAbsoluteSize(New)
     Dream:resize(New.X, New.Y)
 end
 
-function Viewport3D:SetRenderFolder(NewRenderFolder)
-    NewRenderFolder.Viewport = self
-    self.RenderFolder = NewRenderFolder
-end
-
 function Viewport3D:GetWorld()
-    assert(self.RenderFolder, "RenderFolder not specified before rendering started!")
+    assert(self.RenderContainer, "RenderContainer not specified before rendering started!")
 
-    return self.RenderFolder.DreamWorld
+    return self.RenderContainer.DreamWorld
 end
 
 -- Pain

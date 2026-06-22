@@ -58,7 +58,7 @@ function Things.SetDebugObject(Object) Things.DebugObj = Object end
 
 
 function Things.Type(ThingType) 
-    assert(ThingType, "Invalid type ("..ThingType..")")
+    assert(Classes[ThingType], "Invalid type ("..ThingType..")")
     return require(Classes[ThingType])
 end
 

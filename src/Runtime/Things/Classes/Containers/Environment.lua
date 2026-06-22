@@ -6,8 +6,8 @@ local dispatcher = Bullet.btCollisionDispatcher(collisionConfiguration)
 local overlappingPairCache = Bullet.btDbvtBroadphase()
 local solver = Bullet.btSequentialImpulseConstraintSolver()
 
----@class Environment: Thing
-local Environment = Things.Extend("Thing")
+---@class Environment: ViewportContainer
+local Environment = Things.Extend("ViewportContainer")
 
 function Environment:new()
     Environment.super.new(self)
@@ -17,7 +17,6 @@ function Environment:new()
         Icon = "Environment"
     }
 
-    self.Viewport = nil
     self.Camera = nil
 
     self.StepPhysics = false
@@ -107,7 +106,7 @@ function Environment:Update(dt)
     end
 
     if self.Camera then
-        self.Camera.Viewport = self.Viewport
+        self.Camera.Viewport = self.Adornee
     end
 end
 

@@ -11,13 +11,12 @@ function Viewport2D:new()
 
     self.TopLayer = {}
     self.Hovering = nil
-    self.RenderFolder = nil
 end
 
 function Viewport2D:DefineAPI()
     Viewport2D.super.DefineAPI(self)
 
-    self.Proxy.Property("Thing RenderFolder")
+    self.Proxy.Property("Thing RenderContainer")
     self.Proxy.Icon("Viewport_2D")
     self.Proxy.MakeCreatable()
 end
@@ -75,7 +74,7 @@ function Viewport2D:CreateDisplayList()
     self.DisplayList = {}
     self.TopLayer = {}
     
-    self:SubmitContainerChildren(self.RenderFolder or self)
+    self:SubmitContainerChildren(self.RenderContainer or self)
 
     -- Now submit our objects that are supposed to be always on top
     for _, Child in pairs(self.TopLayer) do

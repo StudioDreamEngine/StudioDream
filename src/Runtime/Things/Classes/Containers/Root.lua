@@ -30,7 +30,7 @@ end
 
 ---@return Environment
 function Root:GetEnvironment()
-    return self.EnvironmentViewport.RenderFolder
+    return self.EnvironmentViewport.RenderContainer
 end
 
 return Root

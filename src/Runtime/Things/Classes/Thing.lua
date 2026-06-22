@@ -146,9 +146,7 @@ end
 -- Get the property or the override for it
 -- If you dont want the overriden property, dont use this
 function Thing:GetProperty(Property)
-    local HasOverride = (self.Overrides[Property] and self.Overrides[Property].Value)
-    
-    return HasOverride or self[Property]
+    return (self.Overrides[Property] and self.Overrides[Property].Value) or self[Property]
 end
 
 function Thing:Destroy()

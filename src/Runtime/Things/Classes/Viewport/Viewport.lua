@@ -8,8 +8,7 @@ local Viewport = Things.Extend("BaseGui")
 function Viewport:new()
     Viewport.super.new(self)
 
-    self.Adornee = nil
-    self.RenderFolder = nil -- idk what to name this
+    self.RenderContainer = nil -- idk what to name this
 
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
     self.DisplayList = {}
@@ -26,8 +25,18 @@ function Viewport:SendChild(Child, Order)
     self.DisplayList[Order] = Child
 end
 
+---@param NewFolder Thing
+function Viewport:SetRenderContainer(NewFolder)
+    if NewFolder:IsA("ViewportContainer") then
+        NewFolder.Adornee = self
+        self.RenderContainer = NewFolder
+    else
+        print("Couldnt set RenderContainer, RenderContainer isnt a ViewportContainer or subclass")
+    end
+end
+
 function Viewport:GetTarget()
-    return self.RenderFolder or self
+    return self.RenderContainer or self
 end
 
 function Viewport:SetAbsoluteSize(New)
