@@ -6,6 +6,10 @@ function InterfaceManager.Init()
     InterfaceManager.OnClick = Signal:New("MouseClick") 
     InterfaceManager.OnRightClick = Signal:New("MouseClick2")
 
+    -- Keep it always enabled for now
+    -- in the future (if we wanna) we can rewrite the hover system to make this work, as doing it the way we were wouldnt work
+    love.keyboard.setTextInput(true)
+
     LoveEvents.MousePressed:Connect(function(x,y,button)
         if button == 1 then
             InterfaceManager.OnClick.Invoke()

@@ -26,7 +26,6 @@ function TextInput:new()
         if (IsDown) then
             if (self.InputActive) then
                 if (Key == Enum.InputCode.Enter) then
-                    love.keyboard.setTextInput(false)
                     self.FocusEnd.Invoke()
                 elseif (Key == Enum.InputCode.Backspace) then
                     self:SetText(string.sub(self.Text, 0, -2))
@@ -47,9 +46,7 @@ function TextInput:new()
     end)
 
     Runtime.InterfaceManager.OnClick:Connect(function()
-        if self.Hovering ~= self.InputActive then 
-            love.keyboard.setTextInput(self.Hovering)
-
+        if self.Hovering ~= self.InputActive then
             self["Focus" .. (self.Hovering and "Start" or "End") ].Invoke()
         end
 

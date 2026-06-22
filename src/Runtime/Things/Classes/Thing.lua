@@ -301,10 +301,12 @@ function Thing:ClearAllChildren(NameFilter)
     for ChildUUID,_ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)
 
-        if not table.find(NameFilter, Child.Name) then
+        if Child and (not table.find(NameFilter, Child.Name)) then
             Child:Destroy()
         end
     end 
+
+    self.Children = {}
 end
 
 function Thing:Invalidate() end
