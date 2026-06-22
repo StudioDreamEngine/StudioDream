@@ -14,6 +14,7 @@ function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
 
     local IsOpen = true
     local CreatedNodes = {}
+    local Inputs = {}
 
     local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
         
@@ -62,21 +63,17 @@ function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
         }
 
         CreatedNodes[Name] = BaseProperty
+        Inputs[Name] = Option
 
         Option.FocusEnd:Connect(function()
-            local ToFilter = string.gsub(Option.Text,"%a","")
-            local SplitVecText = string.split(ToFilter,",")
-            local RebuildVector = Vector2.new(tonumber(SplitVecText[1]) or 0,tonumber(SplitVecText[2])or 0)
-            --Thing:SetTransform(Transform3D["From"..Name](tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
-            Option.Text = tostring(RebuildVector)
+            local NewVector = Vector2.FromString(Option.Text)
+            Option.Text = tostring(NewVector)
 
-            Runtime.Things.SetProperty(Thing, Property, Pivot2D.new(
-            Name == "Offset" and (tonumber(SplitVecText[1]) or 0) or Thing[Property].Offset.X
-            ,Name == "Scale" and (tonumber(SplitVecText[1])or 0) or Thing[Property].Scale.X
-            ,Name == "Offset" and (tonumber(SplitVecText[2]) or 0) or Thing[Property].Offset.Y
-            ,Name == "Scale" and (tonumber(SplitVecText[2])or 0) or Thing[Property].Scale.Y))
-            
-            print(Thing[Property])
+            local RebuiltPivot = Pivot2D.new(0,0,0,0)
+            RebuiltPivot.Offset = Vector2.FromString(Inputs.Offset.Text)
+            RebuiltPivot.Scale = Vector2.FromString(Inputs.Scale.Text)
+
+            Runtime.Things.SetProperty(Thing, Property, RebuiltPivot)
         end)
 
         SomethingUpdated:Connect(function(NewVal)

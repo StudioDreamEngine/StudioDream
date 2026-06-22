@@ -170,19 +170,19 @@ vec4 effect(vec4 _, Image canvas_color, vec2 tc, vec2 sc) {
 	bool stencilAt = sampleStencilOffset(tc);
 
 	// For performance reasons and artifact prevention on corners we dont check these
-	//bool stencilL = sampleStencilOffset(vec2(-5,0), tc);
-	//bool stencilR = sampleStencilOffset(vec2(5,0), tc);
-	//bool stencilU = sampleStencilOffset(vec2(0,-5), tc);
-	//bool stencilD = sampleStencilOffset(vec2(0,5), tc);
+	//bool stencilL = sampleStencilOffset(vec2(-4,0), tc);
+	//bool stencilR = sampleStencilOffset(vec2(4,0), tc);
+	//bool stencilU = sampleStencilOffset(vec2(0,-4), tc);
+	//bool stencilD = sampleStencilOffset(vec2(0,4), tc);
 
 	// Checking diagonals seems to result in generally better looking outlines
-	bool stencilLU = sampleStencilOffset(vec2(-5,-5), tc);
-	bool stencilRU = sampleStencilOffset(vec2(5,-5), tc);
-	bool stencilLD = sampleStencilOffset(vec2(-5,5), tc);
-	bool stencilRD = sampleStencilOffset(vec2(5,5), tc);
+	bool stencilLU = sampleStencilOffset(vec2(-4,-4), tc);
+	bool stencilRU = sampleStencilOffset(vec2(4,-4), tc);
+	bool stencilLD = sampleStencilOffset(vec2(-4,4), tc);
+	bool stencilRD = sampleStencilOffset(vec2(4,4), tc);
 
 	// Pretty simple logic here, just check if any neighbouring pixels arent in the stencil, if one isnt, we draw the outline pixel
-	bool neighbourHas = (stencilLD && stencilLU && stencilRD && stencilRU); //&& (stencilD && stencilU && stencilL && stencilR) ;
+	bool neighbourHas = (stencilLD && stencilLU && stencilRD && stencilRU);// && (stencilD && stencilU && stencilL && stencilR) ;
 
 	if (stencilAt && !neighbourHas) {
 		color = vec4(0,0,0,1);

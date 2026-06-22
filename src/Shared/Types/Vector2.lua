@@ -26,6 +26,14 @@ function Vector2.FromSimple(Simple)
     end
 end
 
+function Vector2.FromString(String)
+    local ToFilter = string.gsub(String,"%s","") -- Strip Whitespace
+    local SplitText = string.split(ToFilter,",") -- Split by ,
+
+    -- Theres 100% a better way to do this
+    return Vector2.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0)
+end
+
 function Vector2.new(x,y)
     if (not y) then
         local ExistingVector = x
@@ -92,7 +100,7 @@ function Vector2.new(x,y)
     function Object.Lerp(SecondVector, Alpha)
         return Vector2.new(math.lerp(Object.X, SecondVector.X, Alpha),math.lerp(Object.Y, SecondVector.Y, Alpha))
     end
-    
+
     function Object.Copy()
         return Vector2.new(Object.X,Object.Y)
     end

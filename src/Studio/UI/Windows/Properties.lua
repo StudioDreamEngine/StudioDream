@@ -77,13 +77,19 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
 
     RequiredPropertyTypes[Type].Start(Option,Thing,PropertyTxt,BaseProperty)
 
-        if RequiredPropertyTypes[Type].Update then
-            RequiredPropertyTypes[Type].ToDisconnect = Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
-                if WhatProperty and WhatProperty == RequiredPropertyTypes[Type].CustomConnect or WhatProperty == PropertyTxt then
-                    RequiredPropertyTypes[Type].Update(NewVal)
-                end
-            end)
-        end
+    if RequiredPropertyTypes[Type].Update then
+        RequiredPropertyTypes[Type].ToDisconnect = Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
+            if WhatProperty and WhatProperty == RequiredPropertyTypes[Type].CustomConnect or WhatProperty == PropertyTxt then
+                RequiredPropertyTypes[Type].Update(NewVal)
+            end
+        end)
+    end
+
+    if RequiredPropertyTypes[Type].WhenReset then
+        RequiredPropertyTypes[Type].SignalReset = SignalToReset:Connect(function()
+            RequiredPropertyTypes[Type].WhenReset(Thing)
+        end)
+    end
 
         if RequiredPropertyTypes[Type].WhenReset then
             RequiredPropertyTypes[Type].SignalReset = SignalToReset:Connect(function()
