@@ -47,7 +47,15 @@ function BackendFS.UnmountProject()
 end
 
 function BackendFS.MountProject(Project)
-    Mount = NativeFS.getFullPath(Project).."/"
+    local FullPath = NativeFS.getFullPath(Project)
+
+    if love.system.getOS() == Enum.Platform.Windows then
+        FullPath = string.gsub(FullPath, "\\", "/")
+    else
+        FullPath = NativeFS.getFullPath(Project).."/"
+    end
+
+    Mount = FullPath
 end
 
 return BackendFS

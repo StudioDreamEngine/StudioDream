@@ -28,10 +28,11 @@ local Enums = {
     StudioDialog = {
         Option = "Option"
     },
-    Device = {
+    Platform = {
         Android = "Android",
         iOS = "iOS",
         Linux = "Linux",
+        Windows = "Windows",
     },
     Hierachy = {
         Added = "added",
