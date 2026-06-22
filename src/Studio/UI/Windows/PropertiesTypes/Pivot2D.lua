@@ -69,8 +69,14 @@ function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
             local RebuildVector = Vector2.new(tonumber(SplitVecText[1]) or 0,tonumber(SplitVecText[2])or 0)
             --Thing:SetTransform(Transform3D["From"..Name](tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01))
             Option.Text = tostring(RebuildVector)
+
+            Runtime.Things.SetProperty(Thing, Property, Pivot2D.new(
+            Name == "Offset" and (tonumber(SplitVecText[1]) or 0) or Thing[Property].Offset.X
+            ,Name == "Scale" and (tonumber(SplitVecText[1])or 0) or Thing[Property].Scale.X
+            ,Name == "Offset" and (tonumber(SplitVecText[2]) or 0) or Thing[Property].Offset.Y
+            ,Name == "Scale" and (tonumber(SplitVecText[2])or 0) or Thing[Property].Scale.Y))
+            
             print(Thing[Property])
-            Runtime.Things.SetProperty(Thing, Property, Pivot2D["From"..Name](tonumber(SplitVecText[1]) or 0,tonumber(SplitVecText[2])or 0))
         end)
 
         SomethingUpdated:Connect(function(NewVal)
