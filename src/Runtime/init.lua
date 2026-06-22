@@ -5,6 +5,8 @@ Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
 Runtime.FromRestart = love.restart and true
 
+Runtime.LoadProjectCallback = function() end
+
 function Runtime.Init()
     Profiler.Init()
 
@@ -21,18 +23,8 @@ function Runtime.Init()
     print("Runtime Initalized")
 end
 
-function Runtime.RequestCurrentMode()
-    local ToReturn = FLAGS.ModeTarget
-    if type(ToReturn)=="string"then
-        return ToReturn
-    elseif type(ToReturn)=="boolean"then -- ?????? - Bloctans
-        print(ToReturn)
-        return (ToReturn) and "Client" or "Studio"
-    end
-end
-
 function Runtime.ChangeTitle()
-    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION, Runtime.Project.ProjectName, Runtime.RequestCurrentMode()))
+    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION, Runtime.Project.ProjectName, Shared.Target))
 end
 
 function Runtime.ChangeAppIcon(ToWhat)
@@ -59,9 +51,8 @@ function Runtime.PostInit(ProjectPath)
     Runtime.Resources.Init()
 
     Runtime.Project = require("Runtime.Project")
-    print("Running: "..tostring(Runtime.RequestCurrentMode()))
 
-    if Runtime.RequestCurrentMode() == "Client" then
+    if Shared.Target == "Client" then
         Runtime.Things.Create("TextButton") {
             Parent = Runtime.Things.GetRootViewport(),
             Size = Pivot2D.FromScale(0.1,0.1),

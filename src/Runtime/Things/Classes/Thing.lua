@@ -302,8 +302,7 @@ function Thing:ClearAllChildren(NameFilter)
         local Child = Things.Get(ChildUUID)
 
         if not table.find(NameFilter, Child.Name) then
-            Child:OnRemove(NameFilter)
-            self.Children[Child.UUID] = nil
+            Child:Destroy()
         end
     end 
 end

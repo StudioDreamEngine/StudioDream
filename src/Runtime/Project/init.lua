@@ -15,11 +15,13 @@ function Project.Load(ProjectPath)
     end
 
     BackendFS.MountProject(ProjectPath)
+    Runtime.LoadProjectCallback()
+    
     Resources.Load()
-
     Runtime.ChangeTitle()
 
-    Scenes.LoadScene("MainScene.sds")
+    Scenes.LoadScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
+    Scenes.LoadScene("Interface.sds", Runtime.Things.GetRoot("HUD"))
 end
 
 -- Remount to a new directory and save project
@@ -34,6 +36,7 @@ function Project.Save()
 
     -- Once we have several scenes, sdrm should just store the configuration
     Scenes.SaveScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
+    Scenes.SaveScene("Interface.sds", Runtime.Things.GetRoot("HUD"))
 end
 
 return Project

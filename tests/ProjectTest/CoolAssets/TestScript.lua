@@ -2,23 +2,38 @@ local Environment = root:GetEnvironment()
 
 print("Start script")
 
----@class RenderService
-local RenderService = service("RenderService")
+local HoldingCamera = false
+local CameraRotation = Vector2.zero
 
-RenderService.OnStep:Connect(function()
-    Environment:FindFirstChild("Mesh"):SetTransform(Transform3D.FromAngle(0,time(),0) * Transform3D.FromPosition(0, math.sin(time() * 4) / 2, -5))
-end)
-
-function LoopThoughtEnv()
-    for i,v in pairs(Environment:GetChildren()) do
-        print(i,v)
-    end
-end
-
-LoopThoughtEnv()
+local MouseService = service("MouseService") ---@class MouseService
+local RenderService = service("RenderService") ---@class RenderService
+local InputService = service("InputService") ---@class InputService
 
 Environment:FindFirstChild("Audio"):Play()
 
-scheduler.Yield(2)
+local Camera = Environment:FindFirstChild("Camera") ---@class Camera
+local Character = Environment:FindFirstChild("Primitive") ---@class Primitive
 
-Environment:FindFirstChild("Ball"):SetVelocity(Vector3.new(0,40,0))
+Character:SetDynamic(true)
+
+InputService.MouseEvent:Connect(function(IsDown)
+    if IsDown then
+        MouseService.SetMouseMode(Enum.MouseMode.Locked)
+    else
+        MouseService.SetMouseMode(Enum.MouseMode.Free)
+    end
+
+    HoldingCamera = IsDown
+end, Enum.MouseButton.RightClick)
+
+InputService.MouseMoved:Connect(function(MouseObject)
+    if (not HoldingCamera) then return end
+
+    local Delta = MouseObject.Delta
+    CameraRotation.X = CameraRotation.X + Delta.X/300
+    CameraRotation.Y = CameraRotation.Y - Delta.Y/300
+end)
+
+RenderService.OnStep:Connect(function()
+    Camera:SetTransform(Character.Transform * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0) * Transform3D.FromPosition(0,0,5))
+end)

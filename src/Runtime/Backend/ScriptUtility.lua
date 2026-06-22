@@ -63,6 +63,7 @@ function ScriptUtil.CreateGlobals(Script)
         Transform2D = Transform2D,
         Vector2 = Vector2,
         Vector3 = Vector3,
+        Enum = Enum,
 
         ---@param Object RequirableScript
         require = function(Object)

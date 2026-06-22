@@ -60,6 +60,9 @@ function SelectionManager.Init()
     Editor3D = Studio.Editor3D
     ToolManager = Editor3D.ToolManager
 
+    ---@diagnostic disable-next-line: duplicate-set-field
+    Runtime.LoadProjectCallback = SelectionManager.DeselectObject
+
     SelectionPriority.BindSignal(function()
         local Environment = Things.Root:GetEnvironment() ---@class Environment
         local Camera = Environment.Camera ---@class Camera

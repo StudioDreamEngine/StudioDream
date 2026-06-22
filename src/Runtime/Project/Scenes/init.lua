@@ -22,9 +22,9 @@ function Scenes.ConfigureTargetsTemp()
     Environment.Camera = Environment:FindFirstChild("Camera")
 end
 
-function Scenes.LoadScene(Path)
+function Scenes.LoadScene(Path, Target)
     if (not BackendFS.FileExists(Path)) then
-        Shared.Abort("Scene "..Path.." Doesnt exist!")
+        print("Scene "..Path.." Doesnt exist! Not loading scene...")
         return
     end
 
@@ -33,7 +33,7 @@ function Scenes.LoadScene(Path)
     local Content = BackendFS.ReadFile(Path)
     local Table = Binser.deserialize(Content)[1]
 
-    Scenes.Objects.DeserializeObjects(Table, Things.GetRoot("Environment"))
+    Scenes.Objects.DeserializeObjects(Table, Target)
     Scenes.ConfigureTargetsTemp()
 end
 

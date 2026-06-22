@@ -19,12 +19,8 @@ function love.load(args)
     Shared.Init(args)
 
     print("Runtime is ready.")
-    print(jit)
-
-    --love.graphics.captureScreenshot("Welcome ".. os.time() .. ".png")
 
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
-
     MYFPSCAPPER9001 = love.timer.getTime()
 end
 

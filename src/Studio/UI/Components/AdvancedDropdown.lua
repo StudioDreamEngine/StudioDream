@@ -170,9 +170,9 @@ return function(Choices)
     Dropdown.Visible = false
 
     function Dropdown.Toggle(Visible)
-        print("hi")
+        --print("hi")
         ToggleAnim(CurrentDropdown,Dropdown,Visible)
-        print("hi")
+        --print("hi")
         --Dropdown.Visible = Visible
         --CurrentDropdown.Visible = Visible
     end

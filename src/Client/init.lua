@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 Client = {}
 
-local StudioCamera
+--local StudioCamera
 
 function Client.Init()
     local EnvironmentViewport = Things.Create("Viewport3D") {
@@ -20,8 +20,8 @@ function Client.Init()
 
     Things.Root.EnvironmentViewport = EnvironmentViewport
 
-    StudioCamera = require("Client.StudioCamera")
-    StudioCamera.Init()
+    --StudioCamera = require("Client.StudioCamera")
+    --StudioCamera.Init()
 
     print(Things.GetRoot("Environment"):GetDescendants())
     Runtime.ScriptUtil.StartScripts()
@@ -31,7 +31,7 @@ function Client.Init()
 end
 
 function Client.Update(dt)
-    StudioCamera.Update(dt)
+    --StudioCamera.Update(dt)
 end
 
 function Client.Render()

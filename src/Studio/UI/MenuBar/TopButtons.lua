@@ -12,13 +12,11 @@ return {
                     Text = "Load Project",
                     Function = Studio.ProjectManager.LoadProject
                 },
-                --[[{
+                {
                     Type = "Button",
                     Text = "Save Project",
-                    Function = function()
-                        
-                    end
-                },]]
+                    Function = Studio.ProjectManager.SaveProject
+                },
                 {
                     Type = "Button",
                     Text = "Save Project To",
