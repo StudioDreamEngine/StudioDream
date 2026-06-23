@@ -81,7 +81,7 @@ function Backend3D.LoadObject(Identifier, Reference)
     local DreamObject = Dream:loadObjectBytes(Resource.Bytes, Resource.Type)
     AssignClassReference(DreamObject, Reference)
 
-    return DreamObject
+    return DreamObject, ResourceIdentifier
 end
 
 function Backend3D.LoadAdorn(Identifier, Parent, Reference)

@@ -9,14 +9,14 @@ Project.ProjectName = "Unnamed"
 
 function Project.ValidateAndMount(ProjectPath)
     if (not NativeFS.getInfo(ProjectPath)) then
-        Shared.Abort("Couldnt load project: "..ProjectPath)
+        Shared.QueueAbort("Couldnt load project: "..ProjectPath)
         return true
     end
 
     BackendFS.MountProject(ProjectPath)
 
     if not BackendFS.FileExists("MainScene.sds") then
-        Shared.Abort("MainScene.sds wasnt found in specified project path, are you sure it was a valid StudioDream project?")
+        Shared.QueueAbort("MainScene.sds wasnt found in specified project path, are you sure it was a valid StudioDream project?")
         BackendFS.UnmountProject()
         return true
     end
@@ -24,7 +24,7 @@ end
 
 function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
-    if WasInvalid then print("Aborting project load") return end
+    if WasInvalid then return end
 
     local Success, Message = pcall(function()
         Runtime.LoadProjectCallback()
@@ -38,7 +38,7 @@ function Project.Load(ProjectPath)
 
     if (not Success) then
         print(Message)
-        Shared.Abort("Error while loading project: "..ProjectPath)
+        Shared.QueueAbort("Error while loading project: "..ProjectPath)
     end
 end
 
@@ -52,7 +52,7 @@ end
 function Project.Save()
     print("Saving Project...")
     if not BackendFS.GetMount() then 
-        print("Abort save, no project found")
+        Shared.QueueAbort("Abort save, no project found")
         return 
     end
 

@@ -23,6 +23,8 @@ function Studio.Init()
 
     Studio.Editor3D.Init()
     Studio.Backend.Init()
+
+    Shared.ProcessQueue()
 end
 
 function Studio.Update(dt)

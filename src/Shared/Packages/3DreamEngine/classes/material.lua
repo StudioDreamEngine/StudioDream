@@ -10,7 +10,7 @@ function lib:newMaterial(name)
 	m.color = { 1.0, 1.0, 1.0, 1.0 }
 	m.emission = { 0.0, 0.0, 0.0 }
 	m.emissionFactor = { 1.0, 1.0, 1.0 }
-	m.roughness = 0 -- 1
+	m.roughness = 1
 	m.metallic = 0 -- 1
 	m.alpha = false
 	m.stencil = false

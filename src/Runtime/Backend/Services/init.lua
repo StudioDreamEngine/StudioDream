@@ -10,7 +10,7 @@ function Services.Service(Service)
         Services.Services[Service].Init()
     end
 
-    print("Returning Already-Initalized Service: "..Service)
+    printVerbose("Returning Already-Initalized Service: "..Service)
 
     return Services.Services[Service]
 end

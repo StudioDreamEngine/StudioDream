@@ -11,17 +11,28 @@ local Extensions = {
 package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?."..Extensions[CurrentOS]
 
 --Start actual stuff
+local LastQueue = 0
 local StartedTarget = false
 
 Shared.AbortAPI = nil
+Shared.AbortQueue = {}
+
+function Shared.QueueAbort(Msg)
+    print(Msg)
+    table.insert(Shared.AbortQueue, Msg)
+end
+
+function Shared.ProcessQueue()
+    if #Shared.AbortQueue > 0 then
+        Shared.AbortAPI(table.concat(Shared.AbortQueue, "\n"))
+
+        Shared.AbortQueue = {}
+    end
+end
 
 function Shared.Abort(Msg)
-    if (not Shared.AbortAPI) then
-        print("ABORTED: "..Msg)
-        os.exit(-1)
-    else
-        Shared.AbortAPI("ABORTED: "..Msg)
-    end
+    print("ABORTED: "..Msg)
+    os.exit(-1)
 end
 
 function Shared.Init(Args)
@@ -76,6 +87,11 @@ function Shared.StartTarget()
 end
 
 function Shared.UpdateTarget(dt)
+    if (GlobalTick - LastQueue) > 1 then
+        Shared.ProcessQueue()
+        LastQueue = GlobalTick
+    end
+
     Target.Update(dt)
 end
 

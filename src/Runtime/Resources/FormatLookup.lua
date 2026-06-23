@@ -5,6 +5,7 @@ return {
     sds = "Scene",
     obj = "Mesh",
     glb = "Mesh",
+    dae = "Mesh",
     lua = "Script",
     luau = "Script"
     --jpg = "Image",

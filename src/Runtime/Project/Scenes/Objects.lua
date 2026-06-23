@@ -64,9 +64,9 @@ function Objects.SerializeObject(Object, Root)
 
     for PropertyName, _ in pairs(SerializedProperties) do
         local Property = Object[PropertyName]
-        local Type = Utils.TypeOf(Property)
+        local Type = Object.Proxy.Types[PropertyName]
 
-        if Type ~= "nil" then
+        if Property ~= nil then
             printVerbose(PropertyName, Property, Type)
             
             -- Special case to resolve all root objects to the scene UUID for interchangability
@@ -110,7 +110,15 @@ function Objects.DeserializeObject(ObjectData)
         end
     end
 
-    local Thing = Things.Create(ObjectData.Type, ObjectData.UUID)(Properties)
+    local Success, Thing = pcall(function(...)
+        return Things.Create(ObjectData.Type, ObjectData.UUID)(Properties)
+    end)
+    
+    if (not Success) then
+        Shared.QueueAbort("Couldnt load object "..ObjectData.Properties.Name.Value..", "..Thing)
+        return
+    end
+
     return Thing, RelocationQueue
 end
 
@@ -128,7 +136,9 @@ function Objects.DeserializeObjects(ObjectsTable, Root)
     for _, Object in pairs(ObjectsTable) do
         local Object, RelocationQueue = Objects.DeserializeObject(Object)
 
-        RelocationQueues[Object] = RelocationQueue
+        if Object then
+            RelocationQueues[Object] = RelocationQueue
+        end
     end
 
     -- Part 2: Relocate objects

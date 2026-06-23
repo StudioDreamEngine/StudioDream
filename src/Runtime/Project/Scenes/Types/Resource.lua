@@ -8,6 +8,7 @@ function Serializer.Deserialize(Value)
     local Identifier = Runtime.Resources.GetIdentifierFromID(Value.Identifier)
 
     if (not Identifier) then
+        print("Register missing")
         Runtime.Resources.RegisterAsMissing(Value)
         return
     end

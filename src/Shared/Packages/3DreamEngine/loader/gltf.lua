@@ -166,7 +166,7 @@ local function loadMaterial(node)
 		material:setMetallic(1)
 		material:setRoughness(1)
 	end
-	
+
 	material:setEmission(unpack(node.emissiveFactor or { 0, 0, 0 }))
 	
 	--material:setAlphaMode(material.alphaMode or "OPAQUE") --todo

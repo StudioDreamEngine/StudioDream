@@ -28,6 +28,8 @@ function Client.Init()
 
     local Environment = Runtime.Things.Root:GetEnvironment()
     Environment.StepPhysics = true
+
+    Shared.AbortAPI = Shared.Abort
 end
 
 function Client.Update(dt)
