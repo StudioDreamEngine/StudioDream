@@ -35,7 +35,13 @@ end
 function Material:DefineAPI()
     Material.super.DefineAPI(self)
 
-    --self.Proxy.MakeCreatable()
+    self.Proxy.Property("Color Color","Color Emission","Color EmissionFactor","number Roughness","number Metallic","boolean Alpha","boolean Stencil","boolean Cutout","boolean Particle"
+    ,"number AlphaCutoff","number IOR","number Translucency","Enum CullMode","number MultiTextureBlendScale")
+    self.Proxy.Group("Colors","Color","Emission","EmissionFactor")
+    self.Proxy.Group("Fell","Roughness","Metallic")
+    self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode")
+    self.Proxy.Group("Texture","MultiTextureBlendScale")
+    self.Proxy.MakeCreatable()
 end
 
 return Material

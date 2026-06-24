@@ -93,6 +93,11 @@ local Enums = {
         Fit = "fit",
         Crop = "crop",
     },
+    CullMode = {
+        Back = "back",
+        Front = "front",
+        None = "none"
+    },
     InputCode = {
         -- Keyboard
         RightArrow = 'right',
