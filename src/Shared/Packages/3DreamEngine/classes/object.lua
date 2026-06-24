@@ -317,7 +317,7 @@ function class:setMaterial(material)
 end
 
 ---@private
-function class:encode(meshCache, dataStrings)
+--[[function class:encode(meshCache, dataStrings)
 	local data = {
 		["objects"] = { },
 		["meshes"] = { },
@@ -354,7 +354,7 @@ function class:encode(meshCache, dataStrings)
 	end
 	
 	return data
-end
+end]]
 
 ---@private
 function class:decode(meshData)

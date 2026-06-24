@@ -13,6 +13,7 @@ function lib:newMesh(material)
 	
 	mesh.name = "unnamed"
 	mesh.material = material
+
 	mesh.boundingSphere = self:newBoundingSphere()
 	
 	---@type MeshDrawMode
@@ -503,7 +504,7 @@ function class:getOrCreateBuffer(name)
 end
 
 ---@private
-function class:encode(meshCache, dataStrings)
+--[[function class:encode(meshCache, dataStrings)
 	local data = {
 		["name"] = self.name,
 		["meshFormat"] = self.meshFormat,
@@ -515,12 +516,8 @@ function class:encode(meshCache, dataStrings)
 	}
 	
 	--save the material id if its registered or the entire material
-	if self.material.library then
-		data["material"] = self.material.name
-	else
-		data["material"] = self.material
-	end
-	
+	data["material"] = self.material.name or self.material
+
 	--export buffer data
 	data["joints"] = self.joints
 	data["weights"] = self.weights
@@ -584,7 +581,7 @@ function class:encode(meshCache, dataStrings)
 	end
 	
 	return data
-end
+end]]
 
 ---@private
 function class:decode(meshData)

@@ -20,6 +20,11 @@ function CreateRoot.CreateRoot()
         Parent = Root
     }
 
+    local Materials = Things.Create("Materials", "Materials") {
+        Name = "Materials",
+        Parent = Root
+    }
+
     ---@module 'Viewport2D'
     local Viewport = Things.Create("Viewport2D") {
         Name = "ViewportInternal",

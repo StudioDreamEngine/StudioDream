@@ -78,7 +78,6 @@ require(lib.root .. "/settings")
 require(lib.root .. "/classes")
 require(lib.root .. "/shader")
 require(lib.root .. "/loader")
-require(lib.root .. "/materials")
 require(lib.root .. "/resources")
 require(lib.root .. "/render")
 require(lib.root .. "/renderLight")
@@ -153,39 +152,6 @@ lib.canvasCache = { }
 
 lib.renderTasks = { }
 
-if love.graphics then
-	--default objects
-	lib.skyObject = lib:loadObject(lib.root .. "/objects/sky", { ignoreMissingMaterials = true })
-	lib.cubeObject = lib:loadObject(lib.root .. "/objects/cube", { ignoreMissingMaterials = true })
-	lib.planeObject = lib:loadObject(lib.root .. "/objects/plane", { ignoreMissingMaterials = true })
-	print("Loaded Objects")
-	
-	--default textures
-	local pix = love.image.newImageData(2, 2)
-	lib.textures = {
-		default = love.graphics.newImage(lib.root .. "/res/default.png"),
-		godray = love.graphics.newImage(lib.root .. "/res/godray.png"),
-		defaultNormal = love.graphics.newImage(lib.root .. "/res/defaultNormal.png"),
-		skyFallback = love.graphics.newCubeImage({ pix, pix, pix, pix, pix, pix }),
-	}
-	lib.textures.godray:setWrap("repeat", "repeat")
-	
-	lib.textures.noise = love.graphics.newImage(lib.root .. "/res/noise.png")
-	lib.textures.noise:setWrap("repeat")
-	
-	lib.textures.foam = love.graphics.newImage(lib.root .. "/res/foam.png")
-	lib.textures.foam:setWrap("repeat")
-	
-	--load textures once actually needed
-	lib.initTextures = { }
-	function lib.initTextures:PBR()
-		if not self.PBR_done then
-			self.PBR_done = true
-			lib.textures.brdfLUT = love.graphics.newImage(lib.root .. "/res/brdfLut.png")
-		end
-	end
-end
-
 ---Reload canvases
 ---@param w number
 ---@param h number
@@ -243,6 +209,41 @@ function lib:init(w, h)
 	end
 	
 	self:initJobs()
+end
+
+function lib:prepareRuntime()
+	require(lib.root .. "/runtimeBridge")
+
+	--default objects
+	lib.skyObject = lib:loadObject(lib.root .. "/objects/sky", { ignoreMissingMaterials = true })
+	lib.cubeObject = lib:loadObject(lib.root .. "/objects/cube", { ignoreMissingMaterials = true })
+	lib.planeObject = lib:loadObject(lib.root .. "/objects/plane", { ignoreMissingMaterials = true })
+	print("Loaded Objects")
+	
+	--default textures
+	local pix = love.image.newImageData(2, 2)
+	lib.textures = {
+		default = love.graphics.newImage(lib.root .. "/res/default.png"),
+		godray = love.graphics.newImage(lib.root .. "/res/godray.png"),
+		defaultNormal = love.graphics.newImage(lib.root .. "/res/defaultNormal.png"),
+		skyFallback = love.graphics.newCubeImage({ pix, pix, pix, pix, pix, pix }),
+	}
+	lib.textures.godray:setWrap("repeat", "repeat")
+	
+	lib.textures.noise = love.graphics.newImage(lib.root .. "/res/noise.png")
+	lib.textures.noise:setWrap("repeat")
+	
+	lib.textures.foam = love.graphics.newImage(lib.root .. "/res/foam.png")
+	lib.textures.foam:setWrap("repeat")
+	
+	--load textures once actually needed
+	lib.initTextures = { }
+	function lib.initTextures:PBR()
+		if not self.PBR_done then
+			self.PBR_done = true
+			lib.textures.brdfLUT = love.graphics.newImage(lib.root .. "/res/brdfLut.png")
+		end
+	end
 end
 
 ---Clears the current scene

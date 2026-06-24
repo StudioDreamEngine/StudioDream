@@ -234,8 +234,8 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 					lastMaterial = material
 					
 					--alpha
-					checkAndSendCached(shaderObject, "alphaCutoff", material.alphaCutoff)
-					checkAndSendCached(shaderObject, "stencil", material.stencil and 1 or 0)
+					checkAndSendCached(shaderObject, "alphaCutoff", material.AlphaCutoff)
+					checkAndSendCached(shaderObject, "stencil", material.Stencil and 1 or 0)
 					
 					if isShadow then
 						if hasUniform(shaderObject, "alphaTexture") then
@@ -250,7 +250,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 						shaderObject.worldShader:perMaterial(shaderObject, material)
 						
 						--culling
-						love.graphics.setMeshCullMode(material.cullMode)
+						love.graphics.setMeshCullMode(material.CullMode)
 					end
 					
 					self.stats.materialSwitches = self.stats.materialSwitches + 1

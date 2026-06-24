@@ -26,7 +26,7 @@ lib.defaultArgs = {
 	mesh = true,
 	export3do = false,
 	skip3do = false, --todo remove
-	particleSystems = true,
+	particleSystems = false,
 	scene = false,
 	decodeBlenderNames = true,
 }

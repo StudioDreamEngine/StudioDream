@@ -1,14 +1,35 @@
 local Things = Runtime.Things
 
--- SCRAPPED!!!
-
 ---@class Material: Thing
 local Material = Things.Extend("Thing")
 
 function Material:new()
     Material.super.new(self)
 
-    self.DreamMaterial = Dream:newMaterial(self.Name)
+    self.Color = Color.new(1,1,1,1)
+    self.Emission = Color.new(0,0,0)
+    self.EmissionFactor = Color.new(1, 1, 1)
+    self.Roughness = 1
+    self.Metallic = 0 -- 1
+    self.Alpha = false
+    self.Stencil = false
+    self.Cutout = false
+    self.Particle = false
+    self.AlphaCutoff = 0.5
+    self.IOR = 1.0
+    self.Translucency = 0.9
+    self.CullMode = "back"
+
+    -- General textures
+    --self.AmbientOcclusionTexture = nil -- unused
+    self.NormalTexture = nil
+    self.EmissionTexture = nil -- Emission map texture
+    self.MaterialTexture = nil -- Combination of the metalic, roughness and AO textures, in the future, when any of those are set, set this as the actual texture, and use dream:combineTextures(metallic, roughness, AO).
+    self.AlbedoTexture = nil -- Color texture
+
+    -- Mutli texture
+    self.MultiTextureBlendScale = 3.7
+    self.BlendTexture = nil
 end
 
 function Material:DefineAPI()

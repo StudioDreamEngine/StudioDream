@@ -49,6 +49,8 @@ function Runtime.PostInit(ProjectPath)
 
     Runtime.Resources.Init()
 
+    Dream:prepareRuntime()
+
     Runtime.Project = require("Runtime.Project")
 
     if Shared.Target == "Client" then

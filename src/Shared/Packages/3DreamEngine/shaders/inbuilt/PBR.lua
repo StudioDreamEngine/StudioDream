@@ -166,7 +166,7 @@ function sh:perMaterial(shaderObject, material)
 	local shader = shaderObject.shader
 	
 	if shader:hasUniform("ior") then
-		shader:send("ior", 1 / material.ior)
+		shader:send("ior", 1 / material.IOR)
 	end
 end
 

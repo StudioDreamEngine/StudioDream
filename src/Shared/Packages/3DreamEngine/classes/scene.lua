@@ -107,25 +107,6 @@ function class:addObject(object, parentTransform, dynamic)
 	
 	local scale = transform and transform:getLossySize() or 1
 	
-	--handle LOD
-	--todo lod should be mesh-related, with it's parent object as distance metric, pass a lazy distance metric
-	if object.LOD_min or object.LOD_max then
-		--[[
-		--todo with the removal of  bounding-spheres for objects, we can now use the matrices translate components
-		local pos = getPosition(object, transform)
-		local size = getSize(object, transform)
-		local LOD_min = object.LOD_min or -math.huge
-		local LOD_max = object.LOD_max or math.huge
-		local found, preload = isWithingLOD(LOD_min, LOD_max, pos, size)
-		if preload then
-			object:preload()
-		end
-		if not found then
-			return
-		end
-		--]]
-	end
-	
 	--children
 	for _, o in pairs(object.objects) do
 		self:addObject(o, transform, dynamic)
@@ -149,7 +130,7 @@ function class:addMesh(mesh, transform, reflection, scale)
 	
 	--not visible
 	if self.shadowPass then
-		if mesh.material.alpha or not mesh.shadowVisibility or mesh.material.shadow == false then
+		if mesh.material.Alpha or not mesh.shadowVisibility or mesh.material.shadow == false then
 			return
 		end
 	else
@@ -159,7 +140,7 @@ function class:addMesh(mesh, transform, reflection, scale)
 	end
 	
 	--wrong alpha
-	if (self.alpha and true) ~= (mesh.material.alpha and true) then
+	if (self.alpha and true) ~= (mesh.material.Alpha and true) then
 		return
 	end
 	

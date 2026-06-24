@@ -1,20 +1,21 @@
 local Color = {}
 
-function Color.new(R,G,B)
+function Color.new(R,G,B,A)
     local Object = setmetatable({
         R = 1,
         G = 1,
         B = 1,
+        A = 1,
         Type = "Color"
     }, {
         __mul = function (t1, t2)
             -- is there a better way to do this
             if type(t1) == "number" then
-                return Color.new(t2.R * t1, t2.G * t1, t2.B * t1)
+                return Color.new(t2.R * t1, t2.G * t1, t2.B * t1, t2.A)
             elseif type(t2) == "number" then
-                return Color.new(t1.R * t2, t1.G * t2, t1.B * t2)
+                return Color.new(t1.R * t2, t1.G * t2, t1.B * t2, t1.A)
             else
-                return Color.new(t1.R * t2.R, t1.G * t2.G, t1.B * t2.B)
+                return Color.new(t1.R * t2.R, t1.G * t2.G, t1.B * t2.B, t1.A)
             end
         end
     })
@@ -27,6 +28,14 @@ function Color.new(R,G,B)
         Object.R = R
         Object.G = G
         Object.B = B
+    end
+
+    if A then
+        Object.A = A
+    end
+
+    function Object.ToShader()
+        return {Object.R, Object.G, Object.B, Object.A}
     end
 
     return Object

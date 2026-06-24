@@ -52,10 +52,10 @@ function sh:perMaterial(shaderObject, material)
 	local t = dream:getImage(material.albedoTexture) or dream.textures.default
 	shader:send("albedoTexture", t)
 	shader:send("albedoTextureSize", { 1 / t:getWidth(), 1 / t:getHeight() })
-	shader:send("albedoColor", material.color)
+	shader:send("albedoColor", material.Color)
 	
-	shader:send("emissionColor", material.emission)
-	shader:send("emissionFactor", material.emissionFactor)
+	shader:send("emissionColor", material.Emission)
+	shader:send("emissionFactor", material.EmissionFactor)
 end
 
 return sh

@@ -3,9 +3,6 @@ local Things = Runtime.Things
 ---@class Drawable3D: Base3D
 local Drawable3D = Things.Extend("Base3D")
 
-local StencilMaterial = Dream:newMaterial()
-StencilMaterial.stencil = true
-
 function Drawable3D:new()
     Drawable3D.super.new(self)
 
@@ -107,7 +104,7 @@ function Drawable3D:Update(dt)
     end
 
     for _, Mesh in pairs(self.Drawable:getAllMeshes()) do
-        Mesh[1].material.stencil = self.Outline
+        Mesh[1].material.Stencil = self.Outline
     end
 end
 

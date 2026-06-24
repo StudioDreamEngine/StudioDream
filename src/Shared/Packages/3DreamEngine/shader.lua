@@ -237,7 +237,7 @@ function lib:getRenderShader(mesh, reflection, globalIdentifier, alpha, canvases
 	--construct full ID
 	local shaderID = string.char(
 			-- TODO: Bitmask for this
-			(reflection and 1 or 0) + (mesh.instanceMesh and 2 or 0) + (mesh.spriteInstanceMesh and 4 or 0) + (mat.cutout and 8 or 0) + (mat.dither and 16 or 0) + (mat.translucency > 0 and 32 or 0) + (mat.particle and 64 or 0) + (mat.stencil and 128 or 0),
+			(reflection and 1 or 0) + (mesh.instanceMesh and 2 or 0) + (mesh.spriteInstanceMesh and 4 or 0) + (mat.Cutout and 8 or 0) + (mat.Dither and 16 or 0) + (mat.Translucency > 0 and 32 or 0) + (mat.Particle and 64 or 0) + (mat.Stencil and 128 or 0),
 			pixelShader.id % 256, math.floor(pixelShader.id / 256),
 			vertexShader.id % 256, math.floor(vertexShader.id / 256),
 			worldShader.id % 256, math.floor(worldShader.id / 256),
@@ -273,27 +273,27 @@ function lib:getRenderShader(mesh, reflection, globalIdentifier, alpha, canvases
 		local vertex = { }
 		
 		--if instancing is used
-		if mesh.instanceMesh then
+		if mesh.InstanceMesh then
 			table.insert(flags, "#define INSTANCING")
 		end
 		
 		--if sprite instancing is used
-		if mesh.spriteInstanceMesh then
+		if mesh.SpriteInstanceMesh then
 			table.insert(flags, "#define SPRITE_INSTANCING")
 		end
 		
 		--cutout
-		if mat.cutout then
+		if mat.Cutout then
 			table.insert(flags, "#define CUTOUT")
 		end
 		
 		--dither
-		if mat.dither then
+		if mat.Dither then
 			table.insert(flags, "#define DITHER")
 		end
 		
 		--translucency
-		if mat.translucency > 0 then
+		if mat.Translucency > 0 then
 			table.insert(flags, "#define TRANSLUCENCY")
 		end
 		

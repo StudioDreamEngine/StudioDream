@@ -127,11 +127,11 @@ function class:createVertices(lineWidths, lines, wrapLimit, align, transform)
 					v.VertexNormalY = normal.y * 127.5 + 127.5
 					v.VertexNormalZ = normal.z * 127.5 + 127.5
 					
-					v.VertexMaterialX = (currentMaterial.roughness or self.material.roughness) * 255
-					v.VertexMaterialY = (currentMaterial.metallic or self.material.metallic) * 255
-					v.VertexMaterialZ = (currentMaterial.emission or self.material.emission[1]) * 255
+					v.VertexMaterialX = (currentMaterial.roughness or self.material.Roughness) * 255
+					v.VertexMaterialY = (currentMaterial.metallic or self.material.Metallic) * 255
+					v.VertexMaterialZ = (currentMaterial.emission or self.material.Emission[1]) * 255
 					
-					local color = currentMaterial.color or self.material.color
+					local color = currentMaterial.color or self.material.Color
 					v.VertexColorX = color[1] * 255
 					v.VertexColorY = color[2] * 255
 					v.VertexColorZ = color[3] * 255

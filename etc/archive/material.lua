@@ -20,7 +20,6 @@ function lib:newMaterial(name)
 	m.name = name or "Unnamed"
 	m.ior = 1.0
 	m.translucency = 0.9
-	m.library = false
 	m.cullMode = "back"
 	return m
 end
@@ -138,7 +137,7 @@ end
 
 ---Sets the emission texture
 ---@param tex Texture
-function class:setEmissionTexture(tex)
+function class:SetEmissionTexture(tex)
 	self.emissionTexture = tex
 end
 
@@ -150,7 +149,7 @@ end
 
 ---Sets the normal map texture
 ---@param tex Texture
-function class:setNormalTexture(tex)
+function class:SetNormalTexture(tex)
 	self.normalTexture = tex
 end
 
@@ -207,7 +206,7 @@ function class:isParticle()
 	return self.particle
 end
 
----Load textures and similar
+--[[---Load textures and similar
 ---@param force boolean @ Bypass threaded loading and immediately load things
 function class:preload(force)
 	if self.preloaded then
@@ -247,8 +246,8 @@ local function texSetter(mat, typ, tex)
 end
 
 ---Looks for and assigns textures in a specific directory using an optional filter
----@param directory string
----@param filter string
+----@param directory string
+----@param filter string
 function class:lookForTextures(directory, filter)
 	for _, typ in ipairs({ "albedo", "normal", "roughness", "metallic", "emission", "ao", "material" }) do
 		local custom = self[typ .. "Texture"]
@@ -290,6 +289,6 @@ function class:lookForTextures(directory, filter)
 			self:setMaterialTexture(lib:combineTextures(self["metallicTexture"], self["roughnessTexture"], self["aoTex"]))
 		end
 	end
-end
+end]]
 
 return class

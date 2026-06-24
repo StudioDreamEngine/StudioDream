@@ -143,13 +143,13 @@ local function loadMaterial(node)
 	end
 	
 	if node.normalTexture then
-		material:setNormalTexture(loadTexture(file.textures[node.normalTexture.index + 1]))
+		material:SetNormalTexture(loadTexture(file.textures[node.normalTexture.index + 1]))
 	end
 	if node.occlusionTexture then
 		_, occlusionTexture = loadTexture(file.textures[node.occlusionTexture.index + 1])
 	end
 	if node.emissiveTexture then
-		material:setEmissionTexture(loadTexture(file.textures[node.emissiveTexture.index + 1]))
+		material:SetEmissionTexture(loadTexture(file.textures[node.emissiveTexture.index + 1]))
 	end
 	
 	--combine textures
@@ -169,7 +169,7 @@ local function loadMaterial(node)
 
 	material:setEmission(unpack(node.emissiveFactor or { 0, 0, 0 }))
 	
-	--material:setAlphaMode(material.alphaMode or "OPAQUE") --todo
+	--material:setAlphaMode(material.AlphaMode or "OPAQUE") --todo
 	material:setAlphaCutoff(node.alphaCutoff or 0.5)
 	material:setCullMode(material.doubleSided and "none" or "back")
 	
