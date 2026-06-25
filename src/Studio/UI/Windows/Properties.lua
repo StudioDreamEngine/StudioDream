@@ -7,16 +7,7 @@ Properties.ParentWith = nil
 
 Properties.PropertiesRequired = {}
 
-local Types = Utils.LoadModules("Studio/UI/Windows/PropertiesTypes_New/", true)
-
-local LineUp_Button = {
-    ["true"] = Vector2.new(64,0),
-    ["false"] = Vector2.new(0,0),
-}
-
-function Properties.RequireType(TypeReturned)
-    return Types[TypeReturned] or Types.NotFound
-end
+local Types = Utils.LoadModules("Studio/UI/Windows/PropertiesTypes/", true)
 
 function Properties.CreateProperty(PropertyInfos,ParentWhat)
     local selfed = {}
@@ -70,7 +61,6 @@ function Properties.CreateGroup(GroupName,ParentWhat)
     local Group = {}
 
     Group.Connections = {} -- this will also handle Property connections, so when reloading they all disconnect
-
     Group.IsOpen = true
     
     Group.BaseGroup = Things.Create("Square") { 
@@ -78,8 +68,6 @@ function Properties.CreateGroup(GroupName,ParentWhat)
         BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
         Parent = ParentWhat or Properties.ParentWith,
-      --  OutlineSize = 2,
-      --  OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
         CornerRadius = 2,
     }
 
@@ -105,7 +93,7 @@ function Properties.CreateGroup(GroupName,ParentWhat)
         Rect = Rect.new(Vector2.new(64,0),Vector2.new(64,64))
     }
 
-    Group.GroupList = Things.Create("Square") { 
+    Group.List = Things.Create("Square") { 
         Size = Pivot2D.FromScale(.98,1),
         AutomaticSize = Enum.AutomaticSize.Y,
         Pivot = Vector2.new(0,0),
@@ -119,19 +107,22 @@ function Properties.CreateGroup(GroupName,ParentWhat)
     }
     
     Group.ListLayout = Things.Create("ListLayout") {
-        Parent = Group.GroupList,
+        Parent = Group.List,
         Alignment = Enum.Alignment.TopCenter,
         Padding = 2,
     }
     
-    function Group.OpenFunction(UseMe) 
-        Group.IsOpen = not Group.IsOpen
-        Group.Button:SetImageRect(Rect.new(LineUp_Button[tostring(UseMe and UseMe or Group.IsOpen)],Vector2.new(64,64)))
-        Group.GroupList.Visible = UseMe and UseMe or Group.IsOpen
+    function Group.Toggle(Toggle) 
+        Group.IsOpen = Toggle
+        Group.List:SetVisible(Toggle)
+
+        Group.Button:SetImageRect(Rect.new(Vector2.new(Toggle and 64 or 0, 0),Vector2.new(64,64)))
     end
 
-    Group.OpenFunction(Group.IsOpen) 
-    table.insert(Group.Connections, Group.Button.Clicked:Connect(Group.OpenFunction))
+    Group.Toggle(true)
+    table.insert(Group.Connections, Group.Button.Clicked:Connect(function()
+        Group.Toggle(not Group.IsOpen)
+    end))
 
     return Group
 end
@@ -139,22 +130,22 @@ end
 function Properties.RenderEverything(Thing)
     Properties.ParentWith:ClearAllChildren({"ListLayout"})
 
-    for GroupName, Group in pairs(Thing.Proxy.Groups) do
-        local ReturnedFromGroup = Properties.CreateGroup(GroupName)
-        local GroupToParent = ReturnedFromGroup.GroupList
+    for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
+        local GroupNode = Properties.CreateGroup(GroupName)
+        local GroupToParent = GroupNode.List
 
-        for _, Property in pairs(Group) do
+        for _, Property in pairs(GroupData) do
             local PropertyInfo = {
                 Name = Property,
                 Thing = Thing,
                 Type = Thing.Proxy.Types[Property],
-                Connections = ReturnedFromGroup.Connections
+                Connections = GroupNode.Connections
             }
 
-            local Required = Properties.RequireType(PropertyInfo.Type)
-            --assert(Type, Thing.ClassName.." has improperly defined property "..Property)
-            local PropertyReturn = Properties.CreateProperty(PropertyInfo,GroupToParent)
-            Required.Start(PropertyReturn)
+            local Required = Types[PropertyInfo.Type] or Types.NotFound
+
+            local Property = Properties.CreateProperty(PropertyInfo,GroupToParent)
+            Required.Start(Property)
         end
     end
 end
@@ -164,7 +155,6 @@ function Properties.Init()
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
-        --BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Parent =  Properties.Container,
     }
 
@@ -179,4 +169,5 @@ end
 function Properties.Update(dt)
     
 end
+
 return Properties
