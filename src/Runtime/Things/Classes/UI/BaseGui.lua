@@ -28,8 +28,12 @@ function BaseGui:GetAbsolutePosition()
         Position = Position + ParentRect.Origin
     end
 
-    if self.MouseLocked and Display then
-        Position = Display.MousePosition + self.LockOrigin
+    if Display then
+        if self.MouseLocked then
+            Position = Display.MousePosition + self.LockOrigin
+        end
+
+        self.ViewportPosition = Position + Display.AbsolutePosition
     end
 
     return Position
@@ -168,6 +172,7 @@ function BaseGui:new()
 
     self.Transparency = 0
 
+    self.ViewportPosition = Vector2.zero
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteSize = self:GetAbsoluteSize()
 

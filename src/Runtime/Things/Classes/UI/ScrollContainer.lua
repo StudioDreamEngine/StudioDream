@@ -8,6 +8,7 @@ function ScrollContainer:new()
     ScrollContainer.super.new(self)
 
     self.ScrollTarget, self.ScrollPosition = 0, 0
+    self.LastScroll = 0
 
     self.CanvasSize = Pivot2D.FromScale(1,2)
 
@@ -41,6 +42,10 @@ function ScrollContainer:GetCanvasSize()
     return self.CanvasSize.Offset + (self.AbsoluteSize * self.CanvasSize.Scale)
 end
 
+function ScrollContainer:UpdateConstraint()
+    self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), self.AbsoluteSize))
+end
+
 function ScrollContainer:Update(dt)
     ScrollContainer.super.Update(self, dt)
 
@@ -61,8 +66,10 @@ function ScrollContainer:Update(dt)
 
     -- Temporary optimization
     if self.TruelyVisible then
-        self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), self.AbsoluteSize))
+        self:UpdateConstraint()
     end
+
+    self.LastScroll = self.ScrollPosition
 end
 
 return ScrollContainer
