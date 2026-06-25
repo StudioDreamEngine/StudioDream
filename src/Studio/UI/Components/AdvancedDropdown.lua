@@ -99,7 +99,7 @@ return function(Choices)
 
         if Position.Type == "Thing" then
             UsingSize = Size and Vector2.new(Position.AbsoluteSize.X, Position.AbsoluteSize.Y*Size.Y) or Position.AbsoluteSize
-            UsingPosition = Position.AbsolutePosition + (Position.AbsoluteSize * Vector2.yAxis)
+            UsingPosition = Position.ViewportPosition + (Position.AbsoluteSize * Vector2.yAxis)
         end
 
         CurrentDropdown:SetSize(Pivot2D.FromOffset(UsingSize.X or 200,0))
