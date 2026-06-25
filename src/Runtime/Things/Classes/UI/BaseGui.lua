@@ -33,7 +33,7 @@ function BaseGui:GetAbsolutePosition()
             Position = Display.MousePosition + self.LockOrigin
         end
 
-        self.ViewportPosition = Position + Display:GetAbsolutePosition()
+        self.ViewportPosition = Position + Display.AbsolutePosition
     end
 
     return Position
