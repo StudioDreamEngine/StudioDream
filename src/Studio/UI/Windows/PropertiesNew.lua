@@ -24,7 +24,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
     local PropertyWillHandle = {
         {
             Thing = PropertyInfos.Thing,
-            PropertyName = PropertyInfos.Name
+            Property = PropertyInfos.Name
         },
     }
 
@@ -60,6 +60,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
     }
 
     selfed.Connections = PropertyInfos.Connections
+    
     selfed.WillHandle = PropertyWillHandle
     
     return selfed
@@ -146,7 +147,8 @@ function Properties.RenderEverything(Thing)
             local PropertyInfo = {
                 Name = Property,
                 Thing = Thing,
-                Type = Thing.Proxy.Types[Property]
+                Type = Thing.Proxy.Types[Property],
+                Connections = ReturnedFromGroup.Connections
             }
 
             local Required = Properties.RequireType(PropertyInfo.Type)
