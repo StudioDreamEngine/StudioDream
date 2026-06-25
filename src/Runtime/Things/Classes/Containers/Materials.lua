@@ -6,7 +6,7 @@ local Materials = Things.Extend("Thing")
 function Materials:DefineAPI()
     Materials.super.DefineAPI(self)
 
-    --self.Proxy.Icon("Environment")
+    self.Proxy.Icon("Materials")
 end
 
 return Materials

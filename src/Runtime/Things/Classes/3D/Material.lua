@@ -41,6 +41,7 @@ function Material:DefineAPI()
     self.Proxy.Group("Fell","Roughness","Metallic")
     self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode")
     self.Proxy.Group("Texture","MultiTextureBlendScale")
+    self.Proxy.Icon("Material")
     self.Proxy.MakeCreatable()
 end
 
