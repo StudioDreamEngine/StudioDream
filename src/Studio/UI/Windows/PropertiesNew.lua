@@ -7,7 +7,7 @@ Properties.ParentWith = nil
 
 Properties.PropertiesRequired = {}
 
-Properties.RequiredTypes = {}
+local Types = Utils.LoadModules("Studio/UI/Windows/PropertiesTypes_New/", true)
 
 local LineUp_Button = {
     ["true"] = Vector2.new(64,0),
@@ -15,16 +15,7 @@ local LineUp_Button = {
 }
 
 function Properties.RequireType(TypeReturned)
-    if Utils.FileExists("Studio/UI/Windows/PropertiesTypes_New/" .. TypeReturned .. ".lua") then
-        if not Properties.RequiredTypes[TypeReturned] then
-            Properties.RequiredTypes[TypeReturned] = require("Studio/UI/Windows/PropertiesTypes_New/" .. TypeReturned)
-        end
-        return Properties.RequiredTypes[TypeReturned]
-    end
-    if TypeReturned ~= "NotFound" then
-        return Properties.RequireType("NotFound")
-    end
-    return nil
+    return Types[TypeReturned] or Types.NotFound
 end
 
 function Properties.CreateProperty(PropertyInfos,ParentWhat)
@@ -75,13 +66,13 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
 end
 
 function Properties.CreateGroup(GroupName,ParentWhat)
-    local selfed = {}
+    local Group = {}
 
-    selfed.Connections = {} -- this will also handle Property connections, so when reloading they all disconnect
+    Group.Connections = {} -- this will also handle Property connections, so when reloading they all disconnect
 
-    selfed.IsOpen = true
+    Group.IsOpen = true
     
-    selfed.BaseGroup = Things.Create("Square") { 
+    Group.BaseGroup = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,25,0),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
@@ -91,29 +82,29 @@ function Properties.CreateGroup(GroupName,ParentWhat)
         CornerRadius = 2,
     }
 
-    selfed.TextOfGroup = Things.Create("Text") {
+    Group.TextOfGroup = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,0.8),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
         Text = GroupName,
-        Parent = selfed.BaseGroup,
+        Parent = Group.BaseGroup,
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text2,
         Font = Studio.Theme.GetCurrentTheme().FontBold,
     }
 
-    selfed.Button = Runtime.Things.Create("ImageButton") {
+    Group.Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,0.8),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
-        Parent = selfed.BaseGroup,
+        Parent = Group.BaseGroup,
         Rect = Rect.new(Vector2.new(64,0),Vector2.new(64,64))
     }
 
-    selfed.GroupList = Things.Create("Square") { 
+    Group.GroupList = Things.Create("Square") { 
         Size = Pivot2D.FromScale(.98,1),
         AutomaticSize = Enum.AutomaticSize.Y,
         Pivot = Vector2.new(0,0),
@@ -126,43 +117,39 @@ function Properties.CreateGroup(GroupName,ParentWhat)
         CornerRadius = 2,
     }
     
-    selfed.ListLayout = Things.Create("ListLayout") {
-        Parent = selfed.GroupList,
+    Group.ListLayout = Things.Create("ListLayout") {
+        Parent = Group.GroupList,
         Alignment = Enum.Alignment.TopCenter,
         Padding = 2,
     }
     
-    function selfed.OpenFunction(UseMe) 
-        selfed.IsOpen = not selfed.IsOpen
-        selfed.Button:SetImageRect(Rect.new(LineUp_Button[tostring(UseMe and UseMe or selfed.IsOpen)],Vector2.new(64,64)))
-        selfed.GroupList.Visible = UseMe and UseMe or selfed.IsOpen
+    function Group.OpenFunction(UseMe) 
+        Group.IsOpen = not Group.IsOpen
+        Group.Button:SetImageRect(Rect.new(LineUp_Button[tostring(UseMe and UseMe or Group.IsOpen)],Vector2.new(64,64)))
+        Group.GroupList.Visible = UseMe and UseMe or Group.IsOpen
     end
 
-    selfed.OpenFunction(selfed.IsOpen) 
+    Group.OpenFunction(Group.IsOpen) 
+    table.insert(Group.Connections, Group.Button.Clicked:Connect(Group.OpenFunction))
 
-    selfed.Connections[Utils.CountTable(selfed.Connections)+1] = selfed.Button.Clicked:Connect(selfed.OpenFunction)
-
-    return selfed
+    return Group
 end
 
 function Properties.RenderEverything(Thing)
     Properties.ParentWith:ClearAllChildren({"ListLayout"})
 
-    for GroupName,v in pairs(Thing.Proxy.Groups) do
+    for GroupName, Group in pairs(Thing.Proxy.Groups) do
         local ReturnedFromGroup = Properties.CreateGroup(GroupName)
         local GroupToParent = ReturnedFromGroup.GroupList
 
-        for v,Property in pairs(Thing.Proxy.Groups[GroupName]) do
+        for _, Property in pairs(Group) do
             local PropertyInfo = {
                 Name = Property,
                 Thing = Thing,
-                Type = nil,
-                --ConnectHere = ReturnedFromGroup.Connections
+                Type = Thing.Proxy.Types[Property]
             }
 
-            if Thing.Proxy.Types[Property] then PropertyInfo.Type = Thing.Proxy.Types[Property] end
-
-            local Required,TypeReturned = Properties.RequireType(PropertyInfo.Type)
+            local Required = Properties.RequireType(PropertyInfo.Type)
             --assert(Type, Thing.ClassName.." has improperly defined property "..Property)
             local PropertyReturn = Properties.CreateProperty(PropertyInfo,GroupToParent)
             Required.Start(PropertyReturn)

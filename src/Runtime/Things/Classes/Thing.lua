@@ -251,6 +251,7 @@ end
 
 function Thing:IsA(ObjectType)
     return self:is(Things.Type(ObjectType))
+    --return self:is(Things.ClassDump[ObjectType])
 end
 
 function Thing:GetChildren()

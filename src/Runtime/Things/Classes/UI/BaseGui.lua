@@ -113,7 +113,9 @@ function BaseGui:GetParentRect(SameDisplay)
             SameDisplay = false 
         end
 
-        if SameDisplay and (ParentElement:GetDisplayUI() ~= self:GetDisplayUI()) then
+        -- Instead of going up the heierarchy and checking for the display, 
+        -- we just check if the parent element is a Viewport. Because if it is, then its 100% displaying to something else
+        if SameDisplay and ParentElement:IsA("Viewport") then
             return
         end
 

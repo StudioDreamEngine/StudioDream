@@ -6,6 +6,7 @@ local Objects = {}
 local Classes = {}
 
 Things.API = {}
+Things.ClassDump = {} -- Copy of classes for stuff such as IsA
 
 local ObjectsCreated = 0
 local CreateRoot
@@ -23,7 +24,10 @@ end
 
 function Things.CreateApiDump()
     for Class, _ in pairs(Classes) do
-        local ClassObject = Things.Type(Class)() ---@class Thing
+        local ClassObject = Things.Type(Class) ---@class Thing
+        --Things.ClassDump[Class] = ClassObject
+
+        ClassObject = ClassObject()
         ClassObject:DefineAPI()
         
         Things.API[Class] = ClassObject.Proxy
