@@ -239,10 +239,10 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 					
 					if isShadow then
 						if hasUniform(shaderObject, "alphaTexture") then
-							shaderObject.shader:send("alphaTexture", self:getImage(material.albedoTexture) or self.textures.default)
+							shaderObject.shader:send("alphaTexture", self:getImage(material.AlbedoTexture) or self.textures.default)
 						end
 					else
-						checkAndSendCached(shaderObject, "translucency", material.translucency)
+						checkAndSendCached(shaderObject, "translucency", material.Translucency)
 						
 						--shader
 						shaderObject.pixelShader:perMaterial(shaderObject, material)

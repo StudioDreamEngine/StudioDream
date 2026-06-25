@@ -32,6 +32,10 @@ function ScrollContainer:OnRemove()
     ScrollContainer.super.OnRemove(self)
 end
 
+function ScrollContainer:SetScroll(Scroll)
+    self.ScrollTarget = Scroll
+end
+
 -- get the absolute canvas size
 function ScrollContainer:GetCanvasSize()
     return self.CanvasSize.Offset + (self.AbsoluteSize * self.CanvasSize.Scale)

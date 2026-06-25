@@ -1,3 +1,4 @@
+-- deprecating dae for now
 --[[
 #dae - COLLADA
 --]]

@@ -171,7 +171,7 @@ local function loadMaterial(node)
 	
 	--material:setAlphaMode(material.AlphaMode or "OPAQUE") --todo
 	material:setAlphaCutoff(node.alphaCutoff or 0.5)
-	material:setCullMode(material.doubleSided and "none" or "back")
+	material:setCullMode(material.doubleSided and "none" or "back") -- why????
 	
 	return material
 end

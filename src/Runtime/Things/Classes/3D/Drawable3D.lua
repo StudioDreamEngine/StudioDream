@@ -16,7 +16,7 @@ function Drawable3D:new()
     self.Scale = Vector3.new(1, 1, 1)
     self.Velocity = Vector3.zero
 
-    self.Material = nil
+    self.Material = Dream:newMaterial()
 end
 
 function Drawable3D:DefineAPI()
@@ -35,6 +35,21 @@ function Drawable3D:SetOutline(Toggle)
     self.Outline = Toggle
 end
 
+function Drawable3D:SetMaterial(NewMaterial)
+    print(NewMaterial)
+    self.Material = NewMaterial
+
+    self:AttemptMaterialSet()
+end
+
+function Drawable3D:AttemptMaterialSet()
+    if self.Drawable and self.Material and self.Material:IsA("Material") then
+        self.Drawable:setMaterial(self.Material)
+    else
+        print("Material invalid or no drawable set")
+    end
+end
+
 ---@param NewVelocity Vector3
 function Drawable3D:SetVelocity(NewVelocity)
     self.Velocity = NewVelocity
@@ -46,11 +61,6 @@ end
 
 function Drawable3D:GetPhysicsTransform()
     return self.PhysicsBody:getWorldTransform()
-end
-
-function Drawable3D:DefineMaterial(Material)
-    self.Material = Material
-    self.Drawable:setMaterial(Material.DreamMaterial)
 end
 
 function Drawable3D:SetTransform(NewTransform)
@@ -86,6 +96,7 @@ end
 -- Hacky mesh resource system because dream loads an object directly from a file's contents
 function Drawable3D:SetResource(NewResource)
     self.Drawable, self.Resource = Runtime.Backend3D.LoadObject(NewResource, self.UUID)
+    self:AttemptMaterialSet()
 
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size
 
@@ -101,10 +112,6 @@ function Drawable3D:Update(dt)
 
     if self.Dynamic then
         self.Velocity = Vector3.FromBullet(self.PhysicsBody:getLinearVelocity())
-    end
-
-    for _, Mesh in pairs(self.Drawable:getAllMeshes()) do
-        Mesh[1].material.Stencil = self.Outline
     end
 end
 

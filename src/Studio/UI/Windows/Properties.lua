@@ -202,6 +202,7 @@ function PropertiesRender.Init()
         DisconnectEverythin()
 
         Window:ClearAllChildren()
+        Window:SetScroll(0)
 
         BaseWindow = Things.Create("Square") { 
             Size = Pivot2D.FromScale(1,1),
