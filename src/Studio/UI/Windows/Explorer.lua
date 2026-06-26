@@ -45,6 +45,7 @@ function Explorer.CreateNode(Object, Depth)
         BackgroundTransparency = 1,
         Layer = 3,
         Parent = Window,
+        CornerRadius = 10,
     }
 
     local Line = Things.Create("Square") { 
@@ -60,7 +61,7 @@ function Explorer.CreateNode(Object, Depth)
     local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon)
     NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeInner:SetParent(Node)
-
+    
     return Node, NodeInner
 end
 

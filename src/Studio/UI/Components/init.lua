@@ -109,12 +109,10 @@ function Components.ExpandableDropdown(Header, List)
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0.5,1),
         BackgroundTransparency = 1,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
         Order = Header.Order,
         Parent = List,
-        OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
-        CornerRadius = 2,
     }
 
     ExpandableDropdown.Layout = Things.Create("ListLayout") {

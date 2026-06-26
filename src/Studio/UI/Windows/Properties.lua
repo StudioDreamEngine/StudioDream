@@ -23,22 +23,24 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
     }
 
     selfed.BaseProperty = Things.Create("Square") { 
-        Size = Pivot2D.new(0,0.99,20,0),
+        Size = Pivot2D.new(0,0.99,23,0),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
         Layer = 3,
         Parent = ParentWhat or Properties.ParentWith,
         CornerRadius = 6,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+        OutlineSize = 1
     }
 
     selfed.Option = Things.Create("Square") {
-        Size = Pivot2D.FromScale(0.5,1),
+        Size = Pivot2D.FromScale(0.49,.8),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
         Parent = selfed.BaseProperty,
-        CornerRadius = 2,
+        CornerRadius = 6,
     }
 
     selfed.Text = Things.Create("Text") {
@@ -61,7 +63,7 @@ function Properties.CreateGroup(GroupName)
     local Group = {}
 
     Group.BaseGroup = Things.Create("Square") { 
-        Size = Pivot2D.new(0,1,25,0),
+        Size = Pivot2D.new(0,1,26,0),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
         Parent = Properties.ParentWith,

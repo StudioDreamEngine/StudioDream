@@ -13,7 +13,9 @@ function Template.Start(MainInfo)
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,1),
-        Parent = MainInfo.Option
+        Parent = MainInfo.Option,
+        Alignment = Enum.Alignment.Center,
+        Font = Studio.Theme.GetCurrentTheme().FontBold,
     }
 end
 

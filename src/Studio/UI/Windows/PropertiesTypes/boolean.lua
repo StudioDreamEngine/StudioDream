@@ -10,6 +10,16 @@ local function UpdateButton(Property,Button)
     Button:SetImageRect(Rect.new(LineUp[tostring(Property)],Vector2.new(64,64)))
 end
 
+local function CheckAllTheSame(table)
+    local FirtaVal = table[1] and table[1].Thing[table[1].Property]
+    for i, Info in pairs(table) do
+        if Info.Thing[Info.Property] ~= FirtaVal then
+            return false
+        end
+    end
+    return true
+end
+
 function Bool.Start(MainInfo)
 
     local Button = Runtime.Things.Create("ImageButton") {
@@ -23,15 +33,27 @@ function Bool.Start(MainInfo)
         UpdateButton(Info.Thing[Info.Property],Button)
     end
 
-   --[[ table.insert(MainInfo.Connections,Button.Clicked:Connect(function()
-        for i,Info in pairs(MainInfo.WillHandle) do  
-            -- Problems: Doesnt set display as "nil" if one of them are diferent, Just can inverse everyone out for now (if one of them are diferrent maybe make an looper?? so that doesnt happend)
-            local CurrentVal = Info.Thing[Info.Property]
-            Runtime.Things.SetProperty(Info.Thing,Info.Property,(not CurrentVal))
-
-            UpdateButton(Info.Thing[Info.Property],Button) -- MAKE THIS AS A "NIL" DISPLAY IF ONE OF THEM ARE DIFERENT!! IDK HOW TO DO IT NOW BUT DO IT!!
+    table.insert(MainInfo.Connections, Button.Clicked:Connect(function()
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
+        local NotSameSwitch = MainInfo.WillHandle[1].Property
+        
+        for i, Info in pairs(MainInfo.WillHandle) do
+            if AllSame then
+                local CurrentVal = Info.Thing[Info.Property]
+                Runtime.Things.SetProperty(Info.Thing, Info.Property, (not CurrentVal))
+            else
+                Runtime.Things.SetProperty(Info.Thing, Info.Property, (not NotSameSwitch))
+            end
         end
-    end))]]
+
+        if AllSame then
+            local NewVal = MainInfo.WillHandle[1].Thing[MainInfo.WillHandle[1].Property]
+            UpdateButton(NewVal, Button)
+        else
+            UpdateButton(nil, Button)
+        end
+
+    end))
 
 end
 
