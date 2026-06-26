@@ -5,7 +5,7 @@ local Explorer = {}
 Explorer.Tree = {}
 
 local AddButtonObject = Runtime.Things.Create("ImageButton") {
-    Resource = "Internal/Icons/Engine/AddThing.png",
+    Resource = "Internal/Studio/AddThing.png",
     Size = Pivot2D.FromScale(1,1),
     Position = Pivot2D.FromScale(0.5,0),
     Pivot = Vector2.new(1,0.0001),

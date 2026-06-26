@@ -70,8 +70,8 @@ function Components.CreateIconObject(Name, Icon)
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text
     }
 
-    local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/EditorIcons/File_Not_Found.png")
-    local Icon = Runtime.Resources.GetIdentifierFromID("Internal/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
+    local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/File_Not_Found.png")
+    local Icon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
     
     local NodeIcon = Things.Create("Image2D") {
         Size = Pivot2D.new(0,0.1,0,1),
@@ -83,6 +83,58 @@ function Components.CreateIconObject(Name, Icon)
     }
 
     return NodeInner
+end
+
+---@param List BaseGui
+function Components.ExpandableDropdown(Header, List)
+    assert(List:FindFirstChildOfClass("ListLayout"), "Components.ExpandableDropdown is only intended for ListLayouts!")
+    local ExpandableDropdown = {
+        Visible = true -- Shit's getting crowded...
+    }
+
+    ExpandableDropdown.Button = Runtime.Things.Create("ImageButton") {
+        Resource = "Internal/Studio/OpenMenu.png",
+        Size = Pivot2D.FromScale(0.8,0.8),
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Text,
+        SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
+        Position = Pivot2D.FromScale(1,0.5),
+        Pivot = Vector2.new(1,0.5),
+        Parent = Header,
+        ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64))
+    }
+
+    ExpandableDropdown.Container = Things.Create("Square") { 
+        Size = Pivot2D.FromScale(0.98,1),
+        AutomaticSize = Enum.AutomaticSize.Y,
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0.5,1),
+        BackgroundTransparency = 1,
+        Layer = 3,
+        Order = Header.Order,
+        Parent = List,
+        OutlineSize = 2,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+        CornerRadius = 2,
+    }
+
+    ExpandableDropdown.Layout = Things.Create("ListLayout") {
+        Parent = ExpandableDropdown.Container,
+        Alignment = Enum.Alignment.TopCenter,
+        Padding = 2,
+    }
+
+    function ExpandableDropdown.Toggle(Visible)
+        ExpandableDropdown.Visible = Visible
+        ExpandableDropdown.Container:SetVisible(Visible)
+        ExpandableDropdown.Button:SetImageRect(Rect.new(
+            Vector2.new(ExpandableDropdown.Visible and 64 or 0, 0),
+            Vector2.new(64,64)
+        ))
+    end
+
+    ExpandableDropdown.Button.Clicked:Connect(function() ExpandableDropdown.Toggle(not ExpandableDropdown.Visible) end)
+    
+    return ExpandableDropdown
 end
 
 function Components.SimpleDropdown(Position, Choices, Size)

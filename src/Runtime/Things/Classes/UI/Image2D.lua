@@ -51,10 +51,15 @@ end
 function Image2D:SetResource(Identifier)
     self.ImageFile, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID)
 
+    self:RefreshQuad() -- Only refresh the quad object
+end
+
+function Image2D:RefreshQuad()
     local Width, Height = self.ImageFile:getDimensions()
     local Size = Vector2.new(Width, Height)
 
-    self:SetImageRect(Rect.new(Vector2.zero, Size))
+    -- ImageRect is optional, if we dont find one, default to the image itself.
+    self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect or Rect.new(Vector2.zero, Size), Size)
 end
 
 function Image2D:SetImageRect(NewRect)
@@ -63,11 +68,8 @@ function Image2D:SetImageRect(NewRect)
         return 
     end
 
-    local Width, Height = self.ImageFile:getDimensions()
-    local Size = Vector2.new(Width, Height)
-
     self.ImageRect = NewRect
-    self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect, Size)
+    self:RefreshQuad()
 end
 
 function Image2D:UpdateAspect()

@@ -18,7 +18,7 @@ function Notify.Notify(Message,Type)
         Size = Pivot2D.FromScale(.35,.35),
         Layer = 2,
         Pivot = Vector2.new(0,.5),
-        Resource = "Internal/Icons/Engine/Notify/"..Type..".png",
+        Resource = "Internal/Studio/Notify/"..Type..".png",
         Position = Pivot2D.FromScale(.5,.5),
         SquareAxis = Enum.SquareAxis.Y,
         Parent = Window

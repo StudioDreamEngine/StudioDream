@@ -1,10 +1,13 @@
 local Things = Runtime.Things
 local Properties = {}
 
+--[[
+    We need a system that is able to handle several property changes at once
+    
+]]
+
 Properties.Container = nil ---@class Square
-
 Properties.ParentWith = nil
-
 Properties.PropertiesRequired = {}
 
 local Types = Utils.LoadModules("Studio/UI/Windows/PropertiesTypes/", true)
@@ -26,8 +29,6 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Layer = 3,
         Parent = ParentWhat or Properties.ParentWith,
         CornerRadius = 6,
-        --OutlineSize = 2,
-        --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     }
 
     selfed.Option = Things.Create("Square") {
@@ -51,23 +52,19 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
     }
 
     selfed.Connections = PropertyInfos.Connections
-    
     selfed.WillHandle = PropertyWillHandle
     
     return selfed
 end
 
-function Properties.CreateGroup(GroupName,ParentWhat)
+function Properties.CreateGroup(GroupName)
     local Group = {}
 
-    Group.Connections = {} -- this will also handle Property connections, so when reloading they all disconnect
-    Group.IsOpen = true
-    
     Group.BaseGroup = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,25,0),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
         Layer = 3,
-        Parent = ParentWhat or Properties.ParentWith,
+        Parent = Properties.ParentWith,
         CornerRadius = 2,
     }
 
@@ -82,49 +79,9 @@ function Properties.CreateGroup(GroupName,ParentWhat)
         Font = Studio.Theme.GetCurrentTheme().FontBold,
     }
 
-    Group.Button = Runtime.Things.Create("ImageButton") {
-        Resource = "Internal/Icons/Engine/OpenMenu.png",
-        Size = Pivot2D.FromScale(1,0.8),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Text,
-        SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
-        Position = Pivot2D.FromScale(1,0.5),
-        Pivot = Vector2.new(1,0.5),
-        Parent = Group.BaseGroup,
-        Rect = Rect.new(Vector2.new(64,0),Vector2.new(64,64))
-    }
+    ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, Properties.ParentWith)
 
-    Group.List = Things.Create("Square") { 
-        Size = Pivot2D.FromScale(.98,1),
-        AutomaticSize = Enum.AutomaticSize.Y,
-        Pivot = Vector2.new(0,0),
-        Position = Pivot2D.FromScale(0.5,1),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
-        Layer = 3,
-        Parent = ParentWhat or Properties.ParentWith,
-        OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
-        CornerRadius = 2,
-    }
-    
-    Group.ListLayout = Things.Create("ListLayout") {
-        Parent = Group.List,
-        Alignment = Enum.Alignment.TopCenter,
-        Padding = 2,
-    }
-    
-    function Group.Toggle(Toggle) 
-        Group.IsOpen = Toggle
-        Group.List:SetVisible(Toggle)
-
-        Group.Button:SetImageRect(Rect.new(Vector2.new(Toggle and 64 or 0, 0),Vector2.new(64,64)))
-    end
-
-    Group.Toggle(true)
-    table.insert(Group.Connections, Group.Button.Clicked:Connect(function()
-        Group.Toggle(not Group.IsOpen)
-    end))
-
-    return Group
+    return ExpandableDropdown.Container
 end
 
 function Properties.RenderEverything(Thing)
@@ -132,19 +89,18 @@ function Properties.RenderEverything(Thing)
 
     for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
         local GroupNode = Properties.CreateGroup(GroupName)
-        local GroupToParent = GroupNode.List
 
         for _, Property in pairs(GroupData) do
             local PropertyInfo = {
                 Name = Property,
                 Thing = Thing,
                 Type = Thing.Proxy.Types[Property],
-                Connections = GroupNode.Connections
+                Connections = {}
             }
 
             local Required = Types[PropertyInfo.Type] or Types.NotFound
 
-            local Property = Properties.CreateProperty(PropertyInfo,GroupToParent)
+            local Property = Properties.CreateProperty(PropertyInfo,GroupNode)
             Required.Start(Property)
         end
     end
@@ -163,6 +119,7 @@ function Properties.Init()
         Alignment = Enum.Alignment.TopCenter,
         Padding = 2
     }
+
     Studio.Editor3D.OnSelect:Connect(Properties.RenderEverything)
 end
 

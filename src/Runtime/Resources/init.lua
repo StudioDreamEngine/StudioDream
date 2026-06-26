@@ -140,6 +140,7 @@ function Resources.GetResource(Identifier)
             Contents = Runtime.BackendFS.ReadFile(Identifier.FilePath)
         end
 
+        assert(Contents, "Cannot read resource (Identifier: "..Identifier.Identifier..", Path: "..Identifier.FilePath..")")
         local Resource = LoaderModule(Contents, Identifier)
 
         LoadedResources[Identifier.Identifier] = Resource

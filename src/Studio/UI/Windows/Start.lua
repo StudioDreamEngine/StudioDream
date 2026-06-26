@@ -20,7 +20,7 @@ function Start.Init()
     }
 
     local Version = Runtime.Things.Create("Text") {
-        Text = "Welcome to Early Rise! ("..VERSION..")",
+        Text = "Welcome to Early Riser! ("..VERSION..")",
         --ForegroundColor = Studio.Theme.GetCurrentTheme()
         Position = Pivot2D.FromScale(0.05,0),
         Parent = Start.Container,
@@ -31,7 +31,7 @@ function Start.Init()
     }
 
     Runtime.Things.Create("Text") {
-        Text = "Welcome to Early Rise! ("..VERSION..")",
+        Text = "Welcome to Early Riser! ("..VERSION..")",
         ForegroundColor = Color.new(1,1,1),
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(0.5,0.4),

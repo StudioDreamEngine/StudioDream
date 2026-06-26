@@ -284,6 +284,16 @@ end
 function Thing:AncestorOf(Descendant)
 end
 
+function Thing:FindFirstChildOfClass(Class)
+    for ChildUUID,_ in pairs(self.Children) do
+        local Child = Things.Get(ChildUUID)
+
+        if Child:IsA(Class) then
+            return Child
+        end
+    end
+end
+
 function Thing:FindFirstChild(Name)
     for ChildUUID,_ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)
@@ -302,10 +312,9 @@ function Thing:ClearAllChildren(NameFilter)
 
         if Child and (not table.find(NameFilter, Child.Name)) then
             Child:Destroy()
+            self.Children[ChildUUID] = nil
         end
     end 
-
-    self.Children = {}
 end
 
 function Thing:Invalidate() end
