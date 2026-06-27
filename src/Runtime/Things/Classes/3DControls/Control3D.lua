@@ -8,6 +8,7 @@ function Control3D:new()
     Control3D.super.new(self)
 
     self.Adornee = nil ---@class Drawable3D
+    
     self.AdornObject = Runtime.Backend3D.CreateAdorn("MoveAdorn")
     self.Adorns = {}
 end

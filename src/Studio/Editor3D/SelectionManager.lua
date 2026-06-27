@@ -1,28 +1,22 @@
 local SelectionManager = {}
 local Things = Runtime.Things
+local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
 local Editor3D
-local ToolManager
-local LastSelection    
 
 SelectionManager.ObjectPicker = false
 SelectionManager.ObjectPickerEvent = Signal:New("GetThingToPutOnAProperty")
 
-function SelectionManager.DeselectObject(DontInvoke)
+function SelectionManager.DeselectAll()
     if Editor3D.Selecting then -- 💀💀💀💀💀
-        if Editor3D.Selecting.SetOutline then Editor3D.Selecting:SetOutline(false) end
-
-        Editor3D.Selecting = nil
-
-        if (not DontInvoke) then
-            Editor3D.OnDeselect.Invoke(Editor3D.Selecting)
-        end
+        Editor3D.Selecting = {}
+        Editor3D.OnDeselect.Invoke(Editor3D.Selecting)
     end
 
     SelectionManager.ObjectPicker = false
-    ToolManager.Deselect()
 end
 
+-- Select object, either for picker or not
 function SelectionManager.SelectObject(Thing)
     if not SelectionManager.ObjectPicker then
         SelectionManager.SelectObjectInternal(Thing)
@@ -36,23 +30,17 @@ function SelectionManager.SelectObject(Thing)
     end
 end
 
+-- Select object itself
 function SelectionManager.SelectObjectInternal(Thing)
-    if LastSelection ~= Thing then
-        SelectionManager.DeselectObject(true)
+    if InputService.KeyDown(Enum.InputCode.LeftShift) then
+        if table.find(Editor3D.Selecting, Thing) then return end
+        
+        table.insert(Editor3D.Selecting, Thing)
+    else
+        Editor3D.Selecting = {Thing}
     end
 
-    Editor3D.Selecting = Thing
-    LastSelection = Editor3D.Selecting
-
-    Editor3D.OnSelect.Invoke(Editor3D.Selecting)
-    
-    if Thing:IsA("Drawable3D") then
-        if Editor3D.Selecting.SetOutline then
-            Editor3D.Selecting:SetOutline(true)
-        end
-
-        ToolManager.Select(Editor3D.Selecting)
-    end
+    Editor3D.OnSelect.Invoke(Thing)
 end
 
 function SelectionManager.Init()
@@ -61,7 +49,7 @@ function SelectionManager.Init()
     ToolManager = Editor3D.ToolManager
 
     ---@diagnostic disable-next-line: duplicate-set-field
-    Runtime.LoadProjectCallback = SelectionManager.DeselectObject
+    Runtime.LoadProjectCallback = SelectionManager.DeselectAll
 
     SelectionPriority.BindSignal(function()
         local Environment = Things.Root:GetEnvironment() ---@class Environment
@@ -77,7 +65,7 @@ function SelectionManager.Init()
         if Raycast then -- IF STATEMENTS CHAOS!! AHHHH!!
             SelectionManager.SelectObject(Raycast.Thing)
         else
-            SelectionManager.DeselectObject()
+            SelectionManager.DeselectAll()
         end
     end, 1, function(IsDown)
         return IsDown

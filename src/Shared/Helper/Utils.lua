@@ -39,7 +39,10 @@ function Utils.DebrisThing(Obj,Timer)
     end)
 end
 
+---@deprecated
 function Utils.CountTable(Table)
+    print("Utils.CountTable is deprecated, use table.length(Table) instead.")
+
     local index = 0
     for i,v in pairs(Table) do
         index=index+1

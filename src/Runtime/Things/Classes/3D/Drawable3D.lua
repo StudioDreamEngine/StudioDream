@@ -13,7 +13,6 @@ function Drawable3D:new()
     self.PhysicsBody = nil
     self.PhysicsShape = nil
 
-    self.Scale = Vector3.new(1, 1, 1)
     self.Velocity = Vector3.zero
 
     self.Material = Dream:newMaterial()

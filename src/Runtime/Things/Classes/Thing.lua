@@ -7,7 +7,7 @@ local Thing = Object:extend()
 -- Fired as soon as the object is initally created
 function Thing:new()
     --[[
-        This is used for the engine type, its so that other parts can know that THIS table is an instance, 
+        This is used for the engine type, its so that other stuff can know that THIS table is an instance/thing, 
         This is not needed for other classes, MIKL...!
 
         - Bloctans :3
@@ -20,9 +20,11 @@ function Thing:new()
     -- Check if the object will be serialized by its parents
     self.TruelySerializable = true
 
+    -- Heierarchy
     self.ParentChanged = Signal:New("ParentChanged")
     self.ChildrenChanged = Signal:New("ChildrenChanged")
 
+    -- Change events
     self.PropertyChanged = Signal:New("SomethingChanged")
     self.AttributeChanged = Signal:New("AttributeChangedWow")
 

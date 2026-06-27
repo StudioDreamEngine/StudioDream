@@ -4,7 +4,7 @@ local Editor3D = {}
 Editor3D.SelectionManager = require("Studio.Editor3D.SelectionManager")
 Editor3D.ToolManager = require("Studio.Editor3D.ToolManager")
 
-Editor3D.Selecting = nil
+Editor3D.Selecting = {}
 Editor3D.OnSelect = Signal:New("SelectionSignal")
 Editor3D.OnDeselect = Signal:New("UnSelectionSignal")
 

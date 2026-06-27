@@ -177,7 +177,7 @@ function Explorer.Update(dt)
             }
         end
 
-        if Thing == Studio.Editor3D.Selecting then
+        if table.find(Studio.Editor3D.Selecting, Thing) then
             Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Selecting
             ParentInserter(Object)
         else
