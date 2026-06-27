@@ -11,6 +11,8 @@ local function CheckAllTheSame(table)
 end
 
 function Template.Start(MainInfo)
+    local self = {}
+
     local Button = Runtime.Things.Create("TextButton") {
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
         BackgroundTransparency = 0,
@@ -31,16 +33,18 @@ function Template.Start(MainInfo)
         Parent = Button
     }
 
-    local AllSame = CheckAllTheSame(MainInfo.WillHandle)
+    function self.Update()
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
 
-    for i,Info in pairs(MainInfo.WillHandle) do
-        if AllSame then
-            Button:SetText(Info.Thing[Info.Property] and Info.Thing[Info.Property].FileName or "No resource found.")
-        else
-            Button:SetText("~")
+        for i,Info in pairs(MainInfo.WillHandle) do
+            if AllSame then
+                Button:SetText(Info.Thing[Info.Property] and Info.Thing[Info.Property].FileName or "No resource found.")
+            else
+                Button:SetText("~")
+            end
         end
     end
-    
+    self.Update()
     table.insert(MainInfo.Connections,Button.Clicked:Connect(function()
         for i,Info in pairs(MainInfo.WillHandle) do
             Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath) -- Make this check attributes before actually setting thing resource (aka to limit stuff like an Audio thiing resource being set as a image ect ect@!!)
@@ -55,6 +59,7 @@ function Template.Start(MainInfo)
         end
     end))
 
+    return self
 end
 
 return Template

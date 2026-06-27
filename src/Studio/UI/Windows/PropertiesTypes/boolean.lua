@@ -21,6 +21,7 @@ local function CheckAllTheSame(table)
 end
 
 function Bool.Start(MainInfo)
+    local self = {}
 
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Studio/Boolean.png",
@@ -29,10 +30,12 @@ function Bool.Start(MainInfo)
         Parent = MainInfo.Option,
     }
 
-    for i,Info in pairs(MainInfo.WillHandle) do
-        UpdateButton(Info.Thing[Info.Property],Button)
+    function self.Update()
+        for i,Info in pairs(MainInfo.WillHandle) do
+            UpdateButton(Info.Thing[Info.Property],Button)
+        end
     end
-
+    self.Update()
     table.insert(MainInfo.Connections, Button.Clicked:Connect(function()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         local NotSameSwitch = MainInfo.WillHandle[1].Property
@@ -55,6 +58,7 @@ function Bool.Start(MainInfo)
 
     end))
 
+    return self
 end
 
 return Bool

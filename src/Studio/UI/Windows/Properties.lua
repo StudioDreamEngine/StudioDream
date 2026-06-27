@@ -10,6 +10,8 @@ Properties.Container = nil ---@class Square
 Properties.ParentWith = nil
 Properties.PropertiesRequired = {}
 
+Properties.ResetSignal = Signal:New("Reset")
+
 local Types = Utils.LoadModules("Studio/UI/Windows/PropertiesTypes/", true)
 
 function Properties.CreateProperty(PropertyInfos,ParentWhat)
@@ -87,6 +89,7 @@ function Properties.CreateGroup(GroupName)
 end
 
 function Properties.RenderEverything(Thing)
+    Properties.ResetSignal.Invoke()
     Properties.ParentWith:ClearAllChildren({"ListLayout"})
 
     for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
@@ -105,13 +108,20 @@ function Properties.RenderEverything(Thing)
             local Property = Properties.CreateProperty(PropertyInfo,GroupNode)
             local Started = Required.Start(Property)
 
-            --[[for i,Info in pairs(Property.WillHandle) do -- ULTRA PROBLEM WITH THIS: will shoot constently :sob:
-                table.insert(selfed.Connections,Info.Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
+            for i,Info in pairs(Property.WillHandle) do
+                table.insert(PropertyInfo.Connections,Info.Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
                     if WhatProperty == Info.Property and Required.Update then
                         Started.Update(NewVal)
                     end
                 end))
-            end]]
+            end
+
+            table.insert(PropertyInfo.Connections,Properties.ResetSignal:Connect(function()
+                for i,v in pairs(PropertyInfo.Connections) do
+                    v:Disconnect()
+                    PropertyInfo.Connections[i] = nil
+                end
+            end))
 
         end
     end

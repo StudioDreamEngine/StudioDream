@@ -11,12 +11,7 @@ local function CheckAllTheSame(table)
 end
 
 function Template.Start(MainInfo)
-    
-    --MainInfo.Connections
-
-    for i,v in pairs(MainInfo.WillHandle) do
-        -- Nothin, this is mostly for when the property will be set up
-    end
+    local self = {}
 
     local Text = Runtime.Things.Create("TextInput") {
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
@@ -27,21 +22,28 @@ function Template.Start(MainInfo)
         Parent = MainInfo.Option,
     }
 
-    local AllSame = CheckAllTheSame(MainInfo.WillHandle)
+    function self.Update()
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
 
-    for i,Info in pairs(MainInfo.WillHandle) do -- on the start it will aways have 1 so ye
-        if AllSame then
-            Text:SetText(tostring(Info.Thing[Info.Property]))
-        else
-            Text:SetText("~")
+        for i,Info in pairs(MainInfo.WillHandle) do -- on the start it will aways have 1 so ye
+            if AllSame then
+                Text:SetText(tostring(Info.Thing[Info.Property]))
+            else
+                Text:SetText("~")
+            end
         end
+
     end
 
+    self.Update()
+
     table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
-        for i,Info in pairs(MainInfo.WillHandle) do
-            Runtime.Things.SetProperty(Info.Thing, Info.Property, tonumber(Text.Text))
-        end
-    end))
+            for i,Info in pairs(MainInfo.WillHandle) do
+                Runtime.Things.SetProperty(Info.Thing, Info.Property, tonumber(Text.Text))
+            end
+        end))
+
+    return self
 end
 
 return Template
