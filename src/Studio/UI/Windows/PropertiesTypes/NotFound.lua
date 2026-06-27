@@ -1,7 +1,7 @@
 local Template = {}
 
 function Template.Start(MainInfo)
-    
+    local self = {}
     --MainInfo.Connections
 
     for i,v in pairs(MainInfo.WillHandle) do
@@ -17,6 +17,12 @@ function Template.Start(MainInfo)
         Alignment = Enum.Alignment.Center,
         Font = Studio.Theme.GetCurrentTheme().FontBold,
     }
+
+    function self.Update()
+
+    end
+
+    return self
 end
 
 return Template

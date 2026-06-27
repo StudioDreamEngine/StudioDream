@@ -18,7 +18,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
     local PropertyWillHandle = {
         {
             Thing = PropertyInfos.Thing,
-            Property = PropertyInfos.Name
+            Property = PropertyInfos.Name -- DONT FORGET TO ALSO MAKE ATTRIBUTES IN HERE!!! so if like i change a resource that inst compatiable with an property that is together it doesnt change the property
         },
     }
 
@@ -55,7 +55,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
 
     selfed.Connections = PropertyInfos.Connections
     selfed.WillHandle = PropertyWillHandle
-    
+
     return selfed
 end
 
@@ -103,7 +103,16 @@ function Properties.RenderEverything(Thing)
             local Required = Types[PropertyInfo.Type] or Types.NotFound
 
             local Property = Properties.CreateProperty(PropertyInfo,GroupNode)
-            Required.Start(Property)
+            local Started = Required.Start(Property)
+
+            --[[for i,Info in pairs(Property.WillHandle) do -- ULTRA PROBLEM WITH THIS: will shoot constently :sob:
+                table.insert(selfed.Connections,Info.Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
+                    if WhatProperty == Info.Property and Required.Update then
+                        Started.Update(NewVal)
+                    end
+                end))
+            end]]
+
         end
     end
 end

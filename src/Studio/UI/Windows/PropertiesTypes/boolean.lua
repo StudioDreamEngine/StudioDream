@@ -29,14 +29,14 @@ function Bool.Start(MainInfo)
         Parent = MainInfo.Option,
     }
 
-    for i,Info in pairs(MainInfo.WillHandle) do -- on the start it will aways have 1 so ye
+    for i,Info in pairs(MainInfo.WillHandle) do
         UpdateButton(Info.Thing[Info.Property],Button)
     end
 
     table.insert(MainInfo.Connections, Button.Clicked:Connect(function()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         local NotSameSwitch = MainInfo.WillHandle[1].Property
-        
+
         for i, Info in pairs(MainInfo.WillHandle) do
             if AllSame then
                 local CurrentVal = Info.Thing[Info.Property]
