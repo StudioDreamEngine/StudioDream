@@ -1,4 +1,5 @@
 local Environment = root:GetEnvironment()
+local HUD = root:FindFirstChild("HUD")
 
 print("Start script")
 
