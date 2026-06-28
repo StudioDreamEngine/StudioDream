@@ -73,12 +73,7 @@ function MoveControl:new()
     self.InitalOffset = Vector3.zero
 
     self.Resource = nil
-    --[[
-        I dont like having to assign all of these to variables, we should find a way to be able to clean these up more automatically
 
-        Perhaps there can be a third argument to say which object a signal is tied to, and you can directly disconnect all signals under that object?
-        idk
-    ]]
     self:ConnectEvents()
 
     for _, Axis in pairs(Lookup) do
@@ -118,7 +113,7 @@ function MoveControl:Update(dt)
     for Axis, Adorn in pairs(self.Adorns) do
         -- ...oh god
         Adorn:resetTransform()
-        Adorn:translate((Transform.Position + (Axis * self.Adornee.Scale)).ToDream())
+        Adorn:translate((Transform.Rotation + (Axis * self.Adornee.Scale)).ToDream())
         Adorn:lookTowards(-Axis.ToDream())
         Adorn:scale(CameraDistance)
         Adorn:translate(0,0,2)

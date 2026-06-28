@@ -6,7 +6,7 @@ local Selecting = {}
 
 function ToolManager.Init()
     ToolManager.Move = require("Studio.Editor3D.Tools.Move")
-
+    ToolManager.Rotate = require("Studio.Editor3D.Tools.Rotate")
     Studio.Editor3D.OnSelect:Connect(function(Thing)
         if Thing:IsA("Drawable3D") then
             ToolManager.Select(Thing)
@@ -62,7 +62,7 @@ function ToolManager.Select(NewSelection)
     ToolManager.SetupSelection()
     ToolManager.Deselect()
 
-    CurrentTool = ToolManager.Move
+    CurrentTool = ToolManager.Rotate
     CurrentTool.Selection = Selection
 
     CurrentTool.SetupSelection = ToolManager.SetupSelection
