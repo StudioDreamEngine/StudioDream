@@ -88,6 +88,7 @@ end
 function Environment:PostStep(Descendants)
     for _, Child in pairs(Descendants) do
         Child.Transform = Runtime.Phys.FromBullet(Child:GetPhysicsTransform())
+        Child.Velocity = Vector3.FromBullet(Child.PhysicsBody:getLinearVelocity())
     end
 end
 

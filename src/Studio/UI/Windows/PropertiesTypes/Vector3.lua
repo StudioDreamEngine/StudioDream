@@ -40,7 +40,7 @@ function Template.Start(MainInfo)
 
     table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
             for i,Info in pairs(MainInfo.WillHandle) do
-                Runtime.Things.SetProperty(Info.Thing, Info.Property, tonumber(Text.Text))
+                Runtime.Things.SetProperty(Info.Thing, Info.Property, Vector3.FromString(Text.Text))
             end
         end))
 

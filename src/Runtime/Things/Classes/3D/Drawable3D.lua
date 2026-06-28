@@ -52,8 +52,6 @@ end
 
 ---@param NewVelocity Vector3
 function Drawable3D:SetVelocity(NewVelocity)
-    self.Velocity = NewVelocity
-
     printVerbose(NewVelocity)
     self.PhysicsBody:setLinearVelocity(NewVelocity.ToBullet())
     self.PhysicsBody:activate()
@@ -110,10 +108,6 @@ function Drawable3D:Update(dt)
     self.Drawable:scale(self.Scale.ToDream())
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size
     self.Drawable.reflection = self.Material and (self.Material.Reflective and self._Reflection or false) or false
-
-    if self.Dynamic then
-        self.Velocity = Vector3.FromBullet(self.PhysicsBody:getLinearVelocity())
-    end
 end
 
 return Drawable3D

@@ -35,6 +35,14 @@ InputService.MouseMoved:Connect(function(MouseObject)
     CameraRotation.Y = CameraRotation.Y - Delta.Y/300
 end)
 
-RenderService.OnStep:Connect(function()
-    Camera:SetTransform(Character.Transform * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0) * Transform3D.FromPosition(0,0,5))
+local Plane = Vector3.new(1,0,1)
+
+RenderService.OnStep:Connect(function(dt)
+    local w,a,s,d = InputService.KeyDown(Enum.InputCode.W), InputService.KeyDown(Enum.InputCode.A), InputService.KeyDown(Enum.InputCode.S) ,InputService.KeyDown(Enum.InputCode.D)
+    w,a,s,d = w and 1 or 0, a and 1 or 0, s and 1 or 0, d and 1 or 0
+
+    local forward, side = s-w, d-a
+
+    Camera:SetTransform(Transform3D.FromPosition(Character.Transform.Position) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0) * Transform3D.FromPosition(0,0,5))
+    Character:SetVelocity(Character.Velocity + (Vector3.new(side, 0, forward) * dt * 30))
 end)

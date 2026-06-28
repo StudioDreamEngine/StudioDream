@@ -2,7 +2,7 @@ local Things
 local ViewportManager = {}
 
 local RootViewport
-local light
+local light, light2
 
 function ViewportManager.Init()
     Things = Runtime.Things
@@ -16,7 +16,6 @@ function ViewportManager.Init()
 
     light = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(1.0, 0.75, 0.5), 10.0)
     light:addNewShadow()
-    light:setDirection(1, 1, 1)
 
     ViewportManager.Viewports = {}
 

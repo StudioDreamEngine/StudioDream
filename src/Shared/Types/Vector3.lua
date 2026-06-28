@@ -29,6 +29,14 @@ function Vector3.FromBullet(Vector)
     return Vector3.new(Vector:x(), Vector:y(), Vector:z())
 end
 
+function Vector3.FromString(String)
+    local ToFilter = string.gsub(String,"%s","") -- Strip Whitespace
+    local SplitText = string.split(ToFilter,",") -- Split by ,
+
+    -- Theres 100% a better way to do this
+    return Vector3.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0, tonumber(SplitText[3]) or 0)
+end
+
 function Vector3.new(x,y,z,w)
     ---@class Vector3
     local Object = setmetatable({
