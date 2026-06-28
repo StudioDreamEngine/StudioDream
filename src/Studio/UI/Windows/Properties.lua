@@ -89,6 +89,8 @@ function Properties.CreateGroup(GroupName)
 end
 
 function Properties.RenderEverything(Thing)
+    Properties.ParentWith.ScrollPosition = -200
+
     Properties.ResetSignal.Invoke()
     Properties.ParentWith:ClearAllChildren({"ListLayout"})
     Properties.ParentWith:SetScroll(0)
