@@ -34,6 +34,7 @@ function Project.Load(ProjectPath)
 
         Scenes.LoadScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
         Scenes.LoadScene("Interface.sds", Runtime.Things.GetRoot("HUD"))
+        Scenes.LoadScene("Materials.sds", Runtime.Things.GetRoot("Materials"))
     end)
 
     if (not Success) then
@@ -59,6 +60,7 @@ function Project.Save()
     -- Once we have several scenes, sdrm should just store the configuration
     Scenes.SaveScene("Interface.sds", Runtime.Things.GetRoot("HUD"))
     Scenes.SaveScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
+    Scenes.SaveScene("Materials.sds", Runtime.Things.GetRoot("Materials"))
 end
 
 return Project
