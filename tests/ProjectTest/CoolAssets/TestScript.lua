@@ -13,7 +13,7 @@ local InputService = service("InputService") ---@class InputService
 Environment:FindFirstChild("Audio"):Play()
 
 local Camera = Environment:FindFirstChild("Camera") ---@class Camera
-local Character = Environment:FindFirstChild("Wedge") ---@class Primitive
+local Character = Environment:FindFirstChild("Player") ---@class Primitive
 
 Character:SetDynamic(true)
 
