@@ -48,7 +48,10 @@ function CreateTransformNode(MainInfo,WhatThing)
     local function Update()
         for i,Info in pairs(MainInfo.WillHandle) do
         if CheckAllTheSame(MainInfo.WillHandle) then
-            selfed.Option:SetText(tostring(WhatThing == "Rotation" and Transform3D.FromMatrix(Info.Thing.Transform.Rotation).AsAngle() or Info.Thing.Transform[WhatThing]))
+            local Transform = Info.Thing.Transform
+            local NewMatrix = (WhatThing == "Rotation") and Transform.Rotation.AsAngle().Deg() or Transform.Position
+
+            selfed.Option:SetText(tostring(NewMatrix))
         else
             selfed.Option:SetText("~")
         end
@@ -63,7 +66,15 @@ function CreateTransformNode(MainInfo,WhatThing)
 
     table.insert(MainInfo.Connections,selfed.Option.FocusEnd:Connect(function()
         for i,Info in pairs(MainInfo.WillHandle) do
-            Things.SetProperty(Info.Thing, Info.Property, Transform3D["From"..(WhatThing == "Rotation" and "Angle" or "Position")](Vector3.FromString(selfed.Option.Text)))
+            local IsRotate = (WhatThing == "Rotation")
+            local FromString = Vector3.FromString(selfed.Option.Text)
+            if IsRotate then FromString = FromString.Rad() end
+
+            print(FromString)
+
+            local Transform = Transform3D["From"..(IsRotate and "Angle" or "Position")](FromString)
+
+            Things.SetProperty(Info.Thing, Info.Property, Transform)
         end
     end))
 

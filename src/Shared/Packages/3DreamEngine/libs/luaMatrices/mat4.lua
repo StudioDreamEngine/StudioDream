@@ -189,9 +189,9 @@ end
 
 -- from menori
 function methods:toEuler()
-	local m11, m12, m13 = self[1], self[2], self[3]
-	local m21, m22, m23 = self[5], self[6], self[7]
-	local m31, m32, m33 = self[9], self[10], self[11]
+	local m11, m12, m13 = self[1], self[5], self[9]
+	local m21, m22, m23 = self[2], self[6], self[10]
+	local m31, m32, m33 = self[3], self[7], self[11]
 
 	local y = math.asin( math.clamp( m13, -1, 1 ) )
 	local x,z

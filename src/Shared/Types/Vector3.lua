@@ -128,6 +128,14 @@ function Vector3.new(x,y,z,w)
         }
     end
 
+    function Object.Deg()
+        return Vector3.new(math.deg(Object.X),math.deg(Object.Y),math.deg(Object.Z))
+    end
+
+    function Object.Rad()
+        return Vector3.new(math.rad(Object.X),math.rad(Object.Y),math.rad(Object.Z))
+    end
+
     -- for some reason __eq isnt working
     function Object.Is(SecondVector)
         return (Object.X == SecondVector.X) and (Object.Y == SecondVector.Y) and (Object.Z == SecondVector.Z)

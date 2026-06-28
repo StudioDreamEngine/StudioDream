@@ -19,7 +19,7 @@ end
 
 function Transformable3D:SetPosition(NewPosition)
     self.Position = NewPosition
-    self.Transform = Transform3D.FromMatrix(self.Transform.Rotation) * Transform3D.FromPosition(NewPosition)
+    self.Transform = self.Transform.Rotation * Transform3D.FromPosition(NewPosition)
 end
 
 function Transformable3D:Update(dt)
