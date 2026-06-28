@@ -12,16 +12,20 @@ function sh:constructDefinesGlobal(dream)
 		if (oy > 1.1) oy = 0.0;
 		float ss_texelSize = 1.0 / love_ScreenSize.x;
 		
-		float r0 = texture(tex, shadowUV + vec2(-1.5 + ox, 0.5 + oy) * ss_texelSize).x;
-		float r1 = texture(tex, shadowUV + vec2(0.5 + ox, 0.5 + oy) * ss_texelSize).x;
-		float r2 = texture(tex, shadowUV + vec2(-1.5 + ox, -1.5 + oy) * ss_texelSize).x;
-		float r3 = texture(tex, shadowUV + vec2(0.5 + ox, -1.5 + oy) * ss_texelSize).x;
+		//float r0 = texture(tex, shadowUV + vec2(-1.5 + ox, 0.5 + oy) * ss_texelSize).x;
+		//float r1 = texture(tex, shadowUV + vec2(0.5 + ox, 0.5 + oy) * ss_texelSize).x;
+		//float r2 = texture(tex, shadowUV + vec2(-1.5 + ox, -1.5 + oy) * ss_texelSize).x;
+		//float r3 = texture(tex, shadowUV + vec2(0.5 + ox, -1.5 + oy) * ss_texelSize).x;
+
+		float r0 = texture(tex, shadowUV).x;
 		
-		return (r0 > depth ? 0.25 : 0.0) +
-			(r1 > depth ? 0.25 : 0.0) +
-			(r2 > depth ? 0.25 : 0.0) +
-			(r3 > depth ? 0.25 : 0.0)
-		;
+		return (r0 > depth ? 0.25 : 0.0);
+
+		//return (r0 > depth ? 0.25 : 0.0) +
+		//	(r1 > depth ? 0.25 : 0.0) +
+		//	(r2 > depth ? 0.25 : 0.0) +
+		//	(r3 > depth ? 0.25 : 0.0)
+		//;
 	}
 	]] .. self:constructDefinesGlobalCommon(dream)
 end
@@ -49,7 +53,7 @@ function sh:constructDefinesGlobalCommon(dream)
 			vec3 uvs = (proj3 * vec4(vertexPos, 1.0)).xyz;
 			v += v3 * ]] .. self.func ..[[2(tex3, uvs.xy * 0.5 + 0.5, uvs.z - bias * f2);
 		}
-		return v;
+		return 1.0;//v;
 	}
 	]]
 end

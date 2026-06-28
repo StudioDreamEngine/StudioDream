@@ -49,14 +49,14 @@ function job:execute(light)
 			local f = 100
 			
 			--camera orientation
-			shadowCam.position = position
+			--shadowCam.position = position
 			shadowCam.normal = normal
 			shadowCam.transform = lib:lookAt(shadowCam.position + shadowCam.normal * (f * 0.5), shadowCam.position, lib.vec3(0.0, 1.0, 0.0))
 			shadowCam.rendered = false
 			
 			--orthographic projected multiplied by the cameras view matrix
 			local a1 = 1 / r
-			local a6 = -a1
+			local a6 = a1
 			local a11 = -2 / (f - n)
 			local a12 = -(f + n) / (f - n)
 			

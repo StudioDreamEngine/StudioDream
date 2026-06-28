@@ -508,7 +508,18 @@ function lib:present(camera, canvases, lite)
 		local y = 0
 		local maxHeight = 0
 
-		for d, s in pairs(canvases) do
+		local canvasesDebug = table.clone(canvases)
+
+		local lightcanvas = 0
+
+		for _, light in pairs(lib.lighting) do
+			for _, canvas in pairs(light.shadow.canvases) do
+				lightcanvas = lightcanvas + 1
+				canvasesDebug["shadow"..lightcanvas] = canvas
+			end
+		end
+
+		for d, s in pairs(canvasesDebug) do
 			if type(s) == "userdata" and s:isReadable() then
 				local b = brightness[d] or 1
 				local h = w / s:getWidth() * s:getHeight()
