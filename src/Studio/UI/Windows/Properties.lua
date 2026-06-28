@@ -110,7 +110,7 @@ function Properties.RenderEverything(Thing)
                 Connections = {}
             }
 
-            local Required = (Types[PropertyInfo.Type] or Types.NotFound).Start(Property)
+            local Required = (Types[PropertyInfo.Type] or Types.NotFound)
 
             local Property = Properties.CreateProperty(PropertyInfo,GroupNode)
             local HandlerObject = Required.Start(Property)
