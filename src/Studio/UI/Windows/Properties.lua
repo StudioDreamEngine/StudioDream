@@ -91,6 +91,7 @@ end
 function Properties.RenderEverything(Thing)
     Properties.ResetSignal.Invoke()
     Properties.ParentWith:ClearAllChildren({"ListLayout"})
+    Properties.ParentWith:SetScroll(0)
 
     for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
         local GroupNode = Properties.CreateGroup(GroupName)

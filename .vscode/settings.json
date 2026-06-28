@@ -8,7 +8,8 @@
     "Lua.diagnostics.disable": [
         "deprecated", // this is lua 5.1
         "inject-field", // adding functions
-        "undefined-field" // super arg
+        "undefined-field", // super arg
+        "duplicate-set-field" // 
     ],
     "Lua.workspace.library": [
         "${3rd}/love2d/library",
