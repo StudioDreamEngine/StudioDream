@@ -49,7 +49,7 @@ function job:execute(light)
 			local f = 100
 			
 			--camera orientation
-			--shadowCam.position = position
+			shadowCam.position = position
 			shadowCam.normal = normal
 			shadowCam.transform = lib:lookAt(shadowCam.position + shadowCam.normal * (f * 0.5), shadowCam.position, lib.vec3(0.0, 1.0, 0.0))
 			shadowCam.rendered = false
