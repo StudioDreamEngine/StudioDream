@@ -49,16 +49,18 @@ function Template.Start(MainInfo)
     self.Update()
 
     table.insert(MainInfo.Connections,Button.Clicked:Connect(function()
+        local Identifier
+
+        Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath) -- Make this check attributes before actually setting thing resource (aka to limit stuff like an Audio thiing resource being set as a image ect ect@!!)
+            Identifier, _ = Resources.LoadIdentifierIDFromPath(NewPath)
+            if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","error") return end
+            local PathObj = Path.new(NewPath,Identifier)
+            Runtime.Things.SetProperty(Info.Thing, Info.Property, Identifier) --Info.Thing:SetResource(Identifier)
+            Button:SetText(PathObj.FileName)
+        end)
+        
         for i,Info in pairs(MainInfo.WillHandle) do
-            Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath) -- Make this check attributes before actually setting thing resource (aka to limit stuff like an Audio thiing resource being set as a image ect ect@!!)
-                local Identifier, _ = Resources.LoadIdentifierIDFromPath(NewPath)
-                if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","error") return end
-            
-                local PathObj = Path.new(NewPath,Identifier)
-                --print(PathObj)
-                Runtime.Things.SetProperty(Info.Thing, Info.Property, Identifier) --Info.Thing:SetResource(Identifier)
-                Button:SetText(PathObj.FileName)
-            end)
+           Runtime.Things.SetProperty(Info.Thing, Info.Property, Identifier)
         end
     end))
 

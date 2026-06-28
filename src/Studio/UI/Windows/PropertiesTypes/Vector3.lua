@@ -25,7 +25,6 @@ function Template.Start(MainInfo)
 
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
-
         for i,Info in pairs(MainInfo.WillHandle) do -- on the start it will aways have 1 so ye
             if AllSame then
                 Text:SetText(tostring(Info.Thing[Info.Property]))
@@ -39,10 +38,10 @@ function Template.Start(MainInfo)
     self.Update()
 
     table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
-            for i,Info in pairs(MainInfo.WillHandle) do
-                Runtime.Things.SetProperty(Info.Thing, Info.Property, Vector3.FromString(Text.Text))
-            end
-        end))
+        for i,Info in pairs(MainInfo.WillHandle) do
+            Runtime.Things.SetProperty(Info.Thing, Info.Property, Vector3.FromString(Text.Text))
+        end
+    end))
 
     return self
 end

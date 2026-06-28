@@ -117,7 +117,7 @@ function Properties.RenderEverything(Thing)
 
             for _,Info in pairs(Property.WillHandle) do
                 table.insert(PropertyInfo.Connections,Info.Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
-                    if WhatProperty == Info.Property and Required.Update then
+                    if WhatProperty == Info.Property and Started.Update then
                         Started.Update(NewVal)
                     end
                 end))
