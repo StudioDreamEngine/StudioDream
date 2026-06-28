@@ -8,7 +8,9 @@ function ToolManager.Init()
     ToolManager.Move = require("Studio.Editor3D.Tools.Move")
 
     Studio.Editor3D.OnSelect:Connect(function(Thing)
-        ToolManager.Select(Thing)
+        if Thing:IsA("Drawable3D") then
+            ToolManager.Select(Thing)
+        end
     end)
 end
 
@@ -34,7 +36,9 @@ function ToolManager.SetupSelection()
     Selecting = {}
 
     for _, Select in pairs(Studio.Editor3D.Selecting) do
-        table.insert(Selecting, { Object = Select, Difference = nil })
+        if Select:IsA("Drawable3D") then
+            table.insert(Selecting, { Object = Select, Difference = nil })
+        end
     end
 
     local Center = ToolManager.GetCenter(Selecting)
@@ -43,7 +47,7 @@ function ToolManager.SetupSelection()
         Select.Difference = Select.Object.Position - Center
     end
 
-    Selection:SetTransform(Transform3D.FromPosition(Center))
+    Selection:SetPosition(Center)
 end
 
 function ToolManager.ChangeTransform(NewTransform)
@@ -51,7 +55,7 @@ function ToolManager.ChangeTransform(NewTransform)
         Select.Object:SetTransform(NewTransform * Transform3D.FromPosition(Select.Difference))
     end
 
-    Selection:SetTransform(Transform3D.FromPosition(ToolManager.GetCenter(Selecting)))
+    Selection:SetPosition(ToolManager.GetCenter(Selecting))
 end
 
 function ToolManager.Select(NewSelection)

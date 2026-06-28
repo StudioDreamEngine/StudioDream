@@ -1,15 +1,23 @@
 local Transform3D = {}
 
+---@param Matrix DreamMat4
 local function NewTransform(Matrix)
     local Object = {}
 
     Object.Type = "Transform3D"
 
-    Object.Position = Vector3.new(Matrix[4], Matrix[8], Matrix[12])
-
-    Object.Forward = Vector3.new(Matrix[3], Matrix[7], Matrix[11])
     Object.Side = Vector3.new(Matrix[1], Matrix[5], Matrix[9])
     Object.Up = Vector3.new(Matrix[2], Matrix[6], Matrix[10]) 
+    Object.Forward = Vector3.new(Matrix[3], Matrix[7], Matrix[11])
+    Object.Position = Vector3.new(Matrix[4], Matrix[8], Matrix[12])
+
+    -- Extract basis
+    Object.Rotation = Dream.mat4(
+        Matrix[1], Matrix[2], Matrix[3], 0,
+        Matrix[5], Matrix[6], Matrix[7], 0,
+		Matrix[9], Matrix[10], Matrix[11], 0,
+        0, 0, 0, 1
+    )
 
     ---@return DreamMat4
     function Object.GetMatrix() return Matrix end
