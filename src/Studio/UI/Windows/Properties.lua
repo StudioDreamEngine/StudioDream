@@ -116,11 +116,7 @@ function Properties.RenderEverything(Thing)
             local Started = Required.Start(Property)
 
             for _,Info in pairs(Property.WillHandle) do
-                table.insert(PropertyInfo.Connections,Info.Thing.PropertyChanged:Connect(function(NewVal,WhatProperty)
-                    if WhatProperty == Info.Property and Started.Update then
-                        Started.Update(NewVal)
-                    end
-                end))
+                table.insert(PropertyInfo.Connections,Info.Thing.PropertyChanged:Connect(Started.Update, Info.Property))
 
                 -- MY IDEA: property attributes enable for the creation of stuff such as playback buttons
                 --for _, Attribute in pairs(Info.Attributes) do  
@@ -129,7 +125,6 @@ function Properties.RenderEverything(Thing)
 
             table.insert(PropertyInfo.Connections, Properties.ResetSignal:Connect(function()
                 for _,v in pairs(PropertyInfo.Connections) do v:Disconnect() end
-
                 PropertyInfo.Connections = {}
             end))
 

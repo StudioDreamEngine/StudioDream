@@ -36,6 +36,7 @@ function Bool.Start(MainInfo)
         end
     end
     self.Update()
+    
     table.insert(MainInfo.Connections, Button.Clicked:Connect(function()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         local NotSameSwitch = MainInfo.WillHandle[1].Property
