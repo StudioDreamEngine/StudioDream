@@ -10,6 +10,8 @@ local function CheckAllTheSame(table)
     return true
 end
 
+local Resources = Runtime.Resources
+
 function Template.Start(MainInfo)
     local self = {}
 
@@ -45,6 +47,7 @@ function Template.Start(MainInfo)
         end
     end
     self.Update()
+
     table.insert(MainInfo.Connections,Button.Clicked:Connect(function()
         for i,Info in pairs(MainInfo.WillHandle) do
             Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath) -- Make this check attributes before actually setting thing resource (aka to limit stuff like an Audio thiing resource being set as a image ect ect@!!)
@@ -54,7 +57,7 @@ function Template.Start(MainInfo)
                 local PathObj = Path.new(NewPath,Identifier)
                 --print(PathObj)
                 Info.Thing:SetResource(Identifier)
-                MainText:SetText(PathObj.FileName)
+                Button:SetText(PathObj.FileName)
             end)
         end
     end))

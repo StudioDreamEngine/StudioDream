@@ -34,12 +34,15 @@ function Template.Start(MainInfo)
         end
     end
 
-    table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
+    table.insert(MainInfo.Connections, Text.FocusEnd:Connect(function()
         for i,Info in pairs(MainInfo.WillHandle) do
-            self.Update()
+            print(Info)
             Runtime.Things.SetProperty(Info.Thing, Info.Property, Text.Text)
-            Studio.Layout.CallHandle("Explorer", "Redraw") -- Make this as a attribute thing!!@! 
+
+            self.Update()
         end
+
+        Studio.Layout.CallHandle("Explorer", "Redraw") -- Make this as a attribute thing!!@! 
     end))
 
     self.Update()
