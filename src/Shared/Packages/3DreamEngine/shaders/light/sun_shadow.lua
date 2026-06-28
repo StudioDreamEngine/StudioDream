@@ -1,4 +1,5 @@
 local sh = { }
+local lib = _3DreamEngine
 
 sh.type = "light"
 
@@ -120,14 +121,12 @@ function sh:sendUniforms(shaderObject, light, ID)
 		shader:send("ss_tex1_" .. ID, light.shadow.canvases[1])
 		shader:send("ss_tex2_" .. ID, light.shadow.canvases[2])
 		shader:send("ss_tex3_" .. ID, light.shadow.canvases[3])
+	end
+
+	shader:send("ss_color_" .. ID, light.color * light.brightness)
 		
-		shader:send("ss_color_" .. ID, light.color * light.brightness)
-		
-		if shader:hasUniform("ss_vec_" .. ID) then
-			shader:send("ss_vec_" .. ID, light.direction)
-		end
-	else
-		shader:send("ss_color_" .. ID, {0, 0, 0})
+	if shader:hasUniform("ss_vec_" .. ID) then
+		shader:send("ss_vec_" .. ID, light.direction)
 	end
 end
 

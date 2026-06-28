@@ -12,7 +12,7 @@ end
 function job:queue()
 	--shadows
 	for d, s in ipairs(lib.lighting) do
-		if s.shadow and s.active and s.shadow.typ == "sun" then
+		if lib:getFeature("shadows") and s.shadow and s.active and s.shadow.typ == "sun" then
 			lib:addOperation("sunShadow", s)
 		end
 	end

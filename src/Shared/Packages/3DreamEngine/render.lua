@@ -348,7 +348,7 @@ function lib:renderFull(cam, canvases, dynamic)
 	end
 	
 	--Ambient Occlusion (SSAO)
-	if self.AO_enabled then
+	if lib:getFeature("AO") then
 		love.graphics.setCanvas(canvases.AO_1)
 		love.graphics.clear()
 		love.graphics.setBlendMode("replace", "premultiplied")
@@ -385,7 +385,7 @@ function lib:renderFull(cam, canvases, dynamic)
 	end
 	
 	--bloom
-	if canvases.mode == "normal" and self.bloom_enabled then
+	if canvases.mode == "normal" and lib:getFeature("bloom") then
 		--down sample
 		love.graphics.setCanvas(canvases.bloom_1)
 		love.graphics.clear()
@@ -513,9 +513,11 @@ function lib:present(camera, canvases, lite)
 		local lightcanvas = 0
 
 		for _, light in pairs(lib.lighting) do
-			for _, canvas in pairs(light.shadow.canvases) do
-				lightcanvas = lightcanvas + 1
-				canvasesDebug["shadow"..lightcanvas] = canvas
+			if light.shadow.canvases then
+				for _, canvas in pairs(light.shadow.canvases) do
+					lightcanvas = lightcanvas + 1
+					canvasesDebug["shadow"..lightcanvas] = canvas
+				end
 			end
 		end
 

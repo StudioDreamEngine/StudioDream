@@ -133,7 +133,7 @@ function lib:loadShaders()
 	self.mainShaderCount = 0
 	
 	--the ambient occlusion shader
-	if self.AO_enabled then
+	if self:getFeature("AO") then
 		local code = (
 				"#define SAMPLE_COUNT " .. self.AO_quality .. "\n" ..
 						love.filesystem.read(self.root .. "/shaders/SSAO.glsl")
@@ -159,10 +159,10 @@ function lib:getFinalShader(canvases)
 	
 	table.insert(parts, self.autoExposure_enabled and "#define AUTO_EXPOSURE_ENABLED" or nil)
 	table.insert(parts, self.exposure and "#define EXPOSURE_ENABLED" or nil)
-	table.insert(parts, self.bloom_enabled and "#define BLOOM_ENABLED" or nil)
+	table.insert(parts, self:getFeature("bloom") and "#define BLOOM_ENABLED" or nil)
 	
 	table.insert(parts, self.fog_enabled and "#define FOG_ENABLED" or nil)
-	table.insert(parts, self.AO_enabled and "#define AO_ENABLED" or nil)
+	table.insert(parts, self:getFeature("AO") and "#define AO_ENABLED" or nil)
 	
 	table.insert(parts, self.gamma and "#define GAMMA_CORRECTION" or nil)
 	

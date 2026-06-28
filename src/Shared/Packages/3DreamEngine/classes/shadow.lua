@@ -18,7 +18,7 @@ function lib:newShadow(typ, resolution)
 		cascadeFactor = 4,
 		
 		static = false,
-		smooth = false,
+		smooth = true,
 		lazy = false,
 	}, self.meta.shadow)
 end

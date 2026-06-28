@@ -126,7 +126,7 @@ function class:init(w, h)
 	end
 	
 	--screen space ambient occlusion blurring canvases
-	if lib.AO_enabled and self.mode ~= "direct" then
+	if lib:getFeature("AO") and self.mode ~= "direct" then
 		self.AO_1 = love.graphics.newCanvas(w * lib.AO_resolution, h * lib.AO_resolution, { format = "r8", readable = true, msaa = 0 })
 		if lib.AO_blur then
 			self.AO_2 = love.graphics.newCanvas(w * lib.AO_resolution, h * lib.AO_resolution, { format = "r8", readable = true, msaa = 0 })
@@ -136,7 +136,7 @@ function class:init(w, h)
 	--post effects
 	if self.mode == "normal" then
 		--bloom blurring canvases
-		if lib.bloom_enabled then
+		if lib:getFeature("bloom") then
 			self.bloom_1 = love.graphics.newCanvas(w * lib.bloom_resolution, h * lib.bloom_resolution, { format = self.format, readable = true, msaa = 0 })
 			self.bloom_2 = love.graphics.newCanvas(w * lib.bloom_resolution, h * lib.bloom_resolution, { format = self.format, readable = true, msaa = 0 })
 		end

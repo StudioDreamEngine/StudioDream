@@ -1,4 +1,5 @@
 local sh = { }
+local lib = _3DreamEngine
 
 sh.func = "sampleShadowPoint"
 
@@ -57,12 +58,11 @@ function sh:sendUniforms(shaderObject, light, ID)
 	
 	if light.shadow.canvas then
 		shader:send("ps_tex_" .. ID, light.shadow.canvas)
-		shader:send("ps_color_" .. ID, light.color * light.brightness)
-		shader:send("ps_pos_" .. ID, light.position)
-		shader:send("ps_attenuation_" .. ID, -light.attenuation)
-	else
-		shader:send("ps_color_" .. ID, {0, 0, 0})
 	end
+
+	shader:send("ps_color_" .. ID, light.color * light.brightness)
+	shader:send("ps_pos_" .. ID, light.position)
+	shader:send("ps_attenuation_" .. ID, -light.attenuation)
 end
 
 return sh

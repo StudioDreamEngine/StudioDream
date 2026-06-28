@@ -15,7 +15,9 @@ function sh:constructDefinesGlobal(dream)
 		float ss_texelSize = 1.0 / love_ScreenSize.x;
 		float sharpness = 100.0;
 		
-		float sampleDepth = texture(tex, shadowUV).x;
+		vec2 NewUV = vec2(shadowUV.x, 1.0-shadowUV.y);
+
+		float sampleDepth = texture(tex, NewUV).x;
 		return clamp(exp(sharpness * (sampleDepth - depth)), 0.0, 1.0);
 	}
 	]] .. self:constructDefinesGlobalCommon(dream)

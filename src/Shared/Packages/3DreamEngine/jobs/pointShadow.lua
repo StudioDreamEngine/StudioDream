@@ -11,7 +11,7 @@ end
 function job:queue()
 	--shadows
 	for d, s in ipairs(lib.lighting) do
-		if s.shadow and s.active and s.shadow.typ == "point" then
+		if lib:getFeature("shadows") and s.shadow and s.active and s.shadow.typ == "point" then
 			if not s.shadow.static or not s.shadow.done then
 				lib:addOperation("pointShadow", s)
 			end

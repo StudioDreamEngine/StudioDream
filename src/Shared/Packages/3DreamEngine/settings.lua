@@ -81,25 +81,38 @@ function lib:getGamma()
 	return self.gamma
 end
 
+lib.features = {
+	AO = true,
+	shadows = true,
+	bloom = true
+}
+
+function lib:setFeature(key, enabled)
+	lib.features[key] = enabled
+end
+
+function lib:getFeature(key)
+	return lib.features[key]
+end
+
 ---Sets the Screen Space Ambient Occlusion settings
 ---@param samples number @ more samples result in less visible patterns/artifacts
 ---@param resolution number @ resolution factor of temporary canvas
 ---@param blur number @ strength of blur and size of occlusion
 function lib:setAO(samples, resolution, blur)
 	if samples then
-		self.AO_enabled = true
 		self.AO_quality = samples
 		self.AO_resolution = resolution
 		self.AO_blur = blur
-	else
-		self.AO_enabled = false
 	end
+
+	lib:setFeature("AO", samples and true or false)
 end
 
 ---Get the state of ambient occlusion
 ---@return boolean, number, number @ enabled, quality, resolution
 function lib:getAO()
-	return self.AO_enabled, self.AO_quality, self.AO_resolution
+	return self:getFeature("AO"), self.AO_quality, self.AO_resolution
 end
 
 ---Bloom effect settings
@@ -109,20 +122,19 @@ end
 ---@param strength number @ default 1.0
 function lib:setBloom(quality, resolution, size, strength)
 	if quality then
-		self.bloom_enabled = true
 		self.bloom_quality = quality
 		self.bloom_resolution = resolution or 0.5
 		self.bloom_size = size or 0.1
 		self.bloom_strength = strength or 1.0
-	else
-		self.bloom_enabled = false
 	end
+
+	lib:setFeature("bloom", quality and true or false)
 end
 
 ---Get the state of bloom
 ---@return boolean, number, number, number, number @ enabled, quality, resolution, size, strength
 function lib:getBloom()
-	return self.bloom_enabled, self.bloom_quality, self.bloom_resolution, self.bloom_size, self.bloom_strength
+	return lib:getFeature("bloom"), self.bloom_quality, self.bloom_resolution, self.bloom_size, self.bloom_strength
 end
 
 ---Depth based fog
