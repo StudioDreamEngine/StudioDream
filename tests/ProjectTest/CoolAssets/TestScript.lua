@@ -35,8 +35,6 @@ InputService.MouseMoved:Connect(function(MouseObject)
     CameraRotation.Y = CameraRotation.Y - Delta.Y/300
 end)
 
-local Plane = Vector3.new(1,0,1)
-
 RenderService.OnStep:Connect(function(dt)
     local w,a,s,d = InputService.KeyDown(Enum.InputCode.W), InputService.KeyDown(Enum.InputCode.A), InputService.KeyDown(Enum.InputCode.S) ,InputService.KeyDown(Enum.InputCode.D)
     w,a,s,d = w and 1 or 0, a and 1 or 0, s and 1 or 0, d and 1 or 0
