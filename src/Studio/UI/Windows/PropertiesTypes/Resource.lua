@@ -56,7 +56,7 @@ function Template.Start(MainInfo)
             
                 local PathObj = Path.new(NewPath,Identifier)
                 --print(PathObj)
-                Info.Thing:SetResource(Identifier)
+                Runtime.Things.SetProperty(Info.Thing, Info.Property, Identifier) --Info.Thing:SetResource(Identifier)
                 Button:SetText(PathObj.FileName)
             end)
         end

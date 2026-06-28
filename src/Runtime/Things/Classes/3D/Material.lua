@@ -25,7 +25,7 @@ function Material:new()
     self.NormalTexture = nil
     self.EmissionTexture = nil -- Emission map texture
     self.MaterialTexture = nil -- Combination of the metalic, roughness and AO textures, in the future, when any of those are set, set this as the actual texture, and use dream:combineTextures(metallic, roughness, AO).
-    self.AlbedoTexture = love.graphics.newImage("Assets/DefaultMeshes/Luz_old.png") -- Color texture
+    self.AlbedoTexture = nil --love.graphics.newImage("Assets/DefaultMeshes/Luz_old.png") -- Color texture
 
     -- Mutli texture
     self.MultiTextureBlendScale = 3.7
@@ -40,9 +40,18 @@ function Material:DefineAPI()
     self.Proxy.Group("Colors","Color","Emission","EmissionFactor")
     self.Proxy.Group("Fell","Roughness","Metallic")
     self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode")
-    self.Proxy.Group("Texture","MultiTextureBlendScale")
+    self.Proxy.Property("Resource AlbedoTexture")
+    self.Proxy.Group("Texture","AlbedoTexture","MultiTextureBlendScale")
     self.Proxy.Icon("Material")
     self.Proxy.MakeCreatable()
+end
+
+function Material:SetAlbedoTexture(Value)
+    local ImageFile, Resource = Runtime.Resources.LoadResourceFromIdentifier(Value, self.UUID)
+
+    self.AlbedoTexture = ImageFile
+
+    print(self.AlbedoTexture)
 end
 
 return Material
