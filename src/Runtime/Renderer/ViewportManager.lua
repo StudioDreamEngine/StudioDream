@@ -70,13 +70,13 @@ end
 -- Render the contents of a 3d viewport
 function ViewportManager.RenderViewport3D(Viewport)
     Profiler.Start("Render 3D Viewport")
-    --Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
+    Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
         Dream:addLight(light)
         Dream:draw(Viewport:GetWorld())
         Dream:draw(Runtime.Backend3D.GetAdorns())
         Dream:present()
-    --end)
+    end)
     Profiler.End()
 end
 
