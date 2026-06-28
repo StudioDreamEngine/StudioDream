@@ -50,12 +50,12 @@ return { new = function()
         ObjectProxy.PropertySerialize(...)
     end
 
-    function ObjectProxy.Attribute(Property, Attribute)
+    function ObjectProxy.Attribute(Property, Attribute, Value)
         if (not ObjectProxy.Attributes[Property]) then
            ObjectProxy.Attributes[Property] = {} 
         end
 
-        ObjectProxy.Attributes[Property][Attribute] = true
+        ObjectProxy.Attributes[Property][Attribute] = Value or true
     end
 
     function ObjectProxy.MakeCreatable()
