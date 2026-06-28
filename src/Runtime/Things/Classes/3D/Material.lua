@@ -26,6 +26,7 @@ function Material:new()
     self.EmissionTexture = nil -- Emission map texture
     self.MaterialTexture = nil -- Combination of the metalic, roughness and AO textures, in the future, when any of those are set, set this as the actual texture, and use dream:combineTextures(metallic, roughness, AO).
     self.AlbedoTexture = nil --love.graphics.newImage("Assets/DefaultMeshes/Luz_old.png") -- Color texture
+    self.Reflective = false
 
     -- Mutli texture
     self.MultiTextureBlendScale = 3.7
@@ -36,9 +37,9 @@ function Material:DefineAPI()
     Material.super.DefineAPI(self)
 
     self.Proxy.Property("Color Color","Color Emission","Color EmissionFactor","number Roughness","number Metallic","boolean Alpha","boolean Stencil","boolean Cutout","boolean Particle"
-    ,"number AlphaCutoff","number IOR","number Translucency","Enum CullMode","number MultiTextureBlendScale")
+    ,"number AlphaCutoff","number IOR","number Translucency","Enum CullMode","number MultiTextureBlendScale","boolean Reflective")
     self.Proxy.Group("Colors","Color","Emission","EmissionFactor")
-    self.Proxy.Group("Fell","Roughness","Metallic")
+    self.Proxy.Group("Fell","Roughness","Metallic","Reflective")
     self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode")
     self.Proxy.Property("Resource AlbedoTexture")
     self.Proxy.Group("Texture","AlbedoTexture","MultiTextureBlendScale")
@@ -50,8 +51,6 @@ function Material:SetAlbedoTexture(Value)
     local ImageFile, Identifier = Runtime.Resources.LoadResourceFromIdentifier(Value, self.UUID)
 
     self.AlbedoTexture = Identifier
-
-    print(self.AlbedoTexture)
 end
 
 return Material

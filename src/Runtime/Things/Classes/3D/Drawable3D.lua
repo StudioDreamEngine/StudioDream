@@ -16,6 +16,7 @@ function Drawable3D:new()
     self.Velocity = Vector3.zero
 
     self.Material = Dream:newMaterial()
+    self._Reflection = Dream:newReflection(love.graphics.newCubeImage("Assets/sky.png"))
 end
 
 function Drawable3D:DefineAPI()
@@ -108,6 +109,7 @@ function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
     self.Drawable:scale(self.Scale.ToDream())
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size
+    self.Drawable.reflection = self.Material and (self.Material.Reflective and self._Reflection or false) or false
 
     if self.Dynamic then
         self.Velocity = Vector3.FromBullet(self.PhysicsBody:getLinearVelocity())
