@@ -30,7 +30,7 @@ end
 
 ---@return Environment
 function Root:GetEnvironment()
-    return self.EnvironmentViewport.RenderContainer
+    return self:FindFirstChild("Environment")
 end
 
 return Root
