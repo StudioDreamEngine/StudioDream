@@ -34,7 +34,7 @@ function Template.Start(MainInfo)
         Resource = "Internal/Studio/EditorIcons/Drawable3D.png",
         Parent = Button
     }
-
+    print(MainInfo)
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
 

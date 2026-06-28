@@ -92,6 +92,8 @@ function Components.ExpandableDropdown(Header, List)
         Visible = true -- Shit's getting crowded...
     }
 
+    ExpandableDropdown.VisibleChanged = Signal:New("Unexpand")
+
     ExpandableDropdown.Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Studio/OpenMenu.png",
         Size = Pivot2D.FromScale(0.8,0.8),
@@ -130,7 +132,10 @@ function Components.ExpandableDropdown(Header, List)
         ))
     end
 
-    ExpandableDropdown.Button.Clicked:Connect(function() ExpandableDropdown.Toggle(not ExpandableDropdown.Visible) end)
+    ExpandableDropdown.Button.Clicked:Connect(function()
+        ExpandableDropdown.Toggle(not ExpandableDropdown.Visible)  
+        ExpandableDropdown.VisibleChanged.Invoke(ExpandableDropdown.Visible) 
+    end)
     
     return ExpandableDropdown
 end
