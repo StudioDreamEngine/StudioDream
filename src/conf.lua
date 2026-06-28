@@ -12,6 +12,7 @@ FLAGS = {
 function love.conf(t)
     t.window.width = 1570
     t.window.height = 800
+    t.window.depth = 24
 
     t.window.title = "StudioDream "..VERSION.." - Untitled Project"
     t.window.icon = "/Assets/Icons/"..FLAGS.ModeTarget..".png"

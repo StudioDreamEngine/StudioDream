@@ -30,11 +30,19 @@ function Scenes.LoadScene(Path, Target)
 
     print("Loading Scene: "..Path)
 
-    local Content = BackendFS.ReadFile(Path)
-    local Table = Binser.deserialize(Content)[1]
+    local Success, Message = pcall(function()
+        local Content = BackendFS.ReadFile(Path)
+        local Table = Binser.deserialize(Content)[1]
 
-    Scenes.Objects.DeserializeObjects(Table, Target)
-    Scenes.ConfigureTargetsTemp()
+        Scenes.Objects.DeserializeObjects(Table, Target)
+        Scenes.ConfigureTargetsTemp()
+    end)
+
+    if Success then
+        return Message
+    else
+        Shared.QueueAbort("Error while loading scene: "..Path)
+    end
 end
 
 return Scenes

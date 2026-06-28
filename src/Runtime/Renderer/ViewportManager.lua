@@ -2,9 +2,13 @@ local Things
 local ViewportManager = {}
 
 local RootViewport
+local light
 
 function ViewportManager.Init()
     Things = Runtime.Things
+
+    light = Dream:newLight("sun", Dream.vec3(10000, 10000, 10000), Dream.vec3(1.0, 0.75, 0.5), 1.0)
+    light:addNewShadow()
 
     ViewportManager.Viewports = {}
 
@@ -62,6 +66,7 @@ function ViewportManager.RenderViewport3D(Viewport)
     Profiler.Start("Render 3D Viewport")
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
+        Dream:addLight(light)
         Dream:draw(Viewport:GetWorld())
         Dream:draw(Runtime.Backend3D.GetAdorns())
         Dream:present()
