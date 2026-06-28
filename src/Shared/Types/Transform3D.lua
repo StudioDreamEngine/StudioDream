@@ -1,7 +1,7 @@
 local Transform3D = {}
 
 ---@param Matrix DreamMat4
-local function NewTransform(Matrix)
+local function NewTransform(Matrix, Rotated)
     local Object = {}
 
     Object.Type = "Transform3D"
@@ -12,12 +12,14 @@ local function NewTransform(Matrix)
     Object.Position = Vector3.new(Matrix[4], Matrix[8], Matrix[12])
 
     -- Extract basis
-    Object.Rotation = Dream.mat4(
-        Matrix[1], Matrix[2], Matrix[3], 0,
-        Matrix[5], Matrix[6], Matrix[7], 0,
-		Matrix[9], Matrix[10], Matrix[11], 0,
-        0, 0, 0, 1
-    )
+    if not Rotated then
+        Object.Rotation = NewTransform(Dream.mat4(
+            Matrix[1], Matrix[2], Matrix[3], 0,
+            Matrix[5], Matrix[6], Matrix[7], 0,
+            Matrix[9], Matrix[10], Matrix[11], 0,
+            0, 0, 0, 1
+        ), true) -- I dont like doing this... oh well!
+    end
 
     ---@return DreamMat4
     function Object.GetMatrix() return Matrix end
