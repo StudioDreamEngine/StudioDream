@@ -43,6 +43,8 @@ RenderService.OnStep:Connect(function(dt)
 
     local forward, side = s-w, d-a
 
+    local Relative = (Camera.Transform.Forward * forward) + (Camera.Transform.Side * side)
+
     Camera:SetTransform(Transform3D.FromPosition(Character.Transform.Position) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0) * Transform3D.FromPosition(0,0,5))
-    Character:SetVelocity(Character.Velocity + (Vector3.new(side, 0, forward) * dt * 30))
+    Character:SetVelocity(Character.Velocity + (Relative * dt * 30))
 end)
