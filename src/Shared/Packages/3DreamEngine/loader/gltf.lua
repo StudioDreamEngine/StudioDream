@@ -129,7 +129,7 @@ local function loadMaterial(node)
 	
 	local material = lib:newMaterial(node.name)
 	
-	local metallicRoughness, occlusionTexture
+	--[[local metallicRoughness, occlusionTexture
 	
 	if node.pbrMetallicRoughness then
 		if node.pbrMetallicRoughness.baseColorTexture then
@@ -171,7 +171,7 @@ local function loadMaterial(node)
 	
 	--material:setAlphaMode(material.AlphaMode or "OPAQUE") --todo
 	material:setAlphaCutoff(node.alphaCutoff or 0.5)
-	material:setCullMode(material.doubleSided and "none" or "back") -- why????
+	material:setCullMode(material.doubleSided and "none" or "back") -- why????]]
 	
 	return material
 end
