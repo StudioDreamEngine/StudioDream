@@ -128,6 +128,8 @@ end
 
 -- Get a resource from an Identifier
 function Resources.GetResource(Identifier)
+    if (not Identifier) then return end
+
     if not LoadedResources[Identifier.Identifier] then -- If the resource isnt loaded yet, cache it
         local Format = FormatLookup[Identifier.FileType]
 

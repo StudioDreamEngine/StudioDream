@@ -108,54 +108,9 @@ function lib:clearLoadedTextures()
 	self.texturesLoaded = { }
 end
 
----Get image path if present
----@param path string @ Slash separated path without extension to image
----@return string
-function lib:getImagePath(path)
-	return images[path]
-end
-
----Returns a dictionary, mapping every image without extension to its best file with extension
----@return table<string, string>
-function lib:getImagePaths()
-	return images
-end
-
 ---Get a texture, load it threaded if enabled and therefore may return nil first
-function lib:getImage(path, force)
-	if type(path) == "userdata" then
-		return path
-	end
-	if not path then
-		return false
-	end
-	if type(path) == "string" then
-		path = {
-			task = "image",
-			path = path
-		}
-	end
-	
-	--skip threaded loading
-	if force or not self.textures_threaded and path.task == "image" then
-		if not self.texturesLoaded[path.path] then
-			self.texturesLoaded[path.path] = love.graphics.newImage(path.path, { mipmaps = self.textures_mipmaps })
-			self.texturesLoaded[path.path]:setWrap("repeat", "repeat")
-		end
-		return self.texturesLoaded[path.path]
-	end
-	
-	--request image load
-	local tex = self.texturesLoaded[path.path]
-	if tex == nil then
-		--mark as in progress
-		self.texturesLoaded[path.path] = false
-		
-		--request texture load
-		self.jobsChannel:push(path)
-	end
-	
-	return tex
+function lib:getImage(path)
+	return Runtime.Resources.GetResource(path)
 end
 
 ---Lazily combine 3 textures to use only one texture

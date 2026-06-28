@@ -173,29 +173,29 @@ function sh:perMaterial(shaderObject, material)
 	local material2 = material.material2
 	assert(material2, "materials with multiTexture shader requires a field 'material2' with a second material")
 	
-	shader:send("albedoTexture1", material.AlbedoTexture or tex.default)
-	shader:send("albedoTexture2", material2.AlbedoTexture or tex.default)
+	shader:send("albedoTexture1", dream:getImage(material.AlbedoTexture) or tex.default)
+	shader:send("albedoTexture2", dream:getImage(material2.AlbedoTexture) or tex.default)
 	shader:send("albedoColor1", material.Color)
 	shader:send("albedoColor2", material2.Color)
 	
-	shader:send("blendTexture", material.BlendTexture or tex.default)
+	shader:send("blendTexture", dream:getImage(material.BlendTexture) or tex.default)
 	shader:send("multiTextureBlendScale", material.MultiTextureBlendScale)
 	
 	if shader:hasUniform("materialTexture1") then
-		shader:send("materialTexture1", material.MaterialTexture or tex.default)
-		shader:send("materialTexture2", material2.MaterialTexture or tex.default)
+		shader:send("materialTexture1", dream:getImage(material.MaterialTexture) or tex.default)
+		shader:send("materialTexture2", dream:getImage(material2.MaterialTexture) or tex.default)
 	end
 	shader:send("materialColor1", { material.Metallic, material.Roughness })
 	shader:send("materialColor2", { material2.metallic, material2.roughness })
 	
 	if shader:hasUniform("normalTexture1") then
-		shader:send("normalTexture1", material.NormalTexture or tex.defaultNormal)
-		shader:send("normalTexture2", material2.NormalTexture or tex.defaultNormal)
+		shader:send("normalTexture1", dream:getImage(material.NormalTexture) or tex.defaultNormal)
+		shader:send("normalTexture2", dream:getImage(material2.NormalTexture) or tex.defaultNormal)
 	end
 	
 	if shader:hasUniform("emissionTexture1") then
-		shader:send("emissionTexture1", material.EmissionTexture or tex.default)
-		shader:send("emissionTexture2", material2.EmissionTexture or tex.default)
+		shader:send("emissionTexture1", dream:getImage(material.EmissionTexture) or tex.default)
+		shader:send("emissionTexture2", dream:getImage(material2.EmissionTexture) or tex.default)
 	end
 	
 	shader:send("emissionColor1", material.Emission)
