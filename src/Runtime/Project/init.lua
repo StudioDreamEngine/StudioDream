@@ -32,9 +32,9 @@ function Project.Load(ProjectPath)
         Resources.Load()
         Runtime.ChangeTitle()
 
+        Scenes.LoadScene("Materials.sds", Runtime.Things.GetRoot("Materials"))
         Scenes.LoadScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
         Scenes.LoadScene("Interface.sds", Runtime.Things.GetRoot("HUD"))
-        Scenes.LoadScene("Materials.sds", Runtime.Things.GetRoot("Materials"))
     end)
 
     if (not Success) then
