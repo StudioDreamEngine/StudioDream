@@ -187,6 +187,7 @@ function methods:set(x, y, v)
 	self[(y - 1) * 4 + x] = v
 end
 
+-- from menori
 function methods:toEuler()
 	local m11, m12, m13 = self[1], self[2], self[3]
 	local m21, m22, m23 = self[5], self[6], self[7]

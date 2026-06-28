@@ -23,7 +23,7 @@ local function NewTransform(Matrix)
     function Object.GetMatrix() return Matrix end
 
     function Object.AsAngle()
-        return Matrix:toEuler()
+        return Vector3.FromDream(Matrix:toEuler())
     end
 
     return setmetatable(Object, {
