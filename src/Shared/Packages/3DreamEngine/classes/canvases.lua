@@ -9,10 +9,9 @@ function lib:newCanvases()
 		format = "rgba16f",
 		msaa = 4,
 		fxaa = false,
-		refractions = true,
+		refractions = false,
 		alphaPass = true,
-		--mode = "direct",
-		mode = "normal"
+		mode = "normal",
 	}, self.meta.canvases)
 end
 

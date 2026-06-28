@@ -7,7 +7,13 @@ local light
 function ViewportManager.Init()
     Things = Runtime.Things
 
-    light = Dream:newLight("sun", Dream.vec3(10000, 10000, 10000), Dream.vec3(1.0, 0.75, 0.5), 1.0)
+    Dream:setSky(love.graphics.newCubeImage("Assets/sky.png"))
+    Dream:setDefaultReflection(false)
+    Dream:setBloom(3)
+
+    Dream:init() ---@diagnostic disable-line: missing-parameter
+
+    light = Dream:newLight("sun", Dream.vec3(1000, 1000, 1000), Dream.vec3(1.0, 0.75, 0.5), 10.0)
     light:addNewShadow()
 
     ViewportManager.Viewports = {}
@@ -64,13 +70,13 @@ end
 -- Render the contents of a 3d viewport
 function ViewportManager.RenderViewport3D(Viewport)
     Profiler.Start("Render 3D Viewport")
-    Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
+    --Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         Dream:prepare()
         Dream:addLight(light)
         Dream:draw(Viewport:GetWorld())
         Dream:draw(Runtime.Backend3D.GetAdorns())
         Dream:present()
-    end)
+    --end)
     Profiler.End()
 end
 

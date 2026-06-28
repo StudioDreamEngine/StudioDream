@@ -6,18 +6,18 @@ local light
 --World.Collision = require("Engine.Core3D.Collision")
 
 function World.Init()
-    Dream:setBloom(3)
-
     LoveEvents.ResizeWindow:Connect(function()
         local NewSize = VisualUtils.GetWindowSize()
         Dream:resize(NewSize.X,NewSize.Y)
     end)
 
+    light = Dream:newLight("sun", Dream.vec3(10000, 10000, 10000), Dream.vec3(1.0, 0.75, 0.5), 1.0)
+    light:addNewShadow()
+
     ---@diagnostic disable-next-line: missing-parameter
     Dream:init()
 
-    light = Dream:newLight("sun", Dream.vec3(10000, 10000, 10000), Dream.vec3(1.0, 0.75, 0.5), 1.0)
-    light:addNewShadow()
+    Dream:setBloom(3)
 
     World.Instances = {}
     World.Camera = Dream.camera
