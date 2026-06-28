@@ -44,12 +44,12 @@ function Runtime.PostInit(ProjectPath)
     Runtime.Backend = require("Runtime.Backend")
     Runtime.Backend.Init()
 
-    Runtime.Things.CreateEnviornment()
     Runtime.Things.CreateApiDump()
 
     Runtime.Resources.Init()
 
     Dream:prepareRuntime()
+    Runtime.Things.CreateEnviornment()
 
     Runtime.Project = require("Runtime.Project")
 

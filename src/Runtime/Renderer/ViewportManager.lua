@@ -13,15 +13,10 @@ function ViewportManager.Init()
 
     Dream:init() ---@diagnostic disable-line: missing-parameter
 
-<<<<<<< HEAD
-    light = Dream:newLight("sun", Dream.vec3(10000, 10000, 10000), Dream.vec3(1.0, 0.75, 0.5), 10.0)
-    light:addNewShadow(2048)
-=======
 
     light = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(1.0, 0.75, 0.5), 10.0)
     light:addNewShadow()
     light:setDirection(1, 1, 1)
->>>>>>> ad7e85905c8c22b1ef6748307a5e8e7e2538e80a
 
     ViewportManager.Viewports = {}
 
