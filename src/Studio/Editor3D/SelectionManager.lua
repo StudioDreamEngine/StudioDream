@@ -2,7 +2,7 @@ local SelectionManager = {}
 local Things = Runtime.Things
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
-local Editor3D
+--local Editor3D
 
 SelectionManager.ObjectPicker = false
 SelectionManager.ObjectPickerEvent = Signal:New("GetThingToPutOnAProperty")

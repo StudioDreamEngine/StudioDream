@@ -17,13 +17,16 @@ local Types = Utils.LoadModules("Studio/UI/Windows/PropertiesTypes/", true)
 function Properties.CreateProperty(PropertyInfos,ParentWhat)
     local selfed = {}
 
-    local PropertyWillHandle = {
-        {
-            Thing = PropertyInfos.Thing,
-            Property = PropertyInfos.Name -- DONT FORGET TO ALSO MAKE ATTRIBUTES IN HERE!!! so if like i change a resource that inst compatiable with an property that is together it doesnt change the property
-        },
-    }
+    local PropertyWillHandle = {}
 
+    for i,v in pairs(Editor3D.Selecting) do 
+        table.insert(PropertyWillHandle,{
+            Thing = v,
+            Property = PropertyInfos.Name
+        })
+    end
+
+    --print(PropertyWillHandle)
     selfed.BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,0.99,23,0),
         Pivot = Vector2.new(0,0),
@@ -89,6 +92,7 @@ function Properties.CreateGroup(GroupName)
 end
 
 function Properties.RenderEverything(Thing)
+    --print(Editor3D.Selecting)
     Properties.ParentWith.ScrollPosition = -200
 
     Properties.ResetSignal.Invoke()

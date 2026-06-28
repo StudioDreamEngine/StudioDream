@@ -38,10 +38,8 @@ function Template.Start(MainInfo)
         for i,Info in pairs(MainInfo.WillHandle) do
             print(Info)
             Runtime.Things.SetProperty(Info.Thing, Info.Property, Text.Text)
-
-            self.Update()
         end
-
+        self.Update()
         Studio.Layout.CallHandle("Explorer", "Redraw") -- Make this as a attribute thing!!@! 
     end))
 
