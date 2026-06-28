@@ -9,6 +9,7 @@ function Backend3D.Init()
 
     Dream:setSky(love.graphics.newCubeImage("Assets/sky.png"))
     Dream:setDistortionMargin()
+    Dream:setDefaultReflection(false)
 
     -- Stores Objects that are not nesscessarily part of the enviornment itself, instead intended to be visible only to the object using them and 3dreamengine
     DreamAdorns = Dream:newObject()
