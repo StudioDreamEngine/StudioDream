@@ -216,6 +216,7 @@ end
 
 function BaseGui:SetMouseLocked(NewLocked)
     local Display = self:GetDisplayUI() ---@class Viewport2D
+    if (not Display) then return end
 
     if NewLocked then
         self.LockOrigin = self.AbsolutePosition - Display.MousePosition
