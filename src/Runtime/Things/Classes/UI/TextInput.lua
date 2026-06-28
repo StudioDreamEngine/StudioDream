@@ -27,6 +27,7 @@ function TextInput:new()
             if (self.InputActive) then
                 if (Key == Enum.InputCode.Enter) then
                     self.FocusEnd.Invoke()
+                    self.InputActive = nil
                 elseif (Key == Enum.InputCode.Backspace) then
                     self:SetText(string.sub(self.Text, 0, -2))
                     self.Typed.Invoke(self.Text)
