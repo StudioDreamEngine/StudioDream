@@ -47,9 +47,9 @@ function Material:DefineAPI()
 end
 
 function Material:SetAlbedoTexture(Value)
-    local ImageFile, Resource = Runtime.Resources.LoadResourceFromIdentifier(Value, self.UUID)
+    local ImageFile, Identifier = Runtime.Resources.LoadResourceFromIdentifier(Value, self.UUID)
 
-    self.AlbedoTexture = ImageFile
+    self.AlbedoTexture = Identifier
 
     print(self.AlbedoTexture)
 end
