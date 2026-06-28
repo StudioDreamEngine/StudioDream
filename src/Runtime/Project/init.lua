@@ -22,6 +22,12 @@ function Project.ValidateAndMount(ProjectPath)
     end
 end
 
+function Project.LoadDefault()
+    local Camera = Runtime.Things.Create("Camera") {
+        
+    }
+end
+
 function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end

@@ -187,6 +187,25 @@ function methods:set(x, y, v)
 	self[(y - 1) * 4 + x] = v
 end
 
+function methods:toEuler()
+	local m11, m12, m13 = self[1], self[2], self[3]
+	local m21, m22, m23 = self[5], self[6], self[7]
+	local m31, m32, m33 = self[9], self[10], self[11]
+
+	local y = math.asin( math.clamp( m13, -1, 1 ) )
+	local x,z
+
+	if math.abs( m13 ) < 0.9999999 then
+		x = math.atan2( - m23, m33 )
+		z = math.atan2( - m12, m11 )
+	else
+		x = math.atan2( m32, m22 )
+		z = 0
+	end
+
+	return Dream.vec3(x,y,z)
+end
+
 function methods:clone()
 	local c = matrix({
 		self[1], self[2], self[3], self[4],
@@ -247,6 +266,8 @@ function methods:subm(size, offsetX, offsetY)
 	end
 	return c
 end
+
+
 
 function methods:transpose()
 	local c = matrix({

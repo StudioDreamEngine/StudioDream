@@ -169,7 +169,7 @@ return function(matrix)
 		
 		return m
 	end
-	
+
 	function methods:getLossySize()
 		return math.sqrt(math.max(
 				(self[1] ^ 2 + self[5] ^ 2 + self[9] ^ 2),

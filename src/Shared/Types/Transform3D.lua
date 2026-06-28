@@ -22,6 +22,10 @@ local function NewTransform(Matrix)
     ---@return DreamMat4
     function Object.GetMatrix() return Matrix end
 
+    function Object.AsAngle()
+        return Matrix:toEuler()
+    end
+
     return setmetatable(Object, {
         __mul = function (t1, t2)
             if t1.Type == "Transform3D" and t2.Type == "Transform3D" then
