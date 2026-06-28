@@ -25,7 +25,7 @@ function Material:new()
     self.NormalTexture = nil
     self.EmissionTexture = nil -- Emission map texture
     self.MaterialTexture = nil -- Combination of the metalic, roughness and AO textures, in the future, when any of those are set, set this as the actual texture, and use dream:combineTextures(metallic, roughness, AO).
-    self.AlbedoTexture = nil -- Color texture
+    self.AlbedoTexture = love.graphics.newImage("Assets/DefaultMeshes/Luz_old.png") -- Color texture
 
     -- Mutli texture
     self.MultiTextureBlendScale = 3.7
