@@ -1,6 +1,6 @@
 TITLE = "(Early Riser)"
 -- Major.Minor.Patch
-VERSION = "0.5 "..TITLE
+VERSION = "0.5.1"..TITLE
 
 FLAGS = {
     ModeTarget = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
