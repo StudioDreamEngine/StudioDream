@@ -113,7 +113,7 @@ function MoveControl:Update(dt)
     for Axis, Adorn in pairs(self.Adorns) do
         -- ...oh god
         Adorn:resetTransform()
-        Adorn:translate((Transform.Rotation + (Axis * self.Adornee.Scale)).ToDream())
+        Adorn:translate((Transform.Position + (Axis * self.Adornee.Scale)).ToDream())
         Adorn:lookTowards(-Axis.ToDream())
         Adorn:scale(CameraDistance)
         Adorn:translate(0,0,2)
