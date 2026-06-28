@@ -3,8 +3,8 @@ local Things = Runtime.Things
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 local SelectionPriority = Runtime.SelectionPriority
 
----@class MoveControl: Control3D
-local MoveControl = Things.Extend("Control3D")
+---@class ScaleControl: Control3D
+local ScaleControl = Things.Extend("Control3D")
 
 local Lookup = {
     Vector3.zAxis,
@@ -15,7 +15,7 @@ local Lookup = {
     -Vector3.yAxis
 }
 
-function MoveControl:GetPlane()
+function ScaleControl:GetPlane()
     local Camera = Things.Root:GetCamera()
     local MouseRay = Camera:GetMouseRay()
     local Transform = self.Adornee.Transform
@@ -29,19 +29,22 @@ function MoveControl:GetPlane()
     return Rays.X + Rays.Y + Rays.Z
 end
 
-function MoveControl:ConnectEvents()
+function ScaleControl:ConnectEvents()
     print("Connect move events")
 
     self.MouseEvent = SelectionPriority.BindSignal(function(IsDown)
         if IsDown then
-            self.StartMove.Invoke()
+            self.StartScale.Invoke()
 
             self.Down = self.Hovering
+
             self.InitalPos = self.Adornee.Position
+
             self.InitalOffset = self:GetPlane()
+            self.NormalSide = self.Down
         else
             self.Down = false 
-            self.EndMove.Invoke() 
+            self.EndScale.Invoke() 
         end
     end, 2, function ()
         return self.Hovering or self.Down
@@ -50,26 +53,27 @@ function MoveControl:ConnectEvents()
     self.MouseMoved = InputService.MouseMoved:Connect(function(MouseObject)
         if (not self.Down) then return end
 
-        self.OnMove.Invoke((self:GetPlane() - self.InitalOffset) * self.Down.Abs())
+        local DistanceFrom = (self:GetPlane() - self.InitalOffset)
+        self.OnMove.Invoke(self.NormalSide, (DistanceFrom * self.Down).Axis())
     end)
 end
 
-function MoveControl:DisconnectEvents()
+function ScaleControl:DisconnectEvents()
     SelectionPriority.UnbindSignal(self.MouseEvent)
     self.MouseMoved:Disconnect()
 end
 
-function MoveControl:new()
-    MoveControl.super.new(self)
+function ScaleControl:new()
+    ScaleControl.super.new(self)
 
     self.OnMove = Signal:New("Control")
-    self.EndMove = Signal:New("EndControl")
-    self.StartMove = Signal:New("StartControl")
+    self.EndScale = Signal:New("EndControl")
+    self.StartScale = Signal:New("StartControl")
 
     self.InitalPos = Vector3.zero
     self.InitalOffset = Vector3.zero
+    self.NormalSide = Vector3.zero
 
-    self.Resource = nil
     --[[
         I dont like having to assign all of these to variables, we should find a way to be able to clean these up more automatically
 
@@ -79,18 +83,18 @@ function MoveControl:new()
     self:ConnectEvents()
 
     for _, Axis in pairs(Lookup) do
-        self.Adorns[Axis] = Runtime.Backend3D.LoadAdorn(self.Resource or "Internal/DefaultMeshes/arrow.obj", self.AdornObject, Axis)
+        self.Adorns[Axis] = Runtime.Backend3D.LoadAdorn("Internal/DefaultMeshes/ball.obj", self.AdornObject, Axis)
     end
 end
 
-function MoveControl:OnRemove()
+function ScaleControl:OnRemove()
     Runtime.Backend3D.RemoveAdorn(self.AdornObject.UUID)
     self:DisconnectEvents()
 
-    MoveControl.super.OnRemove(self)
+    ScaleControl.super.OnRemove(self)
 end
 
-function MoveControl:Update(dt)
+function ScaleControl:Update(dt)
     if (not self.Adornee) then return end
 
     ---@class Camera
@@ -103,12 +107,13 @@ function MoveControl:Update(dt)
     CameraDistance = math.sqrt(CameraDistance) / 8 -- Black magic, Literally black magic.
 
     local Hovering = Runtime.Backend3D.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)
+
     self.Hovering = Hovering and Hovering.Thing
 
     for Axis, Adorn in pairs(self.Adorns) do
         -- ...oh god
         Adorn:resetTransform()
-        Adorn:translate((Transform.Position + (Axis * self.Adornee.Scale)).ToDream())
+        Adorn:translate((Transform.Position + (Axis * self.Adornee.Size)).ToDream())
         Adorn:lookTowards(-Axis.ToDream())
         Adorn:scale(CameraDistance)
         Adorn:translate(0,0,2)
@@ -116,4 +121,4 @@ function MoveControl:Update(dt)
     end
 end
 
-return MoveControl
+return ScaleControl

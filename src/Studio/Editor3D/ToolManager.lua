@@ -1,25 +1,11 @@
 local ToolManager = {}
 
-local CurrentTool
-local Selection = Runtime.Things.New("Transformable3D") ---@class Transformable3D
+local CurrentTool, ChosenTool
+
+local SelectionProxy = Runtime.Things.New("Transformable3D") ---@class Transformable3D
+local LatestSelection -- Used for scale currently
+
 local Selecting = {}
-
-function ToolManager.Init()
-    ToolManager.Move = require("Studio.Editor3D.Tools.Move")
-    ToolManager.Rotate = require("Studio.Editor3D.Tools.Rotate")
-    Studio.Editor3D.OnSelect:Connect(function(Thing)
-        if Thing:IsA("Drawable3D") then
-            ToolManager.Select(Thing)
-        end
-    end)
-end
-
-function ToolManager.Deselect()
-    if CurrentTool then 
-        CurrentTool.Destroy()
-        CurrentTool = nil
-    end
-end
 
 function ToolManager.GetCenter(Objects)
     local VectorAverage = Vector3.zero
@@ -32,6 +18,7 @@ function ToolManager.GetCenter(Objects)
    return VectorAverage / table.length(Objects)
 end
 
+-- Setup selection transform for multipile selections
 function ToolManager.SetupSelection()
     Selecting = {}
 
@@ -47,7 +34,7 @@ function ToolManager.SetupSelection()
         Select.Difference = Select.Object.Position - Center
     end
 
-    Selection:SetPosition(Center)
+    SelectionProxy:SetPosition(Center)
 end
 
 function ToolManager.ChangeTransform(NewTransform)
@@ -55,20 +42,60 @@ function ToolManager.ChangeTransform(NewTransform)
         Select.Object:SetTransform(NewTransform * Transform3D.FromPosition(Select.Difference))
     end
 
-    Selection:SetPosition(ToolManager.GetCenter(Selecting))
+    SelectionProxy:SetPosition(ToolManager.GetCenter(Selecting))
+end
+
+
+
+function ToolManager.Init()
+    ToolManager.Move = require("Studio.Editor3D.Tools.Move")
+    ToolManager.Scale = require("Studio.Editor3D.Tools.Scale")
+    ToolManager.Rotate = require("Studio.Editor3D.Tools.Rotate")
+
+    ChosenTool = ToolManager.Move
+
+    Studio.Editor3D.OnSelect:Connect(function(Thing)
+        if Thing:IsA("Drawable3D") then
+            ToolManager.Select(Thing)
+        end
+    end)
+end
+
+function ToolManager.ChangeTool(Tool)
+    ChosenTool = ToolManager[Tool]
+
+    if CurrentTool then -- HACK
+        ToolManager.Select()
+    end
+end
+
+function ToolManager.Deselect()
+    if CurrentTool then 
+        CurrentTool.Destroy()
+        CurrentTool = nil
+    end
 end
 
 function ToolManager.Select(NewSelection)
-    ToolManager.SetupSelection()
+    if NewSelection then
+        LatestSelection = NewSelection
+    end
+
     ToolManager.Deselect()
 
-    CurrentTool = ToolManager.Rotate
-    CurrentTool.Selection = Selection
+    CurrentTool = ChosenTool
+
+    if CurrentTool.SingleSelect then
+        CurrentTool.Selection = LatestSelection
+    else
+        ToolManager.SetupSelection()
+        CurrentTool.Selection = SelectionProxy
+    end
 
     CurrentTool.SetupSelection = ToolManager.SetupSelection
     CurrentTool.ChangeTransform = ToolManager.ChangeTransform
     
-    if NewSelection:IsA("Drawable3D") then
+    if CurrentTool.Selection:IsA("Transformable3D") then
         CurrentTool.Init()
     end
 end

@@ -8,6 +8,9 @@ function Control3D:new()
     Control3D.super.new(self)
 
     self.Adornee = nil ---@class Drawable3D
+
+    self.Down = false
+    self.Hovering = nil
     
     self.AdornObject = Runtime.Backend3D.CreateAdorn("MoveAdorn")
     self.Adorns = {}
@@ -17,6 +20,7 @@ function Control3D:DefineAPI()
     Control3D.super.DefineAPI(self)
 
     self.Proxy.Property("Thing Adornee")
+    self.Proxy.MakeCreatable()
 end
 
 return Control3D

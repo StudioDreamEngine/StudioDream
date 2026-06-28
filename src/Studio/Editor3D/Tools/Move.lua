@@ -5,8 +5,8 @@ local MoveControl ---@class MoveControl
 local SelectingObj
 
 local Info = {
-    ["StartPosObj"] = Vector3.zero,
-    ["OffsetTo"] = Vector3.zero,
+    StartPosObj = Vector3.zero,
+    OffsetTo = Vector3.zero,
 }
 
 local function StartDrag(Obj)

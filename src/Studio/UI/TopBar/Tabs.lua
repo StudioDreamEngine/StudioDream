@@ -37,7 +37,7 @@ return {
                 Name = "Move",
                 Icon = "MoveIcon",
                 OnClick = function()
-                    print("Move clicked")
+                    Studio.Editor3D.ToolManager.ChangeTool("Move")
                 end
             }
         },
@@ -47,7 +47,7 @@ return {
                 Name = "Scale",
                 Icon = "ScaleIcon",
                 OnClick = function()
-                    print("Scale clicked")
+                    Studio.Editor3D.ToolManager.ChangeTool("Scale")
                 end
             }
         },
@@ -57,7 +57,7 @@ return {
                 Name = "Rotate",
                 Icon = "RotIcon",
                 OnClick = function()
-                    print("Rotate clicked")
+                    Studio.Editor3D.ToolManager.ChangeTool("Rotate")
                 end
             }
         },

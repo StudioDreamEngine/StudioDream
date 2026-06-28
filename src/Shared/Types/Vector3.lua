@@ -137,6 +137,7 @@ function Vector3.new(x,y,z,w)
         return (Object.X*Object.X + Object.Y*Object.Y + Object.Z*Object.Z) ^ 1/3
     end
 
+    -- Return the sum of all axises, useful for getting the value of one axis if all other axises should be zero
     function Object.Axis()
         return (Object.X + Object.Y + Object.Z)
     end
