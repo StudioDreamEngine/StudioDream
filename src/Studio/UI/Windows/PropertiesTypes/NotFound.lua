@@ -4,11 +4,7 @@ function Template.Start(MainInfo)
     local self = {}
     --MainInfo.Connections
 
-    for i,v in pairs(MainInfo.WillHandle) do
-        -- Nothin, this is mostly for when the property will be set up
-    end
-
-    Runtime.Things.Create("Text") {
+    local Text = Runtime.Things.Create("Text") {
         Text = "WIP!",
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
         BackgroundTransparency = 1,
@@ -18,6 +14,9 @@ function Template.Start(MainInfo)
         Font = Studio.Theme.GetCurrentTheme().FontBold,
     }
 
+    for i,Info in pairs(MainInfo.WillHandle) do
+        Text:SetText("WIP! ("..Info.Thing.Proxy.Types[Info.Property]..")")
+    end
     function self.Update()
 
     end

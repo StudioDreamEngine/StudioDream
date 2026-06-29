@@ -101,7 +101,7 @@ function Start.Init()
     end)
 
     local Version = Runtime.Things.Create("Text") {
-        Text = "Welcome to Early Riser! ("..VERSION..")",
+        Text = "Welcome to Early Riser! ("..VERSION..") (This is a wip window, nothin works sorrey)",
         ForegroundColor = Studio.Theme.GetCurrentTheme().TextInverse,
         Position = Pivot2D.FromScale(0.05,0),
         Size = Pivot2D.FromScale(1,0.1),
@@ -109,23 +109,6 @@ function Start.Init()
         Layer = 2,
         BackgroundTransparency = 1,
         Alignment = Vector2.new(0.5,0.5)
-    }
-
-    local Close = Runtime.Things.Create("TextButton") {
-        Text = "Close TS",
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
-        Position = Pivot2D.FromScale(1,0),
-        Pivot = Vector2.new(1,0),
-        Size = Pivot2D.FromScale(.05,.05),
-        Parent = Start.Container,
-        Alignment = Vector2.new(0.5,0.5),
-        Layer = 2,
-        OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
-        CornerRadius = 5,
-        Font = Studio.Theme.GetCurrentTheme().Bold,
-        TextSize = 20
     }
 
     local Options = Runtime.Things.Create("Square") {

@@ -108,7 +108,7 @@ function Template.Start(MainInfo)
         if not Visible then
             for i,Info in pairs(MainInfo.WillHandle) do
                 if CheckAllTheSame(MainInfo.WillHandle) then
-                    MainTxt:SetText("{"..tostring(Info.Thing.Transform.Position).."} {"..tostring(Info.Thing.Transform.Rotation).."}")
+                    MainTxt:SetText("{"..tostring(Info.Thing.Transform.Position).."} {"..tostring(Info.Thing.Transform.Rotation.AsAngle().Deg()).."}")
                 else
                     MainTxt:SetText("~")
                 end
