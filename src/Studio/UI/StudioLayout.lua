@@ -202,8 +202,8 @@ function StudioLayout.CreateLayout()
         Layer = 300,
         TopLevel = true
     })
-
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Start"), ((not love.restart) and true or false))
 end
 
 function StudioLayout.Update(dt)

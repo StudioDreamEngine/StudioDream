@@ -1,7 +1,7 @@
 local Start = {}
 local Things = Runtime.Things
 
-function Start.CreateProject(Scroll)
+function Start.CreateProject(Scroll,Info,Path,FullContainer)
     local selfed = {}
 
     selfed.Base = Runtime.Things.Create("TextButton") {
@@ -27,7 +27,7 @@ function Start.CreateProject(Scroll)
     }
 
     selfed.ProjectName = Runtime.Things.Create("Text") {
-        Text = "Untitled Project...",
+        Text = Info.Name,
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
         Position = Pivot2D.FromScale(0,0),
         Parent = selfed.Base,
@@ -39,7 +39,7 @@ function Start.CreateProject(Scroll)
     }
 
     selfed.Date = Runtime.Things.Create("Text") {
-        Text = "00/00/00",
+        Text = "Last Mod: "..Utils.TimeAgo(Info.Time),
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
         Position = Pivot2D.FromScale(0,0.5),
         Parent = selfed.Base,
@@ -48,6 +48,13 @@ function Start.CreateProject(Scroll)
         Alignment = Vector2.new(0.5,0.5),
         Size = Pivot2D.FromScale(1,0.5)
     }
+
+    selfed.Base.Clicked:Connect(function()
+        print("Click")
+        Runtime.Project.Load(Path)
+        FullContainer:SetVisible(false)
+    end)
+
 
     return selfed
 end
@@ -79,7 +86,6 @@ function Start.CreateButton(Options,Text,Image)
         CornerRadius = 5,
         --ScaleType = Enum.ScaleTypes.Fit
     }
-
     return selfed
 end
 
@@ -95,10 +101,7 @@ function Start.Init()
         ScaleType = Enum.ScaleType.Crop
     }
     
-    Studio.Components.ShowFade(function()
-        Start.FullContainer:SetVisible(false)
-        Studio.Components.HideFade()
-    end)
+   -- Studio.Components.ShowFade()
 
     local Version = Runtime.Things.Create("Text") {
         Text = "Welcome to Early Riser! ("..VERSION..") (This is a wip window, nothin works sorrey)",
@@ -161,13 +164,19 @@ function Start.Init()
         BackgroundTransparency = 1
     }]]
 
-    Start.CreateProject(Scroll)
-
     Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
     Start.CreateButton(Options,"Upload a project","Internal/Studio/TabIcons/InsertIcon.png")
+    local wow = Start.CreateButton(Options,"Just close the window pls","Internal/Studio/Placeholders/Jeremy.png")
+
+    wow.Base.Clicked:Connect(function()
+        Start.FullContainer:SetVisible(false)
+    end)
 
     Version.Size = Pivot2D.FromScale(1,0.05)
 
+    for i,v in pairs(Runtime.SettingsManager.GetSetting("RecentProjects")) do
+        Start.CreateProject(Scroll,v,i,Start.FullContainer)
+    end
 
 end
 
