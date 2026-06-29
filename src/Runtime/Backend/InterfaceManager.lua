@@ -1,5 +1,7 @@
+---@diagnostic disable: param-type-mismatch, need-check-nil
 -- Handles general background tasks related to the currently rendering viewports
 local InterfaceManager = {}
+InterfaceManager.Buttons = {}
 
 function InterfaceManager.Init()
     InterfaceManager.OnMouseMove = Signal:New("MouseMove") 
@@ -19,6 +21,14 @@ function InterfaceManager.Init()
     end)
 end
 
+function InterfaceManager.RegisterButton(Button)
+    table.insert(InterfaceManager.Buttons, Button)
+end
+
+function InterfaceManager.UnregisterButton(Button)
+    table.removeValue(InterfaceManager.Buttons, Button)
+end
+
 function InterfaceManager.Update(dt)
     local Backend2D = Runtime.Backend2D
     local ViewportManager = Runtime.Renderer.ViewportManager
@@ -26,6 +36,27 @@ function InterfaceManager.Update(dt)
     for _, Viewport in pairs(ViewportManager.Viewports) do
         Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport.AbsolutePosition
     end
+
+    Profiler.Start("Process Hovering")
+    local CurrentlyHovering = {}
+
+    for _, Button in pairs(InterfaceManager.Buttons) do
+        local DisplayUI = Button:GetDisplayUI()
+
+        if DisplayUI then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
+            Button.Hovering = false
+        
+            if Button:IsVisible() and Utils.IntersectPoint2D(Button:GetChildRect(), DisplayUI.MousePosition) then
+                table.insert(CurrentlyHovering, Button)
+            end
+        end
+    end
+
+    if #CurrentlyHovering > 0 then
+        table.sort(CurrentlyHovering, function (a, b) return a.Layer < b.Layer end)
+        CurrentlyHovering[1].Hovering = true
+    end
+    Profiler.End()
 end
 
 return InterfaceManager

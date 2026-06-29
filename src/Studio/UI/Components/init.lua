@@ -24,6 +24,8 @@ function Components.RegisterUpdator(Updator)
 end
 function Components.UnregisterUpdator(UUID) Updators[UUID] = nil end
 
+local DialogWindows = require("Studio.UI.Components.DialogWindows")
+
 function Components.Init()
     DropdownFrame = Components.CreateStyle("Square", {
         Parent = Things.Root.RootViewport,
@@ -34,7 +36,10 @@ function Components.Init()
     })
 
     Components.AdvancedDropdown = require("Studio.UI.Components.AdvancedDropdown")
-    Components.CreateDialog = require("Studio.UI.Components.DialogWindows").CreateDialogWindow
+    Components.CreateDialog = DialogWindows.CreateDialogWindow
+
+    Components.ShowFade = DialogWindows.ShowFade
+    Components.HideFade = DialogWindows.HideFade
 
     Shared.AbortAPI = Components.SimpleDialog
 end

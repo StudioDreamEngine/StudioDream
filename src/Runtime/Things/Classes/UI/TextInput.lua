@@ -53,6 +53,8 @@ function TextInput:new()
 
         self.InputActive = self.Hovering
     end)
+
+    Runtime.InterfaceManager.RegisterButton(self)
 end
 
 function TextInput:DefineAPI()
@@ -65,6 +67,7 @@ end
 
 function TextInput:OnRemove()
     self.KeyEvent:Disconnect()
+    Runtime.InterfaceManager.UnregisterButton(self)
     TextInput.super.OnRemove(self)
 end
 
@@ -83,10 +86,6 @@ function TextInput:Update(dt)
 
     self:HandleKeys()
 
-    local DisplayUI = self:GetDisplayUI()
-    if (not DisplayUI) then return end
-
-    self.Hovering = Utils.IntersectPoint2D(self:GetChildRect(), DisplayUI.MousePosition)
     --[[print("-------")
     print(self.Hovering,self.UUID)
     print(self.InputActive)

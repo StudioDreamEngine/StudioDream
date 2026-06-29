@@ -95,19 +95,10 @@ function Start.Init()
         ScaleType = Enum.ScaleType.Crop
     }
     
-    local Back = Runtime.Things.Create("Square") { 
-        Size = Pivot2D.FromScale(1,1),
-        Position = Pivot2D.FromScale(0.5,0.5),
-        Pivot = Vector2.new(0.5,0.5),
-        BackgroundColor = Color.new(0,0,0),
-        Name = "WindowContainer",
-        Layer = 999,
-        Parent = Runtime.Things.GetRootViewport(),
-        BackgroundTransparency = 0.5,
-        CornerRadius = 5,
-    }
-
-    Start.FullContainer:SetParent(Back)
+    Studio.Components.ShowFade(function()
+        Start.FullContainer:SetVisible(false)
+        Studio.Components.HideFade()
+    end)
 
     local Version = Runtime.Things.Create("Text") {
         Text = "Welcome to Early Riser! ("..VERSION..")",
@@ -192,14 +183,6 @@ function Start.Init()
     Start.CreateButton(Options,"Upload a project","Internal/Studio/TabIcons/InsertIcon.png")
 
     Version.Size = Pivot2D.FromScale(1,0.05)
-
-    Close.Clicked:Connect(function()
-        Start.FullContainer:SetVisible(false)
-        Back:SetVisible(false)
-    end)
-    --[[Runtime.InterfaceManager.OnClick:Connect(function()
-        Start.FullContainer:SetVisible(false)
-    end)]]    
 
 
 end

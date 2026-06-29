@@ -26,6 +26,13 @@ function ImageButton:new()
         
         self.RightClicked.Invoke()
     end)
+
+    Runtime.InterfaceManager.RegisterButton(self)
+end
+
+function ImageButton:OnRemove()
+    ImageButton.super.OnRemove(self)
+    Runtime.InterfaceManager.UnregisterButton(self)
 end
 
 function ImageButton:DefineAPI()
@@ -37,12 +44,6 @@ end
 
 function ImageButton:Update(dt)
     ImageButton.super.Update(self)
-    local DisplayUI = self:GetDisplayUI()
-    if (not DisplayUI) then return end
-
-    local ObjectRect = self:GetChildRect()
-
-    self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, DisplayUI.MousePosition)
 
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
 

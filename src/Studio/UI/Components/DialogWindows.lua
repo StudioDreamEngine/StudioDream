@@ -2,15 +2,18 @@ local DialogWindows = {}
 local Components = Studio.Components
 local Tween = Runtime.Services.Service("TweenService")
 
-local DialogFade = Runtime.Things.Create("Square") {
+local DialogFade = Runtime.Things.Create("TextButton") {
     Size = Pivot2D.FromScale(1,1),
-    Layer = 998,
+    Layer = 100,
+    Text = "",
     Parent = Runtime.Things.GetRootViewport(),
     BackgroundTransparency = 0.5,
     BackgroundColor = Color.new(0),
     Visible = false
 }
 local ActiveDialogWindow
+
+local On
 
 local function ToggleAnim()
     local CurrentDropdown = ActiveDialogWindow
@@ -34,6 +37,18 @@ local function ToggleAnim()
     end
 end
 
+function DialogWindows.ShowFade(OnClose)
+    DialogFade:SetVisible(true)
+
+    DialogFade.Clicked:ConnectOnce(function()
+        if OnClose then OnClose() end
+    end)
+end
+
+function DialogWindows.HideFade()
+    DialogFade:SetVisible(false)
+end
+
 function DialogWindows.DestroyDialogWindow()
     ToggleAnim()
     if ActiveDialogWindow then
@@ -42,12 +57,12 @@ function DialogWindows.DestroyDialogWindow()
         ActiveDialogWindow.Window:Destroy()
         ActiveDialogWindow = nil
     end
-    DialogFade:SetVisible(false)
+    DialogWindows.HideFade()
 end
 
 function DialogWindows.CreateDialogWindow(Type, Options)
     DialogWindows.DestroyDialogWindow()
-    DialogFade:SetVisible(true)
+    DialogWindows.ShowFade()
 
     local ModuleDialog = require("Studio.UI.Components.Dialog."..Type)
     local DialogObject = ModuleDialog(Options)
