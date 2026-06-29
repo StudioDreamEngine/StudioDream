@@ -59,6 +59,8 @@ function ToolManager.Init()
             ToolManager.Select(Thing)
         end
     end)
+
+    Studio.Editor3D.OnDeselect:Connect(ToolManager.Deselect)
 end
 
 function ToolManager.ChangeTool(Tool)
