@@ -104,6 +104,7 @@ function Start.Init()
         Text = "Welcome to Early Riser! ("..VERSION..")",
         ForegroundColor = Studio.Theme.GetCurrentTheme().TextInverse,
         Position = Pivot2D.FromScale(0.05,0),
+        Size = Pivot2D.FromScale(1,0.1),
         Parent = Start.Container,
         Layer = 2,
         BackgroundTransparency = 1,

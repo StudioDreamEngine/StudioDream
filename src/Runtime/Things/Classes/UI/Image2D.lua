@@ -81,8 +81,8 @@ function Image2D:Draw()
 
     Profiler.Start("Image2D Draw")
 
-    local sw,sh = self.ImageQuad:getTextureDimensions()
-    local ImageSize = Vector2.new(sw,sh)
+    local _,_, w,h = self.ImageQuad:getViewport()
+    local ImageSize = Vector2.new(w,h)
     local Size = self.AbsoluteSize
 
     self:SetColor("Foreground")

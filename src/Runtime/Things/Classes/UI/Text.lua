@@ -38,6 +38,8 @@ end
 
 function Text:SetText(Text)
     self.Text = Text
+    self.RenderClass.Text = self.Text
+
     self:InvalidateRendering()
 end
 
@@ -53,8 +55,6 @@ end
 
 function Text:Draw()
     Text.super.Draw(self)
-
-    self.RenderClass.Text = self.Text
 
     self:SetColor("Foreground")
     self.RenderClass.Render(self.AbsoluteSize, self.Alignment)
