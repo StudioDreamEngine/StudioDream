@@ -81,9 +81,7 @@ end
 function InsertObject.UpdateList()
     for i, v in pairs(InsertObject.ScrollContainer:GetChildren()) do
         if (v:IsA("TextButton")) then
-            v.Visible = InsertObject.SearchText=='' and true or string.find(v.Name:lower(), InsertObject.SearchText:lower())
-        elseif not (v:IsA("TextInput")) then
-            v.Visible = InsertObject.SearchText=='' and true or false
+            v:SetVisible((InsertObject.SearchText=='') and true or string.find(v.Name:lower(), InsertObject.SearchText:lower()))
         end
     end
 end

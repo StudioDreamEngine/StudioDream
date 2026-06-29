@@ -40,11 +40,11 @@ function Shared.Init(Args)
 
     local SharedInit = Profiler.Benchmark("Shared - Init", true)
 
+    Shared.Target = love.restart or Args[1] or FLAGS.ModeTarget
+
     print("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")
     Runtime.Init()
-
-    Shared.Target = love.restart or Args[1] or FLAGS.ModeTarget
 
     if (not Utils.FileExists(Shared.Target)) then
         Shared.Abort("Invalid Target: "..Shared.Target)

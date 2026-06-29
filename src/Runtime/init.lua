@@ -15,9 +15,7 @@ function Runtime.Init()
     Runtime.Renderer.Init()
     Runtime.Things.Init()
 
-    FLAGS.ModeTarget = love.restart or "Studio"
-
-    Runtime.ChangeAppIcon("/Assets/Icons/"..FLAGS.ModeTarget..".png")
+    Runtime.ChangeAppIcon("/Assets/Icons/"..Shared.Target..".png")
 
     print("Runtime Initalized")
 end

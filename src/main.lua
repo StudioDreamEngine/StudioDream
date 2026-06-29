@@ -14,7 +14,7 @@ function love.load(args)
         print("StudioDream is running in compatability mode, expect crashes or graphics issues")
     end
     
-    print("StudioDream V"..VERSION..", Target: "..FLAGS.ModeTarget)
+    print("StudioDream V"..VERSION..", Configured Target: "..FLAGS.ModeTarget)
 
     Shared.Init(args)
 
