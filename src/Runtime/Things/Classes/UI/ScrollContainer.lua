@@ -68,16 +68,16 @@ function ScrollContainer:Update(dt)
 
     local MaxScroll = self:GetCanvasSize().Y
 
-    local ObjectRect = Rect.new(Vector2.zero, self.AbsoluteSize)
-
-    self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, self.MousePosition)
-
     -- Elastic scroll bounding, because why not
     if self.ScrollTarget > 0 then
         self.ScrollTarget = self.ScrollTarget + (0 - self.ScrollTarget)*dt*12
     elseif self.ScrollTarget < -MaxScroll then
         self.ScrollTarget = self.ScrollTarget + (-MaxScroll - self.ScrollTarget)*dt*12
     end
+
+    local ObjectRect = Rect.new(Vector2.zero, self.AbsoluteSize)
+
+    self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, self.MousePosition)
 
     -- Temporary optimization
     if self.TruelyVisible and math.abs(self.LastScroll - self.ScrollPosition) > 0.1 then

@@ -36,7 +36,6 @@ end
 
 function Viewport2D:SubmitChild(Child)
     self.CurrentOrder = self.CurrentOrder + 1
-
     Child.AbsoluteLayer = self.CurrentOrder
 
     Utils.AssertType(Child.Position, "Pivot2D", Child.Name)
@@ -58,7 +57,7 @@ function Viewport2D:SubmitContainerChildren(Container)
         - Bloctans
     ]]
     local SortedChildren = SortByDepth(Container:GetChildren())
-    
+
     for _, Child in pairs(SortedChildren) do
         if Child:IsAlwaysOnTop() then
             table.insert(self.TopLayer, Child)
@@ -91,7 +90,9 @@ end]]
 function Viewport2D:Update(dt)
     Viewport2D.super.Update(self, dt)
 
+    Profiler.Start("Viewport2D - Create Display List")
     self:CreateDisplayList()
+    Profiler.End()
 
     --[[local CurrentHovering, CurrentHoveringLayer = nil, 0
 

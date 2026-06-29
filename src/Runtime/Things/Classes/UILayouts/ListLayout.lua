@@ -27,6 +27,7 @@ function ListLayout:BindObject(_child)
 
     if _child:IsA("BaseGui") then
         self.OnChangedEvents[_child] = _child.PropagatedChange:Connect(function(Value, Key)
+            print("Update")
             self:RequestUpdateLayout()
         end)
     end
@@ -53,6 +54,7 @@ function ListLayout:Invalidate()
     ListLayout.super.Invalidate(self)
 
     if self.ShouldUpdate then
+        print("Update")
         self:UpdateLayout()
         self.ShouldUpdate = false
     end
