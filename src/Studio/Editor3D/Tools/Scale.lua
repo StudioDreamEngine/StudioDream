@@ -34,8 +34,9 @@ function Scale.Init()
 
     ScaleControl.OnMove:Connect(function(Plane, Normal)
         local ScaleOffset = (Normal.Abs() * Plane)/2
+        local ScaleOffset2 = (Normal * Plane)/2
 
-        Selecting:SetPosition(Info.StartPos + ScaleOffset)
+        Selecting:SetPosition(Info.StartPos + ScaleOffset2)
         Selecting.Scale = Info.OgScale + ScaleOffset
     end)
 
