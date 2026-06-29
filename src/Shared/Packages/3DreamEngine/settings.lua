@@ -87,6 +87,16 @@ lib.features = {
 	bloom = true
 }
 
+lib.shadowIntensity = 0.5
+
+function lib:getShadowIntensity()
+	return lib.shadowIntensity
+end
+
+function lib:setShadowIntensity(Intensity)
+	lib.shadowIntensity = Intensity
+end
+
 function lib:setFeature(key, enabled)
 	lib.features[key] = enabled
 end

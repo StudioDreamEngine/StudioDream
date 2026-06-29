@@ -7,6 +7,8 @@ sh.func = "sampleShadowSun"
 
 function sh:constructDefinesGlobal(dream)
 	return [[
+	uniform float maxShadowIntensity;
+
 	float sampleShadowSun2(Image tex, vec2 shadowUV, float depth) {
 		float ox = float(fract(love_PixelCoord.x * 0.5) > 0.25);
 		float oy = float(fract(love_PixelCoord.y * 0.5) > 0.25) + ox;
@@ -101,7 +103,9 @@ function sh:constructPixel(ID)
 end
 
 function sh:sendGlobalUniforms(shaderObject)
-	
+	local shader = shaderObject.shader
+
+	shader:send("maxShadowIntensity", 1.0 - (lib:getShadowIntensity() or 1.0))
 end
 
 function sh:sendUniforms(shaderObject, light, ID)
