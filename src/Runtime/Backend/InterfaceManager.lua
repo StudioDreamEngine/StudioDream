@@ -53,7 +53,7 @@ function InterfaceManager.Update(dt)
     end
 
     if #CurrentlyHovering > 0 then
-        table.sort(CurrentlyHovering, function (a, b) return a.Layer < b.Layer end)
+        table.sort(CurrentlyHovering, function (a, b) return a.AbsoluteLayer > b.AbsoluteLayer end)
         CurrentlyHovering[1].Hovering = true
     end
     Profiler.End()
