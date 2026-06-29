@@ -112,6 +112,12 @@ Resources.ClearIdentifier()
 
 -- Get a resource from an IdentifierID or Identifier
 function Resources.LoadResourceFromIdentifier(Identifier, Object)
+    if (not Identifier) then
+        print("No identifier passed into LoadResourceFromIdentifier")
+        print(debug.traceback())
+        return
+    end
+
     if Utils.TypeOf(Identifier) == "string" then
         printVerbose("Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
         Identifier = Runtime.Resources.GetIdentifierFromID(Identifier)
