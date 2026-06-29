@@ -73,6 +73,7 @@ end
 
 function StudioLayout.CreateWindow(WindowType, Transform)
     local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Transform.Name)
+    WindowContainer.FullContainer.Name = "Windows."..WindowType
 
     StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
 end

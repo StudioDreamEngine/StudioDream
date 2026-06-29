@@ -75,7 +75,7 @@ function ScrollContainer:Update(dt)
     end
 
     -- Temporary optimization
-    if self.TruelyVisible then
+    if self.TruelyVisible and math.abs(self.LastScroll - self.ScrollPosition) > 0.1 then
         self:UpdateConstraint()
     end
 
