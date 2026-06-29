@@ -1,11 +1,14 @@
 return { new = function(Position, Size)
-    return {
-        Min = Position,
-        Max = Position + Size,
+    ---@class Rect
+    local Rect = {}
 
-        Origin = Position,
-        Size = Size,
+    Rect.Min = Position
+    Rect.Max = Position + Size
+
+    Rect.Origin = Position
+    Rect.Size = Size
         
-        Type = "Rect"
-    }
+    Rect.Type = "Rect"
+
+    return Rect
 end }

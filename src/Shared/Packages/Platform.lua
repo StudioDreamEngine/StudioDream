@@ -29,6 +29,10 @@ local Platform = {}
 	
 end]]
 
+function Platform.GetDocuments()
+	
+end
+
 function Platform.Execute(...)
 	local Args = table.pack(...)
 

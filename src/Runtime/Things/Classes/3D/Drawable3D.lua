@@ -36,7 +36,7 @@ function Drawable3D:SetOutline(Toggle)
 end
 
 function Drawable3D:SetMaterial(NewMaterial)
-    print(NewMaterial)
+    printVerbose(NewMaterial)
     self.Material = NewMaterial
 
     self:AttemptMaterialSet()
@@ -46,7 +46,7 @@ function Drawable3D:AttemptMaterialSet()
     if self.Drawable and self.Material and self.Material:IsA("Material") then
         self.Drawable:setMaterial(self.Material)
     else
-        print("Material invalid or no drawable set")
+        printVerbose("Material invalid or no drawable set")
     end
 end
 
@@ -107,6 +107,7 @@ function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
     self.Drawable:scale(self.Scale.ToDream())
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size
+    
     self.Drawable.reflection = self.Material and (self.Material.Reflective and self._Reflection or false) or false
 end
 

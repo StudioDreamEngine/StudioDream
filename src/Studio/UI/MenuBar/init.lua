@@ -8,7 +8,6 @@ local RequiredButtons = {}
 function TopBar.CreateButton(Table)
     if not RequiredButtons[Table.Component] then
         local ButtonsOnTopThing = require("Studio.UI.MenuBar.ButtonsOnTop."..Table.Component)
-        print(ButtonsOnTopThing)
         RequiredButtons[Table.Component] = ButtonsOnTopThing
     end
     

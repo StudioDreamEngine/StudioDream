@@ -88,9 +88,9 @@ local Enums = {
         InOut = "inOut",
         OutIn = "outIn"
     },
-    ScaleTypes = {
-        Scretch = "stretch",
-        Fit = "fit",
+    ScaleType = {
+        Stretch = "stretch",
+        LockAspect = "lockaspect",
         Crop = "crop",
     },
     CullMode = {

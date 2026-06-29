@@ -92,6 +92,7 @@ function Splash.Create()
 end
 
 function Splash.Load(ProjectPath)
+    Scheduler.Yield()
     Shared.SetupBullet()
     Runtime.PostInit(ProjectPath)
 

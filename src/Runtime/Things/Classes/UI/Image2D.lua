@@ -5,35 +5,37 @@ local Things = Runtime.Things
 local Image2D = Things.Extend("BaseGui")
 local DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Icons/Studio.png")
 
-local ScaleModes = {
-        ["stretch"] = function(self) 
-            local _,_,w,h = self.ImageQuad:getViewport()
-            
-            ScaleX = self.AbsoluteSize.X/w
-            ScaleY = self.AbsoluteSize.Y/h
+Image2D.ImageScale = {
+    [Enum.ScaleType.Stretch] = function(self, ContainerSize, ImageSize) 
+        ScaleX = ContainerSize.X/ImageSize.X
+        ScaleY = ContainerSize.Y/ImageSize.Y
 
-            return Vector2.new(ScaleX, ScaleY)
-        end,
-        ["fit"] = function(self)
-            local AbSize = self.AbsoluteSize
-            local Width, Height = self.ImageFile:getDimensions()
-            local HeightScale = AbSize.Y/Height
-            local WidthScale = AbSize.X/Width
+        return Vector2.new(ScaleX, ScaleY)
+    end,
+    [Enum.ScaleType.LockAspect] = function(self, ContainerSize, ImageSize)
+        local HeightScale = ContainerSize.Y/ImageSize.Y
+        local WidthScale = ContainerSize.X/ImageSize.X
 
-            return Vector2.one * ((HeightScale/WidthScale > 1) and WidthScale or HeightScale)
-        end
-    }
+        return Vector2.one * ((HeightScale/WidthScale > 1) and WidthScale or HeightScale)
+    end,
+    [Enum.ScaleType.Crop] = function(self, ContainerSize, ImageSize)
+        local HeightScale = ContainerSize.Y/ImageSize.Y
+        local WidthScale = ContainerSize.X/ImageSize.X
+
+        return Vector2.one * ((HeightScale/WidthScale < 1) and WidthScale or HeightScale)
+    end
+}
 
 function Image2D:new()
     Image2D.super.new(self)
 
     self.ImageFile = nil
-    self.ImageRect = nil
+    self.ImageRect = nil ---@class Rect
     self.ImageQuad = nil
     
     self.CornerRadius = 0
 
-    self.ScaleType = "stretch"
+    self.ScaleType = Enum.ScaleType.Stretch
 
     self.ForegroundColor = Color.new(1)
 
@@ -74,26 +76,19 @@ function Image2D:SetImageRect(NewRect)
     self:RefreshQuad()
 end
 
-function Image2D:UpdateAspect()
-    local AbSize = self.AbsoluteSize
-    local HeightScale = AbSize.Y/480
-    local WidthScale = AbSize.X/640
-
-    return (HeightScale/WidthScale > 1) and WidthScale or HeightScale
-end
-
-function Image2D:HandleScaleMode()
-    return ScaleModes[self.ScaleType](self)
-end
-
 function Image2D:Draw()
     if (not self.ImageQuad) then return end -- TODO: Placeholder image
 
-    self:SetColor("Foreground")
-    local Scale = self:HandleScaleMode()
+    Profiler.Start("Image2D Draw")
+
+    local sw,sh = self.ImageQuad:getTextureDimensions()
+    local ImageSize = Vector2.new(sw,sh)
     local Size = self.AbsoluteSize
 
-    Profiler.Start("Image2D Draw")
+    self:SetColor("Foreground")
+
+    local Scale = self.ImageScale[self.ScaleType](self, self.AbsoluteSize, ImageSize)
+    ImageSize = ImageSize * Scale
 
     if self.CornerRadius > 0 then
         local function StencilFunction()
@@ -104,12 +99,11 @@ function Image2D:Draw()
         love.graphics.setStencilTest("greater", 0)
     end
 
-    if FLAGS.DebugDraw then
-        love.graphics.rectangle("fill", 0, 0, Size.X, Size.Y)
-    end
+    local PivotCenter = (Size/2) - (ImageSize/2)
 
-    love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,Scale.X,Scale.Y) -- Draw Image
+    love.graphics.draw(self.ImageFile,self.ImageQuad,PivotCenter.X, PivotCenter.Y,0,Scale.X,Scale.Y) -- Draw Image
     love.graphics.setStencilTest()
+
     Profiler.End()
 end
 

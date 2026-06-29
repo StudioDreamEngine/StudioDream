@@ -85,14 +85,14 @@ end
 
 function Start.Init()
     Runtime.Things.Create("Image2D") {
-        Size = Pivot2D.FromScale(0.7,0.5),
+        Size = Pivot2D.FromScale(1,0.5),
         Position = Pivot2D.FromScale(.5,.005),
         --SquareAxis = Enum.SquareAxis.X,
         Resource = "Internal/Studio/Update_Thumbs/Early_Riser.png",
         Parent = Start.Container,
         Pivot = Vector2.new(.5,0),
         CornerRadius = 5,
-        --ScaleType = Enum.ScaleTypes.Fit
+        ScaleType = Enum.ScaleType.Crop
     }
     
     local Back = Runtime.Things.Create("Square") { 

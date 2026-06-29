@@ -31,7 +31,7 @@ function Project.AddToHistory(Path, Name)
 
     Runtime.SettingsManager.ChangeSetting("RecentProjects", RecentProjects)
 
-    print(RecentProjects)
+    printVerbose(RecentProjects)
 end
 
 function Project.LoadDefault()

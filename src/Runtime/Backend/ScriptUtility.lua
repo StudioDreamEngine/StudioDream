@@ -21,7 +21,7 @@ end
 function ScriptUtil.RequestLoad(Script)
     if StartedScripts then Script:Load() return end
 
-    print("Queued Script for loading")
+    printVerbose("Queued Script for loading")
     table.insert(LoadQueued, Script) 
 end
 

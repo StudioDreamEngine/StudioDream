@@ -329,6 +329,7 @@ function Thing:ClearAllChildren(NameFilter)
     end 
 end
 
+function Thing:PreUpdate() end
 function Thing:Invalidate() end
 function Thing:Update() end
 

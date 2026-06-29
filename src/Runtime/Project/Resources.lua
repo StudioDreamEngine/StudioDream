@@ -20,7 +20,7 @@ function Resources.HandleIdentifier(FilePath)
     local _, IsDirectory = Runtime.Resources.LoadOrCreateIdentifier(FilePath)
 
     if IsDirectory then
-        print(FilePath)
+        printVerbose(FilePath)
         RecurseProject(FilePath.."/")
     end
 end

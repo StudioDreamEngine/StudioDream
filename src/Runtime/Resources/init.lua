@@ -19,8 +19,7 @@ end
 function Resources.LoadIdentifierIDFromPath(FilePath)
     local Mount = Runtime.BackendFS.GetMount()
 
-    print(Mount)
-    print(FilePath)
+    print(Mount, ", ", FilePath)
 
     if (not string.find(FilePath, Mount)) then
         print("Identifier outside of mount point currently not supported")
@@ -125,7 +124,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object)
 
     -- TODO: Maybe move this to GetResource?
     if not Identifier.Internal then
-        print("Adding "..Object.." to object references")
+        printVerbose("Adding "..Object.." to object references")
         ObjectReferences[Object] = Identifier
     end
 

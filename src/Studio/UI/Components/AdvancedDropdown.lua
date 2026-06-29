@@ -81,7 +81,6 @@ local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
 end
 
 return function(Choices)
-    print("Wwowoww")
     local Dropdown = {}
     local BindedEvents = {}
     local CurrentDropdown = Components.CreateStyle("Square", {

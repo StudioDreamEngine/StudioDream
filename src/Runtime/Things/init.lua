@@ -171,9 +171,9 @@ function Things.UpdatePass(Name, dt)
             but this works too - Bloctans
         ]]
         if Thing.Parent then
-            Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
+            --Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
             Thing[Name](Thing, dt)
-            Profiler.End()
+            --Profiler.End()
         end
     end
 
@@ -181,6 +181,7 @@ function Things.UpdatePass(Name, dt)
 end
 
 function Things.Update(dt)
+    Things.UpdatePass("PreUpdate", dt)
     Things.UpdatePass("Update", dt)
     Things.UpdatePass("Invalidate", dt)
 end
