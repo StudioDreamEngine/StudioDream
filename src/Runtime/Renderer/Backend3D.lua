@@ -31,10 +31,18 @@ local function AssignClassReference(Object, ClassReference)
     end
 end
 
-function Backend3D.Raycast(Origin, Direction, WorldObject)
+function Backend3D.Raycast(Origin, Direction, WorldObject, IgnoreList)
     assert(WorldObject, "Internal raycast function requires a WorldObject!")
 
-    local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream())
+    local ObjIgnoreList = {}
+    
+    for _, Object in pairs(IgnoreList or {}) do
+        if Utils.TypeOf(Object) == "Thing" and Object:IsA("Drawable3D") then
+            table.insert(ObjIgnoreList, Object.Drawable)
+        end
+    end
+    
+    local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream(), ObjIgnoreList)
 
     if CastResult then
         local Object = CastResult:getObject()
