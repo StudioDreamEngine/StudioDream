@@ -111,6 +111,16 @@ function Thing:UnbindConstraints(Object)
     end
 end
 
+function Thing:GetPath()
+    local String = self.Name
+
+    self:GetParentCallback(function(Parent)
+        String = Parent.Name.."."..String
+    end)
+
+    return String
+end
+
 function Thing:__tostring()
     return self.Name..": "..self.ClassName
 end

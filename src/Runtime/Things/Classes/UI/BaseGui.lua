@@ -339,6 +339,7 @@ end
 
 function BaseGui:Invalidate(dt)
     if self.WasInvalidated or self.MouseLocked then
+        --print(self:GetPath())
         self:ProcessInvalidation(self)
         self:InvalidateAutomaticSize()
     end
