@@ -55,12 +55,12 @@ function Template.Start(MainInfo)
             Identifier, _ = Resources.LoadIdentifierIDFromPath(NewPath)
             if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","error") return end
             local PathObj = Path.new(NewPath,Identifier)
-            Runtime.Things.SetProperty(Info.Thing, Info.Property, Identifier) --Info.Thing:SetResource(Identifier)
             Button:SetText(PathObj.FileName)
         end)
         
         for i,Info in pairs(MainInfo.WillHandle) do
            Runtime.Things.SetProperty(Info.Thing, Info.Property, Identifier)
+            Runtime.Things.SetProperty(Info.Thing, Info.Property, Identifier) --Info.Thing:SetResource(Identifier)
         end
     end))
 
