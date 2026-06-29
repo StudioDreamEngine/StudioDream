@@ -203,7 +203,7 @@ local function raytraceMesh(mesh, localOrigin, localDirection, object)
 	end
 end
 
-local function raytraceObject(object, localOrigin, localDirection, onlyRaytraceMeshes)
+local function raytraceObject(object, localOrigin, localDirection, ignoreList)
 	--object transform
 	if object.transform then
 		local m = object:getInvertedTransform()
@@ -217,7 +217,7 @@ local function raytraceObject(object, localOrigin, localDirection, onlyRaytraceM
 	
 	--for all meshes
 	local transforms
-	for _, mesh in pairs(onlyRaytraceMeshes and object.raytraceMeshes or object.meshes) do
+	for _, mesh in pairs(object.meshes) do
 		if mesh.vertices and mesh.faces then
 			transforms = raytraceMesh(mesh, localOrigin, localDirection, object) or transforms
 		end
@@ -225,7 +225,9 @@ local function raytraceObject(object, localOrigin, localDirection, onlyRaytraceM
 	
 	--for all objects
 	for _, o in pairs(object.objects) do
-		transforms = raytraceObject(o, localOrigin, localDirection, onlyRaytraceMeshes) or transforms
+		if (not table.find(ignoreList, o)) then
+			transforms = raytraceObject(o, localOrigin, localDirection, ignoreList) or transforms
+		end
 	end
 	
 	--on the way back, store transformation matrices
@@ -297,14 +299,13 @@ local raytracer = { }
 ---@param object DreamObject
 ---@param origin DreamVec3
 ---@param direction DreamVec3
----@param onlyRaytraceMeshes boolean @ only use raytrace meshes
 ---@return DreamRaytraceResult | "false"
-function raytracer:cast(object, origin, direction, onlyRaytraceMeshes)
+function raytracer:cast(object, origin, direction, ignoreList)
 	--clear search
 	nearestT, nearestU, nearestV, nearestFace, nearestMesh = 1, false, false, false, false
 	
 	--search
-	local transforms = raytraceObject(object, origin, direction, onlyRaytraceMeshes)
+	local transforms = raytraceObject(object, origin, direction, ignoreList)
 	
 	--pack
 	---@diagnostic disable-next-line: return-type-mismatch
