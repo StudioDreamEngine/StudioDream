@@ -34,12 +34,12 @@ function Template.Start(MainInfo)
         Resource = "Internal/Studio/EditorIcons/Drawable3D.png",
         Parent = Button
     }
-    print(MainInfo)
+    --print(MainInfo)
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
 
         for i,Info in pairs(MainInfo.WillHandle) do
-            print(Info)
+            --print(Info)
             if AllSame then
                 Button:SetText(Info.Thing[Info.Property] and Info.Thing[Info.Property].Name or "~")
             else
