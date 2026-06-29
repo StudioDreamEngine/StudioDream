@@ -8,6 +8,8 @@ sh.func = "sampleShadowSunSmooth"
 
 function sh:constructDefinesGlobal(dream)
 	return [[
+	uniform float maxShadowIntensity;
+
 	float sampleShadowSunSmooth2(Image tex, vec2 shadowUV, float depth) {
 		float ox = float(fract(love_PixelCoord.x * 0.5) > 0.25);
 		float oy = float(fract(love_PixelCoord.y * 0.5) > 0.25) + ox;
@@ -18,7 +20,7 @@ function sh:constructDefinesGlobal(dream)
 		vec2 NewUV = vec2(shadowUV.x, 1.0-shadowUV.y);
 
 		float sampleDepth = texture(tex, NewUV).x;
-		return clamp(exp(sharpness * (sampleDepth - depth)), 0.0, 1.0);
+		return clamp(exp(sharpness * (sampleDepth - depth)), maxShadowIntensity, 1.0);
 	}
 	]] .. self:constructDefinesGlobalCommon(dream)
 end

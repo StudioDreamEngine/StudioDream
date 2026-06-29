@@ -46,6 +46,16 @@ function ScrollContainer:UpdateConstraint()
     self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), self.AbsoluteSize))
 end
 
+function ScrollContainer:Draw()
+    ScrollContainer.super.Draw(self)
+    
+    local CanvasSize = self:GetCanvasSize()
+    local BarPos = (-self.ScrollPosition / CanvasSize.Y) * self.AbsoluteSize.Y
+    local BarSize = (self.AbsoluteSize.Y / CanvasSize.Y) * self.AbsoluteSize.Y -- There has to be a better way to do this
+
+    love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - (BarPos/2), 5, BarSize)
+end
+
 function ScrollContainer:Update(dt)
     ScrollContainer.super.Update(self, dt)
 

@@ -53,7 +53,7 @@ function Template.Start(MainInfo)
 
         Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath) -- Make this check attributes before actually setting thing resource (aka to limit stuff like an Audio thiing resource being set as a image ect ect@!!)
             Identifier, _ = Resources.LoadIdentifierIDFromPath(NewPath)
-            if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","error") return end
+            if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
             local PathObj = Path.new(NewPath,Identifier)
             Button:SetText(PathObj.FileName)
         end)
