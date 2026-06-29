@@ -71,6 +71,7 @@ function Explorer.CreateTree(Object, Depth)
     local Node, NodeInner = Explorer.CreateNode(Object, Depth)
     Node.ListOrder = Order
     Node:SetParent(Window)
+    NodeInner.BackgroundColor = Studio.Theme.GetCurrentTheme().Outline
 
     Explorer.Tree[Object] = NodeInner
 
@@ -168,7 +169,8 @@ function Explorer.Redraw()
     Explorer.CreateTree(Things.Root, 0)
 
     Things.Create("ListLayout") {
-        Parent = Window
+        Parent = Window,
+        Padding = 2,
     }
 end
 

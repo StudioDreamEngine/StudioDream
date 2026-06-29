@@ -51,18 +51,20 @@ function Components.CreateIconObject(Name, Icon)
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
         Size = Pivot2D.new(0,1,20,0),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+        --BackgroundTransparency = 0.5,
         Text = "",
         Layer = 3,
         Name = Name,
-        OutlineSize = 1,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Primary
+        OutlineSize = 0.5,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+        CornerRadius = 5,
     }
-
+    
     local NodeText = Things.Create("Text") {
-        Size =  Pivot2D.FromScale(0.5,1),
-        Position = Pivot2D.FromScale(0,0.5),
-        Pivot = Vector2.new(0,0.5),
+        Size =  Pivot2D.FromScale(0.95,1),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Pivot = Vector2.new(0.5,0.5),
         Text = Name,
         Name = "NodeText",
         Parent = NodeInner,
@@ -81,7 +83,7 @@ function Components.CreateIconObject(Name, Icon)
         Resource = Icon,
         Parent = NodeInner
     }
-
+    
     return NodeInner
 end
 
