@@ -3,6 +3,8 @@ local ToolManager = {}
 local CurrentTool, ChosenTool
 
 local SelectionProxy = Runtime.Things.New("Transformable3D") ---@class Transformable3D
+local Origin = Vector3.zero
+
 local LatestSelection -- Used for scale currently
 
 local Selecting = {}
@@ -35,15 +37,18 @@ function ToolManager.SetupSelection()
         Select.Rotation = Select.Object.Transform.Rotation
     end
 
+    print(Center)
+
+    Origin = Center
     SelectionProxy:SetPosition(Center)
 end
 
 function ToolManager.ChangeTransform(NewTransform)
-    for _, Select in pairs(Selecting) do
-        Select.Object:SetTransform(NewTransform * Transform3D.FromPosition(Select.Difference) * Select.Rotation)
-    end
+    SelectionProxy:SetTransform(Transform3D.FromPosition(Origin) * NewTransform)
 
-    SelectionProxy:SetPosition(ToolManager.GetCenter(Selecting))
+    for _, Select in pairs(Selecting) do
+        Select.Object:SetTransform(SelectionProxy.Transform * Transform3D.FromPosition(Select.Difference) * Select.Rotation)
+    end
 end
 
 
