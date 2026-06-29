@@ -32,6 +32,7 @@ function ToolManager.SetupSelection()
 
     for _, Select in pairs(Selecting) do
         Select.Difference = Select.Object.Position - Center
+        Select.Rotation = Select.Object.Transform.Rotation
     end
 
     SelectionProxy:SetPosition(Center)
@@ -39,7 +40,7 @@ end
 
 function ToolManager.ChangeTransform(NewTransform)
     for _, Select in pairs(Selecting) do
-        Select.Object:SetTransform(NewTransform * Transform3D.FromPosition(Select.Difference))
+        Select.Object:SetTransform(NewTransform * Transform3D.FromPosition(Select.Difference) * Select.Rotation)
     end
 
     SelectionProxy:SetPosition(ToolManager.GetCenter(Selecting))
