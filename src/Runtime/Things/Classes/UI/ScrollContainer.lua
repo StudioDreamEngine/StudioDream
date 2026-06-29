@@ -56,6 +56,11 @@ function ScrollContainer:Draw()
     love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - (BarPos/2), 5, BarSize)
 end
 
+function ScrollContainer:SetAbsoluteSize(New)
+    ScrollContainer.super.SetAbsoluteSize(self, New)
+    self:UpdateConstraint()
+end
+
 function ScrollContainer:Update(dt)
     ScrollContainer.super.Update(self, dt)
 
