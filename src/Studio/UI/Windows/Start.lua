@@ -1,6 +1,88 @@
 local Start = {}
 local Things = Runtime.Things
 
+function Start.CreateProject(Scroll)
+    local selfed = {}
+
+    selfed.Base = Runtime.Things.Create("TextButton") {
+        Text = "",
+        Size = Pivot2D.FromScale(0.95,0.2),
+        Parent = Scroll,
+        Layer = 2,
+        CornerRadius = 5,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        OutlineSize = 2,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+    }
+
+    selfed.Image = Runtime.Things.Create("Image2D") {
+        Size = Pivot2D.FromScale(1,1),
+        Position = Pivot2D.FromScale(.07,.5),
+        SquareAxis = Enum.SquareAxis.Y,
+        Resource = "Internal/Studio/Update_Thumbs/Early_Riser.png",
+        Parent = selfed.Base,
+        Pivot = Vector2.new(.5,.5),
+        CornerRadius = 5,
+        --ScaleType = Enum.ScaleTypes.Fit
+    }
+
+    selfed.ProjectName = Runtime.Things.Create("Text") {
+        Text = "Untitled Project...",
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        Position = Pivot2D.FromScale(0,0),
+        Parent = selfed.Base,
+        Layer = 2,
+        BackgroundTransparency = 1,
+        Alignment = Vector2.new(0.5,0.5),
+        Size = Pivot2D.FromScale(1,0.5),
+        Font = Studio.Theme.GetCurrentTheme().FontBold,
+    }
+
+    selfed.Date = Runtime.Things.Create("Text") {
+        Text = "00/00/00",
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        Position = Pivot2D.FromScale(0,0.5),
+        Parent = selfed.Base,
+        Layer = 2,
+        BackgroundTransparency = 1,
+        Alignment = Vector2.new(0.5,0.5),
+        Size = Pivot2D.FromScale(1,0.5)
+    }
+
+    return selfed
+end
+
+function Start.CreateButton(Options,Text,Image)
+    local selfed = {}
+
+    selfed.Base = Runtime.Things.Create("TextButton") {
+        Text = Text,
+        Size = Pivot2D.FromScale(0.95,0.15),
+        Parent = Options,
+        Layer = 2,
+        CornerRadius = 5,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        OutlineSize = 2,
+        Alignment = Vector2.new(1,0.5),
+        TextSize = 5,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+    }
+
+    selfed.Image = Runtime.Things.Create("Image2D") {
+        Size = Pivot2D.FromScale(1,1),
+        Position = Pivot2D.FromScale(.07,.5),
+        SquareAxis = Enum.SquareAxis.Y,
+        Resource = Image,
+        Parent = selfed.Base,
+        Pivot = Vector2.new(.5,.5),
+        CornerRadius = 5,
+        --ScaleType = Enum.ScaleTypes.Fit
+    }
+
+    return selfed
+end
+
 function Start.Init()
     Runtime.Things.Create("Image2D") {
         Size = Pivot2D.FromScale(0.7,0.5),
@@ -77,6 +159,25 @@ function Start.Init()
         OutlineSize = 2,
         OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
     }
+
+    local Scroll = Runtime.Things.Create("ScrollContainer") {
+        Size = Pivot2D.FromScale(1,1),
+        Parent = RecentProjects,
+        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+    }
+
+    Things.Create("ListLayout") {
+        Parent = Scroll,
+        Alignment = Enum.Alignment.TopCenter,
+        Padding = 3
+    }
+
+    Things.Create("ListLayout") {
+        Parent = Options,
+        Alignment = Enum.Alignment.Center,
+        Padding = 5
+    }
+
     --[[local Warning = Runtime.Things.Create("Text") {
         Text = "Do not SHARE or LEAK stuff from here, you are a tester!!!",
         --ForegroundColor = Studio.Theme.GetCurrentTheme()
@@ -84,6 +185,11 @@ function Start.Init()
         Layer = 2,
         BackgroundTransparency = 1
     }]]
+
+    Start.CreateProject(Scroll)
+
+    Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
+    Start.CreateButton(Options,"Upload a project","Internal/Studio/TabIcons/InsertIcon.png")
 
     Version.Size = Pivot2D.FromScale(1,0.05)
 
