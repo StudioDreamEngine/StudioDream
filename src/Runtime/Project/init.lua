@@ -3,6 +3,7 @@ local Scenes = require("Runtime.Project.Scenes")
 local Resources = require("Runtime.Project.Resources")
 
 local BackendFS = Runtime.BackendFS
+local RecentProjects = Runtime.SettingsManager.GetSetting("RecentProjects")
 
 Project.SerializeType = Scenes.Objects.HandleType
 Project.ProjectName = "Unnamed"
@@ -20,6 +21,17 @@ function Project.ValidateAndMount(ProjectPath)
         BackendFS.UnmountProject()
         return true
     end
+end
+
+function Project.AddToHistory(Path, Name)
+    RecentProjects[Path] = {
+        Name = Name,
+        Time = os.time()
+    }
+
+    Runtime.SettingsManager.ChangeSetting("RecentProjects", RecentProjects)
+
+    print(RecentProjects)
 end
 
 function Project.LoadDefault()
@@ -46,6 +58,8 @@ function Project.Load(ProjectPath)
     if (not Success) then
         print(Message)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
+    else
+        Project.AddToHistory(BackendFS.GetMount(), Project.ProjectName)
     end
 end
 

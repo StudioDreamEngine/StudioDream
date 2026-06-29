@@ -13,7 +13,7 @@ function ScriptHandler.ConfigureEditor()
 end
 
 function ScriptHandler.ConfigureOrValidateEditor()
-    ConfiguredEditor = Studio.SettingsManager.GetSetting("CodeEditor") -- Re-sync setting
+    ConfiguredEditor = Runtime.SettingsManager.GetSetting("CodeEditor") -- Re-sync setting
     print(ConfiguredEditor)
 
     if (not ConfiguredEditor) then -- If we do not find an editor at all, configure a new one
@@ -22,7 +22,7 @@ function ScriptHandler.ConfigureOrValidateEditor()
         ScriptHandler.ValidateEditor(ConfiguredEditor)
     end
 
-    Studio.SettingsManager.ChangeSetting("CodeEditor", ConfiguredEditor)
+    Runtime.SettingsManager.ChangeSetting("CodeEditor", ConfiguredEditor)
 end
 
 function ScriptHandler.ValidateEditor(EditorPath)

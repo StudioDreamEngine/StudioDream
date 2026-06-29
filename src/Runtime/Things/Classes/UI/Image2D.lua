@@ -12,7 +12,7 @@ local ScaleModes = {
             ScaleX = self.AbsoluteSize.X/w
             ScaleY = self.AbsoluteSize.Y/h
 
-            love.graphics.scale(ScaleX, ScaleY)
+            return Vector2.new(ScaleX, ScaleY)
         end,
         ["fit"] = function(self)
             local AbSize = self.AbsoluteSize
@@ -20,7 +20,7 @@ local ScaleModes = {
             local HeightScale = AbSize.Y/Height
             local WidthScale = AbSize.X/Width
 
-            love.graphics.scale((HeightScale/WidthScale > 1) and WidthScale or HeightScale)
+            return Vector2.one * ((HeightScale/WidthScale > 1) and WidthScale or HeightScale)
         end
     }
 
@@ -31,6 +31,8 @@ function Image2D:new()
     self.ImageRect = nil
     self.ImageQuad = nil
     
+    self.CornerRadius = 0
+
     self.ScaleType = "stretch"
 
     self.ForegroundColor = Color.new(1)
@@ -81,16 +83,34 @@ function Image2D:UpdateAspect()
 end
 
 function Image2D:HandleScaleMode()
-    ScaleModes[self.ScaleType](self)
+    return ScaleModes[self.ScaleType](self)
 end
 
 function Image2D:Draw()
     if (not self.ImageQuad) then return end -- TODO: Placeholder image
 
     self:SetColor("Foreground")
+    local Scale = self:HandleScaleMode()
+    local Size = self.AbsoluteSize
 
-    self:HandleScaleMode()
-    love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,1,1) -- Draw Image
+    Profiler.Start("Image2D Draw")
+
+    if self.CornerRadius > 0 then
+        local function StencilFunction()
+            love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
+        end
+
+        love.graphics.stencil(StencilFunction, "replace", 1)
+        love.graphics.setStencilTest("greater", 0)
+    end
+
+    if FLAGS.DebugDraw then
+        love.graphics.rectangle("fill", 0, 0, Size.X, Size.Y)
+    end
+
+    love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,Scale.X,Scale.Y) -- Draw Image
+    love.graphics.setStencilTest()
+    Profiler.End()
 end
 
 return Image2D

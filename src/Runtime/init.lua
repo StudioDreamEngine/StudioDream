@@ -44,6 +44,9 @@ function Runtime.PostInit(ProjectPath)
     Runtime.Backend = require("Runtime.Backend")
     Runtime.Backend.Init()
 
+    Runtime.SettingsManager = require("Runtime.SettingsManager")
+    Runtime.SettingsManager.Init()
+
     Runtime.Things.CreateApiDump()
 
     Runtime.Resources.Init()

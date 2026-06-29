@@ -11,7 +11,7 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     DrawFunction()
 
     love.graphics.pop()
-    love.graphics.setCanvas(OldCanvas)
+    love.graphics.setCanvas({ OldCanvas, stencil=true })
 end
 
 function Backend.GetMouseDown(Button)

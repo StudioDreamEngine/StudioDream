@@ -10,13 +10,10 @@ function Studio.Init()
     Studio.Components = require("Studio.UI.Components")
 
     Studio.ProjectManager = require("Studio.ProjectManager")
-    Studio.SettingsManager = require("Studio.SettingsManager")
 
     Studio.Backend = require("Studio.Backend")
     
     Studio.EditorServices = Studio.Backend -- Mikl api backwards compat, remove later!
-
-    Studio.SettingsManager.Init()
 
     Studio.Components.Init()
     Studio.Layout.CreateLayout()

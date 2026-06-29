@@ -2,7 +2,8 @@ local SettingsManager = {}
 local Settings = {}
 
 local DefaultSettings = {
-    CodeEditor = nil
+    CodeEditor = nil,
+    RecentProjects = {}
 }
 
 function SettingsManager.Init()

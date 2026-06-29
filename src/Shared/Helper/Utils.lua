@@ -25,6 +25,24 @@ function Utils.TypeOf(Object)
     end
 end
 
+local SecondsPerMinute = 60
+local SecondsPerHour = SecondsPerMinute * 60
+local SecondsPerDay = SecondsPerHour * 24
+
+function Utils.TimeAgo(Time)
+    local Difference = os.time()-Time
+
+    if Difference > SecondsPerDay then
+        return Difference.." Days Ago"   
+    elseif Difference > SecondsPerHour then
+        return Difference.." Hours Ago"   
+    elseif Difference > SecondsPerMinute then
+        return Difference.." Minutes Ago"  
+    else
+        return Difference.." Seconds ago"
+    end
+end
+
 function Utils.AssertType(Object, ExpectedType, Extra)
     assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
 end
