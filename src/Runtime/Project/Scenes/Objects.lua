@@ -93,6 +93,8 @@ end
 
 
 
+
+
 function Objects.DeserializeObject(ObjectData)
     local Properties = {}
     local RelocationQueue = {}
@@ -133,6 +135,7 @@ function Objects.DeserializeObjects(ObjectsTable, Root)
     local RelocationQueues = {}
 
     -- Part 1: Deserialize all objects
+    local Deserialize = Profiler.Benchmark("Scene - Deserialize Objects")
     for _, Object in pairs(ObjectsTable) do
         local Object, RelocationQueue = Objects.DeserializeObject(Object)
 
@@ -140,6 +143,7 @@ function Objects.DeserializeObjects(ObjectsTable, Root)
             RelocationQueues[Object] = RelocationQueue
         end
     end
+    Deserialize.End()
 
     -- Part 2: Relocate objects
     for Object, RelocationQueue in pairs(RelocationQueues) do

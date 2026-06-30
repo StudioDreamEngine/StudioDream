@@ -44,6 +44,7 @@ function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
 
+    local LoadProject = Profiler.Benchmark("Load Project")
     local Success, Message = pcall(function()
         Runtime.LoadProjectCallback()
         
@@ -54,6 +55,7 @@ function Project.Load(ProjectPath)
         Scenes.LoadScene("MainScene.sds", Runtime.Things.GetRoot("Environment"))
         Scenes.LoadScene("Interface.sds", Runtime.Things.GetRoot("HUD"))
     end)
+    LoadProject.End()
 
     if (not Success) then
         print(Message)

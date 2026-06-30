@@ -89,6 +89,11 @@ function Start.CreateButton(Options,Text,Image)
     return selfed
 end
 
+function Start.Close()
+    Start.FullContainer:SetVisible(false)
+    Studio.Components.HideFade()
+end
+
 function Start.Init()
     Runtime.Things.Create("Image2D") {
         Size = Pivot2D.FromScale(1,0.5),
@@ -101,7 +106,7 @@ function Start.Init()
         ScaleType = Enum.ScaleType.Crop
     }
     
-   -- Studio.Components.ShowFade()
+    Studio.Components.ShowFade(Start.Close)
 
     local Version = Runtime.Things.Create("Text") {
         Text = "Welcome to Early Riser! ("..VERSION..") (This is a wip window, nothin works sorrey)",
@@ -166,11 +171,9 @@ function Start.Init()
 
     Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
     Start.CreateButton(Options,"Upload a project","Internal/Studio/TabIcons/InsertIcon.png")
-    local wow = Start.CreateButton(Options,"Just close the window pls","Internal/Studio/Placeholders/Jeremy.png")
+    local wow = Start.CreateButton(Options,"Close Window","Internal/Studio/Placeholders/Jeremy.png")
 
-    wow.Base.Clicked:Connect(function()
-        Start.FullContainer:SetVisible(false)
-    end)
+    wow.Base.Clicked:Connect(Start.Close)
 
     Version.Size = Pivot2D.FromScale(1,0.05)
 

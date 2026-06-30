@@ -17,6 +17,25 @@ return function()
         return Vector2.new(width/Scale, (#lines * Text.RenderFont:getHeight())/Scale), Scale
     end
 
+    local function SearchScaled(ContainerSize)
+        local MaxSize, MinSize = ContainerSize.Y, 1
+        local CurrentSize = MaxSize
+
+        local TextBounds, Scale
+        --[[
+            From 1 to MaxSize
+            Binary Search
+        ]]
+
+        repeat
+            TextBounds, Scale = PerformWrap(CurrentSize, ContainerSize.X)
+
+            CurrentSize = CurrentSize - 1
+        until ContainerSize.Y > TextBounds.Y or CurrentSize <= 1
+
+        return TextBounds, Scale
+    end
+
     function Text:SetFont(Font)
         Text.RenderFont = love.graphics.newFont(Font or "Assets/Fonts/Roboto/Roboto-Medium.ttf",32)
     end
@@ -32,15 +51,14 @@ return function()
         local TextBounds, Scale
 
         if TextScaled then
-            local CurrentSize = math.max(ContainerSize.Y,1)
-            local InvalidationCount = 0
+            local MaxSize, MinSize = ContainerSize.Y, 1
+            local CurrentSize = math.max(MaxSize, MinSize)
 
-            repeat
+            if CurrentSize == MinSize then
                 TextBounds, Scale = PerformWrap(CurrentSize, ContainerSize.X)
-
-                CurrentSize = CurrentSize - 1
-                InvalidationCount = InvalidationCount + 1
-            until ContainerSize.Y > TextBounds.Y or CurrentSize <= 1
+            else
+                TextBounds, Scale = SearchScaled(ContainerSize)
+            end
         else
             TextBounds, Scale = PerformWrap(TextSize, ContainerSize.X)
         end

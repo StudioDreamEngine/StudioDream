@@ -94,6 +94,7 @@ end
 function Splash.Load(ProjectPath)
     Scheduler.Yield()
     Shared.SetupBullet()
+
     Runtime.PostInit(ProjectPath)
 
     Splash.ChangeStatus("Starting Target")
