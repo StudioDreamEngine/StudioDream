@@ -37,7 +37,7 @@ function InterfaceManager.Update(dt)
         Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport.AbsolutePosition
     end
 
-    Profiler.Start("Process Hovering")
+    Profiler.Start("InterfaceManager - Process Hovering")
     local CurrentlyHovering = {}
 
     for _, Button in pairs(InterfaceManager.Buttons) do

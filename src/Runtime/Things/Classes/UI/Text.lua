@@ -26,9 +26,9 @@ function Text:DefineAPI()
 end
 
 function Text:AttemptWrap(Size)
-    --local Benchmark = Profiler.Benchmark("TextScaled Wrap")
+    Profiler.Start("Text - Attempt Wrap")
     self.RenderClass.AttemptWrap(Size, self.TextScaled, self.TextSize)
-    --Benchmark.End()
+    Profiler.End()
 end
 
 function Text:SetTextScaled(TextScaled)
@@ -43,9 +43,8 @@ function Text:SetText(Text)
     self:InvalidateRendering()
 end
 
-function Text:ProcessInvalidation(Origin)
-    Text.super.ProcessInvalidation(self, Origin)
-    
+function Text:SetAbsoluteSize(NewSize)
+    Text.super.SetAbsoluteSize(self, NewSize)
     self:AttemptWrap(self.AbsoluteSize)
 end
 

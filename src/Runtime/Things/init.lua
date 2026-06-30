@@ -161,7 +161,7 @@ function Things.Remove(Thing)
 end
 
 function Things.UpdatePass(Name, dt)
-    Profiler.Start("Update Classes - "..Name)
+    Profiler.Start(Name.." Pass")
 
     for _, Thing in pairs(Objects) do
         --[[
@@ -181,9 +181,11 @@ function Things.UpdatePass(Name, dt)
 end
 
 function Things.Update(dt)
+    Profiler.Start("Things - Update Passes")
     Things.UpdatePass("PreUpdate", dt)
     Things.UpdatePass("Update", dt)
     Things.UpdatePass("Invalidate", dt)
+    Profiler.End()
 end
 
 return Things

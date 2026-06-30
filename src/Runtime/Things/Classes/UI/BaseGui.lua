@@ -271,6 +271,7 @@ end
 
 -- Same as ProcessInvalidation, Except it doesnt Update WasInvalidated, and doesnt propagate, used for handling AutomaticSize changes
 function BaseGui:ProcessInvalidations()
+    Profiler.Start("BaseGui - Process Invalidation")
     self:UpdateTransforms() 
 
     local NewVisible = self:IsVisible()
@@ -280,14 +281,14 @@ function BaseGui:ProcessInvalidations()
 
         self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
     end
+    Profiler.End()
 end
 
 -- Process the invalidation for an object
 function BaseGui:ProcessInvalidation(Origin)
     --print("Invalidating from "..Origin.Name)
-
     self:ProcessInvalidations()
-
+    
     self.EverInvalidated = true
     self.WasInvalidated = false
 

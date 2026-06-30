@@ -27,7 +27,6 @@ function ListLayout:BindObject(_child)
 
     if _child:IsA("BaseGui") then
         self.OnChangedEvents[_child] = _child.PropagatedChange:Connect(function(Value, Key)
-            print("Update")
             self:RequestUpdateLayout()
         end)
     end
