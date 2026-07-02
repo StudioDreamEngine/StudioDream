@@ -30,7 +30,6 @@ if love.system.getOS() == "Android" or not lib.canvasFormats["rgba16f"] or not l
 end
 
 --load libraries
-print("3DreamEngine: Load Types & Libraries")
 ---@type DreamMat2
 lib.mat2 = require(lib.root .. "/libs/luaMatrices/mat2")
 ---@type DreamMat3
@@ -79,7 +78,7 @@ local function LoadSub(name)
 	require(lib.root .. "/"..name)
 end
 
-print("3DreamEngine: Load SubModules")
+print("3DreamEngine: Loading SubModules")
 LoadSub("functions")
 LoadSub("settings")
 LoadSub("classes")
@@ -92,6 +91,7 @@ LoadSub("renderGodrays")
 LoadSub("renderSky")
 LoadSub("jobs")
 LoadSub("particleSystem")
+print("3DreamEngine: Finished Loading SubModules")
 
 --file loader
 lib.loader = { }

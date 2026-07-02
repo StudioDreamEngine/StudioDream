@@ -47,7 +47,7 @@ function lib:requestKill(killCallback)
 end
 
 --scan for image files and adds path to image library
-local imageFormats = table.toSet({ "tga", "png", "gif", "bmp", "exr", "hdr", "dds", "dxt", "pkm", "jpg", "jpe", "jpeg", "jp2" })
+--[[local imageFormats = table.toSet({ "tga", "png", "gif", "bmp", "exr", "hdr", "dds", "dxt", "pkm", "jpg", "jpe", "jpeg", "jp2" })
 local images = { }
 local priority = { }
 local function scan(path)
@@ -68,7 +68,7 @@ local function scan(path)
 		end
 	end
 end
-scan("")
+scan("")]]
 
 ---Updates active resource tasks (mesh loading, texture loading, ...)
 function lib:update()

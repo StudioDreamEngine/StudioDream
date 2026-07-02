@@ -9,11 +9,8 @@ return function ()
     -- Packages
     print("Setting up LUA packages")
     Dream = require("Shared.Packages.3DreamEngine")
-    print("Dream Loaded")
     Binser = require("Shared.Packages.Binser")
-    print("Binser Loaded")
     TweenFunctions = require("Shared.Packages.Tweener")
-    print("Tweener Loaded")
 
     print("Setting up C Packages")
     Platform = require("Shared.Packages.Platform")
@@ -21,7 +18,7 @@ return function ()
     NativeFS = require("Shared.Packages.nativefs")
 
     -- Helpers
-    print("Setting up helpers")
+    print("Setting up helpers & types")
     Signal = require("Shared.Helper.Signal")
     Scheduler = require("Shared.Helper.Scheduler")
     Utils = require("Shared.Helper.Utils")
