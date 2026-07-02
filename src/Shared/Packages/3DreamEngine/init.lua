@@ -74,19 +74,24 @@ lib.deltonLoad = require(lib.root .. "/libs/delton"):new(1)
 lib.deltonLoad.maxAge = 999999
 
 --load sub modules
+local function LoadSub(name)
+	print("Loading Submodule: "..name)
+	require(lib.root .. "/"..name)
+end
+
 print("3DreamEngine: Load SubModules")
-require(lib.root .. "/functions")
-require(lib.root .. "/settings")
-require(lib.root .. "/classes")
-require(lib.root .. "/shader")
-require(lib.root .. "/loader")
-require(lib.root .. "/resources")
-require(lib.root .. "/render")
-require(lib.root .. "/renderLight")
-require(lib.root .. "/renderGodrays")
-require(lib.root .. "/renderSky")
-require(lib.root .. "/jobs")
-require(lib.root .. "/particleSystem")
+LoadSub("functions")
+LoadSub("settings")
+LoadSub("classes")
+LoadSub("shader")
+LoadSub("loader")
+LoadSub("resources")
+LoadSub("render")
+LoadSub("renderLight")
+LoadSub("renderGodrays")
+LoadSub("renderSky")
+LoadSub("jobs")
+LoadSub("particleSystem")
 
 --file loader
 lib.loader = { }

@@ -4,6 +4,7 @@ desktop.ini
 
 
 # Build stuff
+dist/win/*.dll
 build/squashfs-root/
 build/compiled/
 dist/StudioDream.AppImage
