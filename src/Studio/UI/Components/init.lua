@@ -24,8 +24,6 @@ function Components.RegisterUpdator(Updator)
 end
 function Components.UnregisterUpdator(UUID) Updators[UUID] = nil end
 
-local DialogWindows = require("Studio.UI.Components.DialogWindows")
-
 function Components.Init()
     DropdownFrame = Components.CreateStyle("Square", {
         Parent = Things.Root.RootViewport,
@@ -34,6 +32,8 @@ function Components.Init()
         Size = Pivot2D.FromOffset(200,0),
         Layer = 100
     })
+
+    local DialogWindows = require("Studio.UI.Components.DialogWindows")
 
     Components.AdvancedDropdown = require("Studio.UI.Components.AdvancedDropdown")
     Components.CreateDialog = DialogWindows.CreateDialogWindow

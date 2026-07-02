@@ -122,7 +122,6 @@ end
 function Utils.GetFolderDescendants(Folder, NoPath, NoExtension)
     local FolderData = {}
 
-    print(Folder)
     for _, FileName in pairs(love.filesystem.getDirectoryItems(Folder)) do
         local Info = love.filesystem.getInfo(Folder..FileName)
 
