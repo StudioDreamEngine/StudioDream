@@ -2,8 +2,15 @@ print("Please Wait...")
 require("Shared")
 
 MYFPSCAPPER9001 = love.timer.getTime()
-
 function love.load(args)
+    local OldGetDirectoryItems = love.filesystem.getDirectoryItems
+
+    love.filesystem.getDirectoryItems = function (dir)
+        local Result = OldGetDirectoryItems(dir)
+        if Result[1] == "" then Result = {} end
+
+        return Result
+    end
 
     love.graphics.clear(0.5,0.5,0.5)
     love.graphics.present()
