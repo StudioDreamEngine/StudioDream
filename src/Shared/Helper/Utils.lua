@@ -124,6 +124,7 @@ function Utils.GetFolderDescendants(Folder, NoPath, NoExtension)
 
     print(Folder)
     for _, FileName in pairs(love.filesystem.getDirectoryItems(Folder)) do
+        print(FileName)
         local Info = love.filesystem.getInfo(Folder..FileName)
 
         if Info.type == "directory" then
