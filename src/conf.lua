@@ -15,6 +15,7 @@ function love.conf(t)
     t.window.width = 1570
     t.window.height = 800
     t.window.depth = true
+    t.console = true
 
     t.window.title = "StudioDream "..VER_RENDER.." - Untitled Project"
     t.window.icon = "/Assets/Icons/"..FLAGS.ModeTarget..".png"
