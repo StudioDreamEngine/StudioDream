@@ -5,7 +5,7 @@ cd ..
 
 powershell "$YourDirToCompress='src/'; $ZipFileResult='Love2D.zip'; $DirToExclude=@('External','CLibraries'); Get-ChildItem $YourDirToCompress  |  where { $_.Name -notin $DirToExclude} | Compress-Archive -DestinationPath $ZipFileResult -Update"
 
-xcopy src\CLibraries\windows dist /s /e /h
+xcopy src\CLibraries\windows dis\win /s /e /h
 
 rename Love2D.zip StudioDream.love
 
