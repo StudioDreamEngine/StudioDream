@@ -7,13 +7,18 @@ return function ()
     print("Polyfill Ready, Loading shared components")
 
     -- Packages
+    print("Setting up LUA packages")
     Dream = require("Shared.Packages.3DreamEngine")
     Binser = require("Shared.Packages.Binser")
-    Platform = require("Shared.Packages.Platform")
     TweenFunctions = require("Shared.Packages.Tweener")
+
+    print("Setting up C Packages")
+    Platform = require("Shared.Packages.Platform")
+    print("Platform Loaded, Loading NativeFS")
     NativeFS = require("Shared.Packages.nativefs")
 
     -- Helpers
+    print("Setting up helpers")
     Signal = require("Shared.Helper.Signal")
     Scheduler = require("Shared.Helper.Scheduler")
     Utils = require("Shared.Helper.Utils")
