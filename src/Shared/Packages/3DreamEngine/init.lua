@@ -30,6 +30,7 @@ if love.system.getOS() == "Android" or not lib.canvasFormats["rgba16f"] or not l
 end
 
 --load libraries
+print("3DreamEngine: Load Types & Libraries")
 ---@type DreamMat2
 lib.mat2 = require(lib.root .. "/libs/luaMatrices/mat2")
 ---@type DreamMat3
@@ -73,6 +74,7 @@ lib.deltonLoad = require(lib.root .. "/libs/delton"):new(1)
 lib.deltonLoad.maxAge = 999999
 
 --load sub modules
+print("3DreamEngine: Load SubModules")
 require(lib.root .. "/functions")
 require(lib.root .. "/settings")
 require(lib.root .. "/classes")
@@ -97,6 +99,7 @@ lib.materialLibrary = { }
 lib.objectLibrary = { }
 
 --default settings
+print("3DreamEngine: Finish Setup")
 lib:setAO(32, 0.75, false)
 lib:setBloom(-1)
 lib:setFog()
@@ -304,5 +307,7 @@ end
 function lib:addNewLight(typ, position, color, brightness)
 	self:addLight(self:newLight(typ, position, color, brightness))
 end
+
+print("3DreamEngine: Ready!")
 
 return lib
