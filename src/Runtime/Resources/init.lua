@@ -17,6 +17,8 @@ function Resources.Init()
 
     Resources.GetIdentifierFromID = Identifiers.GetIdentifierFromID
     Resources.LoadOrCreateIdentifier = Identifiers.LoadOrCreateIdentifier
+    Resources.RegisterAsMissing = Identifiers.RegisterAsMissing
+    Resources.LoadIdentifierIDFromPath = Identifiers.LoadIdentifierIDFromPath
 end
 
 -- Save resources to a new path (TODO)
@@ -29,6 +31,8 @@ function Resources.Clear()
     LoadedResources = {}
     ObjectReferences = {}
 end
+
+Resources.Clear()
 
 function Resources.ReloadResources()
     print("Reloading resources")
@@ -44,8 +48,6 @@ function Resources.ReloadResources()
     print(LoadedResources)
     print("Done")
 end
-
-Resources.Clear()
 
 -- Get a resource from an IdentifierID or Identifier
 function Resources.LoadResourceFromIdentifier(Identifier, Object)

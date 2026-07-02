@@ -48,7 +48,12 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 end
 
 -- Configure (Register) an Identifier to be Associated with a File Path
-function Identifiers.RegisterIdentifier(Identifier, FilePath) RegisteredIdentifiers[Identifier] = Path.new(FilePath, Identifier) end
+function Identifiers.RegisterIdentifier(Identifier, FilePath)
+    local NewIdentifier = Path.new(FilePath, Identifier)
+    RegisteredIdentifiers[Identifier] = NewIdentifier
+
+    return NewIdentifier
+end
 
 -- Register an IdentifierID as missing its identifier counterpart, used during project load
 function Identifiers.RegisterAsMissing(FilePath)
