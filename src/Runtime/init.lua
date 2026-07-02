@@ -8,9 +8,12 @@ Runtime.LoadProjectCallback = function() end
 
 function Runtime.Init()
     Profiler.Init()
+    Platform.Init()
 
     Runtime.Backend2D = Runtime.Renderer.Get2DBackend()
     Runtime.Backend3D = Runtime.Renderer.Get3DBackend()
+
+    Runtime.Resources.Init()
 
     Runtime.Renderer.Init()
     Runtime.Things.Init()
@@ -47,7 +50,7 @@ function Runtime.PostInit(ProjectPath)
 
     Runtime.Things.CreateApiDump()
 
-    Runtime.Resources.Init()
+    --Runtime.Resources.Init()
 
     Dream:prepareRuntime()
     Runtime.Things.CreateEnviornment()

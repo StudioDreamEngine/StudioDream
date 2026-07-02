@@ -7,6 +7,8 @@ local CameraPosition = Vector3.zero
 local MouseService = Runtime.Services.Service("MouseService") ---@class MouseService
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
+local PrevDT
+
 function StudioCamera.Init()
     InputService.MouseEvent:Connect(function(IsDown)
         if IsDown then

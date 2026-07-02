@@ -9,10 +9,10 @@ local DefaultSettings = {
 function SettingsManager.Init()
     local SettingsData = love.filesystem.read("StudioSettings.dat")
     
+    Settings = table.clone(DefaultSettings)
+
     if SettingsData then
         local Deserialized = Binser.deserialize(SettingsData)[1]
-
-        Settings = table.clone(DefaultSettings)
 
         for Setting, Value in pairs(Deserialized) do
             Settings[Setting] = Value

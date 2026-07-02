@@ -25,12 +25,16 @@ ffi.cdef([[
 
 local Platform = {}
 
---[[function Platform.()
-	
-end]]
+function Platform.Init()
+	Platform.IsWindows = (love.system.getOS() == Enum.Platform.Windows)
+end
+
+function Platform.GetHome()
+	return love.filesystem.getUserDirectory()
+end
 
 function Platform.GetDocuments()
-	
+	return Platform.GetHome().."/Documents"
 end
 
 function Platform.Execute(...)
