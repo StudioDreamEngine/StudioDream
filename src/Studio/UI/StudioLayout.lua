@@ -191,7 +191,7 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.2,1),
         Pivot = Vector2.new(0,0.5),
         Position = Pivot2D.FromScale(0,0.5),
-        Layer = 100,
+        Layer = 999,
         TopLevel = true
     })
 

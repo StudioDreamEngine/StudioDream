@@ -74,11 +74,11 @@ lib.deltonLoad.maxAge = 999999
 
 --load sub modules
 local function LoadSub(name)
-	print("Loading Submodule: "..name)
+	printVerbose("Loading Submodule: "..name)
 	require(lib.root .. "/"..name)
 end
 
-print("3DreamEngine: Loading SubModules")
+printVerbose("3DreamEngine: Loading SubModules")
 LoadSub("functions")
 LoadSub("settings")
 LoadSub("classes")
@@ -91,7 +91,7 @@ LoadSub("renderGodrays")
 LoadSub("renderSky")
 LoadSub("jobs")
 LoadSub("particleSystem")
-print("3DreamEngine: Finished Loading SubModules")
+printVerbose("3DreamEngine: Finished Loading SubModules")
 
 --file loader
 lib.loader = { }

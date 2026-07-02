@@ -62,7 +62,7 @@ end
 function Start.CreateButton(Options,Text,Image)
     local selfed = {}
 
-    selfed.Base = Runtime.Things.Create("TextButton") {
+    local Base = Runtime.Things.Create("TextButton") {
         Text = Text,
         Size = Pivot2D.FromScale(0.95,0.15),
         Parent = Options,
@@ -86,7 +86,8 @@ function Start.CreateButton(Options,Text,Image)
         CornerRadius = 5,
         --ScaleType = Enum.ScaleTypes.Fit
     }
-    return selfed
+
+    return Base
 end
 
 function Start.Close()
@@ -109,7 +110,7 @@ function Start.Init()
     Studio.Components.ShowFade(Start.Close)
 
     local Version = Runtime.Things.Create("Text") {
-        Text = "Welcome to Early Riser! ("..VERSION..") (This is a wip window, nothin works sorrey)",
+        Text = "Welcome to Early Riser! ("..VERSION..")",
         ForegroundColor = Studio.Theme.GetCurrentTheme().TextInverse,
         Position = Pivot2D.FromScale(0.05,0),
         Size = Pivot2D.FromScale(1,0.1),
@@ -169,11 +170,15 @@ function Start.Init()
         BackgroundTransparency = 1
     }]]
 
-    Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
-    Start.CreateButton(Options,"Upload a project","Internal/Studio/TabIcons/InsertIcon.png")
-    local wow = Start.CreateButton(Options,"Close Window","Internal/Studio/Placeholders/Jeremy.png")
+    local NewProject = Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
+    local LoadProject = Start.CreateButton(Options,"Load a project","Internal/Studio/TabIcons/InsertIcon.png")
 
-    wow.Base.Clicked:Connect(Start.Close)
+    LoadProject.Clicked:Connect(function()
+        Studio.ProjectManager.LoadProject(Start.Close)
+    end)
+
+    local wow = Start.CreateButton(Options,"Close Window","Internal/Studio/Placeholders/Jeremy.png")
+    wow.Clicked:Connect(Start.Close)
 
     Version.Size = Pivot2D.FromScale(1,0.05)
 

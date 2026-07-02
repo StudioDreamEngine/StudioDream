@@ -75,7 +75,7 @@ function TopBar.Init()
         Parent = TopBar.Container
     })
     
-    for i = 1, Utils.CountTable(TabsList) do
+    for i = 1, table.length(TabsList) do
         for TabName, Tab in pairs(TabsList) do
             if Tab.Order == i then
                 TopBar.CreateTab(TabName, Tab)

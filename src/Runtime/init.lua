@@ -24,7 +24,7 @@ function Runtime.Init()
 end
 
 function Runtime.ChangeTitle()
-    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION, Runtime.Project.ProjectName, Shared.Target))
+    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.ProjectName, Shared.Target))
 end
 
 function Runtime.ChangeAppIcon(ToWhat)
@@ -70,7 +70,7 @@ function Runtime.PostInit(ProjectPath)
     end
 
     --require("Runtime.Things.CreateTests")()
-    Runtime.Project.Load(ProjectPath or "../tests/ProjectTest/")
+    Runtime.Project.LoadDefault()
 end
 
 function Runtime.Render()

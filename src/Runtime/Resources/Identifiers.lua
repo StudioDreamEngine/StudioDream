@@ -9,8 +9,13 @@ function Identifiers.LoadIdentifierIDFromPath(FilePath)
 
     print(Mount, ", ", FilePath)
 
+    if (not Mount) then
+        Utils.Warn("A project needs to be loaded first before you can load resources")
+        return
+    end
+
     if (not string.find(FilePath, Mount)) then
-        print("Identifier outside of mount point currently not supported")
+        Utils.Warn("Identifier outside of mount point currently not supported")
     else
         local RelativePath = string.gsub(FilePath, Mount, "") -- This couldnt go wrong at all
         print(RelativePath)
@@ -22,6 +27,11 @@ end
 -- Given a file path (relative to the project mount), register an identifier, or create the file and register the identifier for it
 function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
     local BackendFS = Runtime.BackendFS
+
+    if (not BackendFS.GetMount()) then
+        Utils.Warn("A project needs to be loaded first before a resource can be created")
+        return
+    end
 
     local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
     local HasFile = BackendFS.FileExists(FilePath)
@@ -57,7 +67,7 @@ end
 
 -- Register an IdentifierID as missing its identifier counterpart, used during project load
 function Identifiers.RegisterAsMissing(FilePath)
-    print(FilePath.Identifier.." is missing! old path: "..FilePath.FilePath)
+    Shared.QueueAbort(FilePath.Identifier.." is missing! old path: "..FilePath.FilePath)
     table.insert(Identifiers.Missing, FilePath)
 end
 

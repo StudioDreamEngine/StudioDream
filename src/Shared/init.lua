@@ -18,8 +18,11 @@ Shared.AbortAPI = nil
 Shared.AbortQueue = {}
 
 function Shared.QueueAbort(Msg)
-    print(Msg)
+    printVerbose(Msg)
+    printVerbose(debug.traceback())
+
     table.insert(Shared.AbortQueue, Msg)
+    return true -- Return true, as that can be used to identify that something has errored
 end
 
 function Shared.ProcessQueue()
@@ -40,9 +43,14 @@ function Shared.Init(Args)
 
     local SharedInit = Profiler.Benchmark("Shared - Init", true)
 
+    if Args[3] then 
+        print("Verbose flag is true, Enabling verbose debugging")
+        POLYFILL_FLAGS.Verbose = true 
+    end
+
     Shared.Target = love.restart or Args[1] or FLAGS.ModeTarget
 
-    print("Shared Components ready, Setup Runtime")
+    printVerbose("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")
     Runtime.Init()
 
@@ -50,7 +58,7 @@ function Shared.Init(Args)
         Shared.Abort("Invalid Target: "..Shared.Target)
     end
 
-    print("Start splash")
+    printVerbose("Start splash")
     Shared.Splash = require("Shared.Splash")
     Shared.Splash.Create()
     Scheduler.NewTask(Shared.Splash.Load, Args[2])

@@ -59,13 +59,11 @@ end
 
 ---@deprecated
 function Utils.CountTable(Table)
-    print("Utils.CountTable is deprecated, use table.length(Table) instead.")
+    error("Utils.CountTable is deprecated, use table.length(Table) instead.")
+end
 
-    local index = 0
-    for i,v in pairs(Table) do
-        index=index+1
-    end
-    return index
+function Utils.Warn(Message)
+    Utils.SendNotification(Message, "Warn")
 end
 
 function Utils.SendNotification(Message,Type)

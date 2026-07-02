@@ -53,7 +53,6 @@ function ListLayout:Invalidate()
     ListLayout.super.Invalidate(self)
 
     if self.ShouldUpdate then
-        print("Update")
         self:UpdateLayout()
         self.ShouldUpdate = false
     end

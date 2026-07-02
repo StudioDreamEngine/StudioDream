@@ -33,13 +33,16 @@ function Notify.Notify(Message,Type)
         BackgroundTransparency = 1,
         ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
     }
+
     Utils.DebrisThing(Window,5)
+    
     Scheduler.DelayTask(4.5,function()
         Tween.Create(Window, {BackgroundTransparency = 1,CornerRadius = 0}, Enum.EasingStyle.Linear, .2).Play()
         for i,v in pairs(Window:GetChildren()) do
             Tween.Create(v, ToTransparency[v.ClassName], Enum.EasingStyle.Linear, .2).Play()
         end
     end)
+
     Window:SetParent(Notify.Container)
 end
 
@@ -52,7 +55,8 @@ function Notify.Init()
         Alignment = Vector2.new(0,1),
         Padding = 5
     } 
-    Notify.Notify("Studio Loaded.","Info")
+    
+    Notify.Notify("Studio Loaded, Open a project or make a new one!","Info")
 end
 
 return Notify

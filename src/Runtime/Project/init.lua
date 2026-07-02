@@ -9,17 +9,19 @@ Project.SerializeType = Scenes.Objects.HandleType
 Project.ProjectName = "Unnamed"
 
 function Project.ValidateAndMount(ProjectPath)
+    if (not ProjectPath) then
+        return Shared.QueueAbort("ProjectPath was blank! This is a BUG... get bloctans!")
+    end
+
     if (not NativeFS.getInfo(ProjectPath)) then
-        Shared.QueueAbort("Couldnt load project: "..ProjectPath)
-        return true
+        return Shared.QueueAbort("Couldnt load project: "..ProjectPath)
     end
 
     BackendFS.MountProject(ProjectPath)
 
     if not BackendFS.FileExists("MainScene.sds") then
-        Shared.QueueAbort("MainScene.sds wasnt found in specified project path, are you sure it was a valid StudioDream project?")
         BackendFS.UnmountProject()
-        return true
+        return Shared.QueueAbort("MainScene.sds wasnt found in specified project path, are you sure it was a valid StudioDream project?")
     end
 end
 
@@ -35,9 +37,19 @@ function Project.AddToHistory(Path, Name)
 end
 
 function Project.LoadDefault()
+    local Environment = Runtime.Things.GetRoot("Environment") ---@class Environment
+
     local Camera = Runtime.Things.Create("Camera") {
-        
+        Parent = Environment
     }
+
+    Runtime.Things.Create("Primitive") {
+        Scale = Vector3.new(100,2,100),
+        Position = Vector3.new(0,-10,0),
+        Parent = Environment
+    }
+
+    Environment.Camera = Camera
 end
 
 function Project.Load(ProjectPath)
