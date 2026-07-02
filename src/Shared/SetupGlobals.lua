@@ -14,7 +14,6 @@ return function ()
 
     print("Setting up C Packages")
     Platform = require("Shared.Packages.Platform")
-    print("Platform Loaded, Loading NativeFS")
     NativeFS = require("Shared.Packages.nativefs")
 
     -- Helpers
