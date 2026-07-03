@@ -26,7 +26,6 @@ end
 function ProjectManager.NewProject(Name)
     local Directory = Platform.GetDocuments().."/"..Name
     NativeFS.createDirectory(Directory)
-    print(Directory)
 
     Runtime.Project.SaveTo(Directory)
 end

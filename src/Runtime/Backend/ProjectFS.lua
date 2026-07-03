@@ -50,10 +50,17 @@ end
 
 function ProjectFS.MountProject(Project)
     local FullPath = NativeFS.getFullPath(Project)
-
-    if love.system.getOS() ~= Enum.Platform.Windows then
-        FullPath = NativeFS.getFullPath(Project).."/"
+    local LastChar = FullPath[#FullPath]
+    
+    if LastChar ~= "/" or LastChar ~= "\\" then
+        if love.system.getOS() == Enum.Platform.Windows then
+            FullPath = NativeFS.getFullPath(Project).."\\"
+        else
+            FullPath = NativeFS.getFullPath(Project).."/"
+        end
     end
+
+    print("Formatted Mount Point: "..FullPath)
 
     Mount = FullPath
 end
