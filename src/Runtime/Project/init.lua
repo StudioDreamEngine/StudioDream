@@ -73,6 +73,7 @@ end
 -- Save a project
 function Project.Save()
     print("Saving Project...")
+    print(ProjectFS.GetMount())
 
     if not ProjectFS.GetMount() then 
         Shared.QueueAbort("Abort save, no project found")
