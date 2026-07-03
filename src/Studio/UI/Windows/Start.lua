@@ -52,7 +52,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
     selfed.Base.Clicked:Connect(function()
         print("Click")
         Runtime.Project.Load(Path)
-        FullContainer:SetVisible(false)
+        Start.Close()
     end)
 
 

@@ -6,7 +6,6 @@ local Config = require("Runtime.Project.Configuration")
 local ProjectFS = Runtime.ProjectFS
 local RecentProjects = Runtime.SettingsManager.GetSetting("RecentProjects")
 
-Project.SerializeType = Scenes.Objects.HandleType
 Project.RegisterRootScene = Scenes.RegisterRootScene
 Project.LoadDefault = Scenes.LoadDefault
 Project.GetConfig = Config.GetConfig
@@ -79,6 +78,7 @@ function Project.Save()
         Shared.QueueAbort("Abort save, no project found")
     else
         Config.Save()
+        ProjectFS.WriteFile("Thumbnail.png", Dream:renderThumbnail())
         Scenes.LoadRootScenes("Save")
     end
 end

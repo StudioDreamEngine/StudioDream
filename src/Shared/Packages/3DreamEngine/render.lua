@@ -333,6 +333,8 @@ end
 ---Full render, including bloom, fxaa and exposure
 ---@private
 function lib:renderFull(cam, canvases, dynamic)
+	self.delton:start("renderFull")
+
 	love.graphics.push("all")
 	if canvases.mode ~= "direct" then
 		love.graphics.reset()
@@ -344,6 +346,7 @@ function lib:renderFull(cam, canvases, dynamic)
 	--direct rendering has no post effects
 	if canvases.mode == "direct" then
 		love.graphics.pop()
+		self.delton:stop()
 		return
 	end
 	
@@ -458,6 +461,48 @@ function lib:renderFull(cam, canvases, dynamic)
 		love.graphics.draw(canvases.color)
 		love.graphics.setShader()
 	end
+
+	self.delton:stop()
+end
+
+local function applyCamera(camera, canvases)
+	local camera = camera or Dream.camera
+	camera.position = vec3(camera.transform[4], camera.transform[8], camera.transform[12])
+	camera.normal = vec3(-camera.transform[3], -camera.transform[7], -camera.transform[11]):normalize()
+	camera.viewPosition = camera.position
+	Dream.lastUsedCam = camera
+	
+	camera:applyProjectionTransform(canvases)
+
+	return camera
+end
+
+local thumbnailCanvases = lib:newCanvases()
+local thumbSize = 512
+
+function lib:renderThumbnail(cam)
+	self.delton:start("3DreamEngine - Render Thumbnail")
+
+	self.delton:start("setup")
+	local ThumbnailCanvas = love.graphics.newCanvas(thumbSize,thumbSize)
+	thumbnailCanvases:init(thumbSize,thumbSize)
+
+	love.graphics.push("all")
+	love.graphics.setCanvas(ThumbnailCanvas)
+	self.delton:stop()
+
+	self:renderFull(applyCamera(cam, thumbnailCanvases), thumbnailCanvases)
+
+	love.graphics.pop()
+
+	self.delton:start("encode")
+	local ThumbnailImage = ThumbnailCanvas:newImageData()
+	local EncodedImage = ThumbnailImage:encode("png")
+
+	self.delton:stop()
+	self.delton:stop()
+
+	return EncodedImage:getString()
 end
 
 ---Render or present the scene, depending on the canvas settings
@@ -475,13 +520,7 @@ function lib:present(camera, canvases, lite)
 	canvases = canvases or self.canvases
 	
 	--extract camera position and normal
-	camera = camera or self.camera
-	camera.position = vec3(camera.transform[4], camera.transform[8], camera.transform[12])
-	camera.normal = vec3(-camera.transform[3], -camera.transform[7], -camera.transform[11]):normalize()
-	camera.viewPosition = camera.position
-	self.lastUsedCam = camera
-	
-	camera:applyProjectionTransform(canvases)
+	camera = applyCamera(camera, canvases)
 	
 	--process render jobs
 	if not lite then
@@ -491,9 +530,7 @@ function lib:present(camera, canvases, lite)
 	end
 	
 	--render
-	self.delton:start("renderFull")
 	self:renderFull(camera, canvases)
-	self.delton:stop()
 	self.delton:stop()
 	
 	--debug

@@ -68,8 +68,7 @@ function Runtime.PostInit(ProjectPath)
     end
 
     --require("Runtime.Things.CreateTests")()
-    --Runtime.Project.LoadDefault()
-    Runtime.Project.Load("../tests/ProjectTest")
+    Runtime.Project.LoadDefault()
 end
 
 function Runtime.Render()

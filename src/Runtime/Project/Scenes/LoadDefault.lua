@@ -6,7 +6,7 @@ return function()
     }
 
     Runtime.Things.Create("Primitive") {
-        Scale = Vector3.new(100,2,100),
+        Scale = Vector3.new(40,2,40),
         Position = Vector3.new(0,-10,0),
         Parent = Environment
     }

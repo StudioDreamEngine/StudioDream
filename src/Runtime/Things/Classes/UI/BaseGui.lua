@@ -155,6 +155,8 @@ function BaseGui:new()
 
     self.AutomaticSize = nil
     self.SquareAxis = nil
+
+    self.AbsoluteLayer = 0
     self.ListOrder = 0
 
     self.ChildRect = Rect.new(Vector2.zero, Vector2.zero) -- Rect used 

@@ -3,8 +3,8 @@ local ProjectManager = {}
 
 -- Load a project
 function ProjectManager.LoadProject(Callback)
-    Platform.OpenWithCallback("Load Project", Enum.OpenDialog.Folder, function()
-        Runtime.Project.Load()
+    Platform.OpenWithCallback("Load Project", Enum.OpenDialog.Folder, function(ProjectPath)
+        Runtime.Project.Load(ProjectPath)
         if Callback then Callback() end
     end)
 end
