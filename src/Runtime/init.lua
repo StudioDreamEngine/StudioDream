@@ -8,7 +8,7 @@ Runtime.LoadProjectCallback = function() end
 
 function Runtime.Init()
     Profiler.Init()
-    Platform.Init()
+    Platform.Init("StudioDream")
 
     Runtime.Backend2D = Runtime.Renderer.Get2DBackend()
     Runtime.Backend3D = Runtime.Renderer.Get3DBackend()
@@ -24,7 +24,7 @@ function Runtime.Init()
 end
 
 function Runtime.ChangeTitle()
-    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.ProjectName, Shared.Target))
+    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.GetConfig("Name"), Shared.Target))
 end
 
 function Runtime.ChangeAppIcon(ToWhat)
@@ -50,12 +50,10 @@ function Runtime.PostInit(ProjectPath)
 
     Runtime.Things.CreateApiDump()
 
-    --Runtime.Resources.Init()
-
     Dream:prepareRuntime()
-    Runtime.Things.CreateEnviornment()
 
     Runtime.Project = require("Runtime.Project")
+    Runtime.Things.CreateEnviornment()
 
     if Shared.Target == "Client" then
         Runtime.Things.Create("TextButton") {
@@ -70,7 +68,8 @@ function Runtime.PostInit(ProjectPath)
     end
 
     --require("Runtime.Things.CreateTests")()
-    Runtime.Project.LoadDefault()
+    --Runtime.Project.LoadDefault()
+    Runtime.Project.Load("../tests/ProjectTest")
 end
 
 function Runtime.Render()

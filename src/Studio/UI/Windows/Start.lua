@@ -173,6 +173,10 @@ function Start.Init()
     local NewProject = Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
     local LoadProject = Start.CreateButton(Options,"Load a project","Internal/Studio/TabIcons/InsertIcon.png")
 
+    NewProject.Clicked:Connect(function()
+        
+    end)
+
     LoadProject.Clicked:Connect(function()
         Studio.ProjectManager.LoadProject(Start.Close)
     end)

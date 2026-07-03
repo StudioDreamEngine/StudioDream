@@ -2,9 +2,13 @@
 local Things = Runtime.Things
 local Scenes = {}
 
-local BackendFS = Runtime.BackendFS
+local ProjectFS = Runtime.ProjectFS
+local RootScenes = {}
 
 Scenes.Objects = require("Runtime.Project.Scenes.Objects")
+Scenes.LoadDefault = require("Runtime.Project.Scenes.LoadDefault")
+
+function Scenes.RegisterRootScene(SceneObject, SceneName) RootScenes[SceneObject] = SceneName end
 
 function Scenes.SaveScene(Path, Target)
     local ObjectTable = Scenes.Objects.SerializeObjects(Target)
@@ -12,18 +16,21 @@ function Scenes.SaveScene(Path, Target)
     love.filesystem.write("TempLevel", table.format(ObjectTable))
 
     local Data = Binser.serialize(ObjectTable)
-    BackendFS.WriteFile(Path, Data)
+    ProjectFS.WriteFile(Path, Data)
 end
 
 function Scenes.ConfigureTargetsTemp()
     ---@class Thing
     local Environment = Things.GetRoot("Environment")
-
     Environment.Camera = Environment:FindFirstChild("Camera")
 end
 
+function Scenes.ResolveReferences()
+    Scenes.Objects.ResolveReferences()
+end
+
 function Scenes.LoadScene(Path, Target)
-    if (not BackendFS.FileExists(Path)) then
+    if (not ProjectFS.FileExists(Path)) then
         print("Scene "..Path.." Doesnt exist! Not loading scene...")
         return
     end
@@ -31,7 +38,7 @@ function Scenes.LoadScene(Path, Target)
     print("Loading Scene: "..Path)
 
     local Success, Message = pcall(function()
-        local Content = BackendFS.ReadFile(Path)
+        local Content = ProjectFS.ReadFile(Path)
         local Table = Binser.deserialize(Content)[1]
 
         Scenes.Objects.DeserializeObjects(Table, Target)
@@ -42,6 +49,17 @@ function Scenes.LoadScene(Path, Target)
         return Message
     else
         Shared.QueueAbort("Error while loading scene: "..Path)
+    end
+end
+
+function Scenes.LoadRootScenes(Mode)
+    for Object, Scene in pairs(RootScenes) do
+        Scenes[Mode.."Scene"](Scene..".sds", Object)
+    end
+
+    if Mode == "Load" then
+        Scenes.ResolveReferences()
+        Scenes.ConfigureTargetsTemp()
     end
 end
 

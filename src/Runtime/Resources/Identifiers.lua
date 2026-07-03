@@ -5,7 +5,7 @@ Identifiers.Missing = {}
 
 -- Given a file path (relative to system root), load any file, inside or outside the project.
 function Identifiers.LoadIdentifierIDFromPath(FilePath)
-    local Mount = Runtime.BackendFS.GetMount()
+    local Mount = Runtime.ProjectFS.GetMount()
 
     print(Mount, ", ", FilePath)
 
@@ -26,30 +26,30 @@ end
 
 -- Given a file path (relative to the project mount), register an identifier, or create the file and register the identifier for it
 function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
-    local BackendFS = Runtime.BackendFS
+    local ProjectFS = Runtime.ProjectFS
 
-    if (not BackendFS.GetMount()) then
+    if (not ProjectFS.GetMount()) then
         Utils.Warn("A project needs to be loaded first before a resource can be created")
         return
     end
 
-    local HasIdentifier = BackendFS.FileExists(FilePath..".uid")
-    local HasFile = BackendFS.FileExists(FilePath)
+    local HasIdentifier = ProjectFS.FileExists(FilePath..".uid")
+    local HasFile = ProjectFS.FileExists(FilePath)
 
     -- This file is a directory, pass that along to the function that called this, as it may be used to handle loading/reloading all resources
     if HasFile and HasFile.type == "directory" then return nil, true end
 
     if (not HasFile) then
-        Runtime.BackendFS.WriteFile(FilePath, FileData)
+        Runtime.ProjectFS.WriteFile(FilePath, FileData)
     end
     
     local Identifier
 
     if (not HasIdentifier) then -- Create a new identifier
         Identifier = CreateUUID()
-        BackendFS.WriteFile(FilePath..".uid", Identifier)
+        ProjectFS.WriteFile(FilePath..".uid", Identifier)
     else
-        Identifier = BackendFS.ReadFile(FilePath..".uid")
+        Identifier = ProjectFS.ReadFile(FilePath..".uid")
     end
 
     Identifiers.RegisterIdentifier(Identifier, FilePath)

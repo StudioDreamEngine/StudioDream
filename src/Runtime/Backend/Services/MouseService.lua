@@ -9,6 +9,13 @@ function MouseService.Init()
     
 end
 
+local CurrentCursorPack = "Assets/Cursors/"
+
+function MouseService.ChangeCursor(ChangeTo)
+    love.mouse.setCursor(love.mouse.newCursor(CurrentCursorPack..ChangeTo..".png", 0,0))
+    print("Cursor Changed to: "..ChangeTo)
+end
+
 function MouseService.SetMouseMode(MouseMode)
     MouseService.LockPosition = Backend2D.GetMousePosition()
     MouseService.MouseMode = MouseMode

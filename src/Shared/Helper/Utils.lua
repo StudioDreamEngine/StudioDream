@@ -33,11 +33,11 @@ function Utils.TimeAgo(Time)
     local Difference = os.time()-Time
 
     if Difference > SecondsPerDay then
-        return Difference.." Days Ago"   
+        return math.round(Difference/SecondsPerDay).." Days Ago"   
     elseif Difference > SecondsPerHour then
-        return Difference.." Hours Ago"   
+        return math.round(Difference/SecondsPerHour).." Hours Ago"   
     elseif Difference > SecondsPerMinute then
-        return Difference.." Minutes Ago"  
+        return math.round(Difference/SecondsPerMinute).." Minutes Ago"  
     else
         return Difference.." Seconds ago"
     end
@@ -45,6 +45,13 @@ end
 
 function Utils.AssertType(Object, ExpectedType, Extra)
     assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
+end
+
+function Utils.Keys(Table)
+    local KeysTable = {}
+    for i,_ in pairs(Table) do table.insert(KeysTable, i) end
+
+    return KeysTable
 end
 
 function Utils.FileExists(Directory)
@@ -57,10 +64,9 @@ function Utils.DebrisThing(Obj,Timer)
     end)
 end
 
----@deprecated
-function Utils.CountTable(Table)
-    error("Utils.CountTable is deprecated, use table.length(Table) instead.")
-end
+function Utils.CountTable(Table) error("Utils.CountTable is deprecated, use table.length(Table) instead.") end ---@deprecated
+function Utils.UltraCloneTable(Table) error("Utils.UltraCloneTable is deprecated, use table.deepcopy(Table) instead.") end ---@deprecated
+function Utils.GetEnumNameByValue(EnumName,Val) error("Utils.GetEnumNameByValue is deprecated, Enum-related utilities should be in the enum perhaps") end ---@deprecated
 
 function Utils.Warn(Message)
     Utils.SendNotification(Message, "Warn")
@@ -70,36 +76,6 @@ function Utils.SendNotification(Message,Type)
     --if Type ~= "Warn" or Type ~= "Info" or Type ~= "Error" then return end
 
     Studio.Layout.GetHandle("Notification").Notify(Message,Type)
-end
-
-function Utils.UltraCloneTable(Table)
-
-    local function loopthought(Table,TableToRegister)
-        for i,v in pairs(Table) do
-            if type(v) ~= "table" then 
-                TableToRegister[i] = v
-                print("Registrated "..i)
-            else
-                TableToRegister[i] = {}
-                loopthought(TableToRegister[i],TableToRegister[i])
-                print("Opended "..i)
-            end
-        end
-    end
-
-    local TableToReturn = {}
-    loopthought(TableToReturn,TableToReturn)
-    return TableToReturn
-end
-
-function Utils.GetEnumNameByValue(EnumName,Val) -- i dont got any other ideas on how to do this
-    local EnumGot = Enum[EnumName]
-    for i,v in pairs(EnumGot) do
-        if v == Val then
-            return i
-        end
-    end
-    return nil
 end
 
 function Utils.LoadModules(Path, Require)

@@ -2,6 +2,8 @@
 local Things = Runtime.Things
 local Objects = {}
 
+Objects.References = {}
+
 local TypeSerializers = Utils.LoadModules("Runtime/Project/Scenes/Types/")
 
 function Objects.HandleType(Property, Type, Deserialize, Identifier)
@@ -145,14 +147,24 @@ function Objects.DeserializeObjects(ObjectsTable, Root)
     end
     Deserialize.End()
 
-    -- Part 2: Relocate objects
+    -- Part 2: Add objects to references table to be resolved
     for Object, RelocationQueue in pairs(RelocationQueues) do
         for PropertyName, UUID in pairs(RelocationQueue) do
-            if UUID == "Scene" then UUID = Root.UUID end -- Resolve all root objects to the actual parent
+            if UUID == "Scene" then RelocationQueue[PropertyName] = Root.UUID end -- Resolve all root objects to the actual parent
 
+            Objects.References[Object] = RelocationQueue
+        end
+    end
+end
+
+function Objects.ResolveReferences()
+    for Object, RelocationQueue in pairs(Objects.References) do
+        for PropertyName, UUID in pairs(RelocationQueue) do
             Things.SetProperty(Object, PropertyName, Things.Get(UUID))
         end
     end
+
+    Objects.References = {}
 end
 
 return Objects

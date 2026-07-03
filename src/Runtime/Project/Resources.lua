@@ -1,16 +1,19 @@
 local Resources = {}
-local BackendFS = Runtime.BackendFS
+local ProjectFS = Runtime.ProjectFS
 
-local BlacklistedTypes = {"uid", "sds", "sdrm"} -- sds is here for now
+local FormatLookup = require("Runtime.Resources.FormatLookup")
+local WhitelistedTypes = Utils.Keys(FormatLookup)
 
+-- Go through the project and register all the resources in the project as identifiers
 local function RecurseProject(Path)
-    for _, v in pairs(BackendFS.ListDirectory(Path)) do
+    for _, v in pairs(ProjectFS.ListDirectory(Path)) do
         local FileType = string.split(v, "%.")
+        local IsDirectory = #FileType < 2 -- Dumb hack
         FileType = FileType[#FileType]
 
         local FilePath = Path..v
 
-        if not table.find(BlacklistedTypes, FileType) then
+        if table.find(WhitelistedTypes, FileType) or IsDirectory then
             Resources.HandleIdentifier(FilePath)
         end
     end

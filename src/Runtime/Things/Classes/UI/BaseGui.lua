@@ -176,7 +176,7 @@ function BaseGui:new()
 
     self.ViewportPosition = Vector2.zero
     self.AbsolutePosition = Vector2.zero
-    self.AbsoluteSize = self:GetAbsoluteSize()
+    self.AbsoluteSize = Vector2.one
 
     self.Visible = true
     self.TruelyVisible = true

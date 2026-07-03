@@ -84,7 +84,7 @@ function Resources.GetResource(Identifier)
         if Identifier.Internal then
             Contents = love.filesystem.read("Assets/"..Identifier.FilePath)
         else
-            Contents = Runtime.BackendFS.ReadFile(Identifier.FilePath)
+            Contents = Runtime.ProjectFS.ReadFile(Identifier.FilePath)
         end
 
         assert(Contents, "Cannot read resource (Identifier: "..Identifier.Identifier..", Path: "..Identifier.FilePath..")")

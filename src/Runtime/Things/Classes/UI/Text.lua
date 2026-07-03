@@ -33,6 +33,8 @@ end
 
 function Text:SetTextScaled(TextScaled)
     self.TextScaled = TextScaled
+
+    self:AttemptWrap(self.AbsoluteSize)
     self:InvalidateRendering()
 end
 
@@ -40,6 +42,7 @@ function Text:SetText(Text)
     self.Text = Text
     self.RenderClass.Text = self.Text
 
+    self:AttemptWrap(self.AbsoluteSize)
     self:InvalidateRendering()
 end
 

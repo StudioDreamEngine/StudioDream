@@ -9,9 +9,9 @@ function Backend.Init()
     Runtime.ScriptUtil = require("Runtime.Backend.ScriptUtility")
 
     Runtime.Services = require("Runtime.Backend.Services")
-    Runtime.Cursor = require("Runtime.Backend.CursorHandle")
+    Runtime.Cursor = Runtime.Services.Service("MouseService") -- For now, lazy
 
-    Runtime.BackendFS = require("Runtime.Backend.BackendFS")
+    Runtime.ProjectFS = require("Runtime.Backend.ProjectFS")
 
     Runtime.Phys = require("Runtime.Backend.PhysicsEngine")
 

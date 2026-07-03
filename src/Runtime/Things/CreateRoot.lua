@@ -1,12 +1,18 @@
 local Things = Runtime.Things
 local CreateRoot = {}
 
+local HUD, Materials
+
 function CreateRoot.CreateEnviornment(Root)
     ---@class Environment
     local Environment = Things.Create("Environment") {
         Name = "Environment",
         Parent = Root
     }
+
+    Runtime.Project.RegisterRootScene(Environment, "MainScene")
+    Runtime.Project.RegisterRootScene(HUD, "Interface")
+    Runtime.Project.RegisterRootScene(Materials, "Materials")
 end
 
 function CreateRoot.CreateRoot()
@@ -15,12 +21,12 @@ function CreateRoot.CreateRoot()
         Name = "Root"
     }
 
-    local HUD = Things.Create("GuiContainer", "Gui") {
+    HUD = Things.Create("GuiContainer", "Gui") {
         Name = "HUD",
         Parent = Root
     }
 
-    local Materials = Things.Create("Materials", "Materials") {
+    Materials = Things.Create("Materials", "Materials") {
         Name = "Materials",
         Parent = Root
     }

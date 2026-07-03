@@ -24,17 +24,28 @@ ffi.cdef([[
 ]])
 
 local Platform = {}
-
-function Platform.Init()
-	Platform.IsWindows = (love.system.getOS() == Enum.Platform.Windows)
-end
+Platform.Identity = "UnNamed"
 
 function Platform.GetHome()
 	return love.filesystem.getUserDirectory()
 end
 
 function Platform.GetDocuments()
-	return Platform.GetHome().."/Documents"
+	return Platform.GetHome().."/Documents/"..Platform.Identity
+end
+
+function Platform.Init(Identity)
+	Platform.IsWindows = (love.system.getOS() == Enum.Platform.Windows)
+	Platform.Identity = Identity
+
+	if (not NativeFS) then error("Platform requires NativeFS Package!") end
+
+	local DocumentsFolder = Platform.GetDocuments()
+
+	if (not NativeFS.getInfo(DocumentsFolder)) then
+		print("Attempt to create documents folder")
+		NativeFS.createDirectory(DocumentsFolder)
+	end
 end
 
 function Platform.Execute(...)
