@@ -49,7 +49,7 @@ function ProjectFS.UnmountProject()
 end
 
 function ProjectFS.MountProject(Project)
-    print("Non-formatted path (full or relative): "..FullPath)
+    print("Non-formatted path (full or relative): "..Project)
     local FullPath = NativeFS.getFullPath(Project)
     local LastChar = FullPath[#FullPath]
 
