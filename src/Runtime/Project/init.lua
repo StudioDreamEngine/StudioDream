@@ -9,7 +9,7 @@ local RecentProjects = Runtime.SettingsManager.GetSetting("RecentProjects")
 Project.RegisterRootScene = Scenes.RegisterRootScene
 Project.LoadDefault = Scenes.LoadDefault
 Project.GetConfig = Config.GetConfig
-
+Project.SetConfig = Config.SetConfig
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
     if (not ProjectPath) then
@@ -78,14 +78,17 @@ end
 -- Save a project
 function Project.Save()
     print("Saving Project...")
+    Studio.Layout.GetHandle("Notification").Notify("Saving Project...","Info")
 
     if not ProjectFS.GetMount() then 
         Shared.QueueAbort("Abort save, no project found")
+        Studio.Layout.GetHandle("Notification").Notify("Abort save, no project found","Error")
     else
         Config.Save()
         ProjectFS.WriteFile("Thumbnail.png", Dream:renderThumbnail())
-        Project.AddToHistory(ProjectFS.GetMount(), Project.GetConfig("Name"))
         Scenes.LoadRootScenes("Save")
+        Project.AddToHistory(ProjectFS.GetMount(), Project.GetConfig("Name"))
+        Studio.Layout.GetHandle("Notification").Notify("Save Completed!","Info")
     end
 end
 

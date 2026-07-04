@@ -6,6 +6,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     local ImageToUse
     print(Path)
+    print(Info)
     if Utils.FileExists(Path.."Thumbnail.png") then
         ImageToUse = Path.."Thumbnail.png"
     else
