@@ -1,6 +1,7 @@
 Creators: 
     Bloctans
     Mikl
+    Sonickirb
 
 Packages:
     bakpakin/binser (Github), Licensed under MIT
@@ -8,6 +9,9 @@ Packages:
     Bloctans/LuauPolyfill (Github), Licensed under MIT
     meepen/Lua-5.1-UTF-8 (Github), Licensed under MIT
     3dreamengine/3DreamEngine (Github), Licensed under MIT
+    EngineerSmith/nativefs (Github), Licensed under MIT
+    SwadicalRag/bullet3-lua (Github), Licensed under Zlib
+    kikito/tween.lua (Github), Code used (Tween functions) Licensed under MIT
 
 Code Snippets:
     Luawiz for improved object (Thing) creation

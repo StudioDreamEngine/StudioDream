@@ -23,6 +23,10 @@ function Root:DefineAPI()
     self.Proxy.Icon("Root")
 end
 
+function Root:OnRemove()
+    error("Attempted to remove root")
+end
+
 ---@return Camera
 function Root:GetCamera()
     return self.EnvironmentViewport and self.EnvironmentViewport:GetCamera()

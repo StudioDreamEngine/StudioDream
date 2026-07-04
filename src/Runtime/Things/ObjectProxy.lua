@@ -19,6 +19,8 @@ return { new = function()
     ObjectProxy.Proxies = {}
     ObjectProxy.Overrides = {}
 
+    ObjectProxy.Enums = {}
+
     -- Virtuals for Info functions
     function ObjectProxy.ConstraintUpdator() end
 
@@ -30,8 +32,14 @@ return { new = function()
         local Name, Type = nil, "undefined"
 
         if #Split > 1 then
+            local SplitType = string.split(Split[1], "%.")
+
             Name = Split[2]
-            Type = Split[1]
+            Type = SplitType[1]
+
+            if SplitType[2] then
+                ObjectProxy.Enums[Name] = Enum[SplitType[2]]
+            end
         else
             Name = Property
         end

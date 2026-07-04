@@ -45,13 +45,12 @@ function Project.Load(ProjectPath)
     local LoadProject = Profiler.Benchmark("Load Project")
     
     local Success, Message = pcall(function()
-        Runtime.LoadProjectCallback()
-        
         Resources.Load()
         Config.Load()
         Runtime.ChangeTitle()
 
         Scenes.LoadRootScenes("Load")
+        Runtime.LoadProjectCallback()
     end)
 
     LoadProject.End()

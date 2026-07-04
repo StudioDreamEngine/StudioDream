@@ -91,12 +91,16 @@ function Properties.CreateGroup(GroupName)
     return ExpandableDropdown.Container
 end
 
+function Properties.Clear()
+    Properties.ResetSignal.Invoke()
+    Properties.ParentWith:ClearAllChildren({"ListLayout"})
+end
+
 function Properties.RenderEverything(Thing)
     --print(Editor3D.Selecting)
     Properties.ParentWith.ScrollPosition = -200
 
-    Properties.ResetSignal.Invoke()
-    Properties.ParentWith:ClearAllChildren({"ListLayout"})
+    Properties.Clear()
     Properties.ParentWith:SetScroll(0)
 
     for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
@@ -145,6 +149,7 @@ function Properties.Init()
     }
 
     Studio.Editor3D.OnSelect:Connect(Properties.RenderEverything)
+    Studio.Editor3D.OnDeselect:Connect(Properties.Clear)
 end
 
 function Properties.Update(dt)
