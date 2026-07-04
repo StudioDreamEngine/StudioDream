@@ -49,23 +49,7 @@ function ProjectFS.UnmountProject()
 end
 
 function ProjectFS.MountProject(Project)
-    local FullPath = NativeFS.getFullPath(Project)
-    local LastChar = string.sub(FullPath, -1, -1)
-
-    print("Mounting new project, Non-formatted full path: "..FullPath)
-    
-    if LastChar ~= "/" and LastChar ~= "\\" then
-        if love.system.getOS() == Enum.Platform.Windows then
-            FullPath = FullPath.."\\"
-        else
-            FullPath = FullPath.."/"
-        end
-
-        print("FullPath Doesnt seem to have a trailing slash")
-        print("Formatted Mount Point: "..FullPath)
-    end
-
-    Mount = FullPath
+    Mount = Platform.ParsePath(Project)
 end
 
 return ProjectFS

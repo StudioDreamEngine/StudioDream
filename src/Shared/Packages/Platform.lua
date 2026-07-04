@@ -34,6 +34,26 @@ function Platform.GetDocuments()
 	return Platform.GetHome().."/Documents/"..Platform.Identity
 end
 
+function Platform.ParsePath(Path)
+	local FullPath = NativeFS.getFullPath(Path)
+    local LastChar = string.sub(FullPath, -1, -1)
+
+    print("Mounting new project, Non-formatted full path: "..FullPath)
+    
+    if LastChar ~= "/" and LastChar ~= "\\" then
+        if love.system.getOS() == Enum.Platform.Windows then
+            FullPath = FullPath.."\\"
+        else
+            FullPath = FullPath.."/"
+        end
+
+        print("FullPath Doesnt seem to have a trailing slash")
+        print("Formatted Mount Point: "..FullPath)
+    end
+
+	return FullPath
+end
+
 function Platform.Init(Identity)
 	Platform.IsWindows = (love.system.getOS() == Enum.Platform.Windows)
 	Platform.Identity = Identity
