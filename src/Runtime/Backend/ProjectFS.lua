@@ -51,6 +51,8 @@ end
 function ProjectFS.MountProject(Project)
     local FullPath = NativeFS.getFullPath(Project)
     local LastChar = FullPath[#FullPath]
+
+    print("Non-formatted full path: "..FullPath)
     
     if LastChar ~= "/" or LastChar ~= "\\" then
         if love.system.getOS() == Enum.Platform.Windows then

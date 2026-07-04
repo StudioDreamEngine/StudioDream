@@ -27,6 +27,7 @@ function Camera:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
     local RayOrigin = self.Position -- RayOrigin is always assumed to be where the camera is for now
 
     local Denom = PlaneAxis.Dot(RayDirection)
+
     local Distance = (PlaneOrigin - RayOrigin).Dot(PlaneAxis) / Denom
 
     local Final = RayOrigin + Distance * RayDirection
