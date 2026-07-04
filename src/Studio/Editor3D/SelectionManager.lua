@@ -49,7 +49,10 @@ function SelectionManager.Init()
     ToolManager = Editor3D.ToolManager
 
     ---@diagnostic disable-next-line: duplicate-set-field
-    Runtime.LoadProjectCallback = SelectionManager.DeselectAll
+    Runtime.LoadProjectCallback = function()
+        SelectionManager.DeselectAll()
+        Studio.Layout.CallHandle("Explorer", "Redraw")
+    end
 
     SelectionPriority.BindSignal(function()
         local Environment = Things.Root:GetEnvironment() ---@class Environment

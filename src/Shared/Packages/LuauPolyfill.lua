@@ -104,7 +104,10 @@ do
 				local TableToString = v.__tostring
 			
 				if TableToString then
-					Value = "\""..TableToString(v).."\""
+					local success, message = pcall(TableToString, v)
+					message = success and message or "Failed to ToString"
+
+					Value = "\""..message.."\""
 				elseif table.find(DontPrint, i) or RecordedTables[v] then -- Tables that reference tables are a death sentence, so we skip em
 					Value = "Table Skipped"
 				elseif Depth < 10 then

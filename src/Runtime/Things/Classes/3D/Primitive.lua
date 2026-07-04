@@ -21,8 +21,9 @@ function Primitive:DefineAPI()
 
     self.Proxy.Icon("Scene")
 
-    self.Proxy.Property("Enum Shape")
+    self.Proxy.Property("Enum.Shape Shape")
     self.Proxy.Group("Visuals", "Shape")
+
     self.Proxy.MakeCreatable()
 end
 
