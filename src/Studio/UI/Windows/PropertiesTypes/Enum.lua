@@ -12,7 +12,7 @@ local function CheckAllTheSame(table)
     return true
 end
 
-function GenerateList(Property,Thing,Frame,ChangedOption)
+function GenerateList(MainInfo,Frame,ChangedOption)
     local EnumMade = Enum[Property]
     local Index = 0
     local Choices = {}
@@ -28,7 +28,9 @@ function GenerateList(Property,Thing,Frame,ChangedOption)
                     Text = tostring(i),
                     Type = "Button",
                     Function = function()
-                        Runtime.Things.SetProperty(Thing, Property, v)
+                        for i,Info in pairs(MainInfo.WillHandle) do
+                            Runtime.Things.SetProperty(Info.Thing, Info.Property, v)
+                        end
                         ChangedOption.Invoke()
                         GeneratedList.Remove()
                     end
@@ -77,8 +79,10 @@ function Template.Start(MainInfo)
     table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
         if GeneratedList then GeneratedList.Remove() end
 
-        for i,Info in pairs(MainInfo.WillHandle) do
-            GenerateList(Info.Property,Info.Thing,Text,self.ChangedOption)
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
+
+        if AllSame then
+            GenerateList(MainInfo,Text,self.ChangedOption)
         end
     end))
 
