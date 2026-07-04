@@ -51,7 +51,7 @@ end
 function ProjectFS.MountProject(Project)
     print("Non-formatted path (full or relative): "..Project)
     local FullPath = NativeFS.getFullPath(Project)
-    local LastChar = FullPath[#FullPath]
+    local LastChar = string.sub(FullPath, -1, -1)
 
     print("Non-formatted full path: "..FullPath)
     print("Last Character of full path: "..LastChar)
