@@ -46,7 +46,7 @@ function InterfaceManager.Update(dt)
         if DisplayUI then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
             Button.Hovering = false
         
-            if Button:IsVisible() and Utils.IntersectPoint2D(Button:GetChildRect(), DisplayUI.MousePosition) then
+            if Button:IsVisible() and Utils.IntersectPoint2D(Button:GetChildRect(), DisplayUI.MousePosition) and (not Button:IsAlwaysOnTop()) then
                 table.insert(CurrentlyHovering, Button)
             end
         end
