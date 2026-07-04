@@ -28,12 +28,12 @@ function BaseGui:GetAbsolutePosition()
         Position = Position + ParentRect.Origin
     end
 
-    if Display then
+    if Display and Display.ClassName == "Viewport2D" then
         if self.MouseLocked then
             Position = Display.MousePosition + self.LockOrigin
         end
 
-        self.ViewportPosition = Position + Display.AbsolutePosition
+        self.ViewportPosition = Position + Display.ViewportPosition
     end
 
     return Position
@@ -199,6 +199,8 @@ function BaseGui:DefineAPI()
 
     self.Proxy.Group("Transform", "Size", "Position", "Pivot", "Visible")
     self.Proxy.Group("Color Multipliers", "ColorMultiplier")
+
+
     self.Proxy.Info({
         ConstraintUpdator = self.InvalidateRendering
     })

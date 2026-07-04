@@ -4,6 +4,14 @@ local Things = Runtime.Things
 function Start.CreateProject(Scroll,Info,Path,FullContainer)
     local selfed = {}
 
+    local ImageToUse
+
+    if Utils.FileExists(Path.."Thumbnail.png") then
+        ImageToUse = Path.."Thumbnail.png"
+    else
+        ImageToUse = "Internal/Studio/Update_Thumbs/Early_Riser.png"
+    end
+
     selfed.Base = Runtime.Things.Create("TextButton") {
         Text = "",
         Size = Pivot2D.FromScale(0.95,0.2),
@@ -19,7 +27,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(.07,.5),
         SquareAxis = Enum.SquareAxis.Y,
-        Resource = "Internal/Studio/Update_Thumbs/Early_Riser.png",
+        Resource = ImageToUse,
         Parent = selfed.Base,
         Pivot = Vector2.new(.5,.5),
         CornerRadius = 5,
@@ -53,6 +61,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         print("Click")
         Runtime.Project.Load(Path)
         Start.Close()
+        Studio.Layout.CallHandle("Explorer", "Redraw")
     end)
 
 
@@ -81,7 +90,7 @@ function Start.CreateButton(Options,Text,Image)
         Position = Pivot2D.FromScale(.07,.5),
         SquareAxis = Enum.SquareAxis.Y,
         Resource = Image,
-        Parent = selfed.Base,
+        Parent = Base,
         Pivot = Vector2.new(.5,.5),
         CornerRadius = 5,
         --ScaleType = Enum.ScaleTypes.Fit
@@ -176,10 +185,12 @@ function Start.Init()
     NewProject.Clicked:Connect(function()
         Studio.ProjectManager.NewProject("Demo Project")
         Start.Close()
+        Studio.Layout.CallHandle("Explorer", "Redraw")
     end)
 
     LoadProject.Clicked:Connect(function()
         Studio.ProjectManager.LoadProject(Start.Close)
+        Studio.Layout.CallHandle("Explorer", "Redraw")
     end)
 
     --local wow = Start.CreateButton(Options,"Close Window","Internal/Studio/Placeholders/Jeremy.png")

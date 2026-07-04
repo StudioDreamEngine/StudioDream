@@ -32,6 +32,7 @@ function Audio:DefineAPI()
     self.Proxy.Group("Audio","Resource","Duration","TimePosition","Volume","DoesLoop","PlayButton")
     self.Proxy.Icon("Audio")
 
+
     self.Proxy.Attribute("PlayButton","RenderType","AudioPlayer")
     self.Proxy.Attribute("TimePosition", "RenderType","Timer")
     self.Proxy.MakeCreatable()

@@ -31,6 +31,7 @@ function SettingsManager.Save()
 end
 
 function SettingsManager.GetSetting(Setting)
+    print(DefaultSettings)
     return Settings[Setting]
 end
 

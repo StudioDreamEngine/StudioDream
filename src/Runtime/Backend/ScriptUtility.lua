@@ -52,6 +52,7 @@ function ScriptUtil.CreateGlobals(Script)
         scheduler = Scheduler,
         print = print,
         root = Things.Root,
+        environment = Things.Root:GetEnvironment(),
         service = Runtime.Services.Service,
         math = math,
         pairs = pairs,

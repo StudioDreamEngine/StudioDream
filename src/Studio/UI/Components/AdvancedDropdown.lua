@@ -6,25 +6,26 @@ local ChoiceTypes = {
     ["Button"] = function(Choice, Parent)
         local Button = Components.CreateStyle("TextButton", {
             Text = Choice.Text,
-            Size = Pivot2D.FromScale(1,0.8),
-            Position = Pivot2D.FromScale(0,0.5),
-            Pivot = Vector2.new(0,0.5),
+            Size = Pivot2D.FromScale(0.95,0.8),
+            Position = Pivot2D.FromScale(0.5,0.5),
+            Pivot = Vector2.new(0.5,0.5),
             Parent = Parent,
-            BackgroundTransparency = 1,
+            BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
             Alignment = Vector2.new(0,0.5),
+            CornerRadius = 2,
         })
-        Button:SetOutlineSize(0)
 
         return Button.Clicked
     end,
     ["Separator"] = function(Func,Parent,Text)
-        Parent:SetSize(Pivot2D.new(0,1,5,0))
+        Parent:SetSize(Pivot2D.new(0,1,1,0))
         Things.Create("Square") {
             Size = Pivot2D.FromScale(0.9,0.35),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
             BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
-            Parent = Parent
+            Parent = Parent,
+            CornerRadius = 2,
         }
     end,
     ["Table"] = function(Func,Parent,Text,Info)
@@ -110,7 +111,8 @@ return function(Choices)
     end)
 
     Components.CreateStyle("ListLayout", {
-        Parent = CurrentDropdown
+        Parent = CurrentDropdown,
+        Alignment = Vector2.new(0.5,0.5)
     })
 
     for _,Choice in pairs(Choices) do
@@ -177,8 +179,9 @@ return function(Choices)
     end
     
     function Dropdown.Remove()
-        for _,v in pairs(BindedEvents) do
+        for i,v in pairs(BindedEvents) do
             v:Disconnect()
+            i[v] = nil
         end
 
         Components.UnregisterUpdator(Updator)

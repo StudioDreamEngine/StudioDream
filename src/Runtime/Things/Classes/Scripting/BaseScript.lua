@@ -13,6 +13,7 @@ function BaseScript:new()
     self.Resource = nil
 
     self.Required = nil
+
 end
 
 function BaseScript:DefineAPI()

@@ -68,9 +68,6 @@ end
 
 function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
-
-
-
 function Things.SetProperty(Object, Index, Value)
     local HasSetter = Object["Set"..Index]
 
