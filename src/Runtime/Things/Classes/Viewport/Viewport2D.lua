@@ -67,6 +67,14 @@ function Viewport2D:SubmitContainerChildren(Container)
     end
 end
 
+function Viewport2D:ProcessInvalidation(Origin)
+    Viewport2D.super.ProcessInvalidation(self, Origin)
+
+    if self.RenderContainer then
+        self.RenderContainer:ProcessInvalidation(Origin)
+    end
+end
+
 -- Create the display list that will be used by the renderer
 function Viewport2D:CreateDisplayList()
     self.CurrentOrder = 1
