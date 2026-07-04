@@ -18,8 +18,6 @@ function Runtime.Init()
     Runtime.Renderer.Init()
     Runtime.Things.Init()
 
-    Runtime.ChangeAppIcon("/Assets/Icons/"..Shared.Target..".png")
-
     print("Runtime Initalized")
 end
 
@@ -27,17 +25,15 @@ function Runtime.ChangeTitle()
     love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.GetConfig("Name"), Shared.Target))
 end
 
-function Runtime.ChangeAppIcon(ToWhat)
-    local Thing = love.image.newImageData(ToWhat)
-    love.window.setIcon(Thing)
-end
-
 function Runtime.RequestRestart(NextTarget)
     local Benchmark = Profiler.Benchmark("Restart StudioDream", true)
 
     Dream:requestKill(function()
         Benchmark.End()
-        love.event.restart(NextTarget)
+        love.event.restart({
+            NextTarget,
+            Runtime.ProjectFS.GetMount()
+        })
     end)
 end
 
@@ -55,20 +51,11 @@ function Runtime.PostInit(ProjectPath)
     Runtime.Project = require("Runtime.Project")
     Runtime.Things.CreateEnviornment()
 
-    if Shared.Target == "Client" then
-        Runtime.Things.Create("TextButton") {
-            Parent = Runtime.Things.GetRootViewport(),
-            Size = Pivot2D.FromScale(0.1,0.1),
-            Layer = 1000,
-            Text = "Placeholder Client to studio!!!",
-            Clicked = function()
-                Runtime.RequestRestart("Studio")
-            end
-        }
+    if ProjectPath then
+        Runtime.Project.Load(ProjectPath)
+    else
+        Runtime.Project.LoadDefault()
     end
-
-    --require("Runtime.Things.CreateTests")()
-    Runtime.Project.LoadDefault()
 end
 
 function Runtime.Render()

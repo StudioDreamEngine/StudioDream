@@ -107,7 +107,7 @@ function Start.Init()
         ScaleType = Enum.ScaleType.Crop
     }
     
-    Studio.Components.ShowFade(Start.Close)
+    Studio.Components.ShowFade()--Start.Close)
 
     local Version = Runtime.Things.Create("Text") {
         Text = "Welcome to Early Riser! ("..VERSION..")",
@@ -182,8 +182,8 @@ function Start.Init()
         Studio.ProjectManager.LoadProject(Start.Close)
     end)
 
-    local wow = Start.CreateButton(Options,"Close Window","Internal/Studio/Placeholders/Jeremy.png")
-    wow.Clicked:Connect(Start.Close)
+    --local wow = Start.CreateButton(Options,"Close Window","Internal/Studio/Placeholders/Jeremy.png")
+    --wow.Clicked:Connect(Start.Close)
 
     Version.Size = Pivot2D.FromScale(1,0.05)
 

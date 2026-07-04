@@ -1,7 +1,7 @@
 local Configuration = {}
 
 Configuration.Config = {
-    Name = "UnNamed"
+    Name = "Unnamed"
 }
 
 function Configuration.SetConfig(Key, Value)

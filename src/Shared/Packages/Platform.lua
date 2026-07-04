@@ -24,7 +24,7 @@ ffi.cdef([[
 ]])
 
 local Platform = {}
-Platform.Identity = "UnNamed"
+Platform.Identity = "Unnamed"
 
 function Platform.GetHome()
 	return love.filesystem.getUserDirectory()

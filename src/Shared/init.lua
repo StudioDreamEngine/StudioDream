@@ -17,6 +17,8 @@ local StartedTarget = false
 Shared.AbortAPI = nil
 Shared.AbortQueue = {}
 
+Shared.SkipSplash = false
+
 function Shared.QueueAbort(Msg)
     printVerbose(Msg)
     printVerbose(debug.traceback())
@@ -38,6 +40,12 @@ function Shared.Abort(Msg)
     os.exit(-1)
 end
 
+--[[
+    Args:
+        1: Mode target
+        2: Project
+        3: Verbose mode
+]]
 function Shared.Init(Args)
     print(Args)
 
@@ -48,7 +56,11 @@ function Shared.Init(Args)
         POLYFILL_FLAGS.Verbose = true 
     end
 
-    Shared.Target = love.restart or Args[1] or FLAGS.ModeTarget
+    Shared.SkipSplash = Args[2] and true or false
+    Shared.Target = Args[1] or FLAGS.ModeTarget
+
+    local Thing = love.image.newImageData("/Assets/Icons/"..Shared.Target..".png")
+    love.window.setIcon(Thing)
 
     printVerbose("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")

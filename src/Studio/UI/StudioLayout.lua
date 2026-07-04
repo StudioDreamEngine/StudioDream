@@ -195,15 +195,17 @@ function StudioLayout.CreateLayout()
         TopLevel = true
     })
 
-    StudioLayout.CreateWindow("Start", {
-        Size = Pivot2D.FromScale(0.5,0.6),
-        Pivot = Vector2.new(0.5,0.5),
-        Position = Pivot2D.FromScale(0.5,0.5),
-        Layer = 300,
-        TopLevel = true
-    })
+    if (not Shared.SkipSplash) then
+        StudioLayout.CreateWindow("Start", {
+            Size = Pivot2D.FromScale(0.5,0.6),
+            Pivot = Vector2.new(0.5,0.5),
+            Position = Pivot2D.FromScale(0.5,0.5),
+            Layer = 300,
+            TopLevel = true
+        })
+    end
+
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Start"), ((not love.restart) and true or false))
 end
 
 function StudioLayout.Update(dt)

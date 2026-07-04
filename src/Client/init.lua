@@ -29,6 +29,16 @@ function Client.Init()
     local Environment = Runtime.Things.Root:GetEnvironment()
     Environment.StepPhysics = true
 
+    Runtime.Things.Create("TextButton") {
+        Parent = Runtime.Things.GetRootViewport(),
+        Size = Pivot2D.FromScale(0.1,0.1),
+        Layer = 1000,
+        Text = "Placeholder Client to studio!!!",
+        Clicked = function()
+            Runtime.RequestRestart("Studio")
+        end
+    }
+
     Shared.AbortAPI = Shared.Abort
 end
 
