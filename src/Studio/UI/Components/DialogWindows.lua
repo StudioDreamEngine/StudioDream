@@ -96,6 +96,8 @@ function DialogWindows.CreateDialogWindow(Type, Options)
 
     DialogObject.CreateDialog()
     ActiveDialogWindow = DialogObject
+
+    return DialogObject
 end
 
 return DialogWindows

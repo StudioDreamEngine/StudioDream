@@ -5,7 +5,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
     local selfed = {}
 
     local ImageToUse
-
+    print(Path)
     if Utils.FileExists(Path.."Thumbnail.png") then
         ImageToUse = Path.."Thumbnail.png"
     else
@@ -183,9 +183,16 @@ function Start.Init()
     local LoadProject = Start.CreateButton(Options,"Load a project","Internal/Studio/TabIcons/InsertIcon.png")
 
     NewProject.Clicked:Connect(function()
-        Studio.ProjectManager.NewProject("Demo Project")
+        --Studio.ProjectManager.NewProject("Demo Project")
+        local Cool = Studio.Components.CreateDialog("Input",{
+            Text = "Input a name for your new project"
+        })
         Start.Close()
-        Studio.Layout.CallHandle("Explorer", "Redraw")
+        Cool.FinalProject:Connect(function(ProjectName)
+            Studio.ProjectManager.NewProject(ProjectName)
+            Cool.Window:Destroy()
+            Studio.Layout.CallHandle("Explorer", "Redraw")
+        end)
     end)
 
     LoadProject.Clicked:Connect(function()

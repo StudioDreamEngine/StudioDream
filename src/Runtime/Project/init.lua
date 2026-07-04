@@ -65,7 +65,13 @@ end
 
 -- Remount to a new directory and save project
 function Project.SaveTo(ProjectPath)
-    ProjectFS.MountProject(ProjectPath)
+    local SaveProjectOn = ProjectPath
+    if Platform.ParsePath(ProjectPath) == Platform.ParsePath(Platform.GetDocuments()) then
+        NativeFS.createDirectory(Platform.ParsePath(ProjectPath)..Project.GetConfig("Name"))
+        SaveProjectOn = Platform.ParsePath(ProjectPath)..Project.GetConfig("Name")
+    end
+
+    ProjectFS.MountProject(SaveProjectOn)
     Project.Save()
 end
 
@@ -78,6 +84,7 @@ function Project.Save()
     else
         Config.Save()
         ProjectFS.WriteFile("Thumbnail.png", Dream:renderThumbnail())
+        Project.AddToHistory(ProjectFS.GetMount(), Project.GetConfig("Name"))
         Scenes.LoadRootScenes("Save")
     end
 end
