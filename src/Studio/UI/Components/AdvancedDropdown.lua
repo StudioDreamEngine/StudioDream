@@ -181,7 +181,7 @@ return function(Choices)
     function Dropdown.Remove()
         for i,v in pairs(BindedEvents) do
             v:Disconnect()
-            i[v] = nil
+            BindedEvents[v] = nil
         end
 
         Components.UnregisterUpdator(Updator)

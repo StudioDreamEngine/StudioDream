@@ -4,7 +4,6 @@ desktop.ini
 
 
 # Build stuff
-dist/win/*.dll
 dist/win/*.exe
 build/squashfs-root/
 build/compiled/
