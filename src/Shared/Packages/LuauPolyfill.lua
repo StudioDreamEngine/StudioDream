@@ -296,6 +296,8 @@ end
 -- Print --
 PrintOG = _G.print
 
+PrintCallback = nil
+
 -- Edit of the print function that supports printing tables
 local function InternalPrint(IsVerbose, ...)
 	local PrintTable = {...}
@@ -323,6 +325,10 @@ local function InternalPrint(IsVerbose, ...)
 
 	for _, v in pairs(FormattedPrintTable) do
 		FinalString = FinalString.." "..v
+	end
+
+	if PrintCallback then
+		PrintCallback(FinalString)
 	end
 
 	PrintOG(FinalString)

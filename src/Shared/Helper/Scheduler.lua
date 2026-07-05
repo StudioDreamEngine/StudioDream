@@ -107,7 +107,8 @@ function Scheduler.Update()
             end
 
             if not Success then 
-                error("Error occurred while running task\n"..debug.traceback(Coroutine, Msg)) 
+                print("Error occurred while running task\n"..debug.traceback(Coroutine, Msg)) 
+                Scheduler.CancelTask(Coroutine)
             end
         end
     end

@@ -5,6 +5,10 @@ local Things = Runtime.Things
 local LoadQueued = {}
 local StartedScripts = false
 
+local Bridge = require("Runtime.Backend.ScriptUtility.Bridge")
+
+ScriptUtil.BridgeProxy = Bridge.Proxy
+
 local function ProxyIndex(Instance, Key)
     if (not Instance[Key]) then
         -- Assume child
@@ -53,7 +57,11 @@ function ScriptUtil.CreateGlobals(Script)
         print = print,
         root = Things.Root,
         environment = Things.Root:GetEnvironment(),
-        service = Runtime.Services.Service,
+        service = Runtime.Services.Service, --[[setmetatable({}, {
+            __call = function (t, ...)
+                return Bridge.Proxy(Runtime.Services.Service(...), Script)
+            end
+        }),]]
         math = math,
         pairs = pairs,
         CreateThing = Runtime.Things.Create,
