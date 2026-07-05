@@ -41,7 +41,7 @@ function Platform.ParsePath(Path)
     print("Mounting new project, Non-formatted full path: "..FullPath)
     
     if LastChar ~= "/" and LastChar ~= "\\" then
-        if love.system.getOS() == Enum.Platform.Windows then
+        if love.system.getOS() == "Windows" then
             FullPath = FullPath.."\\"
         else
             FullPath = FullPath.."/"
@@ -55,7 +55,7 @@ function Platform.ParsePath(Path)
 end
 
 function Platform.Init(Identity)
-	Platform.IsWindows = (love.system.getOS() == Enum.Platform.Windows)
+	Platform.IsWindows = (love.system.getOS() == "Windows")
 	Platform.Identity = Identity
 
 	if (not NativeFS) then error("Platform requires NativeFS Package!") end

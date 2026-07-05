@@ -1,8 +1,11 @@
 import pathlib as path
 import os
+import shutil
 
 target_path = path.Path(".") / "compiled"
 root_path = path.Path("..")
+
+if target_path.exists(): shutil.rmtree(target_path.absolute())
 
 source_path = root_path / "src"
 
@@ -13,6 +16,7 @@ def create(create_path: path.Path, content: bytes = None):
         file = open(create_path, "wb")
         file.write(content)
         file.close()
+
 
 def compile_directory(directory: path.Path):
     for file in directory.iterdir():
