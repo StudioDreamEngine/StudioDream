@@ -53,8 +53,6 @@ function TextInput:new()
 
         self.InputActive = self.Hovering
     end)
-
-    Runtime.InterfaceManager.RegisterButton(self)
 end
 
 function TextInput:DefineAPI()
@@ -64,10 +62,15 @@ function TextInput:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
+function TextInput:OnInitalParent(NewParent)
+    TextInput.super.OnInitalParent(self, NewParent)
+    Runtime.InterfaceManager.RegisterButton(self.UUID)
+end
+
 
 function TextInput:OnRemove()
     self.KeyEvent:Disconnect()
-    Runtime.InterfaceManager.UnregisterButton(self)
+    Runtime.InterfaceManager.UnregisterButton(self.UUID)
     TextInput.super.OnRemove(self)
 end
 

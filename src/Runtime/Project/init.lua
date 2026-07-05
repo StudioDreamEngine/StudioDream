@@ -78,6 +78,8 @@ end
 -- Save a project
 function Project.Save()
     print("Saving Project...")
+    print(debug.traceback())
+
     Studio.Layout.GetHandle("Notification").Notify("Saving Project...","Info")
 
     if not ProjectFS.GetMount() then 

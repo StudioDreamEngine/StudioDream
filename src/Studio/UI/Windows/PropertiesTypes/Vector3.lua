@@ -38,10 +38,13 @@ function Template.Start(MainInfo)
     self.Update()
 
     table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
-            for i,Info in pairs(MainInfo.WillHandle) do
-                Runtime.Things.SetProperty(Info.Thing, Info.Property, tonumber(Text.Text))
-            end
-        end))
+        for i,Info in pairs(MainInfo.WillHandle) do
+            print(Text.Text)
+            print(Vector3.FromString(Text.Text))
+
+            Runtime.Things.SetProperty(Info.Thing, Info.Property, Vector3.FromString(Text.Text))
+        end
+    end))
 
     return self
 end

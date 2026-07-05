@@ -40,7 +40,7 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
     if HasFile and HasFile.type == "directory" then return nil, true end
 
     if (not HasFile) then
-        Runtime.ProjectFS.WriteFile(FilePath, FileData)
+        Runtime.ProjectFS.WriteFile(FilePath, FileData or "")
     end
     
     local Identifier

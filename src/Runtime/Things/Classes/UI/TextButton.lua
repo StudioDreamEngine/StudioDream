@@ -19,8 +19,6 @@ function TextButton:new()
     self.Clicked = Signal:New("ButtonClicked")
     self.ChangeCursorWhileHovering = true
 
-    Runtime.InterfaceManager.RegisterButton(self)
-
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering then return end
         
@@ -28,9 +26,14 @@ function TextButton:new()
     end)
 end
 
+function TextButton:OnInitalParent(NewParent)
+    TextButton.super.OnInitalParent(self, NewParent)
+    Runtime.InterfaceManager.RegisterButton(self.UUID)
+end
+
 function TextButton:OnRemove()
     TextButton.super.OnRemove(self)
-    Runtime.InterfaceManager.UnregisterButton(self)
+    Runtime.InterfaceManager.UnregisterButton(self.UUID)
 end
 
 function TextButton:DefineAPI()
@@ -47,6 +50,7 @@ function TextButton:Update(dt)
 
     local DisplayUI = self:GetDisplayUI()
     if (not DisplayUI) then return end
+    
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
     local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
     self.ColorMultiplier = Multiplier

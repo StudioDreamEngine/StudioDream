@@ -189,9 +189,9 @@ function Start.Init()
             Text = "Input a name for your new project"
         })
         Start.Close()
+        
         Cool.FinalProject:Connect(function(ProjectName)
             Studio.ProjectManager.NewProject(ProjectName)
-            Cool.Window:Destroy()
             Studio.Layout.CallHandle("Explorer", "Redraw")
         end)
     end)

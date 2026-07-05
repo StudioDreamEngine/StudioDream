@@ -26,13 +26,16 @@ function ImageButton:new()
         
         self.RightClicked.Invoke()
     end)
+end
 
-    Runtime.InterfaceManager.RegisterButton(self)
+function ImageButton:OnInitalParent(NewParent)
+    ImageButton.super.OnInitalParent(self, NewParent)
+    Runtime.InterfaceManager.RegisterButton(self.UUID)
 end
 
 function ImageButton:OnRemove()
     ImageButton.super.OnRemove(self)
-    Runtime.InterfaceManager.UnregisterButton(self)
+    Runtime.InterfaceManager.UnregisterButton(self.UUID)
 end
 
 function ImageButton:DefineAPI()

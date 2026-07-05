@@ -40,7 +40,8 @@ function InterfaceManager.Update(dt)
     Profiler.Start("InterfaceManager - Process Hovering")
     local CurrentlyHovering = {}
 
-    for _, Button in pairs(InterfaceManager.Buttons) do
+    for _, ButtonID in pairs(InterfaceManager.Buttons) do
+        local Button = Runtime.Things.Get(ButtonID)
         local DisplayUI = Button:GetDisplayUI()
 
         if DisplayUI then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
