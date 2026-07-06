@@ -41,7 +41,7 @@ local IsATableToTrans = {
     ["Image2D"] = "ForegroundTransparency"
 }
 local IsASecondToTrans = {
-     ["TextButton"] = "OutlineTransparency",
+    ["TextButton"] = "OutlineTransparency",
     ["Text"] = "OutlineTransparency",
     ["Square"] = "OutlineTransparency",
 }
@@ -52,7 +52,7 @@ local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
             local ThingTo = IsATableToTrans[v.ClassName]
             local ThingTwo = IsASecondToTrans[v.ClassName]
             v[ThingTo] = IsTrue and 0 or 1
-            if ThingTwo then v[ThingTwo] = IsTrue and 1 or 0 end
+            if ThingTwo then v[ThingTwo] = IsTrue and 0 or 1 end
         end
         
     end
@@ -62,13 +62,13 @@ local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
             local ThingTo = IsATableToTrans[v.ClassName]
             if IsTrue then
                 if ThingTwo then 
-                    Tween.Create(CurrentDropdown, {[ThingTo] = 0,[ThingTwo] = 1}, Enum.EasingStyle.Linear, .1).Play()
+                    Tween.Create(CurrentDropdown, {[ThingTo] = 0,[ThingTwo] = 0}, Enum.EasingStyle.Linear, .1).Play()
                 else
                     Tween.Create(CurrentDropdown, {[ThingTo] = 0}, Enum.EasingStyle.Linear, .1).Play()
                 end
             else
                 if ThingTwo then 
-                    Tween.Create(CurrentDropdown, {[ThingTo] = 1,[ThingTwo] = 0}, Enum.EasingStyle.Linear, .1).Play()
+                    Tween.Create(CurrentDropdown, {[ThingTo] = 1,[ThingTwo] = 1}, Enum.EasingStyle.Linear, .1).Play()
                 else
                     Tween.Create(CurrentDropdown, {[ThingTo] = 1}, Enum.EasingStyle.Linear, .1).Play()
                 end
@@ -89,6 +89,7 @@ return function(Choices)
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = Pivot2D.FromOffset(200,0),
         Layer = 100,
+        BackgroundTransparency = 1,
         Visible = false
     })
 
@@ -179,11 +180,14 @@ return function(Choices)
     end
     
     function Dropdown.Remove()
-        for i,v in pairs(BindedEvents) do
-            v:Disconnect()
+        print(BindedEvents)
+        --[[for i,v in pairs(BindedEvents) do
+            if v.Connect then
+                v:Disconnect()
+            end
             BindedEvents[v] = nil
-        end
-
+        end]]
+        table.clear(BindedEvents)
         Components.UnregisterUpdator(Updator)
         Things.Remove(CurrentDropdown)
     end

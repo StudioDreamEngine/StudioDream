@@ -12,11 +12,11 @@ local function CheckAllTheSame(table)
     return true
 end
 
-function GenerateList(MainInfo,Frame,ChangedOption)
-    local EnumMade = Enum[Property]
+function GenerateList(MainInfo,Frame,ChangedOption,Info)
+    local EnumMade = Enum[Info.Property]
     local Index = 0
     local Choices = {}
-
+    print(Property)
     for i,v in pairs(EnumMade) do
         if type(v) ~= "function" then
            if i ~= "Type" then -- TRUST ME I TRIED "AND" AND IT DIDNT WORK :SKULL:
@@ -80,9 +80,14 @@ function Template.Start(MainInfo)
         if GeneratedList then GeneratedList.Remove() end
 
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
+        local TableWow = {}
 
         if AllSame then
-            GenerateList(MainInfo,Text,self.ChangedOption)
+            for i,Info in pairs(MainInfo.WillHandle) do
+                TableWow.Thing = Info.Thing
+                TableWow.Property = Info.Property
+            end
+            GenerateList(MainInfo,Text,self.ChangedOption,TableWow)
         end
     end))
 
