@@ -35,7 +35,7 @@ function CreateRoot.CreateRoot()
     local Viewport = Things.Create("Viewport2D") {
         Name = "ViewportInternal",
         Size = Pivot2D.FromOffset(800, 600),
-        --Serializable = false,
+        Serializable = false,
         Parent = Root
     }
 
