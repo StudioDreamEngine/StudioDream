@@ -9,7 +9,7 @@ end
 
 function RequirableScript:DefineAPI()
     RequirableScript.super.DefineAPI(self)
-
+    self.Proxy.MakeCreatable()
     self.Proxy.Icon("Requireable_Script")
 end
 

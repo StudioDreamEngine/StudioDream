@@ -14,6 +14,7 @@ local ThemesIn = {
         Text = Color.FromHex("#ffffff"),
         Text2 = Color.FromHex("#ffffff"),
         TextInverse = Color.FromHex("#000000"),
+        Error =  Color.FromHex("#ff3333"),
         FontNormal = "Assets/Fonts/Roboto/Roboto-Medium.ttf",
         FontBold = "Assets/Fonts/Roboto/Roboto-Bold.ttf"
     },

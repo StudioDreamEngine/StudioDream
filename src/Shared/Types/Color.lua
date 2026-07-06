@@ -17,6 +17,10 @@ function Color.new(R,G,B,A)
             else
                 return Color.new(t1.R * t2.R, t1.G * t2.G, t1.B * t2.B, t1.A)
             end
+        end,
+
+        __tostring = function(t)
+            return t.R..", "..t.G..", "..t.B.." ,"..t.A
         end
     })
 
@@ -39,6 +43,16 @@ function Color.new(R,G,B,A)
     end
 
     return Object
+end
+
+function Color.FromString(String)
+    local ToFilter = string.gsub(String,"%s","") -- Strip Whitespace
+    local SplitText = string.split(ToFilter,",") -- Split by ,
+    --local SplitText = string.split(SplitText1,"{") -- Split by {
+
+    -- Theres 100% a better way to do this
+    --print(SplitText)
+    return Color.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0, tonumber(SplitText[3]) or 0,tonumber(SplitText[4]) or 0)
 end
 
 function Color.FromRGB(R,G,B)

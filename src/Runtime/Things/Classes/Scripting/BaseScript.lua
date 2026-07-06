@@ -23,8 +23,6 @@ function BaseScript:DefineAPI()
     self.Proxy.Property("Resource Resource")
 
     self.Proxy.Group("Script", "Resource")
-
-    self.Proxy.MakeCreatable()
 end
 
 function BaseScript:Load()

@@ -2,11 +2,15 @@ local Output = {}
 
 local ScrollContainer
 
-function Output.CreateOutput(Text)
+function Output.CreateOutput(Text,Type)
+    local ColorToText = Studio.Theme.GetCurrentTheme().Text
+    if Type and Type == "Error" then
+        ColorToText = Studio.Theme.GetCurrentTheme().Error
+    end
     Runtime.Things.Create("Text") {
         Parent = ScrollContainer,
         BackgroundTransparency = 1,
-        ForegroundColor = Color.new(1),
+        ForegroundColor = ColorToText,
         Text = Text,
         Size = Pivot2D.new(0,1,15,0)
     }
@@ -23,6 +27,14 @@ function Output.Init()
         Parent = ScrollContainer,
         Reverse = true
     }
+
+    Scheduler.OnRecoverableError = function(Text)
+        local List = string.split(Text, "\n")
+
+        for i = #List,1,-1 do
+            Output.CreateOutput(List[i],"Error")
+        end
+    end
 
     PrintCallback = function(Text)
         local List = string.split(Text, "\n")
