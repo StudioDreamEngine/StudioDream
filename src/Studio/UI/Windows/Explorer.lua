@@ -41,7 +41,7 @@ end
 
 function Explorer.CreateNode(Object, Depth)
     local Node = Things.Create("Square") { 
-        Size = Pivot2D.FromScale(1,0.05),
+        Size = Pivot2D.new(0,1,15,0),
         Pivot = Vector2.new(0,0),
         BackgroundTransparency = 1,
         Layer = 3,

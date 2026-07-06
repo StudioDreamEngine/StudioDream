@@ -17,9 +17,9 @@ function ParentConstraint:SetParent(NewParent)
 
     -- Parent would be nil, thus we cant connect a new event
     -- (No guard clause here do to return from superfunction)
-    if NewParent then 
+    if self.Parent then 
         -- Check if any object in the parent is added or removed
-        self.ChildrenEvent = NewParent.ChildrenChanged:Connect(function(Child, EventType)
+        self.ChildrenEvent = self.Parent.ChildrenChanged:Connect(function(Child, EventType)
             if EventType == Enum.Hierachy.Removed then
                 self:UnbindObject(Child)
             else
