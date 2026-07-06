@@ -107,7 +107,8 @@ function Scheduler.Update()
             end
 
             if not Success then 
-                print("Error occurred while running task\n"..debug.traceback(Coroutine, Msg)) 
+                local FullMsg = "Task has been halted as error occurred:\n"..debug.traceback(Coroutine, Msg)
+                print(FullMsg) 
                 Scheduler.CancelTask(Coroutine)
             end
         end

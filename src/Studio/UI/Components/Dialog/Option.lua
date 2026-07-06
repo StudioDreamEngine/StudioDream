@@ -14,15 +14,16 @@ return function(Options)
 
     function Object.CreateDialog()
         Runtime.Things.Create("Text") {
-            Size = Pivot2D.FromScale(1,0.1),
-            Position = Pivot2D.FromScale(0.5,0.01),
+            Size = Pivot2D.FromScale(1,0.7),
+            TextScaled = false,
+            Position = Pivot2D.FromScale(0.5,0),
             Pivot = Vector2.new(0.5,0),
             Parent = Object.Container,
             Text = Options.Text,
             BackgroundTransparency = 1,
             ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
             Name = "WindowText",
-            Alignment = Vector2.new(0.5,0.5)
+            Alignment = Vector2.new(0.5,0)
         }
 
         local OptionsContainer = Runtime.Things.Create("Square") {

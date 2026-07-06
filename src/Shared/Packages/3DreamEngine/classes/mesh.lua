@@ -393,6 +393,7 @@ function class:create()
 	--create mesh
 	local meshFormat = self:getMeshFormat()
 	local byteData = meshFormat:create(self)
+
 	self.mesh = love.graphics.newMesh(meshFormat.vertexFormat, byteData, self.meshDrawMode, "static")
 	
 	--vertex map

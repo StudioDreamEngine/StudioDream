@@ -85,24 +85,23 @@ function Image2D:Draw()
     local ImageSize = Vector2.new(w,h)
     local Size = self.AbsoluteSize
 
-    self:SetColor("Foreground")
-
     local Scale = self.ImageScale[self.ScaleType](self, self.AbsoluteSize, ImageSize)
     ImageSize = ImageSize * Scale
 
     if self.CornerRadius > 0 then
-        local function StencilFunction()
-            love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
-        end
+        love.graphics.setStencilMode("draw", 255)
+        love.graphics.setColor(1,1,1)
+        love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
 
-        love.graphics.stencil(StencilFunction, "replace", 1)
-        love.graphics.setStencilTest("greater", 0)
+        love.graphics.setStencilMode("test", 255)
     end
+
+    self:SetColor("Foreground")
 
     local PivotCenter = (Size/2) - (ImageSize/2)
 
     love.graphics.draw(self.ImageFile,self.ImageQuad,PivotCenter.X, PivotCenter.Y,0,Scale.X,Scale.Y) -- Draw Image
-    love.graphics.setStencilTest()
+    love.graphics.setStencilMode("off")
 
     Profiler.End()
 end

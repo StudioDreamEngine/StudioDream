@@ -12,6 +12,8 @@ function ListLayout:new()
     self.Direction = Enum.LayoutDirection.Vertical
     self.Alignment = Vector2.zero
 
+    self.Reverse = false
+
     self.Padding = 0
 
     self.RemainingSize = 0
@@ -79,7 +81,11 @@ function ListLayout:UpdateLayout()
 
     -- Sort the objects so they appear how they are supposed to
     table.sort(self.Objects, function(a, b)
-        return (a.ListOrder < b.ListOrder) or (a.NumericalID < b.NumericalID)
+        if self.Reverse then
+            return (a.ListOrder > b.ListOrder) or (a.NumericalID > b.NumericalID)
+        else
+            return (a.ListOrder < b.ListOrder) or (a.NumericalID < b.NumericalID)
+        end
     end)
 
     -- Pass 1: Handle the inital layout of the objects

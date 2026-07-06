@@ -157,7 +157,7 @@ function StudioLayout.CreateLayout()
     }
 
     StudioLayout.CreateWindow("Viewport", {
-        Size = Pivot2D.FromScale(0.75,.9),
+        Size = Pivot2D.FromScale(0.75,.75),
     })
 
     --[[StudioLayout.CreateWindow("Trollo",{
@@ -193,6 +193,11 @@ function StudioLayout.CreateLayout()
         Position = Pivot2D.FromScale(0,0.5),
         Layer = 999,
         TopLevel = true
+    })
+
+    StudioLayout.CreateWindow("Output", {
+        Position = Pivot2D.FromScale(0,.75),
+        Size = Pivot2D.FromScale(0.75,.25),
     })
 
     if (not Shared.SkipSplash) then

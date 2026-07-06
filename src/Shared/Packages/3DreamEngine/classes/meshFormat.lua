@@ -34,7 +34,8 @@ end
 local cachedStructs = { }
 function class:getCStruct()
 	--give a unique hash for the structs name
-	local md5 = love.data.hash("md5", lib.packTable.pack(self.vertexFormat))
+---@diagnostic disable-next-line: param-type-mismatch
+	local md5 = love.data.hash("string", "md5", lib.packTable.pack(self.vertexFormat))
 	local identifier = "mesh_vertex_" .. love.data.encode("string", "hex", md5)
 	
 	--build a C struct to make sure data match

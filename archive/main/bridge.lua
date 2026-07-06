@@ -1,5 +1,8 @@
--- Just realized how useless this is, 
 local Bridge = {}
+
+function Bridge.OnError(...)
+    print(...)
+end
 
 local function CaughtFunction(Value, ...)
     local Success, Result = xpcall(Value, Bridge.OnError, ...)
@@ -9,10 +12,27 @@ local function CaughtFunction(Value, ...)
     end
 end
 
+local SignalFunctions = { "Connect" }
+
+-- Signal function that is wrapped in a error catcher
+local function CaughtSignal(Connect)
+    -- Value in this case would be Connect
+    return function(_, ActualFunction, Listener)
+        local Function = function(...) -- Wrap the connected function in an xpcall
+            return CaughtFunction(ActualFunction, ...)
+        end
+
+        return Connect(_, Function, Listener) -- We dont need to proxy this
+    end
+end
+
 local function BridgeIndexer(Table, k)
     local Value = Table[k]
     local Type = Utils.TypeOf(Table)
-    if (Type == "function") then
+
+    if (Type == "Signal") and table.find(SignalFunctions, k) then
+        return CaughtSignal(Value)
+    elseif (Type == "function") then
         return function(...) 
             return CaughtFunction(Value, ...)
         end

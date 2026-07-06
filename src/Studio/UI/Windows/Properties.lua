@@ -115,12 +115,12 @@ function Properties.RenderEverything(Thing)
             }
 
             local Required = (((PropertyInfo.Thing.Proxy.Attributes[Property] and Types[PropertyInfo.Thing.Proxy.Attributes[Property].RenderType]) or Types[PropertyInfo.Type]) or Types.NotFound)
-            print(Required)
+            --print(Required)
             local Property = Properties.CreateProperty(PropertyInfo,GroupNode)
             local HandlerObject = Required.Start(Property)
 
             for _,Info in pairs(Property.WillHandle) do
-                print(PropertyInfo.Property)
+                --print(PropertyInfo.Property)
                 table.insert(PropertyInfo.Connections,Info.Thing.PropertyChanged:Connect(function() HandlerObject.Update() end, PropertyInfo.Name))
 
                 -- MY IDEA: property attributes enable for the creation of stuff such as playback buttons

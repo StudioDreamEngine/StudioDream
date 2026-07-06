@@ -23,7 +23,10 @@ function Shared.QueueAbort(Msg)
     printVerbose(Msg)
     printVerbose(debug.traceback())
 
-    table.insert(Shared.AbortQueue, Msg)
+    for _, Line in pairs(string.split(Msg, "\n")) do
+        table.insert(Shared.AbortQueue, Line)    
+    end
+    
     return true -- Return true, as that can be used to identify that something has errored
 end
 

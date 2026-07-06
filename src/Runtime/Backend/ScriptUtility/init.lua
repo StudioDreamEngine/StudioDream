@@ -57,11 +57,7 @@ function ScriptUtil.CreateGlobals(Script)
         print = print,
         root = Things.Root,
         environment = Things.Root:GetEnvironment(),
-        service = Runtime.Services.Service, --[[setmetatable({}, {
-            __call = function (t, ...)
-                return Bridge.Proxy(Runtime.Services.Service(...), Script)
-            end
-        }),]]
+        service = Runtime.Services.Service,
         math = math,
         pairs = pairs,
         CreateThing = Runtime.Things.Create,
