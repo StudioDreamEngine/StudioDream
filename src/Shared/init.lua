@@ -39,6 +39,8 @@ function Shared.ProcessQueue()
 end
 
 function Shared.SaveLog(Msg)
+    print(Msg)
+    print("(Log has been saved to Log.txt)")
     love.filesystem.write("Log.txt", Msg)
 end
 

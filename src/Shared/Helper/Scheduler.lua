@@ -110,8 +110,7 @@ function Scheduler.Update()
 
             if not Success then 
                 local FullMsg = "Task has been halted as error occurred:\n"..debug.traceback(Coroutine, Msg)
-                print(FullMsg)
-                Shared.SaveLog(Msg)
+                Shared.SaveLog(FullMsg)
 
                 if Scheduler.OnRecoverableError then Scheduler.OnRecoverableError(FullMsg) end
 
