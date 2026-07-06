@@ -38,8 +38,6 @@ function Client.Init()
             Runtime.RequestRestart("Studio")
         end
     }
-
-    Shared.AbortAPI = Shared.Abort
 end
 
 function Client.Update(dt)

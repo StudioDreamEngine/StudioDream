@@ -14,7 +14,6 @@ package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?.".
 local LastQueue = 0
 local StartedTarget = false
 
-Shared.AbortAPI = nil
 Shared.AbortQueue = {}
 
 Shared.SkipSplash = false
@@ -40,11 +39,16 @@ end
 
 function Shared.SaveLog(Msg)
     print(Msg)
-    print("(Log has been saved to Log.txt)")
     love.filesystem.write("Log.txt", Msg)
+    print("(Log has been saved to Log.txt)")
 end
 
-function Shared.Abort(Msg)
+function Shared.AbortNow(Msg)
+    Shared.QueueAbort(Msg)
+    Shared.ProcessQueue()
+end
+
+Shared.AbortAPI = function(Msg)
     print("ABORTED: "..Msg)
     os.exit(-1)
 end
@@ -68,16 +72,16 @@ function Shared.Init(Args)
     Shared.SkipSplash = Args[2] and true or false
     Shared.Target = Args[1] or FLAGS.ModeTarget
 
-    local Thing = love.image.newImageData("/Assets/Icons/"..Shared.Target..".png")
-    love.window.setIcon(Thing)
-
     printVerbose("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")
     Runtime.Init()
 
     if (not Utils.FileExists(Shared.Target)) then
-        Shared.Abort("Invalid Target: "..Shared.Target)
+        Shared.AbortNow("Invalid Target: "..Shared.Target)
     end
+
+    local Thing = love.image.newImageData("/Assets/Icons/"..Shared.Target..".png")
+    love.window.setIcon(Thing)
 
     printVerbose("Start splash")
     Shared.Splash = require("Shared.Splash")
