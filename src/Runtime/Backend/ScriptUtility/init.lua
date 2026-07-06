@@ -9,17 +9,6 @@ local Bridge = require("Runtime.Backend.ScriptUtility.Bridge")
 
 ScriptUtil.BridgeProxy = Bridge.Proxy
 
-local function ProxyIndex(Instance, Key)
-    if (not Instance[Key]) then
-        -- Assume child
-        local Child = Instance:FindFirstChild(Key)
-
-        return Child and ScriptUtil.InstanceProxy(Child) or nil
-    else
-        return Instance[Key]
-    end
-end
-
 -- Queue a script for loading, as we may not want to start scripts immediately
 ---@param Script BaseScript
 function ScriptUtil.RequestLoad(Script)
@@ -37,27 +26,13 @@ function ScriptUtil.StartScripts()
     LoadQueued = {}
 end
 
----@param Instance Thing
-function ScriptUtil.InstanceProxy(Instance)
-    return setmetatable({
-        UUID = Instance.UUID -- Maybe this will work for an == replacement? either way Thing:Is() will still exist
-    }, {
-        __index = function(_, k) return ProxyIndex(Instance, k) end,
-        __newindex = function(_,k,v) 
-            print(k,v)
-            Things.SetProperty(Instance,k, v)
-        end
-    })
-end
-
 function ScriptUtil.CreateGlobals(Script)
     return {
-        script = Script,
-        scheduler = Scheduler,
+        Script = ScriptUtil.BridgeProxy(Script),
+        Scheduler = Scheduler,
         print = print,
-        root = Things.Root,
-        environment = Things.Root:GetEnvironment(),
-        service = Runtime.Services.Service,
+        Root = ScriptUtil.BridgeProxy(Things.Root),
+        Service = Runtime.Services.Service,
         math = math,
         pairs = pairs,
         CreateThing = Runtime.Things.Create,

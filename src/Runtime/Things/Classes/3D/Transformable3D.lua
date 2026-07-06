@@ -1,4 +1,4 @@
--- Base object for ALL 3d objects, drawable or not
+-- Base object for ALL 3d objects that have a transform, but dont have a drawable
 local Things = Runtime.Things
 
 ---@class Transformable3D: Thing

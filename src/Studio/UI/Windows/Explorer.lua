@@ -12,10 +12,11 @@ local AddButtonObject = Runtime.Things.Create("ImageButton") {
     SquareAxis = Enum.SquareAxis.Y,
 }
 
+local ScrollContainer
+
 local AddButtonWow = {}
 
 local Order = 0
-local Window
 
 AddButtonWow = {
     Object = AddButtonObject,
@@ -44,7 +45,8 @@ function Explorer.CreateNode(Object, Depth)
         Pivot = Vector2.new(0,0),
         BackgroundTransparency = 1,
         Layer = 3,
-        Parent = Window,
+        Parent = ScrollContainer,
+        Serializable = false,
         CornerRadius = 10,
     }
 
@@ -70,7 +72,7 @@ function Explorer.CreateTree(Object, Depth)
 
     local Node, NodeInner = Explorer.CreateNode(Object, Depth)
     Node.ListOrder = Order
-    Node:SetParent(Window)
+    Node:SetParent(ScrollContainer)
     NodeInner.BackgroundColor = Studio.Theme.GetCurrentTheme().Outline
 
     Explorer.Tree[Object] = NodeInner
@@ -114,7 +116,6 @@ local function HandleDragStart()
 end
 
 local function HandleDragEnd()
-    print("Drag end")
     Selecting.Node:SetMouseLocked(false)
 
     if Hovering then
@@ -130,7 +131,14 @@ local function HandleDragEnd()
 end
 
 function Explorer.Init()
-    Window = Explorer.Container
+    ScrollContainer = Things.Create("Square") { --Things.Create("ScrollContainer") { 
+        Size = Pivot2D.FromScale(1,1),
+        --CanvasSize = Pivot2D.FromScale(1,4),
+        BackgroundTransparency = 1,
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Parent = Explorer.Container,
+    }
 
     Explorer.Redraw()
     
@@ -164,12 +172,13 @@ function Explorer.Init()
 end
 
 function Explorer.Redraw()
-    Window:ClearAllChildren()
+    ScrollContainer:ClearAllChildren()
     
+    Explorer.Tree = {}
     Explorer.CreateTree(Things.Root, 0)
 
     Things.Create("ListLayout") {
-        Parent = Window,
+        Parent = ScrollContainer,
         Padding = 2,
     }
 end

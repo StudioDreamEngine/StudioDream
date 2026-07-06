@@ -4,9 +4,11 @@ local ScrollContainer
 
 function Output.CreateOutput(Text,Type)
     local ColorToText = Studio.Theme.GetCurrentTheme().Text
+    
     if Type and Type == "Error" then
         ColorToText = Studio.Theme.GetCurrentTheme().Error
     end
+
     Runtime.Things.Create("Text") {
         Parent = ScrollContainer,
         BackgroundTransparency = 1,

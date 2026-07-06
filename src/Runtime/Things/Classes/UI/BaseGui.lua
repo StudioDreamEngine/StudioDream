@@ -267,7 +267,7 @@ function BaseGui:UpdateTransforms()
 end
 
 function BaseGui:InvalidateAutomaticSize()
-    if self.Parent.AutomaticSize then
+    if self.Parent and self.Parent.AutomaticSize then
         self.Parent:ProcessInvalidations()
         self.Parent:InvalidateAutomaticSize()
     end
@@ -290,6 +290,8 @@ end
 
 -- Process the invalidation for an object
 function BaseGui:ProcessInvalidation(Origin)
+    if (not self.Parent) then return end -- Hacky fix
+
     --print("Invalidating from "..Origin.Name)
     self:ProcessInvalidations()
     

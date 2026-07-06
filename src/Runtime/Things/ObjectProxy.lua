@@ -21,6 +21,13 @@ return { new = function()
 
     ObjectProxy.Enums = {}
 
+    -- Register a function that returns a list of objects
+    --[[function ObjectProxy.RegisterProxy(...)
+        for i, v in pairs({...}) do
+            ObjectProxy.Proxies[v] = true
+        end
+    end]]
+    
     -- Virtuals for Info functions
     function ObjectProxy.ConstraintUpdator() end
 
@@ -109,16 +116,5 @@ return { new = function()
         return ObjectProxy.Accessible[Property] and ObjectProxy.Serializable[Property]
     end]]
 
-    --[[
-        Add a call that needs some form of instance proxy conversion when used
-        Not nesscessarily serialization related, but ig it will go here until we find a better name for this
-
-        CallName: The name of the method
-        FromTable: If the method returns a table
-    ]]
-    function ObjectProxy.ProxiedCall(CallName, FromTable)
-        
-    end
-    
     return ObjectProxy
 end }

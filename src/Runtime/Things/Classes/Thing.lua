@@ -61,6 +61,8 @@ function Thing:DefineAPI()
     self.Proxy.Property("Thing Parent", "string Name")
     self.Proxy.Group("General", "Parent", "Name")
 
+    --self.Proxy.RegisterProxy("GetChildren", "GetDescendants")
+
     self.Proxy.Group("Attributes")
 end
 

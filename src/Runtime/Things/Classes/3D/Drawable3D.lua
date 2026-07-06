@@ -13,6 +13,7 @@ function Drawable3D:new()
     self.PhysicsBody = nil
     self.PhysicsShape = nil
 
+    self.Mass = 1
     self.Velocity = Vector3.zero
 
     self.Material = Dream:newMaterial()
@@ -107,6 +108,7 @@ function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
     self.Drawable:scale(self.Scale.ToDream())
     self.Size = self.Scale * self.Drawable:getBoundingSphere().size
+    self.Mass = 1
     
     self.Drawable.reflection = self.Material and (self.Material.Reflective and self._Reflection or false) or false
 end
