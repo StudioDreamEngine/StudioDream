@@ -38,6 +38,10 @@ function Shared.ProcessQueue()
     end
 end
 
+function Shared.SaveLog(Msg)
+    love.filesystem.write("Log.txt", Msg)
+end
+
 function Shared.Abort(Msg)
     print("ABORTED: "..Msg)
     os.exit(-1)

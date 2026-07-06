@@ -90,6 +90,8 @@ function Scheduler.Yield(YieldTime)
     coroutine.yield() 
 end
 
+Scheduler.OnRecoverableError = nil
+
 function Scheduler.Update()
     -- Resume any tasks that should no longer be yielded
     for Coroutine, Data in pairs(PausedTasks) do
@@ -108,7 +110,11 @@ function Scheduler.Update()
 
             if not Success then 
                 local FullMsg = "Task has been halted as error occurred:\n"..debug.traceback(Coroutine, Msg)
-                print(FullMsg) 
+                print(FullMsg)
+                Shared.SaveLog(Msg)
+
+                if Scheduler.OnRecoverableError then Scheduler.OnRecoverableError(FullMsg) end
+
                 Scheduler.CancelTask(Coroutine)
             end
         end
