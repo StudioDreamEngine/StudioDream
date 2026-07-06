@@ -39,7 +39,7 @@ rm "StudioDream.love"
 
 # Build appimage
 echo Building AppImage..
-./appimagetool.AppImage $SQUASH_ROOT "$DIST/StudioDream.AppImage"
+./appimagetool.AppImage $SQUASH_ROOT "$DIST/StudioDream-Linux.AppImage"
 
 echo
 echo Done! Built AppImage is within dist

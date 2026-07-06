@@ -7,5 +7,5 @@ desktop.ini
 dist/win/*.exe
 build/squashfs-root/
 build/compiled/
-dist/StudioDream.AppImage
+dist/StudioDream-Linux.AppImage
 love/
