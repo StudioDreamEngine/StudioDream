@@ -1,5 +1,12 @@
--- Just realized how useless this is, 
+-- Welcome to the sixth layer of metatable hell
+-- Black magic brought to you by bloctans :3
 local Bridge = {}
+
+local function BridgeCreator(Table, k, v)
+    if k == "Type" then return end
+
+    Table[k] = v
+end
 
 local function ProxyThing(Instance, Key)
     if (not Instance[Key]) then
@@ -10,13 +17,6 @@ local function ProxyThing(Instance, Key)
     else
         return Bridge.Proxy(Instance[Key])
     end
-end
-
-local function BridgeCreator(Table, k, v)
-    if k == "Type" then return end
-
-    print(k,v)
-    Table[k] = v
 end
 
 local function ProxyFunction(OldFunction, ...)
