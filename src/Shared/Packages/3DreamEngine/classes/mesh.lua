@@ -138,6 +138,23 @@ function class:getFarthestVertex(from)
 	return best
 end
 
+function class:getMeshSize()
+	local bestX = 0
+	local bestY = 0
+	local bestZ = 0
+
+	for i = 1, self.vertices:getSize() do
+		local point = self.vertices:getVector(i)
+		local x,y,z = math.abs(point[1]), math.abs(point[2]), math.abs(point[3])
+		
+		if x > bestX then bestX = x end
+		if y > bestY then bestY = y end
+		if z > bestZ then bestZ = z end
+	end
+
+	return Vector3.new(bestX, bestY, bestZ)
+end
+
 ---Updates the bounding sphere based on mesh data
 function class:updateBoundingSphere()
 	if not self.vertices then

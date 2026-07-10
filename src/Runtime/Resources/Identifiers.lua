@@ -67,7 +67,7 @@ end
 
 -- Register an IdentifierID as missing its identifier counterpart, used during project load
 function Identifiers.RegisterAsMissing(FilePath)
-    Shared.QueueAbort(FilePath.Identifier.." is missing! old path: "..FilePath.FilePath)
+    Shared.QueueAbort(FilePath.Identifier.." is missing! old path: "..FilePath)
     table.insert(Identifiers.Missing, FilePath)
 end
 
@@ -77,16 +77,17 @@ function Identifiers.GetStudioPath(IdentifierID)
 
     if PathSplit[1] == "Internal" then
         local PathString = table.concat(PathSplit, "/", 2)
-        local InternalPath = Path.new(PathString, IdentifierID)
-        InternalPath.Internal = true
-    
-        return InternalPath
+        return Identifier.new(Path.new(PathString, IdentifierID), "Internal", IdentifierID)
     end
 end
 
 -- Get an identifier from an IdentifierID
 function Identifiers.GetIdentifierFromID(IdentifierID) 
-    return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
+    if type(IdentifierID) ~= "string" then -- Buffer type
+        return Identifier.new(IdentifierID, "Buffer", "Buffer-"..CreateUUID())
+    else -- Internal and Project type
+        return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
+    end
 end
 
 function Identifiers.Clear() 

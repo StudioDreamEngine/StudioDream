@@ -71,8 +71,10 @@ end
 
 function Drawable3D:SetScale(NewScale)
     self.Scale = NewScale
+    self.Size = self.Scale * self.Drawable:getBoundingBox()
 
     self.PhysicsShape = Runtime.Phys.ShapeFromMesh(self.Drawable:getAllMeshes(), self.Scale)
+
     self:CreateBody()
 end
 
@@ -97,8 +99,7 @@ function Drawable3D:SetResource(NewResource)
     self.Drawable, self.Resource = Runtime.Backend3D.LoadObject(NewResource, self.UUID)
     self:AttemptMaterialSet()
 
-    self.Size = self.Scale * self.Drawable:getBoundingSphere().size
-
+    self.Size = self.Scale * self.Drawable:getBoundingBox()
     self.PhysicsShape = Runtime.Phys.ShapeFromMesh(self.Drawable:getAllMeshes(), self.Scale)
 
     self:CreateBody()
@@ -106,8 +107,9 @@ end
 
 function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
+    if (not self.Drawable) then return end
+
     self.Drawable:scale(self.Scale.ToDream())
-    self.Size = self.Scale * self.Drawable:getBoundingSphere().size
     self.Mass = 1
     
     self.Drawable.reflection = self.Material and (self.Material.Reflective and self._Reflection or false) or false

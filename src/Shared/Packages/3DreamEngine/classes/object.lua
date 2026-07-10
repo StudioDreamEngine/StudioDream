@@ -143,6 +143,17 @@ function class:getBoundingSphere()
 	return self.boundingSphere
 end
 
+function class:getBoundingBox()
+	local CurrentBox = Vector3.zero
+
+	for _, mesh in pairs(self:getAllMeshes()) do
+		local meshSize = mesh[1]:getMeshSize() ---@class Vector3
+		CurrentBox = CurrentBox.Merge(meshSize)
+	end
+
+	return CurrentBox
+end
+
 function class:clearMeshes()
 	for _, s in pairs(self.objects) do
 		s:clearMeshes(s)

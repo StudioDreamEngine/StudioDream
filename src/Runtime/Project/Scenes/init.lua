@@ -37,12 +37,15 @@ function Scenes.LoadScene(Path, Target)
 
     print("Loading Scene: "..Path)
 
-    local Success, Message = pcall(function()
+    local Success, Message = xpcall(function()
         local Content = ProjectFS.ReadFile(Path)
         local Table = Binser.deserialize(Content)[1]
 
         Scenes.Objects.DeserializeObjects(Table, Target)
         Scenes.ConfigureTargetsTemp()
+    end, function(Error)
+        print(Error)
+        print(debug.traceback())
     end)
 
     if Success then

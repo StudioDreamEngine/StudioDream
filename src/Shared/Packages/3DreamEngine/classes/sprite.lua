@@ -3,11 +3,9 @@ local lib = _3DreamEngine
 
 ---Creates a new sprite, that is, a textured quad mesh
 ---@param texture Texture @ optional
----@param emissionTexture Texture @ optional
----@param normalTexture Texture @ optional
 ---@param quad Quad @ optional
 ---@return DreamSprite
-function lib:newSprite(texture, emissionTexture, normalTexture, quad)
+function lib:newSprite(texture, quad)
 	local u1, v1, u2, v2, ratio
 	if quad then
 		local qx, qy, w, h = quad:getViewport()
@@ -21,12 +19,8 @@ function lib:newSprite(texture, emissionTexture, normalTexture, quad)
 	---@type DreamSprite
 	local mesh = setmetatable(lib.classes.sprite.getQuadMesh(1, ratio, u1, v1, u2, v2), self.meta.sprite)
 	
-	mesh.material:setAlbedoTexture(texture)
-	mesh.material:SetEmissionTexture(emissionTexture)
-	mesh.material:SetNormalTexture(normalTexture)
-	mesh.material:setAlpha()
-	mesh.material:setCullMode("none")
-	mesh.material:setParticle(true)
+	mesh.material.AlbedoTexture = texture
+	mesh.material.Particle = true
 	
 	return mesh
 end

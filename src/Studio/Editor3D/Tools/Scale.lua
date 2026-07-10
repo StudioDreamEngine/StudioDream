@@ -33,11 +33,11 @@ function Scale.Init()
     local Selecting = Scale.Selection ---@class Transformable3D
 
     ScaleControl.OnMove:Connect(function(Plane, Normal)
-        local ScaleOffset = (Normal.Abs() * Plane)/2
+        local ScaleOffset = (Normal.Abs() * Plane)
         local ScaleOffset2 = (Normal * Plane)/2
 
         Selecting:SetPosition(Info.StartPos + ScaleOffset2)
-        Selecting.Scale = Info.OgScale + ScaleOffset
+        Selecting:SetScale(Info.OgScale + ScaleOffset)
     end)
 
     ScaleControl.StartScale:Connect(function()

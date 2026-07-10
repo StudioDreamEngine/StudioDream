@@ -5,15 +5,13 @@ function Serializer.Serialize(Value)
 end
 
 function Serializer.Deserialize(Value)
-    local Identifier = Runtime.Resources.GetIdentifierFromID(Value.Identifier)
+    local Type = Value.ResourceType
 
-    if (not Identifier) then
-        print("Register missing")
-        Runtime.Resources.RegisterAsMissing(Value)
-        return
+    if (not Type) then
+        return Identifier.new(Path.new(Value.FilePath), "Project", Value.Identifier)
+    else
+        error("New identifiers not implemented yet")
     end
-
-    return Identifier
 end
 
 return Serializer

@@ -114,8 +114,10 @@ function Objects.DeserializeObject(ObjectData)
         end
     end
 
-    local Success, Thing = pcall(function(...)
+    local Success, Thing = xpcall(function(...)
         return Things.Create(ObjectData.Type, ObjectData.UUID)(Properties)
+    end, function()
+        print(debug.traceback())
     end)
     
     if (not Success) then

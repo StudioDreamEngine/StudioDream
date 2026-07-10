@@ -1,6 +1,6 @@
 local Path = {}
 
-function Path.new(FilePath, Identifier)
+function Path.new(FilePath)
     ---@class Path
     local PathObject = {}
 
@@ -12,8 +12,6 @@ function Path.new(FilePath, Identifier)
     PathObject.FileType = (#SplitType > 1) and SplitType[#SplitType] or nil
     PathObject.FileName = SplitPath[#SplitPath]
     PathObject.FilePath = FilePath
-
-    PathObject.Identifier = Identifier
 
     return PathObject
 end

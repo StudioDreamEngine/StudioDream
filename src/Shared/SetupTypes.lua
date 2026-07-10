@@ -9,5 +9,6 @@ return function ()
     Object = require("Shared.Types.ClassicObject")
     Enum = require("Shared.Types.Enum")
     Path = require("Shared.Types.Path")
+    Identifier = require("Shared.Types.Identifier")
     
 end

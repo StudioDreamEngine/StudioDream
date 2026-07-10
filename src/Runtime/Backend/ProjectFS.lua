@@ -5,8 +5,9 @@ function ProjectFS.OpenFile(Path, Mode)
     return love.filesystem.openNativeFile(Mount..Path, Mode)
 end
 
+---@param FilePath Identifier
 function ProjectFS.GetFullPath(FilePath)
-    return Mount..FilePath.FilePath
+    return Mount..FilePath.Data.FilePath
 end
 
 function ProjectFS.WriteFile(Path, Data)

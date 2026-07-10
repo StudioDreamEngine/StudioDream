@@ -104,6 +104,16 @@ function Vector3.new(x,y,z,w)
         return Bullet.btVector3(Object.X, Object.Y, Object.Z)
     end
 
+    function Object.Merge(OtherVector)
+        local NewVector = Object.Copy()
+
+        if OtherVector.X > Object.X then NewVector.X = OtherVector.X end
+        if OtherVector.Y > Object.Y then NewVector.Y = OtherVector.Y end
+        if OtherVector.Z > Object.Z then NewVector.Z = OtherVector.Z end
+
+        return NewVector
+    end
+
     function Object.Unit()
         local Unit = Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
 

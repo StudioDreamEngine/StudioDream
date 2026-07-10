@@ -51,19 +51,14 @@ end
 
 -- Get a resource from an IdentifierID or Identifier
 function Resources.LoadResourceFromIdentifier(Identifier, Object)
-    if (not Identifier) then
-        print("No identifier passed into LoadResourceFromIdentifier")
-        print(debug.traceback())
-        return
-    end
+    assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
 
     if Utils.TypeOf(Identifier) == "string" then
         printVerbose("Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
         Identifier = Identifiers.GetIdentifierFromID(Identifier)
     end
 
-    -- TODO: Maybe move this to GetResource?
-    if not Identifier.Internal then
+    if Identifier.ResourceType == "Project" then
         printVerbose("Adding "..Object.." to object references")
         ObjectReferences[Object] = Identifier
     end
@@ -71,29 +66,36 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object)
     return Resources.GetResource(Identifier), Identifier
 end
 
+local function LoadWithContents(Identifier, Contents)
+    local Format = FormatLookup[Identifier.Data.FileType]
+    local LoaderModule = require(LoaderModPath..Format)
+
+    assert(Contents, "Cannot read resource (Identifier: "..Identifier.ID..", Path: "..Identifier.Data.FilePath..")")
+    Resource = LoaderModule(Contents, Identifier)
+
+    return Resource
+end
+
 -- Get a resource from an Identifier
 function Resources.GetResource(Identifier)
     if (not Identifier) then return end
 
-    if not LoadedResources[Identifier.Identifier] then -- If the resource isnt loaded yet, cache it
-        local Format = FormatLookup[Identifier.FileType]
+    if not LoadedResources[Identifier.ID] then -- If the resource isnt loaded yet, cache it
+        local ResourceType = Identifier.ResourceType
+        local Resource
 
-        local LoaderModule = require(LoaderModPath..Format)
-        local Contents
-
-        if Identifier.Internal then
-            Contents = love.filesystem.read("Assets/"..Identifier.FilePath)
-        else
-            Contents = Runtime.ProjectFS.ReadFile(Identifier.FilePath)
+        if ResourceType == "Internal" then
+            Resource = LoadWithContents(Identifier, love.filesystem.read("Assets/"..Identifier.Data.FilePath))
+        elseif ResourceType == "Project" then
+            Resource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
+        elseif ResourceType == "Buffer" then
+            Resource = Identifier.Data
         end
 
-        assert(Contents, "Cannot read resource (Identifier: "..Identifier.Identifier..", Path: "..Identifier.FilePath..")")
-        local Resource = LoaderModule(Contents, Identifier)
-
-        LoadedResources[Identifier.Identifier] = Resource
+        LoadedResources[Identifier.ID] = Resource
     end
 
-    return LoadedResources[Identifier.Identifier]
+    return LoadedResources[Identifier.ID]
 end
 
 function Resources.UnloadResource(Identifier)
