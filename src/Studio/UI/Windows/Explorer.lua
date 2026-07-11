@@ -25,7 +25,6 @@ AddButtonWow = {
 
         AddButtonWow.IsInsertOpen = true
         Studio.Editor3D.OpenInsertWindow(AddButtonWow.Object)
-        Explorer.Redraw()
     end),
     IsInsertOpen = false
 }

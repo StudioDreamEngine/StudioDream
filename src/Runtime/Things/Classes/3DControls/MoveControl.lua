@@ -7,12 +7,12 @@ local SelectionPriority = Runtime.SelectionPriority
 local MoveControl = Things.Extend("Control3D")
 
 local Lookup = {
-    Vector3.zAxis,
-    -Vector3.zAxis,
-    Vector3.xAxis,
-    -Vector3.xAxis,
-    Vector3.yAxis,
-    -Vector3.yAxis
+    [Vector3.zAxis] = Color.new(0,0,1),
+    --[-Vector3.zAxis] = Color.new(0,0,1),
+    [Vector3.xAxis] = Color.new(1,0,0),
+    --[-Vector3.xAxis] = Color.new(1,0,0),
+    [Vector3.yAxis] = Color.new(0,1,0),
+    --[-Vector3.yAxis] = Color.new(0,1,0),
 }
 
 function MoveControl:GetPlane()
@@ -78,8 +78,14 @@ function MoveControl:new()
     ]]
     self:ConnectEvents()
 
-    for _, Axis in pairs(Lookup) do
-        self.Adorns[Axis] = Runtime.Backend3D.LoadAdorn(self.Resource or "Internal/DefaultMeshes/arrow.obj", self.AdornObject, Axis)
+    for Axis, Color in pairs(Lookup) do
+        local Material = Things.New("Material")
+        Material.Color = Color
+
+        local Object = Runtime.Backend3D.LoadAdorn(self.Resource or "Internal/DefaultMeshes/arrow.obj", self.AdornObject, Axis)
+        Object:setMaterial(Material)
+
+        self.Adorns[Axis] = Object
     end
 end
 
