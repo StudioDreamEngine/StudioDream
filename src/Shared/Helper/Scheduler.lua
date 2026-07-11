@@ -13,6 +13,8 @@ local ActiveTasks = {} -- List of current tasks that exist, note even if a task 
 local PausedTasks = {} -- List of tasks that are waiting to run
 local CancelingTasks = {} -- List of tasks that will be canceled on next yield
 
+local Origins = {}
+
 -- Start a new task
 function Scheduler.NewTask(Function, ...)
     return Scheduler.DelayTask(0, Function, ...)
@@ -58,6 +60,8 @@ end
 -- Start a new task (after a delay)
 function Scheduler.DelayTask(Time, Function, ...)
     local Coroutine = coroutine.create(Function)
+
+    Origins[Coroutine] = debug.traceback("Task Origin")
 
     ActiveTasks[Coroutine] = true
     PausedTasks[Coroutine] = {
@@ -109,7 +113,7 @@ function Scheduler.Update()
             end
 
             if not Success then 
-                local FullMsg = "Task has been halted as error occurred:\n"..debug.traceback(Coroutine, Msg)
+                local FullMsg = "Task has been halted as error occurred:\n"..debug.traceback(Coroutine, Msg).."\n\n"..Origins[Coroutine]
                 Shared.SaveLog(FullMsg)
 
                 if Scheduler.OnRecoverableError then Scheduler.OnRecoverableError(FullMsg) end
