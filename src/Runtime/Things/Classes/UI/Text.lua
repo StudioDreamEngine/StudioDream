@@ -12,7 +12,7 @@ function Text:new()
     self.Text = "Placeholder"
     
     self.Alignment = Vector2.zero
-    --self.DefaultFont = Studio.Theme.GetCurrentTheme().FontNormal
+    --self.DefaultFont = Studio.Theme.CurrentTheme.FontNormal
     self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
 end
 

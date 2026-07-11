@@ -33,21 +33,21 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
     local BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,20,0),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         Layer = 3,
         Parent = Window,
         --OutlineSize = 2,
-        --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
+        --OutlineColor = Studio.Theme.CurrentTheme.Outline
     }
     
     PropertyBased.BaseSquare = Things.Create("Square") { 
         Size = Pivot2D.FromScale(0.95,0.05),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
         Layer = 3,
         Parent = BaseProperty,
         --OutlineSize = 2,
-        --OutlineColor = Studio.Theme.GetCurrentTheme().Outline
+        --OutlineColor = Studio.Theme.CurrentTheme.Outline
     }
 
     --print(PropertyTxt)
@@ -60,14 +60,14 @@ local function CreatePropertyNode(Window,PropertyTxt,Type,Thing,Index)
         Name = "PropertyName",
         Parent = BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text
+        ForegroundColor = Studio.Theme.CurrentTheme.Text
     }
 
     local Option = Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
         Size = Pivot2D.FromScale(0.5,1),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
         Layer = 3,
         Name = "Frame",
         Parent = BaseProperty,
@@ -108,11 +108,11 @@ local function CreateGroup(GroupName,Window)
     local BaseGroup = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,20,0),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Tertiary,
+        BackgroundColor = Studio.Theme.CurrentTheme.Tertiary,
         Layer = 3,
         Parent = Window,
         OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
+        OutlineColor = Studio.Theme.CurrentTheme.Outline
     }
     local TextWow = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,1),
@@ -122,32 +122,32 @@ local function CreateGroup(GroupName,Window)
         Name = "GroupNameDisplay",
         Parent = BaseGroup,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text
+        ForegroundColor = Studio.Theme.CurrentTheme.Text
     }
     local GroupList = Things.Create("Square") { 
         Size = Pivot2D.FromScale(1,1),
         AutomaticSize = Enum.AutomaticSize.Y,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0.5,1),
-        --BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        --BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         Layer = 3,
         BackgroundTransparency = 1,
         Parent = Window,
         OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
+        OutlineColor = Studio.Theme.CurrentTheme.Outline
     }
 
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Text,
+        BackgroundColor = Studio.Theme.CurrentTheme.Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
         Parent = BaseGroup,
     }
 
-    TextWow:SetFont(Studio.Theme.GetCurrentTheme().FontBold)
+    TextWow:SetFont(Studio.Theme.CurrentTheme.FontBold)
     Things.Create("ListLayout") {
         Parent = GroupList,
     }
@@ -191,7 +191,7 @@ function PropertiesRender.Init()
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
-        --BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        --BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         Parent =  PropertiesRender.Container,
     }
 

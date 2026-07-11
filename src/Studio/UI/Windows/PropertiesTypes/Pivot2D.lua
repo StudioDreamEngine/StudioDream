@@ -18,7 +18,7 @@ function CreatePivotNode(MainInfo,WhatThing)
     selfed.BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,0.95,23,0),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
         Layer = 3,
         Parent = MainInfo.Expand.Container,
         CornerRadius = 6,
@@ -28,11 +28,11 @@ function CreatePivotNode(MainInfo,WhatThing)
         Size = Pivot2D.FromScale(0.49,.8),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         Layer = 3,
         Parent = selfed.BaseProperty,
         CornerRadius = 6,
-         ForegroundColor = Studio.Theme.GetCurrentTheme().Text
+         ForegroundColor = Studio.Theme.CurrentTheme.Text
     }
 
     selfed.Text = Things.Create("Text") {
@@ -42,7 +42,7 @@ function CreatePivotNode(MainInfo,WhatThing)
         Text = WhatThing,
         Parent = selfed.BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text
+        ForegroundColor = Studio.Theme.CurrentTheme.Text
     }
     
     local function Update()
@@ -86,12 +86,12 @@ function Template.Start(MainInfo)
     MainInfo.ParentWith = MainInfo.BaseProperty.Parent
     local MainTxt = Runtime.Things.Create("Text") {
         Text = " ",
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,1),
         Parent = MainInfo.Option,
         Alignment = Enum.Alignment.Center,
-        Font = Studio.Theme.GetCurrentTheme().FontBold,
+        Font = Studio.Theme.CurrentTheme.FontBold,
     }
 
     local Expand = Studio.Components.ExpandableDropdown(MainInfo.Option, MainInfo.ParentWith)

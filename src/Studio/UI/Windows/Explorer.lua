@@ -53,7 +53,7 @@ function Explorer.CreateNode(Object, Depth)
         Size = Pivot2D.FromScale(1,0.8),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         Layer = 2,
         BackgroundTransparency = 0.5,
         Parent = Node,
@@ -72,7 +72,7 @@ function Explorer.CreateTree(Object, Depth)
     local Node, NodeInner = Explorer.CreateNode(Object, Depth)
     Node.ListOrder = Order
     Node:SetParent(ScrollContainer)
-    NodeInner.BackgroundColor = Studio.Theme.GetCurrentTheme().Outline
+    NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Outline
 
     Explorer.Tree[Object] = NodeInner
 
@@ -194,10 +194,10 @@ function Explorer.Update(dt)
         end
 
         if table.find(Studio.Editor3D.Selecting, Thing) then
-            Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Selecting
+            Object.BackgroundColor = Studio.Theme.CurrentTheme.Selecting
             ParentInserter(Object)
         else
-            Object.BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary
+            Object.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
         end
     end
 end

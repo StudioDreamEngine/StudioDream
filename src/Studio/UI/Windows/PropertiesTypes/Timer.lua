@@ -23,7 +23,7 @@ function Template.Start(MainInfo)
     local self = {}
 
     local Text = Runtime.Things.Create("TextInput") {
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
         BackgroundTransparency = 1,
         Pivot = Vector2.new(0.5,0.5),
         Size = Pivot2D.FromScale(0.95,1),

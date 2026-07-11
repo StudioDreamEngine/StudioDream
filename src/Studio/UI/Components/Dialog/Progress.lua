@@ -14,7 +14,7 @@ return function(Options)
             Size = Pivot2D.FromScale(1,0.5),
             Alignment = Enum.Alignment.Center,
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+            ForegroundColor = Studio.Theme.CurrentTheme.Text,
             Layer = 3,
             Parent = Object.Container,
         }
@@ -23,7 +23,7 @@ return function(Options)
             Size = Pivot2D.FromScale(0.8,0.2),
             Position = Pivot2D.FromScale(.5,.5),
             Pivot = Vector2.new(.5,0),
-            BackgroundColor = Studio.Theme.GetCurrentTheme().Tertiary,
+            BackgroundColor = Studio.Theme.CurrentTheme.Tertiary,
             OutlineSize = 3,
             Layer = 4,
             Parent = Object.Container,
@@ -32,7 +32,7 @@ return function(Options)
         ProgressBar = Runtime.Things.Create("Square") {
             Size = Pivot2D.FromScale(1,1),
             Position = Pivot2D.FromScale(0,0),
-            BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+            BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
             Parent = ProgressContainer,
         }
 
