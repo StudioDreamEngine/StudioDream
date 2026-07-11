@@ -74,7 +74,9 @@ function Template.Start(MainInfo)
     end
 
     table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
-        if GeneratedList.Remove then GeneratedList.Remove() end
+        if GeneratedList.Remove then 
+            GeneratedList.Remove() 
+        end
 
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         local TableWow = {}
