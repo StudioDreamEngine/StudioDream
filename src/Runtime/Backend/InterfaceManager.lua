@@ -26,7 +26,6 @@ function InterfaceManager.RegisterButton(Button)
 end
 
 function InterfaceManager.UnregisterButton(Button)
-    Button.Hovering = false
     table.removeValue(InterfaceManager.Buttons, Button)
 end
 

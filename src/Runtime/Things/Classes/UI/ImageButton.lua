@@ -36,6 +36,7 @@ end
 function ImageButton:OnRemove()
     self.Clicked:DisconnectAll()
     self.RightClicked:DisconnectAll()
+    self.Hovering = false
 
     ImageButton.super.OnRemove(self)
     Runtime.InterfaceManager.UnregisterButton(self.UUID)

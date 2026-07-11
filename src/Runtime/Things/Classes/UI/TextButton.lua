@@ -34,6 +34,7 @@ end
 function TextButton:OnRemove()
     TextButton.super.OnRemove(self)
 
+    self.Hovering = false
     self.Clicked:DisconnectAll()
     Runtime.InterfaceManager.UnregisterButton(self.UUID)
 end
