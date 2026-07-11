@@ -7,13 +7,21 @@ local SelectionPriority = Runtime.SelectionPriority
 local MoveControl = Things.Extend("Control3D")
 
 local Lookup = {
-    [Vector3.zAxis] = Color.new(0,0,1),
+    [Vector3.zAxis] = Color.new(0,0,1,0.8),
     --[-Vector3.zAxis] = Color.new(0,0,1),
-    [Vector3.xAxis] = Color.new(1,0,0),
+    [Vector3.xAxis] = Color.new(1,0,0,0.8),
     --[-Vector3.xAxis] = Color.new(1,0,0),
-    [Vector3.yAxis] = Color.new(0,1,0),
+    [Vector3.yAxis] = Color.new(0,1,0,0.8),
     --[-Vector3.yAxis] = Color.new(0,1,0),
 }
+
+for i, v in pairs(Lookup) do
+    local Material = Things.New("Material")
+    Material.Color = v
+    Material.Alpha = true
+
+    Lookup[i] = Material
+end
 
 function MoveControl:GetPlane()
     local Camera = Things.Root:GetCamera()
@@ -50,7 +58,7 @@ function MoveControl:ConnectEvents()
     self.MouseMoved = InputService.MouseMoved:Connect(function(MouseObject)
         if (not self.Down) then return end
 
-        self.OnMove.Invoke((self:GetPlane() - self.InitalOffset) * self.Down.Abs())
+        self.OnMove.Invoke((self:GetPlane() - self.InitalOffset) * self.Down.Thing.Abs())
     end)
 end
 
@@ -79,13 +87,13 @@ function MoveControl:new()
     self:ConnectEvents()
 
     for Axis, Color in pairs(Lookup) do
-        local Material = Things.New("Material")
-        Material.Color = Color
-
         local Object = Runtime.Backend3D.LoadAdorn(self.Resource or "Internal/DefaultMeshes/arrow.obj", self.AdornObject, Axis)
-        Object:setMaterial(Material)
+        Object:setMaterial(Color)
 
-        self.Adorns[Axis] = Object
+        self.Adorns[Axis] = {
+            Adorn = Object,
+            Material = Color
+        }
     end
 end
 
@@ -109,9 +117,22 @@ function MoveControl:Update(dt)
     CameraDistance = math.sqrt(CameraDistance) / 8 -- Black magic, Literally black magic.
 
     local Hovering = Runtime.Backend3D.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)
-    self.Hovering = Hovering and Hovering.Thing
+    self.Hovering = Hovering
 
-    for Axis, Adorn in pairs(self.Adorns) do
+    for Axis, Data in pairs(self.Adorns) do
+        local Adorn = Data.Adorn
+        local OldColor = Data.Material.Color
+
+        local Alpha
+        local HoveringID = self.Hovering and self.Hovering.UUID
+        local DownID = self.Down and self.Down.UUID
+
+        if (Adorn.UUID == DownID) then Alpha = 1
+        elseif (Adorn.UUID == HoveringID) then Alpha = 0.7
+        else Alpha = 0.9 end
+
+        Data.Material.Color = Color.new(OldColor.R, OldColor.G, OldColor.B, Alpha)
+
         -- ...oh god
         Adorn:resetTransform()
         Adorn:translate((Transform.Position + (Axis * self.Adornee.Scale)).ToDream())

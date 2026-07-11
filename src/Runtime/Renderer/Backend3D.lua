@@ -57,6 +57,7 @@ function Backend3D.Raycast(Origin, Direction, WorldObject, IgnoreList)
         ---@class CastResult
         local FriendlyCastResult = {
             Thing = ThingClass,
+            UUID = Object.UUID,
             Position = CastResult:getPosition(),
             Normal = CastResult:getNormal(),
             UV = CastResult:getUV(),
@@ -97,8 +98,11 @@ end
 
 function Backend3D.LoadAdorn(Identifier, Parent, Reference)
     local DreamObject = Backend3D.LoadObject(Identifier, Reference)
+    local UUID = CreateUUID()
 
-    Parent.objects[CreateUUID()] = DreamObject
+    DreamObject.UUID = UUID
+
+    Parent.objects[UUID] = DreamObject
     return DreamObject
 end
 
