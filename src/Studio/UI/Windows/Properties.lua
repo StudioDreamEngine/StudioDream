@@ -77,7 +77,7 @@ function Properties.CreateGroup(GroupName)
 
     Group.TextOfGroup = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.5,0.8),
-        Position = Pivot2D.FromScale(0,0.5),
+        Position = Pivot2D.FromScale(0.02,0.5),
         Pivot = Vector2.new(0,0.5),
         Text = GroupName,
         Parent = Group.BaseGroup,

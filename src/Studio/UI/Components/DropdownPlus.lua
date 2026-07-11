@@ -41,7 +41,23 @@ function DropdownPlus.CreateButton(Choice,MajorParent)
         BackgroundTransparency = 1
     })
     Button.Type = ChoiceTypes[Choice.Type](Choice,Button.Button)
-    return
+    return Button
+end
+
+function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
+    Components.RegisterUpdator(function()
+        local UsingPosition, UsingSize = Position, Size 
+
+        UsingSize = Size and Vector2.new(FakeParent.Position.AbsoluteSize.X, FakeParent.Position.AbsoluteSize.Y*Size.Y) or FakeParent.Position.AbsoluteSize
+        UsingPosition = FakeParent.Position.ViewportPosition + (FakeParent.Position.AbsoluteSize * Vector2.yAxis)
+
+        CurrentDropdown:SetSize(Pivot2D.FromOffset(UsingSize.X or 200,0))
+        CurrentDropdown:SetPosition(Pivot2D.FromOffset(UsingPosition))
+
+        for _, Choice in pairs(MajorComponent.Choices) do
+            Choice.Button:SetSize(Pivot2D.new(0,1,UsingSize.Y or 20,0))
+        end
+    end)
 end
 
 function DropdownPlus.new(Choices)
@@ -53,8 +69,10 @@ function DropdownPlus.new(Choices)
             BackgroundTransparency = 1
     })
 
+    selfed.Choices = {}
+
     for i,Choice in pairs(Choices) do
-        DropdownPlus.CreateButton(Choice,MajorParent)
+        table.insert(selfed.Choices,DropdownPlus.CreateButton(Choice,MajorParent))
     end
 
     return selfed

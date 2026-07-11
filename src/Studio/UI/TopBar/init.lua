@@ -59,13 +59,16 @@ function TopBar.Init()
         Position = Pivot2D.FromScale(0,0),
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,0.3),
-        Parent = TopBar.Container
+        Parent = TopBar.Container,
+        OutlineSize = 3,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
     })
 
     Things.Create("ListLayout") {
         Alignment = Enum.Alignment.Center,
         Direction = Enum.LayoutDirection.Horizontal,
-        Parent = TopBar.TabsMenu
+        Parent = TopBar.TabsMenu,
+        Padding = 5,
     }
 
     TopBar.TabContainer = Components.CreateStyle("Square", {

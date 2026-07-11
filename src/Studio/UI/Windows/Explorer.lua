@@ -46,11 +46,11 @@ function Explorer.CreateNode(Object, Depth)
         Layer = 3,
         Parent = ScrollContainer,
         Serializable = false,
-        CornerRadius = 10,
+        CornerRadius = 5,
     }
 
     local Line = Things.Create("Square") { 
-        Size = Pivot2D.FromScale(1,0.5),
+        Size = Pivot2D.FromScale(1,0.8),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
         BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
@@ -59,7 +59,7 @@ function Explorer.CreateNode(Object, Depth)
         Parent = Node,
     }
 
-    local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon)
+    local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
     NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeInner:SetParent(Node)
     
@@ -178,7 +178,7 @@ function Explorer.Redraw()
 
     Things.Create("ListLayout") {
         Parent = ScrollContainer,
-        Padding = 2,
+        Padding = 3,
     }
 end
 
