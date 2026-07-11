@@ -1,5 +1,5 @@
 -- Major.Minor.Patch
-VERSION = "0.6.5"
+VERSION = "0.7"
 TITLE = "(Early Riser)"
 VERSION_FULL = VERSION.." "..TITLE
 
