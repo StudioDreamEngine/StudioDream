@@ -7,10 +7,10 @@ return function(Args)
         Text = "",
         Clicked = Args.OnClick,
         BackgroundTransparency = .5,
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
         CornerRadius = 10,
         OutlineSize = 2.5,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
+        OutlineColor = Studio.Theme.CurrentTheme.Outline
     }
 
     local Image = Things.Create("Image2D") {
@@ -27,11 +27,11 @@ return function(Args)
         Position = Pivot2D.FromScale(0.5,1),
         Pivot = Vector2.new(.5,1),
         Size = Pivot2D.FromScale(1,0.3),
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
         BackgroundTransparency = 1,
         ment = Enum.Alignment.TopLeft,
         Text = Args.Name
     }
-    Text:SetFont(Studio.Theme.GetCurrentTheme().FontBold)
+    Text:SetFont(Studio.Theme.CurrentTheme.FontBold)
     return ButtonContainer
 end

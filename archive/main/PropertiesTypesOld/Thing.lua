@@ -6,8 +6,8 @@ function Thingy.Start(FrameOption,Thing,Property)
 
     Button = Runtime.Things.Create("TextButton") {
         Text = Thing[Property] and Thing[Property].Name or "None",
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Primary,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
         Size = Pivot2D.FromScale(0.97,0.95),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),

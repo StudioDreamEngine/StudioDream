@@ -10,7 +10,7 @@ function Notify.Notify(Message,Type)
         Size = Pivot2D.FromScale(1,0.07),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
         --Parent = Notify.Container,
         CornerRadius = 5,
     }
@@ -31,7 +31,7 @@ function Notify.Notify(Message,Type)
         Text = Message,
         Parent = Window,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2
+        ForegroundColor = Studio.Theme.CurrentTheme.Text2
     }
 
     Utils.DebrisThing(Window,5)

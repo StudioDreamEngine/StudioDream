@@ -6,7 +6,7 @@ function VectorTwo.Start(FrameOption,Thing,Property) -- maybe a signal for when 
         Size = Pivot2D.FromScale(1,1),
         Text = tostring(Thing[Property]),
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text2,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
         Parent = FrameOption
     }
 

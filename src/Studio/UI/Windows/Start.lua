@@ -17,9 +17,9 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Parent = Scroll,
         Layer = 2,
         CornerRadius = 5,
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+        OutlineColor = Studio.Theme.CurrentTheme.Outline,
     }
 
     selfed.Image = Runtime.Things.Create("Image2D") {
@@ -35,19 +35,19 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     selfed.ProjectName = Runtime.Things.Create("Text") {
         Text = Info.Name,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0,0),
         Parent = selfed.Base,
         Layer = 2,
         BackgroundTransparency = 1,
         Alignment = Vector2.new(0.5,0.5),
         Size = Pivot2D.FromScale(1,0.5),
-        Font = Studio.Theme.GetCurrentTheme().FontBold,
+        Font = Studio.Theme.CurrentTheme.FontBold,
     }
 
     selfed.Date = Runtime.Things.Create("Text") {
         Text = "Last Mod: "..Utils.TimeAgo(Info.Time),
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0,0.5),
         Parent = selfed.Base,
         Layer = 2,
@@ -75,12 +75,12 @@ function Start.CreateButton(Options,Text,Image)
         Parent = Options,
         Layer = 2,
         CornerRadius = 5,
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         OutlineSize = 2,
         Alignment = Vector2.new(1,0.5),
         TextSize = 5,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
     }
 
     selfed.Image = Runtime.Things.Create("Image2D") {
@@ -118,7 +118,7 @@ function Start.Init()
 
     local Version = Runtime.Things.Create("Text") {
         Text = "Welcome to Early Riser! ("..VERSION..")",
-        ForegroundColor = Studio.Theme.GetCurrentTheme().TextInverse,
+        ForegroundColor = Studio.Theme.CurrentTheme.TextInverse,
         Position = Pivot2D.FromScale(0.05,0),
         Size = Pivot2D.FromScale(1,0.1),
         Parent = Start.Container,
@@ -134,9 +134,9 @@ function Start.Init()
         CornerRadius = 5,
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.25,.75),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+        OutlineColor = Studio.Theme.CurrentTheme.Outline,
     }
 
     local RecentProjects = Runtime.Things.Create("Square") {
@@ -146,15 +146,15 @@ function Start.Init()
         CornerRadius = 5,
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.75,.75),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         OutlineSize = 2,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+        OutlineColor = Studio.Theme.CurrentTheme.Outline,
     }
 
     local Scroll = Runtime.Things.Create("ScrollContainer") {
         Size = Pivot2D.FromScale(1,1),
         Parent = RecentProjects,
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Outline,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
     }
 
     Things.Create("ListLayout") {
@@ -171,7 +171,7 @@ function Start.Init()
 
     --[[local Warning = Runtime.Things.Create("Text") {
         Text = "Do not SHARE or LEAK stuff from here, you are a tester!!!",
-        --ForegroundColor = Studio.Theme.GetCurrentTheme()
+        --ForegroundColor = Studio.Theme.CurrentTheme
         Parent = Start.Container,
         Layer = 2,
         BackgroundTransparency = 1

@@ -46,8 +46,8 @@ function Enumed.Start(FrameOption,Thing,Property)
     
     local TextClick = Runtime.Things.Create("TextButton") {
         Text = tostring(Utils.GetEnumNameByValue(Property,Thing[Property])),
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         Size = Pivot2D.FromScale(0.97,0.95),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
@@ -58,7 +58,7 @@ function Enumed.Start(FrameOption,Thing,Property)
     local Button = Runtime.Things.Create("Image2D") {
         Resource = "Internal/Icons/Engine/OpenMenu.png",
         Size = Pivot2D.FromScale(1,1),
-        BackgroundColor = Studio.Theme.GetCurrentTheme().Text,
+        BackgroundColor = Studio.Theme.CurrentTheme.Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),

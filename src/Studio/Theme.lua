@@ -1,12 +1,31 @@
 local Themes = {}
 local ThemesIn = {
 
+    ThemeTest = {
+        Outline = Color.FromHex("505050"),
+        SecondaryOutline = Color.FromHex("#505050"),
+
+        Secondary = Color.FromHex("#808080"), -- This color is meant to either be for less important stuff or to constrast the primary
+        --Tertiary = Color.FromHex("#A0a0a0"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        Primary = Color.FromHex("#000000"), -- This color is for the main parts, containers and such
+    
+        Selecting = Color.FromHex("#FFFFFF"),
+
+        Text = Color.FromHex("#ffffff"),
+        Text2 = Color.FromHex("#ffffff"),
+        TextInverse = Color.FromHex("#000000"),
+        Error =  Color.FromHex("#ff3333"),
+
+        FontNormal = "Assets/Fonts/Roboto/Roboto-Medium.ttf",
+        FontBold = "Assets/Fonts/Roboto/Roboto-Bold.ttf"
+    },
+
     BlueNight = {
         Outline = Color.FromHex("#0d1029"),
         SecondaryOutline = Color.FromHex("#9090b0"),
 
         Secondary = Color.FromHex("#151953"), -- This color is meant to either be for less important stuff or to constrast the primary
-        Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        --Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
         Primary = Color.FromHex("#2c2a77"), -- This color is for the main parts, containers and such
     
         Selecting = Color.FromHex("#2821ff"),
@@ -24,7 +43,7 @@ local ThemesIn = {
         SecondaryOutline = Color.FromHex("#8d8dff"),
 
         Secondary = Color.FromHex("#00043b"), -- This color is meant to either be for less important stuff or to constrast the primary
-        Tertiary = Color.FromHex("#000920"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        --Tertiary = Color.FromHex("#000920"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
         Primary = Color.FromHex("#001a63"), -- This color is for the main parts, containers and such
     
         Selecting = Color.FromHex("#21c0ff"),
@@ -41,7 +60,7 @@ local ThemesIn = {
         SecondaryOutline = Color.FromHex("#8d8dff"),
 
         Secondary = Color.FromHex("#a6a5b4"), -- This color is meant to either be for less important stuff or to constrast the primary
-        Tertiary = Color.FromHex("#9a9ba3"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        --Tertiary = Color.FromHex("#9a9ba3"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
         Primary = Color.FromHex("#e7e7e7"), -- This color is for the main parts, containers and such
     
         Selecting = Color.FromHex("#6998ff"),
@@ -58,7 +77,7 @@ local ThemesIn = {
         SecondaryOutline = Color.FromHex("#0e0e0e"),
 
         Secondary = Color.FromHex("#1d1d1d"), -- This color is meant to either be for less important stuff or to constrast the primary
-        Tertiary = Color.FromHex("#0e0e0e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        --Tertiary = Color.FromHex("#0e0e0e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
         Primary = Color.FromHex("#252525"), -- This color is for the main parts, containers and such
     
         Selecting = Color.FromHex("#4a2bff"),
@@ -77,8 +96,6 @@ local ThemesIn = {
     }]]
 }
 
-function Themes.GetCurrentTheme()
-    return ThemesIn.BlueNight
-end
+Themes.CurrentTheme = ThemesIn.BlueNight
 
 return Themes

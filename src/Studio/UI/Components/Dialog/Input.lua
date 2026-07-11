@@ -11,14 +11,14 @@ return function(Options)
             Parent = Object.Container,
             Text = Options.Text,
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+            ForegroundColor = Studio.Theme.CurrentTheme.Text,
             Name = "WindowText",
             Alignment = Vector2.new(0.5,0.5)
         }
        Object.Inputer = Runtime.Things.Create("TextInput") {
             Size = Pivot2D.FromScale(0.95,0.2) ,
-            BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
-            ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+            BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
+            ForegroundColor = Studio.Theme.CurrentTheme.Text,
             Name = "BackWindow",
             Alignment = Vector2.new(0.5,0.5),
             Layer = 2,
@@ -28,14 +28,14 @@ return function(Options)
             BackgroundTransparency = 0,
             CornerRadius = 2.5,
             OutlineSize = 2,
-            OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+            OutlineColor = Studio.Theme.CurrentTheme.Outline,
             Parent = Object.Container
         }
 
         Object.Apply = Runtime.Things.Create("TextButton") {
             Size = Pivot2D.FromScale(0.7,0.15) ,
-            BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary,
-            ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+            BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
+            ForegroundColor = Studio.Theme.CurrentTheme.Text,
             Name = "BackWindow",
             Alignment = Vector2.new(0.5,0.5),
             Layer = 2,
@@ -45,7 +45,7 @@ return function(Options)
             BackgroundTransparency = 0,
             CornerRadius = 2.5,
             OutlineSize = 2,
-            OutlineColor = Studio.Theme.GetCurrentTheme().Outline,
+            OutlineColor = Studio.Theme.CurrentTheme.Outline,
             Parent = Object.Container
         }
 

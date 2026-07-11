@@ -36,7 +36,7 @@ local function RenderButton(Text,Size,Parent,PositionS,CLickFunc)
         Parent = Parent,
         Text = Text,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text,
         Name = "ButtonTest"
     }
 

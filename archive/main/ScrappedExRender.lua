@@ -20,7 +20,7 @@ local function RenderNode(Info,Depth,YAxis)
        },
        BackgroundColor = NodeColor,
        Layer = 1,
-       ForegroundColor = Studio.Theme.GetCurrentTheme().Text,
+       ForegroundColor = Studio.Theme.CurrentTheme.Text,
        Text = Info.Name,
        BackgroundTransparency = 0.5,
        Parent = Window

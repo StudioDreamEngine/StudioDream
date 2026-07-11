@@ -3,10 +3,10 @@ local Output = {}
 local ScrollContainer
 
 function Output.CreateOutput(Text,Type)
-    local ColorToText = Studio.Theme.GetCurrentTheme().Text
+    local ColorToText = Studio.Theme.CurrentTheme.Text
     
     if Type and Type == "Error" then
-        ColorToText = Studio.Theme.GetCurrentTheme().Error
+        ColorToText = Studio.Theme.CurrentTheme.Error
     end
 
     Runtime.Things.Create("Text") {
