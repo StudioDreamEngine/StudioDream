@@ -18,7 +18,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Layer = Transform.Layer or 1,
         Parent = Transform.TopLevel and Things.Root.RootViewport or StudioLayout.Windows,
         CornerRadius = 5,
-        OutlineSize = 5,
+        OutlineSize = 2,
         OutlineColor = Theme.Outline
     }
     
@@ -120,7 +120,7 @@ function StudioLayout.CreateTopbar()
         Parent = Things.Root.RootViewport,
         Name = "TopBar",
         Size = Pivot2D.FromScale(1,0.15),
-        BackgroundColor = Theme.Primary
+        BackgroundColor = Theme.Outline
     }
 
     local MenuBar = Things.Create("Square") {
@@ -136,7 +136,8 @@ function StudioLayout.CreateTopbar()
         Name = "ToolBar",
         Position = Pivot2D.FromScale(0,0.3),
         Size = Pivot2D.FromScale(1,0.7),
-        BackgroundTransparency = 1
+        BackgroundColor = Theme.Primary,
+        BackgroundTransparency = 0
     }
 
     StudioLayout.CreateWindowHandler("TopBar", { Container = TopbarInner })

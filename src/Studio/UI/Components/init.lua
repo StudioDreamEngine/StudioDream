@@ -5,7 +5,7 @@ local Updators = {}
 
 function Components.CreateButton(Name, Properties)
     Properties.Text = Name
-    Properties.CornerRadius = 7
+    Properties.CornerRadius = 5
     Properties.Alignment = Vector2.new(0.5,0.5)
 
     ---@class TextButton
@@ -61,14 +61,14 @@ function Components.CreateIconObject(Name, Icon)
         Text = "",
         Layer = 3,
         Name = Name,
-        OutlineSize = 0.5,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        --[[OutlineSize = 0.5,
+        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,]]
         CornerRadius = 5,
     }
     
     local NodeText = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.95,1),
-        Position = Pivot2D.FromScale(0.5,0.5),
+        Position = Pivot2D.FromScale(0.55,0.5),
         Pivot = Vector2.new(0.5,0.5),
         Text = Name,
         Name = "NodeText",
@@ -83,7 +83,7 @@ function Components.CreateIconObject(Name, Icon)
     local NodeIcon = Things.Create("Image2D") {
         Size = Pivot2D.new(0,0.1,0,1),
         SquareAxis = Enum.SquareAxis.Y,
-        Pivot = Vector2.new(1,0.5),
+        Pivot = Vector2.new(-0.1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
         Resource = Icon,
         Parent = NodeInner
@@ -196,10 +196,10 @@ function Components.SimpleDropdown(Position, Choices, Size)
 end
 
 function Components.CreateStyle(Type, Properties)
-    Properties.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
-    Properties.ForegroundColor = Studio.Theme.CurrentTheme.Text
-    Properties.OutlineSize = 2
-    Properties.OutlineColor = Studio.Theme.CurrentTheme.Outline
+    Properties.BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary
+    Properties.ForegroundColor = Studio.Theme.GetCurrentTheme().Text
+    --[[Properties.OutlineSize = 1.5
+    Properties.OutlineColor = Studio.Theme.GetCurrentTheme().Outline]]
    
     return Things.Create(Type) (Properties)
 end
