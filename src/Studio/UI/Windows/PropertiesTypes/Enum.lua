@@ -95,7 +95,6 @@ function Template.Start(MainInfo)
                 local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow,PropertyOne)
                 print(ListGenerated)
                 GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
-                GenerateList(Property,FrameOption,Thing)
             else
                 if (not GeneratedList) then return end
                 --[[if GeneratedList.Remove then 
