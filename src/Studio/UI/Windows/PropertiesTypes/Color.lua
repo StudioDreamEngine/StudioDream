@@ -14,7 +14,7 @@ function Template.Start(MainInfo)
     local self = {}
     --MainInfo.Connections
 
-    local Text = Runtime.Things.Create("TextButton") {
+    local Text = Runtime.Things.Create("TextInput") {
         ForegroundColor = Studio.Theme.CurrentTheme.Text,
         BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
@@ -39,15 +39,15 @@ function Template.Start(MainInfo)
 
     self.Update()
 
-    table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
-        local Obj = Studio.Components.CreateDialog("Color",{
+    table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
+       --[[ local Obj = Studio.Components.CreateDialog("Color",{
             Text = "Pick a color"
         })
-        table.insert(MainInfo.Connections,Obj.FinalProject:Connect(function(Type,Info)
+        table.insert(MainInfo.Connections,Obj.FinalProject:Connect(function(Type,Info)]]
             for i,Info in pairs(MainInfo.WillHandle) do
-                Runtime.Things.SetProperty(Info.Thing, Info.Property, Info)
+                Runtime.Things.SetProperty(Info.Thing, Info.Property, Color.FromString(Text.Text))
             end
-        end))
+        --end))
     end))
 
     return self
