@@ -15,10 +15,6 @@ function Viewport3D:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function Viewport3D:SetAbsoluteSize(New)
-    Viewport3D.super.SetAbsoluteSize(self, New)
-end
-
 function Viewport3D:GetWorld()
     assert(self.RenderContainer, "RenderContainer not specified before rendering started!")
 

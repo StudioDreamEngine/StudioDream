@@ -70,6 +70,10 @@ end
 
 function TextInput:OnRemove()
     self.KeyEvent:Disconnect()
+    self.FocusEnd:DisconnectAll()
+    self.FocusStart:DisconnectAll()
+    self.Typed:DisconnectAll()
+
     Runtime.InterfaceManager.UnregisterButton(self.UUID)
     TextInput.super.OnRemove(self)
 end

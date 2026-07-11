@@ -34,6 +34,9 @@ function ImageButton:OnInitalParent(NewParent)
 end
 
 function ImageButton:OnRemove()
+    self.Clicked:DisconnectAll()
+    self.RightClicked:DisconnectAll()
+
     ImageButton.super.OnRemove(self)
     Runtime.InterfaceManager.UnregisterButton(self.UUID)
 end

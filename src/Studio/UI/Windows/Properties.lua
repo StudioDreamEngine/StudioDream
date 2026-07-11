@@ -92,7 +92,6 @@ function Properties.CreateGroup(GroupName)
 end
 
 function Properties.Clear()
-    Properties.ResetSignal.Invoke()
     Properties.ParentWith:ClearAllChildren({"ListLayout"})
 end
 

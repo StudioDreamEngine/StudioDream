@@ -24,14 +24,16 @@ function GenerateList(MainInfo,ChangedOption,Info)
                 print(i,v)
                 table.insert(Choices,{ Type = "Separator"})
 
-                table.insert(Choices,{
+                table.insert(Choices, {
                     Text = tostring(i),
                     Type = "Button",
                     Function = function()
                         for i,Info in pairs(MainInfo.WillHandle) do
                             Runtime.Things.SetProperty(Info.Thing, Info.Property, v)
                         end
+
                         ChangedOption.Invoke()
+
                         if GeneratedList.Remove then
                             GeneratedList.Remove()
                             GeneratedList = {}
@@ -84,6 +86,7 @@ function Template.Start(MainInfo)
                 TableWow.Thing = Info.Thing
                 TableWow.Property = Info.Property
             end
+
             local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow)
             GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
         end

@@ -41,17 +41,17 @@ function DropdownPlus.CreateButton(Choice,MajorParent)
 
     Button.Button = Components.CreateStyle("Square", {
         Size = Pivot2D.new(0,1,20,0),
-        Parent = CurrentDropdown,
         BackgroundTransparency = 1,
         Parent = MajorParent
     })
     Button.Type = ChoiceTypes[Choice.Type](Choice,Button.Button)
+
     return Button
 end
 
 function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
     Components.RegisterUpdator(function()
-        local UsingPosition, UsingSize = Position, Size 
+        local UsingPosition, UsingSize = Position, Size
 
         UsingSize = Size and Vector2.new(FakeParent.AbsoluteSize.X, FakeParent.AbsoluteSize.Y*Size.Y) or FakeParent.AbsoluteSize
         UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Vector2.yAxis)
@@ -66,9 +66,9 @@ function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
 end
 
 function DropdownPlus.new(Choices,FakeParent)
-    local selfed = {}
+    local DropdownObject = {}
 
-    selfed.MajorParent = Components.CreateStyle("Square", {
+    DropdownObject.MajorParent = Components.CreateStyle("Square", {
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = Pivot2D.FromOffset(200,0),
         Layer = 100,
@@ -76,26 +76,26 @@ function DropdownPlus.new(Choices,FakeParent)
         BackgroundColor = Studio.Theme.CurrentTheme.Outline,
     })
     
-    selfed.Choices = {}
+    DropdownObject.Choices = {}
 
     Components.CreateStyle("ListLayout", {
-        Parent = selfed.MajorParent,
+        Parent = DropdownObject.MajorParent,
         Alignment = Vector2.new(0.5,0.5)
     })
 
     for i,Choice in pairs(Choices) do
-        table.insert(selfed.Choices,DropdownPlus.CreateButton(Choice,selfed.MajorParent))
+        table.insert(DropdownObject.Choices,DropdownPlus.CreateButton(Choice,DropdownObject.MajorParent))
     end
 
-    DropdownPlus.HandleNotParentSize(selfed,FakeParent)
+    DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent)
 
-    function selfed.Remove()
-        selfed.MajorParent:Destroy()
+    function DropdownObject.Remove()
+        DropdownObject.MajorParent:Destroy()
     end
 
-    selfed.MajorParent:SetParent(Things.Root.RootViewport)
+    DropdownObject.MajorParent:SetParent(Things.Root.RootViewport)
 
-    return selfed
+    return DropdownObject
 end
 
 return DropdownPlus

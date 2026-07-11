@@ -31,6 +31,7 @@ end
 
 function ViewportManager.CreateViewport(Viewport, Size)
     local Canvas = Runtime.Backend2D.NewCanvas(Size)
+
     ViewportManager.Viewports[Viewport.UUID] = Viewport
     return Canvas
 end

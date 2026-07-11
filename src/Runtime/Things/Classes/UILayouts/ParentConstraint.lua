@@ -20,6 +20,11 @@ function ParentConstraint:SetParent(NewParent)
     if self.Parent then 
         -- Check if any object in the parent is added or removed
         self.ChildrenEvent = self.Parent.ChildrenChanged:Connect(function(Child, EventType)
+            if (not self.Parent) then -- Another check, as when this is called we could also be niled now
+                printVerbose("Caught weird listlayout error")
+                return
+            end
+            
             if EventType == Enum.Hierachy.Removed then
                 self:UnbindObject(Child)
             else

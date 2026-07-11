@@ -35,6 +35,14 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 			end
 		end
 	end
+
+	function EventObject:DisconnectAll()
+		for _, Event in pairs(Events) do
+			Event[3]:Disconnect() 
+		end
+
+		Events = {}
+	end
 	
 	---@return SignalConnection
 	local function ConnectEvent(func, listener, EventId)
