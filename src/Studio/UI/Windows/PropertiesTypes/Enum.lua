@@ -49,6 +49,7 @@ end
 
 function Template.Start(MainInfo)
     local self = {}
+    local EnumLock = false
     --MainInfo.Connections
     self.ChangedOption = Signal:New("BlehBlehhh")
 
@@ -76,7 +77,6 @@ function Template.Start(MainInfo)
     end
 
     table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
-        if GeneratedList.Remove then GeneratedList.Remove() end
 
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         local TableWow = {}
@@ -88,7 +88,22 @@ function Template.Start(MainInfo)
             end
 
             local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow)
+            print(GeneratedList)
             GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
+
+            EnumLock = not EnumLock
+
+            if EnumLock then
+                local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow)
+                GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
+                GenerateList(Property,FrameOption,Thing)
+            else
+                if (not GeneratedList) then return end
+                if GeneratedList.Remove then 
+                    GeneratedList.Remove() 
+                end
+                GeneratedList = {}
+            end
         end
     end))
 

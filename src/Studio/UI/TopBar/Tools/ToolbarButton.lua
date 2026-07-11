@@ -8,8 +8,8 @@ return function(Args)
         Clicked = Args.OnClick,
         BackgroundTransparency = .5,
         BackgroundColor = Studio.Theme.CurrentTheme.Outline,
-        CornerRadius = 10,
-        OutlineSize = 2.5,
+        CornerRadius = 5,
+        OutlineSize = 1.5,
         OutlineColor = Studio.Theme.CurrentTheme.Outline
     }
 
@@ -29,7 +29,7 @@ return function(Args)
         Size = Pivot2D.FromScale(1,0.3),
         ForegroundColor = Studio.Theme.CurrentTheme.Text,
         BackgroundTransparency = 1,
-        ment = Enum.Alignment.TopLeft,
+        Alignment = Enum.Alignment.TopLeft,
         Text = Args.Name
     }
     Text:SetFont(Studio.Theme.CurrentTheme.FontBold)
