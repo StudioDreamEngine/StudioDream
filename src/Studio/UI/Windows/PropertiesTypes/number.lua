@@ -22,12 +22,12 @@ function Template.Start(MainInfo)
         Parent = MainInfo.Option,
     }
 
-    function self.Update(DoesRound)
+    function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
 
         for i,Info in pairs(MainInfo.WillHandle) do -- on the start it will aways have 1 so ye
             if AllSame then
-                Text:SetText(tostring((not DoesRound) and math.round(Info.Thing[Info.Property]) or Info.Thing[Info.Property]))
+                Text:SetText(Info.Thing[Info.Property])
             else
                 Text:SetText("~")
             end
@@ -36,10 +36,6 @@ function Template.Start(MainInfo)
     end
 
     self.Update()
-
-    table.insert(MainInfo.Connections,Text.FocusStart:Connect(function()
-        self.Update(true)
-    end))
 
     table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
             for i,Info in pairs(MainInfo.WillHandle) do

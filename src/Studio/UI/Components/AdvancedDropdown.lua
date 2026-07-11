@@ -180,15 +180,16 @@ return function(Choices)
     end
     
     function Dropdown.Remove()
-        for i,v in pairs(BindedEvents) do
-            v:Disconnect()
+        print(BindedEvents)
+        --[[for i,v in pairs(BindedEvents) do
+            if v.Connect then
+                v:Disconnect()
+            end
             BindedEvents[v] = nil
-        end
-
+        end]]
+        table.clear(BindedEvents)
         Components.UnregisterUpdator(Updator)
         Things.Remove(CurrentDropdown)
-
-        Dropdown.Remove = function() end
     end
 
     return Dropdown

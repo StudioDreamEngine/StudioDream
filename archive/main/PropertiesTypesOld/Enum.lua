@@ -19,7 +19,7 @@ local function GenerateList(Option,Frame,Thing)
                 Function = function()
                     Thing[Option] = v
                     ChangedOption.Invoke()
-                    GeneratedList.Remove()
+                    GeneratedList = nil
                 end
             })
         end
@@ -87,7 +87,7 @@ function Enumed.Start(FrameOption,Thing,Property)
         else
             if (not GeneratedList) then return end -- Guard Clauses mikl! Guard clauses
             
-            GeneratedList.Remove()
+            GeneratedList = nil
         end
     end)
 
