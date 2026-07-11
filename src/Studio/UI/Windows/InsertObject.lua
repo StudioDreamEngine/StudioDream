@@ -13,6 +13,7 @@ function InsertObject.Init()
         Size = Pivot2D.FromScale(1,0.9),
         Position = Pivot2D.FromScale(0,1),
         Pivot = Vector2.new(0,1),
+        CanvasSize = Pivot2D.FromScale(1,3),
         Parent = InsertObject.Container,
         Layer = 100
     }

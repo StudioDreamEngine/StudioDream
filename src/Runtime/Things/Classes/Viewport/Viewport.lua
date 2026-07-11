@@ -14,6 +14,13 @@ function Viewport:new()
     self.DisplayList = {}
 end
 
+function Viewport:DefineAPI()
+    Viewport.super.DefineAPI(self)
+    
+    self.Proxy.Property("Thing RenderContainer")
+    self.Proxy.Group("General", "RenderContainer")
+end
+
 function Viewport:Draw()
     Renderer.ViewportManager.RenderCanvas(self)
 end
@@ -27,6 +34,8 @@ end
 
 ---@param NewFolder Thing
 function Viewport:SetRenderContainer(NewFolder)
+    if (not NewFolder) then print("newfolder is nil") return end
+
     if NewFolder:IsA("ViewportContainer") then
         NewFolder.Adornee = self
         self.RenderContainer = NewFolder

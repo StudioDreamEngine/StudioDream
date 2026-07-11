@@ -53,9 +53,13 @@ end
 function Resources.LoadResourceFromIdentifier(Identifier, Object)
     assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
 
-    if Utils.TypeOf(Identifier) == "string" then
+    local Type = Utils.TypeOf(Identifier)
+
+    if Type == "string" then
         printVerbose("Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
         Identifier = Identifiers.GetIdentifierFromID(Identifier)
+    elseif Type == "userdata" then
+        Identifier = IdentifierType.new(Identifier, "Buffer")
     end
 
     if Identifier.ResourceType == "Project" then

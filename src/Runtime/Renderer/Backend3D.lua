@@ -69,6 +69,14 @@ end
 
 -- Object stuff --
 
+function Backend3D.RegisterObject(Object, UUID)
+    DreamAdorns.objects[UUID] = Object
+end
+
+function Backend3D.UnregisterObject(UUID)
+    DreamAdorns.objects[UUID] = nil
+end
+
 function Backend3D.CreateAdorn(Name)
     local Object = Dream:newObject()
     Object.name = Name

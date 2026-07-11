@@ -57,7 +57,6 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
     }
 
     selfed.Base.Clicked:Connect(function()
-        print("Click")
         Runtime.Project.Load(Path)
         Start.Close()
         Studio.Layout.CallHandle("Explorer", "Redraw")

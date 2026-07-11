@@ -45,6 +45,9 @@ function love.errorhandler(msg)
     local full_trace = crash_extra.."\n"..ERROR_SEPERATE.."\n"..traceback
 
     -- I'd make this a little better, but eh its fine enough for now
+    love.graphics.setCanvas()
+    love.graphics.reset()
+
     love.system.setClipboardText(full_trace)
 
     love.graphics.origin()
@@ -66,6 +69,7 @@ function love.errorhandler(msg)
     for i,v in pairs(string.split(full_trace, "\n")) do
         Log(v)
     end
+
     love.graphics.present()
 
     return function()

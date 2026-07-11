@@ -1,16 +1,16 @@
-local Identifier = {}
+local IdentifierType = {}
 
-function Identifier.new(Data, ResourceType, Identifier)
+function IdentifierType.new(Data, ResourceType)
     ---@class Identifier
     local IdentifierObject = {}
 
     IdentifierObject.Type = "Identifier"
     IdentifierObject.ResourceType = ResourceType
-    IdentifierObject.ID = Identifier
+    IdentifierObject.ID = "Buffer-"..CreateUUID()
 
     IdentifierObject.Data = Data
 
     return IdentifierObject
 end
 
-return Identifier
+return IdentifierType

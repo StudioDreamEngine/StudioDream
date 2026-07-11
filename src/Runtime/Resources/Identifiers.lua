@@ -77,14 +77,14 @@ function Identifiers.GetStudioPath(IdentifierID)
 
     if PathSplit[1] == "Internal" then
         local PathString = table.concat(PathSplit, "/", 2)
-        return Identifier.new(Path.new(PathString, IdentifierID), "Internal", IdentifierID)
+        return IdentifierType.new(Path.new(PathString), "Internal")
     end
 end
 
 -- Get an identifier from an IdentifierID
 function Identifiers.GetIdentifierFromID(IdentifierID) 
     if type(IdentifierID) ~= "string" then -- Buffer type
-        return Identifier.new(IdentifierID, "Buffer", "Buffer-"..CreateUUID())
+        return IdentifierType.new(IdentifierID, "Buffer")
     else -- Internal and Project type
         return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
     end

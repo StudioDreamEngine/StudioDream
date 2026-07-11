@@ -19,7 +19,7 @@ function lib:newSprite(texture, quad)
 	---@type DreamSprite
 	local mesh = setmetatable(lib.classes.sprite.getQuadMesh(1, ratio, u1, v1, u2, v2), self.meta.sprite)
 	
-	mesh.material.AlbedoTexture = texture
+	mesh.material:SetAlbedoTexture(texture)
 	mesh.material.Particle = true
 	
 	return mesh
@@ -58,10 +58,10 @@ function class.getQuadMesh(sx, sy, u1, v1, u2, v2)
 	local mesh = lib:newMesh(material)
 	
 	local vertices = mesh:getOrCreateBuffer("vertices")
-	vertices:append({ -0.5 * sx, -0.5 * sy, 0.0 })
-	vertices:append({ 0.5 * sx, -0.5 * sy, 0.0 })
-	vertices:append({ 0.5 * sx, 0.5 * sy, 0.0 })
-	vertices:append({ -0.5 * sx, 0.5 * sy, 0.0 })
+	vertices:append({ -1 * sx, -1 * sy, 0.0 })
+	vertices:append({ 1 * sx, -1 * sy, 0.0 })
+	vertices:append({ 1 * sx, 1 * sy, 0.0 })
+	vertices:append({ -1 * sx, 1 * sy, 0.0 })
 	
 	local texCoords = mesh:getOrCreateBuffer("texCoords")
 	texCoords:append({ u1, v2 })

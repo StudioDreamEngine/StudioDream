@@ -12,19 +12,17 @@ Project.GetConfig = Config.GetConfig
 Project.SetConfig = Config.SetConfig
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
-    if (not ProjectPath) then
-        return Shared.QueueAbort("ProjectPath was blank! This is a BUG... get bloctans!")
-    end
+    assert(ProjectPath, "ProjectPath was blank!")
 
     if (not NativeFS.getInfo(ProjectPath)) then
-        return Shared.QueueAbort("Couldnt load project: "..ProjectPath)
+        return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
     ProjectFS.MountProject(ProjectPath)
 
     if not ProjectFS.FileExists("Project.sdc") then
         ProjectFS.UnmountProject()
-        return Shared.QueueAbort("Project.sdc wasnt found in specified project path, are you sure it was a valid StudioDream project?")
+        return Shared.QueueAbort("Project.sdc not found in specified project path, are you sure it's a valid StudioDream project?")
     end
 end
 
@@ -66,6 +64,7 @@ end
 -- Remount to a new directory and save project
 function Project.SaveTo(ProjectPath)
     local SaveProjectOn = ProjectPath
+    
     if Platform.ParsePath(ProjectPath) == Platform.ParsePath(Platform.GetDocuments()) then
         NativeFS.createDirectory(Platform.ParsePath(ProjectPath)..Project.GetConfig("Name"))
         SaveProjectOn = Platform.ParsePath(ProjectPath)..Project.GetConfig("Name")
@@ -83,13 +82,14 @@ function Project.Save()
     Studio.Layout.GetHandle("Notification").Notify("Saving Project...","Info")
 
     if not ProjectFS.GetMount() then 
-        Shared.QueueAbort("Abort save, no project found")
-        Studio.Layout.GetHandle("Notification").Notify("Abort save, no project found","Error")
+        Studio.Layout.GetHandle("Notification").Notify("Please first load a project first in order to save","Error")
     else
         Config.Save()
         ProjectFS.WriteFile("Thumbnail.png", Dream:renderThumbnail())
         Scenes.LoadRootScenes("Save")
+
         Project.AddToHistory(ProjectFS.GetMount(), Project.GetConfig("Name"))
+
         Studio.Layout.GetHandle("Notification").Notify("Save Completed!","Info")
     end
 end

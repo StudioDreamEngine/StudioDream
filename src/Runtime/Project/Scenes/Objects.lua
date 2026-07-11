@@ -116,12 +116,13 @@ function Objects.DeserializeObject(ObjectData)
 
     local Success, Thing = xpcall(function(...)
         return Things.Create(ObjectData.Type, ObjectData.UUID)(Properties)
-    end, function()
+    end, function(Error)
+        print(Error)
         print(debug.traceback())
     end)
     
     if (not Success) then
-        Shared.QueueAbort("Couldnt load object "..ObjectData.Properties.Name.Value..", "..Thing)
+        Shared.QueueAbort("Error while loading Object "..ObjectData.Properties.Name.Value..", Traceback is in logs")
         return
     end
 

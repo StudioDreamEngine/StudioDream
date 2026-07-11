@@ -39,7 +39,7 @@ function StudioCamera.Update(dt)
     local Side = Camera.Transform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
     local Direction = (Forward + Side).Unit()
 
-    CameraPosition = CameraPosition + Direction*dt*4
+    CameraPosition = CameraPosition + Direction*dt*3
 
     Camera:SetTransform(Transform3D.FromPosition(CameraPosition) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0))
 end

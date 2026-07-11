@@ -45,7 +45,6 @@ function Scenes.LoadScene(Path, Target)
         Scenes.ConfigureTargetsTemp()
     end, function(Error)
         print(Error)
-        print(debug.traceback())
     end)
 
     if Success then

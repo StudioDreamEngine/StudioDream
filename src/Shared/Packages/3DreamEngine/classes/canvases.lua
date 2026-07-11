@@ -106,7 +106,7 @@ function class:init(w, h)
 	
 	if self.mode ~= "direct" then
 		--depth
-		self.depthBuffer = love.graphics.newCanvas(w, h, { format = lib.canvasFormats["depth32f"] and "depth32f" or lib.canvasFormats["depth24"] and "depth24" or "depth16", readable = false, msaa = self.msaa })
+		self.depthBuffer = love.graphics.newCanvas(w, h, { format = "depth32f", readable = false, msaa = self.msaa })
 		
 		--temporary HDR color
 		self.color = love.graphics.newCanvas(w, h, { format = self.format, readable = true, msaa = self.msaa })
@@ -118,7 +118,7 @@ function class:init(w, h)
 		end
 		
 		--depth
-		self.depth = love.graphics.newCanvas(w, h, { format = "r16f", readable = true, msaa = self.msaa })
+		self.depth = love.graphics.newCanvas(w, h, { format = "r32f", readable = true, msaa = self.msaa })
 
 		--stencil/outlines
 		self.stencil = love.graphics.newCanvas(w, h, { format = "r16f", readable = true, msaa = self.msaa })

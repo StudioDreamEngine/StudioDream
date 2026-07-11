@@ -9,14 +9,14 @@ end
 
 function Viewport3D:DefineAPI()
     Viewport3D.super.DefineAPI(self)
-
+    
     self.Proxy.Icon("Viewport_3D")
+
     self.Proxy.MakeCreatable()
 end
 
 function Viewport3D:SetAbsoluteSize(New)
     Viewport3D.super.SetAbsoluteSize(self, New)
-    Dream:resize(New.X, New.Y)
 end
 
 function Viewport3D:GetWorld()
