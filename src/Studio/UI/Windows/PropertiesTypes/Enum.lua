@@ -1,6 +1,6 @@
 local Template = {}
 
-local GeneratedList
+local GeneratedList = {}
 
 local function CheckAllTheSame(table)
     local FirstVal = table[1] and table[1].Thing[table[1].Property]
@@ -12,7 +12,7 @@ local function CheckAllTheSame(table)
     return true
 end
 
-function GenerateList(MainInfo,Frame,ChangedOption,Info)
+function GenerateList(MainInfo,ChangedOption,Info)
     local EnumMade = Enum[Info.Property]
     local Index = 0
     local Choices = {}
@@ -32,16 +32,17 @@ function GenerateList(MainInfo,Frame,ChangedOption,Info)
                             Runtime.Things.SetProperty(Info.Thing, Info.Property, v)
                         end
                         ChangedOption.Invoke()
-                        GeneratedList.Remove()
+                        if GeneratedList.Remove then
+                            GeneratedList.Remove()
+                            GeneratedList = {}
+                        end
                     end
                 })
            end
         end
     end
 
-    GeneratedList = Studio.Components.AdvancedDropdown(Choices)
-    GeneratedList.Setup(Frame, Vector2.new(0,1))
-    GeneratedList.Toggle(true)
+    return Choices
 end
 
 function Template.Start(MainInfo)
@@ -72,12 +73,8 @@ function Template.Start(MainInfo)
         end
     end
 
-    table.insert(MainInfo.Connections,self.ChangedOption:Connect(function()
-        self.Update()
-    end))
-
     table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
-        if GeneratedList then GeneratedList.Remove() end
+        if GeneratedList.Remove then GeneratedList.Remove() end
 
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         local TableWow = {}
@@ -87,7 +84,8 @@ function Template.Start(MainInfo)
                 TableWow.Thing = Info.Thing
                 TableWow.Property = Info.Property
             end
-            GenerateList(MainInfo,Text,self.ChangedOption,TableWow)
+            local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow)
+            GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
         end
     end))
 

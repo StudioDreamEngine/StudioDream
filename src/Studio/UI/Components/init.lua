@@ -37,7 +37,7 @@ function Components.Init()
 
     Components.AdvancedDropdown = require("Studio.UI.Components.AdvancedDropdown")
     Components.CreateDialog = DialogWindows.CreateDialogWindow
-
+    Components.DropdownPlus = require("Studio.UI.Components.DropdownPlus")
     Components.ShowFade = DialogWindows.ShowFade
     Components.HideFade = DialogWindows.HideFade
 
@@ -196,8 +196,8 @@ function Components.SimpleDropdown(Position, Choices, Size)
 end
 
 function Components.CreateStyle(Type, Properties)
-    Properties.BackgroundColor = Studio.Theme.GetCurrentTheme().Secondary
-    Properties.ForegroundColor = Studio.Theme.GetCurrentTheme().Text
+    Properties.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
+    Properties.ForegroundColor = Studio.Theme.CurrentTheme.Text
     --[[Properties.OutlineSize = 1.5
     Properties.OutlineColor = Studio.Theme.GetCurrentTheme().Outline]]
    

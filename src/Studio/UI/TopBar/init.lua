@@ -61,7 +61,7 @@ function TopBar.Init()
         Size = Pivot2D.FromScale(1,0.3),
         Parent = TopBar.Container,
         OutlineSize = 3,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline
+        OutlineColor = Studio.Theme.CurrentTheme.Outline
     })
 
     Things.Create("ListLayout") {

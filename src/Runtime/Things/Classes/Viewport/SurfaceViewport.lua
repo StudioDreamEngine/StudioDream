@@ -24,6 +24,14 @@ function SurfaceViewport:SetParent(NewParent)
     return CouldParent, Reason
 end
 
+function SurfaceViewport:DefineAPI()
+    SurfaceViewport.super.DefineAPI(self)
+    
+    --[[self.Proxy.Property("Thing RenderContainer")
+    self.Proxy.Group("General", "RenderContainer")]]
+    self.Proxy.Icon("SurfaceViewport")
+end
+
 function SurfaceViewport:SetAbsoluteSize(New)
     SurfaceViewport.super.SetAbsoluteSize(self, New)
 

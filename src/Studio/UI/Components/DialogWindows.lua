@@ -1,5 +1,6 @@
 local DialogWindows = {}
 local Components = Studio.Components
+local Things = Runtime.Things
 local Tween = Runtime.Services.Service("TweenService")
 
 local DialogFade = Runtime.Things.Create("TextButton") {

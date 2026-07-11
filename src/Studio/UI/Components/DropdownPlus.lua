@@ -1,4 +1,6 @@
 local DropdownPlus = {}
+local Things = Runtime.Things
+local Components = Studio.Components
 
 local ChoiceTypes = {
     ["Button"] = function(Choice, Parent)
@@ -13,7 +15,9 @@ local ChoiceTypes = {
             CornerRadius = 2,
         })
 
-        return Button.Clicked
+        if Choice.Function then
+            Button.Clicked:Connect(Choice.Function)
+        end
     end,
     ["Separator"] = function(Func,Parent,Text)
         Parent:SetSize(Pivot2D.new(0,1,1,0))
@@ -38,7 +42,8 @@ function DropdownPlus.CreateButton(Choice,MajorParent)
     Button.Button = Components.CreateStyle("Square", {
         Size = Pivot2D.new(0,1,20,0),
         Parent = CurrentDropdown,
-        BackgroundTransparency = 1
+        BackgroundTransparency = 1,
+        Parent = MajorParent
     })
     Button.Type = ChoiceTypes[Choice.Type](Choice,Button.Button)
     return Button
@@ -48,11 +53,11 @@ function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
     Components.RegisterUpdator(function()
         local UsingPosition, UsingSize = Position, Size 
 
-        UsingSize = Size and Vector2.new(FakeParent.Position.AbsoluteSize.X, FakeParent.Position.AbsoluteSize.Y*Size.Y) or FakeParent.Position.AbsoluteSize
-        UsingPosition = FakeParent.Position.ViewportPosition + (FakeParent.Position.AbsoluteSize * Vector2.yAxis)
+        UsingSize = Size and Vector2.new(FakeParent.AbsoluteSize.X, FakeParent.AbsoluteSize.Y*Size.Y) or FakeParent.AbsoluteSize
+        UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Vector2.yAxis)
 
-        CurrentDropdown:SetSize(Pivot2D.FromOffset(UsingSize.X or 200,0))
-        CurrentDropdown:SetPosition(Pivot2D.FromOffset(UsingPosition))
+        MajorComponent.MajorParent:SetSize(Pivot2D.FromOffset(UsingSize.X or 200,0))
+        MajorComponent.MajorParent:SetPosition(Pivot2D.FromOffset(UsingPosition))
 
         for _, Choice in pairs(MajorComponent.Choices) do
             Choice.Button:SetSize(Pivot2D.new(0,1,UsingSize.Y or 20,0))
@@ -60,20 +65,35 @@ function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
     end)
 end
 
-function DropdownPlus.new(Choices)
+function DropdownPlus.new(Choices,FakeParent)
     local selfed = {}
 
-    selfed.MajorParent = omponents.CreateStyle("Square", {
-            Size = Pivot2D.new(0,1,20,0),
-            Parent = CurrentDropdown,
-            BackgroundTransparency = 1
+    selfed.MajorParent = Components.CreateStyle("Square", {
+        AutomaticSize = Enum.AutomaticSize.Y,
+        Size = Pivot2D.FromOffset(200,0),
+        Layer = 100,
+        BackgroundTransparency = 0,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
     })
-
+    
     selfed.Choices = {}
 
+    Components.CreateStyle("ListLayout", {
+        Parent = selfed.MajorParent,
+        Alignment = Vector2.new(0.5,0.5)
+    })
+
     for i,Choice in pairs(Choices) do
-        table.insert(selfed.Choices,DropdownPlus.CreateButton(Choice,MajorParent))
+        table.insert(selfed.Choices,DropdownPlus.CreateButton(Choice,selfed.MajorParent))
     end
+
+    DropdownPlus.HandleNotParentSize(selfed,FakeParent)
+
+    function selfed.Remove()
+        selfed.MajorParent:Destroy()
+    end
+
+    selfed.MajorParent:SetParent(Things.Root.RootViewport)
 
     return selfed
 end
