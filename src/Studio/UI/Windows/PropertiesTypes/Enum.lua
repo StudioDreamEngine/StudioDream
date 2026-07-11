@@ -12,11 +12,10 @@ local function CheckAllTheSame(table)
     return true
 end
 
-function GenerateList(MainInfo,ChangedOption,Info)
-    local EnumMade = Enum[Info.Property]
+function GenerateList(MainInfo,ChangedOption,Things,Property)
+    local EnumMade = Enum[Property]
     local Index = 0
     local Choices = {}
-    print(Property)
     for i,v in pairs(EnumMade) do
         if type(v) ~= "function" then
            if i ~= "Type" then -- TRUST ME I TRIED "AND" AND IT DIDNT WORK :SKULL:
@@ -28,8 +27,8 @@ function GenerateList(MainInfo,ChangedOption,Info)
                     Text = tostring(i),
                     Type = "Button",
                     Function = function()
-                        for i,Info in pairs(MainInfo.WillHandle) do
-                            Runtime.Things.SetProperty(Info.Thing, Info.Property, v)
+                        for i,Info in pairs(Things) do
+                            Runtime.Things.SetProperty(Info.Thing, Property, v)
                         end
 
                         ChangedOption.Invoke()
@@ -82,26 +81,26 @@ function Template.Start(MainInfo)
         local TableWow = {}
 
         if AllSame then
+            local PropertyOne
             for i,Info in pairs(MainInfo.WillHandle) do
-                TableWow.Thing = Info.Thing
-                TableWow.Property = Info.Property
+                PropertyOne = Info.Property
+                table.insert(TableWow,{
+                    Thing = Info.Thing,
+                })
             end
-
-            local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow)
-            print(GeneratedList)
-            GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
 
             EnumLock = not EnumLock
 
             if EnumLock then
-                local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow)
+                local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow,PropertyOne)
+                print(ListGenerated)
                 GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
                 GenerateList(Property,FrameOption,Thing)
             else
                 if (not GeneratedList) then return end
-                if GeneratedList.Remove then 
+                --[[if GeneratedList.Remove then 
                     GeneratedList.Remove() 
-                end
+                end]]
                 GeneratedList = {}
             end
         end
