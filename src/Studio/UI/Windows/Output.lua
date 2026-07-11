@@ -3,7 +3,7 @@ local Output = {}
 local ScrollContainer
 
 function Output.CreateOutput(Text,Type)
-    local ColorToText = Studio.Theme.CurrentTheme.Text
+    local ColorToText = Studio.Theme.CurrentTheme.Text2
     
     if Type and Type == "Error" then
         ColorToText = Studio.Theme.CurrentTheme.Error
@@ -24,7 +24,7 @@ function Output.Init()
         Size = Pivot2D.FromScale(1,1),
         Parent = Output.Container
     }
-
+    Output.Container.BackgroundColor = Studio.Theme.CurrentTheme.Outline
     Runtime.Things.Create("ListLayout") {
         Parent = ScrollContainer,
         Reverse = true
