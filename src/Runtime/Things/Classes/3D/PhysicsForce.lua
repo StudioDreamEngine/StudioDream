@@ -14,6 +14,8 @@ function PhysicsForce:DefineAPI()
 
     self.Proxy.Property("Vector3 Force")
     self.Proxy.Group("Physics", "Force")
+    
+    self.Proxy.Icon("PhysicsForce")
 
     self.Proxy.MakeCreatable()
 end

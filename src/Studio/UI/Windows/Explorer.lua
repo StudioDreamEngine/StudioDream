@@ -38,8 +38,19 @@ local function ParentInserter(Obj)
     AddButtonWow.Object:SetParent(Obj)
 end
 
+local function SetAllChildNodeVisible(NodeObj,Visiblity)
+    for i,ChildNodeObj in pairs(NodeObj.ChildrenInNode) do
+        ChildNodeObj.Node:SetVisible(Visiblity)
+        SetAllChildNodeVisible(ChildNodeObj,Visiblity and ChildNodeObj.IsChildOpen)
+    end
+end
+
 function Explorer.CreateNode(Object, Depth)
-    local Node = Things.Create("Square") { 
+    local NodeObj = {}
+
+    NodeObj.ChildrenInNode = {}
+
+    NodeObj.Node = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,15,0),
         Pivot = Vector2.new(0,0),
         BackgroundTransparency = 1,
@@ -49,36 +60,71 @@ function Explorer.CreateNode(Object, Depth)
         CornerRadius = 5,
     }
 
-    local Line = Things.Create("Square") { 
+    NodeObj.Line = Things.Create("Square") { 
         Size = Pivot2D.FromScale(1,0.8),
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
         BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         Layer = 2,
         BackgroundTransparency = 0.5,
-        Parent = Node,
+        Parent = NodeObj.Node,
     }
 
-    local NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
-    NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
-    NodeInner:SetParent(Node)
+    NodeObj.AlreadyCreatedChilButton = false
+
+    NodeObj.CreateChildrenButton = function()
+        NodeObj.AlreadyCreatedChilButton = true
+        NodeObj.Button = Runtime.Things.Create("ImageButton") {
+            Resource = "Internal/Studio/OpenMenu.png",
+            Size = Pivot2D.FromScale(0.8,0.8),
+            BackgroundColor = Studio.Theme.CurrentTheme.Text,
+            SquareAxis = Enum.SquareAxis.Y, 
+            Position = Pivot2D.FromScale(1,0.5),
+            Pivot = Vector2.new(1,0.5),
+            Parent = NodeObj.Node,
+            Layer = 4,
+            ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64))
+        }
+
+        NodeObj.IsChildOpen = true
+
+        NodeObj.Button.Clicked:Connect(function()
+            NodeObj.IsChildOpen = not NodeObj.IsChildOpen
+            SetAllChildNodeVisible(NodeObj,NodeObj.IsChildOpen)
+            NodeObj.Button:SetImageRect(Rect.new(
+                Vector2.new(NodeObj.IsChildOpen and 64 or 0, 0),
+                Vector2.new(64,64)
+            ))
+        end)
+    end
+
+    NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
+    NodeObj.NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
+    NodeObj.NodeInner:SetParent(NodeObj.Node)
     
-    return Node, NodeInner
+    return NodeObj
 end
 
-function Explorer.CreateTree(Object, Depth)
+function Explorer.CreateTree(Object, Depth, BeforeNodeObj)
     Order = Order + 1
 
-    local Node, NodeInner = Explorer.CreateNode(Object, Depth)
-    Node.ListOrder = Order
-    Node:SetParent(ScrollContainer)
-    NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Outline
+    local NodeObj = Explorer.CreateNode(Object, Depth)
+    NodeObj.Node.ListOrder = Order
+    NodeObj.Node:SetParent(ScrollContainer)
+    NodeObj.NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Outline
 
-    Explorer.Tree[Object] = NodeInner
+    Explorer.Tree[Object] = NodeObj.NodeInner
+    
+    if BeforeNodeObj then
+        table.insert(BeforeNodeObj.ChildrenInNode,NodeObj)
+        if not BeforeNodeObj.AlreadyCreatedChilButton then
+            BeforeNodeObj.CreateChildrenButton()
+        end
+    end
 
     for _, Child in pairs(Object:GetChildren()) do
         if Child.Serializable then
-            Explorer.CreateTree(Child, Depth + 1)
+            Explorer.CreateTree(Child, Depth + 1, NodeObj)
         end
     end
 end
@@ -186,18 +232,19 @@ function Explorer.Update(dt)
     Hovering = nil
 
     for Thing, Object in pairs(Explorer.Tree) do
-        if Object.Hovering then 
+        local NodeInner = Object
+        if NodeInner.Hovering then 
             Hovering = {
-                Node = Object,
+                Node = NodeInner,
                 Thing = Thing
             }
         end
 
         if table.find(Studio.Editor3D.Selecting, Thing) then
-            Object.BackgroundColor = Studio.Theme.CurrentTheme.Selecting
-            ParentInserter(Object)
+            NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Selecting
+            ParentInserter(NodeInner)
         else
-            Object.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
+            NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
         end
     end
 end
