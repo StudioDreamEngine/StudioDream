@@ -21,7 +21,7 @@ function ViewportContainer:SetAdornee(NewAdornee)
         if (not NewAdornee.RenderContainer) then
             NewAdornee.RenderContainer = self
         else
-            print("RenderContainer of Viewport was not automatically set, as it already has a RenderContainer")
+            print("RenderContainer of Viewport was not automatically set, as it already has a RenderContainer. \nSet it to nil before configuring a new one.")
         end
     else
         self.Adornee = nil

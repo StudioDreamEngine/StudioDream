@@ -17,6 +17,18 @@ local Origins = {}
 
 -- Start a new task
 function Scheduler.NewTask(Function, ...)
+    local Coroutine = Scheduler.CreateTask(Function)
+    Scheduler.RunTask(Coroutine, table.pack(...))
+
+    return Coroutine
+end
+
+--[[
+    Start a new task on the start of the next frame (before anything runs)
+    
+    Simillar to task.defer() in roblox
+]]
+function Scheduler.QueueTask(Function, ...)
     return Scheduler.DelayTask(0, Function, ...)
 end
 
@@ -57,13 +69,19 @@ function Scheduler.CancelTask(Thread)
     CancelingTasks[Thread] = true
 end
 
--- Start a new task (after a delay)
-function Scheduler.DelayTask(Time, Function, ...)
+function Scheduler.CreateTask(Function)
     local Coroutine = coroutine.create(Function)
 
     Origins[Coroutine] = debug.traceback("Task Origin")
-
     ActiveTasks[Coroutine] = true
+
+    return Coroutine
+end
+
+-- Start a new task (after a delay)
+function Scheduler.DelayTask(Time, Function, ...)
+    local Coroutine = Scheduler.CreateTask(Function)
+
     PausedTasks[Coroutine] = {
         Time = GlobalTick + Time,
         Args = table.pack(...)
@@ -94,6 +112,25 @@ function Scheduler.Yield(YieldTime)
     coroutine.yield() 
 end
 
+function Scheduler.RunTask(Coroutine, Args)
+    local Success, Msg
+
+    if Args then
+        Success, Msg = coroutine.resume(Coroutine, unpack(Args))
+    else
+        Success, Msg = coroutine.resume(Coroutine)
+    end
+
+    if not Success then 
+        local FullMsg = "Task has been halted as error occurred:\n"..debug.traceback(Coroutine, Msg).."\n\n"..Origins[Coroutine]
+        Shared.SaveLog(FullMsg)
+
+        if Scheduler.OnRecoverableError then Scheduler.OnRecoverableError(FullMsg) end
+
+        Scheduler.CancelTask(Coroutine)
+    end
+end
+
 Scheduler.OnRecoverableError = nil
 
 function Scheduler.Update()
@@ -102,24 +139,7 @@ function Scheduler.Update()
         if GlobalTick > Data.Time then
             PausedTasks[Coroutine] = nil
 
-            -- Handle errors for coroutines, as their errors are not handled by the love error handler.
-
-            local Success, Msg
-
-            if Data.Args then
-                Success, Msg = coroutine.resume(Coroutine, unpack(Data.Args))
-            else
-                Success, Msg = coroutine.resume(Coroutine)
-            end
-
-            if not Success then 
-                local FullMsg = "Task has been halted as error occurred:\n"..debug.traceback(Coroutine, Msg).."\n\n"..Origins[Coroutine]
-                Shared.SaveLog(FullMsg)
-
-                if Scheduler.OnRecoverableError then Scheduler.OnRecoverableError(FullMsg) end
-
-                Scheduler.CancelTask(Coroutine)
-            end
+            Scheduler.RunTask(Coroutine, Data.Args)
         end
     end
 
