@@ -47,6 +47,7 @@ function Runtime.PostInit(ProjectPath)
     Runtime.Things.CreateApiDump()
 
     Dream:prepareRuntime()
+    Runtime.Backend3D.SetupDebug()
 
     Runtime.Project = require("Runtime.Project")
     Runtime.Things.CreateEnviornment()

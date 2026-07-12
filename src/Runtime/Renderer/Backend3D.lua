@@ -10,6 +10,16 @@ function Backend3D.Init()
     DreamAdorns.name = "DreamAdorns"
 end
 
+function Backend3D.SetupDebug()
+    Backend3D.Debug = Dream.cubeObject:clone()
+    Backend3D.SetTransform(Transform3D.FromPosition(0,-200,0))
+end
+
+function Backend3D.SetTransform(Transform)
+    Backend3D.Debug:resetTransform()
+    Backend3D.Debug:setTransform(Transform.GetMatrix())
+end
+
 ---@return DreamObject
 function Backend3D.CreateWorld()
     local DreamWorld = Dream:newObject()

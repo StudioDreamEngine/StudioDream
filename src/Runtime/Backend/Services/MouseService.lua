@@ -16,6 +16,10 @@ function MouseService.ChangeCursor(ChangeTo)
     print("Cursor Changed to: "..ChangeTo)
 end
 
+function MouseService.GetPosition()
+    return Backend2D.GetMousePosition()
+end
+
 function MouseService.SetMouseMode(MouseMode)
     MouseService.LockPosition = Backend2D.GetMousePosition()
     MouseService.MouseMode = MouseMode

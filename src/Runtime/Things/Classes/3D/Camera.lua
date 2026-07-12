@@ -9,7 +9,7 @@ function Camera:new()
     self.FieldOfView = 70 -- FOV
     self.Viewport = nil -- This should be set by the viewport/environment, not by itself
 
-    self.Drawable = Dream.camera
+    self.Drawable = Dream:newCamera()
 end
 
 function Camera:DefineAPI()
@@ -43,7 +43,7 @@ function Camera:LocalRayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
 end
 
 function Camera:GetFocalLength()
-    local CamFov = Dream.camera.fov
+    local CamFov = self.Drawable.fov
     return math.tan(CamFov / 2)
 end
 
@@ -58,7 +58,7 @@ function Camera:VectorToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want a
     local TanFov = self:GetFocalLength()
 
     local DirCamera = Vector3.new(x * ViewAspect * TanFov,y * TanFov,-TanFov)
-    local m = Dream.camera.transform
+    local m = self.Drawable.transform
 
     local dirWorld = Vector3.new(
         m[1] * DirCamera.X + m[2] * DirCamera.Y + m[3] * DirCamera.Z,

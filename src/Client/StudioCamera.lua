@@ -7,6 +7,8 @@ local CameraPosition = Vector3.zero
 local MouseService = Runtime.Services.Service("MouseService") ---@class MouseService
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
+local LastMouse, CurrentMouse = Vector2.zero, Vector2.zero
+
 function StudioCamera.Init()
     InputService.MouseEvent:Connect(function(IsDown)
         if IsDown then
@@ -31,6 +33,8 @@ function StudioCamera.Update(dt)
     local Camera = Runtime.Things.Root:GetCamera()
     if (not Camera) then return end
 
+    --CurrentMouse = 
+
     local KeyDownNum = InputService.KeyDownNumber
 
     local Forward = Camera.Transform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
@@ -40,6 +44,8 @@ function StudioCamera.Update(dt)
     CameraPosition = CameraPosition + Direction*dt*4
 
     Camera:SetTransform(Transform3D.FromPosition(CameraPosition) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0))
+
+    --LastMouse = CurrentMouse
 end
 
 return StudioCamera

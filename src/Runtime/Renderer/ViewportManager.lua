@@ -42,7 +42,7 @@ end
 
 -- Render the contents of a 2d viewport
 function ViewportManager.RenderViewport2D(Viewport)
-    Profiler.Start("Render 2D Viewport")
+    Profiler.Start("Render 2D Viewport ("..Viewport.Name..")")
     Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
         love.graphics.clear()
 
@@ -71,15 +71,19 @@ end
 
 -- Render the contents of a 3d viewport
 function ViewportManager.RenderViewport3D(Viewport)
-    Profiler.Start("Render 3D Viewport")
+    Profiler.Start("Render 3D Viewport ("..Viewport.Name..")")
     if Viewport.RenderContainer then
         Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
             Dream:resize(Viewport.AbsoluteSize.X, Viewport.AbsoluteSize.Y)
             Dream:prepare()
             Dream:draw(Runtime.Backend3D.GetAdorns())
+            Dream:draw(Runtime.Backend3D.Debug)
             Dream:addLight(light)
             Dream:draw(Viewport:GetWorld())
-            Dream:present()
+
+            local Camera = Viewport:GetCamera()
+
+            Dream:present(Camera and Camera.Drawable)
         end)
     end
     Profiler.End()

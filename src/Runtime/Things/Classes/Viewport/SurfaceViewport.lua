@@ -24,6 +24,12 @@ function SurfaceViewport:SetParent(NewParent)
     return CouldParent, Reason
 end
 
+function SurfaceViewport:OnRemove()
+    SurfaceViewport.super.OnRemove(self)
+
+    Runtime.Backend3D.UnregisterObject(self.UUID)
+end
+
 function SurfaceViewport:DefineAPI()
     SurfaceViewport.super.DefineAPI(self)
     
