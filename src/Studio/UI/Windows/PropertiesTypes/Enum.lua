@@ -74,6 +74,8 @@ function Template.Start(MainInfo)
             end
         end
     end
+    
+    self.Update()
 
     table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
 
@@ -93,7 +95,7 @@ function Template.Start(MainInfo)
 
             if EnumLock then
                 local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow,PropertyOne)
-                print(ListGenerated)
+                --print(ListGenerated)
                 GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
             else
                 if (not GeneratedList) then return end
