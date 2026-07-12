@@ -15,11 +15,16 @@ function ViewportContainer:DefineAPI()
 end
 
 function ViewportContainer:SetAdornee(NewAdornee)
-    if NewAdornee:IsA("Viewport") then
+    if NewAdornee and NewAdornee:IsA("Viewport") then
         self.Adornee = NewAdornee
-        NewAdornee.RenderContainer = self
+
+        if (not NewAdornee.RenderContainer) then
+            NewAdornee.RenderContainer = self
+        else
+            print("RenderContainer of Viewport was not automatically set, as it already has a RenderContainer")
+        end
     else
-        print("Couldnt set Adornee, Adornee isnt a Viewport or subclass")
+        self.Adornee = nil
     end
 end
 

@@ -36,11 +36,16 @@ end
 function Viewport:SetRenderContainer(NewFolder)
     if (not NewFolder) then print("newfolder is nil") return end
 
-    if NewFolder:IsA("ViewportContainer") then
-        NewFolder.Adornee = self
+    if NewFolder and NewFolder:IsA("ViewportContainer") then
+        if (not NewFolder.Adornee) then
+            NewFolder.Adornee = self
+        else
+            print("Adornee of ViewportContainer was not automatically set, as it already has an adornee")
+        end
+        
         self.RenderContainer = NewFolder
     else
-        print("Couldnt set RenderContainer, RenderContainer isnt a ViewportContainer or subclass")
+        self.RenderContainer = nil
     end
 end
 
