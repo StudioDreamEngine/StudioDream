@@ -69,9 +69,18 @@ function Camera:VectorToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want a
     return dirWorld
 end
 
+function Camera:GetViewport()
+    return self.Viewport
+end
+
 -- TODO: We might be calling this more than once per frame, should we just grab from a variable updated each frame instead?
 function Camera:GetMouseRay()
-    return self:VectorToWorldSpace(self.Viewport.MousePosition)
+    if self.Viewport then
+        return self:VectorToWorldSpace(self.Viewport.MousePosition)
+    else
+        printVerbose("Triggered mouse ray hack")
+        return Vector3.zAxis
+    end
 end
 
 return Camera
