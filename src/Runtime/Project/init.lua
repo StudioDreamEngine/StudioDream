@@ -10,11 +10,13 @@ Project.RegisterRootScene = Scenes.RegisterRootScene
 Project.LoadDefault = Scenes.LoadDefault
 Project.GetConfig = Config.GetConfig
 Project.SetConfig = Config.SetConfig
+
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
     assert(ProjectPath, "ProjectPath was blank!")
 
     if (not NativeFS.getInfo(ProjectPath)) then
+        Project.RemoveFromHistory(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
@@ -24,6 +26,18 @@ function Project.ValidateAndMount(ProjectPath)
         ProjectFS.UnmountProject()
         return Shared.QueueAbort("Project.sdc not found in specified project path, are you sure it's a valid StudioDream project?")
     end
+end
+
+function Project.ClearHistory()
+    RecentProjects = {}
+end
+
+function Project.RemoveFromHistory(Path)
+    print("Removing "..Path.." from project history")
+    RecentProjects[Path] = nil
+
+    Runtime.SettingsManager.ChangeSetting("RecentProjects", RecentProjects)
+    printVerbose(RecentProjects)
 end
 
 function Project.AddToHistory(Path, Name)

@@ -36,7 +36,7 @@ function Image2D:new()
     self.CornerRadius = 0
 
     self.ScaleType = Enum.ScaleType.Stretch
-    self.FilterType = Enum.FilterType.Linear
+    self.FilterType = Enum.FilterType.Pixelated
 
     self.ForegroundColor = Color.new(1)
 
@@ -47,16 +47,25 @@ function Image2D:DefineAPI()
     Image2D.super.DefineAPI(self)
 
     self.Proxy.Icon("Image2D")
-    self.Proxy.Property("Rect ImageRect","Resource Resource")
-    self.Proxy.Group("Visuals","Resource","ImageRect")
+    self.Proxy.Property("Rect ImageRect","Resource Resource","Enum.FilterType FilterType")
+    self.Proxy.Group("Visuals","Resource","ImageRect","FilterType")
 
     self.Proxy.MakeCreatable()
 end
 
-function Image2D:SetResource(Identifier)
-    self.ImageFile, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID)
+function Image2D:SetResource(Identifier, Reload)
+    self.ImageFile, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, Reload)
 
     self:RefreshQuad() -- Only refresh the quad object
+end
+
+function Image2D:SetFilterType(NewType)
+    self.FilterType = NewType
+
+    -- i hate love2d
+    love.graphics.setDefaultFilter(self.FilterType,self.FilterType,1)
+    self:SetResource(self.Resource.ID, true)
+    love.graphics.setDefaultFilter("linear","linear",1)
 end
 
 function Image2D:RefreshQuad()
@@ -101,9 +110,9 @@ function Image2D:Draw()
 
     local PivotCenter = (Size/2) - (ImageSize/2)
 
-    love.graphics.push("all")
-    love.graphics.setDefaultFilter(self.FilterType, self.FilterType)
-    love.graphics.draw(self.ImageFile,self.ImageQuad,PivotCenter.X, PivotCenter.Y,0,Scale.X,Scale.Y) -- Draw Image
+    love.graphics.push()
+    love.graphics.scale(Scale.X, Scale.Y)
+    love.graphics.draw(self.ImageFile,self.ImageQuad,PivotCenter.X, PivotCenter.Y,0) -- Draw Image
     love.graphics.pop()
 
     love.graphics.setStencilMode("off")

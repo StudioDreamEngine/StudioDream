@@ -249,7 +249,7 @@ function BaseGui:DrawStyle()
             love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
         end
 
-       Runtime.Backend2D.SetColor(Color.new(1))
+        Runtime.Backend2D.SetColor(Color.new(1))
     end
 end
 

@@ -50,7 +50,7 @@ function Resources.ReloadResources()
 end
 
 -- Get a resource from an IdentifierID or Identifier
-function Resources.LoadResourceFromIdentifier(Identifier, Object)
+function Resources.LoadResourceFromIdentifier(Identifier, Object, Reload)
     assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
 
     local Type = Utils.TypeOf(Identifier)
@@ -67,7 +67,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object)
         ObjectReferences[Object] = Identifier
     end
 
-    return Resources.GetResource(Identifier), Identifier
+    return Resources.GetResource(Identifier, Reload), Identifier
 end
 
 local function LoadWithContents(Identifier, Contents)
@@ -80,28 +80,32 @@ local function LoadWithContents(Identifier, Contents)
     return Resource
 end
 
+function Resources.LoadResource(Identifier)
+    local ResourceType = Identifier.ResourceType
+    local Resource
+
+    if ResourceType == "Internal" then
+        Resource = LoadWithContents(Identifier, love.filesystem.read("Assets/"..Identifier.Data.FilePath))
+    elseif ResourceType == "Project" then
+        Resource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
+    elseif ResourceType == "Buffer" then
+        Resource = Identifier.Data
+    end
+
+    if not (Identifier.ID and Resource) then
+        print(Identifier)
+        error("Invalid Identifier for GetResource")
+    end
+
+    LoadedResources[Identifier.ID] = Resource
+end
+
 -- Get a resource from an Identifier
-function Resources.GetResource(Identifier)
+function Resources.GetResource(Identifier, Reload)
     if (not Identifier) then return end
 
-    if not LoadedResources[Identifier.ID] then -- If the resource isnt loaded yet, cache it
-        local ResourceType = Identifier.ResourceType
-        local Resource
-
-        if ResourceType == "Internal" then
-            Resource = LoadWithContents(Identifier, love.filesystem.read("Assets/"..Identifier.Data.FilePath))
-        elseif ResourceType == "Project" then
-            Resource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
-        elseif ResourceType == "Buffer" then
-            Resource = Identifier.Data
-        end
-
-        if not (Identifier.ID and Resource) then
-            print(Identifier)
-            error("Invalid Identifier for GetResource")
-        end
-
-        LoadedResources[Identifier.ID] = Resource
+    if Reload or (not LoadedResources[Identifier.ID]) then -- If the resource isnt loaded yet, cache it
+        Resources.LoadResource(Identifier)
     end
 
     return LoadedResources[Identifier.ID]
