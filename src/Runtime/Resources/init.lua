@@ -59,7 +59,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object)
         printVerbose("Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
         Identifier = Identifiers.GetIdentifierFromID(Identifier)
     elseif Type == "userdata" then
-        Identifier = IdentifierType.new(Identifier, "Buffer")
+        Identifier = IdentifierType.new(Identifier, "Buffer", "Buffer-"..CreateUUID())
     end
 
     if Identifier.ResourceType == "Project" then
@@ -94,6 +94,11 @@ function Resources.GetResource(Identifier)
             Resource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
         elseif ResourceType == "Buffer" then
             Resource = Identifier.Data
+        end
+
+        if not (Identifier.ID and Resource) then
+            print(Identifier)
+            error("Invalid Identifier for GetResource")
         end
 
         LoadedResources[Identifier.ID] = Resource

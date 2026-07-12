@@ -77,7 +77,7 @@ end
 -- Save a project
 function Project.Save()
     print("Saving Project...")
-    print(debug.traceback())
+    --print(debug.traceback())
 
     Studio.Layout.GetHandle("Notification").Notify("Saving Project...","Info")
 

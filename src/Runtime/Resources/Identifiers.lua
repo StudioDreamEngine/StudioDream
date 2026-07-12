@@ -59,7 +59,7 @@ end
 
 -- Configure (Register) an Identifier to be Associated with a File Path
 function Identifiers.RegisterIdentifier(Identifier, FilePath)
-    local NewIdentifier = Path.new(FilePath, Identifier)
+    local NewIdentifier = IdentifierType.new(Path.new(FilePath), "Project", Identifier)
     RegisteredIdentifiers[Identifier] = NewIdentifier
 
     return NewIdentifier
@@ -77,14 +77,16 @@ function Identifiers.GetStudioPath(IdentifierID)
 
     if PathSplit[1] == "Internal" then
         local PathString = table.concat(PathSplit, "/", 2)
-        return IdentifierType.new(Path.new(PathString), "Internal")
+        local Path = Path.new(PathString)
+
+        return IdentifierType.new(Path, "Internal", IdentifierID)
     end
 end
 
 -- Get an identifier from an IdentifierID
 function Identifiers.GetIdentifierFromID(IdentifierID) 
-    if type(IdentifierID) ~= "string" then -- Buffer type
-        return IdentifierType.new(IdentifierID, "Buffer")
+    if type(IdentifierID) ~= "string" then -- Buffer type, hate the fact this is done twice
+        return IdentifierType.new(IdentifierID, "Buffer", "Buffer-"..CreateUUID())
     else -- Internal and Project type
         return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
     end

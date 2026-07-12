@@ -13,9 +13,10 @@ function Serializer.Deserialize(Value)
     local Type = Value.ResourceType
 
     if (not Type) then
-        return IdentifierType.new(Path.new(Value.FilePath), "Project")
+        return IdentifierType.new(Path.new(Value.FilePath), "Project", Value.Identifier)
     else
-        error("New identifiers not implemented yet")
+        local Data = Value.Data
+        return IdentifierType.new(Path.new(Data.FilePath), "Project", Value.ID)
     end
 end
 
