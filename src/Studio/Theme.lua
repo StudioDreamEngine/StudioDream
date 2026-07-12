@@ -16,8 +16,8 @@ local ThemesIn = {
         TextInverse = Color.FromHex("#000000"),
         Error =  Color.FromHex("#ff3333"),
 
-        FontNormal = "Assets/Fonts/Roboto/Roboto-Medium.ttf",
-        FontBold = "Assets/Fonts/Roboto/Roboto-Bold.ttf"
+        FontNormal = "Roboto-Medium",
+        FontBold = "Roboto-Bold"
     },
 
     BlueNight = {
@@ -34,8 +34,8 @@ local ThemesIn = {
         Text2 = Color.FromHex("#ffffff"),
         TextInverse = Color.FromHex("#000000"),
         Error =  Color.FromHex("#ff3333"),
-        FontNormal = "Assets/Fonts/Roboto/Roboto-Medium.ttf",
-        FontBold = "Assets/Fonts/Roboto/Roboto-Bold.ttf"
+        FontNormal = "Roboto-Medium",
+        FontBold = "Roboto-Bold"
     },
 
     Ocean = {
@@ -51,8 +51,8 @@ local ThemesIn = {
         Text = Color.FromHex("#ffffff"),
         Text2 = Color.FromHex("#ffffff"),
 
-        FontNormal = "Assets/Fonts/Roboto/Roboto-Medium.ttf",
-        FontBold = "Assets/Fonts/Roboto/Roboto-Bold.ttf"
+        FontNormal = "Roboto-Medium",
+        FontBold = "Roboto-Bold"
     },
 
     DaySkyie = {
@@ -68,8 +68,8 @@ local ThemesIn = {
         Text = Color.FromHex("#1a1a1a"),
         Text2 = Color.FromHex("#ffffff"),
 
-        FontNormal = "Assets/Fonts/Roboto/Roboto-Medium.ttf",
-        FontBold = "Assets/Fonts/Roboto/Roboto-Bold.ttf"
+        FontNormal = "Roboto-Medium",
+        FontBold = "Roboto-Bold"
     },
 
     CodeMode = {

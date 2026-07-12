@@ -17,6 +17,10 @@ local Enums = {
         Arrow = 'arrow',
         Brick = 'brick'
     },
+    FilterType = {
+        Linear = "linear",
+        Pixelated = "nearest"
+    },
     OpenDialog = {
         Folder = "OpenFolderDialog",
         File = "OpenFileDialog",

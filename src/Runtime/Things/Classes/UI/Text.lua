@@ -63,7 +63,7 @@ function Text:Draw()
 end
 
 function Text:SetFont(NewFont)
-    self.RenderClass:SetFont(NewFont)
+    self.RenderClass.SetFont(NewFont)
     self:InvalidateRendering()
 end
 

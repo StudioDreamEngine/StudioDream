@@ -36,6 +36,7 @@ function Image2D:new()
     self.CornerRadius = 0
 
     self.ScaleType = Enum.ScaleType.Stretch
+    self.FilterType = Enum.FilterType.Linear
 
     self.ForegroundColor = Color.new(1)
 
@@ -100,7 +101,11 @@ function Image2D:Draw()
 
     local PivotCenter = (Size/2) - (ImageSize/2)
 
+    love.graphics.push("all")
+    love.graphics.setDefaultFilter(self.FilterType, self.FilterType)
     love.graphics.draw(self.ImageFile,self.ImageQuad,PivotCenter.X, PivotCenter.Y,0,Scale.X,Scale.Y) -- Draw Image
+    love.graphics.pop()
+
     love.graphics.setStencilMode("off")
 
     Profiler.End()

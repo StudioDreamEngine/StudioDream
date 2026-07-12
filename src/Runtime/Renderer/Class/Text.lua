@@ -1,3 +1,10 @@
+local function GetFont(Name, Weight)
+    Name = Name or "Roboto"
+    Weight = Weight or "Medium"
+
+    return string.format("Assets/Fonts/%s/%s-%s.ttf", Name, Name, Weight)
+end
+
 return function()
     ---@class TextRender
     local Text = {}
@@ -9,87 +16,81 @@ return function()
 
     Text.Text = "Placeholder"
 
+    Text.Lines = {}
+
+    -- Wrapping
     local function PerformWrap(CurrentSize, WrapLength)
         local Scale = 32 / CurrentSize
-        local width, lines = Text.RenderFont:getWrap(Text.Text, WrapLength * Scale)
+        local Width, Lines = Text.RenderFont:getWrap(Text.Text, WrapLength * Scale)
+        local Height = Text.RenderFont:getHeight()/Scale
+
+        Width = Width/Scale
 
         -- should simplify this y axis equation tbh
-        return Vector2.new(width/Scale, (#lines * Text.RenderFont:getHeight())/Scale), Scale
+        return Vector2.new(Width, (#Lines * Height)), {
+            Width = Width,
+            Scale = Scale,
+            Height = Height,
+            Lines = Lines
+        }
     end
 
+    -- TODO: Perform a binary search from 1 to ContainerSize.Y, as opposed to a linear search 
     local function SearchScaled(ContainerSize)
         local MaxSize, MinSize = ContainerSize.Y, 1
         local CurrentSize = MaxSize
 
-        local TextBounds, Scale
-        --[[
-            From 1 to MaxSize
-            Binary Search
-        ]]
+        local TextBounds, Lines
 
         repeat
-            TextBounds, Scale = PerformWrap(CurrentSize, ContainerSize.X)
+            TextBounds, Lines = PerformWrap(CurrentSize, ContainerSize.X)
 
             CurrentSize = CurrentSize - 1
         until ContainerSize.Y > TextBounds.Y or CurrentSize <= 1
 
-        return TextBounds, Scale
-    end
-
-    function Text:SetFont(Font)
-        Text.RenderFont = love.graphics.newFont(Font or "Assets/Fonts/Roboto/Roboto-Medium.ttf",32)
-    end
-
-    Text:SetFont()
-
-    function Text:SetRenderMode(Far,Near)
-        Text.RenderFont:setFilter(Far,Near)
+        return TextBounds, Lines
     end
 
     function Text.AttemptWrap(NewSize, TextScaled, TextSize)
         local ContainerSize = NewSize
-        local TextBounds, Scale
+        local TextBounds, Lines
 
         if TextScaled then
-            local MaxSize, MinSize = ContainerSize.Y, 1
-            local CurrentSize = math.max(MaxSize, MinSize)
-
-            if CurrentSize == MinSize then
-                TextBounds, Scale = PerformWrap(CurrentSize, ContainerSize.X)
-            else
-                TextBounds, Scale = SearchScaled(ContainerSize)
-            end
+            TextBounds, Lines = SearchScaled(ContainerSize)
         else
-            TextBounds, Scale = PerformWrap(TextSize, ContainerSize.X)
+            TextBounds, Lines = PerformWrap(TextSize, ContainerSize.X)
         end
 
+        Text.Lines = Lines
         Text.TextBounds = TextBounds
-        Text.Scale = Scale
+        Text.Scale = Lines.Scale
     end
 
-    function Text.GetLetters()
-        local FinalLettersTable = {}
+    -- Rendering
+    function Text.SetFont(Font)
+        local Font = Font and string.split(Font, "-") or {}
+        Text.RenderFont = love.graphics.newFont(GetFont(Font[1], Font[2]),32)
+    end
+
+    Text.SetFont()
+
+    -- Get the position (Vector2) of where a location in the text is
+    function Text.GetPositionFromLocation(Location)
+        
+    end
+
+    -- Get the location in text from where a position is
+    function Text.GetLocationFromPosition(Location)
         
     end
 
     function Text.Render(ContainerSize, Alignment)
-        local TextPosition = Vector2.new(0,ContainerSize.Y/2 - Text.TextBounds.Y/2) + Utils.GetAlignment(Alignment, ContainerSize, Text.TextBounds)*Text.Scale
-
-        local AlignmentX
-
-        -- Temporary
-        if Alignment.X < .4 then
-            AlignmentX = "left"
-        elseif Alignment.X > .6 then
-            AlignmentX = "right"
-        else
-            AlignmentX = "center"
-        end
+        local TextPosition = Utils.GetAlignment(Alignment, ContainerSize, Text.TextBounds)*Text.Scale
 
         love.graphics.setFont(Text.RenderFont)
         love.graphics.push()
         love.graphics.scale(1/Text.Scale)
-        love.graphics.printf(Text.Text, TextPosition.X, TextPosition.Y, (Text.TextBounds*Text.Scale).X, AlignmentX)
+        love.graphics.printf(Text.Text, TextPosition.X, TextPosition.Y, Text.Lines.Width*Text.Scale)
         love.graphics.pop()
     end
 

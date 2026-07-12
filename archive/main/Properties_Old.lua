@@ -147,7 +147,7 @@ local function CreateGroup(GroupName,Window)
         Parent = BaseGroup,
     }
 
-    TextWow:SetFont(Studio.Theme.CurrentTheme.FontBold)
+    TextWow.SetFont(Studio.Theme.CurrentTheme.FontBold)
     Things.Create("ListLayout") {
         Parent = GroupList,
     }

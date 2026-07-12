@@ -166,6 +166,7 @@ function BaseGui:new()
     self.LockOrigin = Vector2.zero
 
     self.ColorMultiplier = 1
+    self.ClipsChildren = true
 
     self.BackgroundColor = Color.new(1)
     self.BackgroundTransparency = 0
@@ -199,7 +200,6 @@ function BaseGui:DefineAPI()
 
     self.Proxy.Group("Transform", "Size", "Position", "Pivot", "Visible")
     self.Proxy.Group("Color Multipliers", "ColorMultiplier")
-
 
     self.Proxy.Info({
         ConstraintUpdator = self.InvalidateRendering
