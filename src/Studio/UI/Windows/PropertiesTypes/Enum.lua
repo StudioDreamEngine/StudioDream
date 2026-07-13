@@ -76,7 +76,9 @@ function Template.Start(MainInfo)
     end
     
     self.Update()
-
+    table.insert(MainInfo.Connections,self.ChangedOption:Connect(function()
+        EnumLock=false
+    end))
     table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
 
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
@@ -99,9 +101,9 @@ function Template.Start(MainInfo)
                 GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
             else
                 if (not GeneratedList) then return end
-                --[[if GeneratedList.Remove then 
+                if GeneratedList.Remove then 
                     GeneratedList.Remove() 
-                end]]
+                end
                 GeneratedList = {}
             end
         end

@@ -25,14 +25,28 @@ function Template.Start(MainInfo)
         CornerRadius = 5,
     }
 
+    local ColorBlock = Runtime.Things.Create("Square") {
+        Size = Pivot2D.FromScale(0.8,0.8),
+        BackgroundColor = Color.new(1,1,1,1),
+        SquareAxis = Enum.SquareAxis.Y,
+        Position = Pivot2D.FromScale(1,0.5),
+        Pivot = Vector2.new(1,0.5),
+        Parent = Text,
+        ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
+        OutlineSize = 1,
+        OutlineColor = Studio.Theme.CurrentTheme.Outline
+    }
+
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         for i,Info in pairs(MainInfo.WillHandle) do
             if AllSame then
-                Text:SetText(tostring(Info.Thing[Info.Property]))
-                Color.FromString(tostring(Info.Thing[Info.Property]))
+                local ToString = tostring(Info.Thing[Info.Property])
+                Text:SetText(ToString)
+                ColorBlock.BackgroundColor = Color.FromString(ToString)
             else
                 Text:SetText("~")
+                Color.BackgroundColor = Color.new(1,1,1,1)
             end
         end
     end

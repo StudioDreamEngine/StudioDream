@@ -52,7 +52,7 @@ function Color.FromString(String)
 
     -- Theres 100% a better way to do this
     --print(SplitText)
-    return Color.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0, tonumber(SplitText[3]) or 0,tonumber(SplitText[4]) or 0)
+    return Color.new(tonumber(SplitText[1]) or 1, tonumber(SplitText[2]) or 1, tonumber(SplitText[3]) or 1,tonumber(SplitText[4]) or 1)
 end
 
 function Color.FromRGB(R,G,B)
