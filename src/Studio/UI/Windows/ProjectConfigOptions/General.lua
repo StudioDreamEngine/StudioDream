@@ -1,6 +1,6 @@
 local Template = {}
 
-Template.DisplayName = "Example!!"
+Template.DisplayName = "General Configs"
 
 function Template.Create(Parent)
     local CreateObject = {}

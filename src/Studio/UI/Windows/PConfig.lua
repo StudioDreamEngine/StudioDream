@@ -3,6 +3,7 @@ local PConfig = {}
 
 PConfig.Container = nil ---@class Square
 PConfig.AllOptions = Utils.LoadModules("Studio/UI/Windows/ProjectConfigOptions/", true)
+PConfig.CreatedButtons = {}
 
 function PConfig.CreateMainSquares()
     local SquareObjects = {}
@@ -24,7 +25,8 @@ function PConfig.CreateMainSquares()
     }
 
     Runtime.Things.Create("ListLayout") {
-        Parent = SquareObjects.Options
+        Parent = SquareObjects.Options,
+        Alignment = Enum.Alignment.TopCenter
     }
 
     SquareObjects.RenderOption = Runtime.Things.Create("Square") {
@@ -40,24 +42,32 @@ function PConfig.CreateMainSquares()
 end
 
 function PConfig.CreateOption(Module,Parent)
-    print("Blehsssssssssssssssssssssssss")
-    print(Module)
-    Runtime.Things.Create("TextButton") {
-        Size = Pivot2D.FromScale(1,0.1),
+    local OptionObject = {}
+
+    OptionObject.Main = Runtime.Things.Create("TextButton") {
+        Size = Pivot2D.FromScale(0.95,0.05),
         Parent = Parent,
         CornerRadius = 5,
         BackgroundColor = Studio.Theme.CurrentTheme.Outline,
         ForegroundColor = Studio.Theme.CurrentTheme.Text2,
         Text = Module.DisplayName
     }
+
+    Module.Create(Parent)
+
+    return OptionObject
 end
 
 function PConfig.Init()
     PConfig.Container.BackgroundColor = Studio.Theme.CurrentTheme.Outline
     local Created = PConfig.CreateMainSquares()
-
-    for OptionMol,_ in pairs(PConfig.AllOptions) do
-        PConfig.CreateOption(OptionMol,Created.Options)
+    print(PConfig.AllOptions)
+    for Name,Module in pairs(PConfig.AllOptions) do
+        local OptionObject = {
+            Button = PConfig.CreateOption(Module,Created.Options),
+            Module = Module
+        }
+        PConfig.CreatedButtons[Name] = OptionObject
     end
 end
 
