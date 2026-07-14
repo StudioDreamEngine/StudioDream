@@ -12,6 +12,8 @@ end
 function ViewportContainer:DefineAPI()
     ViewportContainer.super.DefineAPI(self)
     self.Proxy.Icon("HUD")
+
+    self.Proxy.MakeCreatable()
 end
 
 function ViewportContainer:SetAdornee(NewAdornee)

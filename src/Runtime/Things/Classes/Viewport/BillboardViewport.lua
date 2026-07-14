@@ -4,6 +4,7 @@ local Things = Runtime.Things
 local BillboardViewport = Things.Extend("SurfaceViewport")
 
 function BillboardViewport:ViewportDefineAPI()
+    self.Proxy.Icon("BillboardViewport")
 end
 
 function BillboardViewport:UpdateDrawable(Parent)

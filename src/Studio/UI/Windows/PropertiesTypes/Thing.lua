@@ -65,6 +65,7 @@ function Template.Start(MainInfo)
                 Runtime.Cursor.ChangeCursor("Main")
             end
         end
+        self.Update()
     end))
 
     return self

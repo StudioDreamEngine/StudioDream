@@ -201,6 +201,14 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.75,.25),
     })
 
+    StudioLayout.CreateWindow("PConfig", {
+        Size = Pivot2D.FromScale(0.5,0.6),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Layer = 300,
+        TopLevel = true
+    })
+
     if (not Shared.SkipSplash) then
         StudioLayout.CreateWindow("Start", {
             Size = Pivot2D.FromScale(0.5,0.6),
@@ -212,6 +220,7 @@ function StudioLayout.CreateLayout()
     end
 
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("PConfig"), false)
 end
 
 function StudioLayout.Update(dt)

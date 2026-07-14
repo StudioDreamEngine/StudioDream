@@ -19,6 +19,11 @@ function Editor3D.OpenInsertWindow(Object)
     WindowHandle.TargetObject = Object or Runtime.Things.GetRoot("Environment")
 end
 
+function Editor3D.ToggleWindowOutside(Name,Visible)
+    local WindowHandle = Studio.Layout.GetHandle(Name)
+    Studio.Layout.ToggleWindow(WindowHandle, Visible)
+end
+
 function Editor3D.CloseInsertWindow(Object)
     local WindowHandle = Studio.Layout.GetHandle("InsertObject")
 
