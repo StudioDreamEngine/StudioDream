@@ -3,6 +3,9 @@ local Things = Runtime.Things
 ---@class BillboardViewport: SurfaceViewport
 local BillboardViewport = Things.Extend("SurfaceViewport")
 
+function BillboardViewport:ViewportDefineAPI()
+end
+
 function BillboardViewport:UpdateDrawable(Parent)
     local Position = Parent.Position
     local X,Y,Z = Position.X, Position.Y, Position.Z

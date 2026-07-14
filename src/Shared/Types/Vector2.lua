@@ -120,7 +120,7 @@ function Vector2.new(x,y)
     end
 
     -- for some reason __eq isnt working
-    function Object.Is(SecondVector)
+    function Object:Is(SecondVector)
         return (Object.X == SecondVector.X) and (Object.Y == SecondVector.Y)
     end
 

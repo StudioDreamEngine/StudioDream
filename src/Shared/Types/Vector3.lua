@@ -147,7 +147,7 @@ function Vector3.new(x,y,z,w)
     end
 
     -- for some reason __eq isnt working
-    function Object.Is(SecondVector)
+    function Object:Is(SecondVector)
         return (Object.X == SecondVector.X) and (Object.Y == SecondVector.Y) and (Object.Z == SecondVector.Z)
     end
 

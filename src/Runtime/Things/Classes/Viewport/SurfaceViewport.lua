@@ -10,6 +10,8 @@ function SurfaceViewport:new()
     self.Mesh = Dream:newSprite(self.ViewportCanvas)
     self.Mesh.material.Alpha = true
 
+    self.DisplaySide = Enum.Side.Front
+
     self.Drawable.meshes["Mesh"] = self.Mesh
 end
 
@@ -27,12 +29,18 @@ end
 
 function SurfaceViewport:OnRemove()
     SurfaceViewport.super.OnRemove(self)
-
     Runtime.Backend3D.UnregisterObject(self.UUID)
+end
+
+function SurfaceViewport:ViewportDefineAPI()
+    self.Proxy.Property("Enum.Side DisplaySide")
+    self.Proxy.Group("General", "DisplaySide")
 end
 
 function SurfaceViewport:DefineAPI()
     SurfaceViewport.super.DefineAPI(self)
+
+    self:ViewportDefineAPI()
     
     --[[self.Proxy.Property("Thing RenderContainer")
     self.Proxy.Group("General", "RenderContainer")]]
@@ -46,7 +54,12 @@ function SurfaceViewport:SetAbsoluteSize(New)
 end
 
 function SurfaceViewport:UpdateDrawable(Parent)
-    self.Drawable:setTransform(Parent.Transform.GetMatrix())
+    local TransformPos = Parent.Transform.Position.ToDream()
+    local DisplaySide = self.DisplaySide.ToDream()
+
+    local LookatMatrix = Dream:lookAt(TransformPos, DisplaySide)
+
+    self.Drawable:setTransform(LookatMatrix)
     self.Drawable:translate(0,0,0.02)
     self.Drawable:scale(Parent.Size.X, Parent.Size.Y, Parent.Size.Z)
     self.Drawable:translate(0,0,1)
@@ -59,7 +72,6 @@ function SurfaceViewport:Update(dt)
     if not Parent:IsA("Drawable3D") then return end
 
     Runtime.Renderer.ViewportManager.RenderViewport2D(self)
-
     self:UpdateDrawable(Parent)
 end
 

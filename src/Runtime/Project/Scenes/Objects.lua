@@ -7,9 +7,11 @@ Objects.References = {}
 local TypeSerializers = Utils.LoadModules("Runtime/Project/Scenes/Types/")
 
 function Objects.HandleType(Property, Type, Deserialize, Identifier)
-    if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier..")") end
+    if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier or "Unknown"..")") end
 
     local Serializer = require(TypeSerializers[Type])
+    Serializer.SerializeType = Objects.HandleType
+
     local Result
 
     if Deserialize then

@@ -256,7 +256,7 @@ end
 function BaseGui:UpdateTransforms()
     local NewSize = self:GetAbsoluteSize()
 
-    if (not NewSize.Is(self.AbsoluteSize)) then
+    if (not NewSize:Is(self.AbsoluteSize)) then
         self:SetAbsoluteSize(NewSize)
         self.PropagatedChange.Invoke("AbsoluteSize", NewSize)
     end

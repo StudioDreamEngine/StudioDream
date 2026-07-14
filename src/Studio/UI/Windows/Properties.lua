@@ -10,6 +10,8 @@ Properties.Container = nil ---@class Square
 Properties.ParentWith = nil
 Properties.PropertiesRequired = {}
 
+Properties.DestroyCalls = {}
+
 Properties.ResetSignal = Signal:New("Reset")
 
 local Types = Utils.LoadModules("Studio/UI/Windows/PropertiesTypes/", true)
@@ -93,6 +95,12 @@ end
 
 function Properties.Clear()
     Properties.ParentWith:ClearAllChildren({"ListLayout"})
+
+    for _, Function in pairs(Properties.DestroyCalls) do
+        Function()
+    end
+
+    Properties.DestroyCalls = {}
 end
 
 function Properties.RenderEverything(Thing)
@@ -117,6 +125,10 @@ function Properties.RenderEverything(Thing)
             --print(Required)
             local Property = Properties.CreateProperty(PropertyInfo,GroupNode)
             local HandlerObject = Required.Start(Property)
+
+            if HandlerObject.Destroy then
+                table.insert(Properties.DestroyCalls, HandlerObject.Destroy)
+            end
 
             for _,Info in pairs(Property.WillHandle) do
                 --print(PropertyInfo.Property)

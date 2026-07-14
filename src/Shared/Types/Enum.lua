@@ -46,6 +46,14 @@ local Enums = {
         Y = Vector2.yAxis,
         X = Vector2.xAxis
     },
+    Side = {
+        Front = Vector3.zAxis,
+        Back = -Vector3.zAxis,
+        Left = Vector3.xAxis,
+        Right = -Vector3.xAxis,
+        Up = Vector3.yAxis,
+        Down = -Vector3.yAxis,
+    },
     MouseButton = {
         LeftClick = 1,
         MiddleClick = 3,

@@ -1,6 +1,6 @@
 local Template = {}
 
-local GeneratedList = {}
+local GeneratedList
 
 local function CheckAllTheSame(table)
     local FirstVal = table[1] and table[1].Thing[table[1].Property]
@@ -13,10 +13,12 @@ local function CheckAllTheSame(table)
 end
 
 function GenerateList(MainInfo,ChangedOption,Things,Property)
-    local EnumMade = Enum[Property]
+    local RefObject = Things[1].Thing
+    local EnumList = RefObject.Proxy.Enums[Property]
+
     local Index = 0
     local Choices = {}
-    for i,v in pairs(EnumMade) do
+    for i,v in pairs(EnumList) do
         if type(v) ~= "function" then
            if i ~= "Type" then -- TRUST ME I TRIED "AND" AND IT DIDNT WORK :SKULL:
                 Index=Index+1
@@ -33,9 +35,9 @@ function GenerateList(MainInfo,ChangedOption,Things,Property)
 
                         ChangedOption.Invoke()
 
-                        if GeneratedList.Remove then
-                            GeneratedList.Remove()
-                            GeneratedList = {}
+                        if GeneratedList then 
+                            GeneratedList.Remove() 
+                            GeneratedList = nil
                         end
                     end
                 })
@@ -68,17 +70,30 @@ function Template.Start(MainInfo)
 
         for i,Info in pairs(MainInfo.WillHandle) do
             if AllSame then
-                Text:SetText(Enum[Info.Property].NameFromValue(Info.Thing[Info.Property]))
+                ---@class Thing
+                local Thing = Info.Thing
+                local EnumList = Thing.Proxy.Enums[Info.Property]
+
+                Text:SetText(EnumList.NameFromValue(Info.Thing[Info.Property])) -- Gonna have to do it the shitty way for now until we have an enum rewrite
             else
                 Text:SetText("~")
             end
         end
     end
+
+    function self.Destroy()
+        if GeneratedList then 
+            GeneratedList.Remove() 
+            GeneratedList = nil
+        end
+    end
     
     self.Update()
+
     table.insert(MainInfo.Connections,self.ChangedOption:Connect(function()
         EnumLock=false
     end))
+
     table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
 
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
@@ -100,11 +115,10 @@ function Template.Start(MainInfo)
                 --print(ListGenerated)
                 GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
             else
-                if (not GeneratedList) then return end
-                if GeneratedList.Remove then 
+                if GeneratedList then 
                     GeneratedList.Remove() 
+                    GeneratedList = nil
                 end
-                GeneratedList = {}
             end
         end
     end))

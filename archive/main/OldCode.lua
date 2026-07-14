@@ -81,7 +81,7 @@ function Camera:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
 
     -- Cuz we cant just directly index another vector rn
     for Axises, Value in pairs(InverseLookup) do
-        if Axises.Is(PlaneAxis) then
+        if Axises:Is(PlaneAxis) then
             AxisAxises = Value
         end
     end

@@ -176,9 +176,20 @@ do
 	end
 
 	-- Yes, Lua 5.1 doesnt have table.find (iirc)
-	function table.find(table, value)
+	function table.findLite(table, value)
 		for i,v in pairs(table) do
 			if v == value then
+				return i
+			end
+		end
+	end
+
+	-- Heavier version of findLite, as it also compares custom types 
+	function table.find(table, value)
+		for i,v in pairs(table) do
+			if type(v) == "table" and (v.Is and value.Is) and v:Is(value) then
+				return i
+			elseif v == value then
 				return i
 			end
 		end

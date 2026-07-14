@@ -39,7 +39,7 @@ function Text:SetTextScaled(TextScaled)
 end
 
 function Text:SetText(Text)
-    self.Text = Text
+    self.Text = Text or ""
     self.RenderClass.Text = self.Text
 
     self:AttemptWrap(self.AbsoluteSize)
