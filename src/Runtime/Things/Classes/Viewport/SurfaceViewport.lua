@@ -8,6 +8,7 @@ function SurfaceViewport:new()
 
     self.Drawable = Dream:newObject()
     self.Mesh = Dream:newSprite(self.ViewportCanvas)
+    self.Mesh.material.Alpha = true
 
     self.Drawable.meshes["Mesh"] = self.Mesh
 end
@@ -44,6 +45,13 @@ function SurfaceViewport:SetAbsoluteSize(New)
     self.Mesh.material:SetAlbedoTexture(self.ViewportCanvas)
 end
 
+function SurfaceViewport:UpdateDrawable(Parent)
+    self.Drawable:setTransform(Parent.Transform.GetMatrix())
+    self.Drawable:translate(0,0,0.02)
+    self.Drawable:scale(Parent.Size.X, Parent.Size.Y, Parent.Size.Z)
+    self.Drawable:translate(0,0,1)
+end
+
 function SurfaceViewport:Update(dt)
     SurfaceViewport.super.Update(self, dt)
 
@@ -52,10 +60,7 @@ function SurfaceViewport:Update(dt)
 
     Runtime.Renderer.ViewportManager.RenderViewport2D(self)
 
-    self.Drawable:setTransform(Parent.Transform.GetMatrix())
-    self.Drawable:translate(0,0,0.02)
-    self.Drawable:scale(Parent.Size.X, Parent.Size.Y, Parent.Size.Z)
-    self.Drawable:translate(0,0,1)
+    self:UpdateDrawable(Parent)
 end
 
 return SurfaceViewport

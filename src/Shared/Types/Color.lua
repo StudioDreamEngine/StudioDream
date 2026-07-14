@@ -20,7 +20,7 @@ function Color.new(R,G,B,A)
         end,
 
         __tostring = function(t)
-            return t.R..", "..t.G..", "..t.B.." ,"..t.A
+            return t.R..", "..t.G..", "..t.B..", "..t.A
         end
     })
 
