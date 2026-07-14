@@ -20,7 +20,7 @@ function ViewportManager.Init()
     ViewportManager.Viewports = {}
 
     LoveEvents.Resize:Connect(function(w,h)
-        print("Resize detected, Updating RootViewport...")
+        printVerbose("Resize detected, Updating RootViewport...")
         RootViewport:SetSize(Pivot2D.FromOffset(w,h))
     end)
 end

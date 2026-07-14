@@ -22,6 +22,16 @@ return {
                     Text = "Save Project To",
                     Function = Studio.ProjectManager.SaveProjectTo
                 },
+                {
+                    Type = "Separator",
+                },
+                {
+                    Type = "Button",
+                    Text = "Configuration of the Project",
+                    Function = function()
+                        Studio.Editor3D.ToggleWindowOutside("PConfig",true)
+                    end
+                }
             }
         }
     },
