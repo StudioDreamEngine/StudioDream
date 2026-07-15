@@ -202,7 +202,7 @@ function BaseGui:DefineAPI()
     self.Proxy.Group("Color Multipliers", "ColorMultiplier")
 
     self.Proxy.Info({
-        ConstraintUpdator = self.InvalidateRendering
+        ConstraintUpdator = self.ProcessInvalidation
     })
 end
 
@@ -316,6 +316,7 @@ function BaseGui:SetParent(NewParent)
 
     self:InvalidateRendering()
     self:ProcessInvalidation(self)
+    --self:InvalidateAutomaticSize()
 
     return CouldParent, Reason
 end

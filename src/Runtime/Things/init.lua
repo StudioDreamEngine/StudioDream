@@ -179,9 +179,9 @@ end
 
 function Things.Update(dt)
     Profiler.Start("Things - Update Passes")
-    Things.UpdatePass("PreUpdate", dt)
     Things.UpdatePass("Update", dt)
     Things.UpdatePass("Invalidate", dt)
+    Things.UpdatePass("PostUpdate", dt)
     Profiler.End()
 end
 

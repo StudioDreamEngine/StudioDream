@@ -94,12 +94,12 @@ function Thing:SetConstraint(Object, Property, Value, DontUpdate)
     local Current = self.Overrides[Property]
 
     if Current.Object == Object then
+        Current.Value = Value
+
         if not DontUpdate then
             ---@diagnostic disable-next-line: redundant-parameter
             self.Proxy.ConstraintUpdator(self)
         end
-
-        Current.Value = Value
     else
         print("Couldnt set constraint")
     end
@@ -331,7 +331,7 @@ function Thing:ClearAllChildren(NameFilter)
     end 
 end
 
-function Thing:PreUpdate() end
+function Thing:PostUpdate() end
 function Thing:Invalidate() end
 function Thing:Update() end
 

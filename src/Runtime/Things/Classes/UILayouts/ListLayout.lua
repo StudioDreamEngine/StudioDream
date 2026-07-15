@@ -22,6 +22,13 @@ function ListLayout:new()
     self.OnChangedEvents = {}
 end
 
+--[[
+    ListLayout issue:
+        From what i can tell, the delay on updating listlayouts occurs because of propagated changes
+
+        What happens is that propogated changes are usually called AFTER the list layout is updated, meaning that its updated again
+]]
+
 function ListLayout:BindObject(_child)
     ListLayout.super.BindObject(self, _child)
     --print(_child.Name, "binded to", self.Name)
@@ -51,8 +58,8 @@ function ListLayout:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function ListLayout:Invalidate()
-    ListLayout.super.Invalidate(self)
+function ListLayout:PostUpdate()
+    ListLayout.super.PostUpdate(self)
 
     if self.ShouldUpdate then
         self:UpdateLayout()
