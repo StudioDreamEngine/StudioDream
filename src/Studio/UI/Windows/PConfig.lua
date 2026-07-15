@@ -17,6 +17,18 @@ function PConfig.CreateMainSquares()
         BackgroundColor = Studio.Theme.CurrentTheme.Primary,
     }
 
+    SquareObjects.Close = Runtime.Things.Create("ImageButton") {
+        Size = Pivot2D.FromScale(0.1,0.1),
+        Parent = PConfig.Container,
+        CornerRadius = 5,
+        Pivot = Vector2.new(1,0),
+        Position = Pivot2D.FromScale(1,0),
+        --BackgroundTransparency = 0,
+        Layer = 2,
+        Resource = "Internal/Studio/Close.png",
+        ScaleType = Enum.ScaleType.LockAspect,
+    }
+
     SquareObjects.Options = Runtime.Things.Create("ScrollContainer") {
         Size = Pivot2D.FromScale(1,1),
         Parent = SquareObjects.BaseOptions,
@@ -26,7 +38,8 @@ function PConfig.CreateMainSquares()
 
     Runtime.Things.Create("ListLayout") {
         Parent = SquareObjects.Options,
-        Alignment = Enum.Alignment.TopCenter
+        Alignment = Enum.Alignment.Center,
+        Padding = 10,
     }
 
     SquareObjects.RenderOption = Runtime.Things.Create("Square") {
@@ -38,10 +51,21 @@ function PConfig.CreateMainSquares()
         BackgroundColor = Studio.Theme.CurrentTheme.Primary,
     }
 
+    SquareObjects.Close.Clicked:Connect(function()
+        PConfig.FullContainer:SetVisible(false)
+    end)
+
     return SquareObjects
 end
 
-function PConfig.CreateOption(Module,Parent)
+function PConfig.ToggleOption(Name)
+    for _,OObj in pairs(PConfig.CreatedButtons) do
+        OObj.Module.Toggle(false)
+    end
+    PConfig.CreatedButtons[Name].Module.Toggle(true)
+end
+
+function PConfig.CreateOption(Module,Parent,Name)
     local OptionObject = {}
 
     OptionObject.Main = Runtime.Things.Create("TextButton") {
@@ -53,7 +77,9 @@ function PConfig.CreateOption(Module,Parent)
         Text = Module.DisplayName
     }
 
-    Module.Create(Parent)
+    OptionObject.Main.Clicked:Connect(function()
+        PConfig.ToggleOption(Name)
+    end)
 
     return OptionObject
 end
@@ -64,10 +90,13 @@ function PConfig.Init()
     print(PConfig.AllOptions)
     for Name,Module in pairs(PConfig.AllOptions) do
         local OptionObject = {
-            Button = PConfig.CreateOption(Module,Created.Options),
-            Module = Module
+            Button = PConfig.CreateOption(Module,Created.Options,Name),
+            Module = Module.Create(Created.RenderOption)
         }
         PConfig.CreatedButtons[Name] = OptionObject
+    end
+    for _,OObj in pairs(PConfig.CreatedButtons) do
+        OObj.Module.Toggle(false)
     end
 end
 

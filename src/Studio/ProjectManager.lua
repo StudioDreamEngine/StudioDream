@@ -28,6 +28,7 @@ function ProjectManager.NewProject(Name)
     NativeFS.createDirectory(Directory)
     Runtime.Project.SaveTo(Directory)
     Runtime.Project.SetConfig("Name",Name)
+    Runtime.Project.SetConfig("Icon","Internal/Icons/Client.png")
 end
 
 return ProjectManager
