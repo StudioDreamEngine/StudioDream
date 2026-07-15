@@ -4,13 +4,25 @@ Configuration.Config = {
     Name = "Unnamed"
 }
 
-function Configuration.SetConfig(Key, Value)
+function Configuration.Set(Key, Value)
     Configuration.Config[Key] = Value
     Configuration.Save()
 end
 
-function Configuration.GetConfig(Key)
+function Configuration.Get(Key)
     return Configuration.Config[Key]
+end
+
+function Configuration.LoadForSummary(Path)
+    local ConfigData = NativeFS.read(Path)
+
+    if ConfigData then
+        local Deserialized = Binser.deserialize(ConfigData)[1]
+
+        for Setting, Value in pairs(Deserialized) do
+            Configuration.Config[Setting] = Value
+        end
+    end
 end
 
 function Configuration.Load()

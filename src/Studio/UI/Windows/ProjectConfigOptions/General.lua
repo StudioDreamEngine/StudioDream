@@ -13,13 +13,13 @@ local ProjectOptions = {
                 Pivot = Vector2.new(1,0),
                 Position = Pivot2D.FromScale(1,0),
                 SquareAxis = Enum.SquareAxis.Y,
-                Resource = Runtime.Project.GetConfig("Icon") or "Internal/Icons/Client.png",
+                Resource = Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png",
                 Parent = Main.Option
             }
 
             function Draw()
-                local IsIcon = Runtime.Project.GetConfig("Icon") and true or false
-                local Result = Runtime.Project.GetConfig("Icon") or "Internal/Icons/Client.png"
+                local IsIcon = Runtime.Project.Config.Get("Icon") and true or false
+                local Result = Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png"
 
                 Image:SetResource(Result)
                 Main.Option:SetText(IsIcon and Path.new(Result).FileName or Result)
@@ -31,7 +31,7 @@ local ProjectOptions = {
                 Identifier, _ = Resources.LoadIdentifierIDFromPath(NewPath)
                 if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
 
-                Runtime.Project.SetConfig("Icon",PathObj.FilePath)
+                Runtime.Project.Config.Set("Icon",PathObj.FilePath)
                 Draw()
             end)
         end,

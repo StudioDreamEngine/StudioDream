@@ -1,6 +1,10 @@
 -- Handles the opening and saving of a project
 local ProjectManager = {}
 
+Runtime.Project.NotificationCallback = function(Message, Type)
+    Studio.Layout.GetHandle("Notification").Notify(Message,Type or "Info")
+end
+
 -- Load a project
 function ProjectManager.LoadProject(Callback)
     Platform.OpenWithCallback("Load Project", Enum.OpenDialog.Folder, function(ProjectPath)
@@ -27,8 +31,8 @@ function ProjectManager.NewProject(Name)
     local Directory = Platform.GetDocuments().."/"..Name
     NativeFS.createDirectory(Directory)
     Runtime.Project.SaveTo(Directory)
-    Runtime.Project.SetConfig("Name",Name)
-    Runtime.Project.SetConfig("Icon","Internal/Icons/Client.png")
+    Runtime.Project.Config.Set("Name",Name)
+    Runtime.Project.Config.Set("Icon","Internal/Icons/Client.png")
 end
 
 return ProjectManager

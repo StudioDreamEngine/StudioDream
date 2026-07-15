@@ -22,7 +22,7 @@ function Runtime.Init()
 end
 
 function Runtime.ChangeTitle()
-    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.GetConfig("Name"), Shared.Target))
+    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.Config.Get("Name"), Shared.Target))
 end
 
 function Runtime.RequestRestart(NextTarget)
