@@ -1,11 +1,11 @@
-# Mikl
+# Mikl Stuff
 desktop.ini
 
-
+# Bloctans Stuff
+OfflineTodo.txt
 
 # Build stuff
 dist/win/*.exe
 build/squashfs-root/
 build/compiled/
 dist/StudioDream-Linux.AppImage
-love/

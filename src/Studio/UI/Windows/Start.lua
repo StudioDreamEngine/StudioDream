@@ -4,14 +4,8 @@ local Things = Runtime.Things
 function Start.CreateProject(Scroll,Info,Path,FullContainer)
     local selfed = {}
 
-    local ImageToUse
-    --local 
-
-    if (Path.."Thumbnail.png") then
-        ImageToUse = Path.."Thumbnail.png"
-    else
-        ImageToUse = "Internal/Studio/Update_Thumbs/Early_Riser.png"
-    end
+    local Summary = Runtime.Project.GetSummary(Path)
+    local ImageToUse = Summary.ImageResource
 
     selfed.Base = Runtime.Things.Create("TextButton") {
         Text = "",
@@ -28,7 +22,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(.07,.5),
         SquareAxis = Enum.SquareAxis.Y,
-        --Resource = ImageToUse,
+        Resource = ImageToUse,
         Parent = selfed.Base,
         Pivot = Vector2.new(.5,.5),
         CornerRadius = 5,

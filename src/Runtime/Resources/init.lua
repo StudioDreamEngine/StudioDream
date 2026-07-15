@@ -58,7 +58,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, Reload)
     if Type == "string" then
         printVerbose("Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine.")
         Identifier = Identifiers.GetIdentifierFromID(Identifier)
-    elseif Type == "userdata" then
+    elseif Type == "userdata" then -- TODO: Merge w/ Above
         Identifier = IdentifierType.new(Identifier, "Buffer", "Buffer-"..CreateUUID())
     end
 
@@ -72,11 +72,16 @@ end
 
 local function LoadWithContents(Identifier, Contents)
     local Format = FormatLookup[Identifier.Data.FileType]
+    assert(Contents, "Cannot read resource (Identifier: "..Identifier.ID..", Path: "..Identifier.Data.FilePath..")")
+
+    return Resources.InitiateLoader(Format, Contents, Identifier)
+end
+
+-- Use a Resource Loader given the specified data and format
+function Resources.InitiateLoader(Format, Contents, Identifier)
     local LoaderModule = require(LoaderModPath..Format)
 
-    assert(Contents, "Cannot read resource (Identifier: "..Identifier.ID..", Path: "..Identifier.Data.FilePath..")")
-    Resource = LoaderModule(Contents, Identifier)
-
+    local Resource = LoaderModule(Contents, Identifier)
     return Resource
 end
 

@@ -29,9 +29,31 @@ function Project.ValidateAndMount(ProjectPath)
     end
 end
 
+local DefaultImage = Runtime.Resources.GetIdentifierFromID("Internal/Studio/Update_Thumbs/Early_Riser.png")
+
 function Project.GetSummary(ProjectPath)
     -- TODO
     -- (might need an interface for naitivefs thats like projectfs but without a mount)
+    ProjectPath = Platform.ParsePath(ProjectPath)
+
+    local BaseFS = Runtime.BaseFS
+
+    if (not BaseFS.FileExists(ProjectPath.."Project.sdc")) then
+        return {
+            Config = Project.Config.GetDefault(),
+            ImageResource = DefaultImage 
+        }
+    end
+
+    local Config = Project.Config.Load(ProjectPath)
+
+    local ImageData = BaseFS.ReadFile(ProjectPath.."Thumbnail.png")
+    local Image = ImageData and Runtime.Resources.InitiateLoader("Image", ImageData) or DefaultImage
+
+    return {
+        Config = Config,
+        ImageResource = Runtime.Resources.GetIdentifierFromID(Image)
+    }
 end
 
 function Project.Load(ProjectPath)
