@@ -1,8 +1,10 @@
 local ProjectFS = {}
+local BaseFS = Runtime.BaseFS
+
 local Mount
 
 function ProjectFS.OpenFile(Path, Mode)
-    return love.filesystem.openNativeFile(Mount..Path, Mode)
+    return BaseFS.OpenFile(Mount..Path, Mode)
 end
 
 ---@param FilePath Identifier
@@ -11,14 +13,11 @@ function ProjectFS.GetFullPath(FilePath)
 end
 
 function ProjectFS.WriteFile(Path, Data)
-    local File = ProjectFS.OpenFile(Path, "w")
-    print(File)
-    File:write(Data)
-    File:close()
+    BaseFS.WriteFile(Mount..Path, Data)
 end
 
 function ProjectFS.FileExists(Path)
-    return NativeFS.getInfo(Mount..Path)
+    return BaseFS.FileExists(Mount..Path)
 end
 
 function ProjectFS.ListDirectory(Path)

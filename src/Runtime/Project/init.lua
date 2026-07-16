@@ -1,22 +1,23 @@
 local Project = {}
 local Scenes = require("Runtime.Project.Scenes")
 local Resources = require("Runtime.Project.Resources")
-local Config = require("Runtime.Project.Configuration")
 
 local ProjectFS = Runtime.ProjectFS
-local RecentProjects = Runtime.SettingsManager.GetSetting("RecentProjects")
+
+Project.History = require("Runtime.Project.History")
+Project.Config = require("Runtime.Project.Configuration")
 
 Project.RegisterRootScene = Scenes.RegisterRootScene
 Project.LoadDefault = Scenes.LoadDefault
-Project.GetConfig = Config.GetConfig
-Project.SetConfig = Config.SetConfig
+
+Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
     assert(ProjectPath, "ProjectPath was blank!")
 
     if (not NativeFS.getInfo(ProjectPath)) then
-        Project.RemoveFromHistory(ProjectPath)
+        Project.History.Remove(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
@@ -28,26 +29,31 @@ function Project.ValidateAndMount(ProjectPath)
     end
 end
 
-function Project.ClearHistory()
-    RecentProjects = {}
-end
+local DefaultImage = Runtime.Resources.GetIdentifierFromID("Internal/Studio/Update_Thumbs/Early_Riser.png")
 
-function Project.RemoveFromHistory(Path)
-    print("Removing "..Path.." from project history")
-    RecentProjects[Path] = nil
+function Project.GetSummary(ProjectPath)
+    -- TODO
+    -- (might need an interface for naitivefs thats like projectfs but without a mount)
+    ProjectPath = Platform.ParsePath(ProjectPath)
 
-    Runtime.SettingsManager.ChangeSetting("RecentProjects", RecentProjects)
-    printVerbose(RecentProjects)
-end
+    local BaseFS = Runtime.BaseFS
 
-function Project.AddToHistory(Path, Name)
-    RecentProjects[Path] = {
-        Name = Name,
-        Time = os.time()
+    if (not BaseFS.FileExists(ProjectPath.."Project.sdc")) then
+        return {
+            Config = Project.Config.GetDefault(),
+            ImageResource = DefaultImage 
+        }
+    end
+
+    local Config = Project.Config.Load(ProjectPath)
+
+    local ImageData = BaseFS.ReadFile(ProjectPath.."Thumbnail.png")
+    local Image = ImageData and Runtime.Resources.InitiateLoader("Image", ImageData) or DefaultImage
+
+    return {
+        Config = Config,
+        ImageResource = Runtime.Resources.GetIdentifierFromID(Image)
     }
-
-    Runtime.SettingsManager.ChangeSetting("RecentProjects", RecentProjects)
-    printVerbose(RecentProjects)
 end
 
 function Project.Load(ProjectPath)
@@ -58,7 +64,7 @@ function Project.Load(ProjectPath)
     
     local Success, Message = pcall(function()
         Resources.Load()
-        Config.Load()
+        Project.Config.Load()
         Runtime.ChangeTitle()
 
         Scenes.LoadRootScenes("Load")
@@ -71,40 +77,37 @@ function Project.Load(ProjectPath)
         print(Message)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
     else
-        Project.AddToHistory(ProjectFS.GetMount(), Project.GetConfig("Name"))
+        Project.History.Add(ProjectFS.GetMount(), Project.Config.Get("Name"))
     end
 end
 
 -- Remount to a new directory and save project
 function Project.SaveTo(ProjectPath)
-    local SaveProjectOn = ProjectPath
+    --[[local SaveProjectOn = ProjectPath
     
     if Platform.ParsePath(ProjectPath) == Platform.ParsePath(Platform.GetDocuments()) then
-        NativeFS.createDirectory(Platform.ParsePath(ProjectPath)..Project.GetConfig("Name"))
-        SaveProjectOn = Platform.ParsePath(ProjectPath)..Project.GetConfig("Name")
-    end
+        NativeFS.createDirectory(Platform.ParsePath(ProjectPath)..Project.Config.Get("Name"))
+        SaveProjectOn = Platform.ParsePath(ProjectPath)..Project.Config.Get("Name")
+    end]] -- we dont need this
 
-    ProjectFS.MountProject(SaveProjectOn)
+    ProjectFS.MountProject(ProjectPath)
     Project.Save()
 end
 
 -- Save a project
 function Project.Save()
-    print("Saving Project...")
-    --print(debug.traceback())
-
-    Studio.Layout.GetHandle("Notification").Notify("Saving Project...","Info")
+    Project.NotificationCallback("Saving project...")
 
     if not ProjectFS.GetMount() then 
-        Studio.Layout.GetHandle("Notification").Notify("Please first load a project first in order to save","Error")
+        Project.NotificationCallback("Please first load a project first in order to save", "Error")
     else
-        Config.Save()
+        Project.Config.Save()
         ProjectFS.WriteFile("Thumbnail.png", Dream:renderThumbnail())
         Scenes.LoadRootScenes("Save")
 
-        Project.AddToHistory(ProjectFS.GetMount(), Project.GetConfig("Name"))
+        Project.History.Add(ProjectFS.GetMount(), Project.Config.Get("Name"))
 
-        Studio.Layout.GetHandle("Notification").Notify("Save Completed!","Info")
+        Project.NotificationCallback("Project saved!")
     end
 end
 

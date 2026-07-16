@@ -4,12 +4,8 @@ local Things = Runtime.Things
 function Start.CreateProject(Scroll,Info,Path,FullContainer)
     local selfed = {}
 
-    local ImageToUse
-    if Utils.FileExists(Path.."Thumbnail.png") then
-        ImageToUse = Path.."Thumbnail.png"
-    else
-        ImageToUse = "Internal/Studio/Update_Thumbs/Early_Riser.png"
-    end
+    local Summary = Runtime.Project.GetSummary(Path)
+    local ImageToUse = Summary.ImageResource
 
     selfed.Base = Runtime.Things.Create("TextButton") {
         Text = "",
