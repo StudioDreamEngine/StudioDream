@@ -1,6 +1,8 @@
 -- Moveable axis control
 local Things = Runtime.Things
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
+local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
+
 local SelectionPriority = Runtime.SelectionPriority
 
 ---@class ScaleControl: Control3D
@@ -106,7 +108,7 @@ function ScaleControl:Update(dt)
     local CameraDistance = (Transform.Position - Camera.Position).Magnitude()
     CameraDistance = math.sqrt(CameraDistance) / 8 -- Black magic, Literally black magic.
 
-    local Hovering = Runtime.Backend3D.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)
+    local Hovering = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)
 
     self.Hovering = Hovering and Hovering.Thing
 

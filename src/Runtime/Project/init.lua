@@ -12,6 +12,8 @@ Project.LoadDefault = Scenes.LoadDefault
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
+Project.LoadingProject = false
+
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
     assert(ProjectPath, "ProjectPath was blank!")
@@ -60,6 +62,7 @@ function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
 
+    Project.LoadingProject = true
     local LoadProject = Profiler.Benchmark("Load Project")
     
     local Success, Message = pcall(function()
@@ -72,6 +75,7 @@ function Project.Load(ProjectPath)
     end)
 
     LoadProject.End()
+    Project.LoadingProject = false
 
     if (not Success) then
         print(Message)

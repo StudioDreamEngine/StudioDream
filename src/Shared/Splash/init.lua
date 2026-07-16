@@ -92,6 +92,8 @@ function Splash.Create()
 end
 
 function Splash.Load(ProjectPath)
+    Scheduler.OnRecoverableError = function(FullMsg) error(FullMsg.."\n\nSplash Stack (IGNORE)") end
+
     Scheduler.Yield()
     Shared.SetupBullet()
 
@@ -100,6 +102,8 @@ function Splash.Load(ProjectPath)
     Splash.ChangeStatus("Starting Target")
     Shared.StartTarget()
     Splash.ChangeStatus("")
+
+    Scheduler.OnRecoverableError = nil
 
     if (not Shared.SkipSplash) then
         Splash.Out()

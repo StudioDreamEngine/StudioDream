@@ -72,7 +72,7 @@ end
 function Scheduler.CreateTask(Function)
     local Coroutine = coroutine.create(Function)
 
-    Origins[Coroutine] = debug.traceback("Task Origin")
+    Origins[Coroutine] = debug.traceback("Task Origin Stack")
     ActiveTasks[Coroutine] = true
 
     return Coroutine
@@ -122,7 +122,7 @@ function Scheduler.RunTask(Coroutine, Args)
     end
 
     if not Success then 
-        local FullMsg = "Task has been halted as error occurred:\n"..debug.traceback(Coroutine, Msg).."\n\n"..Origins[Coroutine]
+        local FullMsg = "Task has been halted as error occurred\n\nTask Stack ("..Msg..")\n"..debug.traceback(Coroutine).."\n\n"..Origins[Coroutine]
         Shared.SaveLog(FullMsg)
 
         if Scheduler.OnRecoverableError then Scheduler.OnRecoverableError(FullMsg) end

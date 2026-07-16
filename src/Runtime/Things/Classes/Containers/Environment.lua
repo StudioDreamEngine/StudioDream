@@ -1,5 +1,6 @@
 local Things = Runtime.Things
 local Backend3D = Runtime.Backend3D
+local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
 
 local collisionConfiguration = Bullet.btDefaultCollisionConfiguration()
 local dispatcher = Bullet.btCollisionDispatcher(collisionConfiguration)
@@ -49,7 +50,7 @@ function Environment:SetGravity(NewGravity)
 end
 
 function Environment:Raycast(origin, direction)
-    return Runtime.Backend3D.Raycast(origin, direction, self.DreamWorld)
+    return SpatialService.Raycast(origin, direction, self.DreamWorld)
 end
 
 function Environment:RemoveBody(Child)

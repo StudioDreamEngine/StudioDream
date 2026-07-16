@@ -2,8 +2,6 @@
 local Backend3D = {}
 local DreamAdorns
 
-local Raycast = Dream:getExtension("raytrace")
-
 function Backend3D.Init()
     -- Stores Objects that are not nesscessarily part of the enviornment itself, instead intended to be visible only to the object using them and 3dreamengine
     DreamAdorns = Dream:newObject()
@@ -38,43 +36,6 @@ local function AssignClassReference(Object, ClassReference)
 
     for _, ChildObject in pairs(Object.objects) do
         AssignClassReference(ChildObject, ClassReference)
-    end
-end
-
-function Backend3D.Raycast(Origin, Direction, WorldObject, IgnoreList)
-    assert(WorldObject, "Internal raycast function requires a WorldObject!")
-
-    local ObjIgnoreList = {}
-    
-    for _, Object in pairs(IgnoreList or {}) do
-        if Utils.TypeOf(Object) == "Thing" and Object:IsA("Drawable3D") then
-            table.insert(ObjIgnoreList, Object.Drawable)
-        end
-    end
-    
-    local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream(), ObjIgnoreList)
-
-    if CastResult then
-        local Object = CastResult:getObject()
-        assert(Object.ClassReference, "Raycast returned object with no ClassReference!")
-
-        local ThingClass = Object.ClassReference
-        --print(ThingClass)
-
-        -- Env world objects always assume to return thing objects
-        if WorldObject.IsEnv then ThingClass = Runtime.Things.Get(ThingClass) end
-
-        ---@class CastResult
-        local FriendlyCastResult = {
-            Thing = ThingClass,
-            UUID = Object.UUID,
-            Position = CastResult:getPosition(),
-            Normal = CastResult:getNormal(),
-            UV = CastResult:getUV(),
-            Type = "CastResult"
-        }
-
-        return FriendlyCastResult
     end
 end
 
