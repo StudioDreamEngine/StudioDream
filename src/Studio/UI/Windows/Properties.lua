@@ -36,8 +36,8 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Layer = 3,
         Parent = ParentWhat or Properties.ParentWith,
         CornerRadius = 6,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline,
-        OutlineSize = 1
+        --OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        --OutlineSize = 1
     }
 
     selfed.Option = Things.Create("Square") {
