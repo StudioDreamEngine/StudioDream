@@ -6,11 +6,11 @@ return function(Args)
         SquareAxis = Enum.SquareAxis.Y,
         Text = "",
         Clicked = Args.OnClick,
-        BackgroundTransparency = .5,
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundTransparency = 0,
+        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
         CornerRadius = 5,
-        OutlineSize = 1.5,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline
+       -- OutlineSize = 1.5,
+        --OutlineColor = Studio.Theme.CurrentTheme.Outline
     }
 
     local Image = Things.Create("Image2D") {

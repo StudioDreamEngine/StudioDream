@@ -13,12 +13,12 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Size = Transform.Size,
         Position = Transform.Position,
         Pivot = Transform.Pivot,
-        BackgroundColor = Theme.Secondary,
+        BackgroundColor = Theme.Outline,
         Name = "WindowContainer",
         Layer = Transform.Layer or 1,
         Parent = Transform.TopLevel and Things.Root.RootViewport or StudioLayout.Windows,
         CornerRadius = 5,
-        OutlineSize = 2,
+       -- OutlineSize = 2,
         OutlineColor = Theme.Outline
     }
     

@@ -13,9 +13,9 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Parent = Scroll,
         Layer = 2,
         CornerRadius = 5,
-        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
-        OutlineSize = 2,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        --OutlineSize = 2,
+        --OutlineColor = Studio.Theme.CurrentTheme.Outline,
     }
 
     selfed.Image = Runtime.Things.Create("Image2D") {
@@ -31,7 +31,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     selfed.ProjectName = Runtime.Things.Create("Text") {
         Text = Info.Name,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
         Position = Pivot2D.FromScale(0,0),
         Parent = selfed.Base,
         Layer = 2,
@@ -43,7 +43,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     selfed.Date = Runtime.Things.Create("Text") {
         Text = "Last Mod: "..Utils.TimeAgo(Info.Time),
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
         Position = Pivot2D.FromScale(0,0.5),
         Parent = selfed.Base,
         Layer = 2,
@@ -71,12 +71,12 @@ function Start.CreateButton(Options,Text,Image)
         Parent = Options,
         Layer = 2,
         CornerRadius = 5,
-        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
-        OutlineSize = 2,
+        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        --OutlineSize = 2,
         Alignment = Vector2.new(1,0.5),
         TextSize = 5,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        --OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
     }
 
     selfed.Image = Runtime.Things.Create("Image2D") {
@@ -131,7 +131,7 @@ function Start.Init()
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.25,.75),
         BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
-        OutlineSize = 2,
+       -- OutlineSize = 2,
         OutlineColor = Studio.Theme.CurrentTheme.Outline,
     }
 
@@ -143,7 +143,7 @@ function Start.Init()
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.75,.75),
         BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
-        OutlineSize = 2,
+       -- OutlineSize = 2,
         OutlineColor = Studio.Theme.CurrentTheme.Outline,
     }
 
