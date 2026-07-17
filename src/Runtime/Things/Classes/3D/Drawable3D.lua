@@ -94,6 +94,15 @@ function Drawable3D:CreateBody()
     self.PhysicsBody = Runtime.Phys.CreateBody(self.PhysicsShape, Runtime.Phys.ToBullet(self.Transform), self.Dynamic)
 end
 
+function Drawable3D:CheckAABB(Min, Max)
+    local DrawableMin = self.Position - self.Size/2
+    local DrawableMax = self.Position + self.Size/2
+
+    return (DrawableMin.X < Min.X) and (DrawableMax.X > Max.X) 
+        and (DrawableMin.Y < Min.Y) and (DrawableMax.Y > Max.Y) 
+        and (DrawableMin.Z < Min.Z) and (DrawableMax.Z > Max.Z)
+end
+
 -- Hacky mesh resource system because dream loads an object directly from a file's contents
 function Drawable3D:SetResource(NewResource)
     self.Drawable, self.Resource = Runtime.Backend3D.LoadObject(NewResource, self.UUID)

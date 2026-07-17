@@ -1,20 +1,21 @@
 -- Manage the priority of selection signals on the viewport
 -- You might wonder: Why Runtime? well... its because of the 3DControls!
-local SelectionPriority = {}
+---@class 
+local SelectionPriorityService = {}
 
 local Signals = {}
 
-function SelectionPriority.Init()
+function SelectionPriorityService.Init()
     local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
-    InputService.MouseEvent:Connect(SelectionPriority.Call, Enum.MouseButton.LeftClick)
+    InputService.MouseEvent:Connect(SelectionPriorityService.Call, Enum.MouseButton.LeftClick)
 end
 
-function SelectionPriority.Call(IsDown)
+function SelectionPriorityService.Call(IsDown)
     local EnvironmentViewport = Runtime.Things.Root.EnvironmentViewport
 
     if (not EnvironmentViewport) then
-        print("No EnvironmentViewport is specified currently, skipping SelectionPriority call...")
+        print("No EnvironmentViewport is specified currently, skipping SelectionPriorityService call...")
         return
     end
 
@@ -37,7 +38,7 @@ function SelectionPriority.Call(IsDown)
     end
 end
 
-function SelectionPriority.BindSignal(Function, Priority, CheckFunction)
+function SelectionPriorityService.BindSignal(Function, Priority, CheckFunction)
     local UUID = CreateUUID()
 
     Signals[UUID] = {
@@ -50,8 +51,8 @@ function SelectionPriority.BindSignal(Function, Priority, CheckFunction)
     return UUID
 end
 
-function SelectionPriority.UnbindSignal(UUID)
+function SelectionPriorityService.UnbindSignal(UUID)
     Signals[UUID] = nil
 end
 
-return SelectionPriority
+return SelectionPriorityService
