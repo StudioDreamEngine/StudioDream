@@ -26,6 +26,8 @@ function Environment:new()
     self.DreamWorld = Backend3D:CreateWorld()
     self.DreamWorld.IsEnv = true
 
+    self.Objects = {}
+
     self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
     self.PhysicsWorld:setGravity(self.Gravity.ToBullet())
 
@@ -69,7 +71,7 @@ end
 
 function Environment:ManageWorldHierachy()
     self.DreamWorld.objects = {}
-    local Descendants = {}
+    self.Objects = {}
 
     for _, Child in pairs(self:GetDescendants()) do
         if Child:IsA("Drawable3D") then
@@ -79,11 +81,11 @@ function Environment:ManageWorldHierachy()
                 self:HandlePhysicsHierachy(Child)
             end
 
-            table.insert(Descendants, Child)
+            table.insert(self.Objects, Child)
         end
     end
 
-    return Descendants
+    return self.Objects
 end
 
 function Environment:PostStep(Descendants)

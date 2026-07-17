@@ -2,7 +2,6 @@
 local Things = Runtime.Things
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
-
 local SelectionPriority = Runtime.SelectionPriority
 
 ---@class MoveControl: Control3D
