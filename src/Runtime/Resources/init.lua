@@ -19,6 +19,7 @@ function Resources.Init()
 	Resources.LoadOrCreateIdentifier = Identifiers.LoadOrCreateIdentifier
 	Resources.RegisterAsMissing = Identifiers.RegisterAsMissing
 	Resources.LoadIdentifierIDFromPath = Identifiers.LoadIdentifierIDFromPath
+	Resources.GetIdentifierIDFromPath = Identifiers.GetIdentifierIDFromPath
 end
 
 -- Save resources to a new path (TODO)

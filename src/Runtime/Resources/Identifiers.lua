@@ -29,7 +29,20 @@ function Identifiers.LoadIdentifierIDFromPath(FilePath)
 	end
 end
 
--- Given a file path (relative to the project mount), register an identifier, or create the file and register the identifier for it
+--[[
+	Simillar to LoadOrCreateIdentifier, however only grabs an identifier and will not create it if it doesnt exist
+]]
+function Identifiers.GetIdentifierIDFromPath(FilePath)
+	local ProjectFS = Runtime.ProjectFS
+
+	if Utils.TypeOf(FilePath) == "Path" then
+		FilePath = FilePath.FilePath
+	end
+
+	return ProjectFS.ReadFile(FilePath .. ".uid")
+end
+
+-- Given a file path (relative to the project mount), create the file (if it doesnt exist) and register an identifier
 function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 	local ProjectFS = Runtime.ProjectFS
 
@@ -37,6 +50,9 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 		Utils.Warn("A project needs to be loaded first before a resource can be created")
 		return
 	end
+	
+	assert(not FilePath, "FilePath not passed")
+	assert(type(FilePath) == "string", "FilePath can only be a string value.\nIf you want to find an IdentifierID from a path, use Resources.GetIdentifierIDFromPath")
 
 	local HasIdentifier = ProjectFS.FileExists(FilePath .. ".uid")
 	local HasFile = ProjectFS.FileExists(FilePath)
@@ -48,6 +64,8 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 	end
 
 	if not HasFile then
+		print("Writing new file @ path:",FilePath)
+
 		Runtime.ProjectFS.WriteFile(FilePath, FileData or "")
 	end
 
