@@ -30,7 +30,8 @@ function Identifiers.LoadIdentifierIDFromPath(FilePath)
 end
 
 --[[
-	Simillar to LoadOrCreateIdentifier, however only grabs an identifier and will not create it if it doesnt exist
+	Get the IdentifierID of the specified Path (FilePath)
+	This will NOT register an identifier OR create a new file.
 ]]
 function Identifiers.GetIdentifierIDFromPath(FilePath)
 	local ProjectFS = Runtime.ProjectFS
@@ -51,7 +52,7 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 		return
 	end
 	
-	assert(not FilePath, "FilePath not passed")
+	assert(FilePath, "FilePath not passed")
 	assert(type(FilePath) == "string", "FilePath can only be a string value.\nIf you want to find an IdentifierID from a path, use Resources.GetIdentifierIDFromPath")
 
 	local HasIdentifier = ProjectFS.FileExists(FilePath .. ".uid")
