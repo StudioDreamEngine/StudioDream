@@ -4,35 +4,39 @@ Template.DisplayName = "General Configs"
 
 local ProjectOptions = {
     [1] = {
+        Name = "Project Name",
+        OptionType = "Input",
+        FunctionWhenCreate = function(Main)
+            function Draw()
+                Main.Option:SetText(Runtime.Project.Config.Get("Name"))
+            end
+            
+            Draw()
+
+            Main.Option.FocusEnd:Connect(function()
+                Runtime.Project.Config.Set("Name",Main.Option.Text)
+            end)
+        end,
+    },
+    [2] = {
         Name = "Icon",
         OptionType = "Button",
         FunctionWhenCreate = function(Main)
-
-            local Image = Runtime.Things.Create("Image2D") {
-                Size = Pivot2D.FromScale(1,1),
-                Pivot = Vector2.new(1,0),
-                Position = Pivot2D.FromScale(1,0),
-                SquareAxis = Enum.SquareAxis.Y,
-                Resource = Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png",
-                Parent = Main.Option
-            }
-
             function Draw()
-                local IsIcon = Runtime.Project.Config.Get("Icon") and true or false
                 local Result = Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png"
-
-                Image:SetResource(Result)
                 Main.Option:SetText(IsIcon and Path.new(Result).FileName or Result)
             end
             
             Draw()
 
             Main.Option.Clicked:Connect(function()
-                Identifier, _ = Resources.LoadIdentifierIDFromPath(NewPath)
-                if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
-
-                Runtime.Project.Config.Set("Icon",PathObj.FilePath)
-                Draw()
+                Platform.OpenWithCallback("Select the resource for the project icon.", Enum.OpenDialog.File, function(NewPath)
+                    Identifier, _ = Runtime.Resources.LoadIdentifierIDFromPath(NewPath)
+                    if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
+                    local PathObj = Path.new(NewPath,Identifier)
+                    Runtime.Project.Config.Set("Icon",PathObj.FilePath)
+                    Draw()
+                end)
             end)
         end,
     }
@@ -92,10 +96,11 @@ function Template.Create(Parent)
         }
 
         Runtime.Things.Create("ListLayout") {
-            Parent = Scroll,
+            Parent = CreateObject.Scroll,
         }
 
         CreateObject.CreateOptions()
+        
     end
 
     CreateObject.Create()
