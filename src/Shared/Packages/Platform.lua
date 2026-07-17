@@ -23,7 +23,7 @@
 	IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 	CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-	Version 1.1
+	Version 1.2
 ]]
 local ffi = require('ffi')
 
@@ -52,6 +52,7 @@ ffi.cdef([[
 local Platform = {}
 Platform.Identity = "Unnamed"
 
+-- Get the user/home folder
 function Platform.GetHome()
 	return love.filesystem.getUserDirectory()
 end
@@ -60,11 +61,12 @@ function Platform.GetDocuments()
 	return Platform.GetHome().."/Documents/"..Platform.Identity
 end
 
+-- Given a path, return its absolute path which can then be used in file operations across platforms
 function Platform.ParsePath(Path)
 	local FullPath = NativeFS.getFullPath(Path)
     local LastChar = string.sub(FullPath, -1, -1)
 
-    print("Mounting new project, Non-formatted full path: "..FullPath)
+    print("Parsing path, Non-formatted full path: "..FullPath)
     
     if LastChar ~= "/" and LastChar ~= "\\" then
         if love.system.getOS() == "Windows" then
@@ -73,8 +75,8 @@ function Platform.ParsePath(Path)
             FullPath = FullPath.."/"
         end
 
-        print("FullPath Doesnt seem to have a trailing slash")
-        print("Formatted Mount Point: "..FullPath)
+        printVerbose("FullPath Doesnt have a trailing slash")
+        printVerbose("Formatted Mount Point: "..FullPath)
     end
 
 	return FullPath
@@ -94,11 +96,13 @@ function Platform.Init(Identity)
 	end
 end
 
+-- Start a new process and destroy the current one
 function Platform.ExecuteAndReplace(...)
 	local a = C.execv(Path, nil)
 	print(a)
 end
 
+-- Start a new process (may freeze current process)
 function Platform.Execute(...)
 	local Args = table.pack(...)
 	local ToExec = table.concat(Args, " ")
@@ -119,11 +123,7 @@ function Platform.Execute(...)
 	local a = C.execvp(ArgsC[0], ArgsC)]]
 end
 
---[[
-	Open a file or folder with a callback function
-
-	Returns Callback result and path if sucessful, otherwise nothing
-]]
+-- Open a file or folder on a users and ONLY call Callback IF the user doesnt cancel the prompt
 function Platform.OpenWithCallback(Title, Type, Callback)
 	local Path = Platform[Type](Title)
 
@@ -134,6 +134,7 @@ function Platform.OpenWithCallback(Title, Type, Callback)
 	end
 end
 
+-- Open a file on a users drive
 function Platform.OpenFileDialog(Title)
     local ReturnPathC = tinyfiledialog.tinyfd_openFileDialog(Title, nil, 2, nil, nil, 0) 
 
@@ -141,6 +142,7 @@ function Platform.OpenFileDialog(Title)
 	return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
 end
 
+-- Open a folder on a users drive
 function Platform.OpenFolderDialog(Title)
     local ReturnPathC = tinyfiledialog.tinyfd_selectFolderDialog(Title, nil)
 

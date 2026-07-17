@@ -16,10 +16,12 @@ function Editor3D.OpenInsertWindow(Object)
     Studio.Layout.MoveWindow(WindowHandle, Studio.Layout.GetMouseContext(WindowHandle.Container))
     Studio.Layout.ToggleWindow(WindowHandle, true)
 
-    WindowHandle.TargetObject = Object or Runtime.Things.GetRoot("Environment")
+    WindowHandle.TargetObject = Object
 end
 
 function Editor3D.ToggleWindowOutside(Name,Visible)
+    Shared.QueueAbort("Mikl what the fuck is this function (Studio.Editor3D.ToggleWindowOutside) for")
+
     local WindowHandle = Studio.Layout.GetHandle(Name)
     Studio.Layout.ToggleWindow(WindowHandle, Visible)
 end
@@ -30,7 +32,11 @@ function Editor3D.CloseInsertWindow(Object)
     Studio.Layout.MoveWindow(WindowHandle, Studio.Layout.GetMouseContext(WindowHandle.Container))
     Studio.Layout.ToggleWindow(WindowHandle, false)
 
-    WindowHandle.TargetObject = Object or Runtime.Things.GetRoot("Environment")
+    WindowHandle.TargetObject = nil
+end
+
+function Editor3D.GetDefaultTarget()
+    return Editor3D.Selecting[1] or Runtime.Things.GetRoot("Environment")
 end
 
 function Editor3D.Init()

@@ -87,7 +87,7 @@ end
 function PConfig.Init()
     PConfig.Container.BackgroundColor = Studio.Theme.CurrentTheme.Outline
     local Created = PConfig.CreateMainSquares()
-    print(PConfig.AllOptions)
+    printVerbose(PConfig.AllOptions)
     for Name,Module in pairs(PConfig.AllOptions) do
         local OptionObject = {
             Button = PConfig.CreateOption(Module,Created.Options,Name),

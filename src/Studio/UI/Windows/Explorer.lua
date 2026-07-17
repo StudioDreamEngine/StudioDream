@@ -21,7 +21,7 @@ local Order = 0
 AddButtonWow = {
     Object = AddButtonObject,
     Connect = AddButtonObject.Clicked:Connect(function()
-        print("Insert open")
+        printVerbose("Insert open")
 
         AddButtonWow.IsInsertOpen = true
         Studio.Editor3D.OpenInsertWindow(AddButtonWow.Object)
@@ -102,7 +102,7 @@ function Explorer.CreateTree(Object, Depth, BeforeNodeObj)
     local NodeObj = Explorer.CreateNode(Object, Depth)
     NodeObj.Node.ListOrder = Order
     NodeObj.Node:SetParent(ScrollContainer)
-    print(NodeObj.NodeInner.BackgroundColor)
+    printVerbose(NodeObj.NodeInner.BackgroundColor)
     Explorer.Tree[Object] = NodeObj.NodeInner
     
     if BeforeNodeObj then
@@ -155,7 +155,7 @@ local function HandleDragEnd()
 
     if Hovering then
         local CouldParent = Selecting.Thing:SetParent(Hovering.Thing)
-        print(CouldParent)
+        printVerbose(CouldParent)
 
         if CouldParent then Explorer.Redraw() end
     else

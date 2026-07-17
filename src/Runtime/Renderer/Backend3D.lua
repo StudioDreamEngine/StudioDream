@@ -60,6 +60,7 @@ end
 
 function Backend3D.LoadObject(Identifier, Reference)
     local Resource, ResourceIdentifier = Runtime.Resources.LoadResourceFromIdentifier(Identifier, Reference)
+    if (not Resource) then return end
 
     local DreamObject = Dream:loadObjectBytes(Resource.Bytes, Resource.Type)
     AssignClassReference(DreamObject, Reference)

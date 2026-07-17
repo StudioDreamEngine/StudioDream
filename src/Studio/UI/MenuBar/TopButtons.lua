@@ -5,7 +5,7 @@ return {
     { 
         Component = "Button",
         Arguments = {
-            Name = "Project",
+            Name = "File",
             Dropdown = {
                 {
                     Type = "Button",
@@ -22,23 +22,32 @@ return {
                     Text = "Save Project To",
                     Function = Studio.ProjectManager.SaveProjectTo
                 },
-                {
-                    Type = "Separator",
-                },
-                {
-                    Type = "Button",
-                    Text = "Configuration of the Project",
-                    Function = function()
-                        Studio.Editor3D.ToggleWindowOutside("PConfig",true)
-                    end
-                }
             }
         }
     },
     { 
         Component = "Button",
         Arguments = {
-            Name = "Configuration",
+            Name = "Project",
+            Dropdown = {
+                {
+                    Type = "Button",
+                    Text = "Project Settings",
+                    Function = function()
+                        Studio.Editor3D.ToggleWindowOutside("PConfig",true)
+                    end
+                },
+                {
+                    Type = "Separator",
+                },
+                {
+                    Type = "Button",
+                    Text = "Resolve Missing Resources",
+                    Function = function()
+                        
+                    end
+                }
+            }
         }
     },
     { -- Tools
@@ -50,7 +59,7 @@ return {
     {
         Component = "Button",
         Arguments = {
-            Name = "Testing",
+            Name = "Test",
             Type = "Dropdown",
             Dropdown = {
                 {
@@ -64,15 +73,6 @@ return {
                 },
 
             }
-        }
-    },
-    {
-        Component = "Button",
-        Arguments = {
-            Name = "Plugins (Soon)",
-            OnClick = function()
-                print("Move clicked")
-            end
         }
     },
 }

@@ -10,11 +10,13 @@ end)
 
 return function(Args)
     local ButtonContainer = Things.Create("TextButton") {
-        Size = Pivot2D.FromScale(0.07,0.8),
+        Size = Pivot2D.FromScale(0.05,0.9),
         Text = Args.Name,
         ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
         Alignment = Vector2.new(0.5,0.5),
-        BackgroundTransparency = 1,
+        HoverColorMultiplier = 2,
+        BackgroundTransparency = 0.7,
     }
 
     if Args.Dropdown then
@@ -24,7 +26,6 @@ return function(Args)
             if OpendDropdown and OpendDropdown ~= Dropdown then
                 OpendDropdown.Toggle(false)
             end
-            print("hello")
             Dropdown.Setup(ButtonContainer, Vector2.new(0,0.5))
             Dropdown.Toggle(not Dropdown.Visible)
             if Dropdown.Visible then

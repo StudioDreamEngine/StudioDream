@@ -5,95 +5,103 @@ Identifiers.Missing = {}
 
 -- Given a file path (relative to system root), load any file, inside or outside the project.
 function Identifiers.LoadIdentifierIDFromPath(FilePath)
-    local Mount = Runtime.ProjectFS.GetMount()
+	local Mount = Runtime.ProjectFS.GetMount()
 
-    print(Mount, ", ", FilePath)
+	print(Mount, ", ", FilePath)
 
-    if (not Mount) then
-        Utils.Warn("A project needs to be loaded first before you can load resources")
-        return
-    end
+	if not Mount then
+		Utils.Warn("A project needs to be loaded first before you can load resources")
+		return
+	end
 
-    if (not string.find(FilePath, Mount)) then
-        Utils.Warn("Identifier outside of mount point currently not supported")
-    else
-        local RelativePath = string.gsub(FilePath, Mount, "") -- This couldnt go wrong at all
-        print(RelativePath)
+	if not string.find(FilePath, Mount) then
+		local FileName = string.split(FilePath, "/")
+		FileName = FileName[#FileName]
 
-        return Identifiers.LoadOrCreateIdentifier(RelativePath)
-    end
+		local Data = Runtime.BaseFS.ReadFile(FilePath)
+		return Identifiers.LoadOrCreateIdentifier(FileName, Data)
+	else
+		local FilePath = Platform.ParsePath(FilePath)
+		local RelativePath = string.gsub(FilePath, Mount, "") -- This couldnt go wrong at all
+		print(RelativePath)
+
+		return Identifiers.LoadOrCreateIdentifier(RelativePath)
+	end
 end
 
 -- Given a file path (relative to the project mount), register an identifier, or create the file and register the identifier for it
 function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
-    local ProjectFS = Runtime.ProjectFS
+	local ProjectFS = Runtime.ProjectFS
 
-    if (not ProjectFS.GetMount()) then
-        Utils.Warn("A project needs to be loaded first before a resource can be created")
-        return
-    end
+	if not ProjectFS.GetMount() then
+		Utils.Warn("A project needs to be loaded first before a resource can be created")
+		return
+	end
 
-    local HasIdentifier = ProjectFS.FileExists(FilePath..".uid")
-    local HasFile = ProjectFS.FileExists(FilePath)
+	local HasIdentifier = ProjectFS.FileExists(FilePath .. ".uid")
+	local HasFile = ProjectFS.FileExists(FilePath)
 
-    -- This file is a directory, pass that along to the function that called this, as it may be used to handle loading/reloading all resources
-    if HasFile and HasFile.type == "directory" then return nil, true end
+	-- This file is a directory, pass that along to the function that called this, as it may be used to handle loading/reloading all resources
+	if HasFile and HasFile.type == "directory" then
+		printVerbose("File was directory")
+		return nil, true
+	end
 
-    if (not HasFile) then
-        Runtime.ProjectFS.WriteFile(FilePath, FileData or "")
-    end
-    
-    local Identifier
+	if not HasFile then
+		Runtime.ProjectFS.WriteFile(FilePath, FileData or "")
+	end
 
-    if (not HasIdentifier) then -- Create a new identifier
-        Identifier = CreateUUID()
-        ProjectFS.WriteFile(FilePath..".uid", Identifier)
-    else
-        Identifier = ProjectFS.ReadFile(FilePath..".uid")
-    end
+	local Identifier
 
-    Identifiers.RegisterIdentifier(Identifier, FilePath)
+	if not HasIdentifier then -- Create a new identifier
+		Identifier = CreateUUID()
+		ProjectFS.WriteFile(FilePath .. ".uid", Identifier)
+	else
+		Identifier = ProjectFS.ReadFile(FilePath .. ".uid")
+	end
 
-    return Identifier, false
+	Identifiers.RegisterIdentifier(Identifier, FilePath)
+
+	return Identifier, false
 end
 
 -- Configure (Register) an Identifier to be Associated with a File Path
 function Identifiers.RegisterIdentifier(Identifier, FilePath)
-    local NewIdentifier = IdentifierType.new(Path.new(FilePath), "Project", Identifier)
-    RegisteredIdentifiers[Identifier] = NewIdentifier
+	local NewIdentifier = IdentifierType.new(Path.new(FilePath), "Project", Identifier)
+	RegisteredIdentifiers[Identifier] = NewIdentifier
 
-    return NewIdentifier
+	return NewIdentifier
 end
 
 -- Register an IdentifierID as missing its identifier counterpart, used during project load
-function Identifiers.RegisterAsMissing(FilePath)
-    Shared.QueueAbort(FilePath.Identifier.." is missing! old path: "..FilePath)
-    table.insert(Identifiers.Missing, FilePath)
+function Identifiers.RegisterAsMissing(Identifier)
+	Shared.QueueAbort("ResourceID " .. Identifier .. " is missing, You can resolve missing resources in the Project tab.")
+	table.insert(Identifiers.Missing, Identifier)
 end
 
 -- Get an internal path for a studio asset, only used for studio.
 function Identifiers.GetStudioPath(IdentifierID)
-    local PathSplit = string.split(IdentifierID, "/")
+	local PathSplit = string.split(IdentifierID, "/")
 
-    if PathSplit[1] == "Internal" then
-        local PathString = table.concat(PathSplit, "/", 2)
-        local Path = Path.new(PathString)
+	if PathSplit[1] == "Internal" then
+		local PathString = table.concat(PathSplit, "/", 2)
+		local Path = Path.new(PathString)
 
-        return IdentifierType.new(Path, "Internal", IdentifierID)
-    end
+		return IdentifierType.new(Path, "Internal", IdentifierID)
+	end
 end
 
 -- Get an identifier from an IdentifierID
-function Identifiers.GetIdentifierFromID(IdentifierID) 
-    if type(IdentifierID) ~= "string" then -- Buffer type, hate the fact this is done twice
-        return IdentifierType.new(IdentifierID, "Buffer", "Buffer-"..CreateUUID())
-    else -- Internal and Project type
-        return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
-    end
+function Identifiers.GetIdentifierFromID(IdentifierID)
+	if type(IdentifierID) ~= "string" then -- Buffer type, hate the fact this is done twice
+		return IdentifierType.new(IdentifierID, "Buffer", "Buffer-" .. CreateUUID())
+	else -- Internal and Project type
+		return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
+	end
 end
 
-function Identifiers.Clear() 
-    RegisteredIdentifiers = {}
+function Identifiers.Clear()
+	RegisteredIdentifiers = {}
 end
 
 return Identifiers

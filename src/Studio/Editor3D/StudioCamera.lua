@@ -7,7 +7,7 @@ local CameraPosition = Vector3.zero
 local MouseService = Runtime.Services.Service("MouseService") ---@class MouseService
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
-local PrevDT
+local PrevDT = 0
 
 function StudioCamera.Init()
     InputService.MouseEvent:Connect(function(IsDown)
@@ -24,12 +24,14 @@ function StudioCamera.Init()
         if (not HoldingCamera) then return end
 
         local Delta = MouseObject.Delta
-        CameraRotation.X = CameraRotation.X + Delta.X/300
+        CameraRotation.X = CameraRotation.X + Delta.X/300 
         CameraRotation.Y = CameraRotation.Y - Delta.Y/300
     end)
 end
 
 function StudioCamera.Update(dt)
+    PrevDT = dt
+    
     local Camera = Runtime.Things.Root:GetCamera()
     if (not Camera) then return end
 

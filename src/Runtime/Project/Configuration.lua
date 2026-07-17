@@ -37,7 +37,7 @@ function Configuration.Load(Path)
             Config[Setting] = Value
         end
 
-        print("Loaded new config: ",Config)
+        printVerbose("Loaded new config: ",Config)
 
         -- Set config to hydrated config only if this isnt being called to grab a config of a non-loaded project
         if (not Path) then

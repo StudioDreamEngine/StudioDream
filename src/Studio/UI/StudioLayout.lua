@@ -127,15 +127,15 @@ function StudioLayout.CreateTopbar()
         Parent = StudioLayout.TopBar,
         Name = "MenuBar",
         Position = Pivot2D.FromScale(0,0.0),
-        Size = Pivot2D.FromScale(1,0.3),
+        Size = Pivot2D.FromScale(1,0.2),
         BackgroundTransparency = 1
     }
 
     local TopbarInner = Things.Create("Square") {
         Parent = StudioLayout.TopBar,
         Name = "ToolBar",
-        Position = Pivot2D.FromScale(0,0.3),
-        Size = Pivot2D.FromScale(1,0.7),
+        Position = Pivot2D.FromScale(0,0.2),
+        Size = Pivot2D.FromScale(1,0.8),
         BackgroundColor = Theme.Primary,
         BackgroundTransparency = 0
     }

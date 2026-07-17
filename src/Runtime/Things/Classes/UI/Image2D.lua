@@ -55,6 +55,7 @@ end
 
 function Image2D:SetResource(Identifier, Reload)
     self.ImageFile, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, Reload)
+    if (not self.ImageFile) then return end
 
     self:RefreshQuad() -- Only refresh the quad object
 end

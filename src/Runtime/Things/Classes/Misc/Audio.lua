@@ -64,6 +64,7 @@ end
 
 function Audio:SetResource(Identifier)
     self.SoundObject, self.Resource = Resources.LoadResourceFromIdentifier(Identifier, self.UUID)
+    if (not self.SoundObject) then return end
 end
 
 function Audio:SetLoop()

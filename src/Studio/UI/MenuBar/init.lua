@@ -26,7 +26,7 @@ function TopBar.Init()
         Alignment = Enum.Alignment.MiddleLeft,
         Direction = Enum.LayoutDirection.Horizontal,
         Parent = TopBar.TopperBarContainer,
-        Padding = 10,
+        Padding = 2,
     }
 
     for i,Tab in pairs(ButtonList) do

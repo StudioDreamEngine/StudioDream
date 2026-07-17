@@ -8,7 +8,8 @@
         "deprecated", // this is lua 5.1
         "inject-field", // adding functions
         "undefined-field", // super arg
-        "duplicate-set-field" // 
+        "duplicate-set-field", // 
+        "assign-type-mismatch" // Complainer
     ],
     "Lua.workspace.library": [
         "${3rd}/love2d/library",

@@ -106,6 +106,8 @@ end
 -- Hacky mesh resource system because dream loads an object directly from a file's contents
 function Drawable3D:SetResource(NewResource)
     self.Drawable, self.Resource = Runtime.Backend3D.LoadObject(NewResource, self.UUID)
+    if (not self.Drawable) then return end
+
     self:AttemptMaterialSet()
 
     self.Size = self.Scale * self.Drawable:getBoundingBox()

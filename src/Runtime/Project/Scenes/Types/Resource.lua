@@ -2,22 +2,33 @@ local Serializer = {}
 
 function Serializer.Serialize(Value)
     if Value.ResourceType == "Buffer" then
-        print("Attempted to serialize buffer resource")
+        printVerbose("Attempted to serialize buffer resource")
         return
     end
 
-    return Value
+    return {
+        ResourceType = Value.ResourceType,
+        ID = Value.ID
+    }
 end
 
 function Serializer.Deserialize(Value)
     local Type = Value.ResourceType
 
     if (not Type) then
-        return IdentifierType.new(Path.new(Value.FilePath), "Project", Value.Identifier)
-    else
-        local Data = Value.Data
-        return IdentifierType.new(Path.new(Data.FilePath), "Project", Value.ID)
+        printVerbose("Classic Resource Identifiers are no longer supported ("..Value.Identifier..")")
+        Runtime.Resources.RegisterAsMissing(Value.Identifier)
+        return
     end
+
+    local Identifier = Runtime.Resources.GetIdentifierFromID(Value.ID)
+
+    if (not Identifier) then
+        Runtime.Resources.RegisterAsMissing(Value.ID)
+        return
+    end
+
+    return Identifier
 end
 
 return Serializer

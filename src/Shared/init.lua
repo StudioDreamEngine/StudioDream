@@ -69,6 +69,9 @@ function Shared.Init(Args)
         POLYFILL_FLAGS.Verbose = true 
     end
 
+    -- TODO: Redo arg parsing so we dont need to do this
+    if Args[2] == "SkipPath" then Args[2] = nil end
+
     Shared.SkipSplash = Args[2] and true or false
     Shared.Target = Args[1] or FLAGS.ModeTarget
 

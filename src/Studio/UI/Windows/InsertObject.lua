@@ -47,10 +47,15 @@ function InsertObject.Init()
             IconObject:SetParent(InsertObject.ScrollContainer)
             IconObject.Clicked:Connect(function()
                 InsertObject.Close()
+
+                local DefaultTarget = Studio.Editor3D.GetDefaultTarget()
+
                 local CreatedObject = Things.Create(ClassName) {
-                    Parent = InsertObject.TargetObject,
+                    Parent = InsertObject.TargetObject or DefaultTarget,
                 }  
+
                 Studio.Layout.CallHandle("Explorer", "Redraw")
+
                 --[[Studio.Components.CreateDialog(Enum.StudioDialog.Option,{
                     Text = "Are you sure you want to insert "..ClassName.."?",
                     Choices = {
