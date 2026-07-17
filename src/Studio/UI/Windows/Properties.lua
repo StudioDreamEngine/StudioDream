@@ -132,7 +132,9 @@ function Properties.RenderEverything(Thing)
 
             for _,Info in pairs(Property.WillHandle) do
                 --print(PropertyInfo.Property)
-                table.insert(PropertyInfo.Connections,Info.Thing.PropertyChanged:Connect(function() HandlerObject.Update() end, PropertyInfo.Name))
+                table.insert(PropertyInfo.Connections,Info.Thing.PropertyChanged:ConnectDeferred(function() 
+                    HandlerObject.Update() 
+                end, PropertyInfo.Name))
 
                 -- MY IDEA: property attributes enable for the creation of stuff such as playback buttons
                 --for _, Attribute in pairs(Info.Attributes) do  

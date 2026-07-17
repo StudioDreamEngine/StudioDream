@@ -71,16 +71,22 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 	
 	function EventObject:Connect(func,listener) 
 		local EventId = NewEventID()
-		
 		local SingleEventObject = ConnectEvent(func, listener, EventId)
 		
 		Events[EventId] = {func,listener,SingleEventObject}
 		return SingleEventObject
 	end
+
+	function EventObject:ConnectDeferred(func,listener) 
+		local EventId = NewEventID()
+		local SingleEventObject = ConnectEvent(func, listener, EventId)
+		
+		Events[EventId] = {func,listener,SingleEventObject,false,true}
+		return SingleEventObject
+	end
 	
 	function EventObject:ConnectOnce(func,listener) 
 		local EventId = NewEventID()
-
 		local SingleEventObject = ConnectEvent(func, listener, EventId)
 
 		Events[EventId] = {func,listener,SingleEventObject,true}
@@ -95,6 +101,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 			v[2] - Listener ID to match for
 			v[3] - Event object
 			v[4] - Call only once then disconnect
+			v[5] - Call deferred
 		]]
 		for EventID,v in pairs(Events) do 
 			
@@ -123,7 +130,11 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 				end
 
 				-- Ok rant over
-				Scheduler.NewTask(v[1], unpack(Args))
+				if v[5] then
+					Scheduler.QueueTask(v[1], unpack(Args))
+				else
+					Scheduler.NewTask(v[1], unpack(Args))
+				end
 				
 				if v[4] then v[3]:Disconnect() end
 			end

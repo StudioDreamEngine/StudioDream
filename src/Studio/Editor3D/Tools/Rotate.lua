@@ -30,8 +30,8 @@ function Rotate.Init()
     MoveControl.OnMove:Connect(function(Plane)
         SelectingObj = Rotate.Selection
         Info.OffsetTo = Plane
-        print(Plane)
-        print(Info.StartRotObj)
+        --print(Plane)
+        --print(Info.StartRotObj)
         Rotate.ChangeTransform(Transform3D.FromAngle(Info.StartRotObj.X + Info.OffsetTo.X,Info.StartRotObj.Y + Info.OffsetTo.Y,Info.StartRotObj.Z + Info.OffsetTo.Z))
     end)
 
