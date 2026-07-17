@@ -60,28 +60,23 @@ function Explorer.CreateNode(Object, Depth)
         CornerRadius = 5,
     }
 
-    NodeObj.Line = Things.Create("Square") { 
-        Size = Pivot2D.FromScale(1,0.8),
-        Position = Pivot2D.FromScale(0,0.5),
-        Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
-        Layer = 2,
-        BackgroundTransparency = 0.5,
-        Parent = NodeObj.Node,
-    }
-
     NodeObj.AlreadyCreatedChilButton = false
 
+    NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
+    NodeObj.NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
+    NodeObj.NodeInner:SetParent(NodeObj.Node)
+    NodeObj.NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Primary
     NodeObj.CreateChildrenButton = function()
         NodeObj.AlreadyCreatedChilButton = true
+        
         NodeObj.Button = Runtime.Things.Create("ImageButton") {
             Resource = "Internal/Studio/OpenMenu.png",
             Size = Pivot2D.FromScale(0.8,0.8),
             BackgroundColor = Studio.Theme.CurrentTheme.Text,
             SquareAxis = Enum.SquareAxis.Y, 
-            Position = Pivot2D.FromScale(1,0.5),
+            Position = Pivot2D.FromScale(0,0.5),
             Pivot = Vector2.new(1,0.5),
-            Parent = NodeObj.Node,
+            Parent = NodeObj.NodeInner,
             Layer = 4,
             ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64))
         }
@@ -98,10 +93,6 @@ function Explorer.CreateNode(Object, Depth)
         end)
     end
 
-    NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
-    NodeObj.NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
-    NodeObj.NodeInner:SetParent(NodeObj.Node)
-    
     return NodeObj
 end
 
@@ -111,8 +102,7 @@ function Explorer.CreateTree(Object, Depth, BeforeNodeObj)
     local NodeObj = Explorer.CreateNode(Object, Depth)
     NodeObj.Node.ListOrder = Order
     NodeObj.Node:SetParent(ScrollContainer)
-    NodeObj.NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Outline
-
+    print(NodeObj.NodeInner.BackgroundColor)
     Explorer.Tree[Object] = NodeObj.NodeInner
     
     if BeforeNodeObj then
@@ -244,7 +234,7 @@ function Explorer.Update(dt)
             NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Selecting
             ParentInserter(NodeInner)
         else
-            NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
+            NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Primary -- CHANGE IT HERE!
         end
     end
 end

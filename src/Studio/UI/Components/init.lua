@@ -56,7 +56,7 @@ function Components.CreateIconObject(Name, Icon)
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
         Size = Pivot2D.new(0,1,20,0),
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
         --BackgroundTransparency = 0.5,
         Text = "",
         Layer = 3,
