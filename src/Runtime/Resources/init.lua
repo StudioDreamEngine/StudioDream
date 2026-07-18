@@ -22,8 +22,10 @@ function Resources.Init()
 	Resources.GetIdentifierIDFromPath = Identifiers.GetIdentifierIDFromPath
 end
 
--- Save resources to a new path (TODO)
-function Resources.SaveResources() end
+-- Save resources to a new path
+function Resources.SaveAllResources()
+
+end
 
 function Resources.Clear()
 	Identifiers.Clear()

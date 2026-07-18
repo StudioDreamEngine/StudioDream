@@ -50,12 +50,12 @@ local function ProxyFunction(OldFunction, ...)
 end
 
 local function ProxyObject(Object)
-    local Type = type(Object)
+    local Type = Utils.TypeOf(Object)
 
     if Type == "function" then -- Custom proxy for function
         return function(...) return ProxyFunction(Object, ...) end 
-    else -- Otherwise, return as proxy
-        return Bridge.Proxy(Object)
+    else
+        return Object
     end
 end
 
