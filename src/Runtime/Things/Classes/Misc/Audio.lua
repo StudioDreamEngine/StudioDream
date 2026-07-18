@@ -71,6 +71,7 @@ function Audio:SetLoop()
     self.SoundObject:setVolume(self.Volume/100)
     self.Duration = self.SoundObject:getDuration()
     self.TimePosition = self.SoundObject:tell() -- this is a problem that will happend soon!!!!! i need to fix this now!!! like rn!! wow!
+    -- what is bro talking about
     if self.TimePosition >= self.Duration then
         self.StoppedPlaying.Invoke()
     end
