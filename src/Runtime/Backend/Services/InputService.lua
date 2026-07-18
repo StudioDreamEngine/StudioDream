@@ -1,8 +1,6 @@
 ---@class InputService
 local InputService = {}
 
-local funnyjokesonu = false
-
 function InputService.Init()
     InputService.KeyEvent = Signal:New("KeyEvent")
     InputService.MouseEvent = Signal:New("MouseEventSignal")
