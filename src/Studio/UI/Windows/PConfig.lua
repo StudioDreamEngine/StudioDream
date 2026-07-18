@@ -23,7 +23,7 @@ function PConfig.CreateMainSquares()
         CornerRadius = 5,
         Pivot = Vector2.new(1,0),
         Position = Pivot2D.FromScale(1,0),
-        --BackgroundTransparency = 0,
+        BackgroundTransparency = 0,
         Layer = 2,
         Resource = "Internal/Studio/Close.png",
         ScaleType = Enum.ScaleType.LockAspect,

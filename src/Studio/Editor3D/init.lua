@@ -20,7 +20,7 @@ function Editor3D.OpenInsertWindow(Object)
 end
 
 function Editor3D.ToggleWindowOutside(Name,Visible)
-    Shared.QueueAbort("Mikl what the fuck is this function (Studio.Editor3D.ToggleWindowOutside) for")
+    --Shared.QueueAbort("Mikl what the fuck is this function (Studio.Editor3D.ToggleWindowOutside) for")
 
     local WindowHandle = Studio.Layout.GetHandle(Name)
     Studio.Layout.ToggleWindow(WindowHandle, Visible)

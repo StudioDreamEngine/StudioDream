@@ -14,6 +14,8 @@ Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
 Project.LoadingProject = false
 
+Project.LoadedProject = Signal:New("WhenAnActualProjectIsLoaded")
+
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
     assert(ProjectPath, "ProjectPath was blank!")
@@ -58,6 +60,22 @@ function Project.GetSummary(ProjectPath)
     }
 end
 
+function Project.EditName(NewName)
+    local ProjectDirectory = ProjectFS.GetMount()
+    local NewDirectoryName = Platform.GetDocuments().."/"..NewName
+    Project.Config.Set("Name",NewName)
+    local Success,Err = os.rename(ProjectDirectory,NewDirectoryName)
+
+    if Success then
+        Project.History.Remove(ProjectDirectory)
+        Project.History.Add(NewDirectoryName, Project.Config.Get("Name"))
+        Runtime.ChangeTitle()
+        return true
+    else
+        return false
+    end
+end
+
 function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
@@ -81,6 +99,7 @@ function Project.Load(ProjectPath)
         print(Message)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
     else
+        Project.LoadedProject.Invoke()
         Project.History.Add(ProjectFS.GetMount(), Project.Config.Get("Name"))
     end
 end

@@ -10,11 +10,12 @@ local ProjectOptions = {
             function Draw()
                 Main.Option:SetText(Runtime.Project.Config.Get("Name"))
             end
-            
-            Draw()
+
+            Runtime.Project.LoadedProject:Connect(Draw)
 
             Main.Option.FocusEnd:Connect(function()
-                Runtime.Project.Config.Set("Name",Main.Option.Text)
+                local DidWorked = Runtime.Project.EditName(Main.Option.Text)
+                printVerbose(DidWorked)
             end)
         end,
     },
