@@ -2,15 +2,30 @@
 -- Black magic brought to you by bloctans :3
 local Bridge = {}
 
+local function CheckProxied(Instance)
+    if (not Instance.Proxied) then -- Temporary catch
+        print("Indexing non-proxied thing")
+        print(debug.traceback())
+    end
+end
+
 local function BridgeCreator(Table, k, v)
     if k == "Type" then return end
 
-    Table[k] = v
+    if Utils.TypeOf(Table) == "Thing" then -- Custom creator if the table is a thing
+        CheckProxied(Table)
+
+        local ThingProxy = Runtime.Things.Get(Table.UUID) -- Get the ThingProxy in the case the function is using a non-proxied object
+        Runtime.Things.SetProperty(ThingProxy, k, v)
+    else
+        Table[k] = v
+    end
 end
 
 local function ProxyThing(Instance, Key)
-    if (not Instance[Key]) then
-        -- Assume child
+    CheckProxied(Instance)
+
+    if (not Instance[Key]) then -- Assume child
         local Child = Instance:FindFirstChild(Key)
 
         return Bridge.Proxy(Child)

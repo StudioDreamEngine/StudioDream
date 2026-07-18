@@ -11,8 +11,12 @@ return function()
 
     Text.RenderFont = nil
     Text.TextBounds = Vector2.zero
+    Text.ContainerSize  = Vector2.zero
+
+    Text.Alignment = Enum.Alignment.MiddleLeft
 
     Text.Scale = 0
+    Text.OffsetPosition = Vector2.zero
 
     Text.Text = "Placeholder"
 
@@ -63,7 +67,15 @@ return function()
 
         Text.Lines = Lines
         Text.TextBounds = TextBounds
+        Text.ContainerSize = NewSize
         Text.Scale = Lines.Scale
+
+        Text.OffsetPosition = Utils.GetAlignment(Text.Alignment, Text.ContainerSize, Text.TextBounds)*Text.Scale
+    end
+
+    function Text.SetAlignment(NewAlignment)
+        Text.Alignment = NewAlignment
+        Text.OffsetPosition = Utils.GetAlignment(Text.Alignment, Text.ContainerSize, Text.TextBounds)*Text.Scale
     end
 
     -- Rendering
@@ -84,13 +96,11 @@ return function()
         
     end
 
-    function Text.Render(ContainerSize, Alignment)
-        local TextPosition = Utils.GetAlignment(Alignment, ContainerSize, Text.TextBounds)*Text.Scale
-
+    function Text.Render()
         love.graphics.setFont(Text.RenderFont)
         love.graphics.push()
         love.graphics.scale(1/Text.Scale)
-        love.graphics.printf(Text.Text, TextPosition.X, TextPosition.Y, Text.Lines.Width*Text.Scale)
+        love.graphics.printf(Text.Text, Text.OffsetPosition.X, Text.OffsetPosition.Y, Text.Lines.Width*Text.Scale)
         love.graphics.pop()
     end
 

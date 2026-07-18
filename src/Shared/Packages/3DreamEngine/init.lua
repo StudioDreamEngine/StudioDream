@@ -68,7 +68,7 @@ lib.packer = require(lib.root .. "/libs/packer")
 table.unpack = table.unpack or unpack
 
 --delton, disabled when not in debug mode
-lib.delton = require(lib.root .. "/libs/delton"):new(64)
+lib.delton = require(lib.root .. "/libs/delton"):new(128)
 lib.deltonLoad = require(lib.root .. "/libs/delton"):new(1)
 lib.deltonLoad.maxAge = 999999
 

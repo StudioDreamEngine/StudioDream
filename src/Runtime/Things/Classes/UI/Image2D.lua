@@ -90,7 +90,7 @@ end
 function Image2D:Draw()
     if (not self.ImageQuad) then return end -- TODO: Placeholder image
 
-    Profiler.Start("Image2D Draw")
+    Profiler.Start("Image2D - Draw")
 
     local _,_, w,h = self.ImageQuad:getViewport()
     local ImageSize = Vector2.new(w,h)

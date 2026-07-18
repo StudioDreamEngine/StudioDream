@@ -38,6 +38,11 @@ function Text:SetTextScaled(TextScaled)
     self:InvalidateRendering()
 end
 
+function Text:SetAlignment(Alignment)
+    self.Alignment = Alignment
+    self.RenderClass.SetAlignment(Alignment)
+end
+
 function Text:SetText(Text)
     self.Text = Text or ""
     self.RenderClass.Text = self.Text
@@ -59,7 +64,7 @@ function Text:Draw()
     Text.super.Draw(self)
 
     self:SetColor("Foreground")
-    self.RenderClass.Render(self.AbsoluteSize, self.Alignment)
+    self.RenderClass.Render()
 end
 
 function Text:SetFont(NewFont)

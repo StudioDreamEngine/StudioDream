@@ -11,6 +11,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Text = "",
         Size = Pivot2D.FromScale(0.95,0.2),
         Parent = Scroll,
+        ListOrder = -Info.Time, -- dumb way to sort
         Layer = 2,
         CornerRadius = 5,
         BackgroundColor = Studio.Theme.CurrentTheme.Outline,
