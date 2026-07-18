@@ -5,7 +5,7 @@ VERSION_FULL = VERSION.." "..TITLE
 
 FLAGS = {
     ModeTarget = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
-    Verbose = true,
+    Verbose = false,
     DebugDraw = false
 }
 
