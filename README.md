@@ -1,11 +1,27 @@
-# StudioDream
+# <img src="src/Assets/Icons/Studio.png" alt="Studio logo" height="64px"> StudioDream
+![Discord](https://img.shields.io/badge/discord-server-blue?logo=discord&link=https://discord.gg/aaw7TesFxN)
+![Latest](https://img.shields.io/badge/release-latest-blue?logo=github&link=https://github.com/StudioDreamEngine/StudioDream/releases/latest)
 
-Our dream of an engine, Also a play on Studio and the 3D engine, 3DreamEngine.
+StudioDream is an engine that is intended to take the accessibility of Roblox, along with the awesome features engines such as Godot provide (Like Resources), and package them together
 
 ![image](https://github.com/StudioDreamEngine/StudioDream/blob/main/src/Assets/Studio/Update_Thumbs/Early_Riser.png)
 
-The pros of roblox and the pros of other engines combined
+# Overview
+The documentation repo is located [Here](https://github.com/StudioDreamEngine/StudioDream-Docs), there is currently no hosted website for them.
 
-We plan alot of things to this engine in the future! But for now our focus is just to make it work honestly!
+# Running
 
-Now with an organization! (Hopefully works this time)
+## Windows
+(Mikl needs to do this)
+
+## Linux
+Use ``test-love12.sh`` to run StudioDream
+
+# Building
+Building should be pretty simple on both platforms
+
+Simply just run the corresponding batch or bash files in the ``build`` directory
+(``linux.sh`` for linux, ``win.bat`` for windows)
+
+# Contributing
+TODO
