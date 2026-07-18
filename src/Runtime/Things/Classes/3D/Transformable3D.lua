@@ -13,6 +13,8 @@ function Transformable3D:new()
 end
 
 function Transformable3D:SetTransform(NewTransform)
+    assert(NewTransform, "Attempted to set transform to nil")
+
     self.Transform = NewTransform
     self.Position = self.Transform.Position
 end

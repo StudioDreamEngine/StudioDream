@@ -4,7 +4,11 @@ local Things = Runtime.Things
 function Start.CreateProject(Scroll,Info,Path,FullContainer)
     local selfed = {}
 
+    print("Creating project")
+
     local Summary = Runtime.Project.GetSummary(Path)
+    print("Got summary")
+
     local ImageToUse = Summary.ImageResource
 
     selfed.Base = Runtime.Things.Create("TextButton") {
@@ -57,7 +61,6 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Start.Close()
         Studio.Layout.CallHandle("Explorer", "Redraw")
     end)
-
 
     return selfed
 end
@@ -199,9 +202,13 @@ function Start.Init()
 
     Version.Size = Pivot2D.FromScale(1,0.05)
 
+    print("Creating projects")
+
     for i,v in pairs(Runtime.SettingsManager.GetSetting("RecentProjects")) do
         Start.CreateProject(Scroll,v,i,Start.FullContainer)
     end
+
+    print("Finished")
 
 end
 

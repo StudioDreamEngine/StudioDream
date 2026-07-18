@@ -25,6 +25,8 @@ end
 function Components.UnregisterUpdator(UUID) Updators[UUID] = nil end
 
 function Components.Init()
+    print("Initalizing Studio Components")
+
     DropdownFrame = Components.CreateStyle("Square", {
         Parent = Things.Root.RootViewport,
         Name = "DropdownElement",

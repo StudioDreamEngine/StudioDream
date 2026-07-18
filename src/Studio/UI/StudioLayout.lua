@@ -59,6 +59,7 @@ function StudioLayout.GetMouseContext(Context)
 end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
+    printVerbose("Creating new WindowHandler:",WindowType)
     local Window = require("Studio.UI."..WindowType)
     Window.FullContainer = WindowContainer.FullContainer
     Window.Container = WindowContainer.Container
@@ -145,6 +146,7 @@ function StudioLayout.CreateTopbar()
 end
 
 function StudioLayout.CreateLayout()
+    printVerbose("Creating studio layout")
     StudioLayout.CreateTopbar()
 
     StudioLayout.Windows = Things.Create("Square") {

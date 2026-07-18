@@ -40,6 +40,7 @@ function Editor3D.GetDefaultTarget()
 end
 
 function Editor3D.Init()
+    printVerbose("Initalizing Studio Editor")
     Editor3D.StudioCamera = require("Studio.Editor3D.StudioCamera")
 
     Editor3D.SelectionManager.Init()

@@ -21,6 +21,7 @@ function Studio.Init()
     Studio.Editor3D.Init()
     Studio.Backend.Init()
 
+    print("Finished Initalizing studio")
     Shared.ProcessQueue()
 end
 

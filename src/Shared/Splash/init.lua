@@ -97,12 +97,15 @@ function Splash.Load(ProjectPath)
     Scheduler.Yield()
     Shared.SetupBullet()
 
+    printVerbose("Finishing Runtime Setup")
     Runtime.PostInit(ProjectPath)
 
     Splash.ChangeStatus("Starting Target")
+    printVerbose("Starting Target")
     Shared.StartTarget()
     Splash.ChangeStatus("")
 
+    printVerbose("Sucessfully Finished Initalization")
     Scheduler.OnRecoverableError = nil
 
     if (not Shared.SkipSplash) then
