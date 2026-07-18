@@ -61,7 +61,7 @@ function Platform.GetDocuments()
 	return Platform.GetHome().."/Documents/"..Platform.Identity
 end
 
--- Given a path, return its absolute path which can then be used in file operations across platforms
+-- Given a path, return its absolute path which can then be used in file operations across platforms, ONLY USE FOR FOLDERS!!!!!!
 function Platform.ParsePath(Path)
 	local FullPath = NativeFS.getFullPath(Path)
     local LastChar = string.sub(FullPath, -1, -1)

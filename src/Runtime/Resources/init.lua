@@ -63,7 +63,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, Reload)
 		Identifier = IdentifierType.new(Identifier, "Buffer", "Buffer-" .. CreateUUID())
 	end
 
-	if Identifier.ResourceType == "Project" then
+	if Identifier.ResourceType == "Project" and Object then
 		printVerbose("Adding " .. Object .. " to object references")
 		ObjectReferences[Object] = Identifier
 	end
