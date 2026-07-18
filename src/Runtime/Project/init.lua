@@ -37,8 +37,10 @@ local DefaultImage = Runtime.Resources.GetIdentifierFromID("Internal/Studio/Upda
 
 function Project.GetSummary(ProjectPath)
     local BaseFS = Runtime.BaseFS
-    
+
     if (not Runtime.BaseFS.FileExists(ProjectPath)) then
+        Project.History.Remove(ProjectPath)
+
         return {
             Config = Project.Config.GetDefault(),
             ImageResource = DefaultImage 

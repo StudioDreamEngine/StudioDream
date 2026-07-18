@@ -21,7 +21,6 @@ function Identifiers.LoadIdentifierIDFromPath(FilePath)
 		local Data = Runtime.BaseFS.ReadFile(FilePath)
 		return Identifiers.LoadOrCreateIdentifier(FileName, Data)
 	else
-		local FilePath = Platform.ParsePath(FilePath)
 		local RelativePath = string.gsub(FilePath, Mount, "") -- This couldnt go wrong at all
 		print(RelativePath)
 

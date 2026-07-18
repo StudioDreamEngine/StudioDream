@@ -1,7 +1,7 @@
 local Backend = {}
 
 function Backend.Init()
-    print("Initalizing Studio Backend")
+    printVerbose("Initalizing Studio Backend")
     Studio.Undo = require("Studio.Backend.Undo")
     Studio.ScriptHandler = require("Studio.Backend.ScriptHandler")
 
