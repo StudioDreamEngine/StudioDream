@@ -24,18 +24,20 @@ local ProjectOptions = {
         OptionType = "Button",
         FunctionWhenCreate = function(Main)
             function Draw()
-                local Result = Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png"
-                Main.Option:SetText(IsIcon and Path.new(Result).FileName or Result)
+                print(Runtime.Project.Config.Get("Icon"))
+                print("BLEHBLEHBLEH")
+                local Result = Path.new(Runtime.Project.Config.Get("Icon")).FilePath or "Internal/Icons/Client.png"
+                Main.Option:SetText(Result)
             end
             
-            Draw()
+            Runtime.Project.LoadedProject:Connect(Draw)
 
             Main.Option.Clicked:Connect(function()
                 Platform.OpenWithCallback("Select the resource for the project icon.", Enum.OpenDialog.File, function(NewPath)
                     Identifier, _ = Runtime.Resources.LoadIdentifierIDFromPath(NewPath)
                     if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
-                    local PathObj = Path.new(NewPath,Identifier)
-                    Runtime.Project.Config.Set("Icon",PathObj.FilePath)
+
+                    Runtime.Project.Config.Set("Icon",Identifier)
                     Draw()
                 end)
             end)

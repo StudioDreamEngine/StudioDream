@@ -72,6 +72,12 @@ function Utils.Warn(Message)
     Utils.SendNotification(Message, "Warn")
 end
 
+function Utils.TextureToImageData(Text)
+    local width = Text:getWidth()
+    local height = Text:getHeight()
+    return love.graphics.readbackTexture(Text, 1, 1, 0, 0, width, height)
+end
+
 function Utils.SendNotification(Message,Type)
     --if Type ~= "Warn" or Type ~= "Info" or Type ~= "Error" then return end
 

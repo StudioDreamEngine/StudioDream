@@ -20,11 +20,9 @@ function Client.Init()
 
     Things.Root.EnvironmentViewport = EnvironmentViewport
     print("BBBBBBBBBBBBBBBBBBBBBBBB")
-    local Path = Path.new(Runtime.Project.Config.Get("Icon"))
-    local ResourceCreated = Runtime.Resources.GetIdentifierIDFromPath(Path.FilePath)
-    print("AAAAAAAAAAAAAAAAAAAAAAAA")
-    print(ResourceCreated)
-    local Thing = Runtime.Project.Config.Get("Icon") and Runtime.Resources.LoadOrCreateIdentifier(Runtime.Project.Config.Get("Icon")) or love.image.newImageData("/Assets/Icons/Client.png")
+    local ResourceLoaded = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Project.Config.Get("Icon"))
+    local ActuallyImageData = Utils.TextureToImageData(ResourceLoaded)
+    local Thing = Runtime.Project.Config.Get("Icon") and ActuallyImageData or love.image.newImageData("/Assets/Icons/Client.png")
     love.window.setIcon(Thing)
 
     --StudioCamera = require("Client.StudioCamera")
