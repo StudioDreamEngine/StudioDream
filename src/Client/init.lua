@@ -25,6 +25,8 @@ function Client.Init()
     local Thing = Runtime.Project.Config.Get("Icon") and ActuallyImageData or love.image.newImageData("/Assets/Icons/Client.png")
     love.window.setIcon(Thing)
 
+    Utils.SetWindowSize(Runtime.Project.Config.Get("WindowSize") or Vector2.new(1570,800))
+
     --StudioCamera = require("Client.StudioCamera")
     --StudioCamera.Init()
 

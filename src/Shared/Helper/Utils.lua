@@ -84,6 +84,10 @@ function Utils.SendNotification(Message,Type)
     Studio.Layout.GetHandle("Notification").Notify(Message,Type)
 end
 
+function Utils.SetWindowSize(Vect2)
+    love.window.setMode(Vect2.X, Vect2.Y)
+end
+
 function Utils.LoadModules(Path, Require)
     local Classes = {}
     local ClassesList = Utils.GetFolderDescendants(Path, false, true)

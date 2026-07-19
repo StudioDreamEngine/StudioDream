@@ -42,6 +42,22 @@ local ProjectOptions = {
                 end)
             end)
         end,
+    },
+    [3] = {
+        Name = "Default Window Size",
+        OptionType = "Input",
+        FunctionWhenCreate = function(Main)
+            function Draw()
+                local Result = Runtime.Project.Config.Get("WindowSize") or Vector2.new(700,500)
+                Main.Option:SetText(tostring(Result))
+            end
+            
+            Runtime.Project.LoadedProject:Connect(Draw)
+
+            Main.Option.FocusEnd:Connect(function()
+                Runtime.Project.Config.Set("WindowSize",Vector3.FromString(Main.Option.Text))
+            end)
+        end,
     }
 }
 
