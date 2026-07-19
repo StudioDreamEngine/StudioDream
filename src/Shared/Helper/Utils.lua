@@ -85,7 +85,7 @@ function Utils.SendNotification(Message,Type)
 end
 
 function Utils.SetWindowSize(Vect2)
-    love.window.setMode(Vect2.X, Vect2.Y)
+    love.window.setMode(Vect2.X, Vect2.Y,{depth = true})
 end
 
 function Utils.LoadModules(Path, Require)

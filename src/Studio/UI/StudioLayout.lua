@@ -211,7 +211,7 @@ function StudioLayout.CreateLayout()
         TopLevel = true
     })
 
-    if (not Shared.SkipSplash) then
+    if (not Shared.InitAfterTest) then
         StudioLayout.CreateWindow("Start", {
             Size = Pivot2D.FromScale(0.5,0.6),
             Pivot = Vector2.new(0.5,0.5),

@@ -26,7 +26,8 @@ local ProjectOptions = {
             function Draw()
                 print(Runtime.Project.Config.Get("Icon"))
                 print("BLEHBLEHBLEH")
-                local Result = Path.new(Runtime.Project.Config.Get("Icon")).FilePath or "Internal/Icons/Client.png"
+                print(Path.new(Runtime.Project.Config.Get("Icon")))
+                local Result = Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png"
                 Main.Option:SetText(Result)
             end
             
@@ -55,7 +56,7 @@ local ProjectOptions = {
             Runtime.Project.LoadedProject:Connect(Draw)
 
             Main.Option.FocusEnd:Connect(function()
-                Runtime.Project.Config.Set("WindowSize",Vector3.FromString(Main.Option.Text))
+                Runtime.Project.Config.Set("WindowSize",Vector2.FromString(Main.Option.Text))
             end)
         end,
     }

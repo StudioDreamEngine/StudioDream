@@ -16,7 +16,7 @@ local StartedTarget = false
 
 Shared.AbortQueue = {}
 
-Shared.SkipSplash = false
+InitAfterTest = false
 
 function Shared.QueueAbort(Msg)
     printVerbose(Msg)
@@ -72,7 +72,7 @@ function Shared.Init(Args)
     -- TODO: Redo arg parsing so we dont need to do this
     if Args[2] == "SkipPath" then Args[2] = nil end
 
-    Shared.SkipSplash = Args[2] and true or false
+    Shared.InitAfterTest = Args[2] and true or false
     Shared.Target = Args[1] or FLAGS.ModeTarget
 
     printVerbose("Shared Components ready, Setup Runtime")

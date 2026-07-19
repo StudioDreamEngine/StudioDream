@@ -32,6 +32,11 @@ end
 	Get the IdentifierID of the specified Path (FilePath)
 	This will NOT register an identifier OR create a new file.
 ]]
+
+function Identifiers.GetPathFromIdentifierID(Identifier)
+	--Todo
+end
+
 function Identifiers.GetIdentifierIDFromPath(FilePath)
 	local ProjectFS = Runtime.ProjectFS
 
