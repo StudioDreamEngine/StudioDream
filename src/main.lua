@@ -39,7 +39,7 @@ function love.errorhandler(msg)
     local success, msg = pcall(Runtime.OnCrash)
     
     if (not success) then
-        crash_extra = crash_extra.."\nCouldnt save project: "..msg
+        crash_extra = crash_extra.."\nCouldnt save project: "..msg.."\n(ABOVE ONLY APPEARS WHEN THE CRASH CALLBACK FAILS, IT IS NOT THE ERROR!)"
     end
 
     local full_trace = crash_extra.."\n"..ERROR_SEPERATE.."\n"..traceback

@@ -24,6 +24,7 @@ function Project.ValidateAndMount(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
+    print("ProjectPath:"..ProjectPath)
     local ProjectPath = Path.new(ProjectPath)
     local RealPath
 
@@ -34,6 +35,8 @@ function Project.ValidateAndMount(ProjectPath)
     else
         return Shared.QueueAbort("Invalid file type for project")
     end
+
+    print("RealPath: "..RealPath)
 
     local CouldMount = ProjectFS.MountProject(RealPath)
 
