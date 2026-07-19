@@ -4,6 +4,8 @@ local Things = Runtime.Things
 ---@class Thing: ClassicObject
 local Thing = Object:extend()
 
+local ObjectsCreated = 0
+
 -- Fired as soon as the object is initally created
 function Thing:new()
     --[[
@@ -34,8 +36,10 @@ function Thing:new()
 
     self.WasParented = false
 
+    ObjectsCreated = ObjectsCreated + 1
+
     self.UUID = CreateUUID()
-    self.NumericalID = 0
+    self.NumericalID = ObjectsCreated
 
     self.Overrides = {}
 

@@ -8,7 +8,6 @@ local Classes = {}
 Things.API = {}
 Things.ClassDump = {} -- Copy of classes for stuff such as IsA
 
-local ObjectsCreated = 0
 local CreateRoot
 
 function Things.Init()
@@ -100,14 +99,10 @@ function Things.New(ThingType, CustomUUID)
     Thing:new()
     Thing:DefineAPI()
 
-    ObjectsCreated = ObjectsCreated + 1
-
     assert(Thing.UUID, ThingType.." is not a thing! did you forget to call the superfunctions?")
 
     Thing.Name = ThingType
     Thing.ClassName = ThingType
-    
-    Thing.NumericalID = ObjectsCreated
 
     if CustomUUID then
         Thing.UUID = CustomUUID

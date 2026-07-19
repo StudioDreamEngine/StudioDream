@@ -89,14 +89,11 @@ function ListLayout:UpdateLayout()
     -- Sort the objects so they appear how they are supposed to
     ---@param a BaseGui
     ---@param b BaseGui
-    table.sort(self.Objects, function(a, b)
-        assert(type(a.ListOrder) == "number", a:GetPath().." has a ListOrder not of type number")
-        assert(type(b.ListOrder) == "number", b:GetPath().." has a ListOrder not of type number")
-
+    table.sort(self.Objects, function(a,b)
         if self.Reverse then
-            return (a.ListOrder > b.ListOrder) or (a.NumericalID > b.NumericalID)
+            return (a.ListOrder == b.ListOrder) and (a.NumericalID > b.NumericalID) or (a.ListOrder > b.ListOrder)
         else
-            return (a.ListOrder < b.ListOrder) or (a.NumericalID < b.NumericalID)
+            return (a.ListOrder == b.ListOrder) and (a.NumericalID < b.NumericalID) or (a.ListOrder < b.ListOrder)
         end
     end)
 
