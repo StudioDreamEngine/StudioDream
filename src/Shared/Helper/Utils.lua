@@ -85,6 +85,10 @@ function Utils.SendNotification(Message,Type)
 end
 
 function Utils.SetMode(WidthAndHeight,Stuff)
+    local X, Y, flags = love.window.getMode()
+    if not Stuff then
+        Stuff = flags
+    end
     Stuff["depth"] = true
     -- TODO: When theres no stuff, make so it gets the saved Stuff, or just create a table
     love.window.setMode(WidthAndHeight.X, WidthAndHeight.Y,Stuff)
