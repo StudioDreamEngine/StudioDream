@@ -41,6 +41,8 @@ function Splash.Out()
 end
 
 function Splash.Create()
+    printVerbose("Create splash")
+
     SplashContainer = Things.Create("Square") {
         Parent = Things.Root.RootViewport,
         Layer = 999,
@@ -92,6 +94,7 @@ function Splash.Create()
 end
 
 function Splash.Load(ProjectPath)
+    printVerbose("Start load")
     Scheduler.OnRecoverableError = function(FullMsg) error(FullMsg.."\n\nSplash Stack (IGNORE)") end
 
     Scheduler.Yield()

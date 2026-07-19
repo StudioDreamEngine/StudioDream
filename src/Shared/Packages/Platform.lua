@@ -63,25 +63,23 @@ end
 
 -- Given a path, return its absolute path which can then be used in file operations across platforms, ONLY USE FOR FOLDERS!!!!!!
 function Platform.ParsePath(Path)
-	local FullPath = NativeFS.getFullPath(Path)
+	Path = string.gsub(Path, "\\", "/")
+
+	local FullPath = NativeFS.getFullPath(Path) or Path
 	local Info = NativeFS.getInfo(Path)
     
 	if Info and Info.type ~= "file" then
 		local LastChar = string.sub(FullPath, -1, -1)
 		print("Parsing path, Non-formatted full path: "..FullPath)
 
-		if LastChar ~= "/" and LastChar ~= "\\" then
-			if love.system.getOS() == "Windows" then
-				FullPath = FullPath.."\\"
-			else
-				FullPath = FullPath.."/"
-			end
+		if LastChar ~= "/" then
+			FullPath = FullPath.."/"
 
 			printVerbose("FullPath Doesnt have a trailing slash")
 			printVerbose("Formatted Mount Point: "..FullPath)
 		end
 	else
-		print("Skipped Parsing Path "..FullPath)
+		printVerbose("Skipped Parsing Path "..FullPath)
 	end
 
 	return FullPath
@@ -128,31 +126,34 @@ function Platform.Execute(...)
 	local a = C.execvp(ArgsC[0], ArgsC)]]
 end
 
+local OpenFuncs = {
+	-- Open a file on a users drive
+	OpenFileDialog = function(Title)
+		local ReturnPathC = tinyfiledialog.tinyfd_openFileDialog(Title, nil, 2, nil, nil, 0) 
+
+		-- I love ffi so much, i love when it crashes on me with no error!
+		return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
+	end,
+
+	-- Open a folder on a users drive
+	OpenFolderDialog = function(Title)
+		local ReturnPathC = tinyfiledialog.tinyfd_selectFolderDialog(Title, nil)
+
+		-- I love ffi so much, i love when it crashes on me with no error!
+		return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
+	end
+}
+
 -- Open a file or folder on a users and ONLY call Callback IF the user doesnt cancel the prompt
 function Platform.OpenWithCallback(Title, Type, Callback)
-	local Path = Platform[Type](Title)
+	local Path = OpenFuncs[Type](Title)
 
 	if Path then
+		Path = Platform.ParsePath(Path)
 		return Callback(Path), Path
 	else
 		return
 	end
-end
-
--- Open a file on a users drive
-function Platform.OpenFileDialog(Title)
-    local ReturnPathC = tinyfiledialog.tinyfd_openFileDialog(Title, nil, 2, nil, nil, 0) 
-
-	-- I love ffi so much, i love when it crashes on me with no error!
-	return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
-end
-
--- Open a folder on a users drive
-function Platform.OpenFolderDialog(Title)
-    local ReturnPathC = tinyfiledialog.tinyfd_selectFolderDialog(Title, nil)
-
-	-- I love ffi so much, i love when it crashes on me with no error!
-	return (ReturnPathC ~= nil) and ffi.string(ReturnPathC)
 end
 
 return Platform

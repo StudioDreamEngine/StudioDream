@@ -16,6 +16,10 @@ function ProjectFS.FileExists(Path)
     return Mount.FileExists(Path)
 end
 
+function ProjectFS.IsWritable()
+    return not Mount.IsZip   
+end
+
 function ProjectFS.ListDirectory(Path)
     return Mount.ListDirectory(Path)
 end

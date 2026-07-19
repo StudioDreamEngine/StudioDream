@@ -14,14 +14,17 @@ function History.Remove(Path)
     printVerbose(RecentProjects)
 end
 
+---@param Path MountFS
 function History.Add(Path, Name)
-    RecentProjects[Path] = {
-        Name = Name,
-        Time = os.time()
-    }
+    if Path.IsWritable() then
+        RecentProjects[Path.GetMount()] = {
+            Name = Name,
+            Time = os.time()
+        }
 
-    Runtime.SettingsManager.ChangeSetting("Projects", RecentProjects)
-    printVerbose(RecentProjects)
+        Runtime.SettingsManager.ChangeSetting("Projects", RecentProjects)
+        printVerbose(RecentProjects)
+    end
 end
 
 return History

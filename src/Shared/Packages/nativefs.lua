@@ -501,7 +501,7 @@ else
 	realpath = function(path) 
 		local Path = C.realpath(path, nameBuffer)
 
-		return Path and ffi.string(Path) or nil
+		return Path~=nil and ffi.string(Path) or nil
 	end
 
 	getcwd = function()

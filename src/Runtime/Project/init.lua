@@ -28,6 +28,8 @@ function Project.ValidateAndMount(ProjectPath)
     local ProjectPath = Path.new(ProjectPath)
     local RealPath
 
+    print(ProjectPath)
+
     if ProjectPath.FileType == "sdc" then -- Unpackaged project
         RealPath = ProjectPath.ParentPath
     elseif ProjectPath.FileType == "sdp" then -- Packaged project
@@ -35,8 +37,6 @@ function Project.ValidateAndMount(ProjectPath)
     else
         return Shared.QueueAbort("Invalid file type for project")
     end
-
-    print("RealPath: "..RealPath)
 
     local CouldMount = ProjectFS.MountProject(RealPath)
 
@@ -79,19 +79,21 @@ function Project.GetSummary(ProjectPath)
 end
 
 function Project.EditName(NewName)
-    local ProjectDirectory = ProjectFS.GetMount()
+    -- Requires rewrite due to new MountFS system, not gonna do that rn tho
+    --[[local ProjectDirectory = ProjectFS.GetMount()
     local NewDirectoryName = Platform.GetDocuments().."/"..NewName
+    ProjectFS.SetMount(NewDirectoryName)
     Project.Config.Set("Name",NewName)
     local Success,Err = os.rename(ProjectDirectory,NewDirectoryName)
 
     if Success then
         Project.History.Remove(ProjectDirectory)
-        Project.History.Add(NewDirectoryName, Project.Config.Get("Name"))
+        Project.History.Add(ProjectFS, Project.Config.Get("Name"))
         Runtime.ChangeTitle()
         return true
     else
         return false
-    end
+    end]]
 end
 
 function Project.Load(ProjectPath)
@@ -118,19 +120,13 @@ function Project.Load(ProjectPath)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
     else
         Project.LoadedProject.Invoke()
-        Project.History.Add(ProjectFS.GetMount(), Project.Config.Get("Name"))
+        Project.History.Add(ProjectFS, Project.Config.Get("Name"))
     end
 end
 
 -- Remount to a new directory and save project
 function Project.SaveTo(ProjectPath)
-    --[[local SaveProjectOn = ProjectPath
-    
-    if Platform.ParsePath(ProjectPath) == Platform.ParsePath(Platform.GetDocuments()) then
-        NativeFS.createDirectory(Platform.ParsePath(ProjectPath)..Project.Config.Get("Name"))
-        SaveProjectOn = Platform.ParsePath(ProjectPath)..Project.Config.Get("Name")
-    end]] -- we dont need this
-
+    print(ProjectPath)
     ProjectFS.MountProject(ProjectPath)
     Project.Save()
 end
@@ -146,7 +142,7 @@ function Project.Save()
         ProjectFS.WriteFile("Thumbnail.png", Dream:renderThumbnail())
         Scenes.LoadRootScenes("Save")
 
-        Project.History.Add(ProjectFS.GetMount(), Project.Config.Get("Name"))
+        Project.History.Add(ProjectFS, Project.Config.Get("Name"))
 
         Project.NotificationCallback("Project saved!")
     end

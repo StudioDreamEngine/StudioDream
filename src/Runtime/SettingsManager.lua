@@ -4,7 +4,7 @@ local Settings = {}
 local DefaultSettings = {
     CodeEditor = nil,
     Projects = {},
-    Version = 1
+    Version = 2
 }
 
 function SettingsManager.Init()
@@ -15,8 +15,10 @@ function SettingsManager.Init()
     if SettingsData then
         local Deserialized = Binser.deserialize(SettingsData)[1]
 
-        if SettingsData.Version ~= DefaultSettings.Version then
+        if Deserialized.Version ~= DefaultSettings.Version then
             print("Outdated settings version")
+            Deserialized.Projects = {} -- reset project history each ver update for now
+            Deserialized.Version = DefaultSettings.Version
         end
 
         for Setting, Value in pairs(Deserialized) do

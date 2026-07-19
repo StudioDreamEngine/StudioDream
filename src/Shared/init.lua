@@ -86,7 +86,6 @@ function Shared.Init(Args)
     local Thing = love.image.newImageData("/Assets/Icons/"..Shared.Target..".png")
     love.window.setIcon(Thing)
 
-    printVerbose("Start splash")
     Shared.Splash = require("Shared.Splash")
     Shared.Splash.Create()
 
