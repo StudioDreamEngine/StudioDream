@@ -84,8 +84,15 @@ function Utils.SendNotification(Message,Type)
     Studio.Layout.GetHandle("Notification").Notify(Message,Type)
 end
 
+function Utils.SetMode(WidthAndHeight,Stuff)
+    Stuff["depth"] = true
+    -- TODO: When theres no stuff, make so it gets the saved Stuff, or just create a table
+    love.window.setMode(WidthAndHeight.X, WidthAndHeight.Y,Stuff)
+end
+
 function Utils.SetWindowSize(Vect2)
-    love.window.setMode(Vect2.X, Vect2.Y,{depth = true})
+    assert("SetWindowSize is deprecated, try using Utils.SetMode")
+    --love.window.setMode(Vect2.X, Vect2.Y,{depth = true})
 end
 
 function Utils.LoadModules(Path, Require)

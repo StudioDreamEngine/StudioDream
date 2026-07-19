@@ -74,7 +74,7 @@ function Shared.Init(Args)
 
     Shared.InitAfterTest = Args[2] and true or false
     Shared.Target = Args[1] or FLAGS.ModeTarget
-
+    
     printVerbose("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")
     Runtime.Init()
@@ -89,6 +89,7 @@ function Shared.Init(Args)
     printVerbose("Start splash")
     Shared.Splash = require("Shared.Splash")
     Shared.Splash.Create()
+
     Scheduler.NewTask(Shared.Splash.Load, Args[2])
 
     SharedInit.End()

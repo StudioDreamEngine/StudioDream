@@ -39,6 +39,8 @@ end
 
 local DefaultImage = "Internal/Studio/Update_Thumbs/Early_Riser.png"
 
+
+
 function Project.GetSummary(ProjectPath)
     local BaseFS = Runtime.BaseFS
     local Mount = BaseFS.Mount(ProjectPath, "Summary")

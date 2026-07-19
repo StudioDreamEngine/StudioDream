@@ -108,10 +108,14 @@ function Splash.Load(ProjectPath)
     printVerbose("Sucessfully Finished Initalization")
     Scheduler.OnRecoverableError = nil
 
-    if (not InitAfterTest) then
+    if (not Shared.InitAfterTest) then
         Splash.Out()
     else
         SplashContainer:Destroy()
+    end
+
+    if Shared.InitAfterTest and Shared.Target ~= "Client" then
+        Runtime.Project.LoadedProject.Invoke()
     end
 end
 

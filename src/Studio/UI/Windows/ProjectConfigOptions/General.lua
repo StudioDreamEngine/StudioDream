@@ -7,7 +7,7 @@ local ProjectOptions = {
         Name = "Project Name",
         OptionType = "Input",
         FunctionWhenCreate = function(Main)
-            function Draw()
+            local function Draw()
                 Main.Option:SetText(Runtime.Project.Config.Get("Name"))
             end
 
@@ -23,11 +23,10 @@ local ProjectOptions = {
         Name = "Icon",
         OptionType = "Button",
         FunctionWhenCreate = function(Main)
-            function Draw()
+            local function Draw(NewResult)
                 print(Runtime.Project.Config.Get("Icon"))
-                print("BLEHBLEHBLEH")
-                print(Path.new(Runtime.Project.Config.Get("Icon")))
-                local Result = Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png"
+               -- print(Path.new(Runtime.Project.Config.Get("Icon")))
+                local Result = NewResult or (Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png")
                 Main.Option:SetText(Result)
             end
             
@@ -39,7 +38,7 @@ local ProjectOptions = {
                     if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
 
                     Runtime.Project.Config.Set("Icon",Identifier)
-                    Draw()
+                    Draw(Identifier)
                 end)
             end)
         end,
@@ -48,7 +47,7 @@ local ProjectOptions = {
         Name = "Default Window Size",
         OptionType = "Input",
         FunctionWhenCreate = function(Main)
-            function Draw()
+            local function Draw()
                 local Result = Runtime.Project.Config.Get("WindowSize") or Vector2.new(700,500)
                 Main.Option:SetText(tostring(Result))
             end
@@ -59,12 +58,35 @@ local ProjectOptions = {
                 Runtime.Project.Config.Set("WindowSize",Vector2.FromString(Main.Option.Text))
             end)
         end,
+    },
+    [4] = {
+        Name = "Window Resizeable",
+        OptionType = "Button",
+        FunctionWhenCreate = function(Main)
+            local function Draw()
+                local Result = Runtime.Project.Config.Get("WindowResize")
+                Main.Option:SetText(tostring(Result))
+            end
+            
+            Runtime.Project.LoadedProject:Connect(Draw)
+
+            Main.Option.Clicked:Connect(function()
+                local InvertedResize = not (Runtime.Project.Config.Get("WindowResize") or false)
+                Runtime.Project.Config.Set("WindowResize",InvertedResize)
+                print(Runtime.Project.Config.Get("WindowResize"))
+                Draw()
+            end)
+        end,
     }
 }
 
 
 function Template.Create(Parent)
     local CreateObject = {}
+
+     Runtime.Project.LoadedProject:Connect(function()
+        print("PROJECT LOADED DUMB FUCK")
+     end)
 
     function CreateObject.CreatePartBlock(Name,TypeOfOption,ParentS)
         local PartObj = {}
@@ -104,7 +126,6 @@ function Template.Create(Parent)
     function CreateObject.CreateOptions()
         for _,Option in pairs(ProjectOptions) do
             Option.FunctionWhenCreate(CreateObject.CreatePartBlock(Option.Name,Option.OptionType,CreateObject.Scroll))
-
         end
     end
 

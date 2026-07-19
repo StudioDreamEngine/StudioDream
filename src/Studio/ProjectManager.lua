@@ -32,7 +32,8 @@ function ProjectManager.NewProject(Name)
     NativeFS.createDirectory(Directory)
     Runtime.Project.SaveTo(Directory)
     Runtime.Project.Config.Set("Name",Name)
-    Runtime.Project.Config.Set("Icon","Internal/Icons/Client.png")
+     Runtime.Project.Config.Set("WindowResize",true)
+    --Runtime.Project.Config.Set("Icon","Internal/Icons/Client.png")
 end
 
 return ProjectManager
