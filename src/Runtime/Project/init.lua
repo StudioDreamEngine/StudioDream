@@ -52,17 +52,14 @@ function Project.GetSummary(ProjectPath)
 
     if (not Mount) then
         Project.History.Remove(ProjectPath)
-
         return
     end
 
     if (not Mount.FileExists("Project.sdc")) then
         print("Project.sdc doesnt exist")
-
-        return {
-            Config = Project.Config.GetDefault(),
-            ImageResource = Runtime.Resources.GetIdentifierFromID(DefaultImage)
-        }
+        Mount.Unmount()
+        Project.History.Remove(ProjectPath)
+        return
     end
 
     local Config = Project.Config.Load(Mount)

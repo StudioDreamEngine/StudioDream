@@ -198,7 +198,7 @@ function BaseGui:DefineAPI()
     self.Proxy.Property("number ColorMultiplier")
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
-    self.Proxy.Group("Transform", "Size", "Position", "Pivot", "Visible")
+    self.Proxy.Group("Transform", "Size", "Position", "Pivot", "Visible", "SquareAxis")
     self.Proxy.Group("Color Multipliers", "ColorMultiplier")
 
     self.Proxy.Info({

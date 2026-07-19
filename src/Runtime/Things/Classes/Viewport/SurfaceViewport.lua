@@ -48,9 +48,8 @@ function SurfaceViewport:DefineAPI()
     self.Proxy.Icon("SurfaceViewport")
 end
 
-function SurfaceViewport:SetAbsoluteSize(New)
-    SurfaceViewport.super.SetAbsoluteSize(self, New)
-
+function SurfaceViewport:CreateNew()
+    SurfaceViewport.super.CreateNew(self)
     self.Mesh.material:SetAlbedoTexture(self.ViewportCanvas)
 end
 

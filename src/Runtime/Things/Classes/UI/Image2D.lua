@@ -29,7 +29,7 @@ Image2D.ImageScale = {
 function Image2D:new()
     Image2D.super.new(self)
 
-    self.ImageFile = nil
+    self.ImageFile = nil ---@class Texture
     self.ImageRect = nil ---@class Rect
     self.ImageQuad = nil
     
@@ -58,15 +58,12 @@ function Image2D:SetResource(Identifier, Reload)
     if (not self.ImageFile) then return end
 
     self:RefreshQuad() -- Only refresh the quad object
+    self.ImageFile:setFilter(self.FilterType, self.FilterType)
 end
 
 function Image2D:SetFilterType(NewType)
     self.FilterType = NewType
-
-    -- i hate love2d
-    love.graphics.setDefaultFilter(self.FilterType,self.FilterType,1)
-    self:SetResource(self.Resource.ID, true)
-    love.graphics.setDefaultFilter("linear","linear",1)
+    self.ImageFile:setFilter(NewType, NewType) -- Only set filter type here
 end
 
 function Image2D:RefreshQuad()

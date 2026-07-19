@@ -12,13 +12,15 @@ function Viewport:new()
 
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
     self.DisplayList = {}
+
+    self.FilterType = Enum.FilterType.Linear
 end
 
 function Viewport:DefineAPI()
     Viewport.super.DefineAPI(self)
     
-    self.Proxy.Property("Thing RenderContainer")
-    self.Proxy.Group("General", "RenderContainer")
+    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType")
+    self.Proxy.Group("General", "RenderContainer", "FilterType")
 end
 
 function Viewport:Draw()
@@ -30,6 +32,16 @@ function Viewport:SendChild(Child, Order)
     Order = Order or #self.DisplayList+1
 
     self.DisplayList[Order] = Child
+end
+
+function Viewport:SetFilterType(New)
+    self.FilterType = New
+    self:CreateNew()
+end
+
+function Viewport:CreateNew()
+    self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
+    self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 end
 
 ---@param NewFolder Thing
@@ -58,7 +70,7 @@ function Viewport:SetAbsoluteSize(New)
     Viewport.super.SetAbsoluteSize(self, New)
 
     printVerbose("Queued viewport update for: "..self.Name)
-    self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, New)
+    self:CreateNew()
 end
 
 return Viewport

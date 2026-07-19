@@ -22,7 +22,7 @@ function BaseFS.Mount(PathString, MountName)
     end
 
     function MountObject.CreateDirectory(Path)
-        if MountObject.IsZip then print("Mount object is ready only as it is a zip") end
+        if MountObject.IsZip then print("MountFS.CreateDirectory - Mount object is read only as it is a zip") end
 
         error("MountObject.CreateDirectory currently not tested! dont wanna fuck shit up if it doesnt work...")
         love.filesystem.createDirectory(MountDir..Path)
@@ -33,7 +33,7 @@ function BaseFS.Mount(PathString, MountName)
     end
 
     function MountObject.WriteFile(WritePath, Data)
-        if MountObject.IsZip then print("Mount object is ready only as it is a zip") end
+        if MountObject.IsZip then print("MountFS.WriteFile - Mount object is read only as it is a zip") end
 
         NativeFS.write(Path.FilePath..WritePath, Data)
     end
