@@ -24,7 +24,6 @@ end
 
 -- Save resources to a new path
 function Resources.SaveAllResources()
-
 end
 
 function Resources.Clear()

@@ -89,12 +89,6 @@ function Viewport2D:CreateDisplayList()
     end
 end
 
---[[function Viewport2D:HandleHovering()
-    if Utils.IntersectPoint2D(self:GetRect(), self.MousePosition) then
-            
-    end
-end]]
-
 function Viewport2D:Update(dt)
     Viewport2D.super.Update(self, dt)
 

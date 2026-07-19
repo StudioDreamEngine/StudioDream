@@ -2,12 +2,12 @@ local Start = {}
 local Things = Runtime.Things
 
 function Start.CreateProject(Scroll,Info,Path,FullContainer)
-    local selfed = {}
-
     local Summary = Runtime.Project.GetSummary(Path)
+    if (not Summary) then print(Path.." Returned no summary, assuming project is non-existant") return end
+
     local ImageToUse = Summary.ImageResource
 
-    selfed.Base = Runtime.Things.Create("TextButton") {
+    local Base = Runtime.Things.Create("TextButton") {
         Text = "",
         Size = Pivot2D.FromScale(0.95,0.2),
         Parent = Scroll,
@@ -19,22 +19,22 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         --OutlineColor = Studio.Theme.CurrentTheme.Outline,
     }
 
-    selfed.Image = Runtime.Things.Create("Image2D") {
+    local Image = Runtime.Things.Create("Image2D") {
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(.07,.5),
         SquareAxis = Enum.SquareAxis.Y,
         Resource = ImageToUse,
-        Parent = selfed.Base,
+        Parent = Base,
         Pivot = Vector2.new(.5,.5),
         CornerRadius = 5,
         --ScaleType = Enum.ScaleTypes.Fit
     }
 
-    selfed.ProjectName = Runtime.Things.Create("Text") {
+    local ProjectName = Runtime.Things.Create("Text") {
         Text = Info.Name,
         ForegroundColor = Studio.Theme.CurrentTheme.Text2,
         Position = Pivot2D.FromScale(0,0),
-        Parent = selfed.Base,
+        Parent = Base,
         Layer = 2,
         BackgroundTransparency = 1,
         Alignment = Vector2.new(0.5,0.5),
@@ -42,24 +42,22 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Font = Studio.Theme.CurrentTheme.FontBold,
     }
 
-    selfed.Date = Runtime.Things.Create("Text") {
+    local Date = Runtime.Things.Create("Text") {
         Text = "Last Mod: "..Utils.TimeAgo(Info.Time),
         ForegroundColor = Studio.Theme.CurrentTheme.Text2,
         Position = Pivot2D.FromScale(0,0.5),
-        Parent = selfed.Base,
+        Parent = Base,
         Layer = 2,
         BackgroundTransparency = 1,
         Alignment = Vector2.new(0.5,0.5),
         Size = Pivot2D.FromScale(1,0.5)
     }
 
-    selfed.Base.Clicked:Connect(function()
+    Base.Clicked:Connect(function()
         Runtime.Project.Load(Path)
         Start.Close()
         Studio.Layout.CallHandle("Explorer", "Redraw")
     end)
-
-    return selfed
 end
 
 function Start.CreateButton(Options,Text,Image)

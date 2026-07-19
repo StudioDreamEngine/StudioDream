@@ -25,7 +25,11 @@ function Project.ValidateAndMount(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
-    ProjectFS.MountProject(ProjectPath)
+    local CouldMount = ProjectFS.MountProject(ProjectPath)
+
+    if not CouldMount then
+        return Shared.QueueAbort("Could not mount project, Are you sure it exists?")
+    end
 
     if not ProjectFS.FileExists("Project.sdc") then
         ProjectFS.UnmountProject()
@@ -33,33 +37,33 @@ function Project.ValidateAndMount(ProjectPath)
     end
 end
 
-local DefaultImage = Runtime.Resources.GetIdentifierFromID("Internal/Studio/Update_Thumbs/Early_Riser.png")
+local DefaultImage = "Internal/Studio/Update_Thumbs/Early_Riser.png"
 
 function Project.GetSummary(ProjectPath)
     local BaseFS = Runtime.BaseFS
+    local Mount = BaseFS.Mount(ProjectPath, "Summary")
 
-    if (not Runtime.BaseFS.FileExists(ProjectPath)) then
+    if (not Mount) then
         Project.History.Remove(ProjectPath)
 
+        return
+    end
+
+    if (not Mount.FileExists("Project.sdc")) then
+        print("Project.sdc doesnt exist")
+
         return {
             Config = Project.Config.GetDefault(),
-            ImageResource = DefaultImage 
+            ImageResource = Runtime.Resources.GetIdentifierFromID(DefaultImage)
         }
     end
 
-    ProjectPath = Platform.ParsePath(ProjectPath)
+    local Config = Project.Config.Load(Mount)
 
-    if (not BaseFS.FileExists(ProjectPath.."Project.sdc")) then
-        return {
-            Config = Project.Config.GetDefault(),
-            ImageResource = DefaultImage 
-        }
-    end
-
-    local Config = Project.Config.Load(ProjectPath)
-
-    local ImageData = BaseFS.ReadFile(ProjectPath.."Thumbnail.png")
+    local ImageData = Mount.ReadFile("Thumbnail.png")
     local Image = ImageData and Runtime.Resources.InitiateLoader("Image", ImageData) or DefaultImage
+
+    Mount.Unmount()
 
     return {
         Config = Config,

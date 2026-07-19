@@ -66,7 +66,7 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 	if not HasFile then
 		print("Writing new file @ path:",FilePath)
 
-		Runtime.ProjectFS.WriteFile(FilePath, FileData or "")
+		ProjectFS.WriteFile(FilePath, FileData or "")
 	end
 
 	local Identifier

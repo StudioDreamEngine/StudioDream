@@ -64,20 +64,25 @@ end
 -- Given a path, return its absolute path which can then be used in file operations across platforms, ONLY USE FOR FOLDERS!!!!!!
 function Platform.ParsePath(Path)
 	local FullPath = NativeFS.getFullPath(Path)
-    local LastChar = string.sub(FullPath, -1, -1)
-
-    print("Parsing path, Non-formatted full path: "..FullPath)
+	local Info = NativeFS.getInfo(Path)
     
-    if LastChar ~= "/" and LastChar ~= "\\" then
-        if love.system.getOS() == "Windows" then
-            FullPath = FullPath.."\\"
-        else
-            FullPath = FullPath.."/"
-        end
+	if Info and Info.type ~= "file" then
+		local LastChar = string.sub(FullPath, -1, -1)
+		print("Parsing path, Non-formatted full path: "..FullPath)
 
-        printVerbose("FullPath Doesnt have a trailing slash")
-        printVerbose("Formatted Mount Point: "..FullPath)
-    end
+		if LastChar ~= "/" and LastChar ~= "\\" then
+			if love.system.getOS() == "Windows" then
+				FullPath = FullPath.."\\"
+			else
+				FullPath = FullPath.."/"
+			end
+
+			printVerbose("FullPath Doesnt have a trailing slash")
+			printVerbose("Formatted Mount Point: "..FullPath)
+		end
+	else
+		print("Skipped Parsing Path "..FullPath)
+	end
 
 	return FullPath
 end

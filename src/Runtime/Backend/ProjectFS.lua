@@ -1,55 +1,47 @@
+---@diagnostic disable: cast-local-type
 local ProjectFS = {}
 local BaseFS = Runtime.BaseFS
 
-local Mount
+local Mount = nil ---@class MountFS
 
-function ProjectFS.OpenFile(Path, Mode)
-    return BaseFS.OpenFile(Mount..Path, Mode)
-end
-
----@param FilePath Identifier
 function ProjectFS.GetFullPath(FilePath)
-    return Mount..FilePath.Data.FilePath
+    return Mount.GetFullPath(FilePath)
 end
 
 function ProjectFS.WriteFile(Path, Data)
-    BaseFS.WriteFile(Mount..Path, Data)
+    Mount.WriteFile(Path, Data)
 end
 
 function ProjectFS.FileExists(Path)
-    return BaseFS.FileExists(Mount..Path)
+    return Mount.FileExists(Path)
 end
 
 function ProjectFS.ListDirectory(Path)
-    return NativeFS.getDirectoryItems(Mount..(Path or ""))
+    return Mount.ListDirectory(Path)
 end
 
 function ProjectFS.CreateDirectory(Path)
     print(NativeFS.getInfo(Mount..Path))
 
-    NativeFS.createDirectory(Mount..Path)
+    Mount.CreateDirectory(Path)
 end
 
 function ProjectFS.ReadFile(Path)
-    if ProjectFS.FileExists(Path) then
-        local File = ProjectFS.OpenFile(Path, "r")
-        local FileData = File:read()
-        File:close()
-
-        return FileData
-    end
+    return Mount.ReadFile(Path)
 end
 
 function ProjectFS.GetMount()
-    return Mount
+    return Mount.GetMount()
 end
 
 function ProjectFS.UnmountProject()
+    Mount.Unmount()
     Mount = nil
 end
 
 function ProjectFS.MountProject(Project)
-    Mount = Platform.ParsePath(Project)
+    Mount = BaseFS.Mount(Project)
+    return Mount
 end
 
 return ProjectFS

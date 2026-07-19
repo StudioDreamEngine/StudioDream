@@ -11,6 +11,7 @@ return function ()
     Dream = require("Shared.Packages.3DreamEngine")
     Binser = require("Shared.Packages.Binser")
     TweenFunctions = require("Shared.Packages.Tweener")
+    require("Shared.Packages.lovezip")
 
     printVerbose("Setting up C Packages")
     Platform = require("Shared.Packages.Platform")

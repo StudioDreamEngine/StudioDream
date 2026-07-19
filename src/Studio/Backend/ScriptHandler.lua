@@ -62,6 +62,8 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
             ConfiguredEditor = "\""..ConfiguredEditor.."\""
         end
 
+        print(ScriptObject.Resource)
+
         Platform.Execute(ConfiguredEditor, Runtime.ProjectFS.GetFullPath(ScriptObject.Resource))
     end
 end

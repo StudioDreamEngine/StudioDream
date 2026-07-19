@@ -19,11 +19,12 @@ function Configuration.Get(Key)
     return Configuration.Config[Key]
 end
 
-function Configuration.Load(Path)
+---@param Mount MountFS
+function Configuration.Load(Mount)
     local ConfigData
 
-    if Path then
-        ConfigData = Runtime.BaseFS.ReadFile(Path.."Project.sdc")
+    if Mount then
+        ConfigData = Mount.ReadFile("Project.sdc")
     else
         ConfigData = Runtime.ProjectFS.ReadFile("Project.sdc")
     end
@@ -40,7 +41,7 @@ function Configuration.Load(Path)
         printVerbose("Loaded new config: ",Config)
 
         -- Set config to hydrated config only if this isnt being called to grab a config of a non-loaded project
-        if (not Path) then
+        if (not Mount) then
             Configuration.Config = Config
         end
 
