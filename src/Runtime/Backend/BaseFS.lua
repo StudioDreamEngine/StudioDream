@@ -4,7 +4,7 @@ local BaseFS = {}
 function BaseFS.Mount(PathString, MountName)
     ---@class MountFS
     local MountObject = {}
-    local Path = Path.new(PathString) ---@class Path
+    local Path = Path.new(Platform.ParsePath(PathString)) ---@class Path
 
     MountObject.IsZip = (Path.FileType ~= nil)
     MountObject.MountPath = Path

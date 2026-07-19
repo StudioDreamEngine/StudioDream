@@ -3,7 +3,6 @@ local Path = {}
 function Path.new(FilePath)
     ---@class Path
     local PathObject = {}
-    FilePath = Platform.ParsePath(FilePath)
 
     local SplitType = string.split(FilePath, "%.")
     local SplitPath = string.split(FilePath, "/")

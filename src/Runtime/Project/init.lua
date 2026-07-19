@@ -24,6 +24,8 @@ function Project.ValidateAndMount(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
+    ProjectPath = Platform.ParsePath(ProjectPath)
+
     print("ProjectPath:"..ProjectPath)
     local ProjectPath = Path.new(ProjectPath)
     local RealPath
