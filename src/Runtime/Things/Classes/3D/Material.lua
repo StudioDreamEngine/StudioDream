@@ -13,6 +13,7 @@ function Material:new()
     self.Metallic = 0 -- 1
     self.Alpha = false
     self.Stencil = false
+    self.Simple = false
     self.Cutout = false
     self.Particle = false
     self.AlphaCutoff = 0.5
@@ -37,10 +38,10 @@ function Material:DefineAPI()
     Material.super.DefineAPI(self)
 
     self.Proxy.Property("Color Color","Color Emission","Color EmissionFactor","number Roughness","number Metallic","boolean Alpha","boolean Stencil","boolean Cutout","boolean Particle"
-    ,"number AlphaCutoff","number IOR","number Translucency","Enum.CullMode CullMode","number MultiTextureBlendScale","boolean Reflective")
+    ,"number AlphaCutoff","number IOR","number Translucency","Enum.CullMode CullMode","number MultiTextureBlendScale","boolean Reflective","boolean Simple")
     self.Proxy.Group("Colors","Color","Emission","EmissionFactor")
     self.Proxy.Group("Fell","Roughness","Metallic","Reflective")
-    self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode")
+    self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode", "Simple")
     self.Proxy.Property("Resource AlbedoTexture")
     self.Proxy.Group("Texture","AlbedoTexture","MultiTextureBlendScale")
     self.Proxy.Icon("Material")

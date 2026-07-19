@@ -7,7 +7,7 @@ end
 
 -- Load a project
 function ProjectManager.LoadProject(Callback)
-    Platform.OpenWithCallback("Load Project", Enum.OpenDialog.Folder, function(ProjectPath)
+    Platform.OpenWithCallback("Load Project (sdc or sdp)", Enum.OpenDialog.File, function(ProjectPath)
         Runtime.Project.Load(ProjectPath)
         if Callback then Callback() end
     end)

@@ -12,6 +12,7 @@ function Path.new(FilePath)
     PathObject.FileType = (#SplitType > 1) and SplitType[#SplitType] or nil
     PathObject.FileName = SplitPath[#SplitPath]
     PathObject.FilePath = FilePath
+    PathObject.ParentPath = table.concat(SplitPath, "/", 1, #SplitPath-1)
 
     return PathObject
 end

@@ -196,9 +196,6 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 						shaderObject.session.init = true
 						
 						if not isShadow then
-							--light setup
-							self:sendLightUniforms(light, shaderObject)
-							
 							--fog
 							if hasUniform(shaderObject, "fog_density") then
 								sendFogData(shader)
@@ -254,6 +251,10 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 					end
 					
 					self.stats.materialSwitches = self.stats.materialSwitches + 1
+				end
+
+				if (not isShadow) and (not material.Simple) then
+					self:sendLightUniforms(light, shaderObject)
 				end
 				
 				--reflection

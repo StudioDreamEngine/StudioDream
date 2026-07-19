@@ -13,7 +13,6 @@ Project.LoadDefault = Scenes.LoadDefault
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
 Project.LoadingProject = false
-
 Project.LoadedProject = Signal:New("WhenAnActualProjectIsLoaded")
 
 -- Make sure a project path is a valid project
@@ -25,15 +24,21 @@ function Project.ValidateAndMount(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
-    local CouldMount = ProjectFS.MountProject(ProjectPath)
+    local ProjectPath = Path.new(ProjectPath)
+    local RealPath
+
+    if ProjectPath.FileType == "sdc" then -- Unpackaged project
+        RealPath = ProjectPath.ParentPath
+    elseif ProjectPath.FileType == "sdp" then -- Packaged project
+        RealPath = ProjectPath.FilePath
+    else
+        return Shared.QueueAbort("Invalid file type for project")
+    end
+
+    local CouldMount = ProjectFS.MountProject(RealPath)
 
     if not CouldMount then
         return Shared.QueueAbort("Could not mount project, Are you sure it exists?")
-    end
-
-    if not ProjectFS.FileExists("Project.sdc") then
-        ProjectFS.UnmountProject()
-        return Shared.QueueAbort("Project.sdc not found in specified project path, are you sure it's a valid StudioDream project?")
     end
 end
 

@@ -9,6 +9,7 @@ function SurfaceViewport:new()
     self.Drawable = Dream:newObject()
     self.Mesh = Dream:newSprite(self.ViewportCanvas)
     self.Mesh.material.Alpha = true
+    self.Mesh.material.Simple = true
 
     self.DisplaySide = Enum.Side.Front
 
