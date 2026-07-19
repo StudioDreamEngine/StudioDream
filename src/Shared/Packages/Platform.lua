@@ -63,9 +63,9 @@ end
 
 -- Given a path, return its absolute path which can then be used in file operations across platforms, ONLY USE FOR FOLDERS!!!!!!
 function Platform.ParsePath(Path)
-	Path = string.gsub(Path, "\\", "/")
-
 	local FullPath = NativeFS.getFullPath(Path) or Path
+	FullPath = string.gsub(FullPath, "\\", "/")
+
 	local Info = NativeFS.getInfo(Path)
     
 	if Info and Info.type ~= "file" then
