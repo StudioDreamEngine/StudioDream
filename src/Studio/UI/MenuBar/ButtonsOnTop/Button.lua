@@ -18,7 +18,9 @@ return function(Args)
         HoverColorMultiplier = 2,
         BackgroundTransparency = 0.7,
     }
-
+    if Args.Function then
+        ButtonContainer.Clicked:Connect(Args.Function)
+    end
     if Args.Dropdown then
         local Dropdown = Components.AdvancedDropdown(Args.Dropdown)
 

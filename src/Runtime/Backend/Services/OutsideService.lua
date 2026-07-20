@@ -1,5 +1,9 @@
 local OutsideService = {}
 
+function OutsideService.Init()
+
+end
+
 function OutsideService.GetWindowSettings()
     local width, height, flags = love.window.getMode()
     return Vector2.new(width,height), flags
@@ -20,6 +24,10 @@ end
 
 function OutsideService.SetWindowSettings(WindowVect,Flags)
     Utils.SetMode(WindowVect,Flags)
+end
+
+function OutsideService.OpenURL(Link)
+    love.system.openURL(Link)
 end
 
 return OutsideService

@@ -60,6 +60,29 @@ function Explorer.CreateNode(Object, Depth)
         CornerRadius = 5,
     }
 
+    NodeObj.Context = Things.Create("Contextulizer") { 
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        --BackgroundTransparency = 1,
+        Layer = 999,
+        Parent = NodeObj.Node,
+        Serializable = false,
+    }
+
+    NodeObj.Context:SetChoices({
+        {Type = "Separator"},
+        {
+            Type = "Button",
+            Text = "WIP",
+            Image = "Internal/Icons/Studio.png",
+            Function = function()
+                print("ThisIsAWip")
+            end,
+        },
+        {Type = "Separator"},
+    },NodeObj.Context.Parent)
+
     NodeObj.AlreadyCreatedChilButton = false
 
     NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node

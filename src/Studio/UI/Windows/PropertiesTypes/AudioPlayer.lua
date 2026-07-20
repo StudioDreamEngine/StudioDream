@@ -27,7 +27,7 @@ function Template.Start(MainInfo)
 
     function self.Update()
         for i,Info in pairs(MainInfo.WillHandle) do
-            Button:SetImageRect(Rect.new(LineUp[Info.Thing.Playing and "Stop" or "Play"],Vector2.new(64,64)))
+            Button:SetImageRect(Rect.new(LineUp[Info.Thing.Playing and "Play" or "Stop"],Vector2.new(64,64)))
         end
     end
 

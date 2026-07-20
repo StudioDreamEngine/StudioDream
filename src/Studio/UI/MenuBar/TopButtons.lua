@@ -54,6 +54,10 @@ return {
         Component = "Button",
         Arguments = {
             Name = "Help",
+            Function = function()
+                local Outside = Runtime.Services.Service("OutsideService")
+                Outside.OpenURL("https://www.youtube.com/@StudioDreamEngine")
+            end,
         }
     },
     {

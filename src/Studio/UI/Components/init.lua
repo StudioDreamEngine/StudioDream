@@ -42,7 +42,7 @@ function Components.Init()
     Components.DropdownPlus = require("Studio.UI.Components.DropdownPlus")
     Components.ShowFade = DialogWindows.ShowFade
     Components.HideFade = DialogWindows.HideFade
-
+    Components.ContextMenu = require("Studio.UI.Components.ContextMenu")
     Shared.AbortAPI = Components.SimpleDialog
 end
 
