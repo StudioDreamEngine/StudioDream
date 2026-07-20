@@ -5,8 +5,10 @@ local Components = Studio.Components
 local CurrentContextMenu = nil
 local LastParent = nil
 
+--TODO: MAKE THE CURRENTCONTEXTMENU DESAPEAR WHEN U CLICK OFF IT (we have that on ultra top buttons)
+
 local ChoiceTypes = {
-    ["Button"] = function(Choice, Parent)
+    ["Button"] = function(Choice, Parent, ContextMenuObject)
         local HasImage = Choice.Image
         
         local Button = Components.CreateStyle("TextButton", {
@@ -39,9 +41,10 @@ local ChoiceTypes = {
                 Parent = Button
             }
         end
-
         if Choice.Function then
-            Button.Clicked:Connect(Choice.Function)
+            Button.Clicked:Connect(function() 
+                Choice.Function(ContextMenuObject)
+            end)
         end
     end,
     ["Separator"] = function(Choice, Parent)
@@ -61,7 +64,7 @@ local ChoiceTypes = {
     end,
 }
 
-function ContextMenu.CreateButton(Choice,MajorParent)
+function ContextMenu.CreateButton(Choice,MajorParent,DropdownObject)
     local Button = {}
 
     Button.Button = Components.CreateStyle("Square", {
@@ -69,9 +72,19 @@ function ContextMenu.CreateButton(Choice,MajorParent)
         BackgroundTransparency = 1,
         Parent = MajorParent
     })
-    Button.Type = ChoiceTypes[Choice.Type](Choice,Button.Button)
+    Button.Type = ChoiceTypes[Choice.Type](Choice,Button.Button,DropdownObject)
 
     return Button
+end
+
+function ContextMenu.Init()
+    --[[Runtime.InterfaceManager.OnClick:Connect(function()
+        if CurrentContextMenu and not CurrentContextMenu.MajorParent.Hovering then
+            print("Context removed")
+            CurrentContextMenu.Remove()
+            CurrentContextMenu = nil
+        end
+    end)]]
 end
 
 function ContextMenu.HandleNotParentSize(MajorComponent,FakeParent)
@@ -91,7 +104,6 @@ function ContextMenu.HandleNotParentSize(MajorComponent,FakeParent)
 end
 
 function ContextMenu.new(Choices,ParentThingy)
-    print(ParentThingy,LastParent)
     if CurrentContextMenu and LastParent ~= ParentThingy then
         CurrentContextMenu.Remove()
     end
@@ -103,7 +115,7 @@ function ContextMenu.new(Choices,ParentThingy)
     
     local DropdownObject = {}
 
-    DropdownObject.MajorParent = Components.CreateStyle("Square", {
+    DropdownObject.MajorParent = Components.CreateStyle("ContextSquare", {
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = Pivot2D.FromOffset(200,0),
         Layer = 999,
@@ -122,10 +134,6 @@ function ContextMenu.new(Choices,ParentThingy)
         Alignment = Vector2.new(0.5,0.5)
     })
 
-    for i,Choice in pairs(Choices) do
-        table.insert(DropdownObject.Choices,ContextMenu.CreateButton(Choice,DropdownObject.MajorParent))
-    end
-
     function DropdownObject.Remove()
         DropdownObject.MajorParent:Destroy()
     end
@@ -134,6 +142,10 @@ function ContextMenu.new(Choices,ParentThingy)
 
     CurrentContextMenu = DropdownObject
     LastParent = ParentThingy
+
+    for i,Choice in pairs(Choices) do
+        table.insert(DropdownObject.Choices,ContextMenu.CreateButton(Choice,DropdownObject.MajorParent,DropdownObject))
+    end
 
     return DropdownObject
 end

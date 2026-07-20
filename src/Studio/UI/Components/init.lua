@@ -43,6 +43,7 @@ function Components.Init()
     Components.ShowFade = DialogWindows.ShowFade
     Components.HideFade = DialogWindows.HideFade
     Components.ContextMenu = require("Studio.UI.Components.ContextMenu")
+    Components.ContextMenu.Init()
     Shared.AbortAPI = Components.SimpleDialog
 end
 

@@ -81,7 +81,7 @@ function Explorer.CreateNode(Object, Depth)
             end,
         },
         {Type = "Separator"},
-    },NodeObj.Context.Parent)
+    })
 
     NodeObj.AlreadyCreatedChilButton = false
 

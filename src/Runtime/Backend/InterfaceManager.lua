@@ -42,8 +42,10 @@ function InterfaceManager.Update(dt)
 
     for _, ButtonID in pairs(InterfaceManager.Buttons) do
         local Button = Runtime.Things.Get(ButtonID)
-        local DisplayUI = Button:GetDisplayUI()
+        local DisplayUI
 
+        if Button then  DisplayUI = Button:GetDisplayUI() end
+        
         if DisplayUI then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
             Button.Hovering = false
         

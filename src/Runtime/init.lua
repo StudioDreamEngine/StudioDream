@@ -51,7 +51,7 @@ function Runtime.PostInit(ProjectPath)
 
     Runtime.Project = require("Runtime.Project")
     Runtime.Things.CreateEnviornment()
-
+    
     if ProjectPath then
         Runtime.Project.Load(ProjectPath)
     else

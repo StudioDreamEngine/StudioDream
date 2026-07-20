@@ -24,6 +24,30 @@ function Output.Init()
         Size = Pivot2D.FromScale(1,1),
         Parent = Output.Container
     }
+
+    local Context = Runtime.Things.Create("Contextulizer") { 
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        --BackgroundTransparency = 1,
+        Layer = 999,
+        Parent = Output.Container,
+        Serializable = false,
+    }
+
+    Context:SetChoices({
+        {Type = "Separator"},
+        {
+            Type = "Button",
+            Text = "Clear Output",
+            Function = function(Menu)
+                ScrollContainer:ClearAllChildren({"ListLayout"})
+                Menu.Remove()
+            end,
+        },
+        {Type = "Separator"},
+    })
+
     Output.Container.BackgroundColor = Studio.Theme.CurrentTheme.Outline
     Runtime.Things.Create("ListLayout") {
         Parent = ScrollContainer,
