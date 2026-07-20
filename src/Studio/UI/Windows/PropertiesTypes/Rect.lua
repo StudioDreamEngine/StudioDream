@@ -1,7 +1,7 @@
-local Template = {}
+local Rected = {}
 local Things = Runtime.Things
 
-local UpdateSignal
+local UpdateSignal = Signal:New("Update_Cool")
 
 local function CheckAllTheSame(table)
     local FirstVal = table[1] and table[1].Thing[table[1].Property]
@@ -47,15 +47,15 @@ local function CreatePivotNode(MainInfo,WhatThing)
     
     local function Update()
         for i,Info in pairs(MainInfo.WillHandle) do
-        if CheckAllTheSame(MainInfo.WillHandle) then
-            local Transform = Info.Thing[Info.Property]
-            local NewMatrix = (WhatThing == "Scale") and Transform.Scale  or Transform.Offset
+            if CheckAllTheSame(MainInfo.WillHandle) then
+                local Transform = Info.Thing[Info.Property]
+                local NewMatrix = (WhatThing == "Origin" and (Transform and Transform.Origin or "???") or (Transform and Transform.Size or "???"))
 
-            selfed.Option:SetText(tostring(NewMatrix))
-        else
-            selfed.Option:SetText("~")
+                selfed.Option:SetText(tostring(NewMatrix))
+            else
+                selfed.Option:SetText("~")
+            end
         end
-    end
     end
 
     Update()
@@ -66,12 +66,12 @@ local function CreatePivotNode(MainInfo,WhatThing)
 
     table.insert(MainInfo.Connections,selfed.Option.FocusEnd:Connect(function()
         for i,Info in pairs(MainInfo.WillHandle) do
-            local IsRotate = (WhatThing == "Offset")
+            local IsRotate = (WhatThing == "Origin")
             local FromString = Vector2.FromString(selfed.Option.Text)
 
             print(FromString)
 
-            local Transform = IsRotate and Pivot2D.new(FromString.X,Info.Thing[Info.Property].Scale.X,FromString.Y,Info.Thing[Info.Property].Scale.Y) or Pivot2D.new(Info.Thing[Info.Property].Offset.X,FromString.X,Info.Thing[Info.Property].Offset.Y,FromString.Y)
+            local Transform = IsRotate and Rect.new(FromString,(Info.Thing[Info.Property].Size or Vector2.zero)) or Rect.new((Info.Thing[Info.Property].Origin or Vector2.zero),FromString)
 
             Things.SetProperty(Info.Thing, Info.Property, Transform)
         end
@@ -80,11 +80,11 @@ local function CreatePivotNode(MainInfo,WhatThing)
     return selfed
 end
 
-function Template.Start(MainInfo)
+function Rected.Start(MainInfo)
     local self = {}
     --MainInfo.Connections
     MainInfo.ParentWith = MainInfo.BaseProperty.Parent
-    local MainTxt = Runtime.Things.Create("Text") {
+    local MainText = Runtime.Things.Create("Text") {
         Text = " ",
         ForegroundColor = Studio.Theme.CurrentTheme.Text,
         BackgroundTransparency = 1,
@@ -97,7 +97,6 @@ function Template.Start(MainInfo)
     local Expand = Studio.Components.ExpandableDropdown(MainInfo.Option, MainInfo.ParentWith)
 
     MainInfo.Expand = Expand
-    UpdateSignal = Signal:New("Update")
 
     function self.Update()
         UpdateSignal.Invoke()
@@ -107,18 +106,20 @@ function Template.Start(MainInfo)
         if not Visible then
             for i,Info in pairs(MainInfo.WillHandle) do
                 if CheckAllTheSame(MainInfo.WillHandle) then
-                    MainTxt:SetText("{"..tostring(Info.Thing[Info.Property].Scale).."} {"..tostring(Info.Thing[Info.Property].Offset).."}")
+                    local NotTransform = "{???} {???} ~ Set a Rect by here or by an script"
+                    local Text = Info.Thing[Info.Property] and ("{"..tostring(Info.Thing[Info.Property].Origin).."} {"..tostring(Info.Thing[Info.Property].Size).."}") or NotTransform
+                    MainText:SetText(Text)
                 else
-                    MainTxt:SetText("~")
+                    MainText:SetText("~")
                 end
             end
         else
-            MainTxt:SetText(" ")
+            MainText:SetText(" ")
         end
     end))
-    CreatePivotNode(MainInfo,"Scale")
-    CreatePivotNode(MainInfo,"Offset")
+    CreatePivotNode(MainInfo,"Origin")
+    CreatePivotNode(MainInfo,"Size")
     return self
 end
 
-return Template
+return Rected

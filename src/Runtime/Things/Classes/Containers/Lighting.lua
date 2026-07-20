@@ -15,8 +15,10 @@ end
 function Lighting:DefineAPI()
     Lighting.super.DefineAPI(self)
     self.Proxy.Property("boolean Warning")
-    
-    self.Proxy.Group("Root","Warning")
+    self.Proxy.Property("boolean GlobalShadows")
+    self.Proxy.Property("Thing ScreenShader")
+
+    self.Proxy.Group("General","Warning","GlobalShadows","ScreenShader")
     self.Proxy.Attribute("Warning","RenderType","WIP")
     self.Proxy.Icon("Lighting")
 end

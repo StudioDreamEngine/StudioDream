@@ -323,6 +323,7 @@ function Thing:FindFirstChild(Name)
 end
 
 function Thing:ClearAllChildren(NameFilter)
+    if NameFilter and type(NameFilter) == "string" then assert("ClearAllChildren filter needs to be a table of strings") end
     NameFilter = NameFilter or {}
 
     for ChildUUID,_ in pairs(self.Children) do

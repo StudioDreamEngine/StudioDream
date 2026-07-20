@@ -31,7 +31,11 @@ function ScriptUtil.CreateGlobals(Script)
         Script = ScriptUtil.BridgeProxy(Script),
         Scheduler = Scheduler,
         print = print,
+
         Root = ScriptUtil.BridgeProxy(Things.Root),
+        Environment = ScriptUtil.BridgeProxy(Things.Root:GetEnvironment()),
+        Lighting = ScriptUtil.BridgeProxy(Things.Root:GetChild("Lighting")),
+
         Service = Runtime.Services.Service,
         math = math,
         pairs = pairs,

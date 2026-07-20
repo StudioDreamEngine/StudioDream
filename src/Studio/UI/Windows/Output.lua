@@ -40,6 +40,7 @@ function Output.Init()
         {
             Type = "Button",
             Text = "Clear Output",
+            SubText = "Clears Output Texts",
             Function = function(Menu)
                 ScrollContainer:ClearAllChildren({"ListLayout"})
                 Menu.Remove()

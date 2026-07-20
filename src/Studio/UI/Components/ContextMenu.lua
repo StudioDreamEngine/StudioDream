@@ -10,7 +10,8 @@ local LastParent = nil
 local ChoiceTypes = {
     ["Button"] = function(Choice, Parent, ContextMenuObject)
         local HasImage = Choice.Image
-        
+        local HasSecondText = Choice.SubText
+
         local Button = Components.CreateStyle("TextButton", {
             Text = "",
             Size = Pivot2D.FromScale(0.95,0.8),
@@ -31,6 +32,17 @@ local ChoiceTypes = {
             BackgroundTransparency = 1,
         })
 
+        if HasSecondText then
+            Components.CreateStyle("Text",{
+                Text = HasSecondText,
+                Parent = Button,
+                Position = Pivot2D.FromScale(1,0.5),
+                Pivot = Vector2.new(1,0.5),
+                Size = Pivot2D.FromScale(0.5,0.65),
+                BackgroundTransparency = 1,
+                Alignment = Enum.Alignment.MiddleRight
+            })
+        end
         if HasImage then
             Runtime.Things.Create("Image2D") {
                 Size = Pivot2D.FromScale(1,1),
@@ -57,10 +69,6 @@ local ChoiceTypes = {
             Parent = Parent,
             CornerRadius = 2,
         }
-    end,
-    ["Table"] = function(Choice, Parent)
-        local ToLoop = Info.Table
-        
     end,
 }
 
@@ -136,6 +144,8 @@ function ContextMenu.new(Choices,ParentThingy)
 
     function DropdownObject.Remove()
         DropdownObject.MajorParent:Destroy()
+        CurrentContextMenu = nil
+        LastParent = nil
     end
 
     DropdownObject.MajorParent:SetParent(Things.Root.RootViewport)

@@ -60,7 +60,7 @@ function Explorer.CreateNode(Object, Depth)
         CornerRadius = 5,
     }
 
-    NodeObj.Context = Things.Create("Contextulizer") { 
+    --[[NodeObj.Context = Things.Create("Contextulizer") { 
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
@@ -70,7 +70,7 @@ function Explorer.CreateNode(Object, Depth)
         Serializable = false,
     }
 
-    NodeObj.Context:SetChoices({
+     NodeObj.Context:SetChoices({
         {Type = "Separator"},
         {
             Type = "Button",
@@ -81,7 +81,7 @@ function Explorer.CreateNode(Object, Depth)
             end,
         },
         {Type = "Separator"},
-    })
+    })]]
 
     NodeObj.AlreadyCreatedChilButton = false
 
