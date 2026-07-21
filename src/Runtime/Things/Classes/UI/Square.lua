@@ -12,6 +12,7 @@ function Square:new()
     self.OutlineSize = 0
     self.OutlineColor = Color.new(0,0,0)
     self.OutlineTransparency = 0
+    self.HasDropShadow = false -- vro
 end
 
 function Square:DefineAPI()
@@ -28,10 +29,17 @@ function Square:SetOutlineSize(number)
 end
 
 function Square:Draw()
-    local Size = self.AbsoluteSize
+    local Size = self.AbsoluteSize 
+    local r,g,b,a = love.graphics.getColor()
 
+    if self.HasDropShadow then
+        love.graphics.setColor(0, 0, 0, 0.5)
+        love.graphics.rectangle("fill", 0,3, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
+    end
+    
+    love.graphics.setColor(r,g,b,a)
     love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
-
+    
     if self.OutlineSize > 0 then
         love.graphics.setLineWidth(self.OutlineSize)
         self:SetColor("Outline")

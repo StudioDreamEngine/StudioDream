@@ -131,6 +131,7 @@ function ContextMenu.new(Choices,ParentThingy)
         BackgroundColor = Studio.Theme.CurrentTheme.Outline,
         CornerRadius = 5,
         Parent = Things.Root.RootViewport,
+        HasDropShadow = true,
     })
     
     DropdownObject.Choices = {}
