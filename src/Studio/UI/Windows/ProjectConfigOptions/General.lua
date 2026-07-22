@@ -23,11 +23,13 @@ local ProjectOptions = {
         Name = "Icon",
         OptionType = "Button",
         FunctionWhenCreate = function(Main)
-            local function Draw(NewResult)
-                print(Runtime.Project.Config.Get("Icon"))
-               -- print(Path.new(Runtime.Project.Config.Get("Icon")))
-                local Result = NewResult or (Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png")
-                Main.Option:SetText(Result)
+            local function Draw()
+                local Result = (Runtime.Project.Config.Get("Icon") or "Internal/Icons/Client.png")
+                if Runtime.Project.Config.Get("Icon") then
+                    Result = Runtime.Resources.GetIdentifierFromID(Result)
+                end
+
+                Main.Option:SetText(Result.Data and Result.Data.FilePath or Result)
             end
             
             Runtime.Project.LoadedProject:Connect(Draw)
@@ -38,7 +40,7 @@ local ProjectOptions = {
                     if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
 
                     Runtime.Project.Config.Set("Icon",Identifier)
-                    Draw(Identifier)
+                    Draw()
                 end)
             end)
         end,
