@@ -51,7 +51,7 @@ end
 
 function Configuration.Save()
     local Serialized = Binser.serialize(Configuration.Config)
-    Runtime.ProjectFS.WriteFile("Project.sdc", Serialized)
+    Runtime.ProjectFS.QueueWrite("Project.sdc", Serialized)
 end
 
 return Configuration

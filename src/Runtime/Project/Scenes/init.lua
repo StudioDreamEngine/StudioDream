@@ -16,7 +16,7 @@ function Scenes.SaveScene(Path, Target)
     love.filesystem.write("TempLevel", table.format(ObjectTable))
 
     local Data = Binser.serialize(ObjectTable)
-    ProjectFS.WriteFile(Path, Data)
+    ProjectFS.QueueWrite(Path, Data)
 end
 
 function Scenes.ConfigureTargetsTemp()

@@ -153,7 +153,6 @@ lib.meshFormats = { }
 lib:registerMeshFormat(require(lib.root .. "/meshFormats/textured"), "textured")
 lib:registerMeshFormat(require(lib.root .. "/meshFormats/simple"), "simple")
 lib:registerMeshFormat(require(lib.root .. "/meshFormats/material"), "material")
-lib:registerMeshFormat(require(lib.root .. "/meshFormats/font"), "font")
 
 --some functions require temporary canvases
 lib.canvasCache = { }

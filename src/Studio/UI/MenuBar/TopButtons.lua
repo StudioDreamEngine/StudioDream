@@ -22,6 +22,11 @@ return {
                     Text = "Save Project To",
                     Function = Studio.ProjectManager.SaveProjectTo
                 },
+                {
+                    Type = "Button",
+                    Text = "Export Project (ZIP)",
+                    Function = Studio.ProjectManager.PackageProject
+                }
             }
         }
     },

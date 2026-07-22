@@ -9,6 +9,9 @@ function BaseFS.Mount(PathString, MountName)
     MountObject.IsZip = (Path.FileType ~= nil)
     MountObject.MountPath = Path
 
+    MountObject.QueueWrites = false
+    MountObject.Writes = {}
+
     print("Attempting to mount new project: "..Path.FilePath)
     
     local WasMounted = love.filesystem.mountFullPath(Path.FilePath, MountName or "ProjectMount")
@@ -21,31 +24,63 @@ function BaseFS.Mount(PathString, MountName)
         return Path.FilePath..FilePath
     end
 
+    -- Create a directory at this mount point
     function MountObject.CreateDirectory(Path)
-        if MountObject.IsZip then print("MountFS.CreateDirectory - Mount object is read only as it is a zip") end
+        if MountObject.IsZip then print("MountFS.CreateDirectory - Mount object is read only (zip)") end
 
         error("MountObject.CreateDirectory currently not tested! dont wanna fuck shit up if it doesnt work...")
         love.filesystem.createDirectory(MountDir..Path)
     end
 
+    -- Get the mount path
     function MountObject.GetMount()
         return MountObject.MountPath.FilePath
     end
 
-    function MountObject.WriteFile(WritePath, Data)
-        if MountObject.IsZip then print("MountFS.WriteFile - Mount object is read only as it is a zip") end
-
-        NativeFS.write(Path.FilePath..WritePath, Data)
+    -- Toggle if QueueWrite should Queue Writes or directly write
+    function MountObject.ToggleQueueWrites(Toggle)
+        MountObject.QueueWrites = Toggle
     end
 
+    -- Write a file or queue a file to be written
+    function MountObject.QueueWrite(WritePath, Data)
+        if MountObject.IsZip then print("MountFS.QueueWrite - Mount object is read only (zip)") end
+
+        if MountObject.QueueWrites then
+            MountObject.Writes[WritePath] = Data
+        else
+            NativeFS.write(Path.FilePath..WritePath, Data)
+        end
+    end
+
+    -- Get queued writes and clear them
+    function MountObject.GetWrites()
+        local Writes = table.clone(MountObject.Writes)
+        MountObject.Writes = {}
+
+        return Writes
+    end
+
+    -- Apply queued writes to new path
+    function MountObject.ApplyWrites(NewPath)
+        for Path, Data in pairs(MountObject.Writes) do
+            NativeFS.write(NewPath..Path, Data)
+        end
+
+        MountObject.Writes = {}
+    end
+
+    -- Check if a file exists
     function MountObject.FileExists(Path)
         return love.filesystem.getInfo(MountDir..Path)
     end
 
+    -- List items in a directory
     function MountObject.ListDirectory(Path)
         return love.filesystem.getDirectoryItems(((MountDir..Path) or ""))
     end
 
+    -- Read a file in the mount
     function MountObject.ReadFile(Path)
         if MountObject.FileExists(Path) then
             local Contents = love.filesystem.read(MountDir..Path)
@@ -53,8 +88,10 @@ function BaseFS.Mount(PathString, MountName)
         end
     end
 
+    -- Unmount this mountobject and KILL it
     function MountObject.Unmount()
         love.filesystem.unmountFullPath(Path.FilePath)
+        MountObject = {}
     end
 
     return MountObject

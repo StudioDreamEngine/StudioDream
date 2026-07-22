@@ -9,7 +9,6 @@ local vec3 = lib.vec3
 
 --tags that will get recognized
 lib.meshTags = {
-	["PHYSICS"] = true,
 	["LOD"] = true,
 	["POS"] = true,
 	["LINK"] = true,
@@ -316,23 +315,6 @@ function lib:processObject(obj)
 			object:setShadowVisibility(false)
 		elseif object.tags.shadow then
 			object:setRenderVisibility(false)
-		end
-		
-		
-		--extract physics
-		if object.tags.physics then
-			local shapeMode = type(object.tags.physics) == "string" and object.tags.physics
-			for meshId, mesh in pairs(object.meshes) do
-				--2.5D physics
-				for i, m in ipairs(mesh:separate()) do
-					object.collisionMeshes[meshId .. "_" .. i] = self:newCollisionMesh(m, shapeMode)
-				end
-				
-				--remove if no longer used
-				if not object.tags.lod then
-					object.meshes = { }
-				end
-			end
 		end
 	end
 	

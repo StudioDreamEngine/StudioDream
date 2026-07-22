@@ -181,16 +181,6 @@ function class:preload(force)
 	end
 end
 
----Converts all meshes to physics meshes
-function class:meshesToCollisionMeshes()
-	for id, mesh in pairs(self.meshes) do
-		for idx, m in ipairs(mesh:separate()) do
-			self.collisionMeshes[id .. "_" .. idx] = lib:getPhysicsData(m)
-		end
-	end
-	self.meshes = { }
-end
-
 local function getAllMeshes(object, list, transform)
 	if not object.LOD_max or object.LOD_max >= math.huge then
 		for _, o in pairs(object.objects) do
@@ -411,12 +401,6 @@ function class:decode(meshData)
 		s:decode()
 	end
 	
-	--decode physics
-	for _, s in pairs(self.collisionMeshes) do
-		setmetatable(s, lib.meta.collisionMesh)
-		s:decode()
-	end
-	
 	--recreate positions
 	for _, s in pairs(self.positions) do
 		s.position = vec3(s.position)
@@ -470,15 +454,6 @@ function class:print()
 		push("meshes")
 		for _, m in pairs(self.meshes) do
 			printf(m)
-		end
-		pop()
-	end
-	
-	--physics
-	if next(self.collisionMeshes) then
-		push("physics")
-		for _, s in pairs(self.collisionMeshes or { }) do
-			printf("%s", s.name)
 		end
 		pop()
 	end

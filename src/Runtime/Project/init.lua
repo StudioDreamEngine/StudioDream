@@ -128,9 +128,33 @@ end
 
 -- Remount to a new directory and save project
 function Project.SaveTo(ProjectPath)
-    print(ProjectPath)
-    ProjectFS.MountProject(ProjectPath)
+    ProjectFS.ToggleQueueWrites(true) -- We're saving to another directory, so record what's written from now on
+    Project.Save() -- Save normally
+    ProjectFS.ApplyWrites(ProjectPath)
+    ProjectFS.Remount(ProjectPath)
+end
+
+-- Take existing project and save to zip
+function Project.Export()
+    local Zip = love.zip:newZip() ---@class LoveZip
+    local TargetPath = Platform.GetDocuments().."/Export_"..Project.Config.Get("Name")..".sdp" -- TODO: python-like path system?
+
+    ProjectFS.ToggleQueueWrites(true) -- Refer to above function
     Project.Save()
+
+    -- Manually write our writes to the ZIP
+    local Writes = ProjectFS.GetWrites()
+
+    Zip:_add("README", "Well atleast it works")
+
+    for Path, Data in pairs(Writes) do
+        Zip:_add(Path, Data)
+    end
+
+    ProjectFS.ToggleQueueWrites(false)
+
+    local Data = Zip:finish()
+    NativeFS.write(TargetPath, Data)
 end
 
 -- Save a project
@@ -141,7 +165,13 @@ function Project.Save()
         Project.NotificationCallback("Please first load a project first in order to save", "Error")
     else
         Project.Config.Save()
-        ProjectFS.WriteFile("Thumbnail.png", Dream:renderThumbnail())
+
+        -- Only save resources if they're going somewhere else (we can check via queued writes)
+        if ProjectFS.IsQueuingWrites() then
+            Resources.Save()
+        end
+
+        ProjectFS.QueueWrite("Thumbnail.png", Dream:renderThumbnail())
         Scenes.LoadRootScenes("Save")
 
         Project.History.Add(ProjectFS, Project.Config.Get("Name"))

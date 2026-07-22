@@ -22,10 +22,6 @@ function Resources.Init()
 	Resources.GetIdentifierIDFromPath = Identifiers.GetIdentifierIDFromPath
 end
 
--- Save resources to a new path
-function Resources.SaveAllResources()
-end
-
 function Resources.Clear()
 	Identifiers.Clear()
 	LoadedResources = {}
@@ -115,17 +111,35 @@ function Resources.LoadResource(Identifier)
 	return Resource
 end
 
--- Get a resource from an Identifier
-function Resources.GetResource(Identifier, Reload)
-	if not Identifier then
-		return
+function Resources.SaveResource(IdentifierID)
+	local Identifier = Identifiers.GetIdentifierFromID(IdentifierID)
+
+	if Identifier.ResourceType == "Project" then
+		local IdentifierData = Identifier.Data ---@class Path
+
+		Runtime.ProjectFS.QueueWrite(IdentifierData.FilePath, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath)) -- Code reuse... oh well!
 	end
+end
+
+-- Save resources to a new path
+function Resources.SaveResources()
+	---@param Identifier Identifier
+	for ID, Identifier in pairs(Identifiers.GetAll()) do
+		Resources.SaveResource(ID)
+	end
+end
+
+--[[
+	Get a resource from an Identifier
+
+	Identifier: The identifier object used to grab said resource
+	Reload?: If this resource should be re-cached or not
+]]
+function Resources.GetResource(Identifier, Reload)
+	if not Identifier then return end
 
 	local LoadedResource = LoadedResources[Identifier.ID]
-
-	if (LoadedResource == "Invalid") then
-		return
-	end
+	if (LoadedResource == "Invalid") then return end
 
 	if Reload or (not LoadedResource) then -- If the resource isnt loaded yet, cache it
 		LoadedResource = Resources.LoadResource(Identifier)

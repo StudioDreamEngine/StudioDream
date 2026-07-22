@@ -29,7 +29,12 @@ function Resources.HandleIdentifier(FilePath)
 end
 
 -- Besides scenes in the future perhaps, nothing is needed here for now
-function Resources.Save() end
-function Resources.Load() RecurseProject("") end
+function Resources.Save()
+    Runtime.Resources.SaveResources()
+end
+
+function Resources.Load() 
+    RecurseProject("") 
+end
 
 return Resources

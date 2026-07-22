@@ -28,23 +28,21 @@ function Identifiers.LoadIdentifierIDFromPath(FilePath)
 	end
 end
 
+--[[function Identifiers.GetPathFromIdentifierID(Identifier)
+	--Todo
+end]]
+
 --[[
 	Get the IdentifierID of the specified Path (FilePath)
 	This will NOT register an identifier OR create a new file.
+	FilePath is relative to the project mount point.
 ]]
-
-function Identifiers.GetPathFromIdentifierID(Identifier)
-	--Todo
-end
-
 function Identifiers.GetIdentifierIDFromPath(FilePath)
-	local ProjectFS = Runtime.ProjectFS
-
 	if Utils.TypeOf(FilePath) == "Path" then
 		FilePath = FilePath.FilePath
 	end
 
-	return ProjectFS.ReadFile(FilePath .. ".uid")
+	return Runtime.ProjectFS.ReadFile(FilePath .. ".uid")
 end
 
 -- Given a file path (relative to the project mount), create the file (if it doesnt exist) and register an identifier
@@ -71,14 +69,14 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 	if not HasFile then
 		print("Writing new file @ path:",FilePath)
 
-		ProjectFS.WriteFile(FilePath, FileData or "")
+		ProjectFS.QueueWrite(FilePath, FileData or "")
 	end
 
 	local Identifier
 
 	if not HasIdentifier then -- Create a new identifier
 		Identifier = CreateUUID()
-		ProjectFS.WriteFile(FilePath .. ".uid", Identifier)
+		ProjectFS.QueueWrite(FilePath .. ".uid", Identifier)
 	else
 		Identifier = ProjectFS.ReadFile(FilePath .. ".uid")
 	end
@@ -115,12 +113,17 @@ function Identifiers.GetStudioPath(IdentifierID)
 end
 
 -- Get an identifier from an IdentifierID
+---@return Identifier
 function Identifiers.GetIdentifierFromID(IdentifierID)
 	if type(IdentifierID) ~= "string" then -- Buffer type, hate the fact this is done twice
 		return IdentifierType.new(IdentifierID, "Buffer", "Buffer-" .. CreateUUID())
 	else -- Internal and Project type
 		return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
 	end
+end
+
+function Identifiers.GetAll()
+	return RegisteredIdentifiers
 end
 
 function Identifiers.Clear()

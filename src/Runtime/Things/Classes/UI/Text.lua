@@ -35,11 +35,13 @@ function Text:SetTextScaled(TextScaled)
     self.TextScaled = TextScaled
 
     self:InvalidateRendering()
+    self:AttemptWrap(self.AbsoluteSize)
 end
 
 function Text:SetAlignment(Alignment)
     self.Alignment = Alignment
     self.RenderClass.SetAlignment(Alignment)
+    self:InvalidateRendering()
 end
 
 function Text:SetText(Text)
@@ -49,8 +51,8 @@ function Text:SetText(Text)
     self:InvalidateRendering()
 end
 
-function Text:SetAbsoluteSize(NewSize)
-    Text.super.SetAbsoluteSize(self, NewSize)
+function Text:ProcessInvalidations()
+    Text.super.ProcessInvalidations(self)
     self:AttemptWrap(self.AbsoluteSize)
 end
 
