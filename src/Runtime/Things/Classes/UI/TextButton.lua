@@ -11,6 +11,7 @@ function TextButton:new()
     self.Hovering = false 
     self.HoverColorMultiplier = 0.75
     self.ClickingColorMultiplier = 0.5
+    self.SinkInput = true
     --self.LastHover = false
     
     -- not implemented yet

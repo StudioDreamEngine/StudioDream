@@ -1,3 +1,4 @@
+-- TODO: Move to Studio, we shouldnt have Studio-Only thing classes - Bloctans
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
