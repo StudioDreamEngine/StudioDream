@@ -34,6 +34,7 @@ function ToolManager.SetupSelection()
 
     for _, Select in pairs(Selecting) do
         Select.Difference = Select.Object.Position - Center
+        Select.OriginalTransform = Select.Object.Transform
         Select.Rotation = Select.Object.Transform.Rotation
     end
 
@@ -51,7 +52,13 @@ function ToolManager.ChangeTransform(NewTransform)
     end
 end
 
+function ToolManager.RegisterUndo()
+    print("Register")
 
+    for _, Select in pairs(Selecting) do
+        Studio.History.RegisterUndo(Select.Object, "Transform", Select.OriginalTransform)
+    end
+end
 
 function ToolManager.Init()
     ToolManager.Move = require("Studio.Editor3D.Tools.Move")
@@ -102,6 +109,7 @@ function ToolManager.Select(NewSelection)
 
     CurrentTool.SetupSelection = ToolManager.SetupSelection
     CurrentTool.ChangeTransform = ToolManager.ChangeTransform
+    CurrentTool.RegisterUndo = ToolManager.RegisterUndo
     
     if CurrentTool.Selection:IsA("Transformable3D") then
         CurrentTool.Init()

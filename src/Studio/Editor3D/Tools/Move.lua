@@ -2,7 +2,6 @@ local Move = {}
 local Things = Runtime.Things
 
 local MoveControl ---@class MoveControl
-local SelectingObj
 
 local Info = {
     StartPosObj = Vector3.zero,
@@ -14,8 +13,6 @@ local function StartDrag(Obj)
 end
 
 local function EndDrag()
-    Studio.EditorServices.Undo.RegisterUndo(SelectingObj,"Transform",Transform3D.FromPosition(Info.StartPosObj+Info.OffsetTo))
-    
     Info.StartPosObj = Vector3.zero
     Info.OffsetTo = Vector3.zero
 end
@@ -28,7 +25,6 @@ function Move.Init()
     MoveControl.Adornee = Move.Selection
 
     MoveControl.OnMove:Connect(function(Plane)
-        SelectingObj = Move.Selection
         Info.OffsetTo = Plane
 
         Move.ChangeTransform(Transform3D.FromPosition(Info.OffsetTo.X,Info.OffsetTo.Y,Info.OffsetTo.Z))
@@ -40,6 +36,7 @@ function Move.Init()
     end)
 
     MoveControl.EndMove:Connect(function()
+        Move.RegisterUndo()
         EndDrag()
     end)
 end

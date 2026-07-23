@@ -2,7 +2,6 @@ local Rotate = {}
 local Things = Runtime.Things
 
 local MoveControl ---@class MoveControl
-local SelectingObj
 
 local Info = {
     ["StartRotObj"] = Vector3.zero,
@@ -14,8 +13,6 @@ local function StartDrag(Obj)
 end
 
 local function EndDrag()
-    --Studio.EditorServices.Undo.RegisterUndo(SelectingObj,"Transform",Transform3D.FromPosition(Info.StartPosObj+Info.OffsetTo))
-    
     Info.StartPosObj = Vector3.zero
     Info.OffsetTo = Vector3.zero
 end
@@ -28,10 +25,8 @@ function Rotate.Init()
     MoveControl.Adornee = Rotate.Selection
 
     MoveControl.OnMove:Connect(function(Plane)
-        SelectingObj = Rotate.Selection
         Info.OffsetTo = Plane
-        --print(Plane)
-        --print(Info.StartRotObj)
+
         Rotate.ChangeTransform(Transform3D.FromAngle(Info.StartRotObj.X + Info.OffsetTo.X,Info.StartRotObj.Y + Info.OffsetTo.Y,Info.StartRotObj.Z + Info.OffsetTo.Z))
     end)
 
@@ -41,6 +36,7 @@ function Rotate.Init()
     end)
 
     MoveControl.EndMove:Connect(function()
+        Rotate.RegisterUndo()
         EndDrag()
     end)
 end
