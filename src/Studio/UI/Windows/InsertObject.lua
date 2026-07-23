@@ -18,6 +18,18 @@ function InsertObject.Init()
         Layer = 100
     }
 
+    InsertObject.CloseButton = Runtime.Things.Create("ImageButton") {
+        Size = Pivot2D.FromScale(0.1,0.1),
+        Parent = InsertObject.Container,
+        CornerRadius = 5,
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0,0),
+        BackgroundTransparency = 0,
+        Layer = 2,
+        Resource = "Internal/Studio/Close.png",
+        ScaleType = Enum.ScaleType.LockAspect,
+    }
+
     InsertObject.SearchBar = Things.Create("TextInput") {
         Size = Pivot2D.FromScale(1,0.1),
         Position = Pivot2D.FromScale(0,0),
@@ -36,6 +48,8 @@ function InsertObject.Init()
         InsertObject.SearchText = NewText
         InsertObject.UpdateList()
     end)
+
+    InsertObject.CloseButton.Clicked:Connect(InsertObject.Close)
 
     for ClassName, Class in pairs(Runtime.Things.API) do
         if Class.Creatable then

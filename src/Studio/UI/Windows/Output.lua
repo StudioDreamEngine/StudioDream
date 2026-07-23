@@ -40,7 +40,7 @@ function Output.Init()
         {
             Type = "Button",
             Text = "Clear Output",
-            SubText = "Clears Output Texts",
+            Image = "Internal/Studio/ContextMenu/Delete.png",
             Function = function(Menu)
                 ScrollContainer:ClearAllChildren({"ListLayout"})
                 Menu.Remove()

@@ -34,6 +34,7 @@ local ThemesIn = {
         Text2 = Color.FromHex("#ffffff"),
         TextInverse = Color.FromHex("#000000"),
         Error =  Color.FromHex("#ff3333"),
+        TextNotAble = Color.FromHex("#504f4f"),
         FontNormal = "Roboto-Medium",
         FontBold = "Roboto-Bold"
     },

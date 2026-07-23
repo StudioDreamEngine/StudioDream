@@ -68,16 +68,73 @@ function Explorer.CreateNode(Object, Depth)
         Layer = 999,
         Parent = NodeObj.Node,
         Serializable = false,
+        SinkHovering = true,
     }
 
-     NodeObj.Context:SetChoices({
+    NodeObj.Context.OnContextCreate:Connect(function()
+        print(Object.Proxy.Duplicatable)
+    end)
+    NodeObj.Context:SetChoices({
         {Type = "Separator"},
         {
             Type = "Button",
-            Text = "WIP",
-            Image = "Internal/Icons/Studio.png",
-            Function = function()
-                print("ThisIsAWip")
+            Text = "Duplicate thing",
+            SubText = "Sets cloned thing to current parent",
+            Image = "Internal/Studio/ContextMenu/Clone.png",
+            Applicable = Object.Proxy.Duplicatable,
+            Function = function(Menu)
+                Object:Clone():SetParent(Object.Parent)
+                Explorer.Redraw()
+                Menu.Remove()
+            end,
+        },
+        {
+            Type = "Button",
+            Text = "Delete thing",
+            Image = "Internal/Studio/ContextMenu/Delete.png",
+            Applicable = Object.Proxy.Creatable,
+            Function = function(Menu)
+                Object:Destroy()
+                Explorer.Redraw()
+                Menu.Remove()
+            end,
+        },
+        {Type = "Separator"},
+        {
+            Type = "Button",
+            Text = "Group thing",
+            Image = "Internal/Studio/ContextMenu/Group.png",
+            Applicable = Object.Proxy.Creatable,
+            Function = function(Menu)
+                local Folder = Things.Create("Folder") {Parent = Object.Parent}
+                Object:SetParent(Folder) 
+                Explorer.Redraw()
+                Menu.Remove()
+            end,
+        },
+        {
+            Type = "Button",
+            Text = "Ungroup thing",
+            Image = "Internal/Studio/ContextMenu/Ungruped.png",
+            Applicable = Object:IsA("Folder"),
+            Function = function(Menu)
+                for i,v in pairs(Object:GetChildren()) do
+                    v:SetParent(Object.Parent)
+                end
+                Object:Destroy()
+                Explorer.Redraw()
+                Menu.Remove()
+            end,
+        },
+        {Type = "Separator"},
+        {
+            Type = "Button",
+            Text = "Insert thing",
+            Image = "Internal/Studio/ContextMenu/Ungruped.png",
+            Function = function(Menu)
+                Studio.Editor3D.OpenInsertWindow()
+                Explorer.Redraw()
+                Menu.Remove()
             end,
         },
         {Type = "Separator"},

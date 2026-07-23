@@ -87,7 +87,7 @@ function Template.Create(Parent)
     local CreateObject = {}
 
      Runtime.Project.LoadedProject:Connect(function()
-        print("PROJECT LOADED DUMB FUCK")
+        --print("PROJECT LOADED DUMB FUCK")
      end)
 
     function CreateObject.CreatePartBlock(Name,TypeOfOption,ParentS)

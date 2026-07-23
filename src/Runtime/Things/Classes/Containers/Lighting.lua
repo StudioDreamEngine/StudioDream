@@ -21,6 +21,7 @@ function Lighting:DefineAPI()
     self.Proxy.Group("General","Warning","GlobalShadows","ScreenShader")
     self.Proxy.Attribute("Warning","RenderType","WIP")
     self.Proxy.Icon("Lighting")
+    self.Proxy.MakeNonDuplicatable()
 end
 
 return Lighting

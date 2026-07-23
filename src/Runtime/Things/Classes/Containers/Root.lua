@@ -19,7 +19,8 @@ end
 
 function Root:DefineAPI()
     Root.super.DefineAPI(self)
-
+    
+    self.Proxy.MakeNonDuplicatable()
     self.Proxy.Icon("Root")
 end
 

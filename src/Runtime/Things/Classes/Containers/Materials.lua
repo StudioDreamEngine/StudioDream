@@ -6,6 +6,7 @@ local Materials = Things.Extend("Thing")
 function Materials:DefineAPI()
     Materials.super.DefineAPI(self)
 
+    self.Proxy.MakeNonDuplicatable()
     self.Proxy.Icon("Materials")
 end
 

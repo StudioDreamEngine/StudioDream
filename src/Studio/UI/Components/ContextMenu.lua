@@ -9,10 +9,23 @@ local LastParent = nil
 
 local ChoiceTypes = {
     ["Button"] = function(Choice, Parent, ContextMenuObject)
+        local ButtonObject = {}
+
         local HasImage = Choice.Image
         local HasSecondText = Choice.SubText
 
-        local Button = Components.CreateStyle("TextButton", {
+        local ColorText
+
+        local IsEvenApplicable = Choice.Applicable
+
+        if IsEvenApplicable ~= false then
+            --print("IS FUCKING TRUE BRO WHAT IS YOUR PROBLEM")
+            ColorText = Studio.Theme.CurrentTheme.Text
+        else
+            ColorText = Studio.Theme.CurrentTheme.TextNotAble
+        end
+
+        ButtonObject.Button = Components.CreateStyle("TextButton", {
             Text = "",
             Size = Pivot2D.FromScale(0.95,0.8),
             Position = Pivot2D.FromScale(0.5,0.5),
@@ -23,40 +36,50 @@ local ChoiceTypes = {
             CornerRadius = 2,
         })
 
-        local ActualText = Components.CreateStyle("Text",{
+        ButtonObject.ActualText = Components.CreateStyle("Text",{
             Text = Choice.Text,
-            Parent = Button,
+            Parent = ButtonObject.Button,
             Position = HasImage and  Pivot2D.FromScale(0.1,0.5) or Pivot2D.FromScale(0,0.5),
             Pivot = Vector2.new(0,0.5),
+            ForegroundColor = ColorText,
             Size = Pivot2D.FromScale(0.95,0.8),
             BackgroundTransparency = 1,
         })
 
         if HasSecondText then
-            Components.CreateStyle("Text",{
+            ButtonObject.SecondText = Components.CreateStyle("Text",{
                 Text = HasSecondText,
-                Parent = Button,
+                Parent = ButtonObject.Button,
                 Position = Pivot2D.FromScale(1,0.5),
                 Pivot = Vector2.new(1,0.5),
                 Size = Pivot2D.FromScale(0.5,0.65),
                 BackgroundTransparency = 1,
-                Alignment = Enum.Alignment.MiddleRight
+                ForegroundColor = ColorText,
+                Alignment = Enum.Alignment.MiddleRight,
+                TextScaled = true,
             })
         end
         if HasImage then
-            Runtime.Things.Create("Image2D") {
+            ButtonObject.Image = Runtime.Things.Create("Image2D") {
                 Size = Pivot2D.FromScale(1,1),
                 Pivot = Vector2.new(0,0.5),
                 Position = Pivot2D.FromScale(0,0.5),
                 SquareAxis = Enum.SquareAxis.Y,
                 Resource = HasImage,
-                Parent = Button
+                Parent = ButtonObject.Button
             }
         end
-        if Choice.Function then
-            Button.Clicked:Connect(function() 
+        if Choice.OnCreate and IsEvenApplicable ~= false then
+            Choice.OnCreate(ButtonObject)
+        end
+        if Choice.Function and IsEvenApplicable ~= false then
+            ButtonObject.Button.Clicked:Connect(function() 
                 Choice.Function(ContextMenuObject)
             end)
+        end
+        ButtonObject.ActualText.ForegroundColor = ColorText
+        if ButtonObject.SecondText then
+            ButtonObject.SecondText.ForegroundColor = ColorText
         end
     end,
     ["Separator"] = function(Choice, Parent)
@@ -80,7 +103,6 @@ function ContextMenu.CreateButton(Choice,MajorParent,DropdownObject)
         BackgroundTransparency = 1,
         Parent = MajorParent
     })
-    print(Choice)
     Button.Type = ChoiceTypes[Choice.Type](Choice,Button.Button,DropdownObject)
 
     return Button

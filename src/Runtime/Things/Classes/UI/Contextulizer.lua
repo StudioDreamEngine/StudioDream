@@ -11,6 +11,7 @@ function Contextulizer:new()
     self.Debugger = true
     self.Hovering = false
     self.SinkHovering = true
+    self.OnContextCreate = Signal:New("CreateThing")
     self.Choices = {}
 end
 
@@ -20,8 +21,7 @@ function Contextulizer:DefineAPI()
     --self.Proxy.MakeCreatable()
     Runtime.InterfaceManager.OnRightClick:Connect(function()
         if not self.Hovering then return end
-        
-        print("GotClicked")
+        self.OnContextCreate.Invoke()
         Studio.Components.ContextMenu.new(true,self.Choices,self)
     end)
 end

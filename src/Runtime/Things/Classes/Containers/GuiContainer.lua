@@ -11,4 +11,11 @@ function GuiContainer:ProcessInvalidation(Origin)
     end
 end
 
+function GuiContainer:DefineAPI()
+    self.super.DefineAPI(self)
+
+    self.Proxy.Creatable = false
+    self.Proxy.MakeNonDuplicatable()
+end
+
 return GuiContainer

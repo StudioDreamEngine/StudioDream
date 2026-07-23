@@ -6,6 +6,7 @@ return { new = function()
     local ObjectProxy = {}
 
     ObjectProxy.Creatable = false
+    ObjectProxy.Duplicatable = true
     ObjectProxy.ExplorerIcon = "Square"
 
     ObjectProxy.Serializable = {}
@@ -75,6 +76,10 @@ return { new = function()
 
     function ObjectProxy.MakeCreatable()
         ObjectProxy.Creatable = true
+    end
+
+    function ObjectProxy.MakeNonDuplicatable()
+        ObjectProxy.Duplicatable = false
     end
 
     -- Add an accessible only property

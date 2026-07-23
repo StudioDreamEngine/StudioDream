@@ -42,7 +42,7 @@ function Environment:DefineAPI()
     
     self.Proxy.Group("Physics", "Gravity", "StepPhysics")
     self.Proxy.Group("Rendering", "Camera")
-
+    
     self.Proxy.MakeCreatable()
 end
 
