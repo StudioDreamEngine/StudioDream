@@ -10,6 +10,7 @@ function Contextulizer:new()
 
     self.Debugger = true
     self.Hovering = false
+    self.SinkHovering = true
     self.Choices = {}
 end
 
@@ -21,7 +22,7 @@ function Contextulizer:DefineAPI()
         if not self.Hovering then return end
         
         print("GotClicked")
-        Studio.Components.ContextMenu.new(self.Choices,self)
+        Studio.Components.ContextMenu.new(true,self.Choices,self)
     end)
 end
 

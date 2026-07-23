@@ -8,6 +8,7 @@ function Square:new()
     Square.super.new(self)
 
     self.Hovering = false
+    self.SinkHovering = true
 end
 
 function Square:OnInitalParent(NewParent)

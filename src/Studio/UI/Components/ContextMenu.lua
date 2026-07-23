@@ -80,19 +80,20 @@ function ContextMenu.CreateButton(Choice,MajorParent,DropdownObject)
         BackgroundTransparency = 1,
         Parent = MajorParent
     })
+    print(Choice)
     Button.Type = ChoiceTypes[Choice.Type](Choice,Button.Button,DropdownObject)
 
     return Button
 end
 
 function ContextMenu.Init()
-    --[[Runtime.InterfaceManager.OnClick:Connect(function()
+    Runtime.InterfaceManager.OnClick:Connect(function()
         if CurrentContextMenu and not CurrentContextMenu.MajorParent.Hovering then
             print("Context removed")
             CurrentContextMenu.Remove()
             CurrentContextMenu = nil
         end
-    end)]]
+    end)
 end
 
 function ContextMenu.HandleNotParentSize(MajorComponent,FakeParent)
@@ -111,7 +112,7 @@ function ContextMenu.HandleNotParentSize(MajorComponent,FakeParent)
     end)
 end
 
-function ContextMenu.new(Choices,ParentThingy)
+function ContextMenu.new(IsFirst,Choices,ParentThingy)
     if CurrentContextMenu and LastParent ~= ParentThingy then
         CurrentContextMenu.Remove()
     end
@@ -136,7 +137,9 @@ function ContextMenu.new(Choices,ParentThingy)
     
     DropdownObject.Choices = {}
 
-    DropdownObject.MajorParent:SetPosition(Studio.Layout.GetMouseContext(DropdownObject.MajorParent))
+    DropdownObject.Dropdowns = {
+        Dropdowns = {}
+    }
 
     Components.CreateStyle("ListLayout", {
         Parent = DropdownObject.MajorParent,
@@ -144,6 +147,11 @@ function ContextMenu.new(Choices,ParentThingy)
     })
 
     function DropdownObject.Remove()
+        for i,v in pairs(DropdownObject.Dropdowns) do
+            if v.Remove then
+                v.Remove()
+            end
+        end
         DropdownObject.MajorParent:Destroy()
         CurrentContextMenu = nil
         LastParent = nil
@@ -151,8 +159,14 @@ function ContextMenu.new(Choices,ParentThingy)
 
     DropdownObject.MajorParent:SetParent(Things.Root.RootViewport)
 
-    CurrentContextMenu = DropdownObject
-    LastParent = ParentThingy
+    if IsFirst then
+        DropdownObject.MajorParent:SetPosition(Studio.Layout.GetMouseContext(DropdownObject.MajorParent))
+        CurrentContextMenu = DropdownObject
+        LastParent = ParentThingy
+    else
+        DropdownObject.MajorParent:SetPosition(IsFirst.Position)
+        table.insert(IsFirst.DropdownObject.Dropdowns,DropdownObject)
+    end
 
     for i,Choice in pairs(Choices) do
         table.insert(DropdownObject.Choices,ContextMenu.CreateButton(Choice,DropdownObject.MajorParent,DropdownObject))

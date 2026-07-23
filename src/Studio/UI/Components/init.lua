@@ -64,6 +64,7 @@ function Components.CreateIconObject(Name, Icon)
         Text = "",
         Layer = 3,
         Name = Name,
+        SinkHovering = true,
         --[[OutlineSize = 0.5,
         OutlineColor = Studio.Theme.GetCurrentTheme().Outline,]]
         CornerRadius = 5,
