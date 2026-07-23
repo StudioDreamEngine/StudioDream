@@ -69,6 +69,13 @@ function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
 
 function Things.SetProperty(Object, Index, Value)
     local HasSetter = Object["Set"..Index]
+    --[[local CopiedValue
+
+    if type(Value) == "table" and Value.Copy then
+        CopiedValue = Value.Copy()
+    else
+        CopiedValue = Value
+    end]]
 
     if HasSetter then
         HasSetter(Object, Value)

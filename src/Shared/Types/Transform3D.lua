@@ -28,6 +28,10 @@ local function NewTransform(Matrix, Rotated)
         return Vector3.FromDream(Matrix:toEuler())
     end
 
+    function Object.Copy()
+        return Transform3D.FromMatrix(Object.GetMatrix())
+    end
+
     return setmetatable(Object, {
         __mul = function (t1, t2)
             if t1.Type == "Transform3D" and t2.Type == "Transform3D" then
