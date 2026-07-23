@@ -12,7 +12,7 @@ function ImageButton:new()
     }
 
     self.Hovering = false 
-    self.SinkInput = true
+    self.SinkHovering = true
 
     self.Clicked = Signal:New("ButtonClicked")
     self.RightClicked = Signal:New("ButtonRightClicked")
