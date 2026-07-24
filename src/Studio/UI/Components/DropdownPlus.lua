@@ -89,6 +89,10 @@ function DropdownPlus.new(Choices,FakeParent)
 
     DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent)
 
+    function DropdownObject.Toggle(Visible)
+        DropdownObject.MajorParent.Visible = Visible
+    end
+
     function DropdownObject.Remove()
         DropdownObject.MajorParent:Destroy()
     end

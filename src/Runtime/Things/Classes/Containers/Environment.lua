@@ -28,6 +28,8 @@ function Environment:new()
 
     self.Objects = {}
 
+    self.Lights = {}
+
     self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
     self.PhysicsWorld:setGravity(self.Gravity.ToBullet())
 
@@ -45,6 +47,10 @@ function Environment:DefineAPI()
     
     self.Proxy.MakeCreatable()
 end
+
+--[[function Environment:AddLight(Obj)
+    table.insert(self.Lights,Obj)
+end]]
 
 function Environment:SetGravity(NewGravity)
     self.Gravity = NewGravity
@@ -72,7 +78,7 @@ end
 function Environment:ManageWorldHierachy()
     self.DreamWorld.objects = {}
     self.Objects = {}
-
+    self.Lights = {}
     for _, Child in pairs(self:GetDescendants()) do
         if Child:IsA("Drawable3D") then
             self.DreamWorld.objects[Child.UUID] = Child.Drawable
@@ -82,6 +88,8 @@ function Environment:ManageWorldHierachy()
             end
 
             table.insert(self.Objects, Child)
+        elseif Child:IsA("Light") then
+            table.insert(self.Lights, Child.Drawable)
         end
     end
 

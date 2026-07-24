@@ -39,6 +39,10 @@ function TweenService.Create(Subject, Target, Style, Time)
         return Tween
     end
 
+    function Tween.LinkLocalTick(NewTick)
+        -- figure out something to keep updating the tick value!!!
+    end
+
     --[[
         GotoTarget: If we should go to the target values once this is called
     ]]

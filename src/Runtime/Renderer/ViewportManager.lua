@@ -67,7 +67,9 @@ function ViewportManager.RenderViewport3D(Viewport)
             Dream:draw(Runtime.Backend3D.Debug)
             Dream:addLight(light)
             Dream:draw(Viewport:GetWorld())
-
+            for i,v in pairs(Viewport.RenderContainer.Lights) do
+                Dream:addLight(v)
+            end
             local Camera = Viewport:GetCamera()
             Dream:present(Camera and Camera.Drawable)
         end)

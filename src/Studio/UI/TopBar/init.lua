@@ -4,12 +4,16 @@ local Things = Runtime.Things
 
 local TabsList = require("Studio.UI.TopBar.Tabs") -- God this indexing is killing me
 local Tabs = {}
+local Buttons = {}
 
 function TopBar.ChangeTab(TabName)
     for _, Tab in pairs(Tabs) do
         Tab:SetVisible(false)
     end
-
+    for _, Button in pairs(Buttons) do
+        Button.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
+    end
+    Buttons[TabName].BackgroundColor = Studio.Theme.CurrentTheme.Outline
     Tabs[TabName]:SetVisible(true)
 end
 
@@ -19,7 +23,7 @@ end
 
 function TopBar.CreateTab(TabName, Tab)
     -- Adds to tab list - This is sorta temporary unless we plan to not allow for customization (Still deciding on this, probably not 🔥)
-    Studio.Components.CreateButton(TabName, {
+    Buttons[TabName] = Studio.Components.CreateButton(TabName, {
         Parent = TopBar.TabsMenu,
         Size = Pivot2D.FromScale(0.1,0.8),
         Clicked = function()
@@ -88,6 +92,7 @@ function TopBar.Init()
     for i, Tab in pairs(Tabs) do
         if i ~= "General" then Tab:SetVisible(false) end
     end
+    Buttons.General.BackgroundColor = Studio.Theme.CurrentTheme.Outline
 end
 
 return TopBar
