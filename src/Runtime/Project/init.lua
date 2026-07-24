@@ -19,12 +19,23 @@ Project.LoadedProject = Signal:New("WhenAnActualProjectIsLoaded")
 function Project.ValidateAndMount(ProjectPath)
     assert(ProjectPath, "ProjectPath was blank!")
 
-    if (not NativeFS.getInfo(ProjectPath)) then
+    local Info = NativeFS.getInfo(ProjectPath)
+    ProjectPath = Platform.ParsePath(ProjectPath)
+
+    if (not ProjectPath) then
+        Project.History.Remove(ProjectPath)
+        return Shared.QueueAbort("Project doesnt seem to exist!")
+    end
+
+    if Info and Info.type == "directory" then
+        ProjectPath = ProjectPath.."Project.sdc"
+        Info = NativeFS.getInfo(ProjectPath)
+    end
+
+    if (not Info) then
         Project.History.Remove(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
-
-    ProjectPath = Platform.ParsePath(ProjectPath)
 
     print("ProjectPath:"..ProjectPath)
     local ProjectPath = Path.new(ProjectPath)
@@ -43,7 +54,7 @@ function Project.ValidateAndMount(ProjectPath)
     local CouldMount = ProjectFS.MountProject(RealPath)
 
     if not CouldMount then
-        return Shared.QueueAbort("Could not mount project, Are you sure it exists?")
+        error("Failed to mount (CRITICAL), Past checks should've caught this!")
     end
 end
 

@@ -1,6 +1,7 @@
 local Things = Runtime.Things
 local Backend3D = Runtime.Backend3D
 local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
+local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
 local collisionConfiguration = Bullet.btDefaultCollisionConfiguration()
 local dispatcher = Bullet.btCollisionDispatcher(collisionConfiguration)
@@ -30,6 +31,10 @@ function Environment:new()
 
     self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
     self.PhysicsWorld:setGravity(self.Gravity.ToBullet())
+
+    RuntimeService.OnRunning:ConnectOnce(function()
+        self.StepPhysics = true
+    end)
 
     self.PhysicsBodies = {}
 end
@@ -69,9 +74,10 @@ function Environment:HandlePhysicsHierachy(Child)
     end
 end
 
+-- Manages how the world is displayed to external packages such as 3DreamEngine and Bullet
 function Environment:ManageWorldHierachy()
     self.DreamWorld.objects = {}
-    self.Objects = {}
+    self.Objects = {} -- This table is an optimization, as we need to be able to accerss
 
     for _, Child in pairs(self:GetDescendants()) do
         if Child:IsA("Drawable3D") then

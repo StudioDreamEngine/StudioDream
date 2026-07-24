@@ -7,7 +7,7 @@ local HoldingCamera = false
 local CameraRotation = Vector2.zero
 
 local MouseService = service("MouseService") ---@class MouseService
-local RenderService = service("RenderService") ---@class RenderService
+local RuntimeService = service("RuntimeService") ---@class RuntimeService
 local InputService = service("InputService") ---@class InputService
 
 Environment:FindFirstChild("Audio"):Play()
@@ -35,6 +35,6 @@ InputService.MouseMoved:Connect(function(MouseObject)
     CameraRotation.Y = CameraRotation.Y - Delta.Y/300
 end)
 
-RenderService.OnStep:Connect(function()
+RuntimeService.OnStep:Connect(function()
     Camera:SetTransform(Character.Transform * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0) * Transform3D.FromPosition(0,0,5))
 end)

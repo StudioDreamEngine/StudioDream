@@ -72,7 +72,7 @@ end
 function Scheduler.CreateTask(Function)
     local Coroutine = coroutine.create(Function)
 
-    Origins[Coroutine] = debug.traceback("Task Origin Stack")
+    Origins[Coroutine] = debug.traceback("Task Origin Stack", 2)
     ActiveTasks[Coroutine] = true
 
     return Coroutine

@@ -1,4 +1,5 @@
 local Things = Runtime.Things
+local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 Client = {}
 
 --local StudioCamera
@@ -19,7 +20,7 @@ function Client.Init()
     }
 
     Things.Root.EnvironmentViewport = EnvironmentViewport
-    print("BBBBBBBBBBBBBBBBBBBBBBBB")
+
     if Runtime.Project.Config.Get("Icon") then
         local ResourceLoaded = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Project.Config.Get("Icon"))
         local ActuallyImageData = Utils.TextureToImageData(ResourceLoaded)
@@ -36,10 +37,7 @@ function Client.Init()
     --StudioCamera.Init()
 
     print(Things.GetRoot("Environment"):GetDescendants())
-    Runtime.ScriptUtil.StartScripts()
-
-    local Environment = Runtime.Things.Root:GetEnvironment()
-    Environment.StepPhysics = true
+    RuntimeService.Start()
 
     Runtime.Things.Create("TextButton") {
         Parent = Runtime.Things.GetRootViewport(),

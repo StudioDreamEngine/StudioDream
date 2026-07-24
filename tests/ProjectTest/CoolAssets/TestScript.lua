@@ -7,7 +7,7 @@ local HoldingCamera = false
 local CameraRotation = Vector2.zero
 
 local MouseService = service("MouseService") ---@class MouseService
-local RenderService = service("RenderService") ---@class RenderService
+local RuntimeService = service("RuntimeService") ---@class RuntimeService
 local InputService = service("InputService") ---@class InputService
 
 Environment:FindFirstChild("Audio"):Play()
@@ -35,7 +35,7 @@ InputService.MouseMoved:Connect(function(MouseObject)
     CameraRotation.Y = CameraRotation.Y - Delta.Y/300
 end)
 
-RenderService.OnStep:Connect(function(dt)
+RuntimeService.OnStep:Connect(function(dt)
     local w,a,s,d = InputService.KeyDown(Enum.InputCode.W), InputService.KeyDown(Enum.InputCode.A), InputService.KeyDown(Enum.InputCode.S) ,InputService.KeyDown(Enum.InputCode.D)
     w,a,s,d = w and 1 or 0, a and 1 or 0, s and 1 or 0, d and 1 or 0
 

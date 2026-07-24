@@ -54,7 +54,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
     }
 
     Base.Clicked:Connect(function()
-        Runtime.Project.Load(Path.."Project.sdc")
+        Runtime.Project.Load(Path)
         Start.Close()
         Studio.Layout.CallHandle("Explorer", "Redraw")
     end)
