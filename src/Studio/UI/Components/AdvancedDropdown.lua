@@ -85,7 +85,7 @@ return function(Choices)
     local Dropdown = {}
     local BindedEvents = {}
     local CurrentDropdown = Components.CreateStyle("Square", {
-        Name = "DropdownElement",
+        Name = "DropdownElementAdvanced",
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = Pivot2D.FromOffset(200,0),
         Layer = 100,

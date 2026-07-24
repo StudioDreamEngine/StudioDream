@@ -147,6 +147,7 @@ function Explorer.CreateNode(Object, Depth)
     NodeObj.NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeObj.NodeInner:SetParent(NodeObj.Node)
     NodeObj.NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Primary
+    
     NodeObj.CreateChildrenButton = function()
         NodeObj.AlreadyCreatedChilButton = true
         

@@ -29,7 +29,7 @@ function Components.Init()
 
     DropdownFrame = Components.CreateStyle("Square", {
         Parent = Things.Root.RootViewport,
-        Name = "DropdownElement",
+        Name = "DropdownElementSimple",
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = Pivot2D.FromOffset(200,0),
         Layer = 100

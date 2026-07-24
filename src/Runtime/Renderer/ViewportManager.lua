@@ -69,7 +69,6 @@ function ViewportManager.RenderViewport3D(Viewport)
             Dream:draw(Viewport:GetWorld())
 
             local Camera = Viewport:GetCamera()
-
             Dream:present(Camera and Camera.Drawable)
         end)
     end

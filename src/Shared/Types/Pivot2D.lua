@@ -16,6 +16,10 @@ function Pivot2D.new(OffsetX, ScaleX, OffsetY, ScaleY)
         return Pivot2D.new(Offset.X, Scale.X, Offset.Y, Scale.Y)
     end
 
+    function PivotObject.Is(OtherPivot)
+        return PivotObject.Scale:Is(OtherPivot.Scale) and PivotObject.Offset:Is(OtherPivot.Offset)
+    end
+
     return PivotObject
 end
 

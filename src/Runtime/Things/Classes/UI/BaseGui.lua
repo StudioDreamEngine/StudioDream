@@ -310,7 +310,8 @@ function BaseGui:ProcessInvalidation(Origin)
 end
 
 -- TODO: Also be able to store causes of invalidation within a frame
-function BaseGui:InvalidateRendering(...)
+function BaseGui:InvalidateRendering(WasSame)
+    if WasSame and self.EverInvalidated then return end
     self.WasInvalidated = true
 end
 
@@ -330,8 +331,10 @@ function BaseGui:SetVisible(NewVisiblity)
 end
 
 function BaseGui:SetPosition(New)
+    local Same = self.Position.Is(New)
+
     self.Position = New
-    self:InvalidateRendering()
+    self:InvalidateRendering(Same)
 end
 
 function BaseGui:SetPivot(New)
@@ -339,9 +342,12 @@ function BaseGui:SetPivot(New)
     self:InvalidateRendering()
 end
 
+---@param New Pivot2D
 function BaseGui:SetSize(New)
+    local Same = self.Size.Is(New)
+
     self.Size = New
-    self:InvalidateRendering()
+    self:InvalidateRendering(Same)
 end
 
 function BaseGui:SetAbsoluteSize(NewSize)
