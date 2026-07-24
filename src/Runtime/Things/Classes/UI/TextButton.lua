@@ -15,7 +15,7 @@ function TextButton:new()
     --self.LastHover = false
     
     -- not implemented yet
-    self.SinkHovering = false -- If true, blocks hovering from being true on objects lower than its layer
+    --self.SinkHovering = false -- If true, blocks hovering from being true on objects lower than its layer
 
     self.Clicked = Signal:New("ButtonClicked")
     self.ChangeCursorWhileHovering = true

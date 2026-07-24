@@ -40,7 +40,7 @@ function Template.Start(MainInfo)
 
         for i,Info in pairs(MainInfo.WillHandle) do
             if AllSame then
-                Button:SetText(Info.Thing[Info.Property] and Info.Thing[Info.Property].FileName or "No resource found.")
+                Button:SetText(Info.Thing[Info.Property] and Info.Thing[Info.Property].Data.FileName or "No resource found.")
             else
                 Button:SetText("~")
             end

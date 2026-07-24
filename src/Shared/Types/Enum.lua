@@ -17,6 +17,10 @@ local Enums = {
         Arrow = 'arrow',
         Brick = 'brick'
     },
+    LightType = {
+        Point = "point",
+        Spot = "sun"
+    },
     FilterType = {
         Linear = "linear",
         Pixelated = "nearest"

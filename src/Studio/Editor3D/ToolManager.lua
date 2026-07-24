@@ -56,7 +56,7 @@ function ToolManager.RegisterUndo()
     print("Register")
 
     for _, Select in pairs(Selecting) do
-        Studio.History.RegisterUndo(Select.Object, "Transform", Select.OriginalTransform)
+        Studio.History.RegisterUndo(function() Runtime.Things.SetProperty(Select.Object, "Transform", Select.OriginalTransform) end)
     end
 end
 

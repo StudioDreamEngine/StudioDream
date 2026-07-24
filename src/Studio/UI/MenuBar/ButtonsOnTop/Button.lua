@@ -22,15 +22,16 @@ return function(Args)
         ButtonContainer.Clicked:Connect(Args.Function)
     end
     if Args.Dropdown then
-        local Dropdown = Components.AdvancedDropdown(Args.Dropdown)
-
+        local Dropdown = Studio.Components.DropdownPlus.new(Args.Dropdown,ButtonContainer)
+        Dropdown.Toggle(false)
+        
         ButtonContainer.Clicked:Connect(function()
             if OpendDropdown and OpendDropdown ~= Dropdown then
                 OpendDropdown.Toggle(false)
             end
-            Dropdown.Setup(ButtonContainer, Vector2.new(0,0.5))
-            Dropdown.Toggle(not Dropdown.Visible)
-            if Dropdown.Visible then
+            --Dropdown.Setup(ButtonContainer, Vector2.new(0,0.5))
+            Dropdown.Toggle(not Dropdown.MajorParent.Visible)
+            if Dropdown.MajorParent.Visible then
                 OpendDropdown = Dropdown
                 CurrentButtonPressed = ButtonContainer
             end

@@ -8,7 +8,7 @@ local Contextulizer = Things.Extend("BaseGui")
 function Contextulizer:new()
     Contextulizer.super.new(self)
 
-    self.Debugger = true
+    self.Debugger = false
     self.Hovering = false
     self.SinkHovering = true
     self.OnContextCreate = Signal:New("CreateThing")
