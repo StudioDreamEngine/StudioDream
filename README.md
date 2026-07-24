@@ -1,8 +1,14 @@
 # <img src="src/Assets/Icons/Studio.png" alt="Studio logo" height="64px"> StudioDream
-![Discord](https://img.shields.io/badge/discord-server-blue?logo=discord&link=https://discord.gg/aaw7TesFxN)
-![Latest](https://img.shields.io/badge/release-latest-blue?logo=github&link=https://github.com/StudioDreamEngine/StudioDream/releases/latest)
+
+[![Discord][discord_img]][discord]
+[![Latest ][latest_img ]][latest ]
 
 StudioDream is an engine that is intended to take the accessibility of Roblox, along with the awesome features engines such as Godot provide (Like Resources), and package them together
+
+[discord]:     https://discord.gg/aaw7TesFxN
+[discord_img]: https://img.shields.io/badge/discord-server-blue?logo=discord
+[latest_img]:  https://img.shields.io/badge/release-latest-blue?logo=github
+[latest]:      https://github.com/StudioDreamEngine/StudioDream/releases/latest
 
 ![image](https://github.com/StudioDreamEngine/StudioDream/blob/main/src/Assets/Studio/Update_Thumbs/Early_Riser.png)
 
