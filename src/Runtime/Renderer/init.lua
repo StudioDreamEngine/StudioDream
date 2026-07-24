@@ -19,6 +19,7 @@ function Render.Init()
     Render.ViewportManager.Init()
     
     Render.ClassText = require("Runtime.Renderer.Class.Text")
+    Render.Image = require("Runtime.Renderer.Class.Image")
 end
 
 function Render.Render()

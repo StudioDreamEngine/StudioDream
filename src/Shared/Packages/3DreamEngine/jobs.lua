@@ -47,7 +47,7 @@ function lib:executeJobs()
 	
 	--execute continuous operations
 	for _, o in ipairs(operations) do
-		self.delton:start(o[1])
+		--self.delton:start(o[1])
 		
 		if type(o[1]) == "function" then
 			o[1](unpack(o, 2))
@@ -55,7 +55,7 @@ function lib:executeJobs()
 			self.jobs[o[1]]:execute(unpack(o, 2))
 		end
 		
-		self.delton:stop()
+		--self.delton:stop()
 	end
 	operations = { }
 end

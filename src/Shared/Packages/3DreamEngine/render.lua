@@ -17,7 +17,7 @@ lib.stats = {
 
 ---@private
 function lib:buildScene(shadowPass, dynamic, alpha, cam, blacklist, frustumCheck, canvases, light, isSun)
-	self.delton:start("scene")
+	--self.delton:start("scene")
 	
 	--use a scene here
 	local scene = self:newScene(shadowPass, dynamic, alpha, cam, blacklist, frustumCheck, canvases, light, isSun)
@@ -34,7 +34,7 @@ function lib:buildScene(shadowPass, dynamic, alpha, cam, blacklist, frustumCheck
 	
 	local tasks = scene:getIterator()
 	
-	self.delton:stop()
+	--self.delton:stop()
 	
 	return tasks
 end
@@ -91,7 +91,7 @@ end
 ---@param blacklist table<string, boolean>
 ---@private
 function lib:render(cam, canvases, dynamic, isShadow, blacklist)
-	self.delton:start("prepare")
+	--self.delton:start("prepare")
 	
 	--update required acceleration data
 	local frustumCheck = self.frustumCheck and not cam.noFrustumCheck
@@ -127,7 +127,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 		light = self:getLightOverview(cam)
 	end
 	
-	self.delton:stop()
+	--self.delton:stop()
 	
 	--start both passes
 	for pass = 1, canvases.alphaPass and 2 or 1 do
@@ -169,7 +169,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 		end
 		
 		--start rendering
-		self.delton:start("render ("..#self.renderTasks.." Task(s))")
+		--self.delton:start("render ("..#self.renderTasks.." Task(s))")
 		for t in scene do
 			---@type DreamTask
 			local task = t
@@ -318,7 +318,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 				self.stats.vertices = self.stats.vertices + mesh.meshVertexCount
 			end
 		end
-		self.delton:stop()
+		--self.delton:stop()
 	end
 	
 	--godrays
@@ -334,7 +334,7 @@ end
 ---Full render, including bloom, fxaa and exposure
 ---@private
 function lib:renderFull(cam, canvases, dynamic)
-	self.delton:start("renderFull")
+	--self.delton:start("renderFull")
 
 	love.graphics.push("all")
 	if canvases.mode ~= "direct" then
@@ -463,7 +463,7 @@ function lib:renderFull(cam, canvases, dynamic)
 		love.graphics.setShader()
 	end
 
-	self.delton:stop()
+	--self.delton:stop()
 end
 
 local function applyCamera(camera, canvases)
@@ -525,9 +525,9 @@ function lib:present(camera, canvases, lite)
 	
 	--process render jobs
 	if not lite then
-		self.delton:start("jobs")
+		--self.delton:start("jobs")
 		self:executeJobs()
-		self.delton:stop()
+		--self.delton:stop()
 	end
 	
 	--render

@@ -95,12 +95,6 @@ function Viewport2D:Update(dt)
     Profiler.Start("Viewport2D - Create Display List")
     self:CreateDisplayList()
     Profiler.End()
-
-    --[[local CurrentHovering, CurrentHoveringLayer = nil, 0
-
-    for _, Object in pairs(self.DisplayList) do
-    
-    end]]
 end
 
 return Viewport2D

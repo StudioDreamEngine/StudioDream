@@ -26,6 +26,8 @@ function Text:DefineAPI()
 end
 
 function Text:AttemptWrap(Size)
+    if (not self.TruelyVisible) then return end
+
     Profiler.Start("Text - Attempt Wrap")
     self.RenderClass.AttemptWrap(Size, self.TextScaled, self.TextSize)
     Profiler.End()

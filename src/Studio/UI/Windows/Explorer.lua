@@ -66,14 +66,15 @@ function Explorer.CreateNode(Object, Depth)
         Position = Pivot2D.FromScale(0.5,0.5),
         --BackgroundTransparency = 1,
         Layer = 999,
+        SinkHovering = false,
         Parent = NodeObj.Node,
         Serializable = false,
-        SinkHovering = true,
     }
 
     NodeObj.Context.OnContextCreate:Connect(function()
         print(Object.Proxy.Duplicatable)
     end)
+
     NodeObj.Context:SetChoices({
         {Type = "Separator"},
         {

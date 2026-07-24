@@ -154,6 +154,7 @@ function Properties.Init()
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
+        Name = "PropertyContainer",
         Parent =  Properties.Container,
     }
 

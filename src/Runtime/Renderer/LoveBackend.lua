@@ -40,7 +40,11 @@ function Backend.NewCanvas(Size)
 end
 
 function Backend.NewQuad(Rect, ImageSize)
-    return love.graphics.newQuad(Rect.Origin.X, Rect.Origin.Y, Rect.Size.X, Rect.Size.Y, ImageSize.X, ImageSize.Y)
+    if Rect.Type == "Vector2" then
+        return love.graphics.newQuad(0,0, Rect.X, Rect.Y, ImageSize.X, ImageSize.Y)
+    else
+        return love.graphics.newQuad(Rect.Origin.X, Rect.Origin.Y, Rect.Size.X, Rect.Size.Y, ImageSize.X, ImageSize.Y)
+    end
 end
 
 Backend.SetMouseVisible = love.mouse.setVisible

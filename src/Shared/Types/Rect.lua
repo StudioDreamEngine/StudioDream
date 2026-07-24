@@ -7,6 +7,10 @@ return { new = function(Position, Size)
 
     Rect.Origin = Position
     Rect.Size = Size
+
+    function Rect.Usable()
+        return Rect.Size.Axis() > 0
+    end
         
     Rect.Type = "Rect"
 

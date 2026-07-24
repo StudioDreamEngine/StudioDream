@@ -25,6 +25,7 @@ return function()
     -- Wrapping
     local function PerformWrap(CurrentSize, WrapLength)
         local Scale = 32 / CurrentSize
+
         local Width, Lines = Text.RenderFont:getWrap(Text.Text, WrapLength * Scale)
         local Height = Text.RenderFont:getHeight()/Scale
 
@@ -39,18 +40,41 @@ return function()
         }
     end
 
-    -- TODO: Perform a binary search from 1 to ContainerSize.Y, as opposed to a linear search 
     local function SearchScaled(ContainerSize)
-        local MaxSize, MinSize = ContainerSize.Y, 1
-        local CurrentSize = MaxSize
+        local CurrentSize = ContainerSize.Y+1
+        local Min, Max = 1, ContainerSize.Y
 
         local TextBounds, Lines
+    
+        Profiler.Start("Text - Perform Scaled Wrap")
+        if Text.Text == "" or ContainerSize.Y < 1 then 
+            Profiler.End()
+            return PerformWrap(1, ContainerSize.X)
+        end
 
-        repeat
+        local Loops = 0
+
+        while true do
+            CurrentSize = Min + (Max - Min)/2
             TextBounds, Lines = PerformWrap(CurrentSize, ContainerSize.X)
+            Loops = Loops + 1
 
-            CurrentSize = CurrentSize - 1
-        until ContainerSize.Y > TextBounds.Y or CurrentSize <= 1
+            if math.abs(ContainerSize.Y - TextBounds.Y) < ContainerSize.Y/4 then
+                break
+            end
+
+            if Loops > 10 then
+                printVerbose("Failed to fit text: \""..Text.Text.."\" after 5 fitting attempts")
+                break
+            end
+
+            if ContainerSize.Y < TextBounds.Y then -- Text is too big
+                Max = CurrentSize -- We now know this is our upper limit
+            elseif ContainerSize.Y > TextBounds.Y then -- Text is too small
+                Min = CurrentSize -- We now know this is our lower limit
+            end
+        end
+        Profiler.End()
 
         return TextBounds, Lines
     end

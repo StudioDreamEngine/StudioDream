@@ -22,6 +22,7 @@ function Output.Init()
     ScrollContainer = Runtime.Things.Create("ScrollContainer") {
         CanvasSize = Pivot2D.FromScale(1,4),
         Size = Pivot2D.FromScale(1,1),
+        Name = "OutputContainer",
         Parent = Output.Container
     }
 

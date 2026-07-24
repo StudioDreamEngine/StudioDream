@@ -132,6 +132,11 @@ function Vector2.new(x,y)
         return Vector2.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude())
     end
 
+    -- Return the sum of all axises, useful for getting the value of one axis if all other axises should be zero
+    function Object.Axis()
+        return (Object.X + Object.Y)
+    end
+
     function Object.Round()
         return Vector2.new(math.round(Object.X),math.round(Object.Y))
     end

@@ -45,7 +45,10 @@ function Resources.ReloadResources()
 	print("Done")
 end
 
--- Get a resource from an IdentifierID or Identifier
+--[[
+	Get or Load a resource from an IdentifierID or Identifier
+	Intended to be a way to simplify loading resources from Identifiers or IDs
+]]
 function Resources.LoadResourceFromIdentifier(Identifier, Object, Reload)
 	assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
 
