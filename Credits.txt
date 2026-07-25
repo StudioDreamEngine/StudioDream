@@ -12,6 +12,7 @@ Packages:
     EngineerSmith/nativefs (Github), Licensed under MIT
     SwadicalRag/bullet3-lua (Github), Licensed under Zlib
     kikito/tween.lua (Github), Code used (Tween functions) Licensed under MIT
+    pfirsich/lua-discordRPC (Github), Licensed under MIT
 
 Code Snippets:
     Luawiz for improved object (Thing) creation

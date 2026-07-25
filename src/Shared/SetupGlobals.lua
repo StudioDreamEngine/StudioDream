@@ -1,4 +1,4 @@
--- Seperate parts of the game like the runtime will also have their own globals
+-- Seperate parts of the game (AHEM. AHEM. engine. -sonickirb) like the runtime will also have their own globals
 -- in the future we could perhaps make an api for handling creation of globals, depends tho
 return function ()
     -- Polyfill and Dependencies
@@ -12,6 +12,7 @@ return function ()
     Binser = require("Shared.Packages.Binser")
     TweenFunctions = require("Shared.Packages.Tweener")
     require("Shared.Packages.lovezip")
+    DiscordRPC = require("Shared.Packages.discordRPC")
 
     printVerbose("Setting up C Packages")
     Platform = require("Shared.Packages.Platform")
