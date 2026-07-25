@@ -1,4 +1,5 @@
 local Things = Runtime.Things
+local Renderer = Runtime.Renderer
 
 ---@class SurfaceViewport: Viewport2D
 local SurfaceViewport = Things.Extend("Viewport2D")
@@ -6,14 +7,9 @@ local SurfaceViewport = Things.Extend("Viewport2D")
 function SurfaceViewport:new()
     SurfaceViewport.super.new(self)
 
-    self.Drawable = Dream:newObject()
-    self.Mesh = Dream:newSprite(self.ViewportCanvas)
-    self.Mesh.material.Alpha = true
-    self.Mesh.material.Simple = true
+    self.Mesh, self.Drawable = Renderer.Billboard.CreateBillboard(self.ViewportCanvas)
 
     self.DisplaySide = Enum.Side.Front
-
-    self.Drawable.meshes["Mesh"] = self.Mesh
 end
 
 function SurfaceViewport:SetParent(NewParent)

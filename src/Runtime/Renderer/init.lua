@@ -20,6 +20,7 @@ function Render.Init()
     
     Render.ClassText = require("Runtime.Renderer.Class.Text")
     Render.Image = require("Runtime.Renderer.Class.Image")
+    Render.Billboard = require("Runtime.Renderer.Class.Billboard")
 end
 
 function Render.Render()

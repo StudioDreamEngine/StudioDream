@@ -96,7 +96,7 @@ function Environment:ManageWorldHierachy()
 
             table.insert(self.Objects, Child)
         elseif Child:IsA("Light") then
-            table.insert(self.Lights, Child.Drawable)
+            table.insert(self.Lights, Child.Light)
         end
     end
 

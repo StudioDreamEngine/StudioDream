@@ -12,6 +12,13 @@ function Transformable3D:new()
     self.Scale = Vector3.one -- Not used by anything except Drawable3D, but needed in this class
 end
 
+---@return Environment
+function Transformable3D:GetWorld()
+    return self:GetParentCallback(function(ParentObject)
+        return ParentObject:IsA("Environment")
+    end)
+end
+
 function Transformable3D:SetTransform(NewTransform)
     assert(NewTransform, "Attempted to set transform to nil")
 
