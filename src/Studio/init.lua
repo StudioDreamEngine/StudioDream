@@ -29,6 +29,10 @@ function Studio.Update(dt)
     Studio.Editor3D.Update(dt)
     Studio.Layout.Update(dt)
     Studio.Components.Update(dt)
+
+    -- improve this some other time -sonickirb :3
+    Studio.PresenceService.State    = "Editing"
+    Studio.PresenceService.Details  = Runtime.Project.Config.Get("Name") or "fucked up :3"
 end
 
 return Studio

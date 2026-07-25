@@ -27,4 +27,8 @@ function Services.Update(dt)
     Services.CallAll("Update", dt)
 end
 
+function Services.OnQuit()
+    Services.CallAll("OnDestroy")
+end
+
 return Services

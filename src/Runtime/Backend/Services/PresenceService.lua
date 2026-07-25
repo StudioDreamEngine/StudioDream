@@ -16,7 +16,7 @@ function PresenceService.InitDiscord(applicationId)
     -- the application id is public information, so you dont need to keep it private unlike a Discord bot token
     -- by default we'll just use the StudioDream applicationId
     -- :3
-    DiscordRPC.initialize(applicationId or 1530703930772820160, true)
+    DiscordRPC.initialize(applicationId or "1530703930772820160", true)
     PresenceService._discordInitialized = true
 end
 

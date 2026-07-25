@@ -114,3 +114,6 @@ function love.update(dt)
     DeltaTime = dt
 end
 
+function love.quit()
+    Runtime.Services.OnQuit() -- this FUCKING sucks!!! :3
+end
