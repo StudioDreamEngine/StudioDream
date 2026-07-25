@@ -33,10 +33,9 @@ end
 
 function ProjectManager.NewProject(Name)
     local Directory = Platform.GetDocuments().."/"..Name
-    NativeFS.createDirectory(Directory)
-    Runtime.Project.SaveTo(Directory)
+    Runtime.Project.CreateProject(Directory)
     Runtime.Project.Config.Set("Name",Name)
-     Runtime.Project.Config.Set("WindowResize",true)
+    Runtime.Project.Config.Set("WindowResize",true)
     --Runtime.Project.Config.Set("Icon","Internal/Icons/Client.png")
 end
 

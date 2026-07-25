@@ -38,7 +38,7 @@ function Client.Init()
     --StudioCamera.Init()
 
     print(Things.GetRoot("Environment"):GetDescendants())
-    RuntimeService.Start()
+    RuntimeService.StartActivity()
 
     Runtime.Things.Create("TextButton") {
         Parent = Runtime.Things.GetRootViewport(),

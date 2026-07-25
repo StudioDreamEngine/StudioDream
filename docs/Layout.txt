@@ -1,0 +1,3 @@
+Shared: 
+    Handles stuff related to Globals used throughout the engine, alongside
+    package management, general maintenence, the splash screen and helper utilities

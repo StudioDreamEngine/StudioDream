@@ -139,10 +139,17 @@ end
 
 -- Remount to a new directory and save project
 function Project.SaveTo(ProjectPath)
-    ProjectFS.ToggleQueueWrites(true) -- We're saving to another directory, so record what's written from now on
-    Project.Save() -- Save normally
+    ProjectFS.ToggleQueueWrites(true) -- We dont need to do this, but Project.Save only saves resources if we're queuing writes and im too lazy
+    Project.Save()
     ProjectFS.ApplyWrites(ProjectPath)
     ProjectFS.Remount(ProjectPath)
+end
+
+-- Create a new project
+function Project.CreateProject(ProjectPath)
+    NativeFS.createDirectory(ProjectPath)
+    ProjectFS.Remount(ProjectPath)
+    Project.Save()
 end
 
 -- Take existing project and save to zip
@@ -179,6 +186,7 @@ function Project.Save()
 
         -- Only save resources if they're going somewhere else (we can check via queued writes)
         if ProjectFS.IsQueuingWrites() then
+            print("Save resources")
             Resources.Save()
         end
 

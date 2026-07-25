@@ -63,6 +63,8 @@ function BaseFS.Mount(PathString, MountName)
 
     -- Apply queued writes to new path
     function MountObject.ApplyWrites(NewPath)
+        NewPath = Platform.ParsePath(NewPath) or Path.FilePath
+
         for Path, Data in pairs(MountObject.Writes) do
             NativeFS.write(NewPath..Path, Data)
         end
