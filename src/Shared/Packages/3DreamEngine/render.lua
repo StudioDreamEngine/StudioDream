@@ -551,7 +551,7 @@ function lib:present(camera, canvases, lite)
 		local lightcanvas = 0
 
 		for _, light in pairs(lib.lighting) do
-			if light.shadow.canvases then
+			if light.shadow and light.shadow.canvases then
 				for _, canvas in pairs(light.shadow.canvases) do
 					lightcanvas = lightcanvas + 1
 					canvasesDebug["shadow"..lightcanvas] = canvas
