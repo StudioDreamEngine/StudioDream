@@ -1,5 +1,6 @@
 local Things = Runtime.Things
 local Renderer = Runtime.Renderer
+local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
 ---@class Light: Transformable3D
 local Light = Things.Extend("Transformable3D")
@@ -14,12 +15,19 @@ function Light:new()
     self.Range = 5
 
     local LightImage = Runtime.Resources.LoadResourceFromIdentifier("Internal/Light.png")
-
     self.Mesh, self.Drawable = Renderer.Billboard.CreateBillboard(LightImage)
+
+    RuntimeService.OnRunning:ConnectOnce(function() Runtime.Backend3D.UnregisterObject(self.UUID) end)
 end
 
 function Light:OnReady()
+    -- Register billboard as an adorn object for now, fucks w/ other viewports but yea
     Runtime.Backend3D.RegisterObject(self.Drawable, self.UUID)
+end
+
+function Light:OnRemove()
+    Light.super.OnRemove(self)
+    Runtime.Backend3D.UnregisterObject(self.UUID)
 end
 
 function Light:DefineAPI()

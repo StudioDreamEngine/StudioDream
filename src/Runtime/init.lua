@@ -32,7 +32,7 @@ function Runtime.RequestRestart(NextTarget)
         Benchmark.End()
         love.event.restart({
             NextTarget,
-            Runtime.ProjectFS
+            Runtime.ProjectFS.GetMount()
         })
     end)
 end

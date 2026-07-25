@@ -21,7 +21,8 @@ function Client.Init()
 
     Things.Root.EnvironmentViewport = EnvironmentViewport
 
-    if Runtime.Project.Config.Get("Icon") then
+    -- Commenting out for now, breaks if no icon is set or someth
+    --[[if Runtime.Project.Config.Get("Icon") then
         local ResourceLoaded = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Project.Config.Get("Icon"))
         local ActuallyImageData = Utils.TextureToImageData(ResourceLoaded)
         local Thing = ActuallyImageData
@@ -29,7 +30,7 @@ function Client.Init()
     else
         local Thing = love.image.newImageData("/Assets/Icons/Client.png")
         love.window.setIcon(Thing)
-    end
+    end]]
 
     Utils.SetMode(Runtime.Project.Config.Get("WindowSize") or Vector2.new(1570,800),{resizable = (Runtime.Project.Config.Get("WindowResize") or false)})
 
