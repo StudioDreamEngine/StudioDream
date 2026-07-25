@@ -32,11 +32,11 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
     selfed.BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,0.99,23,0),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
+        BackgroundColor = Studio.CurrentTheme.Secondary,
         Layer = 3,
         Parent = ParentWhat or Properties.ParentWith,
         CornerRadius = 6,
-        --OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        --OutlineColor = Studio.CurrentTheme.Outline,
         --OutlineSize = 1
     }
 
@@ -44,7 +44,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Size = Pivot2D.FromScale(0.49,.8),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
         Parent = selfed.BaseProperty,
         CornerRadius = 6,
@@ -57,7 +57,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Text = PropertyInfos.Name,
         Parent = selfed.BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text
+        ForegroundColor = Studio.CurrentTheme.Text
     }
 
     selfed.Connections = PropertyInfos.Connections
@@ -71,7 +71,7 @@ function Properties.CreateGroup(GroupName)
 
     Group.BaseGroup = Things.Create("Square") { 
         Size = Pivot2D.new(0,1,26,0),
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
         Parent = Properties.ParentWith,
         CornerRadius = 2,
@@ -84,8 +84,8 @@ function Properties.CreateGroup(GroupName)
         Text = GroupName,
         Parent = Group.BaseGroup,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
-        Font = Studio.Theme.CurrentTheme.FontBold,
+        ForegroundColor = Studio.CurrentTheme.Text,
+        Font = Studio.CurrentTheme.FontBold,
     }
 
     ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, Properties.ParentWith)

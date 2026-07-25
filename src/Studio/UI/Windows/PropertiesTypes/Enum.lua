@@ -55,13 +55,13 @@ function Template.Start(MainInfo)
     self.ChangedOption = Signal:New("BlehBlehhh")
 
     local Text = Runtime.Things.Create("TextButton") {
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
         Parent = MainInfo.Option,
         Alignment = Enum.Alignment.Center,
-        Font = Studio.Theme.CurrentTheme.FontBold,
-        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
+        Font = Studio.CurrentTheme.FontBold,
+        BackgroundColor = Studio.CurrentTheme.Primary,
         CornerRadius = 5,
     }
 

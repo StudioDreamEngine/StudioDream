@@ -10,23 +10,19 @@ local ChoiceTypes = {
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
             Parent = Parent,
-            BackgroundColor = Studio.Theme.CurrentTheme.Primary,
             Alignment = Vector2.new(0,0.5),
-            CornerRadius = 2,
         })
 
         return Button.Clicked
     end,
     ["Separator"] = function(Func,Parent,Text)
         Parent:SetSize(Pivot2D.new(0,1,1,0))
-        Things.Create("Square") {
+        Components.CreateWithStyle("Square", {
             Size = Pivot2D.FromScale(0.9,0.35),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
-            BackgroundColor = Studio.Theme.CurrentTheme.Outline,
             Parent = Parent,
-            CornerRadius = 2,
-        }
+        }, { Style = "Seperator" })
     end,
     ["Table"] = function(Func,Parent,Text,Info)
         local ToLoop = Info.Table
@@ -74,7 +70,7 @@ local function ToggleAnim(CurrentDropdown,Dropdown,IsTrue)
                 end
             end
         end
-      --  CurrentDropdown.Visible = IsTrue
+
     end
     Scheduler.Yield(.1)
     Dropdown.Visible = IsTrue
@@ -172,11 +168,7 @@ return function(Choices)
     Dropdown.Visible = false
 
     function Dropdown.Toggle(Visible)
-        --print("hi")
         ToggleAnim(CurrentDropdown,Dropdown,Visible)
-        --print("hi")
-        --Dropdown.Visible = Visible
-        --CurrentDropdown.Visible = Visible
     end
     
     function Dropdown.Remove()

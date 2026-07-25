@@ -2,7 +2,7 @@
 local Things = Runtime.Things
 local StudioLayout = {}
 
-local Theme = Studio.Theme.CurrentTheme
+local Theme = Studio.CurrentTheme
 
 StudioLayout.Handles = {}
 
@@ -44,10 +44,10 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Layer = Windows.Container.Layer+5,
         BackgroundTransparency = 1,
         Text = HaveName,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        ForegroundColor = Studio.CurrentTheme.Text,
         Name = "WindowText",
         Alignment = Vector2.new(0.5,0.5),
-        Font = Studio.Theme.CurrentTheme.FontNormal
+        Font = Studio.CurrentTheme.FontNormal
     }
 
     return Windows

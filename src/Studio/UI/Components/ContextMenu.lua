@@ -14,16 +14,7 @@ local ChoiceTypes = {
         local HasImage = Choice.Image
         local HasSecondText = Choice.SubText
 
-        local ColorText
-
-        local IsEvenApplicable = Choice.Applicable
-
-        if IsEvenApplicable ~= false then
-            --print("IS FUCKING TRUE BRO WHAT IS YOUR PROBLEM")
-            ColorText = Studio.Theme.CurrentTheme.Text
-        else
-            ColorText = Studio.Theme.CurrentTheme.TextNotAble
-        end
+        local IsNotApplicable = (Choice.Applicable ~= false)
 
         ButtonObject.Button = Components.CreateStyle("TextButton", {
             Text = "",
@@ -31,34 +22,37 @@ local ChoiceTypes = {
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
             Parent = Parent,
-            BackgroundColor = Studio.Theme.CurrentTheme.Primary,
+            BackgroundColor = Studio.CurrentTheme.Primary,
             Alignment = Vector2.new(0,0.5),
             CornerRadius = 2,
         })
 
-        ButtonObject.ActualText = Components.CreateStyle("Text",{
+        ButtonObject.ActualText = Things.Create("Text") {
             Text = Choice.Text,
             Parent = ButtonObject.Button,
             Position = HasImage and  Pivot2D.FromScale(0.1,0.5) or Pivot2D.FromScale(0,0.5),
             Pivot = Vector2.new(0,0.5),
-            ForegroundColor = ColorText,
+            ForegroundColor = Studio.CurrentTheme.Text,
+            ColorMultiplier = 0.5,
             Size = Pivot2D.FromScale(0.95,0.8),
             BackgroundTransparency = 1,
-        })
+        }
 
         if HasSecondText then
-            ButtonObject.SecondText = Components.CreateStyle("Text",{
+            ButtonObject.SecondText = Things.Create("Text") {
                 Text = HasSecondText,
                 Parent = ButtonObject.Button,
                 Position = Pivot2D.FromScale(1,0.5),
                 Pivot = Vector2.new(1,0.5),
                 Size = Pivot2D.FromScale(0.5,0.65),
                 BackgroundTransparency = 1,
-                ForegroundColor = ColorText,
+                ForegroundColor = Studio.CurrentTheme.Text,
+                ColorMultiplier = 0.5,
                 Alignment = Enum.Alignment.MiddleRight,
                 TextScaled = true,
-            })
+            }
         end
+
         if HasImage then
             ButtonObject.Image = Runtime.Things.Create("Image2D") {
                 Size = Pivot2D.FromScale(1,1),
@@ -69,18 +63,20 @@ local ChoiceTypes = {
                 Parent = ButtonObject.Button
             }
         end
-        if Choice.OnCreate and IsEvenApplicable ~= false then
+        
+        if Choice.OnCreate and IsNotApplicable then
             Choice.OnCreate(ButtonObject)
         end
-        if Choice.Function and IsEvenApplicable ~= false then
+        if Choice.Function and IsNotApplicable then
             ButtonObject.Button.Clicked:Connect(function() 
                 Choice.Function(ContextMenuObject)
             end)
         end
-        ButtonObject.ActualText.ForegroundColor = ColorText
+
+        --[[ButtonObject.ActualText.ForegroundColor = ColorText
         if ButtonObject.SecondText then
             ButtonObject.SecondText.ForegroundColor = ColorText
-        end
+        end]] --???
     end,
     ["Separator"] = function(Choice, Parent)
         Parent:SetSize(Pivot2D.new(0,1,3,0))
@@ -88,7 +84,7 @@ local ChoiceTypes = {
             Size = Pivot2D.FromScale(0.98,1),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
-            BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+            BackgroundColor = Studio.CurrentTheme.Outline,
             Parent = Parent,
             CornerRadius = 2,
         }
@@ -151,7 +147,7 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
         Size = Pivot2D.FromOffset(200,0),
         Layer = 999,
         BackgroundTransparency = 0,
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.CurrentTheme.Outline,
         CornerRadius = 5,
         Parent = Things.Root.RootViewport,
         HasDropShadow = true,

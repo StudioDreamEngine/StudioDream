@@ -12,7 +12,7 @@ function Text:new()
     self.Text = "Placeholder"
     
     self.Alignment = Vector2.zero
-    --self.DefaultFont = Studio.Theme.CurrentTheme.FontNormal
+    --self.DefaultFont = Studio.CurrentTheme.FontNormal
     self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
 end
 
@@ -37,7 +37,6 @@ function Text:SetTextScaled(TextScaled)
     self.TextScaled = TextScaled
 
     self:InvalidateRendering()
-    self:AttemptWrap(self.AbsoluteSize)
 end
 
 function Text:SetAlignment(Alignment)

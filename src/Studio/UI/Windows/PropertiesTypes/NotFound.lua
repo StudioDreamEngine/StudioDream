@@ -8,12 +8,12 @@ function Template.Start(MainInfo)
 
     local Text = Runtime.Things.Create("Text") {
         Text = "WIP!",
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,1),
         Parent = MainInfo.Option,
         Alignment = Enum.Alignment.Center,
-        Font = Studio.Theme.CurrentTheme.FontBold,
+        Font = Studio.CurrentTheme.FontBold,
     }
 
     for i,Info in pairs(MainInfo.WillHandle) do

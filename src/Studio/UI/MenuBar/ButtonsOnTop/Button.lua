@@ -12,8 +12,8 @@ return function(Args)
     local ButtonContainer = Things.Create("TextButton") {
         Size = Pivot2D.FromScale(0.05,0.9),
         Text = Args.Name,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
-        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
+        ForegroundColor = Studio.CurrentTheme.Text,
+        BackgroundColor = Studio.CurrentTheme.Primary,
         Alignment = Vector2.new(0.5,0.5),
         HoverColorMultiplier = 2,
         BackgroundTransparency = 0.7,
@@ -38,7 +38,7 @@ return function(Args)
         end)
     end
 
-    ButtonContainer:SetFont(Studio.Theme.CurrentTheme.FontBold)
+    ButtonContainer:SetFont(Studio.CurrentTheme.FontBold)
     
     return ButtonContainer
 end

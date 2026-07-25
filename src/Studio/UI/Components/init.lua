@@ -10,7 +10,7 @@ function Components.CreateButton(Name, Properties)
 
     ---@class TextButton
     local Button = Components.CreateStyle("TextButton", Properties)
-    Button:SetFont(Studio.Theme.CurrentTheme.FontBold)
+    Button:SetFont(Studio.CurrentTheme.FontBold)
     return Button
 end
 
@@ -59,7 +59,7 @@ function Components.CreateIconObject(Name, Icon)
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
         Size = Pivot2D.new(0,1,20,0),
-        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
+        BackgroundColor = Studio.CurrentTheme.Primary,
         --BackgroundTransparency = 0.5,
         Text = "",
         Layer = 3,
@@ -78,7 +78,7 @@ function Components.CreateIconObject(Name, Icon)
         Name = "NodeText",
         Parent = NodeInner,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text
+        ForegroundColor = Studio.CurrentTheme.Text
     }
 
     local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/File_Not_Found.png")
@@ -108,7 +108,7 @@ function Components.ExpandableDropdown(Header, List)
     ExpandableDropdown.Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Studio/OpenMenu.png",
         Size = Pivot2D.FromScale(0.8,0.8),
-        BackgroundColor = Studio.Theme.CurrentTheme.Text,
+        BackgroundColor = Studio.CurrentTheme.Text,
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
@@ -122,7 +122,7 @@ function Components.ExpandableDropdown(Header, List)
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0.5,1),
         BackgroundTransparency = 1,
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
         Order = Header.Order,
         Parent = List,
@@ -182,7 +182,7 @@ function Components.SimpleDropdown(Position, Choices, Size)
             BackgroundTransparency = 1
         })
 
-        Button.OutlineColor = Studio.Theme.CurrentTheme.SecondaryOutline
+        Button.OutlineColor = Studio.CurrentTheme.SecondaryOutline
         table.insert(ButtonsActions,Button.Clicked)
     end
 
@@ -200,11 +200,41 @@ function Components.SimpleDropdown(Position, Choices, Size)
 end
 
 function Components.CreateStyle(Type, Properties)
-    Properties.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
-    Properties.ForegroundColor = Studio.Theme.CurrentTheme.Text
-    --[[Properties.OutlineSize = 1.5
-    Properties.OutlineColor = Studio.Theme.GetCurrentTheme().Outline]]
+    Properties.BackgroundColor = Studio.CurrentTheme.Secondary
+    Properties.ForegroundColor = Studio.CurrentTheme.Text
    
+    return Things.Create(Type) (Properties)
+end
+
+local Styles = {
+    Container = {
+        BackgroundColor = "Secondary",
+        ForegroundColor = "Text"
+    },
+    Seperator = {
+        BackgroundColor = "Outline",
+        CornerRadius = 2
+    },
+    RoundedContainer = {
+        BackgroundColor = "Secondary",
+        ForegroundColor = "Text",
+        CornerRadius = 2
+    },
+    Text = {
+        BackgroundTransparency = 1,
+        BackgroundColor = "Text"
+    },
+}
+
+function Components.CreateWithStyle(Type, Properties, StyleProps)
+    if StyleProps then
+        for Name, Value in pairs(Styles[StyleProps.Style]) do
+            if (not Properties[Name]) then
+                Properties[Name] = Value
+            end
+        end
+    end
+
     return Things.Create(Type) (Properties)
 end
 

@@ -14,7 +14,7 @@ function PConfig.CreateMainSquares()
         CornerRadius = 5,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(.02,0.02),
-        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
+        BackgroundColor = Studio.CurrentTheme.Primary,
     }
 
     SquareObjects.Close = Runtime.Things.Create("ImageButton") {
@@ -48,7 +48,7 @@ function PConfig.CreateMainSquares()
         CornerRadius = 5,
         Pivot = Vector2.new(1,0),
         Position = Pivot2D.FromScale(.98,0.02),
-        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
+        BackgroundColor = Studio.CurrentTheme.Primary,
     }
 
     SquareObjects.Close.Clicked:Connect(function()
@@ -72,8 +72,8 @@ function PConfig.CreateOption(Module,Parent,Name)
         Size = Pivot2D.FromScale(0.95,0.05),
         Parent = Parent,
         CornerRadius = 5,
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
+        BackgroundColor = Studio.CurrentTheme.Outline,
+        ForegroundColor = Studio.CurrentTheme.Text,
         Text = Module.DisplayName
     }
 
@@ -85,7 +85,7 @@ function PConfig.CreateOption(Module,Parent,Name)
 end
 
 function PConfig.Init()
-    PConfig.Container.BackgroundColor = Studio.Theme.CurrentTheme.Outline
+    PConfig.Container.BackgroundColor = Studio.CurrentTheme.Outline
     local Created = PConfig.CreateMainSquares()
     printVerbose(PConfig.AllOptions)
     for Name,Module in pairs(PConfig.AllOptions) do

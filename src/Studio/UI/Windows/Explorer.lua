@@ -146,7 +146,7 @@ function Explorer.CreateNode(Object, Depth)
     NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
     NodeObj.NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeObj.NodeInner:SetParent(NodeObj.Node)
-    NodeObj.NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Primary
+    NodeObj.NodeInner.BackgroundColor = Studio.CurrentTheme.Primary
     
     NodeObj.CreateChildrenButton = function()
         NodeObj.AlreadyCreatedChilButton = true
@@ -154,7 +154,7 @@ function Explorer.CreateNode(Object, Depth)
         NodeObj.Button = Runtime.Things.Create("ImageButton") {
             Resource = "Internal/Studio/OpenMenu.png",
             Size = Pivot2D.FromScale(0.8,0.8),
-            BackgroundColor = Studio.Theme.CurrentTheme.Text,
+            BackgroundColor = Studio.CurrentTheme.Text,
             SquareAxis = Enum.SquareAxis.Y, 
             Position = Pivot2D.FromScale(0,0.5),
             Pivot = Vector2.new(1,0.5),
@@ -313,10 +313,10 @@ function Explorer.Update(dt)
         end
 
         if table.find(Studio.Editor3D.Selecting, Thing) then
-            NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Selecting
+            NodeInner.BackgroundColor = Studio.CurrentTheme.Selecting
             ParentInserter(NodeInner)
         else
-            NodeInner.BackgroundColor = Studio.Theme.CurrentTheme.Primary -- CHANGE IT HERE!
+            NodeInner.BackgroundColor = Studio.CurrentTheme.Primary -- CHANGE IT HERE!
         end
     end
 end

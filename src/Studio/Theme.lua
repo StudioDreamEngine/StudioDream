@@ -10,10 +10,7 @@ local ThemesIn = {
         Primary = Color.FromHex("#000000"), -- This color is for the main parts, containers and such
     
         Selecting = Color.FromHex("#FFFFFF"),
-
         Text = Color.FromHex("#ffffff"),
-        Text2 = Color.FromHex("#ffffff"),
-        TextInverse = Color.FromHex("#000000"),
         Error =  Color.FromHex("#ff3333"),
 
         FontNormal = "Roboto-Medium",
@@ -29,12 +26,9 @@ local ThemesIn = {
         Primary = Color.FromHex("#2c2a77"), -- This color is for the main parts, containers and such
     
         Selecting = Color.FromHex("#2821ff"),
-
         Text = Color.FromHex("#ffffff"),
-        Text2 = Color.FromHex("#ffffff"),
-        TextInverse = Color.FromHex("#000000"),
+
         Error =  Color.FromHex("#ff3333"),
-        TextNotAble = Color.FromHex("#504f4f"),
         FontNormal = "Roboto-Medium",
         FontBold = "Roboto-Bold"
     },
@@ -50,7 +44,6 @@ local ThemesIn = {
         Selecting = Color.FromHex("#21c0ff"),
 
         Text = Color.FromHex("#ffffff"),
-        Text2 = Color.FromHex("#ffffff"),
 
         FontNormal = "Roboto-Medium",
         FontBold = "Roboto-Bold"
@@ -67,7 +60,6 @@ local ThemesIn = {
         Selecting = Color.FromHex("#6998ff"),
 
         Text = Color.FromHex("#1a1a1a"),
-        Text2 = Color.FromHex("#ffffff"),
 
         FontNormal = "Roboto-Medium",
         FontBold = "Roboto-Bold"
@@ -84,7 +76,6 @@ local ThemesIn = {
         Selecting = Color.FromHex("#4a2bff"),
 
         Text = Color.FromHex("#3eff24"),
-        Text2 = Color.FromHex("#3eff24"),
 
         FontNormal = "Assets/Fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf",
         FontBold = "Assets/Fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf"
@@ -97,6 +88,6 @@ local ThemesIn = {
     }]]
 }
 
-Themes.CurrentTheme = ThemesIn.BlueNight
+Studio.CurrentTheme = ThemesIn.BlueNight
 
 return Themes

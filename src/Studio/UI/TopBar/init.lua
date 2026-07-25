@@ -11,9 +11,9 @@ function TopBar.ChangeTab(TabName)
         Tab:SetVisible(false)
     end
     for _, Button in pairs(Buttons) do
-        Button.BackgroundColor = Studio.Theme.CurrentTheme.Secondary
+        Button.BackgroundColor = Studio.CurrentTheme.Secondary
     end
-    Buttons[TabName].BackgroundColor = Studio.Theme.CurrentTheme.Outline
+    Buttons[TabName].BackgroundColor = Studio.CurrentTheme.Outline
     Tabs[TabName]:SetVisible(true)
 end
 
@@ -65,7 +65,7 @@ function TopBar.Init()
         Size = Pivot2D.FromScale(1,0.3),
         Parent = TopBar.Container,
         OutlineSize = 3,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline
+        OutlineColor = Studio.CurrentTheme.Outline
     })
 
     Things.Create("ListLayout") {
@@ -92,7 +92,7 @@ function TopBar.Init()
     for i, Tab in pairs(Tabs) do
         if i ~= "General" then Tab:SetVisible(false) end
     end
-    Buttons.General.BackgroundColor = Studio.Theme.CurrentTheme.Outline
+    Buttons.General.BackgroundColor = Studio.CurrentTheme.Outline
 end
 
 return TopBar

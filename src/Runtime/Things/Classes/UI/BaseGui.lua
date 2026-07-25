@@ -312,6 +312,7 @@ end
 -- TODO: Also be able to store causes of invalidation within a frame
 function BaseGui:InvalidateRendering(WasSame)
     if WasSame and self.EverInvalidated then return end
+
     self.WasInvalidated = true
 end
 

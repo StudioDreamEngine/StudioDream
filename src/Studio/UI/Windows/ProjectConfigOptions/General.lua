@@ -97,7 +97,7 @@ function Template.Create(Parent)
             Size = Pivot2D.FromScale(1,0.1),
             Parent =  CreateObject.Scroll,
             BackgroundTransparency = 1,
-            --BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+            --BackgroundColor = Studio.CurrentTheme.Outline,
             CornerRadius = 2,
         }
 
@@ -107,7 +107,7 @@ function Template.Create(Parent)
             Pivot = Vector2.new(1,.5),
             Parent = PartObj.Base,
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.Theme.CurrentTheme.Text2,
+            ForegroundColor = Studio.CurrentTheme.Text,
             Text = Name
         }
 
@@ -115,8 +115,8 @@ function Template.Create(Parent)
             Size = Pivot2D.FromScale(0.49,.8),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0,0.5),
-            BackgroundColor = Studio.Theme.CurrentTheme.Outline,
-            ForegroundColor = Studio.Theme.CurrentTheme.Text2,
+            BackgroundColor = Studio.CurrentTheme.Outline,
+            ForegroundColor = Studio.CurrentTheme.Text,
             Layer = 3,
             CornerRadius = 6,
             Parent = PartObj.Base,

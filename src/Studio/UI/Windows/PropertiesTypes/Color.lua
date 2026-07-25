@@ -15,13 +15,13 @@ function Template.Start(MainInfo)
     --MainInfo.Connections
 
     local Text = Runtime.Things.Create("TextInput") {
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
+        ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
         Parent = MainInfo.Option,
         Alignment = Enum.Alignment.Center,
-        Font = Studio.Theme.CurrentTheme.FontBold,
-        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
+        Font = Studio.CurrentTheme.FontBold,
+        BackgroundColor = Studio.CurrentTheme.Primary,
         CornerRadius = 5,
     }
 
@@ -34,7 +34,7 @@ function Template.Start(MainInfo)
         Parent = Text,
         ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
         OutlineSize = 1,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline
+        OutlineColor = Studio.CurrentTheme.Outline
     }
 
     function self.Update()

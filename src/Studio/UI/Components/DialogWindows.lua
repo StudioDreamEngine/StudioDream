@@ -30,7 +30,6 @@ local function ToggleAnim()
         if v.ClassName ~= "ListLayout" then 
             
         end
-      --  CurrentDropdown.Visible = IsTrue
     end
     Scheduler.Yield(.1)
     CurrentDropdown:SetVisible(IsTrue)    
@@ -72,20 +71,20 @@ function DialogWindows.CreateDialogWindow(Type, Options)
         Size = Pivot2D.FromScale(0.4,0.3),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
-        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
+        BackgroundColor = Studio.CurrentTheme.Secondary,
         Name = "WindowContainer",
         Layer = 999,
         Parent = Runtime.Things.GetRootViewport(),
         CornerRadius = 5,
         OutlineSize = 5,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline
+        OutlineColor = Studio.CurrentTheme.Outline
     }
     
     DialogObject.Container = Runtime.Things.Create("Square") {
         Size = Pivot2D.FromScale(0.99,0.99) ,
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
-        BackgroundColor = Studio.Theme.CurrentTheme.Primary,
+        BackgroundColor = Studio.CurrentTheme.Primary,
         Name = "BackWindow",
         Layer = 2,
         Parent = DialogObject.Window,

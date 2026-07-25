@@ -14,9 +14,9 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         ListOrder = -Info.Time, -- dumb way to sort
         Layer = 2,
         CornerRadius = 5,
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.CurrentTheme.Outline,
         --OutlineSize = 2,
-        --OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        --OutlineColor = Studio.CurrentTheme.Outline,
     }
 
     local Image = Runtime.Things.Create("Image2D") {
@@ -32,19 +32,19 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     local ProjectName = Runtime.Things.Create("Text") {
         Text = Info.Name,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
+        ForegroundColor = Studio.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0,0),
         Parent = Base,
         Layer = 2,
         BackgroundTransparency = 1,
         Alignment = Vector2.new(0.5,0.5),
         Size = Pivot2D.FromScale(1,0.5),
-        Font = Studio.Theme.CurrentTheme.FontBold,
+        Font = Studio.CurrentTheme.FontBold,
     }
 
     local Date = Runtime.Things.Create("Text") {
         Text = "Last Mod: "..Utils.TimeAgo(Info.Time),
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
+        ForegroundColor = Studio.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0,0.5),
         Parent = Base,
         Layer = 2,
@@ -69,12 +69,12 @@ function Start.CreateButton(Options,Text,Image)
         Parent = Options,
         Layer = 2,
         CornerRadius = 5,
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.CurrentTheme.Outline,
         --OutlineSize = 2,
         Alignment = Vector2.new(1,0.5),
         TextSize = 5,
-        --OutlineColor = Studio.Theme.CurrentTheme.Outline,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
+        --OutlineColor = Studio.CurrentTheme.Outline,
+        ForegroundColor = Studio.CurrentTheme.Text,
     }
 
     selfed.Image = Runtime.Things.Create("Image2D") {
@@ -112,7 +112,7 @@ function Start.Init()
 
     local Version = Runtime.Things.Create("Text") {
         Text = "Welcome to Early Riser! ("..VERSION..")",
-        ForegroundColor = Studio.Theme.CurrentTheme.TextInverse,
+        ForegroundColor = Studio.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0.05,0),
         Size = Pivot2D.FromScale(1,0.1),
         Parent = Start.Container,
@@ -128,9 +128,9 @@ function Start.Init()
         CornerRadius = 5,
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.25,.75),
-        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
+        BackgroundColor = Studio.CurrentTheme.Secondary,
        -- OutlineSize = 2,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        OutlineColor = Studio.CurrentTheme.Outline,
     }
 
     local RecentProjects = Runtime.Things.Create("Square") {
@@ -140,15 +140,15 @@ function Start.Init()
         CornerRadius = 5,
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.75,.75),
-        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
+        BackgroundColor = Studio.CurrentTheme.Secondary,
        -- OutlineSize = 2,
-        OutlineColor = Studio.Theme.CurrentTheme.Outline,
+        OutlineColor = Studio.CurrentTheme.Outline,
     }
 
     local Scroll = Runtime.Things.Create("ScrollContainer") {
         Size = Pivot2D.FromScale(1,1),
         Parent = RecentProjects,
-        BackgroundColor = Studio.Theme.CurrentTheme.Outline,
+        BackgroundColor = Studio.CurrentTheme.Outline,
     }
 
     Things.Create("ListLayout") {
@@ -165,7 +165,7 @@ function Start.Init()
 
     --[[local Warning = Runtime.Things.Create("Text") {
         Text = "Do not SHARE or LEAK stuff from here, you are a tester!!!",
-        --ForegroundColor = Studio.Theme.CurrentTheme
+        --ForegroundColor = Studio.CurrentTheme
         Parent = Start.Container,
         Layer = 2,
         BackgroundTransparency = 1

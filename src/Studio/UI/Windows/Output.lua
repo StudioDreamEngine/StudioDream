@@ -3,10 +3,10 @@ local Output = {}
 local ScrollContainer
 
 function Output.CreateOutput(Text,Type)
-    local ColorToText = Studio.Theme.CurrentTheme.Text2
+    local ColorToText = Studio.CurrentTheme.Text
     
     if Type and Type == "Error" then
-        ColorToText = Studio.Theme.CurrentTheme.Error
+        ColorToText = Studio.CurrentTheme.Error
     end
 
     Runtime.Things.Create("Text") {
@@ -50,7 +50,7 @@ function Output.Init()
         {Type = "Separator"},
     })
 
-    Output.Container.BackgroundColor = Studio.Theme.CurrentTheme.Outline
+    Output.Container.BackgroundColor = Studio.CurrentTheme.Outline
     Runtime.Things.Create("ListLayout") {
         Parent = ScrollContainer,
         Reverse = true
