@@ -17,7 +17,7 @@ function love.conf(t)
     t.console = true
 
     t.version = "12.0"
-    t.window.title = "StudioDream "..VERSION_FULL.." - Untitled Project"
+    t.window.title = "StudioDream "..VERSION_FULL.." - No Project"
     t.window.icon = "/Assets/Icons/"..FLAGS.ModeTarget..".png"
     t.window.resizable = true
 end
