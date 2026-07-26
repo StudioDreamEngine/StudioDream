@@ -4,6 +4,7 @@ local Renderer = Runtime.Renderer
 -- using @module here gives the lua language server a base type to use!
 ---@class Image2D: BaseGui
 local Image2D = Things.Extend("BaseGui")
+local DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Icons/Studio.png")
 
 local ImageScale = {
     [Enum.ScaleType.Stretch] = function(Scale) 
@@ -83,13 +84,13 @@ function Image2D:CreateSlices(ImageSize)
     local SliceData = Renderer.Image.GetSlices(NineSlice, ImageSize)
     self.Slices = {}
 
+    -- top 5 most ass code ever - bloctans
     for _, Slice in pairs(SliceData) do
         table.insert(self.Slices, {
             Size = Slice.Size,
             Offset = (Slice.Size * Slice.Pivot),
             Pivot = Slice.Pivot,
             Origin = Slice.Origin or Slice.Pos,
-            Corner = Slice.Corner,
             Main = Slice.Main,
             StretchTo = Slice.StretchTo,
             Quad = Runtime.Backend2D.NewQuad(Rect.new(Slice.Pos, Slice.Size), ImageSize)
@@ -129,12 +130,17 @@ function Image2D:HandleDrawImage(Scale)
 
         if Slice.Main then
             Pos = Pos + Slice.Origin
-            QScale = (self.AbsoluteSize-BottomRight) / Slice.Size
+            QScale = (self.AbsoluteSize-BottomRight)
         elseif Slice.StretchTo then
-            local Normal = Slice.StretchTo.Unit()
+            local Normal = Slice.StretchTo
 
-            --QScale = 
+            QScale = (self.AbsoluteSize-BottomRight) * Normal + ((Vector2.one - Normal) * Slice.Size)
+
             Pos = Pos + Slice.Origin
+        end
+
+        if Slice.Main or Slice.StretchTo then
+            QScale = QScale / Slice.Size
         end
 
         love.graphics.draw(self.ImageFile, Slice.Quad, Pos.X, Pos.Y, 0, QScale.X, QScale.Y,Slice.Offset.X,Slice.Offset.Y)
