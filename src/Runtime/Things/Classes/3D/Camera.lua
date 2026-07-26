@@ -47,7 +47,7 @@ function Camera:GetFocalLength()
     return math.tan(CamFov / 2)
 end
 
-function Camera:VectorToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want any more math
+function Camera:ScreenToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want any more math
     local ViewWidth = self.Viewport.AbsoluteSize.X
     local ViewHeight = self.Viewport.AbsoluteSize.Y
 
@@ -76,7 +76,7 @@ end
 -- TODO: We might be calling this more than once per frame, should we just grab from a variable updated each frame instead?
 function Camera:GetMouseRay()
     if self.Viewport then
-        return self:VectorToWorldSpace(self.Viewport.MousePosition)
+        return self:ScreenToWorldSpace(self.Viewport.MousePosition)
     else
         printVerbose("Triggered mouse ray hack")
         return Vector3.zAxis
