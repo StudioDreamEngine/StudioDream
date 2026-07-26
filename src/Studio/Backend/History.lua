@@ -39,21 +39,41 @@ function UndoService.Init()
 end
 
 function UndoService.RegisterUndo(Type,Info)
+    local RegisterObject = {}
+
     for i,v in pairs(SavedUndoActions) do
         if i > CurrentUndo then
             SavedUndoActions[i] = nil
         end
     end
 
+    local SavedUpFunction
+
     if Type == "Property" then
-        table.insert(SavedUndoActions, function()
+        SavedUpFunction = function()
             Runtime.Things.SetProperty(Info.Obj, Info.Property, Info.Val)
-        end)
+        end
+    elseif Type == "LotsOfObjects" then
+        SavedUpFunction = function()
+            for i,v in pairs(Info.ObjectsToChange) do
+                Runtime.Things.SetProperty(v.Obj, v.Property, v.Val)
+            end
+            if Info.SpecialFunction then Info.SpecialFunction() end
+        end
     end
     
     CurrentUndo = CurrentUndo+1
    
+    table.insert(SavedUndoActions,SavedUpFunction)
+
     print(CurrentUndo,SavedUndoActions)
+
+    function RegisterObject:Cancel()
+        table.remove(SavedUndoActions,table.find(SavedUndoActions,SavedUpFunction))
+        CurrentUndo = CurrentUndo-1
+    end
+
+    return RegisterObject
 end
 
 function UndoService.Clear()

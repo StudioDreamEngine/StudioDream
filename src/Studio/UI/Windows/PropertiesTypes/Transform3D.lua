@@ -13,8 +13,21 @@ local function CheckAllTheSame(table)
     return true
 end
 
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
 function CreateTransformNode(MainInfo,WhatThing)
     local selfed = {}
+
+    selfed.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+
     selfed.BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,0.95,23,0),
         Pivot = Vector2.new(0,0),
@@ -44,7 +57,7 @@ function CreateTransformNode(MainInfo,WhatThing)
         BackgroundTransparency = 1,
         ForegroundColor = Studio.CurrentTheme.Text
     }
-    
+
     local function Update()
         for i,Info in pairs(MainInfo.WillHandle) do
         if CheckAllTheSame(MainInfo.WillHandle) then
@@ -60,6 +73,11 @@ function CreateTransformNode(MainInfo,WhatThing)
 
     Update()
 
+    table.insert(MainInfo.Connections,selfed.Option.FocusStart:Connect(function()
+        Studio.History.RegisterUndo("LotsOfObjects",selfed.SavedFrozen)
+    end))
+    
+
     table.insert(MainInfo.Connections,UpdateSignal:Connect(function()
         Update()
     end))
@@ -73,6 +91,9 @@ function CreateTransformNode(MainInfo,WhatThing)
             print(FromString)
 
             local Transform = Transform3D["From"..(IsRotate and "Angle" or "Position")](FromString)
+
+            selfed.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+            Studio.History.RegisterUndo("LotsOfObjects",selfed.SavedFrozen)
 
             Things.SetProperty(Info.Thing, Info.Property, Transform)
         end

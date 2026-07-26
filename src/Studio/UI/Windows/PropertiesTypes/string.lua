@@ -10,8 +10,20 @@ local function CheckAllTheSame(table)
     return true
 end
 
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
 function Template.Start(MainInfo)
     local self = {}
+
+    self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
     local Text = Runtime.Things.Create("TextInput") {
         ForegroundColor = Studio.CurrentTheme.Text,
@@ -21,10 +33,10 @@ function Template.Start(MainInfo)
         Position = Pivot2D.FromScale(0.5,0.5),
         Parent = MainInfo.Option,
     }
-
+    
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
-
+        
         for i,Info in pairs(MainInfo.WillHandle) do
             if AllSame then
                 Text:SetText(Info.Thing[Info.Property])
@@ -34,13 +46,19 @@ function Template.Start(MainInfo)
         end
     end
 
+    table.insert(MainInfo.Connections, Text.FocusEnd:Connect(function() 
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
+
     table.insert(MainInfo.Connections, Text.FocusEnd:Connect(function()
         for i,Info in pairs(MainInfo.WillHandle) do
             print(Info)
             Runtime.Things.SetProperty(Info.Thing, Info.Property, Text.Text)
         end
-        self.Update()
         Studio.Layout.CallHandle("Explorer", "Redraw") -- Make this as a attribute thing!!@! 
+        
+        self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
     end))
 
     self.Update()

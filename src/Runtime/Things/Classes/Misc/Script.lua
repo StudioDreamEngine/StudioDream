@@ -8,7 +8,7 @@ local Script = Things.Extend("BaseScript")
 function Script:new()
     Script.super.new(self) 
 
-    self.Enabled = false
+    self.Enabled = true
     self.RestartOnEnable = true -- TODO: Add support
 end
 
