@@ -25,7 +25,7 @@ function ToolManager.SetupSelection()
     Selecting = {}
 
     for _, Select in pairs(Studio.Editor3D.Selecting) do
-        if Select:IsA("Transformable3D") then
+        if Select:IsA("Drawable3D") then
             table.insert(Selecting, { Object = Select, Difference = nil })
         end
     end
@@ -56,7 +56,7 @@ function ToolManager.RegisterUndo()
     print("Register")
 
     for _, Select in pairs(Selecting) do
-        Studio.History.RegisterUndo(function() Runtime.Things.SetProperty(Select.Object, "Transform", Select.OriginalTransform) end)
+        Studio.History.RegisterUndo("Property",{Obj = Select.Object, Property = "Transform", Val = Select.OriginalTransform})
     end
 end
 
@@ -68,7 +68,7 @@ function ToolManager.Init()
     ChosenTool = ToolManager.Move
 
     Studio.Editor3D.OnSelect:Connect(function(Thing)
-        if Thing:IsA("Transformable3D") then
+        if Thing:IsA("Drawable3D") then
             ToolManager.Select(Thing)
         end
     end)
