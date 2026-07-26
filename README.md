@@ -18,7 +18,7 @@ The documentation repo is located [Here](https://github.com/StudioDreamEngine/St
 # Running
 
 ## Windows
-(Mikl needs to do this)
+You can run the StudioDream using the ``test-love.bat`` file, or on cmd, you can open the ``src`` folder and type ``lovec .`` to test StudioDream
 
 ## Linux
 Use ``test-love12.sh`` to run StudioDream

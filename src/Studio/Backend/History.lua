@@ -38,16 +38,18 @@ function UndoService.Init()
     end)
 end
 
-function UndoService.RegisterUndo(Obj,Property,Val)
+function UndoService.RegisterUndo(Type,Info)
     for i,v in pairs(SavedUndoActions) do
         if i > CurrentUndo then
             SavedUndoActions[i] = nil
         end
     end
 
-    table.insert(SavedUndoActions, function()
-        Runtime.Things.SetProperty(Obj, Property, Val)
-    end)
+    if Type == "Property" then
+        table.insert(SavedUndoActions, function()
+            Runtime.Things.SetProperty(Info.Obj, Info.Property, Info.Val)
+        end)
+    end
     
     CurrentUndo = CurrentUndo+1
    
