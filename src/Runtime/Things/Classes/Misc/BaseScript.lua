@@ -28,7 +28,7 @@ end
 function BaseScript:Load()
     if (not self.ModuleFunction) then return end
 
-    self.ScriptTask = Scheduler.NewTask(function()
+    self.ScriptTask = Scheduler.QueueTask(function()
         self.Required = self.ModuleFunction()
     end)
 

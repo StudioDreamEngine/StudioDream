@@ -14,6 +14,8 @@ Packages:
     kikito/tween.lua (Github), Code used (Tween functions) Licensed under MIT
     pfirsich/lua-discordRPC (Github), Licensed under MIT
 
-Code Snippets:
+Code Snippets/Special Thanks:
     Luawiz for improved object (Thing) creation
     Emk530 for utf8sub
+    trusti for general support regarding the physics engine (bullet3)
+    wyteroze for suggesting i use binary search for TextScaled fitting

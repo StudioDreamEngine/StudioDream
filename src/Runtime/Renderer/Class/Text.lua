@@ -54,6 +54,7 @@ return function()
 
         local Loops = 0
 
+        -- Perform a very overcomplicated binary search to find the best fit
         while true do
             CurrentSize = Min + (Max - Min)/2
             TextBounds, Lines = PerformWrap(CurrentSize, ContainerSize.X)

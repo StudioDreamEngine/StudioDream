@@ -36,6 +36,10 @@ local Enums = {
     StudioDialog = {
         Option = "Option"
     },
+    InputPlatform = {
+        Keyboard = "Keyboard",
+        Controller = "Controller"
+    },
     Platform = {
         Android = "Android",
         iOS = "iOS",

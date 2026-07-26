@@ -31,6 +31,7 @@ function Image2D:new()
     self.ScaleType = Enum.ScaleType.Stretch
     self.FilterType = Enum.FilterType.Pixelated
 
+    self.ImageSize = Vector2.zero
     self.NineSlice = Rect.new(Vector2.zero, Vector2.zero)
     self.Slices = {}
 
@@ -61,11 +62,11 @@ end
 
 function Image2D:RefreshQuad()
     local Width, Height = self.ImageFile:getDimensions()
-    local ImageSize = Vector2.new(Width, Height)
+    self.ImageSize = Vector2.new(Width, Height)
 
     -- ImageRect is optional, if we dont find one, default to the image itself.
-    self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect.Usable() and self.ImageRect or Rect.new(Vector2.zero, ImageSize), ImageSize)
-    if self.NineSlice.Usable() then self:CreateSlices(ImageSize) end
+    self.ImageQuad = Runtime.Backend2D.NewQuad(self.ImageRect.Usable() and self.ImageRect or Rect.new(Vector2.zero, self.ImageSize), self.ImageSize)
+    if self.NineSlice.Usable() then self:CreateSlices(self.ImageSize) end
 end
 
 function Image2D:CreateSlices(ImageSize)
@@ -77,8 +78,13 @@ function Image2D:CreateSlices(ImageSize)
 
     for _, Slice in pairs(SliceData) do
         table.insert(self.Slices, {
-            Pos = Slice.Pos,
-            SizeDbg = Slice.Size,
+            Size = Slice.Size,
+            Offset = (Slice.Size * Slice.Pivot),
+            Pivot = Slice.Pivot,
+            Origin = Slice.Origin or Slice.Pos,
+            Corner = Slice.Corner,
+            Main = Slice.Main,
+            StretchTo = Slice.StretchTo,
             Quad = Runtime.Backend2D.NewQuad(Rect.new(Slice.Pos, Slice.Size), ImageSize)
         })
     end
@@ -104,15 +110,28 @@ function Image2D:HandleDrawImage(Scale)
         return
     end
 
+    local BottomRight = (self.ImageSize - self.NineSlice.Max) + self.NineSlice.Min
+
+    -- top 5 most ass code ever - bloctans
     for _, Slice in pairs(self.Slices) do
         Profiler.Start("Image2D - Draw Slices")
         self:SetColor("Foreground")
-        love.graphics.draw(self.ImageFile, Slice.Quad, Slice.Pos.X, Slice.Pos.Y, 0)
 
-        if FLAGS.DebugDraw then
-            love.graphics.setColor(0,0,1)
-            love.graphics.rectangle("line", Slice.Pos.X, Slice.Pos.Y, Slice.SizeDbg.X, Slice.SizeDbg.Y)
+        local Pos = (Slice.Pivot * self.AbsoluteSize)
+        local QScale = Vector2.one
+
+        if Slice.Main then
+            Pos = Pos + Slice.Origin
+            QScale = (self.AbsoluteSize-BottomRight) / Slice.Size
+        elseif Slice.StretchTo then
+            local Normal = Slice.StretchTo.Unit()
+
+            --QScale = 
+            Pos = Pos + Slice.Origin
         end
+
+        love.graphics.draw(self.ImageFile, Slice.Quad, Pos.X, Pos.Y, 0, QScale.X, QScale.Y,Slice.Offset.X,Slice.Offset.Y)
+
         Profiler.End()
     end
 end
