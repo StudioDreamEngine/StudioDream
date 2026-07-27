@@ -109,6 +109,9 @@ function Resources.LoadResource(Identifier)
 		error("Invalid ResourceType "..ResourceType)
 	end
 
+	-- Temporary for now, if anything we should be preventing identifiers with invalid file types from being loaded in the identifier stage
+	if (Resource == "Invalid") then return end
+	
 	LoadedResources[Identifier.ID] = Resource
 
 	return Resource
