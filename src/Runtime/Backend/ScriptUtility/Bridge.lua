@@ -22,18 +22,6 @@ local function BridgeCreator(Table, k, v)
     end
 end
 
-local function ProxyThing(Instance, Key)
-    CheckProxied(Instance)
-
-    if (not Instance[Key]) then -- Assume child
-        local Child = Instance:FindFirstChild(Key)
-
-        return Bridge.Proxy(Child)
-    else
-        return Bridge.Proxy(Instance[Key])
-    end
-end
-
 local function ProxyFunction(OldFunction, ...)
     local Result = OldFunction(...)
     local NewResult
@@ -47,6 +35,26 @@ local function ProxyFunction(OldFunction, ...)
     end
 
     return NewResult
+end
+
+local function ProxyThing(Instance, Key)
+    CheckProxied(Instance)
+
+    local Value = Instance[Key]
+
+    if (not Value) then -- Assume child
+        local Child = Instance:FindFirstChild(Key)
+
+        return Bridge.Proxy(Child)
+    elseif type(Value) == "function" then
+        return function(ObjectSelf,...)
+            ObjectSelf = Instance -- HACK: Nasty hack to get functions working
+
+            return ProxyFunction(Value, ObjectSelf, ...)
+        end
+    else
+        return Bridge.Proxy(Instance[Key])
+    end
 end
 
 local function ProxyObject(Object)
