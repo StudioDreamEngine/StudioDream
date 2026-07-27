@@ -171,6 +171,18 @@ function Thing:Destroy()
     Things.Remove(self)
 end
 
+--[[function Thing:WaitForChild(Name)
+    local Time = 5
+    while Time>=0 do   
+        Scheduler.Yield(1)
+        Time=Time-1
+        if self:FindFirstChild(Name) then
+            return self.Child[Name]
+        end
+    end
+    assert(Name.." hasnt been found as a "..self.Name.." child.")
+end]]
+
 function Thing:Clone(DontCloneChildren) -- SHOULD be working idk why it inst
     local NewThing = Things.New(self.ClassName)
     for Property,Val in pairs(self.Proxy.Accessible) do 

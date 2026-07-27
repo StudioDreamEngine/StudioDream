@@ -30,19 +30,24 @@ function ScriptUtil.CreateGlobals(Script)
     return {
         Script = ScriptUtil.BridgeProxy(Script),
         Scheduler = Scheduler,
+
+        string = string,
+        table = table,
+        tostring = tostring,
+        tonumber = tonumber,
         print = print,
+        math = math,
+        pairs = pairs,
+        time = function()
+            return GlobalTick
+        end,
 
         Root = ScriptUtil.BridgeProxy(Things.Root),
         Environment = ScriptUtil.BridgeProxy(Things.Root:GetEnvironment()),
         Lighting = ScriptUtil.BridgeProxy(Things.Root:GetChild("Lighting")),
 
         Service = Runtime.Services.Service,
-        math = math,
-        pairs = pairs,
         CreateThing = Runtime.Things.Create,
-        time = function()
-            return GlobalTick
-        end,
 
         Transform3D = Transform3D,
         Transform2D = Transform2D,

@@ -19,3 +19,4 @@ Code Snippets/Special Thanks:
     Emk530 for utf8sub
     trusti for general support regarding the physics engine (bullet3)
     wyteroze for suggesting i use binary search for TextScaled fitting
+    AlecStey for NetworkService
