@@ -65,6 +65,12 @@ function ScaleControl:DisconnectEvents()
     self.MouseMoved:Disconnect()
 end
 
+function ScaleControl:DefineAPI()
+    ScaleControl.super.DefineAPI(self)
+    
+    self.Proxy.MakeCreatable()
+end
+
 function ScaleControl:new()
     ScaleControl.super.new(self)
 

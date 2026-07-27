@@ -105,6 +105,12 @@ function MoveControl:OnRemove()
     MoveControl.super.OnRemove(self)
 end
 
+function MoveControl:DefineAPI()
+    MoveControl.super.DefineAPI(self)
+    
+    self.Proxy.MakeCreatable()
+end
+
 function MoveControl:Update(dt)
     if (not self.Adornee) then return end
 

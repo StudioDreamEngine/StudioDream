@@ -23,8 +23,11 @@ function Base3D:Update(dt)
     ---@class DreamObject
     local Drawable = self.Drawable
 
-    Drawable:resetTransform()
-    Drawable:setTransform(self.Transform.GetMatrix())
+    -- Base3D can either have no drawable or have a drawable depending on what object is extending the class
+    if Drawable then
+        Drawable:resetTransform()
+        Drawable:setTransform(self.Transform.GetMatrix())
+    end
 end
 
 return Base3D

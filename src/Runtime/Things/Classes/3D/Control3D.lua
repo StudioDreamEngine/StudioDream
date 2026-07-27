@@ -20,7 +20,6 @@ function Control3D:DefineAPI()
     Control3D.super.DefineAPI(self)
 
     self.Proxy.Property("Thing Adornee")
-    self.Proxy.MakeCreatable()
 end
 
 return Control3D
