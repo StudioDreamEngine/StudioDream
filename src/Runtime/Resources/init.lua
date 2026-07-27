@@ -49,7 +49,7 @@ end
 	Get or Load a resource from an IdentifierID or Identifier
 	Intended to be a way to simplify loading resources from Identifiers or IDs
 ]]
-function Resources.LoadResourceFromIdentifier(Identifier, Object, Reload)
+function Resources.LoadResourceFromIdentifier(Identifier, Object, IntendedType)
 	assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
 
 	local Type = Utils.TypeOf(Identifier)
@@ -63,20 +63,32 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, Reload)
 		Identifier = IdentifierType.new(Identifier, "Buffer", "Buffer-" .. CreateUUID())
 	end
 
-	if Identifier.ResourceType == "Project" and Object then
-		printVerbose("Adding " .. Object .. " to object references")
-		ObjectReferences[Object] = Identifier
+	local ObjectUUID = (type(Object) == "table" and Object.UUID or Object)
+
+	if ObjectUUID and (Identifier.ResourceType ~= "Buffer") then
+		local Path = Identifier.Data ---@class Path
+		local CurrentType = FormatLookup[Path.FileType]
+
+		if CurrentType ~= IntendedType then
+			print("Identifier file type was not the expected type, Expected "..IntendedType..", got "..CurrentType)
+			return
+		end
 	end
 
-	return Resources.GetResource(Identifier, Reload), Identifier
+	if Identifier.ResourceType == "Project" and ObjectUUID then
+		printVerbose("Adding " .. ObjectUUID .. " to object references")
+		ObjectReferences[ObjectUUID] = Identifier
+	end
+
+	return Resources.GetResource(Identifier), Identifier
 end
 
 local function LoadWithContents(Identifier, Contents)
 	local Format = FormatLookup[Identifier.Data.FileType]
 
 	if (not Format) then
-		print("Invalid resource format")
-		return "Invalid"
+		error("Invalid resource format, this error SHOULD NOT OCCUR if you used LoadResourceFromIdentifier to load this.")
+		return
 	end
 
 	assert(
@@ -109,9 +121,6 @@ function Resources.LoadResource(Identifier)
 		error("Invalid ResourceType "..ResourceType)
 	end
 
-	-- Temporary for now, if anything we should be preventing identifiers with invalid file types from being loaded in the identifier stage
-	if (Resource == "Invalid") then return end
-	
 	LoadedResources[Identifier.ID] = Resource
 
 	return Resource
@@ -145,7 +154,6 @@ function Resources.GetResource(Identifier, Reload)
 	if not Identifier then return end
 
 	local LoadedResource = LoadedResources[Identifier.ID]
-	if (LoadedResource == "Invalid") then return end
 
 	if Reload or (not LoadedResource) then -- If the resource isnt loaded yet, cache it
 		LoadedResource = Resources.LoadResource(Identifier)

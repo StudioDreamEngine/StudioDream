@@ -35,6 +35,9 @@ function Audio:DefineAPI()
 
     self.Proxy.Attribute("PlayButton","RenderType","AudioPlayer")
     self.Proxy.Attribute("TimePosition", "RenderType","Timer")
+
+    self.Proxy.Attribute("Resource", "SupportedType", "Audio")
+
     self.Proxy.MakeCreatable()
 end
 
@@ -63,7 +66,7 @@ function Audio:Pause()
 end
 
 function Audio:SetResource(Identifier)
-    self.SoundObject, self.Resource = Resources.LoadResourceFromIdentifier(Identifier, self.UUID)
+    self.SoundObject, self.Resource = Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Sound")
     if (not self.SoundObject) then return end
 end
 

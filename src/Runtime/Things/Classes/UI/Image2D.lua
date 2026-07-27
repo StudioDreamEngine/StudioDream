@@ -55,8 +55,8 @@ function Image2D:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function Image2D:SetResource(Identifier, Reload)
-    self.ImageFile, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, Reload)
+function Image2D:SetResource(Identifier)
+    self.ImageFile, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Image")
     if (not self.ImageFile) then return end
 
     self:RefreshQuad() -- Only refresh the quad object

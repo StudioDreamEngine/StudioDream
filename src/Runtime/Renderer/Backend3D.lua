@@ -59,7 +59,7 @@ function Backend3D.CreateAdorn(Name)
 end
 
 function Backend3D.LoadObject(Identifier, Reference)
-    local Resource, ResourceIdentifier = Runtime.Resources.LoadResourceFromIdentifier(Identifier, Reference)
+    local Resource, ResourceIdentifier = Runtime.Resources.LoadResourceFromIdentifier(Identifier, Reference, "Mesh")
     if (not Resource) then return end
 
     local DreamObject = Dream:loadObjectBytes(Resource.Bytes, Resource.Type)
