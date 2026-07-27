@@ -64,7 +64,11 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
 
         print(ScriptObject.Resource)
 
-        Platform.Execute(ConfiguredEditor, Runtime.ProjectFS.GetFullPath(ScriptObject.Resource))
+        local Data = ScriptObject.Resource.Data
+
+        if ScriptObject.Resource.ResourceType == "Project" then
+            Platform.Execute(ConfiguredEditor, Runtime.ProjectFS.GetFullPath(Data.FilePath))
+        end
     end
 end
 

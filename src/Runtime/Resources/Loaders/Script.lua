@@ -4,15 +4,20 @@ return function(ScriptBytes, Identifier)
     local Function, Error = load(Contents, Identifier.ID, "t", {})
 
     if (not Function) then
-        return load([[
-            return function()
-                print("Failed to compile script (]]..Identifier.ID..[[): "]]..Error..[[)
+        print(Error)
 
-                return "Compilation failure"
+        local FallbackFunc, Error2 = load([[
+            return function()
+                print("Failed to Compile ]]..Identifier.ID..[[, see logs for details")
+            
+                return {}
             end
         ]], Identifier.ID, "t", {
-            print = print
+            print = print,
+            Error = Error
         })
+
+        return FallbackFunc
     end
 
     return Function

@@ -44,9 +44,10 @@ function InterfaceManager.Update(dt)
         local Button = Runtime.Things.Get(ButtonID)
         local DisplayUI
 
-        if Button then  DisplayUI = Button:GetDisplayUI() end
+        if Button then DisplayUI = Button:GetDisplayUI() end
         
-        if DisplayUI then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
+        -- MousePosition check is a hack here for now
+        if DisplayUI and DisplayUI.MousePosition then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
             Button.Hovering = false
         
             if Button:IsVisible() and Utils.IntersectPoint2D(Button:GetChildRect(), DisplayUI.MousePosition) and (not Button:IsAlwaysOnTop()) then

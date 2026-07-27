@@ -36,8 +36,6 @@ function BaseScript:Load()
 end
 
 function BaseScript:SetResource(Identifier)
-    print(Identifier)
-
     self.ModuleFunction, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID)
     self.ModuleFunction = self.ModuleFunction()
 
