@@ -6,7 +6,6 @@ local BaseGui = Things.Extend("Thing")
 
 function BaseGui:GetOffsetPosition()
     local PositionProp = self:GetProperty("Position")
-
     local Position = PositionProp.Offset - (self.Pivot * self.AbsoluteSize)
 
     local ParentRect = self:GetParentRect()
