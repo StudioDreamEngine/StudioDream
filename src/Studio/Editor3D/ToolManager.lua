@@ -12,7 +12,7 @@ local Selecting = {}
 function ToolManager.GetCenter(Objects)
     local VectorAverage = Vector3.zero
 
-    ---@param Selection Drawable3D
+    ---@param Selection Transformable3D
     for _, Selection in pairs(Objects) do
         VectorAverage = VectorAverage + Selection.Object.Position
     end
@@ -25,7 +25,7 @@ function ToolManager.SetupSelection()
     Selecting = {}
 
     for _, Select in pairs(Studio.Editor3D.Selecting) do
-        if Select:IsA("Drawable3D") then
+        if Select:IsA("Transformable3D") then
             table.insert(Selecting, { Object = Select, Difference = nil })
         end
     end
@@ -68,7 +68,7 @@ function ToolManager.Init()
     ChosenTool = ToolManager.Move
 
     Studio.Editor3D.OnSelect:Connect(function(Thing)
-        if Thing:IsA("Drawable3D") then
+        if Thing:IsA("Transformable3D") then
             ToolManager.Select(Thing)
         end
     end)
