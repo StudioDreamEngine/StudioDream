@@ -8,6 +8,7 @@ function ListLayout:new()
 
     self.ConstraintProperties = {"Position"} -- These are the properties that will be controled by the object
     self.ObjectFilter = "BaseGui" -- These are the objects that can be binded, if an object that isnt this is passed into BindObject, its ignored
+    self.ParentFilter = "BaseGui"
 
     self.Direction = Enum.LayoutDirection.Vertical
     self.Alignment = Vector2.zero

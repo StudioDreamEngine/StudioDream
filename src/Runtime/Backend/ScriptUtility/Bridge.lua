@@ -77,7 +77,10 @@ end
 
 function Bridge.Proxy(Table, Script)
     if type(Table) == "table" then
-        return setmetatable({}, {
+        return setmetatable({
+            Bridged = true,
+            "This is a bridged object, you cannot look into the contents of bridged objects directly"
+        }, {
             __index = function (_,k)
                 return BridgeIndexer(Table, k)
             end,

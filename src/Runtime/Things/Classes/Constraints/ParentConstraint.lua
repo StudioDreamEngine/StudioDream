@@ -13,11 +13,11 @@ end
 function ParentConstraint:SetParent(NewParent)
     local CouldParent, Reason = ParentConstraint.super.SetParent(self, NewParent)
 
-    if self.ChildrenEvent then self.ChildrenEvent:Disconnect() end -- Cleanup
+    if self.ChildrenEvent then self.ChildrenEvent:Disconnect(); self.ChildrenEvent = nil end -- Cleanup
 
     -- Parent would be nil, thus we cant connect a new event
     -- (No guard clause here do to return from superfunction)
-    if self.Parent then 
+    if self.Parent and self.Parent:IsA(self.ParentFilter) then 
         -- Check if any object in the parent is added or removed
         self.ChildrenEvent = self.Parent.ChildrenChanged:Connect(function(Child, EventType)
             if (not self.Parent) then -- Another check, as when this is called we could also be niled now

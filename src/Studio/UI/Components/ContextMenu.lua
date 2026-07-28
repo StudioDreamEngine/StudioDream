@@ -25,6 +25,7 @@ local ChoiceTypes = {
             BackgroundColor = Studio.CurrentTheme.Primary,
             Alignment = Vector2.new(0,0.5),
             CornerRadius = 2,
+            SinkHovering = false
         })
 
         ButtonObject.ActualText = Things.Create("Text") {

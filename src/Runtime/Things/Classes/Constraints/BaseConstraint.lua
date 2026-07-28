@@ -9,6 +9,7 @@ function BaseConstraint:new()
 
     self.ConstraintProperties = {} -- These are the properties that will be controled by the object
     self.ObjectFilter = "BaseConstraint" -- These are the objects that can be binded, if an object that isnt this is passed into BindObject, its ignored
+    self.ParentFilter = "Thing"
 
     self.Objects = {}
 end
@@ -54,7 +55,7 @@ function BaseConstraint:SetParent(NewParent)
     self:Unbind()
     local CouldParent, Reason = BaseConstraint.super.SetParent(self, NewParent)
 
-    if NewParent then
+    if NewParent and NewParent:IsA(self.ParentFilter) then
         self:Bind()
     end
 

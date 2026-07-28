@@ -30,6 +30,7 @@ function GenerateList(MainInfo,ChangedOption,Things,Property)
                     Type = "Button",
                     Function = function()
                         for i,Info in pairs(Things) do
+                            print("Setting to "..v)
                             Runtime.Things.SetProperty(Info.Thing, Property, v)
                         end
 
