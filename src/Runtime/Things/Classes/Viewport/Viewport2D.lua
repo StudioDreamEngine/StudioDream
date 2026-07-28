@@ -61,7 +61,7 @@ function Viewport2D:SubmitContainerChildren(Container)
     for _, Child in pairs(SortedChildren) do
         if Child:IsAlwaysOnTop() then
             table.insert(self.TopLayer, Child)
-        else
+        elseif Child:IsVisible() then
             self:SubmitChild(Child)
         end
     end
