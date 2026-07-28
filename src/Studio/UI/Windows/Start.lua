@@ -1,6 +1,24 @@
 local Start = {}
 local Things = Runtime.Things
 
+local SecondsPerMinute = 60
+local SecondsPerHour = SecondsPerMinute * 60
+local SecondsPerDay = SecondsPerHour * 24
+
+local function TimeAgo(Time)
+    local Difference = os.time()-Time
+
+    if Difference > SecondsPerDay then
+        return math.round(Difference/SecondsPerDay).." Days Ago"   
+    elseif Difference > SecondsPerHour then
+        return math.round(Difference/SecondsPerHour).." Hours Ago"   
+    elseif Difference > SecondsPerMinute then
+        return math.round(Difference/SecondsPerMinute).." Minutes Ago"  
+    else
+        return Difference.." Seconds ago"
+    end
+end
+
 function Start.CreateProject(Scroll,Info,Path,FullContainer)
     local Summary = Runtime.Project.GetSummary(Path)
     if (not Summary) then print(Path.." Returned no summary, assuming project is non-existant") return end
@@ -43,7 +61,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
     }
 
     local Date = Runtime.Things.Create("Text") {
-        Text = "Last Mod: "..Utils.TimeAgo(Info.Time),
+        Text = "Last Mod: "..TimeAgo(Info.Time),
         ForegroundColor = Studio.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0,0.5),
         Parent = Base,

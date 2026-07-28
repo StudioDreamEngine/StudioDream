@@ -34,6 +34,7 @@ function StudioCamera.Update(dt)
     
     local Camera = Runtime.Things.Root:GetCamera()
     if (not Camera) then return end
+    if (not Camera.Transform) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") end
 
     local KeyDownNum = InputService.KeyDownNumber
 

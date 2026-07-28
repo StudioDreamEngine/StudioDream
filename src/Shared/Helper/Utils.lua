@@ -1,11 +1,5 @@
 local Utils = {}
 
-function Utils.OptionalCall(Module, Function, ...)
-    if Module and Module[Function] then
-        return Module[Function](...)
-    end
-end
-
 function Utils.GetAlignment(Alignment, Container, Content)
     return (Container - Content) * Alignment
 end
@@ -17,29 +11,16 @@ function Utils.IntersectPoint2D(Rect, Point)
     return (XIntersect and YIntersect)
 end
 
+-- Wrap a function that runs in the main loop as "non-critical"
+function Utils.NonCritical(Function)
+    -- TODO
+end
+
 function Utils.TypeOf(Object)
     if type(Object) == "table" then
         return Object.Type or "Table"
     else
         return type(Object)
-    end
-end
-
-local SecondsPerMinute = 60
-local SecondsPerHour = SecondsPerMinute * 60
-local SecondsPerDay = SecondsPerHour * 24
-
-function Utils.TimeAgo(Time)
-    local Difference = os.time()-Time
-
-    if Difference > SecondsPerDay then
-        return math.round(Difference/SecondsPerDay).." Days Ago"   
-    elseif Difference > SecondsPerHour then
-        return math.round(Difference/SecondsPerHour).." Hours Ago"   
-    elseif Difference > SecondsPerMinute then
-        return math.round(Difference/SecondsPerMinute).." Minutes Ago"  
-    else
-        return Difference.." Seconds ago"
     end
 end
 
@@ -67,7 +48,9 @@ end
 function Utils.CountTable(Table) error("Utils.CountTable is deprecated, use table.length(Table) instead.") end ---@deprecated
 function Utils.UltraCloneTable(Table) error("Utils.UltraCloneTable is deprecated, use table.deepcopy(Table) instead.") end ---@deprecated
 function Utils.GetEnumNameByValue(EnumName,Val) error("Utils.GetEnumNameByValue is deprecated, Enum-related utilities should be in the enum perhaps") end ---@deprecated
+function Utils.SetWindowSize(Vect2) error("SetWindowSize is deprecated, use Utils.SetMode") end ---@deprecated
 
+-- Shouldnt be a util but whatever ig
 function Utils.Warn(Message)
     Utils.SendNotification(Message, "Warn")
 end
@@ -79,7 +62,9 @@ function Utils.TextureToImageData(Text)
 end
 
 function Utils.SendNotification(Message,Type)
-    --if Type ~= "Warn" or Type ~= "Info" or Type ~= "Error" then return end
+    if Type ~= "Warn" then
+        print("Usage of Utils.SendNotification outside of Utils.Warn is highly discouraged and will be deprecated in the future")
+    end
 
     Studio.Layout.GetHandle("Notification").Notify(Message,Type)
 end
@@ -92,11 +77,6 @@ function Utils.SetMode(WidthAndHeight,Stuff)
     Stuff["depth"] = true
     -- TODO: When theres no stuff, make so it gets the saved Stuff, or just create a table
     love.window.setMode(WidthAndHeight.X, WidthAndHeight.Y,Stuff)
-end
-
-function Utils.SetWindowSize(Vect2)
-    assert("SetWindowSize is deprecated, try using Utils.SetMode")
-    --love.window.setMode(Vect2.X, Vect2.Y,{depth = true})
 end
 
 function Utils.LoadModules(Path, Require)
