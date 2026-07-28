@@ -33,6 +33,22 @@ local ThemesIn = {
         FontBold = "Roboto-Bold"
     },
 
+    Companied = {
+        Outline = Color.FromHex("#121213"),
+        SecondaryOutline = Color.FromHex("#9090b0"),
+
+        Secondary = Color.FromHex("#1d1d20"), -- This color is meant to either be for less important stuff or to constrast the primary
+        --Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        Primary = Color.FromHex("#504f55"), -- This color is for the main parts, containers and such
+    
+        Selecting = Color.FromHex("#547cff"),
+        Text = Color.FromHex("#ffffff"),
+
+        Error =  Color.FromHex("#ff3333"),
+        FontNormal = "Roboto-Medium",
+        FontBold = "Roboto-Bold"
+    },
+
     Ocean = {
         Outline = Color.FromHex("#000427"),
         SecondaryOutline = Color.FromHex("#8d8dff"),
@@ -73,12 +89,12 @@ local ThemesIn = {
         --Tertiary = Color.FromHex("#0e0e0e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
         Primary = Color.FromHex("#252525"), -- This color is for the main parts, containers and such
     
-        Selecting = Color.FromHex("#4a2bff"),
+        Selecting = Color.FromHex("#000000"),
 
         Text = Color.FromHex("#3eff24"),
 
-        FontNormal = "Assets/Fonts/SpaceGrotesk/SpaceGrotesk-Medium.ttf",
-        FontBold = "Assets/Fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf"
+        FontNormal = "SpaceGrotesk-Medium",
+        FontBold = "SpaceGrotesk-SemiBold"
     },
     --[[local DarkSky = {
     NodeColor = Color.new(0.314, 0.294, 0.502),

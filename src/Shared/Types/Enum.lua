@@ -73,7 +73,8 @@ local Enums = {
     },
     SquareAxis = {
         X = "X",
-        Y = "Y"
+        Y = "Y",
+        Nothing = "none"
     },
     AudioType = {
         Static = "static",

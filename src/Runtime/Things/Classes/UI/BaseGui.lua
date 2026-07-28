@@ -70,7 +70,7 @@ function BaseGui:GetAbsoluteSize()
     if ParentRect then -- Only do this if we found a parent element
         local Scale = (ParentRect.Size * self.Size.Scale)
 
-        if self.SquareAxis then
+        if self.SquareAxis and self.SquareAxis~="none" then
             Scale = Vector2.one * Scale[self.SquareAxis]
         end
     
@@ -153,7 +153,7 @@ function BaseGui:new()
     self.PropagatedChange = Signal:New("PropagatedChange")
 
     self.AutomaticSize = nil
-    self.SquareAxis = nil
+    self.SquareAxis = Enum.SquareAxis.Nothing
 
     self.AbsoluteLayer = 0
     self.ListOrder = 0

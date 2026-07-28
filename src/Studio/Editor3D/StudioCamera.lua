@@ -30,21 +30,28 @@ function StudioCamera.Init()
 end
 
 function StudioCamera.Update(dt)
-    PrevDT = dt
+    local sucess, error = pcall(function()
+        PrevDT = dt
     
-    local Camera = Runtime.Things.Root:GetCamera()
-    if (not Camera) then return end
-    if (not Camera.Transform) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") end
+        local Camera = Runtime.Things.Root:GetCamera()   
 
-    local KeyDownNum = InputService.KeyDownNumber
+        local KeyDownNum = InputService.KeyDownNumber
 
-    local Forward = Camera.Transform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
-    local Side = Camera.Transform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
-    local Direction = (Forward + Side).Unit()
+        if (not Camera) then return end
+        if (not Camera.Transform or not Camera.Transform.Forward) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") end
 
-    CameraPosition = CameraPosition + Direction*dt*3
+        local Forward = Camera.Transform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
+        local Side = Camera.Transform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
+        local Direction = (Forward + Side).Unit()
 
-    Camera:SetTransform(Transform3D.FromPosition(CameraPosition) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0))
+        CameraPosition = CameraPosition + Direction*dt*3
+
+        Camera:SetTransform(Transform3D.FromPosition(CameraPosition) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0))
+    end)
+
+    if not sucess then
+        print(error)
+    end
 end
 
 return StudioCamera

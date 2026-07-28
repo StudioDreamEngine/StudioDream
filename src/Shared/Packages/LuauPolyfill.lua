@@ -74,6 +74,8 @@ end
 
 local DontPrint = {"package", "_G", "love", "Dream", "ImGUI", "_3DreamEngine"}
 
+local FreezedTables = {}
+
 -- Table --
 do
 	-- REALLY GARBAGE table formatter, you are happy to contiribute and make it better
@@ -174,6 +176,29 @@ do
 		for _, v in pairs(Table) do i = i + 1 end
 
 		return i
+	end
+
+	function table.freeze(Table)
+		local Proxied = setmetatable({}, {
+			__index = Table,
+			__newindex = function(...)
+		  		error("Attempted to write to readonly table")
+			end
+		})
+		table.insert(FreezedTables,Proxied)
+		return Proxied
+	end
+
+	function table.unfreeze(Table)
+		if table.find(FreezedTables,Table) then
+			local Proxied = setmetatable({}, {
+				__index = Table
+			})
+			table.removeValue(FreezedTables,Table)
+			return Proxied
+		else
+			error("Table has not been freezed")
+		end
 	end
 
 	-- Yes, Lua 5.1 doesnt have table.find (iirc)

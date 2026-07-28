@@ -9,6 +9,8 @@ local Bridge = require("Runtime.Backend.ScriptUtility.Bridge")
 
 ScriptUtil.BridgeProxy = Bridge.Proxy
 
+ScriptUtil.Shared={}
+
 -- Queue a script for loading, as we may not want to start scripts immediately
 ---@param Script BaseScript
 function ScriptUtil.RequestLoad(Script)
@@ -30,6 +32,8 @@ function ScriptUtil.CreateGlobals(Script)
     return {
         Script = ScriptUtil.BridgeProxy(Script),
         Scheduler = Scheduler,
+
+        Shared = ScriptUtil.Shared, -- im cryin
 
         string = string,
         table = table,

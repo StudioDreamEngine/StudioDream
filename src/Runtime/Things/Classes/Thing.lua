@@ -183,7 +183,7 @@ end
     assert(Name.." hasnt been found as a "..self.Name.." child.")
 end]]
 
-function Thing:Clone(DontCloneChildren) -- SHOULD be working idk why it inst
+function Thing:Clone(DontCloneChildren)
     local NewThing = Things.New(self.ClassName)
     for Property,Val in pairs(self.Proxy.Accessible) do 
         if self.Proxy.Types[Property] then

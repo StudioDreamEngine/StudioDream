@@ -5,7 +5,7 @@ local Things = Runtime.Things
 local Folder = Things.Extend("Thing")
 
 function Folder:new() 
-    Folder.super:new(self)
+    Folder.super.new(self)
     self.LockObjectsIn = false
 end
 

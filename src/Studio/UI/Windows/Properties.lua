@@ -52,7 +52,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
 
     selfed.Text = Things.Create("Text") {
         Size =  Pivot2D.FromScale(0.49,.9),
-        Position = Pivot2D.FromScale(0.005,0.5),
+        Position = Pivot2D.FromScale(0.03,0.5),
         Pivot = Vector2.new(0,0.5),
         Text = PropertyInfos.Name,
         Parent = selfed.BaseProperty,
