@@ -104,7 +104,7 @@ lib.materialLibrary = { }
 lib.objectLibrary = { }
 
 --default settings
-print("3DreamEngine: Finish Setup")
+printVerbose("3DreamEngine: Finish Setup")
 lib:setAO(32, 0.75, false)
 lib:setBloom(-1)
 lib:setFog()
@@ -225,7 +225,7 @@ function lib:prepareRuntime()
 	lib.skyObject = lib:loadObject(lib.root .. "/objects/sky", { ignoreMissingMaterials = true })
 	lib.cubeObject = lib:loadObject(lib.root .. "/objects/cube", { ignoreMissingMaterials = true })
 	lib.planeObject = lib:loadObject(lib.root .. "/objects/plane", { ignoreMissingMaterials = true })
-	print("Loaded Objects")
+	printVerbose("Loaded Objects")
 	
 	--default textures
 	local pix = love.image.newImageData(2, 2)

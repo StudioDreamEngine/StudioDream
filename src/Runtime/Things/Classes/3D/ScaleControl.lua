@@ -32,7 +32,7 @@ function ScaleControl:GetPlane()
 end
 
 function ScaleControl:ConnectEvents()
-    print("Connect move events")
+    printVerbose("Connect move events")
 
     self.MouseEvent = SelectionPriority.BindSignal(function(IsDown)
         if IsDown then

@@ -18,7 +18,7 @@ function Things.Init()
 
     Things.Root = CreateRoot.CreateRoot()
 
-    print("Tree Created")
+    printVerbose("Tree Created")
 end
 
 function Things.CreateApiDump()

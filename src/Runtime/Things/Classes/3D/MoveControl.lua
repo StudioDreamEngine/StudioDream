@@ -39,7 +39,7 @@ function MoveControl:GetPlane()
 end
 
 function MoveControl:ConnectEvents()
-    print("Connect move events")
+    printVerbose("Connect move events")
 
     self.MouseEvent = SelectionPriority.BindSignal(function(IsDown)
         if IsDown then

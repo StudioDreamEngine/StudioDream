@@ -18,7 +18,7 @@ function Runtime.Init()
     Runtime.Renderer.Init()
     Runtime.Things.Init()
 
-    print("Runtime Initalized")
+    printVerbose("Runtime Initalized")
 end
 
 function Runtime.ChangeTitle()

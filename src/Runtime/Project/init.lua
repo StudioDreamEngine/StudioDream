@@ -37,11 +37,11 @@ function Project.ValidateAndMount(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
-    print("ProjectPath:"..ProjectPath)
+    print("ProjectPath: "..ProjectPath)
     local ProjectPath = Path.new(ProjectPath)
     local RealPath
 
-    print(ProjectPath)
+    printVerbose(ProjectPath)
 
     if ProjectPath.FileType == "sdc" then -- Unpackaged project
         RealPath = ProjectPath.ParentPath
@@ -186,7 +186,7 @@ function Project.Save()
 
         -- Only save resources if they're going somewhere else (we can check via queued writes)
         if ProjectFS.IsQueuingWrites() then
-            print("Save resources")
+            printVerbose("Save resources")
             Resources.Save()
         end
 
