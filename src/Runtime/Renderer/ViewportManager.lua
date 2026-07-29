@@ -66,7 +66,6 @@ function ViewportManager.RenderViewport3D(Viewport)
             Dream:prepare()
             Profiler.End()
 
-            Profiler.Start("Create Scene")
             Dream:draw(Runtime.Backend3D.GetAdorns())
             Dream:draw(Runtime.Backend3D.Debug)
             Dream:addLight(light)
@@ -74,7 +73,6 @@ function ViewportManager.RenderViewport3D(Viewport)
             for i,v in pairs(Viewport.RenderContainer.Lights) do
                 Dream:addLight(v)
             end
-            Profiler.End()
 
             local Camera = Viewport:GetCamera()
             Dream:present(Camera and Camera.Drawable)
