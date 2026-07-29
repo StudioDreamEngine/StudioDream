@@ -94,9 +94,7 @@ end
 ---@param w number @ optional
 ---@param h number @ optional
 function class:init(w, h)
-	Profiler.Start("unload canvases")
 	self:unloadCanvasSet()
-	Profiler.End()
 	
 	w = w or self.resolution
 	h = h or self.resolution
@@ -106,29 +104,32 @@ function class:init(w, h)
 	self.height = h
 	self.refractions = self.alphaPass and self.refractions and self.mode == "normal"
 	
-	Profiler.Start("setup base canvases")
 	if self.mode ~= "direct" then
 		--depth
+		Profiler.Start("setup depth")
 		self.depthBuffer = love.graphics.newCanvas(w, h, { format = "depth32f", readable = false, msaa = self.msaa })
 		
+		Profiler.EndStart("setup color")
 		--temporary HDR color
 		self.color = love.graphics.newCanvas(w, h, { format = self.format, readable = true, msaa = self.msaa })
 		
+		Profiler.EndStart("setup refract")
 		--additional color if using refractions
 		if self.refractions then
 			self.colorAlpha = love.graphics.newCanvas(w, h, { format = "rgba16f", readable = true, msaa = self.msaa })
 			self.distortion = love.graphics.newCanvas(w, h, { format = "rg16f", readable = true, msaa = self.msaa })
 		end
 		
+		Profiler.EndStart("setup depth 2")
 		--depth
 		self.depth = love.graphics.newCanvas(w, h, { format = "r32f", readable = true, msaa = self.msaa })
 
+		Profiler.EndStart("setup stencil")
 		--stencil/outlines
 		self.stencil = love.graphics.newCanvas(w, h, { format = "r16f", readable = true, msaa = self.msaa })
+		Profiler.End()
 		--self.outline_2 = love.graphics.newCanvas(w, h, { format = "normal", readable = true, msaa = self.msaa })
 	end
-
-	Profiler.EndStart("setup ao")
 	
 	--screen space ambient occlusion blurring canvases
 	if lib:getFeature("AO") and self.mode ~= "direct" then
@@ -137,8 +138,6 @@ function class:init(w, h)
 			self.AO_2 = love.graphics.newCanvas(w * lib.AO_resolution, h * lib.AO_resolution, { format = "r8", readable = true, msaa = 0 })
 		end
 	end
-
-	Profiler.EndStart("setup post")
 	
 	--post effects
 	if self.mode == "normal" then
@@ -148,8 +147,6 @@ function class:init(w, h)
 			self.bloom_2 = love.graphics.newCanvas(w * lib.bloom_resolution, h * lib.bloom_resolution, { format = self.format, readable = true, msaa = 0 })
 		end
 	end
-
-	Profiler.End()
 	
 	return self
 end
