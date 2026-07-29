@@ -45,6 +45,7 @@ ffi.cdef[[
 ]]
 
 -- POSIX standard functions that should work on all OS'es (Android, Linux, MacOS, Windows) assuming microsoft decides to not be different for once
+-- (Microsoft was different GOD FUCKING DAMNNIT, FUCK YOU MICROSOFT, I DONT CARE IF IM SAYING THIS ON YOUR OWN DAMN PLATFORM)
 ffi.cdef([[
     int execvp(char const* path, const char* argv[]);
 ]])

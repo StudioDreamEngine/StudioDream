@@ -75,11 +75,7 @@ function Runtime.Update(dt)
 end
 
 function Runtime.OnCrash()
-    if (not Runtime.Project.LoadingProject) then
-        Runtime.Project.Save()
-    else
-        error("Project was being loaded")
-    end
+    Runtime.Project.Save()
 end
 
 return Runtime

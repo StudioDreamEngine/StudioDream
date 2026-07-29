@@ -60,7 +60,7 @@ return {
         Arguments = {
             Name = "Help",
             Function = function()
-                local Outside = Runtime.Services.Service("OutsideService")
+                local Outside = Runtime.Services.Service("PlatformService")
                 Outside.OpenURL("https://www.youtube.com/@StudioDreamEngine")
             end,
         }

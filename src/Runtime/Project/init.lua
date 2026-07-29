@@ -179,9 +179,22 @@ end
 function Project.Save()
     Project.NotificationCallback("Saving project...")
 
+    if Project.LoadingProject then
+        error("Cannot save project while another or the same project is being loaded")
+        return
+    end
+
     if not ProjectFS.GetMount() then 
         Project.NotificationCallback("Please first load a project first in order to save", "Error")
-    else
+        return
+    end
+
+    if (not ProjectFS.IsWritable()) then
+        Project.NotificationCallback("Project is read-only", "Error")
+        return
+    end
+
+    local Success, Message = pcall(function()
         Project.Config.Save()
 
         -- Only save resources if they're going somewhere else (we can check via queued writes)
@@ -194,7 +207,12 @@ function Project.Save()
         Scenes.LoadRootScenes("Save")
 
         Project.History.Add(ProjectFS, Project.Config.Get("Name"))
+    end)
 
+    if (not Success) then
+        print(Message)
+        Shared.QueueAbort("Error while saving project")
+    else
         Project.NotificationCallback("Project saved!")
     end
 end

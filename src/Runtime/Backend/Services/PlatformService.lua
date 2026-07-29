@@ -1,33 +1,33 @@
-local OutsideService = {}
+local PlatformService = {}
 
-function OutsideService.Init()
+function PlatformService.Init()
 
 end
 
-function OutsideService.GetWindowSettings()
+function PlatformService.GetWindowSettings()
     local width, height, flags = love.window.getMode()
     return Vector2.new(width,height), flags
 end
 
-function OutsideService.GetTitle()
+function PlatformService.GetTitle()
     return love.window.getTitle()
 end
 
-function OutsideService.ChangeTitle(NewTitle)
+function PlatformService.ChangeTitle(NewTitle)
     love.window.setTitle(NewTitle) 
 end
 
-function OutsideService.ChangeIcon(Resource)
+function PlatformService.ChangeIcon(Resource)
     local ToImageData = Utils.TextureToImageData(Resource)
     love.window.setIcon(ToImageData)
 end
 
-function OutsideService.SetWindowSettings(WindowVect,Flags)
+function PlatformService.SetWindowSettings(WindowVect,Flags)
     Utils.SetMode(WindowVect,Flags)
 end
 
-function OutsideService.OpenURL(Link)
+function PlatformService.OpenURL(Link)
     love.system.openURL(Link)
 end
 
-return OutsideService
+return PlatformService

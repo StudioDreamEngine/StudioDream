@@ -62,6 +62,8 @@ function InsertObject.Init()
             IconObject.Clicked:Connect(function()
                 InsertObject.Close()
 
+                print("Inserting new object: "..ClassName)
+
                 local DefaultTarget = Studio.Editor3D.GetDefaultTarget()
 
                 local CreatedObject = Things.Create(ClassName) {

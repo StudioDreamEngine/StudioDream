@@ -29,7 +29,11 @@ function BaseScript:Load()
     if (not self.ModuleFunction) then return end
 
     self.ScriptTask = Scheduler.QueueTask(function()
-        self.Required = self.ModuleFunction()
+        xpcall(function()
+            self.Required = self.ModuleFunction()
+        end, function(Error)
+            print(debug.traceback(Error))
+        end)
     end)
 
     return self.Required
