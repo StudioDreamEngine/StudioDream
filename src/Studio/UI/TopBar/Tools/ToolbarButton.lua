@@ -20,6 +20,7 @@ return function(Args)
         Resource = "Internal/Studio/TabIcons/"..Args.Icon..".png",
         Pivot = Vector2.xAxis * .5,
         Position = Pivot2D.FromScale(0.5,0),
+        ForegroundColor = Studio.CurrentTheme.Text,
     }
 
     local Text = Things.Create("Text") {

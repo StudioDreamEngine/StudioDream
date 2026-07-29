@@ -21,12 +21,13 @@ function PConfig.CreateMainSquares()
         Size = Pivot2D.FromScale(0.1,0.1),
         Parent = PConfig.Container,
         CornerRadius = 5,
-        Pivot = Vector2.new(1,0),
-        Position = Pivot2D.FromScale(1,0),
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0,0),
         BackgroundTransparency = 0,
         Layer = 2,
         Resource = "Internal/Studio/Close.png",
         ScaleType = Enum.ScaleType.LockAspect,
+        ForegroundColor = Studio.CurrentTheme.Text,
     }
 
     SquareObjects.Options = Runtime.Things.Create("ScrollContainer") {

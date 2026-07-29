@@ -3,7 +3,8 @@
 Studio = {}
 
 function Studio.Init()
-    Studio.Theme = require("Studio.Theme")
+    Studio.Theme = Shared.Theme
+    Studio.CurrentTheme = Studio.Theme.CurrentTheme
     Studio.Editor3D = require("Studio.Editor3D")
 
     Studio.Layout = require("Studio.UI.StudioLayout")

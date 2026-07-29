@@ -75,6 +75,8 @@ function Shared.Init(Args)
     Shared.InitAfterTest = Args[2] and true or false
     Shared.Target = Args[1] or FLAGS.ModeTarget
     
+    Shared.Theme = require("Shared.Theme")
+
     printVerbose("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")
     Runtime.Init()

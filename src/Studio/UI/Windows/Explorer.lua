@@ -160,7 +160,8 @@ function Explorer.CreateNode(Object, Depth)
             Pivot = Vector2.new(1,0.5),
             Parent = NodeObj.NodeInner,
             Layer = 4,
-            ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64))
+            ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
+            ForegroundColor = Studio.CurrentTheme.Text,
         }
 
         NodeObj.IsChildOpen = true
@@ -248,9 +249,9 @@ local function HandleDragEnd()
 end
 
 function Explorer.Init()
-    ScrollContainer = Things.Create("Square") { --Things.Create("ScrollContainer") { 
+    ScrollContainer = Things.Create("ScrollContainer") { 
         Size = Pivot2D.FromScale(1,1),
-        --CanvasSize = Pivot2D.FromScale(1,4),
+        CanvasSize = Pivot2D.FromScale(1,4),
         BackgroundTransparency = 1,
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),

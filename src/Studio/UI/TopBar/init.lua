@@ -64,7 +64,7 @@ function TopBar.Init()
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,0.3),
         Parent = TopBar.Container,
-        OutlineSize = 3,
+        OutlineSize = 1,
         OutlineColor = Studio.CurrentTheme.Outline
     })
 

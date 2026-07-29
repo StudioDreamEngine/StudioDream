@@ -14,6 +14,7 @@ function CreateRoot.CreateEnviornment(Root)
     Runtime.Project.RegisterRootScene(HUD, "Interface")
     Runtime.Project.RegisterRootScene(Materials, "Materials")
     Runtime.Project.RegisterRootScene(Lighting, "Lighting")
+    Runtime.Project.RegisterRootScene(Assets, "Assets")
 end
 
 function CreateRoot.CreateRoot()
@@ -34,6 +35,11 @@ function CreateRoot.CreateRoot()
 
     Lighting = Things.Create("Lighting", "Lighting") {
         Name = "Lighting",
+        Parent = Root
+    }
+
+    Assets = Things.Create("Assets", "Assets") {
+        Name = "Assets",
         Parent = Root
     }
 

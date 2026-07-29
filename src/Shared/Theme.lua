@@ -18,19 +18,54 @@ local ThemesIn = {
     },
 
     BlueNight = {
-        Outline = Color.FromHex("#0d1029"),
+        Outline = Color.FromHex("#020222"),
         SecondaryOutline = Color.FromHex("#9090b0"),
 
-        Secondary = Color.FromHex("#151953"), -- This color is meant to either be for less important stuff or to constrast the primary
+        Secondary = Color.FromHex("#100e35"), -- This color is meant to either be for less important stuff or to constrast the primary
         --Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
-        Primary = Color.FromHex("#2c2a77"), -- This color is for the main parts, containers and such
+        Primary = Color.FromHex("#1a174b"), -- This color is for the main parts, containers and such
     
         Selecting = Color.FromHex("#2821ff"),
         Text = Color.FromHex("#ffffff"),
 
         Error =  Color.FromHex("#ff3333"),
         FontNormal = "Roboto-Medium",
-        FontBold = "Roboto-Bold"
+        FontBold = "Roboto-Bold",
+        FontTalic = "Roboto-Italic",
+    },
+
+    Concept = {
+        Outline = Color.FromHex("#322F4A"),
+        SecondaryOutline = Color.FromHex("#9090b0"),
+
+        Secondary = Color.FromHex("#3B3755"), -- This color is meant to either be for less important stuff or to constrast the primary
+        --Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        Primary = Color.FromHex("#505268"), -- This color is for the main parts, containers and such
+    
+        Selecting = Color.FromHex("#2821ff"),
+        Text = Color.FromHex("#ffffff"),
+
+        Error =  Color.FromHex("#ff3333"),
+        FontNormal = "Arial",
+        FontBold = "Arial-Bold",
+        FontTalic = "Arial-Bold",
+    },
+
+    DeadByNight = {
+        Outline = Color.FromHex("#111121"),
+        SecondaryOutline = Color.FromHex("#9090b0"),
+
+        Secondary = Color.FromHex("#22214c"), -- This color is meant to either be for less important stuff or to constrast the primary
+        --Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        Primary = Color.FromHex("#3a387a"), -- This color is for the main parts, containers and such
+    
+        Selecting = Color.FromHex("#2821ff"),
+        Text = Color.FromHex("#ffffff"),
+
+        Error =  Color.FromHex("#ff3333"),
+        FontNormal = "Roboto-Medium",
+        FontBold = "Roboto-Bold",
+        FontTalic = "Roboto-Italic",
     },
 
     Companied = {
@@ -46,7 +81,8 @@ local ThemesIn = {
 
         Error =  Color.FromHex("#ff3333"),
         FontNormal = "Roboto-Medium",
-        FontBold = "Roboto-Bold"
+        FontBold = "Roboto-Bold",
+        FontItalic = "Roboto-Italic"
     },
 
     Ocean = {
@@ -62,7 +98,8 @@ local ThemesIn = {
         Text = Color.FromHex("#ffffff"),
 
         FontNormal = "Roboto-Medium",
-        FontBold = "Roboto-Bold"
+        FontBold = "Roboto-Bold",
+        FontTalic = "Roboto-Italic",
     },
 
     DaySkyie = {
@@ -93,8 +130,9 @@ local ThemesIn = {
 
         Text = Color.FromHex("#3eff24"),
 
-        FontNormal = "SpaceGrotesk-Medium",
-        FontBold = "SpaceGrotesk-SemiBold"
+        FontNormal = "SpaceGrotesk-Regular",
+        FontBold = "SpaceGrotesk-SemiBold",
+        FontTalic = "SpaceGrotesk-Bold"
     },
     --[[local DarkSky = {
     NodeColor = Color.new(0.314, 0.294, 0.502),
@@ -104,6 +142,6 @@ local ThemesIn = {
     }]]
 }
 
-Studio.CurrentTheme = ThemesIn.BlueNight
+Themes.CurrentTheme = ThemesIn.BlueNight
 
 return Themes

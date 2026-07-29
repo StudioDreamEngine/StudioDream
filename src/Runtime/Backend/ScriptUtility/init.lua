@@ -49,6 +49,7 @@ function ScriptUtil.CreateGlobals(Script)
         Root = ScriptUtil.BridgeProxy(Things.Root),
         Environment = ScriptUtil.BridgeProxy(Things.Root:GetEnvironment()),
         Lighting = ScriptUtil.BridgeProxy(Things.Root:GetChild("Lighting")),
+        Assets = ScriptUtil.BridgeProxy(Things.Root:GetChild("Assets")),
 
         Service = Runtime.Services.Service,
         CreateThing = Runtime.Things.Create,

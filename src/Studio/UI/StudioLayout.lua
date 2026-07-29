@@ -17,15 +17,15 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Name = "WindowContainer",
         Layer = Transform.Layer or 1,
         Parent = Transform.TopLevel and Things.Root.RootViewport or StudioLayout.Windows,
-        CornerRadius = 5,
+        CornerRadius = Transform.CornerRadius or 5,
        -- OutlineSize = 2,
         OutlineColor = Theme.Outline
     }
     
     Windows.Container = Runtime.Things.Create("Square") {
-        Size = (not HaveName) and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.95,0.9),
-        Position = (not HaveName) and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.51),
-        Pivot = Vector2.new(0.5,0.5),
+        Size = (not HaveName) and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.99,0.93),
+        Position = (not HaveName) and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.06),
+        Pivot = (not HaveName) and Vector2.new(0.5,0.5) or Vector2.new(0.5,0),
         BackgroundColor = Theme.Primary,
         Name = "BackWindow",
         Layer = 2,
@@ -35,19 +35,23 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     }
 
     -- GUARD CLAUSES MIKL
-    if not HaveName then return Windows end
+    print(HaveName)
+    if (not HaveName) then return Windows end
+    print("BLEH")
     Windows.Namer = Runtime.Things.Create("Text") {
-        Size = Pivot2D.FromScale(0,0),
-        Position = Pivot2D.FromScale(0,0),
-        Pivot = Vector2.new(0,0),
-        Parent = Windows.Container,
+        Size = Pivot2D.FromScale(1,0.04),
+        Position = Pivot2D.FromScale(0.5,0.01),
+        Pivot = Vector2.new(0.5,0),
+        Parent = Windows.FullContainer,
         Layer = Windows.Container.Layer+5,
-        BackgroundTransparency = 1,
+        BackgroundTransparency = 0,
         Text = HaveName,
         ForegroundColor = Studio.CurrentTheme.Text,
         Name = "WindowText",
         Alignment = Vector2.new(0.5,0.5),
-        Font = Studio.CurrentTheme.FontNormal
+        Font = Studio.CurrentTheme.FontTalic,
+        BackgroundColor = Theme.Secondary,
+        CornerRadius = 4,
     }
 
     return Windows
@@ -160,7 +164,8 @@ function StudioLayout.CreateLayout()
     }
 
     StudioLayout.CreateWindow("Viewport", {
-        Size = Pivot2D.FromScale(0.75,.75),
+        Size = Pivot2D.FromScale(0.8,.8),
+        CornerRadius = 0,
     })
 
     --[[StudioLayout.CreateWindow("Trollo",{
@@ -177,17 +182,19 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("Properties", {
-        Size = Pivot2D.FromScale(0.25,.5),
+        Size = Pivot2D.FromScale(0.2,.5),
         Position = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(1,1),
         Layer = 3,
+        CornerRadius = 0,
     })
 
     StudioLayout.CreateWindow("Explorer", {
         Name = "Explorer",
-        Size = Pivot2D.FromScale(0.25,.5),
+        Size = Pivot2D.FromScale(0.2,.5),
         Position = Pivot2D.FromScale(1,0),
-        Pivot = Vector2.new(1,0)
+        Pivot = Vector2.new(1,0),
+        CornerRadius = 0,
     })
 
     StudioLayout.CreateWindow("Notification", {
@@ -199,8 +206,10 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("Output", {
-        Position = Pivot2D.FromScale(0,.75),
-        Size = Pivot2D.FromScale(0.75,.25),
+        Position = Pivot2D.FromScale(0,1),
+        Size = Pivot2D.FromScale(0.8,.2),
+        Pivot = Vector2.new(0,1),
+        CornerRadius = 0,
     })
 
     StudioLayout.CreateWindow("PConfig", {

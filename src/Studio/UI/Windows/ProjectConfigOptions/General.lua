@@ -102,7 +102,7 @@ function Template.Create(Parent)
         }
 
         PartObj.Text = Runtime.Things.Create("Text") {
-            Size = Pivot2D.FromScale(1,1),
+            Size = Pivot2D.FromScale(1,.5),
             Position = Pivot2D.FromScale(1,.5),
             Pivot = Vector2.new(1,.5),
             Parent = PartObj.Base,

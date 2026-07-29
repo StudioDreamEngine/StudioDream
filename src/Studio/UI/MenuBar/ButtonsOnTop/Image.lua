@@ -5,6 +5,7 @@ return function(Args)
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Resource = "Internal/Icons/SimplifiedLogo.png",
+        ForegroundColor = Studio.CurrentTheme.Text,
     }
 
     return ButtonContainer
