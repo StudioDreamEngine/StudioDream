@@ -125,8 +125,6 @@ function Start.Init()
         CornerRadius = 5,
         ScaleType = Enum.ScaleType.Crop
     }
-    
-    Studio.Components.ShowFade()--Start.Close)
 
     local Version = Runtime.Things.Create("Text") {
         Text = "Welcome to Early Riser! ("..VERSION..")",

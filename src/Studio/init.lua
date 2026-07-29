@@ -22,6 +22,26 @@ function Studio.Init()
     Studio.Editor3D.Init()
     Studio.Backend.Init()
 
+    --[[Scheduler.DelayTask(3, function()
+        Studio.Components.CreateDialog("Option", {
+            Text = "Your free trial of STUDIODREAM has expired.",
+            Choices = {
+                {
+                    Text = "Renew ($199)",
+                    OnClick = function()
+                        
+                    end
+                },
+                {
+                    Text = "Quit",
+                    OnClick = function()
+                        love.event.quit()
+                    end
+                },
+            }
+        })
+    end)]]
+
     printVerbose("Finished Initalizing studio")
     Shared.ProcessQueue()
 end
