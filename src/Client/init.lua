@@ -32,7 +32,7 @@ function Client.Init()
         love.window.setIcon(Thing)
     end]]
 
-    Utils.SetMode(Runtime.Project.Config.Get("WindowSize") or Vector2.new(1570,800),{resizable = (Runtime.Project.Config.Get("WindowResize") or false)})
+    --Utils.SetMode(Runtime.Project.Config.Get("WindowSize") or Vector2.new(1570,800),{resizable = (Runtime.Project.Config.Get("WindowResize") or false)})
 
     --StudioCamera = require("Client.StudioCamera")
     --StudioCamera.Init()

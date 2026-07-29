@@ -163,7 +163,6 @@ lib.renderTasks = { }
 ---@param w number
 ---@param h number
 function lib:resize(w, h)
-	self.delton:start("resize")
 	w = w or love.graphics.getWidth()
 	h = h or love.graphics.getHeight()
 	
@@ -172,10 +171,7 @@ function lib:resize(w, h)
 	self.canvases:init(w, h)
 	self.delton:stop()
 
-	self.delton:start("initalize reflection canvases")
 	self.reflectionCanvases:init()
-	self.delton:stop()
-	self.delton:stop()
 	--self.mirrorCanvases:init(w, h)
 end
 

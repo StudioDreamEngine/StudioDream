@@ -94,7 +94,9 @@ end
 ---@param w number @ optional
 ---@param h number @ optional
 function class:init(w, h)
+	Profiler.Start("unload canvases")
 	self:unloadCanvasSet()
+	Profiler.End()
 	
 	w = w or self.resolution
 	h = h or self.resolution
@@ -104,6 +106,7 @@ function class:init(w, h)
 	self.height = h
 	self.refractions = self.alphaPass and self.refractions and self.mode == "normal"
 	
+	Profiler.Start("setup base canvases")
 	if self.mode ~= "direct" then
 		--depth
 		self.depthBuffer = love.graphics.newCanvas(w, h, { format = "depth32f", readable = false, msaa = self.msaa })
@@ -124,6 +127,8 @@ function class:init(w, h)
 		self.stencil = love.graphics.newCanvas(w, h, { format = "r16f", readable = true, msaa = self.msaa })
 		--self.outline_2 = love.graphics.newCanvas(w, h, { format = "normal", readable = true, msaa = self.msaa })
 	end
+
+	Profiler.EndStart("setup ao")
 	
 	--screen space ambient occlusion blurring canvases
 	if lib:getFeature("AO") and self.mode ~= "direct" then
@@ -132,6 +137,8 @@ function class:init(w, h)
 			self.AO_2 = love.graphics.newCanvas(w * lib.AO_resolution, h * lib.AO_resolution, { format = "r8", readable = true, msaa = 0 })
 		end
 	end
+
+	Profiler.EndStart("setup post")
 	
 	--post effects
 	if self.mode == "normal" then
@@ -141,6 +148,8 @@ function class:init(w, h)
 			self.bloom_2 = love.graphics.newCanvas(w * lib.bloom_resolution, h * lib.bloom_resolution, { format = self.format, readable = true, msaa = 0 })
 		end
 	end
+
+	Profiler.End()
 	
 	return self
 end
