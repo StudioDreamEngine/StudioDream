@@ -168,8 +168,13 @@ function lib:resize(w, h)
 	h = h or love.graphics.getHeight()
 	
 	--canvases sets
+	self.delton:start("initalize canvases")
 	self.canvases:init(w, h)
+	self.delton:stop()
+
+	self.delton:start("initalize reflection canvases")
 	self.reflectionCanvases:init()
+	self.delton:stop()
 	self.delton:stop()
 	--self.mirrorCanvases:init(w, h)
 end
