@@ -217,7 +217,8 @@ local function HandleDoubleClick(ClickedObject)
 end
 
 local function HandleDragStart()
-    if GlobalTick - LastClick < 0.4 then -- Process Double Click
+    if (GlobalTick - LastClick < 0.4) then -- Process Double Click
+        printVerbose("DoubleClick")
         HandleDoubleClick(Hovering.Thing)
         return
     end
@@ -225,23 +226,29 @@ local function HandleDragStart()
     Selecting = Hovering
     local Object = Selecting.Thing
 
-    LastClick = GlobalTick
-
-    Selecting.Node:SetMouseLocked(true)
+    -- Good god the amount of random shit we do for dumbass exceptions in this file
+    -- Im gonna have to document this shit for once in order for anybody to get whats going on
+    if (not SelectionManager.ObjectPicker) then
+        LastClick = GlobalTick
+    end
 
     SelectionManager.SelectObject(Object)
-    Explorer.Tree[Object] = nil
+    --print("Started")
 end
 
+-- Function called when a drag stops, only called if theres a selected object
 local function HandleDragEnd()
+    --print("Ended")
     Selecting.Node:SetMouseLocked(false)
 
-    if Hovering then
+    if Hovering then -- If we're hovering over another object, then we attempt to  parent the selected object to it, and redraw
         local CouldParent = Selecting.Thing:SetParent(Hovering.Thing)
         printVerbose(CouldParent)
 
-        if CouldParent then Explorer.Redraw() end
-    else
+        if CouldParent then 
+            Explorer.Redraw() 
+        end
+    else -- Otherwise, we just put it back in the tree
         Explorer.Tree[Selecting.Thing] = Selecting.Node
     end
 
@@ -271,6 +278,14 @@ function Explorer.Init()
             HandleDragEnd()
         end
     end, Enum.MouseButton.LeftClick)
+
+    ---@param MouseObject InputMouseObject
+    InputService.MouseMoved:Connect(function(MouseObject)
+        if Selecting and MouseObject.Delta.Magnitude() > 0 then
+            Selecting.Node:SetMouseLocked(true)
+            Explorer.Tree[Object] = nil
+        end
+    end)
     
     InputService.KeyEvent:Connect(function(Began, Key)
         if (Key == "delete" and Editor3D.Selecting) then
@@ -304,9 +319,9 @@ end
 function Explorer.Update(dt)
     Hovering = nil
 
-    for Thing, Object in pairs(Explorer.Tree) do
-        local NodeInner = Object
-        if NodeInner.Hovering then 
+    -- This manages the insert button hint, and the current hovering object
+    for Thing, NodeInner in pairs(Explorer.Tree) do
+        if NodeInner.Hovering then
             Hovering = {
                 Node = NodeInner,
                 Thing = Thing

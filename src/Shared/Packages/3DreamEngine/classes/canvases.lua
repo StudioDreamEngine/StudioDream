@@ -94,6 +94,7 @@ end
 ---@param w number @ optional
 ---@param h number @ optional
 function class:init(w, h)
+	Profiler.Start("3DreamEngine - Resize")
 	self:unloadCanvasSet()
 	
 	w = w or self.resolution
@@ -147,6 +148,8 @@ function class:init(w, h)
 			self.bloom_2 = love.graphics.newCanvas(w * lib.bloom_resolution, h * lib.bloom_resolution, { format = self.format, readable = true, msaa = 0 })
 		end
 	end
+
+	Profiler.End()
 	
 	return self
 end

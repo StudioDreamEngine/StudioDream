@@ -38,8 +38,6 @@ function ToolManager.SetupSelection()
         Select.Rotation = Select.Object.Transform.Rotation
     end
 
-    print(Center)
-
     Origin = Center
     SelectionProxy:SetPosition(Center)
 end

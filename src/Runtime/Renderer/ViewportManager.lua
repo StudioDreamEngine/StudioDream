@@ -61,7 +61,6 @@ function ViewportManager.RenderViewport3D(Viewport)
     Profiler.Start("Render 3D Viewport ("..Viewport.Name..")")
     if Viewport.RenderContainer then
         Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
-            Dream:resize(Viewport.AbsoluteSize.X, Viewport.AbsoluteSize.Y)
             Dream:prepare()
 
             Dream:draw(Runtime.Backend3D.GetAdorns())
@@ -73,7 +72,7 @@ function ViewportManager.RenderViewport3D(Viewport)
             end
 
             local Camera = Viewport:GetCamera()
-            Dream:present(Camera and Camera.Drawable)
+            Dream:present(Camera and Camera.Drawable, Viewport.Canvases)
         end)
     end
     Profiler.End()

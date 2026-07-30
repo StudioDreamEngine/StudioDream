@@ -27,7 +27,8 @@ function BaseGui:GetAbsolutePosition()
         Position = Position + ParentRect.Origin
     end
 
-    if Display and Display.ClassName == "Viewport2D" then
+    -- Handle stuff that should only be handled if we actually have a DisplayUI
+    if Display and Display:IsA("Viewport2D") then
         if self.MouseLocked then
             Position = Display.MousePosition + self.LockOrigin
         end

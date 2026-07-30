@@ -5,14 +5,24 @@ local Viewport3D = Things.Extend("Viewport")
 
 function Viewport3D:new()
     Viewport3D.super.new(self)
+
+    self.Canvases = Dream:newCanvases()
+    self.Canvases:init(10,10)
 end
 
 function Viewport3D:DefineAPI()
     Viewport3D.super.DefineAPI(self)
     
     self.Proxy.Icon("Viewport_3D")
-
     self.Proxy.MakeCreatable()
+end
+
+function Viewport3D:SetAbsoluteSize(New)
+    Viewport3D.super.SetAbsoluteSize(self, New)
+
+    if New.X > 0 then
+        self.Canvases:init(New.X, New.Y)
+    end
 end
 
 function Viewport3D:GetWorld()

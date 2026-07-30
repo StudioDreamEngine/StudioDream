@@ -167,10 +167,8 @@ function lib:resize(w, h)
 	h = h or love.graphics.getHeight()
 	
 	--canvases sets
-	self.delton:start("3DreamEngine - Resize")
 	self.canvases:init(w, h)
-	self.delton:stop()
-
+	
 	self.reflectionCanvases:init()
 	--self.mirrorCanvases:init(w, h)
 end
