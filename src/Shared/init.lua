@@ -42,17 +42,17 @@ function Shared.SaveLog(Msg)
     print("(Log has been saved to Log.txt)")
 end
 
-Shared.AbortAPI = function(Msg)
-    PrintOG("\nABORTED: "..Msg)
-    os.exit(-1)
-end
+Shared.AbortAPI = function(Msg) end
 
 function Shared.Init(Args)
     Args[-2] = nil; Args[-1] = nil -- Dumbass way to remove these args, its only 2 so yeah
 
     local SharedInit = Profiler.Benchmark("Shared - Init", true)
     local Error = require("Shared.CommandParser")(Args)
-    if Error then Shared.AbortAPI(Error) end
+    if Error then 
+        PrintOG(Error)
+        os.exit(-1)
+    end
 
     -- Merge Polyfill flags and regular flags
     for i,_ in pairs(POLYFILL_FLAGS) do

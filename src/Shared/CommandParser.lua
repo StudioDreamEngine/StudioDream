@@ -20,7 +20,18 @@ local Switches = {
     Help = {
         Type = "Switch",
         Output = function()
-            return "USAGE: StudioDream [PROJECT?] [OPTIONS]"
+            return [[
+            
+HELP
+    USAGE: StudioDream [PROJECT?] [OPTIONS]
+
+    Options (Specify with "--"):
+        Help: Show this screen
+        SecondRun: Disables intro animation + studio welcome screen
+        DisableExternalOutput: Disable any output through _G.PrintCallback (Also disables Output Window)
+        Target [MODE]: The target mode to run, available targets are "Studio" and "Client"
+        Verbose: If to enable more verbose prints, in order to prevent a freeze during studio initalization, run this with DisableExternalOutput
+            ]]
         end
     }
 }
