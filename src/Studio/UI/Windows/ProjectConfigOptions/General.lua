@@ -101,7 +101,7 @@ function Template.Create(Parent)
             CornerRadius = 2,
         }
 
-        PartObj.Text = Runtime.Things.Create("Text") {
+        PartObj.Text = Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,.5),
             Position = Pivot2D.FromScale(1,.5),
             Pivot = Vector2.new(1,.5),
@@ -109,7 +109,7 @@ function Template.Create(Parent)
             BackgroundTransparency = 1,
             ForegroundColor = Studio.CurrentTheme.Text,
             Text = Name
-        }
+        })
 
         PartObj.Option = Runtime.Things.Create("Text"..(TypeOfOption or "")) {
             Size = Pivot2D.FromScale(0.49,.8),

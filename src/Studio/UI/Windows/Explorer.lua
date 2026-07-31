@@ -146,7 +146,6 @@ function Explorer.CreateNode(Object, Depth)
     NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
     NodeObj.NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeObj.NodeInner:SetParent(NodeObj.Node)
-    NodeObj.NodeInner.BackgroundColor = Studio.CurrentTheme.Primary
     
     NodeObj.CreateChildrenButton = function()
         NodeObj.AlreadyCreatedChilButton = true

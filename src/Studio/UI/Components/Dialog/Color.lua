@@ -4,7 +4,7 @@ return function(Options)
     Object.FinalProject = Signal:New("ReturnedThing")
 
     function Object.CreateDialog()
-        Runtime.Things.Create("Text") {
+        Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,0.1),
             Position = Pivot2D.FromScale(0.5,0.01),
             Pivot = Vector2.new(0.5,0),
@@ -13,9 +13,9 @@ return function(Options)
             BackgroundTransparency = 1,
             ForegroundColor = Studio.CurrentTheme.Text,
             Alignment = Vector2.new(0.5,0.5)
-        }
+        })
 
-        Runtime.Things.Create("Text") {
+        Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(0.8,0.2),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
@@ -25,7 +25,7 @@ return function(Options)
             ForegroundColor = Studio.CurrentTheme.Text,
             Alignment = Vector2.new(0.5,0.5),
             CornerRadius = 5,
-        }
+        })
 
         Object.InputerRGB = Runtime.Things.Create("TextInput") {
             Size = Pivot2D.FromScale(0.95,0.1) ,
@@ -43,7 +43,7 @@ return function(Options)
             OutlineColor = Studio.CurrentTheme.Outline,
             Parent = Object.Container
         }
-        Runtime.Things.Create("Text") {
+        Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,0.8),
             Position = Pivot2D.FromScale(0.5,-0.5),
             Pivot = Vector2.new(0.5,0.5),
@@ -52,7 +52,7 @@ return function(Options)
             BackgroundTransparency = 1,
             ForegroundColor = Studio.CurrentTheme.Text,
             Alignment = Vector2.new(0.5,0.5)
-        }
+        })
 
         Object.InputerHEX = Runtime.Things.Create("TextInput") {
             Size = Pivot2D.FromScale(0.95,0.1) ,
@@ -70,7 +70,7 @@ return function(Options)
             OutlineColor = Studio.CurrentTheme.Outline,
             Parent = Object.Container
         }
-        Runtime.Things.Create("Text") {
+        Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,0.8),
             Position = Pivot2D.FromScale(0.5,-0.5),
             Pivot = Vector2.new(0.5,0.5),
@@ -79,7 +79,7 @@ return function(Options)
             BackgroundTransparency = 1,
             ForegroundColor = Studio.CurrentTheme.Text,
             Alignment = Vector2.new(0.5,0.5)
-        }
+        })
 
         Object.InputerHEX.FocusEnd:Connect(function()
             Object.FinalProject.Invoke("HEX",Color.FromHex(Object.InputerHEX.Text))

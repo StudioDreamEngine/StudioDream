@@ -50,7 +50,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         CornerRadius = 6,
     }
 
-    selfed.Text = Things.Create("Text") {
+    selfed.Text = Studio.Components.CreateStyle("Text", {
         Size =  Pivot2D.FromScale(0.49,.9),
         Position = Pivot2D.FromScale(0.03,0.5),
         Pivot = Vector2.new(0,0.5),
@@ -58,7 +58,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Parent = selfed.BaseProperty,
         BackgroundTransparency = 1,
         ForegroundColor = Studio.CurrentTheme.Text
-    }
+    })
 
     selfed.Connections = PropertyInfos.Connections
     selfed.WillHandle = PropertyWillHandle
@@ -77,7 +77,7 @@ function Properties.CreateGroup(GroupName)
         CornerRadius = 2,
     }
 
-    Group.TextOfGroup = Things.Create("Text") {
+    Group.TextOfGroup = Studio.Components.CreateStyle("Text", {
         Size =  Pivot2D.FromScale(0.5,0.8),
         Position = Pivot2D.FromScale(0.02,0.5),
         Pivot = Vector2.new(0,0.5),
@@ -86,7 +86,7 @@ function Properties.CreateGroup(GroupName)
         BackgroundTransparency = 1,
         ForegroundColor = Studio.CurrentTheme.Text,
         Font = Studio.CurrentTheme.FontBold,
-    }
+    })
 
     ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, Properties.ParentWith)
 

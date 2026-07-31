@@ -10,14 +10,14 @@ return function(Options)
     local ProgressBar
 
     function Object.CreateDialog()
-        TitleContainer = Runtime.Things.Create("Text") {
+        TitleContainer = Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,0.5),
             Alignment = Enum.Alignment.Center,
             BackgroundTransparency = 1,
             ForegroundColor = Studio.CurrentTheme.Text,
             Layer = 3,
             Parent = Object.Container,
-        }
+        })
 
         ProgressContainer = Runtime.Things.Create("Square") {
             Size = Pivot2D.FromScale(0.8,0.2),

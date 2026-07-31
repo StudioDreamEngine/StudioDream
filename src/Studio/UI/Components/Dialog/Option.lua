@@ -13,7 +13,7 @@ return function(Options)
     end
 
     function Object.CreateDialog()
-        Runtime.Things.Create("Text") {
+        Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,0.7),
             TextScaled = false,
             Position = Pivot2D.FromScale(0.5,0),
@@ -24,7 +24,7 @@ return function(Options)
             ForegroundColor = Studio.CurrentTheme.Text,
             Name = "WindowText",
             Alignment = Vector2.new(0.5,0)
-        }
+        })
 
         local OptionsContainer = Runtime.Things.Create("Square") {
             Size = Pivot2D.FromScale(1,0.5) ,

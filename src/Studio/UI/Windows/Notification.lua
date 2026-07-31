@@ -23,7 +23,7 @@ function Notify.Notify(Message,Type)
         SquareAxis = Enum.SquareAxis.Y,
         Parent = Window
     }
-    local Text = Things.Create("Text") {
+    local Text = Studio.Components.CreateStyle("Text", {
         Size = Pivot2D.FromScale(0.3,0.5),
         Layer = 2,
         Pivot = Vector2.new(0,.5),
@@ -32,7 +32,7 @@ function Notify.Notify(Message,Type)
         Parent = Window,
         BackgroundTransparency = 1,
         ForegroundColor = Studio.CurrentTheme.Text
-    }
+    })
 
     Utils.DebrisThing(Window,5)
     

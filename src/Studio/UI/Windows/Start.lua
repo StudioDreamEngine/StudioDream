@@ -48,7 +48,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         --ScaleType = Enum.ScaleTypes.Fit
     }
 
-    local ProjectName = Runtime.Things.Create("Text") {
+    local ProjectName = Studio.Components.CreateStyle("Text", {
         Text = Info.Name,
         ForegroundColor = Studio.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0,0),
@@ -58,9 +58,9 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Alignment = Vector2.new(0.5,0.5),
         Size = Pivot2D.FromScale(1,0.5),
         Font = Studio.CurrentTheme.FontBold,
-    }
+    })
 
-    local Date = Runtime.Things.Create("Text") {
+    local Date = Studio.Components.CreateStyle("Text", {
         Text = "Last Mod: "..TimeAgo(Info.Time),
         ForegroundColor = Studio.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0,0.5),
@@ -69,7 +69,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         BackgroundTransparency = 1,
         Alignment = Vector2.new(0.5,0.5),
         Size = Pivot2D.FromScale(1,0.5)
-    }
+    })
 
     Base.Clicked:Connect(function()
         Runtime.Project.Load(Path)
@@ -126,7 +126,7 @@ function Start.Init()
         ScaleType = Enum.ScaleType.Crop
     }
 
-    local Version = Runtime.Things.Create("Text") {
+    local Version = Studio.Components.CreateStyle("Text", {
         Text = "Welcome to Early Riser! ("..VERSION..")",
         ForegroundColor = Studio.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0.05,0),
@@ -135,7 +135,7 @@ function Start.Init()
         Layer = 2,
         BackgroundTransparency = 1,
         Alignment = Vector2.new(0.5,0.5)
-    }
+    })
 
     local Options = Runtime.Things.Create("Square") {
         Size = Pivot2D.FromScale(0.48,0.48),
@@ -178,14 +178,6 @@ function Start.Init()
         Alignment = Enum.Alignment.Center,
         Padding = 5
     }
-
-    --[[local Warning = Runtime.Things.Create("Text") {
-        Text = "Do not SHARE or LEAK stuff from here, you are a tester!!!",
-        --ForegroundColor = Studio.CurrentTheme
-        Parent = Start.Container,
-        Layer = 2,
-        BackgroundTransparency = 1
-    }]]
 
     local NewProject = Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
     local LoadProject = Start.CreateButton(Options,"Load a project","Internal/Studio/TabIcons/InsertIcon.png")

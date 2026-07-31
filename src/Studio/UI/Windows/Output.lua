@@ -9,13 +9,13 @@ function Output.CreateOutput(Text,Type)
         ColorToText = Studio.CurrentTheme.Error
     end
 
-    Runtime.Things.Create("Text") {
+    Studio.Components.CreateStyle("Text", {
         Parent = ScrollContainer,
         BackgroundTransparency = 1,
         ForegroundColor = ColorToText,
         Text = Text,
         Size = Pivot2D.new(0,1,15,0)
-    }
+    })
 end
 
 function Output.Init()

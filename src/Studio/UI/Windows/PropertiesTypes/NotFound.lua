@@ -6,7 +6,7 @@ function Template.Start(MainInfo)
     local self = {}
     --MainInfo.Connections
 
-    local Text = Runtime.Things.Create("Text") {
+    local Text = Studio.Components.CreateStyle("Text", {
         Text = "WIP!",
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 1,
@@ -14,7 +14,7 @@ function Template.Start(MainInfo)
         Parent = MainInfo.Option,
         Alignment = Enum.Alignment.Center,
         Font = Studio.CurrentTheme.FontBold,
-    }
+    })
 
     for i,Info in pairs(MainInfo.WillHandle) do
         Text:SetText("WIP! ("..Info.Thing.Proxy.Types[Info.Property]..")")

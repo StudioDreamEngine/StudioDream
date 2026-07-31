@@ -23,7 +23,7 @@ return function(Args)
         ForegroundColor = Studio.CurrentTheme.Text,
     }
 
-    local Text = Things.Create("Text") {
+    local Text = Studio.Components.CreateStyle("Text", {
         Parent = ButtonContainer,
         Position = Pivot2D.FromScale(0.5,1),
         Pivot = Vector2.new(.5,1),
@@ -32,7 +32,7 @@ return function(Args)
         BackgroundTransparency = 1,
         Alignment = Enum.Alignment.TopLeft,
         Text = Args.Name
-    }
+    })
     Text:SetFont(Studio.CurrentTheme.FontBold)
     return ButtonContainer
 end

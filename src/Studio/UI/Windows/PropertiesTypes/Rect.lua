@@ -35,7 +35,7 @@ local function CreatePivotNode(MainInfo,WhatThing)
          ForegroundColor = Studio.CurrentTheme.Text
     }
 
-    selfed.Text = Things.Create("Text") {
+    selfed.Text = Studio.Components.CreateStyle("Text", {
         Size =  Pivot2D.FromScale(0.49,.9),
         Position = Pivot2D.FromScale(0.005,0.5),
         Pivot = Vector2.new(0,0.5),
@@ -43,7 +43,7 @@ local function CreatePivotNode(MainInfo,WhatThing)
         Parent = selfed.BaseProperty,
         BackgroundTransparency = 1,
         ForegroundColor = Studio.CurrentTheme.Text
-    }
+    })
     
     local function Update()
         for i,Info in pairs(MainInfo.WillHandle) do
@@ -84,7 +84,7 @@ function Rected.Start(MainInfo)
     local self = {}
     --MainInfo.Connections
     MainInfo.ParentWith = MainInfo.BaseProperty.Parent
-    local MainText = Runtime.Things.Create("Text") {
+    local MainText = Studio.Components.CreateStyle("Text", {
         Text = " ",
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 1,
@@ -92,7 +92,7 @@ function Rected.Start(MainInfo)
         Parent = MainInfo.Option,
         Alignment = Enum.Alignment.Center,
         Font = Studio.CurrentTheme.FontBold,
-    }
+    })
 
     local Expand = Studio.Components.ExpandableDropdown(MainInfo.Option, MainInfo.ParentWith)
 

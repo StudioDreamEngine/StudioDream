@@ -38,7 +38,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     print(HaveName)
     if (not HaveName) then return Windows end
     print("BLEH")
-    Windows.Namer = Runtime.Things.Create("Text") {
+    Windows.Namer = Studio.Components.CreateStyle("Text", {
         Size = Pivot2D.FromScale(1,0.04),
         Position = Pivot2D.FromScale(0.5,0.01),
         Pivot = Vector2.new(0.5,0),
@@ -52,7 +52,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Font = Studio.CurrentTheme.FontTalic,
         BackgroundColor = Theme.Secondary,
         CornerRadius = 4,
-    }
+    })
 
     return Windows
 end

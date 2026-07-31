@@ -4,7 +4,7 @@ return function(Options)
     Object.FinalProject = Signal:New("ReturnedThing")
 
     function Object.CreateDialog()
-        Runtime.Things.Create("Text") {
+        Studio.Components.CreateStyle("Text",  {
             Size = Pivot2D.FromScale(1,0.1),
             Position = Pivot2D.FromScale(0.5,0.01),
             Pivot = Vector2.new(0.5,0),
@@ -14,7 +14,7 @@ return function(Options)
             ForegroundColor = Studio.CurrentTheme.Text,
             Name = "WindowText",
             Alignment = Vector2.new(0.5,0.5)
-        }
+        })
        Object.Inputer = Runtime.Things.Create("TextInput") {
             Size = Pivot2D.FromScale(0.95,0.2) ,
             BackgroundColor = Studio.CurrentTheme.Secondary,

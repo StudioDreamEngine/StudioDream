@@ -55,7 +55,7 @@ function Components.SimpleDialog(Text, Callback)
 end
 
 function Components.CreateIconObject(Name, Icon)
-    local NodeInner = Things.Create("TextButton") {
+    local NodeInner = Studio.Components.CreateStyle("TextButton", {
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
         Size = Pivot2D.new(0,1,20,0),
@@ -68,9 +68,9 @@ function Components.CreateIconObject(Name, Icon)
         --[[OutlineSize = 0.5,
         OutlineColor = Studio.Theme.GetCurrentTheme().Outline,]]
         CornerRadius = 5,
-    }
+    })
     
-    local NodeText = Things.Create("Text") {
+    local NodeText = Studio.Components.CreateStyle("Text", {
         Size =  Pivot2D.FromScale(0.95,1),
         Position = Pivot2D.FromScale(0.55,0.5),
         Pivot = Vector2.new(0.5,0.5),
@@ -79,7 +79,7 @@ function Components.CreateIconObject(Name, Icon)
         Parent = NodeInner,
         BackgroundTransparency = 1,
         ForegroundColor = Studio.CurrentTheme.Text
-    }
+    })
 
     local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/File_Not_Found.png")
     local Icon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
@@ -200,13 +200,6 @@ function Components.SimpleDropdown(Position, Choices, Size)
     return Dropdown
 end
 
-function Components.CreateStyle(Type, Properties)
-    Properties.BackgroundColor = Studio.CurrentTheme.Secondary
-    Properties.ForegroundColor = Studio.CurrentTheme.Text
-   
-    return Things.Create(Type) (Properties)
-end
-
 local Styles = {
     Container = {
         BackgroundColor = "Secondary",
@@ -230,17 +223,24 @@ local Styles = {
 
 local TypeAssociations = {
     Text = "Text",
-    TextButton = "Container"
+    TextButton = "RoundedContainer",
+    Square = "Container",
 }
 
-function Components.CreateWithStyle(Type, Properties, Style)
+function Components.CreateStyle(Type, Properties, Style)
     if (not Style) then
         Style = TypeAssociations[Type]
     end
 
-    for Name, Value in pairs(Styles[Style]) do
-        if (not Properties[Name]) then
-            Properties[Name] = Value
+    if Style then
+        for Name, Value in pairs(Styles[Style]) do
+            if (not Properties[Name]) then
+                if type(Value) == "string" then
+                    Properties[Name] = Studio.CurrentTheme[Value]
+                else
+                    Properties[Name] = Value
+                end
+            end
         end
     end
 

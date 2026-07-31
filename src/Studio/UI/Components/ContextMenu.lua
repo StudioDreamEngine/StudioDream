@@ -28,7 +28,7 @@ local ChoiceTypes = {
             SinkHovering = false
         })
 
-        ButtonObject.ActualText = Things.Create("Text") {
+        ButtonObject.ActualText = Components.CreateStyle("Text", {
             Text = Choice.Text,
             Parent = ButtonObject.Button,
             Position = HasImage and  Pivot2D.FromScale(0.1,0.5) or Pivot2D.FromScale(0,0.5),
@@ -37,10 +37,10 @@ local ChoiceTypes = {
             ColorMultiplier = 0.5,
             Size = Pivot2D.FromScale(0.95,0.8),
             BackgroundTransparency = 1,
-        }
+        })
 
         if HasSecondText then
-            ButtonObject.SecondText = Things.Create("Text") {
+            ButtonObject.SecondText = Components.CreateStyle("Text", {
                 Text = HasSecondText,
                 Parent = ButtonObject.Button,
                 Position = Pivot2D.FromScale(1,0.5),
@@ -51,7 +51,7 @@ local ChoiceTypes = {
                 ColorMultiplier = 0.5,
                 Alignment = Enum.Alignment.MiddleRight,
                 TextScaled = true,
-            }
+            })
         end
 
         if HasImage then
