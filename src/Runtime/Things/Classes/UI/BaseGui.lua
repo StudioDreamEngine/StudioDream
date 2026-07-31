@@ -51,7 +51,8 @@ function BaseGui:GetContentSize()
     local Size = Vector2.zero
 
     for _, v in pairs(self:GetChildren()) do
-        if v:IsA("BaseGui") then
+        -- the negative layer check is an ABSOLUTELY nasty hack and really shouldnt be here, but im too lazy - bloctans
+        if v:IsA("BaseGui") and (v.Layer >= 0) then
             local PositionProp = v:GetProperty("Position")
             local AbsoluteEnd = PositionProp.Offset + v.AbsoluteSize
 
