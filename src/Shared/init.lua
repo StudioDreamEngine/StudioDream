@@ -43,28 +43,23 @@ function Shared.SaveLog(Msg)
 end
 
 Shared.AbortAPI = function(Msg)
-    print("ABORTED: "..Msg)
+    PrintOG("\nABORTED: "..Msg)
     os.exit(-1)
 end
 
---[[
-    Args:
-        1: Mode target
-        2: Project
-        3: Verbose mode
-]]
 function Shared.Init(Args)
-    print(Args)
+    Args[-2] = nil; Args[-1] = nil -- Dumbass way to remove these args, its only 2 so yeah
 
     local SharedInit = Profiler.Benchmark("Shared - Init", true)
-    --FLAGS = require("Shared.CommandParser")()
+    local Error = require("Shared.CommandParser")(Args)
+    if Error then Shared.AbortAPI(Error) end
 
     -- Merge Polyfill flags and regular flags
     for i,_ in pairs(POLYFILL_FLAGS) do
-        if FLAGS[i] then POLYFILL_FLAGS[i] = FLAGS[i] end
+        if type(FLAGS[i]) ~= "nil" then POLYFILL_FLAGS[i] = FLAGS[i] end
     end
 
-    print("Target Chosen: "..FLAGS.Target)
+    print("Flags:",FLAGS)
     
     --Shared.Theme = require("Shared.Theme") -- mikl please NEVER put random studio shit in shared
 

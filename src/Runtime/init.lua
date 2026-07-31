@@ -31,8 +31,10 @@ function Runtime.RequestRestart(NextTarget)
     Dream:requestKill(function()
         Benchmark.End()
         love.event.restart({
+            Runtime.ProjectFS.GetMount(),
+            "--Target",
             NextTarget,
-            Runtime.ProjectFS.GetMount()
+            "--SecondRun"
         })
     end)
 end

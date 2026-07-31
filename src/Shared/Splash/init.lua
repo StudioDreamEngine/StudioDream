@@ -111,13 +111,13 @@ function Splash.Load()
     printVerbose("Sucessfully Finished Initalization")
     Scheduler.OnRecoverableError = nil
 
-    if (not Shared.SecondRun) then
+    if (not FLAGS.SecondRun) then
         Splash.Out()
     else
         SplashContainer:Destroy()
     end
 
-    if Shared.SecondRun and Shared.Target ~= "Client" then
+    if FLAGS.SecondRun and Shared.Target ~= "Client" then
         Runtime.Project.LoadedProject.Invoke()
     end
 end
