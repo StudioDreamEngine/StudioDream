@@ -3,8 +3,8 @@ VERSION = "0.8.5"
 TITLE = "(Early Riser)"
 VERSION_FULL = VERSION.." "..TITLE
 
-FLAGS = {
-    ModeTarget = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
+DEFAULT_FLAGS = {
+    Target = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
     Verbose = false,
     DebugDraw = false,
     ExternalOutput = true
@@ -18,6 +18,5 @@ function love.conf(t)
 
     t.version = "12.0"
     t.window.title = "StudioDream "..VERSION_FULL.." - No Project"
-    t.window.icon = "/Assets/Icons/"..FLAGS.ModeTarget..".png"
     t.window.resizable = true
 end

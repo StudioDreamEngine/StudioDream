@@ -1,7 +1,6 @@
 print("Please Wait...")
 require("Shared")
 
-MYFPSCAPPER9001 = love.timer.getTime()
 function love.load(args)
     local OldGetDirectoryItems = love.filesystem.getDirectoryItems
 
@@ -17,7 +16,7 @@ function love.load(args)
     
     Shared.SetupBullet = require("Shared.SetupGlobals")()
     
-    print("StudioDream V"..VERSION_FULL..", Configured Target: "..FLAGS.ModeTarget)
+    print("StudioDream V"..VERSION_FULL)
 
     Shared.Init(love.restart or args)
 

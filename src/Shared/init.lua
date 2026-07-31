@@ -12,8 +12,11 @@ package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?.".
 
 --Start actual stuff
 local LastQueue = 0
-
 Shared.AbortQueue = {}
+
+FLAGS = DEFAULT_FLAGS
+FLAGS.SecondRun = false
+FLAGS.TargetProject = nil
 
 function Shared.QueueAbort(Msg)
     printVerbose(Msg)
@@ -29,7 +32,6 @@ end
 function Shared.ProcessQueue()
     if #Shared.AbortQueue > 0 then
         Shared.AbortAPI(table.concat(Shared.AbortQueue, "\n"))
-
         Shared.AbortQueue = {}
     end
 end
@@ -55,14 +57,14 @@ function Shared.Init(Args)
     print(Args)
 
     local SharedInit = Profiler.Benchmark("Shared - Init", true)
+    --FLAGS = require("Shared.CommandParser")()
 
-    if Args[3] then 
-        print("Verbose flag is true, Enabling verbose debugging")
-        POLYFILL_FLAGS.Verbose = true 
+    -- Merge Polyfill flags and regular flags
+    for i,_ in pairs(POLYFILL_FLAGS) do
+        if FLAGS[i] then POLYFILL_FLAGS[i] = FLAGS[i] end
     end
 
-    Shared.SecondRun = Args[2] and true or false
-    Shared.Target = Args[1] or FLAGS.ModeTarget
+    print("Target Chosen: "..FLAGS.Target)
     
     --Shared.Theme = require("Shared.Theme") -- mikl please NEVER put random studio shit in shared
 
@@ -71,13 +73,13 @@ function Shared.Init(Args)
     Runtime.Init()
 
     -- TODO: Move to runtime
-    local Thing = love.image.newImageData("/Assets/Icons/"..Shared.Target..".png")
+    local Thing = love.image.newImageData("/Assets/Icons/"..FLAGS.Target..".png")
     love.window.setIcon(Thing)
 
     Shared.Splash = require("Shared.Splash")
     Shared.Splash.Create()
 
-    Scheduler.NewTask(Shared.Splash.Load, Args[2])
+    Scheduler.NewTask(Shared.Splash.Load)
     SharedInit.End()
 end
 
@@ -101,7 +103,7 @@ local Target
 
 function Shared.StartTarget()
     ---@module "Studio"
-    Target = require(Shared.Target)
+    Target = require(FLAGS.Target)
     Target.Init() 
 end
 

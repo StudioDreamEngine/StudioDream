@@ -61,7 +61,6 @@ end
 
 function Runtime.Render()
     Runtime.Renderer.Render()
-
     Dream:presentDebug()
 end
 

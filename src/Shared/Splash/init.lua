@@ -77,7 +77,7 @@ function Splash.Create()
         Size = Pivot2D.FromScale(.35,.35),
         Layer = 2,
         Pivot = Vector2.new(.5,.5),
-        Resource = "Internal/Icons/"..Shared.Target..".png",
+        Resource = "Internal/Icons/"..FLAGS.Target..".png",
         Position = Pivot2D.FromScale(.5,.4),
         SquareAxis = Enum.SquareAxis.Y,
         Parent = SplashContainer
@@ -93,7 +93,7 @@ function Splash.Create()
     }
 end
 
-function Splash.Load(ProjectPath)
+function Splash.Load()
     printVerbose("Start load")
     Scheduler.OnRecoverableError = function(FullMsg) error(FullMsg.."\n\nSplash Stack (IGNORE)") end
 
@@ -101,7 +101,7 @@ function Splash.Load(ProjectPath)
     Shared.SetupBullet()
 
     printVerbose("Finishing Runtime Setup")
-    Runtime.PostInit(ProjectPath)
+    Runtime.PostInit(FLAGS.TargetProject)
 
     Splash.ChangeStatus("Starting Target")
     printVerbose("Starting Target")
