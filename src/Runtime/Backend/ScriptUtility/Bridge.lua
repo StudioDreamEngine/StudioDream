@@ -86,7 +86,10 @@ function Bridge.Proxy(Table, Script)
             end,
             __newindex = function (_, k, v)
                 BridgeCreator(Table, k, v)
-            end
+            end,
+            __pairs = function()
+                return pairs(Table)
+            end,
         })
     else
         return Table

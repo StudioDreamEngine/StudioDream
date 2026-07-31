@@ -1,15 +1,29 @@
 print("Please Wait...")
 require("Shared")
 
-function love.load(args)
+local function SetupModifications()
+    -- Fix issue where empty directories return nothing
     local OldGetDirectoryItems = love.filesystem.getDirectoryItems
-
     love.filesystem.getDirectoryItems = function (dir)
         local Result = OldGetDirectoryItems(dir)
         if Result[1] == "" then Result = {} end
 
         return Result
     end
+
+    -- __pairs support (https://stackoverflow.com/questions/70466069/pairs-and-ipairs-metamethods-does-not-work-at-all)
+    local raw_pairs = pairs
+    pairs = function(t)
+        local metatable = getmetatable(t)
+        if metatable and metatable.__pairs then
+            return metatable.__pairs(t)
+        end
+        return raw_pairs(t)
+    end
+end
+
+function love.load(args)
+    SetupModifications()
 
     love.graphics.clear(0.5,0.5,0.5)
     love.graphics.present()
