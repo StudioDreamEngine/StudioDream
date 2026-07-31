@@ -116,7 +116,10 @@ function love.draw()
         MYFPSCAPPER9001 = MYFPSINATOR
         return
     end
+
+    Profiler.Start("Idle Time")
     love.timer.sleep(MYFPSCAPPER9001 - MYFPSINATOR)
+    Profiler.End()
 end
 
 function love.update(dt)

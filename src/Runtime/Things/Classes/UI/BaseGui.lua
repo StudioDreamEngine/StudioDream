@@ -212,11 +212,13 @@ end
 function BaseGui:IsVisible()
     local Visible = true
 
+    Profiler.Start("IsVisible")
     self:GetParentCallback(function(Parent)
         if Parent:IsA("BaseGui") and (not Parent.Visible) then
             Visible = false
         end
     end)
+    Profiler.End()
 
     return self.Visible and Visible
 end

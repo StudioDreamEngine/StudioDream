@@ -77,7 +77,7 @@ function ScrollContainer:Update(dt)
 
     local ObjectRect = Rect.new(Vector2.zero, self.AbsoluteSize)
 
-    self.Hovering = self:IsVisible() and Utils.IntersectPoint2D(ObjectRect, self.MousePosition)
+    self.Hovering = self.TruelyVisible and Utils.IntersectPoint2D(ObjectRect, self.MousePosition)
 
     -- Temporary optimization
     if self.TruelyVisible and math.abs(self.LastScroll - self.ScrollPosition) > 0.1 then
