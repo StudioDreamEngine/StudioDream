@@ -123,9 +123,9 @@ function Scheduler.RunTask(Coroutine, Args)
 
     if not Success then 
         local FullMsg = "Task has been halted as error occurred\n\nTask Stack ("..Msg..")\n"..debug.traceback(Coroutine).."\n\n"..Origins[Coroutine]
-        Shared.SaveLog(FullMsg)
+        love.filesystem.write("Log.txt", Msg)
 
-        if Scheduler.OnRecoverableError then Scheduler.OnRecoverableError(FullMsg) end
+        if Scheduler.OnRecoverableError then Scheduler.OnRecoverableError(FullMsg.."\n(Log has been saved to Log.txt)") end
 
         Scheduler.CancelTask(Coroutine)
     end

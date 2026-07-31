@@ -32,7 +32,12 @@ local function NewTransform(Matrix, Rotated)
         return Transform3D.FromMatrix(Object.GetMatrix())
     end
 
-    --f
+    function Object.Lerp(OtherTransform, Alpha)
+        local Matrix1 = Matrix ---@class DreamMat4
+        local Matrix2 = OtherTransform.GetMatrix() ---@class DreamMat4
+
+        return Transform3D.FromMatrix(Matrix1 + (Matrix2 - Matrix1) * Alpha)
+    end
 
     return setmetatable(Object, {
         __mul = function (t1, t2)

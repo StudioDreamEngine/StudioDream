@@ -223,16 +223,24 @@ local Styles = {
     },
     Text = {
         BackgroundTransparency = 1,
-        BackgroundColor = "Text"
+        BackgroundColor = "Text",
+        Font = "FontNormal"
     },
 }
 
-function Components.CreateWithStyle(Type, Properties, StyleProps)
-    if StyleProps then
-        for Name, Value in pairs(Styles[StyleProps.Style]) do
-            if (not Properties[Name]) then
-                Properties[Name] = Value
-            end
+local TypeAssociations = {
+    Text = "Text",
+    TextButton = "Container"
+}
+
+function Components.CreateWithStyle(Type, Properties, Style)
+    if (not Style) then
+        Style = TypeAssociations[Type]
+    end
+
+    for Name, Value in pairs(Styles[Style]) do
+        if (not Properties[Name]) then
+            Properties[Name] = Value
         end
     end
 

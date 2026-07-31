@@ -12,11 +12,8 @@ package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?.".
 
 --Start actual stuff
 local LastQueue = 0
-local StartedTarget = false
 
 Shared.AbortQueue = {}
-
-InitAfterTest = false
 
 function Shared.QueueAbort(Msg)
     printVerbose(Msg)
@@ -43,11 +40,6 @@ function Shared.SaveLog(Msg)
     print("(Log has been saved to Log.txt)")
 end
 
-function Shared.AbortNow(Msg)
-    Shared.QueueAbort(Msg)
-    Shared.ProcessQueue()
-end
-
 Shared.AbortAPI = function(Msg)
     print("ABORTED: "..Msg)
     os.exit(-1)
@@ -69,22 +61,16 @@ function Shared.Init(Args)
         POLYFILL_FLAGS.Verbose = true 
     end
 
-    -- TODO: Redo arg parsing so we dont need to do this
-    if Args[2] == "SkipPath" then Args[2] = nil end
-
-    Shared.InitAfterTest = Args[2] and true or false
+    Shared.SecondRun = Args[2] and true or false
     Shared.Target = Args[1] or FLAGS.ModeTarget
     
-    Shared.Theme = require("Shared.Theme")
+    --Shared.Theme = require("Shared.Theme") -- mikl please NEVER put random studio shit in shared
 
     printVerbose("Shared Components ready, Setup Runtime")
     Runtime = require("Runtime")
     Runtime.Init()
 
-    if (not Utils.FileExists(Shared.Target)) then
-        Shared.AbortNow("Invalid Target: "..Shared.Target)
-    end
-
+    -- TODO: Move to runtime
     local Thing = love.image.newImageData("/Assets/Icons/"..Shared.Target..".png")
     love.window.setIcon(Thing)
 
@@ -92,7 +78,6 @@ function Shared.Init(Args)
     Shared.Splash.Create()
 
     Scheduler.NewTask(Shared.Splash.Load, Args[2])
-
     SharedInit.End()
 end
 
@@ -107,9 +92,7 @@ function Shared.Update(dt)
         Scheduler.Update()
         Runtime.Update(dt)
 
-        if StartedTarget then
-            Shared.UpdateTarget(dt)
-        end
+        Shared.UpdateTarget(dt)
     Profiler.End()
 end
 
@@ -119,12 +102,12 @@ local Target
 function Shared.StartTarget()
     ---@module "Studio"
     Target = require(Shared.Target)
-    Target.Init()
-
-    StartedTarget = true
+    Target.Init() 
 end
 
 function Shared.UpdateTarget(dt)
+    if not Target then return end
+    
     if (GlobalTick - LastQueue) > 1 then
         Shared.ProcessQueue()
         LastQueue = GlobalTick

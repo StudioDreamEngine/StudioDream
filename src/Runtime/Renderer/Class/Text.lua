@@ -109,7 +109,7 @@ return function()
         Text.RenderFont = love.graphics.newFont(GetFont(Font[1], Font[2]),32)
     end
 
-    Text.SetFont(Shared.Theme.CurrentTheme.FontNormal)
+    Text.SetFont("Roboto")
 
     -- Get the position (Vector2) of where a location in the text is
     function Text.GetPositionFromLocation(Location)
