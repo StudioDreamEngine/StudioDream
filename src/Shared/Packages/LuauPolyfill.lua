@@ -183,6 +183,9 @@ do
 			__index = Table,
 			__newindex = function(...)
 		  		error("Attempted to write to readonly table")
+			end,
+			__pairs = function(...)
+				return pairs(Table)
 			end
 		})
 		table.insert(FreezedTables,Proxied)

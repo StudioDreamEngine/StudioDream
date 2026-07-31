@@ -145,15 +145,37 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
 
     DropdownObject.MajorParent = Components.CreateStyle("ContextSquare", {
         AutomaticSize = Enum.AutomaticSize.Y,
-        Size = Pivot2D.FromOffset(200,0),
+        Size = Pivot2D.FromOffset(200,20),
         Layer = 999,
         BackgroundTransparency = 0,
         BackgroundColor = Studio.CurrentTheme.Outline,
         CornerRadius = 5,
         Parent = Things.Root.RootViewport,
-        HasDropShadow = true,
+        --HasDropShadow = true,
     })
+
+    --[[DropdownObject.ListSquare = Components.CreateStyle("Square", {
+        --AutomaticSize = Enum.AutomaticSize.Y,
+        Size = Pivot2D.FromScale(1,1),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Pivot = Vector2.new(0.5,0.5),
+        BackgroundTransparency = 0,
+        Parent = DropdownObject.MajorParent,
+    })]]
     
+    --[[DropdownObject.Shadow = Runtime.Things.Create("Image2D") {
+            Size = Pivot2D.FromScale(1.05,1.05),
+            Position = Pivot2D.FromScale(0.5,0.5),
+            Pivot = Vector2.new(0.5,0.5),
+            Resource = "Internal/Studio/Blur.png",
+            ForegroundColor = Color.new(0,0,0),
+            ForegroundTransparency = 0.5,
+            Parent = DropdownObject.MajorParent,
+            NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
+            FilterType = Enum.FilterType.Default,
+            --Layer = -1
+        }]]
+
     DropdownObject.Choices = {}
 
     DropdownObject.Dropdowns = {

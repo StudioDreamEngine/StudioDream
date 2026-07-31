@@ -65,6 +65,20 @@ function BaseGui:GetContentSize()
     return Size
 end
 
+function BaseGui:GetContentSizeByAdd()
+    local ResultSize = Vector2.zero
+    print(#self:GetChildren())
+
+    for _,v in pairs(self:GetChildren()) do
+        if v.AbsoluteSize~=nil then
+            --print(v.AbsoluteSize)
+            ResultSize = ResultSize + v.AbsoluteSize
+        end
+    end
+    
+    return ResultSize
+end
+
 function BaseGui:GetAbsoluteSize()
     local AbsoluteSize = self.Size.Offset
     local ParentRect = self:GetParentRect()
@@ -79,11 +93,24 @@ function BaseGui:GetAbsoluteSize()
         AbsoluteSize = AbsoluteSize + Scale
     end
 
-    if self.AutomaticSize then
-        local ContentSize = self:GetContentSize()
-        local Opposing = (self.AutomaticSize == Enum.AutomaticSize.X) and Vector2.yAxis or Vector2.xAxis
+    if self.AutomaticSize and self.TruelyVisible then --(not self.AlreadyCompletedAutoSize) then
+        --local ContentSize = self:GetContentSize()
+        --local ResultOLD = (ContentSize * self.AutomaticSize) + (AbsoluteSize * Opposing)
 
-        AbsoluteSize = (ContentSize * self.AutomaticSize) + (AbsoluteSize * Opposing)
+        --AbsoluteSize = Result
+        local ContentSize = self:GetContentSizeByAdd()
+        local Opposing = (self.AutomaticSize == Enum.AutomaticSize.X) and Vector2.yAxis or Vector2.xAxis
+        local Result = (ContentSize * self.AutomaticSize) + (AbsoluteSize * Opposing)
+        self:SetSize(Pivot2D.FromOffset(Result))
+
+        -- I did by setsize, so i can then when automaticsize ends, it will translate FromOffset to FromScale, so it scales normally with the UI
+        -- Nevermind this idea fucking sucks, im still keeping this shit anyway
+        -- I want this to work with FromScale in anyway i dont know why, i dont need it
+        -- Fuck this shit, im too dumb to do this anyway
+
+        --[[if table.length(self:GetChildren()) > 1 then
+            self.AlreadyCompletedAutoSize = true
+        end]]
     end
 
     return AbsoluteSize
@@ -189,6 +216,8 @@ function BaseGui:new()
 
     self.WasInvalidated = false
     self.EverInvalidated = false
+
+    self.AlreadyCompletedAutoSize = false
 end
 
 function BaseGui:DefineAPI()
