@@ -24,6 +24,10 @@ function Viewport:DefineAPI()
 end
 
 function Viewport:Draw()
+    if FLAGS.DebugDraw then
+        love.graphics.circle("fill", self.MousePosition.X, self.MousePosition.Y, 5)
+    end
+
     Renderer.ViewportManager.RenderCanvas(self)
 end
 

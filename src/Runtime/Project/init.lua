@@ -22,16 +22,19 @@ function Project.ValidateAndMount(ProjectPath)
     local Info = NativeFS.getInfo(ProjectPath)
     ProjectPath = Platform.ParsePath(ProjectPath)
 
+    -- Make sure project path is valid
     if (not ProjectPath) then
         Project.History.Remove(ProjectPath)
         return Shared.QueueAbort("Project doesnt seem to exist!")
     end
 
+    -- Automatically point path to sdc if its a directory
     if Info and Info.type == "directory" then
         ProjectPath = ProjectPath.."Project.sdc"
         Info = NativeFS.getInfo(ProjectPath)
     end
 
+    -- Check if project exists
     if (not Info) then
         Project.History.Remove(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
@@ -43,6 +46,7 @@ function Project.ValidateAndMount(ProjectPath)
 
     printVerbose(ProjectPath)
 
+    -- Check file type
     if ProjectPath.FileType == "sdc" then -- Unpackaged project
         RealPath = ProjectPath.ParentPath
     elseif ProjectPath.FileType == "sdp" then -- Packaged project
@@ -53,8 +57,11 @@ function Project.ValidateAndMount(ProjectPath)
 
     local CouldMount = ProjectFS.MountProject(RealPath)
 
+    -- Final check that should never fail, may fail if it attempts to mount a path already mounted, but idk
     if not CouldMount then
+        print(CouldMount)
         error("Failed to mount (CRITICAL), Past checks should've caught this!")
+        return Shared.QueueAbort("Critical mount error, check logs")
     end
 end
 

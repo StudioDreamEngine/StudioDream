@@ -6,7 +6,7 @@ local BaseGui = Things.Extend("Thing")
 
 function BaseGui:GetOffsetPosition()
     local PositionProp = self:GetProperty("Position")
-    local Position = PositionProp.Offset - (self.Pivot * self.AbsoluteSize)
+    local Position = PositionProp.Offset
 
     local ParentRect = self:GetParentRect()
 
@@ -15,6 +15,10 @@ function BaseGui:GetOffsetPosition()
     end
 
     return Position
+end
+
+function BaseGui:GetAbsoluteRotation()
+    return math.rad(self.Rotation)
 end
 
 function BaseGui:GetAbsolutePosition()
@@ -93,30 +97,30 @@ function BaseGui:GetAbsoluteSize()
         AbsoluteSize = AbsoluteSize + Scale
     end
 
-    if self.AutomaticSize then --(not self.AlreadyCompletedAutoSize) then
+    if self.AutomaticSize then
         local ContentSize = self:GetContentSize()
-        --local ResultOLD = (ContentSize * self.AutomaticSize) + (AbsoluteSize * Opposing)
 
         local Opposing = (self.AutomaticSize == Enum.AutomaticSize.X) and Vector2.yAxis or Vector2.xAxis
         local Result = (ContentSize * self.AutomaticSize) + (AbsoluteSize * Opposing)
 
         AbsoluteSize = Result
-        --[[local ContentSize = self:GetContentSizeByAdd()
-        local Opposing = (self.AutomaticSize == Enum.AutomaticSize.X) and Vector2.yAxis or Vector2.xAxis
-        local Result = (ContentSize * self.AutomaticSize) + (AbsoluteSize * Opposing)
-        self:SetSize(Pivot2D.FromOffset(Result))]]
-
-        -- I did by setsize, so i can then when automaticsize ends, it will translate FromOffset to FromScale, so it scales normally with the UI
-        -- Nevermind this idea fucking sucks, im still keeping this shit anyway
-        -- I want this to work with FromScale in anyway i dont know why, i dont need it
-        -- Fuck this shit, im too dumb to do this anyway
-
-        --[[if table.length(self:GetChildren()) > 1 then
-            self.AlreadyCompletedAutoSize = true
-        end]]
     end
 
     return AbsoluteSize
+end
+
+--[[
+    its trignometry time!!!!!!!
+    math is scary
+]]
+function BaseGui:GetRotatedBounds()
+    local sin = math.sin(self.AbsoluteRotation) -- sin(0) == 0
+    local cos = math.cos(self.AbsoluteRotation) -- cos(0) == 1
+
+    return Vector2.new(
+        (self.AbsoluteSize.X * cos) + (self.AbsoluteSize.Y * sin),
+        (self.AbsoluteSize.X * sin) + (self.AbsoluteSize.Y * cos)
+    )  
 end
 
 -- Return the object, or the Container
@@ -178,7 +182,7 @@ function BaseGui:new()
     self.Size = Pivot2D.FromOffset(50, 50)
     self.Position = Pivot2D.FromOffset(0, 0)
     self.Pivot = Vector2.zero -- TODO: Add functionality
-    --self.Rotation = 0
+    self.Rotation = 0
 
     self.Layer = 0
 
@@ -210,6 +214,7 @@ function BaseGui:new()
 
     self.ViewportPosition = Vector2.zero
     self.AbsolutePosition = Vector2.zero
+    self.AbsoluteRotation = 0
     self.AbsoluteSize = Vector2.one
 
     self.Visible = true
@@ -226,13 +231,12 @@ end
 function BaseGui:DefineAPI()
     BaseGui.super.DefineAPI(self)
 
-    self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum.SquareAxis SquareAxis", "number ListOrder", "boolean Visible")
-    self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency")
-    self.Proxy.Property("number ColorMultiplier")
+    self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum.SquareAxis SquareAxis", "number ListOrder", "boolean Visible","number Rotation")
+    self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency", "number ColorMultiplier")
     self.Proxy.Property("Enum.AutomaticSize AutomaticSize")
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
-    self.Proxy.Group("Transform", "Size", "Position", "Pivot", "SquareAxis",  "AutomaticSize")
+    self.Proxy.Group("Transform", "Size", "Position", "Pivot", "SquareAxis",  "AutomaticSize", "Rotation")
     self.Proxy.Group("Layout", "Visible",  "Layer", "ListOrder")
     self.Proxy.Group("Color", "ColorMultiplier")
 
@@ -273,8 +277,15 @@ end
 function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
+    love.graphics.push()
+    love.graphics.rotate(self.AbsoluteRotation)
+    love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
+    
     self:SetColor("Background", true)
     self:Draw()
+
+    love.graphics.pop()
+    love.graphics.translate(self.RotatedPivot.X,self.RotatedPivot.Y)
 
     if FLAGS.DebugDraw then
         local Rect = self:GetProperty("ChildRect")
@@ -292,6 +303,8 @@ function BaseGui:DrawStyle()
 end
 
 function BaseGui:UpdateTransforms()
+    self.AbsoluteRotation = self:GetAbsoluteRotation()
+
     local NewSize = self:GetAbsoluteSize()
 
     if (not NewSize:Is(self.AbsoluteSize)) then
@@ -300,8 +313,10 @@ function BaseGui:UpdateTransforms()
     end
 
     self.AbsolutePosition = self:GetAbsolutePosition()
+    self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
+    self.RotatedPivot = -(self.Pivot * self:GetRotatedBounds())
 
-    self.ChildRect = Rect.new(self.AbsolutePosition, self.AbsoluteSize)
+    self.ChildRect = Rect.new(self.AbsolutePosition + self.RotatedPivot, self:GetRotatedBounds())
 end
 
 function BaseGui:InvalidateAutomaticSize()
@@ -375,6 +390,11 @@ end
 
 function BaseGui:SetPivot(New)
     self.Pivot = New
+    self:InvalidateRendering()
+end
+
+function BaseGui:SetRotation(New)
+    self.Rotation = New
     self:InvalidateRendering()
 end
 

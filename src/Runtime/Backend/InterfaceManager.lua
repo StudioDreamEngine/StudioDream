@@ -34,7 +34,7 @@ function InterfaceManager.Update(dt)
     local ViewportManager = Runtime.Renderer.ViewportManager
 
     for _, Viewport in pairs(ViewportManager.Viewports) do
-        Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport.AbsolutePosition
+        Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport.AbsolutePosition - Viewport.AbsolutePivot
     end
 
     Profiler.Start("InterfaceManager - Process Hovering")

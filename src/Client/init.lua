@@ -40,7 +40,7 @@ function Client.Init()
     print(Things.GetRoot("Environment"):GetDescendants())
     RuntimeService.StartActivity()
 
-    Runtime.Things.Create("TextButton") {
+    --[[Runtime.Things.Create("TextButton") {
         Parent = Runtime.Things.GetRootViewport(),
         Size = Pivot2D.FromScale(0.1,0.1),
         Layer = 1000,
@@ -48,7 +48,7 @@ function Client.Init()
         Clicked = function()
             Runtime.RequestRestart("Studio")
         end
-    }
+    }]]
 end
 
 function Client.Update(dt)
