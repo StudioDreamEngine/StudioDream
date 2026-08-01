@@ -163,18 +163,22 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
         Parent = DropdownObject.MajorParent,
     })]]
 
-    --[[DropdownObject.Shadow = Runtime.Things.Create("Image2D") {
-        Size = Pivot2D.FromScale(1.05,1.05),
+    DropdownObject.Shadow = Runtime.Things.Create("Image2D") {
+        Size = Pivot2D.FromScale(1.5,1.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
         Resource = "Internal/Studio/Blur.png",
         ForegroundColor = Color.new(0,0,0),
+        Name = "Shadow",
         ForegroundTransparency = 0.5,
         Parent = DropdownObject.MajorParent,
         NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
         FilterType = Enum.FilterType.Default,
-        Layer = -1
-    }]]
+        Layer = -1,
+        IgnoredByAutoAndList = true
+    }
+    print(DropdownObject.Shadow.IgnoredByAutoAndList)
+    --DropdownObject.Shadow.IgnoredByAutoAndList = true
 
     DropdownObject.Choices = {}
 

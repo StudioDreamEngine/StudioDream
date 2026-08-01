@@ -109,7 +109,7 @@ function ListLayout:UpdateLayout()
     -- Pass 2: Handle the positioning and alignment of all objects
     ---@param Object BaseGui
     for _, Object in pairs(self.Objects) do
-        if Object.Visible then
+        if Object.Visible and Object.IgnoredByAutoAndList ~= true then
             local Position = Positions[Object.UUID]
 
             local BoundsSize = (Object.AbsoluteSize * OpposingVector) + (ContentSize * AxisVector)
