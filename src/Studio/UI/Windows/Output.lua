@@ -37,7 +37,6 @@ function Output.Init()
     }
 
     Context:SetChoices({
-        {Type = "Separator"},
         {
             Type = "Button",
             Text = "Clear Output",
@@ -47,7 +46,6 @@ function Output.Init()
                 Menu.Remove()
             end,
         },
-        {Type = "Separator"},
     })
 
     Output.Container.BackgroundColor = Studio.CurrentTheme.Outline

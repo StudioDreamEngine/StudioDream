@@ -3,10 +3,11 @@ VERSION = "0.8.5"
 TITLE = "(Early Riser)"
 VERSION_FULL = VERSION.." "..TITLE
 
+-- It's reccommended to no longer change these, you should instead use the command line arguments (StudioDream --Help)
 DEFAULT_FLAGS = {
     Target = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
     Verbose = false,
-    DebugDraw = true,
+    DebugDraw = false,
     ExternalOutput = true
 }
 

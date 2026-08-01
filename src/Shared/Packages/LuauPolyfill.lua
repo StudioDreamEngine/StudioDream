@@ -215,6 +215,8 @@ do
 
 	-- Heavier version of findLite, as it also compares custom types 
 	function table.find(table, value)
+		if value == nil then return end
+
 		for i,v in pairs(table) do
 			if type(v) == "table" and (v.Is and value.Is) and v:Is(value) then
 				return i
@@ -339,7 +341,7 @@ PrintOG = _G.print
 PrintCallback = nil
 
 -- Edit of the print function that supports printing tables
-local function InternalPrint(IsVerbose, ...)
+local function InternalPrint(IsVerbose, External, ...)
 	local PrintTable = {...}
 	local FormattedPrintTable = {}
 
@@ -367,21 +369,28 @@ local function InternalPrint(IsVerbose, ...)
 		FinalString = FinalString.." "..v
 	end
 
-	if PrintCallback and POLYFILL_FLAGS.ExternalOutput then
+	if External and PrintCallback and POLYFILL_FLAGS.ExternalOutput then
 		PrintCallback(FinalString)
 	end
 
 	PrintOG(FinalString)
 end
 
+-- Print only if POLYFILL_FLAGS.Verbose is true
 function _G.printVerbose(...)
 	if (not POLYFILL_FLAGS.Verbose) then
 		return
 	end
 
-	InternalPrint(true, ...)
+	InternalPrint(true, false, ...)
 end
 
+-- Print normally
 function _G.print(...)
-	InternalPrint(false, ...)
+	InternalPrint(false, true, ...)
+end
+
+-- Print normally, but do not call PrintCallback
+function _G.printInternal(...)
+	InternalPrint(false, false, ...)
 end

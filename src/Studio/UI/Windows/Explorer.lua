@@ -76,7 +76,6 @@ function Explorer.CreateNode(Object, Depth)
     end)
 
     NodeObj.Context:SetChoices({
-        {Type = "Separator"},
         {
             Type = "Button",
             Text = "Duplicate thing",
@@ -138,7 +137,6 @@ function Explorer.CreateNode(Object, Depth)
                 Menu.Remove()
             end,
         },
-        {Type = "Separator"},
     })
 
     NodeObj.AlreadyCreatedChilButton = false

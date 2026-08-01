@@ -73,8 +73,7 @@ local Enums = {
     },
     SquareAxis = {
         X = "X",
-        Y = "Y",
-        Nothing = "none"
+        Y = "Y"
     },
     AudioType = {
         Static = "static",
@@ -116,8 +115,7 @@ local Enums = {
     },
     CullMode = {
         Back = "back",
-        Front = "front",
-        None = "none"
+        Front = "front"
     },
     InputCode = {
         -- Keyboard

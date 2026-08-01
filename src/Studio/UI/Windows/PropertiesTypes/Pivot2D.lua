@@ -69,7 +69,7 @@ local function CreatePivotNode(MainInfo,WhatThing)
             local IsRotate = (WhatThing == "Offset")
             local FromString = Vector2.FromString(selfed.Option.Text)
 
-            print(FromString)
+            --print(FromString)
 
             local Transform = IsRotate and Pivot2D.new(FromString.X,Info.Thing[Info.Property].Scale.X,FromString.Y,Info.Thing[Info.Property].Scale.Y) or Pivot2D.new(Info.Thing[Info.Property].Offset.X,FromString.X,Info.Thing[Info.Property].Offset.Y,FromString.Y)
 

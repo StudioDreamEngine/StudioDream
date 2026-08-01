@@ -14,37 +14,41 @@ end
 
 function GenerateList(MainInfo,ChangedOption,Things,Property)
     local RefObject = Things[1].Thing
-    local EnumList = RefObject.Proxy.Enums[Property]
+    local EnumList = table.clone(RefObject.Proxy.Enums[Property])
 
     local Index = 0
     local Choices = {}
+    
+    local function GenerateButton(Name, Value)
+        table.insert(Choices, {
+            Text = tostring(Name),
+            Type = "Button",
+            Function = function()
+                for i,Info in pairs(Things) do
+                    Runtime.Things.SetProperty(Info.Thing, Property, Value)
+                end
+
+                ChangedOption.Invoke()
+
+                if GeneratedList then 
+                    GeneratedList.Remove() 
+                    GeneratedList = nil
+                end
+            end
+        })
+    end
+
     for i,v in pairs(EnumList) do
         if type(v) ~= "function" then
-           if i ~= "Type" then -- TRUST ME I TRIED "AND" AND IT DIDNT WORK :SKULL:
+            if i ~= "Type" then -- TRUST ME I TRIED "AND" AND IT DIDNT WORK :SKULL:
                 Index=Index+1
-                print(i,v)
-                table.insert(Choices,{ Type = "Separator"})
-
-                table.insert(Choices, {
-                    Text = tostring(i),
-                    Type = "Button",
-                    Function = function()
-                        for i,Info in pairs(Things) do
-                            print("Setting to "..v)
-                            Runtime.Things.SetProperty(Info.Thing, Property, v)
-                        end
-
-                        ChangedOption.Invoke()
-
-                        if GeneratedList then 
-                            GeneratedList.Remove() 
-                            GeneratedList = nil
-                        end
-                    end
-                })
-           end
+                --print(i,v)
+                GenerateButton(i,v)
+            end
         end
     end
+
+    GenerateButton("None", nil)
 
     return Choices
 end
@@ -75,7 +79,7 @@ function Template.Start(MainInfo)
                 local Thing = Info.Thing
                 local EnumList = Thing.Proxy.Enums[Info.Property]
 
-                Text:SetText(EnumList.NameFromValue(Info.Thing[Info.Property])) -- Gonna have to do it the shitty way for now until we have an enum rewrite
+                Text:SetText(EnumList.NameFromValue(Info.Thing[Info.Property]) or "None") -- Gonna have to do it the shitty way for now until we have an enum rewrite
             else
                 Text:SetText("~")
             end
@@ -96,6 +100,7 @@ function Template.Start(MainInfo)
     end))
 
     table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
+        self.Destroy()
 
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         local TableWow = {}
@@ -116,10 +121,7 @@ function Template.Start(MainInfo)
                 --print(ListGenerated)
                 GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
             else
-                if GeneratedList then 
-                    GeneratedList.Remove() 
-                    GeneratedList = nil
-                end
+                self.Destroy()
             end
         end
     end))

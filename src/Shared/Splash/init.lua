@@ -95,7 +95,8 @@ end
 
 function Splash.Load()
     printVerbose("Start load")
-    Scheduler.OnRecoverableError = function(FullMsg) error(FullMsg.."\n\nSplash Stack (IGNORE)") end
+    local SplashError = function(FullMsg) error(FullMsg.."\n\nSplash Stack (IGNORE)") end
+    Scheduler.OnRecoverableError = SplashError
 
     Scheduler.Yield()
     Shared.SetupBullet()
@@ -109,7 +110,7 @@ function Splash.Load()
     Splash.ChangeStatus("")
 
     printVerbose("Sucessfully Finished Initalization")
-    Scheduler.OnRecoverableError = nil
+    Scheduler.OnRecoverableError = (Scheduler.OnRecoverableError == SplashError) and nil or Scheduler.OnRecoverableError
 
     if (not FLAGS.SecondRun) then
         Splash.Out()

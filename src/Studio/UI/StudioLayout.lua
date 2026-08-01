@@ -50,9 +50,9 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     end
 
     -- GUARD CLAUSES MIKL
-    print(HaveName)
+    --print(HaveName)
     if (not HaveName) then return Windows end
-    print("BLEH")
+    --print("BLEH")
     Windows.Namer = Studio.Components.CreateStyle("Text", {
         Size = Pivot2D.FromScale(1,0.04),
         Position = Pivot2D.FromScale(0.5,0.01),
@@ -197,6 +197,7 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("Properties", {
+        Name = "Inspector",
         Size = Pivot2D.FromScale(0.2,.5),
         Position = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(1,1),
@@ -205,7 +206,7 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("Explorer", {
-        Name = "Explorer",
+        Name = "Tree",
         Size = Pivot2D.FromScale(0.2,.5),
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
@@ -220,12 +221,12 @@ function StudioLayout.CreateLayout()
         TopLevel = true
     })
 
-    --[[StudioLayout.CreateWindow("Output", {
+    StudioLayout.CreateWindow("Output", {
         Position = Pivot2D.FromScale(0,1),
         Size = Pivot2D.FromScale(0.8,.2),
         Pivot = Vector2.new(0,1),
         CornerRadius = 0,
-    })]]
+    })
 
     StudioLayout.CreateWindow("PConfig", {
         Size = Pivot2D.FromScale(0.5,0.6),

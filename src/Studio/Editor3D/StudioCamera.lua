@@ -38,7 +38,7 @@ function StudioCamera.Update(dt)
         local KeyDownNum = InputService.KeyDownNumber
 
         if (not Camera) then return end
-        if (not Camera.Transform or not Camera.Transform.Forward) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") end
+        if (not Camera.Transform) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") return end
 
         local Forward = Camera.Transform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
         local Side = Camera.Transform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))

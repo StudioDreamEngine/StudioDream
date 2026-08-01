@@ -73,7 +73,6 @@ function ListLayout:RequestUpdateLayout()
 end
 
 function ListLayout:UpdateLayout()
-    if self.Parent.Visible==nil then return end
     local Vertical = (self.Direction == Enum.LayoutDirection.Vertical)
 
     -- Define the axises we will be using in order to calculate stuff

@@ -85,7 +85,7 @@ local ChoiceTypes = {
             Size = Pivot2D.FromScale(0.98,1),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
-            BackgroundColor = Studio.CurrentTheme.Outline,
+            BackgroundColor = Studio.CurrentTheme.Primary,
             Parent = Parent,
             CornerRadius = 2,
         }
@@ -162,19 +162,19 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
         BackgroundTransparency = 0,
         Parent = DropdownObject.MajorParent,
     })]]
-    
+
     --[[DropdownObject.Shadow = Runtime.Things.Create("Image2D") {
-            Size = Pivot2D.FromScale(1.05,1.05),
-            Position = Pivot2D.FromScale(0.5,0.5),
-            Pivot = Vector2.new(0.5,0.5),
-            Resource = "Internal/Studio/Blur.png",
-            ForegroundColor = Color.new(0,0,0),
-            ForegroundTransparency = 0.5,
-            Parent = DropdownObject.MajorParent,
-            NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
-            FilterType = Enum.FilterType.Default,
-            --Layer = -1
-        }]]
+        Size = Pivot2D.FromScale(1.05,1.05),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Pivot = Vector2.new(0.5,0.5),
+        Resource = "Internal/Studio/Blur.png",
+        ForegroundColor = Color.new(0,0,0),
+        ForegroundTransparency = 0.5,
+        Parent = DropdownObject.MajorParent,
+        NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
+        FilterType = Enum.FilterType.Default,
+        Layer = -1
+    }]]
 
     DropdownObject.Choices = {}
 
@@ -184,7 +184,7 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
 
     Components.CreateStyle("ListLayout", {
         Parent = DropdownObject.MajorParent,
-        Alignment = Vector2.new(0.5,0.5)
+        Alignment = Vector2.new(0.5,0)
     })
 
     function DropdownObject.Remove()

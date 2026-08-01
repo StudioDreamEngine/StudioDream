@@ -9,6 +9,10 @@ local Switches = {
         Flag = "Target",
         Valid = {"Client", "Studio"}
     },
+    DebugDraw = {
+        Type = "Switch",
+        Flag = "DebugDraw"
+    },
     DisableExternalOutput = {
         Type = "Switch",
         Flag = "!ExternalOutput"   
@@ -30,7 +34,8 @@ HELP
         SecondRun: Disables intro animation + studio welcome screen
         DisableExternalOutput: Disable any output through _G.PrintCallback (Also disables Output Window)
         Target [MODE]: The target mode to run, available targets are "Studio" and "Client"
-        Verbose: If to enable more verbose prints, in order to prevent a freeze during studio initalization, run this with DisableExternalOutput
+        Verbose: If to enable more verbose prints (THESE WILL NOT BE LOGGED TO THE STUDIO OUTPUT!)
+        DebugDraw: If to enable the debug drawing renderers
             ]]
         end
     }
