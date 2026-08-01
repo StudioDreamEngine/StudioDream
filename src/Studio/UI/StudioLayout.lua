@@ -221,12 +221,12 @@ function StudioLayout.CreateLayout()
         TopLevel = true
     })
 
-    --[[StudioLayout.CreateWindow("Output", {
+    StudioLayout.CreateWindow("Output", {
         Position = Pivot2D.FromScale(0,1),
         Size = Pivot2D.FromScale(0.8,.2),
         Pivot = Vector2.new(0,1),
         CornerRadius = 0,
-    })]]
+    })
 
     StudioLayout.CreateWindow("PConfig", {
         Size = Pivot2D.FromScale(0.5,0.6),

@@ -71,8 +71,6 @@ function Objects.SerializeObject(Object, Root)
         local Type = Object.Proxy.Types[PropertyName]
 
         if Property ~= nil then
-            printVerbose(PropertyName, Property, Type)
-            
             -- Special case to resolve all root objects to the scene UUID for interchangability
             if (Type == "Thing") and (Property.UUID == Root.UUID) then 
                 Property = "Scene" 

@@ -20,7 +20,7 @@ end
 
 -- Binds an object to the constraint, making it so that what is in ConstraintProperties is now controled by this object
 function BaseConstraint:BindObject(Object)
-    if (not Object:IsA(self.ObjectFilter)) then
+    if (not Object:IsA(self.ObjectFilter)) or Object.IgnoreConstraints then
         return
     end
 

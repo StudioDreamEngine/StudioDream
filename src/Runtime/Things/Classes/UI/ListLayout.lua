@@ -31,7 +31,8 @@ end
 ]]
 
 function ListLayout:BindObject(_child)
-    ListLayout.super.BindObject(self, _child)
+    local Binded = ListLayout.super.BindObject(self, _child)
+    if (not Binded) then return end
     --print(_child.Name, "binded to", self.Name)
     self:UpdateLayout()
 
@@ -109,7 +110,7 @@ function ListLayout:UpdateLayout()
     -- Pass 2: Handle the positioning and alignment of all objects
     ---@param Object BaseGui
     for _, Object in pairs(self.Objects) do
-        if Object.Visible and Object.IgnoredByAutoAndList ~= true then
+        if Object.Visible then
             local Position = Positions[Object.UUID]
 
             local BoundsSize = (Object.AbsoluteSize * OpposingVector) + (ContentSize * AxisVector)

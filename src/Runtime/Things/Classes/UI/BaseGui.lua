@@ -56,7 +56,7 @@ function BaseGui:GetContentSize()
 
     for _, v in pairs(self:GetChildren()) do
         -- the negative layer check is an ABSOLUTELY nasty hack and really shouldnt be here, but im too lazy - bloctans
-        if v:IsA("BaseGui") and v:GetProperty("IgnoredByAutoAndList") ~= true then
+        if v:IsA("BaseGui") and (not v.IgnoreConstraints) then
             local PositionProp = v:GetProperty("Position")
             local AbsoluteEnd = PositionProp.Offset + v.AbsoluteSize
 
@@ -69,19 +69,19 @@ function BaseGui:GetContentSize()
     return Size
 end
 
-function BaseGui:GetContentSizeByAdd()
+--[[function BaseGui:GetContentSizeByAdd()
     local ResultSize = Vector2.zero
     print(#self:GetChildren())
 
     for _,v in pairs(self:GetChildren()) do
-        if v.AbsoluteSize~=nil and (v.IgnoredByAutoAndList ~= true) then
+        if v.AbsoluteSize~=nil and (v.IgnoreConstraints ~= true) then
             --print(v.AbsoluteSize)
             ResultSize = ResultSize + v.AbsoluteSize
         end
     end
     
     return ResultSize
-end
+end]]
 
 function BaseGui:GetAbsoluteSize()
     local AbsoluteSize = self.Size.Offset
@@ -90,7 +90,7 @@ function BaseGui:GetAbsoluteSize()
     if ParentRect then -- Only do this if we found a parent element
         local Scale = (ParentRect.Size * self.Size.Scale)
 
-        if self.SquareAxis and self.SquareAxis~="none" then
+        if self.SquareAxis then
             Scale = Vector2.one * Scale[self.SquareAxis]
         end
     
@@ -227,7 +227,7 @@ function BaseGui:new()
 
    -- self.AlreadyCompletedAutoSize = false
 
-   self.IgnoredByAutoAndList = false
+   self.IgnoreConstraints = false
 end
 
 function BaseGui:DefineAPI()
@@ -235,11 +235,11 @@ function BaseGui:DefineAPI()
 
     self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum.SquareAxis SquareAxis", "number ListOrder", "boolean Visible","number Rotation")
     self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency", "number ColorMultiplier")
-    self.Proxy.Property("Enum.AutomaticSize AutomaticSize","boolean IgnoredByAutoAndList")
+    self.Proxy.Property("Enum.AutomaticSize AutomaticSize","boolean IgnoreConstraints")
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
     self.Proxy.Group("Transform", "Size", "Position", "Pivot", "SquareAxis",  "AutomaticSize", "Rotation")
-    self.Proxy.Group("Layout", "Visible",  "Layer", "ListOrder", "IgnoredByAutoAndList")
+    self.Proxy.Group("Layout", "Visible",  "Layer", "ListOrder", "IgnoreConstraints")
     self.Proxy.Group("Color", "ColorMultiplier")
 
     self.Proxy.Info({

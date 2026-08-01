@@ -151,7 +151,6 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
         BackgroundColor = Studio.CurrentTheme.Outline,
         CornerRadius = 5,
         Parent = Things.Root.RootViewport,
-        --HasDropShadow = true,
     })
 
     --[[DropdownObject.ListSquare = Components.CreateStyle("Square", {
@@ -164,7 +163,7 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
     })]]
 
     DropdownObject.Shadow = Runtime.Things.Create("Image2D") {
-        Size = Pivot2D.FromScale(1.5,1.5),
+        Size = Pivot2D.FromScale(1.2,1.2),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
         Resource = "Internal/Studio/Blur.png",
@@ -175,10 +174,8 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
         NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
         FilterType = Enum.FilterType.Default,
         Layer = -1,
-        IgnoredByAutoAndList = true
+        IgnoreConstraints = true
     }
-    print(DropdownObject.Shadow.IgnoredByAutoAndList)
-    --DropdownObject.Shadow.IgnoredByAutoAndList = true
 
     DropdownObject.Choices = {}
 
