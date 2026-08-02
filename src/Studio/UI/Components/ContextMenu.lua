@@ -18,7 +18,7 @@ local ChoiceTypes = {
 
         ButtonObject.Button = Components.CreateStyle("TextButton", {
             Text = "",
-            Size = Pivot2D.FromScale(0.95,0.8),
+            Size = Pivot2D.FromScale(0.9,0.8),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
             Parent = Parent,

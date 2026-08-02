@@ -331,7 +331,7 @@ end
 
 function BaseGui:InvalidateAutomaticSize()
     if self.Parent and self.Parent.AutomaticSize then
-        self.Parent:ProcessInvalidations()
+        self.Parent:ProcessInvalidation()
         self.Parent:InvalidateAutomaticSize()
     end
 end

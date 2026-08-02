@@ -33,6 +33,18 @@ function BaseConstraint:BindObject(Object)
     return true
 end
 
+function BaseConstraint:Update()
+    BaseConstraint.super.Update(self)
+
+    -- i guess bro
+    for _, Object in pairs(self.Objects) do
+        if Object.IgnoreConstraints then
+            print("IgnoreConstraints object found in objects check")
+            self:UnbindObject(Object)
+        end
+    end
+end
+
 function BaseConstraint:UnbindObject(Object)
     table.removeValue(self.Objects, Object)
     Object:UnbindConstraints(self)
