@@ -132,6 +132,6 @@ end
 
 function love.quit()
     Runtime.Services.OnQuit() -- this FUCKING sucks!!! :3
-
+    print("Closing and Saving logs...")
     love.filesystem.write("LatestLog", table.concat(PrintLogs, "\n"))
 end
