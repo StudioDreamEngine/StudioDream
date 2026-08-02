@@ -60,6 +60,7 @@ function ScriptUtil.CreateGlobals(Script)
         Vector3 = Vector3,
         Enum = Enum,
         Rect = Rect,
+        Color = Color,
         loadstring = loadstring,
 
         ---@param Object RequirableScript

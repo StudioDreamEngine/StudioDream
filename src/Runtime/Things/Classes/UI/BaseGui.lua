@@ -43,7 +43,7 @@ function BaseGui:GetAbsolutePosition()
             Position = Display.MousePosition + self.LockOrigin
         end
 
-        self.ViewportPosition = Position + Display.ViewportPosition
+        self.ViewportPosition = Position + self.AbsolutePivot + Display.ViewportPosition
     end
 
     return Position
@@ -322,8 +322,8 @@ function BaseGui:UpdateTransforms()
         self.PropagatedChange.Invoke("AbsoluteSize", NewSize)
     end
 
-    self.AbsolutePosition = self:GetAbsolutePosition()
     self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
+    self.AbsolutePosition = self:GetAbsolutePosition()
     --self.RotatedPivot = -(self.Pivot * self:GetRotatedBounds())
 
     self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)

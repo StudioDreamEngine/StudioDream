@@ -185,18 +185,21 @@ end]]
 
 function Thing:Clone(DontCloneChildren)
     local NewThing = Things.New(self.ClassName)
+
     for Property,Val in pairs(self.Proxy.Accessible) do 
         if self.Proxy.Types[Property] then
             Type = self[Property]
             Things.SetProperty(NewThing,Property,Type)
         end
     end
+
     if not DontCloneChildren then
         for _, Child in pairs(self:GetChildren()) do
             local NewChild = Child:Clone()
             NewChild:SetParent(NewThing)
         end
     end
+    
     return NewThing
 end
 

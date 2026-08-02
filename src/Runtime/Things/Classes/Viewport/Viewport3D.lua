@@ -33,7 +33,7 @@ end
 
 -- Pain
 function Viewport3D:GetCamera()
-    return self:GetTarget().Camera or Dream.camera
+    return self:GetTarget().Camera
 end
 
 function Viewport3D:Update(dt)

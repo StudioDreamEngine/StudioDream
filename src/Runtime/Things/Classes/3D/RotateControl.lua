@@ -101,7 +101,7 @@ function MoveControl:Update(dt)
 
     ---@class Camera
     local Camera = Things.Root:GetCamera()
-    if (not Camera) then return end
+    if not (Camera or Camera.Position) then return end
 
     local Transform = self.Adornee.Transform
 

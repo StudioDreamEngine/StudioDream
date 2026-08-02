@@ -51,10 +51,8 @@ end
 
 function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
     Components.RegisterUpdator(function()
-        local UsingPosition, UsingSize = Position, Size
-
-        UsingSize = Size and Vector2.new(FakeParent.AbsoluteSize.X, FakeParent.AbsoluteSize.Y*Size.Y) or FakeParent.AbsoluteSize
-        UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Vector2.yAxis)
+        local UsingSize = FakeParent.AbsoluteSize
+        local UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Vector2.yAxis)
 
         MajorComponent.MajorParent:SetSize(Pivot2D.FromOffset(UsingSize.X or 200,0))
         MajorComponent.MajorParent:SetPosition(Pivot2D.FromOffset(UsingPosition))
@@ -71,7 +69,7 @@ function DropdownPlus.new(Choices,FakeParent)
     DropdownObject.MajorParent = Components.CreateStyle("Square", {
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = Pivot2D.FromOffset(200,0),
-        Layer = 100,
+        Layer = 999,
         BackgroundTransparency = 0,
         BackgroundColor = Studio.CurrentTheme.Outline,
     })
