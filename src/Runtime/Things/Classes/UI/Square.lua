@@ -7,21 +7,43 @@ local Square = Things.Extend("BaseGui")
 function Square:new()
     Square.super.new(self)
 
+    self.TrueRadiousOfCorners = 0
     self.CornerRadius = 0
 
     self.OutlineSize = 0
     self.OutlineColor = Color.new(0,0,0)
     self.OutlineTransparency = 0
     self.HasDropShadow = false -- vro
+    self.LimitCornerRadious = true
 end
 
 function Square:DefineAPI()
     Square.super.DefineAPI(self)
 
-    self.Proxy.Property("number CornerRadius", "number OutlineSize", "Color OutlineColor","number BackgroundTransparency", "Color BackgroundColor", "boolean Hovering")
-    self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor")
+    self.Proxy.Property("number CornerRadius", "number OutlineSize", "Color OutlineColor","number BackgroundTransparency", "Color BackgroundColor", "boolean Hovering","boolean LimitCornerRadious")
+    self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor","LimitCornerRadious")
     self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor")
     self.Proxy.MakeCreatable()
+end
+
+function Square:CalculateRadius()
+    if self.LimitCornerRadious then
+        local Size 
+        --print(Size)
+        if self.AbsoluteSize.X < self.AbsoluteSize.Y then
+            Size = self.AbsoluteSize.X/2
+        else
+            Size = self.AbsoluteSize.Y/2
+        end
+        --print(Size)
+        if self.CornerRadius > Size then
+            self.TrueRadiousOfCorners = Size
+        else
+            self.TrueRadiousOfCorners = self.CornerRadius
+        end
+    else 
+        self.TrueRadiousOfCorners = self.CornerRadius
+    end
 end
 
 function Square:SetOutlineSize(number)
@@ -31,19 +53,16 @@ end
 function Square:Draw()
     local Size = self.AbsoluteSize 
     local r,g,b,a = love.graphics.getColor()
-
-    if self.HasDropShadow then
-        love.graphics.setColor(0, 0, 0, 0.5)
-        love.graphics.rectangle("fill", 0,3, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
-    end
     
+    self:CalculateRadius()
+
     love.graphics.setColor(r,g,b,a)
-    love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
+    love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.TrueRadiousOfCorners, self.TrueRadiousOfCorners)
     
     if self.OutlineSize > 0 then
         love.graphics.setLineWidth(self.OutlineSize)
         self:SetColor("Outline")
-        love.graphics.rectangle("line", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
+        love.graphics.rectangle("line", 0,0, Size.X, Size.Y, self.TrueRadiousOfCorners, self.TrueRadiousOfCorners)
     end
 end
 

@@ -60,7 +60,8 @@ function ScriptUtil.CreateGlobals(Script)
         Vector3 = Vector3,
         Enum = Enum,
         Rect = Rect,
-        
+        loadstring = loadstring,
+
         ---@param Object RequirableScript
         require = function(Object)
             if Object:IsA("RequirableScript") then

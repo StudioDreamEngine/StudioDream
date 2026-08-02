@@ -5,6 +5,8 @@ local Components = Studio.Components
 local CurrentContextMenu = nil
 local LastParent = nil
 
+local Debrised = false
+
 --TODO: MAKE THE CURRENTCONTEXTMENU DESAPEAR WHEN U CLICK OFF IT (we have that on ultra top buttons)
 
 local ChoiceTypes = {
@@ -106,12 +108,13 @@ function ContextMenu.CreateButton(Choice,MajorParent,DropdownObject)
 end
 
 function ContextMenu.Init()
-    Runtime.InterfaceManager.OnClick:Connect(function()
-        if CurrentContextMenu and not CurrentContextMenu.MajorParent.Hovering then
+    Runtime.InterfaceManager.OnClickGeneral:Connect(function()
+        if CurrentContextMenu and not CurrentContextMenu.MajorParent.Hovering and (not Debrised) then
             print("Context removed")
             CurrentContextMenu.Remove()
             CurrentContextMenu = nil
         end
+        Debrised = false
     end)
 end
 
@@ -162,20 +165,7 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
         Parent = DropdownObject.MajorParent,
     })]]
 
-    DropdownObject.Shadow = Runtime.Things.Create("Image2D") {
-        Size = Pivot2D.FromScale(1.2,1.2),
-        Position = Pivot2D.FromScale(0.5,0.5),
-        Pivot = Vector2.new(0.5,0.5),
-        Resource = "Internal/Studio/Blur.png",
-        ForegroundColor = Color.new(0,0,0),
-        Name = "Shadow",
-        ForegroundTransparency = 0.5,
-        Parent = DropdownObject.MajorParent,
-        NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
-        FilterType = Enum.FilterType.Default,
-        Layer = -1,
-        IgnoreConstraints = true
-    }
+    DropdownObject.Shadow = Components.CreateDropshadow(DropdownObject.MajorParent)
 
     DropdownObject.Choices = {}
 
@@ -204,6 +194,7 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
     if IsFirst then
         DropdownObject.MajorParent:SetPosition(Studio.Layout.GetMouseContext(DropdownObject.MajorParent))
         CurrentContextMenu = DropdownObject
+        Debrised = true
         LastParent = ParentThingy
     else
         DropdownObject.MajorParent:SetPosition(IsFirst.Position)

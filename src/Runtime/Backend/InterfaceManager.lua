@@ -7,6 +7,7 @@ function InterfaceManager.Init()
     InterfaceManager.OnMouseMove = Signal:New("MouseMove") 
     InterfaceManager.OnClick = Signal:New("MouseClick") 
     InterfaceManager.OnRightClick = Signal:New("MouseClick2")
+    InterfaceManager.OnClickGeneral = Signal:New("MouseClick3")
 
     -- Keep it always enabled for now
     -- in the future (if we wanna) we can rewrite the hover system to make this work, as doing it the way we were wouldnt work
@@ -18,6 +19,7 @@ function InterfaceManager.Init()
         elseif button == 2 then
             InterfaceManager.OnRightClick.Invoke()
         end
+        InterfaceManager.OnClickGeneral.Invoke()
     end)
 end
 

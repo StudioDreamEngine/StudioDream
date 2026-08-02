@@ -76,6 +76,8 @@ function DropdownPlus.new(Choices,FakeParent)
         BackgroundColor = Studio.CurrentTheme.Outline,
     })
     
+    DropdownObject.Shadow = Components.CreateDropshadow(DropdownObject.MajorParent)
+
     DropdownObject.Choices = {}
 
     Components.CreateStyle("ListLayout", {

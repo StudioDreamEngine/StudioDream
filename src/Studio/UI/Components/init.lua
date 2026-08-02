@@ -227,6 +227,23 @@ local TypeAssociations = {
     Square = "Container",
 }
 
+function Components.CreateDropshadow(Parent)
+    return Runtime.Things.Create("Image2D") {
+        Size = Pivot2D.new(30,1,30,1),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Pivot = Vector2.new(0.5,0.5),
+        Resource = "Internal/Studio/Blur.png",
+        ForegroundColor = Color.new(0,0,0),
+        Name = "Shadow",
+        ForegroundTransparency = 0.5,
+        Parent = Parent,
+        NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
+        FilterType = Enum.FilterType.Default,
+        Layer = -1,
+        IgnoreConstraints = true
+    }
+end
+
 function Components.CreateStyle(Type, Properties, Style)
     if (not Style) then
         Style = TypeAssociations[Type]
