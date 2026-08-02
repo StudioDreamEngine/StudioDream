@@ -337,8 +337,8 @@ end
 
 -- Print --
 PrintOG = _G.print
-
 PrintCallback = nil
+PrintLogs = {}
 
 -- Edit of the print function that supports printing tables
 local function InternalPrint(IsVerbose, External, ...)
@@ -373,6 +373,7 @@ local function InternalPrint(IsVerbose, External, ...)
 		PrintCallback(FinalString)
 	end
 
+	table.insert(PrintLogs, FinalString)
 	PrintOG(FinalString)
 end
 

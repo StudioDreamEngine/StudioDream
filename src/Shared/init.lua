@@ -36,12 +36,6 @@ function Shared.ProcessQueue()
     end
 end
 
-function Shared.SaveLog(Msg)
-    print(Msg)
-    love.filesystem.write("Log.txt", Msg)
-    print("(Log has been saved to Log.txt)")
-end
-
 Shared.AbortAPI = function(Msg) end
 
 function Shared.Init(Args)

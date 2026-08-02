@@ -40,9 +40,9 @@ end
 function Vector3.new(x,y,z,w)
     ---@class Vector3
     local Object = setmetatable({
-        X = x,
-        Y = y,
-        Z = z,
+        X = x or 0,
+        Y = y or 0,
+        Z = z or 0,
         W = w or 1, -- Optional distance component, any operator (aside from multiplication) will remove the w component as of currently
         Type = "Vector3"
     }, { -- I have no idea how to organize this mess
