@@ -315,6 +315,22 @@ function Thing:GetDescendants()
     return ReturnedDescendants
 end
 
+function Thing:GetDescendantTree()
+    local ReturnedDescendants = {}
+
+    local function GetDescendantsImpl(Object, Table)
+        Table[Object.Name] = {}
+
+        for _, Descendant in pairs(Object:GetChildren()) do
+            GetDescendantsImpl(Descendant, Table[Object.Name])
+        end
+    end
+
+    GetDescendantsImpl(self, ReturnedDescendants)
+
+    return ReturnedDescendants
+end
+
 -- TODO: Also, couldnt we just call DescendantOf on the Descendant to check if the thing is an ancestor?
 -- Idk what is this supost to do so im leaving it like this!!
 function Thing:AncestorOf(Descendant)

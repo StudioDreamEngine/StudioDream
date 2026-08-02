@@ -80,6 +80,8 @@ function Vector2.new(x,y)
             return t.X..", "..t.Y
         end,
         __mul = function (t1, t2)
+            t2 = t2 or 1
+
             if type(t2) == "number" then
                 return Vector2.new(t1.X * t2, t1.Y * t2)
             elseif type(t1) == "number" then

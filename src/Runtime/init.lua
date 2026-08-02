@@ -4,6 +4,8 @@ Runtime.Things = require("Runtime.Things")
 Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
 
+Runtime.SaveOnCrash = false -- Temporary
+
 Runtime.LoadProjectCallback = function() end
 
 function Runtime.Init()
@@ -76,7 +78,9 @@ function Runtime.Update(dt)
 end
 
 function Runtime.OnCrash()
-    Runtime.Project.Save()
+    if Runtime.SaveOnCrash then
+        Runtime.Project.Save(true)
+    end
 end
 
 return Runtime

@@ -26,7 +26,7 @@ end
 function ProjectFS.ReadFile(Path) return Mount.ReadFile(Path) end
 
 -- Mounting wrappers
-function ProjectFS.GetMount() return Mount.GetMount() end
+function ProjectFS.GetMount() if Mount then return Mount.GetMount() end end
 function ProjectFS.MountProject(Project) Mount = BaseFS.Mount(Project); return Mount end
 function ProjectFS.UnmountProject() Mount.Unmount(); Mount = nil end
 function ProjectFS.Remount(Path) 

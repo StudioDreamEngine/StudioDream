@@ -12,13 +12,19 @@ function BaseGui:GetOffsetPosition()
 
     if ParentRect then
         Position = Position + (PositionProp.Scale * ParentRect.Size)
+
+        if self.Parent:IsA("BaseGui") then
+            Position = self.Parent:GetRotatedOffset(Position)
+        end
     end
 
     return Position
 end
 
 function BaseGui:GetAbsoluteRotation()
-    return math.rad(self.Rotation)
+    local Parent = self:GetParentElement()
+
+    return math.rad(self.Rotation + (Parent and Parent.Rotation or 0))
 end
 
 function BaseGui:GetAbsolutePosition()
@@ -114,12 +120,16 @@ end
     math is scary
 ]]
 function BaseGui:GetRotatedBounds()
+    return self:GetRotatedOffset(self.AbsoluteSize)
+end
+
+function BaseGui:GetRotatedOffset(Offset)
     local sin = math.sin(self.AbsoluteRotation) -- sin(0) == 0
     local cos = math.cos(self.AbsoluteRotation) -- cos(0) == 1
 
     return Vector2.new(
-        (self.AbsoluteSize.X * cos) + (self.AbsoluteSize.Y * sin),
-        (self.AbsoluteSize.X * sin) + (self.AbsoluteSize.Y * cos)
+        (Offset.Y * sin) + (Offset.X * cos),
+        (Offset.Y * cos) - (Offset.X * sin)
     )  
 end
 
@@ -189,7 +199,7 @@ function BaseGui:new()
     self.PropagatedChange = Signal:New("PropagatedChange")
 
     self.AutomaticSize = nil
-    self.SquareAxis = Enum.SquareAxis.Nothing
+    self.SquareAxis = nil
 
     self.AbsoluteLayer = 0
     self.ListOrder = 0
@@ -280,14 +290,11 @@ function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
     love.graphics.push()
-    love.graphics.rotate(self.AbsoluteRotation)
+    love.graphics.rotate(-self.AbsoluteRotation)
     love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
     
     self:SetColor("Background", true)
     self:Draw()
-
-    love.graphics.pop()
-    love.graphics.translate(self.RotatedPivot.X,self.RotatedPivot.Y)
 
     if FLAGS.DebugDraw then
         local Rect = self:GetProperty("ChildRect")
@@ -300,6 +307,7 @@ function BaseGui:DrawStyle()
         Runtime.Backend2D.SetColor(Color.new(1,0,0))
         love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
     end
+    love.graphics.pop()
 
     Runtime.Backend2D.SetColor(Color.new(1))
 end
@@ -316,9 +324,9 @@ function BaseGui:UpdateTransforms()
 
     self.AbsolutePosition = self:GetAbsolutePosition()
     self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
-    self.RotatedPivot = -(self.Pivot * self:GetRotatedBounds())
+    --self.RotatedPivot = -(self.Pivot * self:GetRotatedBounds())
 
-    self.ChildRect = Rect.new(self.AbsolutePosition + self.RotatedPivot, self:GetRotatedBounds())
+    self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 end
 
 function BaseGui:InvalidateAutomaticSize()
@@ -396,7 +404,7 @@ function BaseGui:SetPivot(New)
 end
 
 function BaseGui:SetRotation(New)
-    self.Rotation = New
+    self.Rotation = New or 0
     self:InvalidateRendering()
 end
 
