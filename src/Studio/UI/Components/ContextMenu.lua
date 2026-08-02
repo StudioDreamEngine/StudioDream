@@ -163,7 +163,7 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
     })]]
 
     DropdownObject.Shadow = Runtime.Things.Create("Image2D") {
-        Size = Pivot2D.FromScale(1.2,1.2),
+        Size = Pivot2D.new(30,1,30,1),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
         Resource = "Internal/Studio/Blur.png",
