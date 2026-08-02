@@ -23,13 +23,20 @@ end
 
 function Things.CreateApiDump()
     for Class, _ in pairs(Classes) do
-        local ClassObject = Things.Type(Class) ---@class Thing
-        --Things.ClassDump[Class] = ClassObject
+        local Success, Message = pcall(function()
+            local ClassObject = Things.Type(Class) ---@class Thing
+            --Things.ClassDump[Class] = ClassObject
 
-        ClassObject = ClassObject()
-        ClassObject:DefineAPI()
-        
-        Things.API[Class] = ClassObject.Proxy
+            ClassObject = ClassObject()
+            ClassObject:DefineAPI()
+            
+            Things.API[Class] = ClassObject.Proxy
+        end)
+
+        if (not Success) then
+            error("Failed to create API dump for "..Class..", make sure the class is properly formatted and created")
+            print(Message)
+        end
     end
 end
 
