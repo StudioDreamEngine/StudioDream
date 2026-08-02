@@ -35,18 +35,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     }
 
     if Transform.Shadows then
-        Windows.Shadow = Runtime.Things.Create("Image2D") {
-            Size = Pivot2D.FromScale(1.05,1.07),
-            Position = Pivot2D.FromScale(0.5,0.5),
-            Pivot = Vector2.new(0.5,0.5),
-            Resource = "Internal/Studio/Blur.png",
-            ForegroundColor = Color.new(0,0,0),
-            ForegroundTransparency = 0.5,
-            Parent = Windows.FullContainer,
-            NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
-            FilterType = Enum.FilterType.Default,
-            Layer = -1
-        }
+        Windows.Shadow = Studio.Components.CreateDropshadow(Windows.FullContainer)
     end
 
     -- GUARD CLAUSES MIKL
@@ -221,12 +210,12 @@ function StudioLayout.CreateLayout()
         TopLevel = true
     })
 
-    StudioLayout.CreateWindow("Output", {
+    --[[StudioLayout.CreateWindow("Output", {
         Position = Pivot2D.FromScale(0,1),
         Size = Pivot2D.FromScale(0.8,.2),
         Pivot = Vector2.new(0,1),
         CornerRadius = 0,
-    })
+    })]]
 
     StudioLayout.CreateWindow("PConfig", {
         Size = Pivot2D.FromScale(0.5,0.6),

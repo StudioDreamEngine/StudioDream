@@ -28,7 +28,14 @@ end
 
 function Square:CalculateRadius()
     if self.LimitCornerRadious then
-        local Size = Vector2.new(self.AbsoluteSize.X/2,self.AbsoluteSize.Y/2).Y
+        local Size 
+        --print(Size)
+        if self.AbsoluteSize.X < self.AbsoluteSize.Y then
+            Size = self.AbsoluteSize.X/2
+        else
+            Size = self.AbsoluteSize.Y/2
+        end
+        --print(Size)
         if self.CornerRadius > Size then
             self.TrueRadiousOfCorners = Size
         else
