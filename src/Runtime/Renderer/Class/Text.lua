@@ -105,8 +105,16 @@ return function()
 
     -- Rendering
     function Text.SetFont(Font)
-        local Font = Font and string.split(Font, "-") or {}
-        Text.RenderFont = love.graphics.newFont(GetFont(Font[1], Font[2]),32)
+        if type(Font) == "string" then
+            local Font = Font and string.split(Font, "-") or {}
+            Text.RenderFont = love.graphics.newFont(GetFont(Font[1], Font[2]),32)
+        else
+            Text.RenderFont = Font
+        end
+    end
+
+    function Text.SetFilter(NewFilter)
+        Text.RenderFont:setFilter(NewFilter,NewFilter)
     end
 
     Text.SetFont("Roboto")

@@ -38,6 +38,15 @@ HELP
         DebugDraw: If to enable the debug drawing renderers
             ]]
         end
+    },
+    PLEASEHELPLUZ = {
+        Type = "Switch",
+        Output = function()
+            return [[
+                Okay damn calm down, idk how this works but bloctans said u can use the "Help" command
+                to well, help u
+            ]]
+        end
     }
 }
 

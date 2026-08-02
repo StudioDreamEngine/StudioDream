@@ -24,6 +24,7 @@ function Template.Start(MainInfo)
         Font = Studio.CurrentTheme.FontBold,
         BackgroundColor = Studio.CurrentTheme.Primary,
         CornerRadius = 5,
+        SinkHovering = true,
     }
 
     Runtime.Things.Create("Image2D") {

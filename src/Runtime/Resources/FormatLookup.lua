@@ -8,7 +8,8 @@ return {
     glb = "Mesh",
     dae = "Mesh",
     lua = "Script",
-    luau = "Script"
+    luau = "Script",
+    ttf = "Font"
     --jpg = "Image",
     --jpeg = "Image",
 }

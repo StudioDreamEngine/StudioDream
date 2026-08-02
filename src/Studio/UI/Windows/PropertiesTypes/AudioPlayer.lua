@@ -20,7 +20,8 @@ function Template.Start(MainInfo)
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Resource = "Internal/Studio/PauseAnPlay.png",
-        Parent = MainInfo.Option
+        Parent = MainInfo.Option,
+        SinkHovering = true,
     }
     
     Button:SetImageRect(Rect.new(LineUp.Play,Vector2.new(64,64)))

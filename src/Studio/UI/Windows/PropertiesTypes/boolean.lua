@@ -29,6 +29,7 @@ function Bool.Start(MainInfo)
         SquareAxis = Enum.SquareAxis.Y,
         Parent = MainInfo.Option,
         ForegroundColor = Studio.CurrentTheme.Text,
+        SinkHovering = true,
     }
 
     function self.Update()

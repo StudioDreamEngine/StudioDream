@@ -10,8 +10,15 @@ function Text:new()
     self.TextSize = 12
     self.TextScaled = true
     self.Text = "Placeholder"
-    
+
+    self.Font = nil
+
+    self.RenderFont = nil
+
     self.Alignment = Vector2.zero
+
+    self.FilterType = Enum.FilterType.Default
+
     --self.DefaultFont = Studio.CurrentTheme.FontNormal
     self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
 end
@@ -20,9 +27,9 @@ function Text:DefineAPI()
     Text.super.DefineAPI(self)
 
     self.Proxy.Icon("Text")
-    self.Proxy.Property("string Text","Enum.Alignment Alignment","boolean TextScaled","number TextSize")
+    self.Proxy.Property("string Text","Enum.Alignment Alignment","boolean TextScaled","number TextSize","Resource Font","Enum.FilterType FilterType")
     self.Proxy.Group("Text", "Text","Alignment","TextScaled","TextSize")
-    self.Proxy.Group("Visual", "ForegroundColor", "ForegroundTransparency")
+    self.Proxy.Group("Visual", "ForegroundColor", "ForegroundTransparency","FilterType","Font")
     self.Proxy.MakeCreatable()
 end
 
@@ -69,8 +76,17 @@ function Text:Draw()
     self.RenderClass.Render()
 end
 
-function Text:SetFont(NewFont)
-    self.RenderClass.SetFont(NewFont)
+function Text:SetFilterType(NewFilter)
+    self.FilterType = NewFilter
+    self.RenderClass.SetFilter(NewFilter)
+end
+
+function Text:SetFont(Identifier)
+    print(Identifier)
+    self.RenderFont, self.Font = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Font")
+    if (not self.RenderFont) then return end
+
+    self.RenderClass.SetFont(self.RenderFont)
     self:InvalidateRendering()
 end
 

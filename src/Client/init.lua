@@ -59,4 +59,9 @@ function Client.Render()
     
 end
 
+function Client.OnQuit()
+    print("HELP!")
+    Runtime.RequestRestart("Studio")
+end
+
 return Client

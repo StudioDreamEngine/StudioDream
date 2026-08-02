@@ -69,6 +69,9 @@ function Shared.Init(Args)
     Shared.Splash.Create()
 
     Scheduler.NewTask(Shared.Splash.Load)
+
+    Shared.OnQuit = Signal:New("IQUITIT!")
+
     SharedInit.End()
 end
 
@@ -94,6 +97,10 @@ function Shared.StartTarget()
     ---@module "Studio"
     Target = require(FLAGS.Target)
     Target.Init() 
+
+    if FLAGS.Target == "Client" then
+        Shared.OnQuit:Connect(Target.OnQuit)
+    end
 end
 
 function Shared.UpdateTarget(dt)

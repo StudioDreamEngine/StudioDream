@@ -29,9 +29,9 @@ local ThemesIn = {
         Text = Color.FromHex("#ffffff"),
 
         Error =  Color.FromHex("#ff3333"),
-        FontNormal = "Roboto-Medium",
-        FontBold = "Roboto-Bold",
-        FontTalic = "Roboto-Italic",
+        FontNormal = "Internal/Fonts/Roboto/Roboto-Medium.ttf",
+        FontBold = "Internal/Fonts/Roboto/Roboto-Bold.ttf",
+        FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
     Concept = {

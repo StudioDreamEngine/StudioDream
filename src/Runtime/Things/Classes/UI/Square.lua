@@ -26,7 +26,7 @@ function Square:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function Square:CalculateRadius()
+function Square:CalculateRadius() -- this was kinda fun to do
     if self.LimitCornerRadious then
         local Size 
         --print(Size)
