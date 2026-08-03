@@ -91,7 +91,7 @@ function DialogWindows.CreateDialogWindow(Type, Options)
         CornerRadius = 2.5,
     }
 
-    DialogObject.Shadow = Components.CreateDropshadow(DropdownObject.MajorParent)
+    DialogObject.Shadow = Components.CreateDropshadow(DialogObject.MajorParent)
 
     DialogObject.Close = DialogWindows.DestroyDialogWindow
     DialogObject.Updator = Components.RegisterUpdator(DialogObject.Update)
