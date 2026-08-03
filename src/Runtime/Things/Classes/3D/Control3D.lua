@@ -1,5 +1,9 @@
 -- Moveable axis control
 local Things = Runtime.Things
+local InputService = Runtime.Services.Service("InputService") ---@class InputService
+local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
+
+local SelectionPriority = Runtime.SelectionPriority
 
 ---@class Control3D: Base3D
 local Control3D = Things.Extend("Base3D")
@@ -9,17 +13,106 @@ function Control3D:new()
 
     self.Adornee = nil ---@class Drawable3D
 
+    self.ControlChanged = Signal:New("Control")
+    self.EndControl = Signal:New("EndControl")
+    self.StartControl = Signal:New("StartControl")
+
     self.Down = false
     self.Hovering = nil
     
-    self.AdornObject = Runtime.Backend3D.CreateAdorn("MoveAdorn")
+    self.AdornObject = Runtime.Backend3D.CreateAdorn("ControlAdorn")
     self.Adorns = {}
+
+    for Axis, Color in pairs(self.Lookup) do
+        local Material = Things.New("Material")
+        Material.Color = Color
+        Material.Alpha = true
+
+        local Object = Runtime.Backend3D.LoadAdorn(self.Resource, self.AdornObject, Axis)
+        Object:setMaterial(Material)
+
+        self.Adorns[Axis] = {
+            Adorn = Object,
+            Material = Material
+        }
+    end
+
+    self:ConnectEvents()
+end
+
+function Control3D:ConnectEvents()
+    printVerbose("Connect move events")
+
+    self.MouseEvent = SelectionPriority.BindSignal(function(IsDown)
+        if IsDown then
+            self.StartControl.Invoke()
+            self.Down = self.Hovering
+
+            self:OnStart()
+        else
+            self.Down = false 
+            self.EndControl.Invoke() 
+        end
+    end, 2, function ()
+        return self.Hovering or self.Down
+    end)
+
+    self.MouseMoved = InputService.MouseMoved:Connect(function(MouseObject)
+        if (not self.Down) then return end
+
+        self:OnChange()
+    end)
+end
+
+function Control3D:OnRemove()
+    Runtime.Backend3D.RemoveAdorn(self.AdornObject.UUID)
+    self:DisconnectEvents()
+
+    Control3D.super.OnRemove(self)
+end
+
+function Control3D:DisconnectEvents()
+    SelectionPriority.UnbindSignal(self.MouseEvent)
+    self.MouseMoved:Disconnect()
 end
 
 function Control3D:DefineAPI()
     Control3D.super.DefineAPI(self)
 
     self.Proxy.Property("Thing Adornee")
+end
+
+function Control3D:Update(dt)
+    if (not self.Adornee) then return end
+
+    ---@class Camera
+    local Camera = Things.Root:GetCamera()
+    if not (Camera or Camera.Position) then return end
+
+    local Transform = self.Adornee.Transform
+
+    local CameraDistance = (Transform.Position - Camera.Position).Magnitude()
+    CameraDistance = math.sqrt(CameraDistance) / 8 -- Black magic, Literally black magic.
+
+    local Hovering = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)
+    self.Hovering = Hovering
+
+    for Axis, Data in pairs(self.Adorns) do
+        local Adorn = Data.Adorn
+        local OldColor = Data.Material.Color
+
+        local Alpha
+        local HoveringID = self.Hovering and self.Hovering.UUID
+        local DownID = self.Down and self.Down.UUID
+
+        if (Adorn.UUID == DownID) then Alpha = 1
+        elseif (Adorn.UUID == HoveringID) then Alpha = 0.7
+        else Alpha = 0.9 end
+
+        Data.Material.Color = Color.new(OldColor.R, OldColor.G, OldColor.B, Alpha)
+
+        self:UpdateAdorn(Axis, Adorn, Transform, CameraDistance)
+    end
 end
 
 return Control3D

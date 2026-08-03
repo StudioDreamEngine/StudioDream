@@ -172,11 +172,6 @@ function StudioLayout.CreateLayout()
         CornerRadius = 0,
     })
 
-    --[[StudioLayout.CreateWindow("Trollo",{
-        Size = Pivot2D.FromScale(0.25,.5),
-        TopLevel = true
-    })]]
-
     StudioLayout.CreateWindow("InsertObject", {
         Size = Pivot2D.FromScale(0.25,.25),
         Position = Pivot2D.FromScale(.5,1),
@@ -210,12 +205,12 @@ function StudioLayout.CreateLayout()
         TopLevel = true
     })
 
-    --[[StudioLayout.CreateWindow("Output", {
+    StudioLayout.CreateWindow("Output", {
         Position = Pivot2D.FromScale(0,1),
         Size = Pivot2D.FromScale(0.8,.2),
         Pivot = Vector2.new(0,1),
         CornerRadius = 0,
-    })]]
+    })
 
     StudioLayout.CreateWindow("PConfig", {
         Size = Pivot2D.FromScale(0.5,0.6),
@@ -236,6 +231,15 @@ function StudioLayout.CreateLayout()
             Shadows = true,
         })
     end
+
+    --[[StudioLayout.CreateWindow("Trollo",{
+        Size = Pivot2D.FromScale(0.15,0.6),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Layer = 300,
+        TopLevel = true,
+        Shadows = true,
+    })]]
 
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("PConfig"), false)

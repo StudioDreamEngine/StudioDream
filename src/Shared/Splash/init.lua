@@ -110,7 +110,9 @@ function Splash.Load()
     Splash.ChangeStatus("")
 
     printVerbose("Sucessfully Finished Initalization")
-    Scheduler.OnRecoverableError = (Scheduler.OnRecoverableError == SplashError) and nil or Scheduler.OnRecoverableError
+    if (Scheduler.OnRecoverableError == SplashError) then
+        Scheduler.OnRecoverableError = nil
+    end
 
     if (not FLAGS.SecondRun) then
         Splash.Out()

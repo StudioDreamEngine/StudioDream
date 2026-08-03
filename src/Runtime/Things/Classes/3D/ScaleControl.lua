@@ -3,19 +3,8 @@ local Things = Runtime.Things
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
 
-local SelectionPriority = Runtime.SelectionPriority
-
 ---@class ScaleControl: Control3D
 local ScaleControl = Things.Extend("Control3D")
-
-local Lookup = {
-    Vector3.zAxis,
-    -Vector3.zAxis,
-    Vector3.xAxis,
-    -Vector3.xAxis,
-    Vector3.yAxis,
-    -Vector3.yAxis
-}
 
 function ScaleControl:GetPlane()
     local Camera = Things.Root:GetCamera()
@@ -31,38 +20,16 @@ function ScaleControl:GetPlane()
     return Rays.X + Rays.Y + Rays.Z
 end
 
-function ScaleControl:ConnectEvents()
-    printVerbose("Connect move events")
+function ScaleControl:OnStart()
+    self.InitalPos = self.Adornee.Position
 
-    self.MouseEvent = SelectionPriority.BindSignal(function(IsDown)
-        if IsDown then
-            self.StartScale.Invoke()
-
-            self.Down = self.Hovering
-
-            self.InitalPos = self.Adornee.Position
-
-            self.InitalOffset = self:GetPlane()
-            self.NormalSide = self.Down
-        else
-            self.Down = false 
-            self.EndScale.Invoke() 
-        end
-    end, 2, function ()
-        return self.Hovering or self.Down
-    end)
-
-    self.MouseMoved = InputService.MouseMoved:Connect(function(MouseObject)
-        if (not self.Down) then return end
-
-        local DistanceFrom = (self:GetPlane() - self.InitalOffset)
-        self.OnMove.Invoke(self.NormalSide, (DistanceFrom * self.Down).Axis())
-    end)
+    self.InitalOffset = self:GetPlane()
+    self.NormalSide = self.Down.Thing
 end
 
-function ScaleControl:DisconnectEvents()
-    SelectionPriority.UnbindSignal(self.MouseEvent)
-    self.MouseMoved:Disconnect()
+function ScaleControl:OnChange()
+    local DistanceFrom = (self:GetPlane() - self.InitalOffset)
+    self.ControlChanged.Invoke(self.NormalSide, (DistanceFrom * self.NormalSide).Axis())
 end
 
 function ScaleControl:DefineAPI()
@@ -72,61 +39,32 @@ function ScaleControl:DefineAPI()
 end
 
 function ScaleControl:new()
-    ScaleControl.super.new(self)
-
-    self.OnMove = Signal:New("Control")
-    self.EndScale = Signal:New("EndControl")
-    self.StartScale = Signal:New("StartControl")
-
     self.InitalPos = Vector3.zero
     self.InitalOffset = Vector3.zero
     self.NormalSide = Vector3.zero
 
-    --[[
-        I dont like having to assign all of these to variables, we should find a way to be able to clean these up more automatically
+    self.Lookup = {
+        [Vector3.zAxis] = Color.new(0,0,1,0.8),
+        [-Vector3.zAxis] = Color.new(0,0,1,0.8),
+        [Vector3.xAxis] = Color.new(1,0,0,0.8),
+        [-Vector3.xAxis] = Color.new(1,0,0,0.8),
+        [Vector3.yAxis] = Color.new(0,1,0,0.8),
+        [-Vector3.yAxis] = Color.new(0,1,0,0.8)
+    }
 
-        Perhaps there can be a third argument to say which object a signal is tied to, and you can directly disconnect all signals under that object?
-        idk
-    ]]
-    self:ConnectEvents()
+    self.Resource = "Internal/DefaultMeshes/ball.obj"
 
-    for _, Axis in pairs(Lookup) do
-        self.Adorns[Axis] = Runtime.Backend3D.LoadAdorn("Internal/DefaultMeshes/ball.obj", self.AdornObject, Axis)
-    end
+    ScaleControl.super.new(self)
 end
 
-function ScaleControl:OnRemove()
-    Runtime.Backend3D.RemoveAdorn(self.AdornObject.UUID)
-    self:DisconnectEvents()
-
-    ScaleControl.super.OnRemove(self)
-end
-
-function ScaleControl:Update(dt)
-    if (not self.Adornee) then return end
-
-    ---@class Camera
-    local Camera = Things.Root:GetCamera()
-    if not (Camera or Camera.Position) then return end
-
-    local Transform = self.Adornee.Transform
-
-    local CameraDistance = (Transform.Position - Camera.Position).Magnitude()
-    CameraDistance = math.sqrt(CameraDistance) / 8 -- Black magic, Literally black magic.
-
-    local Hovering = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)
-
-    self.Hovering = Hovering and Hovering.Thing
-
-    for Axis, Adorn in pairs(self.Adorns) do
-        -- ...oh god
-        Adorn:resetTransform()
-        Adorn:translate((Transform.Position + (Axis * self.Adornee.Size)).ToDream())
-        Adorn:lookTowards(-Axis.ToDream())
-        Adorn:scale(CameraDistance)
-        Adorn:translate(0,0,2)
-        Adorn:rotateX(math.pi/2)
-    end
+function ScaleControl:UpdateAdorn(Axis, Adorn, Transform, CameraDistance)
+    -- ...oh god
+    Adorn:resetTransform()
+    Adorn:translate((Transform.Position + (Axis * self.Adornee.Size)).ToDream())
+    Adorn:lookTowards(-Axis.ToDream())
+    Adorn:scale(CameraDistance)
+    Adorn:translate(0,0,2)
+    Adorn:rotateX(math.pi/2)
 end
 
 return ScaleControl

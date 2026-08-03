@@ -32,7 +32,7 @@ function Scale.Init()
 
     local Selecting = Scale.Selection ---@class Transformable3D
 
-    ScaleControl.OnMove:Connect(function(Plane, Normal)
+    ScaleControl.ControlChanged:Connect(function(Plane, Normal)
         local ScaleOffset = (Normal.Abs() * Plane)
         local ScaleOffset2 = (Normal * Plane)/2
 
@@ -40,11 +40,11 @@ function Scale.Init()
         Selecting:SetScale(Info.OgScale + ScaleOffset)
     end)
 
-    ScaleControl.StartScale:Connect(function()
+    ScaleControl.StartControl:Connect(function()
         StartDrag(Selecting)
     end)
 
-    ScaleControl.EndScale:Connect(function()
+    ScaleControl.EndControl:Connect(function()
         EndDrag()
     end)
 end

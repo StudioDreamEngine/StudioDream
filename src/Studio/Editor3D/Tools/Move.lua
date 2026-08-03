@@ -24,18 +24,18 @@ function Move.Init()
 
     MoveControl.Adornee = Move.Selection
 
-    MoveControl.OnMove:Connect(function(Plane)
+    MoveControl.ControlChanged:Connect(function(Plane)
         Info.OffsetTo = Plane
 
         Move.ChangeTransform(Transform3D.FromPosition(Info.OffsetTo.X,Info.OffsetTo.Y,Info.OffsetTo.Z))
     end)
 
-    MoveControl.StartMove:Connect(function()
+    MoveControl.StartControl:Connect(function()
         ToolManager.SetupSelection()
         StartDrag(Move.Selection)
     end)
 
-    MoveControl.EndMove:Connect(function()
+    MoveControl.EndControl:Connect(function()
         Move.RegisterUndo()
         EndDrag()
     end)
