@@ -23,22 +23,22 @@ function CreateRoot.CreateRoot()
         Name = "Root"
     }
 
-    HUD = Things.Create("GuiContainer", "Gui") {
+    HUD = Things.Create("GuiContainer") {
         Name = "HUD",
         Parent = Root
     }
 
-    Materials = Things.Create("Materials", "Materials") {
+    Materials = Things.Create("Materials") {
         Name = "Materials",
         Parent = Root
     }
 
-    Lighting = Things.Create("Lighting", "Lighting") {
+    Lighting = Things.Create("Lighting") {
         Name = "Lighting",
         Parent = Root
     }
 
-    Assets = Things.Create("Assets", "Assets") {
+    Assets = Things.Create("Assets") {
         Name = "Assets",
         Parent = Root
     }

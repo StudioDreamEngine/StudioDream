@@ -49,11 +49,8 @@ end
 function Objects.SerializeObjects(Root)
     local Final = {}
 
-    local ToSerialize = Root:GetDescendants()
-    table.insert(ToSerialize, Root)
-
     ---@param DescendantObject Thing
-    for _, DescendantObject in pairs(ToSerialize) do
+    for _, DescendantObject in pairs(Root:GetDescendants()) do
         if CheckSerializable(DescendantObject) then -- Only serialize if we can
             Final[DescendantObject.UUID] = Objects.SerializeObject(DescendantObject, Root)
         end
@@ -74,9 +71,9 @@ function Objects.SerializeObject(Object, Root)
         local Type = Object.Proxy.Types[PropertyName]
 
         if Property ~= nil then
-            -- Special case to make sure Parent UUID of root isnt serialized
-            if (PropertyName == "Parent") and (Object.UUID == Root.UUID) then 
-                Property = nil
+            -- Special case to resolve all root objects to the scene UUID for interchangability
+            if (Type == "Thing") and (Property.UUID == Root.UUID) then 
+                Property = "Scene" 
             else
                 Property = Objects.HandleType(Property, Type, false, PropertyName)
             end
@@ -91,8 +88,7 @@ function Objects.SerializeObject(Object, Root)
     return {
         Type = Object.ClassName,
         UUID = Object.UUID,
-        Properties = ObjectData,
-        IsRoot = (Object.UUID == Root.UUID)
+        Properties = ObjectData
     }
 end
 
@@ -138,47 +134,32 @@ end
     Objects: The list of objects being deserialized
     Root: The target, or where the objects will be deserialized to
 ]]
-function Objects.DeserializeObjects(ObjectsTable)
+function Objects.DeserializeObjects(ObjectsTable, Root)
+    Root:ClearAllChildren()
+
     local RelocationQueues = {}
-    local LocalReferences = {}
-    local RootObject
 
     -- Part 1: Deserialize all objects
-    local Deserialize = Profiler.Benchmark("Scene - Deserialize Objects", true)
-    for _, ObjectData in pairs(ObjectsTable) do
-        local Object, RelocationQueue = Objects.DeserializeObject(ObjectData)
+    local Deserialize = Profiler.Benchmark("Scene - Deserialize Objects")
+    for _, Object in pairs(ObjectsTable) do
+        local Object, RelocationQueue = Objects.DeserializeObject(Object)
 
         if Object then
-            if ObjectData.IsRoot then RootObject = Object end -- Resolve root object
-
-            table.insert(LocalReferences, Object.UUID)
             RelocationQueues[Object] = RelocationQueue
         end
     end
     Deserialize.End()
 
-    -- Part 2: Resolve local references, Add non-local refs to references table to be resolved
-    local Deserialize = Profiler.Benchmark("Scene - Resolve References", true)
+    -- Part 2: Add objects to references table to be resolved
     for Object, RelocationQueue in pairs(RelocationQueues) do
-        Objects.ResolveLocalReferences(Object, RelocationQueue, LocalReferences)
-        Objects.References[Object] = RelocationQueue
-    end
-    Deserialize.End()
+        for PropertyName, UUID in pairs(RelocationQueue) do
+            if UUID == "Scene" then RelocationQueue[PropertyName] = Root.UUID end -- Resolve all root objects to the actual parent
 
-    return RootObject
-end
-
-function Objects.ResolveLocalReferences(Object, RelocationQueue, LocalReferences)
-    for PropertyName, UUID in pairs(table.clone(RelocationQueue)) do
-        if table.findLite(LocalReferences, UUID) then
-            Things.SetProperty(Object, PropertyName, Things.Get(UUID))
-
-            RelocationQueue[PropertyName] = nil
+            Objects.References[Object] = RelocationQueue
         end
     end
 end
 
--- Resolve any non-local references
 function Objects.ResolveReferences()
     for Object, RelocationQueue in pairs(Objects.References) do
         for PropertyName, UUID in pairs(RelocationQueue) do
