@@ -62,8 +62,8 @@ function Environment:SetGravity(NewGravity)
     self.PhysicsWorld:setGravity(NewGravity.ToBullet())
 end
 
-function Environment:Raycast(origin, direction, IgnoreList)
-    return SpatialService.Raycast(origin, direction, self.DreamWorld, IgnoreList)
+function Environment:Raycast(origin, direction, FilterInformation)
+    return SpatialService.Raycast(origin, direction, self.DreamWorld, FilterInformation)
 end
 
 function Environment:RemoveBody(Child)

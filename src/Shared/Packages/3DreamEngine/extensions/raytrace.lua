@@ -203,7 +203,7 @@ local function raytraceMesh(mesh, localOrigin, localDirection, object)
 	end
 end
 
-local function raytraceObject(object, localOrigin, localDirection, ignoreList)
+local function raytraceObject(object, localOrigin, localDirection, ignoreInfo)
 	--object transform
 	if object.transform then
 		local m = object:getInvertedTransform()
@@ -225,8 +225,11 @@ local function raytraceObject(object, localOrigin, localDirection, ignoreList)
 	
 	--for all objects
 	for _, o in pairs(object.objects) do
-		if (not table.find(ignoreList, o)) then
-			transforms = raytraceObject(o, localOrigin, localDirection, ignoreList) or transforms
+		local shouldTrace = table.find(ignoreInfo.List, o)
+		if (not ignoreInfo.Whitelist) then shouldTrace = (not shouldTrace) end
+
+		if shouldTrace then
+			transforms = raytraceObject(o, localOrigin, localDirection, ignoreInfo) or transforms
 		end
 	end
 	
@@ -300,12 +303,12 @@ local raytracer = { }
 ---@param origin DreamVec3
 ---@param direction DreamVec3
 ---@return DreamRaytraceResult | "false"
-function raytracer:cast(object, origin, direction, ignoreList)
+function raytracer:cast(object, origin, direction, ignoreInfo)
 	--clear search
 	nearestT, nearestU, nearestV, nearestFace, nearestMesh = 1, false, false, false, false
 	
 	--search
-	local transforms = raytraceObject(object, origin, direction, ignoreList)
+	local transforms = raytraceObject(object, origin, direction, ignoreInfo)
 	
 	--pack
 	---@diagnostic disable-next-line: return-type-mismatch

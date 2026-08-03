@@ -106,6 +106,10 @@ local Enums = {
         Alphabetical = "alphabet",
         Order = "order"
     },
+    SpatialFilterType = {
+        Whitelist = "whitelist",
+        Blacklist = "blacklist"
+    },
     EasingMode = {
         In = "in",
         Out = "out",

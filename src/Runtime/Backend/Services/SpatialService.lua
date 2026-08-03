@@ -20,20 +20,30 @@ function SpatialService.FindObjectsInArea(AreaRect, World)
 	return InArea
 end
 
-local Raycast = Dream:getExtension("raytrace")
+function SpatialService.FilterInformation(FilterTable, FilterType)
+	if (not FilterTable) then error("no filtertable specified") end
+	local ObjList = {}
 
-function SpatialService.Raycast(Origin, Direction, WorldObject, IgnoreList)
-	assert(WorldObject, "Internal raycast function requires a WorldObject!")
-
-	local ObjIgnoreList = {}
-
-	for _, Object in pairs(IgnoreList or {}) do
+	-- Get drawables
+	for _, Object in pairs(FilterTable) do
 		if Utils.TypeOf(Object) == "Thing" and Object:IsA("Drawable3D") then
-			table.insert(ObjIgnoreList, Object.Drawable)
+			table.insert(ObjList, Object.Drawable)
 		end
 	end
 
-	local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream(), ObjIgnoreList)
+	return {
+		Type = "FilterInformation",
+		Whitelist = (FilterType == Enum.SpatialFilterType.Whitelist),
+		List = ObjList
+	}
+end
+
+local Raycast = Dream:getExtension("raytrace")
+
+function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformation)
+	assert(WorldObject, "Internal raycast function requires a WorldObject!")
+
+	local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream(), FilterInformation)
 
 	if CastResult then
 		local Object = CastResult:getObject()
