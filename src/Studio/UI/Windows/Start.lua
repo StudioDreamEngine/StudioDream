@@ -5,6 +5,8 @@ local SecondsPerMinute = 60
 local SecondsPerHour = SecondsPerMinute * 60
 local SecondsPerDay = SecondsPerHour * 24
 
+local AlreadyDidCloseButton = false
+
 local function TimeAgo(Time)
     local Difference = os.time()-Time
 
@@ -17,6 +19,25 @@ local function TimeAgo(Time)
     else
         return Difference.." Seconds ago"
     end
+end
+
+function CreateClose(Parent)
+    if not AlreadyDidCloseButton then
+        local Button = Runtime.Things.Create("ImageButton") {
+        Size = Pivot2D.FromScale(0.1,0.1),
+        Parent = Parent,
+        CornerRadius = 5,
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0,0),
+        BackgroundTransparency = 0,
+        Layer = 5,
+        Resource = "Internal/Studio/Close.png",
+        ScaleType = Enum.ScaleType.LockAspect,
+        ForegroundColor = Studio.CurrentTheme.Text,
+        }
+        Button.Clicked:Connect(Start.Close)
+    end
+    AlreadyDidCloseButton = true
 end
 
 function Start.CreateProject(Scroll,Info,Path,FullContainer)
@@ -73,6 +94,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     Base.Clicked:Connect(function()
         Runtime.Project.Load(Path)
+        CreateClose(Start.Container)
         Start.Close()
         Studio.Layout.CallHandle("Explorer", "Redraw")
     end)
@@ -187,6 +209,7 @@ function Start.Init()
         local Cool = Studio.Components.CreateDialog("Input",{
             Text = "Input a name for your new project"
         })
+        CreateClose(Start.Container)
         Start.Close()
         
         Cool.FinalProject:Connect(function(ProjectName)
@@ -196,6 +219,7 @@ function Start.Init()
     end)
 
     LoadProject.Clicked:Connect(function()
+        CreateClose(Start.Container)
         Studio.ProjectManager.LoadProject(Start.Close)
         Studio.Layout.CallHandle("Explorer", "Redraw")
     end)

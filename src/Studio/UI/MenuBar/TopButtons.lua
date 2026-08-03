@@ -1,6 +1,11 @@
 return {
     { 
-        Component = "Image"
+        Component = "Image",
+        Arguments = {
+            Function = function()
+                Studio.Editor3D.ToggleWindowOutside("Start",true)
+            end,
+        }
     },
     { 
         Component = "Button",

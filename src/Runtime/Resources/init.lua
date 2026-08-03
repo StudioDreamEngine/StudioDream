@@ -66,7 +66,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, IntendedType)
 	local ObjectUUID = (type(Object) == "table" and Object.UUID or Object)
 
 	if ObjectUUID and (Identifier.ResourceType ~= "Buffer") then
-		print(Identifier)
+		--print(Identifier)
 		local Path = Identifier.Data ---@class Path
 		local CurrentType = FormatLookup[Path.FileType]
 

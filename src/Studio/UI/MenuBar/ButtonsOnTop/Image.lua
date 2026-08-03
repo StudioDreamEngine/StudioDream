@@ -8,5 +8,7 @@ return function(Args)
         ForegroundColor = Studio.CurrentTheme.Text,
     }
 
+    ButtonContainer.Clicked:Connect(Args.Function)
+
     return ButtonContainer
 end
