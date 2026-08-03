@@ -19,8 +19,20 @@ local function FormatTime(Time)
 	return string.format("%d:%02d", minutes, seconds)
 end
 
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
 function Template.Start(MainInfo)
     local self = {}
+
+    self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
     local Text = Runtime.Things.Create("TextInput") {
         ForegroundColor = Studio.CurrentTheme.Text,
@@ -50,6 +62,7 @@ function Template.Start(MainInfo)
             print("ahh")
             self.Update(true)
         end
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
     end))
 
     table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
@@ -57,6 +70,8 @@ function Template.Start(MainInfo)
             Runtime.Things.SetProperty(Info.Thing, Info.Property, tonumber(Text.Text))
         end
         self.Update()
+        self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
     end))
 
     return self

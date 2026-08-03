@@ -13,8 +13,21 @@ local function CheckAllTheSame(table)
     return true
 end
 
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
 local function CreatePivotNode(MainInfo,WhatThing)
     local selfed = {}
+
+    selfed.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+
     selfed.BaseProperty = Things.Create("Square") { 
         Size = Pivot2D.new(0,0.95,23,0),
         Pivot = Vector2.new(0,0),
@@ -64,6 +77,10 @@ local function CreatePivotNode(MainInfo,WhatThing)
         Update()
     end))
 
+    table.insert(MainInfo.Connections,selfed.Option.FocusStart:Connect(function()
+        Studio.History.RegisterUndo("LotsOfObjects",selfed.SavedFrozen)
+    end))
+
     table.insert(MainInfo.Connections,selfed.Option.FocusEnd:Connect(function()
         for i,Info in pairs(MainInfo.WillHandle) do
             local IsRotate = (WhatThing == "Offset")
@@ -75,6 +92,9 @@ local function CreatePivotNode(MainInfo,WhatThing)
 
             Things.SetProperty(Info.Thing, Info.Property, Transform)
         end
+
+        selfed.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+        Studio.History.RegisterUndo("LotsOfObjects",selfed.SavedFrozen)
     end))
 
     return selfed

@@ -11,8 +11,20 @@ local function CheckAllTheSame(table)
     return true
 end
 
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
 function Template.Start(MainInfo)
     local self = {}
+
+    self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
     local Text = Runtime.Things.Create("TextInput") {
         ForegroundColor = Studio.CurrentTheme.Text,
@@ -37,11 +49,17 @@ function Template.Start(MainInfo)
 
     self.Update()
 
+    table.insert(MainInfo.Connections,Text.FocusStart:Connect(function()
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
+
     table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
-            for i,Info in pairs(MainInfo.WillHandle) do
-                Runtime.Things.SetProperty(Info.Thing, Info.Property, Vector2.FromString(Text.Text))
-            end
-        end))
+        for i,Info in pairs(MainInfo.WillHandle) do
+            Runtime.Things.SetProperty(Info.Thing, Info.Property, Vector2.FromString(Text.Text))
+        end
+        self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
 
     return self
 end

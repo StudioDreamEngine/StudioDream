@@ -20,8 +20,22 @@ local function CheckAllTheSame(table)
     return true
 end
 
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
 function Bool.Start(MainInfo)
     local self = {}
+
+    self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+
+    Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
 
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Studio/Boolean.png",
@@ -58,6 +72,8 @@ function Bool.Start(MainInfo)
         else
             UpdateButton(nil, Button)
         end
+
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
 
     end))
 
