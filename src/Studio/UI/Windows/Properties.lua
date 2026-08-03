@@ -36,6 +36,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Layer = 3,
         Parent = ParentWhat or Properties.ParentWith,
         CornerRadius = 6,
+        PropertyInfos.Name,
         --OutlineColor = Studio.CurrentTheme.Outline,
         --OutlineSize = 1
     }
@@ -73,6 +74,7 @@ function Properties.CreateGroup(GroupName)
         Size = Pivot2D.new(0,1,26,0),
         BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
+        Name = GroupName,
         Parent = Properties.ParentWith,
         CornerRadius = 2,
     }

@@ -119,6 +119,7 @@ function Components.ExpandableDropdown(Header, List)
 
     ExpandableDropdown.Container = Things.Create("Square") { 
         Size = Pivot2D.FromScale(0.98,1),
+        Name = Header.Name.."1",
         AutomaticSize = Enum.AutomaticSize.Y,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0.5,1),

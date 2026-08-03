@@ -259,13 +259,20 @@ local Enums = {
     }
 }
 
-for _, Enum in pairs(Enums) do
+local TheNotNoneList = {
+    ["FilterType"]=true,
+    ["EasingMode"]=true
+}
+
+for Name, Enum in pairs(Enums) do
     Enum.NameFromValue = function(Value)
         return table.find(Enum, Value)
     end
 
     Enum.Type = "Enum"
-    Enum.None = nil
+    if TheNotNoneList[Name]~=true then
+        Enum.None = nil
+    end
 end
 
 return Enums
