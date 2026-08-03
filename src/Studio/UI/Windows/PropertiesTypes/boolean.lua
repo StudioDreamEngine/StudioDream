@@ -35,8 +35,6 @@ function Bool.Start(MainInfo)
 
     self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
-    Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
-
     local Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Studio/Boolean.png",
         Size = Pivot2D.FromScale(1,1),
@@ -56,6 +54,8 @@ function Bool.Start(MainInfo)
     table.insert(MainInfo.Connections, Button.Clicked:Connect(function()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
         local NotSameSwitch = MainInfo.WillHandle[1].Property
+        
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
 
         for i, Info in pairs(MainInfo.WillHandle) do
             if AllSame then
@@ -73,6 +73,7 @@ function Bool.Start(MainInfo)
             UpdateButton(nil, Button)
         end
 
+        self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
         Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
 
     end))
