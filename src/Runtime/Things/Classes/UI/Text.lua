@@ -82,7 +82,7 @@ function Text:SetFilterType(NewFilter)
 end
 
 function Text:SetFont(Identifier)
-    print(Identifier)
+    --print(Identifier)
     self.RenderFont, self.Font = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Font")
     if (not self.RenderFont) then return end
 
