@@ -102,6 +102,10 @@ local Enums = {
         BackOut = "outBack",
         BounceOut = "outBounce",
     },
+    SortMode = {
+        Alphabetical = "alphabet",
+        Order = "order"
+    },
     EasingMode = {
         In = "in",
         Out = "out",

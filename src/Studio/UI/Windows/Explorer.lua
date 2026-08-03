@@ -55,6 +55,7 @@ function Explorer.CreateNode(Object, Depth)
         Pivot = Vector2.new(0,0),
         BackgroundTransparency = 1,
         Layer = 3,
+        Name = Object.Name,
         Parent = ScrollContainer,
         Serializable = false,
         CornerRadius = 5,
@@ -185,6 +186,7 @@ function Explorer.CreateTree(Object, Depth, BeforeNodeObj)
     printVerbose(NodeObj.NodeInner.BackgroundColor)
     Explorer.Tree[Object] = NodeObj.NodeInner
     
+    -- ??
     if BeforeNodeObj then
         table.insert(BeforeNodeObj.ChildrenInNode,NodeObj)
         if not BeforeNodeObj.AlreadyCreatedChilButton then
@@ -310,6 +312,7 @@ function Explorer.Redraw()
     Things.Create("ListLayout") {
         Parent = ScrollContainer,
         Padding = 3,
+        SortMode = Enum.SortMode.Order
     }
 end
 

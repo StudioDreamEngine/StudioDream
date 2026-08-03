@@ -14,8 +14,9 @@ function ListLayout:new()
     self.Alignment = Vector2.zero
 
     self.Reverse = false
-
     self.Padding = 0
+
+    self.SortMode = Enum.SortMode.Alphabetical
 
     self.RemainingSize = 0
     self.ShouldUpdate = false
@@ -56,8 +57,10 @@ function ListLayout:DefineAPI()
     ListLayout.super.DefineAPI(self)
 
     self.Proxy.Icon("ListLayout")
-    self.Proxy.Property("Enum.LayoutDirection Direction", "number Padding", "Enum.Alignment Alignment")
-    self.Proxy.Group("Layouts","Direction","Padding","Alignment")
+    self.Proxy.Property("Enum.LayoutDirection Direction", "number Padding", "Enum.Alignment Alignment", "Enum.SortMode SortMode")
+    self.Proxy.Group("Layout","Direction","Padding","Alignment","SortMode")
+
+    self.Proxy.Attribute("SortMode", "RequiresEnum")
     self.Proxy.MakeCreatable()
 end
 
@@ -72,6 +75,17 @@ end
 
 function ListLayout:RequestUpdateLayout()
     self.ShouldUpdate = true
+end
+
+function ListLayout:SortFunction(a,b,Index)
+    local aIndex = a[Index]
+    local bIndex = b[Index]
+
+    if self.Reverse then
+        return (aIndex == bIndex) and (a.NumericalID > b.NumericalID) or (aIndex < bIndex)
+    else
+        return (aIndex == bIndex) and (a.NumericalID < b.NumericalID) or (aIndex < bIndex)
+    end
 end
 
 function ListLayout:UpdateLayout()
@@ -90,15 +104,19 @@ function ListLayout:UpdateLayout()
     local Positions = {}
 
     -- Sort the objects so they appear how they are supposed to
-    ---@param a BaseGui
-    ---@param b BaseGui
-    table.sort(self.Objects, function(a,b)
-        if self.Reverse then
-            return (a.ListOrder == b.ListOrder) and (a.NumericalID > b.NumericalID) or (a.ListOrder > b.ListOrder)
-        else
-            return (a.ListOrder == b.ListOrder) and (a.NumericalID < b.NumericalID) or (a.ListOrder < b.ListOrder)
-        end
-    end)
+    if self.SortMode == Enum.SortMode.Order then
+        ---@param a BaseGui
+        ---@param b BaseGui
+        table.sort(self.Objects, function(a,b)
+            return self:SortFunction(a,b,"ListOrder")
+        end)
+    else
+        ---@param a BaseGui
+        ---@param b BaseGui
+        table.sort(self.Objects, function(a,b)
+            return self:SortFunction(a,b,"Name")
+        end)
+    end
 
     -- Pass 1: Handle the inital layout of the objects
     for _, Object in pairs(self.Objects) do

@@ -33,10 +33,10 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Size = Pivot2D.new(0,0.99,23,0),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.CurrentTheme.Secondary,
+        Name = PropertyInfos.Name,
         Layer = 3,
         Parent = ParentWhat or Properties.ParentWith,
         CornerRadius = 6,
-        PropertyInfos.Name,
         --OutlineColor = Studio.CurrentTheme.Outline,
         --OutlineSize = 1
     }
@@ -45,6 +45,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Size = Pivot2D.FromScale(0.49,.8),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
+        Name = PropertyInfos.Name,
         BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
         Parent = selfed.BaseProperty,
@@ -74,8 +75,8 @@ function Properties.CreateGroup(GroupName)
         Size = Pivot2D.new(0,1,26,0),
         BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
-        Name = GroupName,
         Parent = Properties.ParentWith,
+        Name = GroupName,
         CornerRadius = 2,
     }
 

@@ -62,6 +62,16 @@ function Platform.GetDocuments()
 	return Platform.GetHome().."/Documents/"..Platform.Identity
 end
 
+function Platform.PathFriendly(Name)
+	local Replaced = string.gsub(Name, "[!%.,\\/]", "")
+
+	if Replaced == "" then
+		return "InvalidName"
+	else
+		return Replaced
+	end
+end
+
 -- Given a path, return its absolute path which can then be used in file operations across platforms, ONLY USE FOR FOLDERS!!!!!!
 function Platform.ParsePath(Path)
 	local FullPath = NativeFS.getFullPath(Path) or Path

@@ -32,7 +32,8 @@ function ProjectManager.PackageProject()
 end
 
 function ProjectManager.NewProject(Name)
-    local Directory = Platform.GetDocuments().."/"..Name
+    local Directory = Platform.GetDocuments().."/"..Platform.PathFriendly(Name)
+    
     Runtime.Project.CreateProject(Directory)
     Runtime.Project.Config.Set("Name",Name)
     Runtime.Project.Config.Set("WindowResize",true)

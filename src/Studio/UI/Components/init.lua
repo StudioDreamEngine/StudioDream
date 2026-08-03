@@ -105,6 +105,10 @@ function Components.ExpandableDropdown(Header, List)
 
     ExpandableDropdown.VisibleChanged = Signal:New("Unexpand")
 
+    --[[ExpandableDropdown.OuterContainer = Runtime.Things.Create("Square") { 
+
+    }]]
+
     ExpandableDropdown.Button = Runtime.Things.Create("ImageButton") {
         Resource = "Internal/Studio/OpenMenu.png",
         Size = Pivot2D.FromScale(0.8,0.8),
