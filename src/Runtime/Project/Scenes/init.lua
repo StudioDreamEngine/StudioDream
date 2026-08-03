@@ -27,10 +27,10 @@ function Scenes.ResolveReferences()
     ObjectsV1.ResolveReferences() -- Should figure out a better way to do this
 end
 
-function Scenes.LoadScene(Path)
+function Scenes.LoadScene(Path, Default)
     if (not ProjectFS.FileExists(Path)) then
         print("Scene "..Path.." Doesnt exist! Not loading scene...")
-        return
+        return Default
     end
 
     print("Loading Scene: "..Path)
@@ -47,6 +47,8 @@ function Scenes.LoadScene(Path)
                 love.filesystem.write("TempLevel", table.format(Table))
             end
 
+            if Default then Default:Destroy() end
+
             local Scene = Scenes.Objects.DeserializeObjects(Table.Objects)
             return Scene
         end
@@ -61,18 +63,8 @@ function Scenes.LoadScene(Path)
     end
 end
 
--- Either load the scene or default to an already created object, said object will be deleted if the scene is loaded successfully
-function Scenes.LoadSceneOrDefault(Path, Default)
-    if (not ProjectFS.FileExists(Path)) then
-        return Default
-    end
-
-    Default:Destroy()
-    return Scenes.LoadScene(Path)
-end
-
 function Scenes.LoadRootScenes(Mode)
-    local Function = (Mode == "Load") and "LoadSceneOrDefault" or "SaveScene"
+    local Function = (Mode == "Load") and "LoadScene" or "SaveScene"
     local ScenesList = {}
 
     for Object, Scene in pairs(RootScenes) do
