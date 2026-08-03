@@ -69,6 +69,18 @@ function Camera:ScreenToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want a
     return dirWorld
 end
 
+function Camera:SetParent(NewParent)
+    local CouldParent, Reason = Camera.super.SetParent(self, NewParent)
+
+    -- Cameras will automatically set themself to the Current Camera of their parent for now
+    if self.Parent and self.Parent:IsA("Environment") then 
+        printVerbose("Set parent camera to Camera object")
+        self.Parent.Camera = self
+    end
+
+    return CouldParent, Reason
+end   
+
 function Camera:GetViewport()
     return self.Viewport
 end

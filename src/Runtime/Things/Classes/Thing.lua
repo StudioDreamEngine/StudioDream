@@ -251,6 +251,20 @@ end
 -- Fired on inital parenting, might move to event later, called after ParentChanged and ChildrenChanged events are invoked
 function Thing:OnInitalParent(NewParent) end
 
+--[[
+    EXTENDING FROM THIS FUNCTION REQUIRES YOU TO HANDLE THIS SUPERFUNCTION IN A SPECIAL MANNER:
+    Example:
+        function Object:SetParent(NewParent)
+            local CouldParent, Reason = Object.super.SetParent(self, NewParent)
+
+            if CouldParent then 
+
+            end -- Only needed if the following assumes that it could parent
+
+            return CouldParent, Reason
+        end   
+]]
+-- Sets the current parent of a thing
 function Thing:SetParent(NewParent)
     local CouldRecurse = self:CheckRecursion(NewParent)
 

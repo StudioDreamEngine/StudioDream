@@ -1,14 +1,14 @@
 local Project = {}
-local Scenes = require("Runtime.Project.Scenes")
 local Resources = require("Runtime.Project.Resources")
 
 local ProjectFS = Runtime.ProjectFS
 
+Project.Scenes = require("Runtime.Project.Scenes")
 Project.History = require("Runtime.Project.History")
 Project.Config = require("Runtime.Project.Configuration")
 
-Project.RegisterRootScene = Scenes.RegisterRootScene
-Project.LoadDefault = Scenes.LoadDefault
+Project.RegisterRootScene = Project.Scenes.RegisterRootScene
+Project.LoadDefault = Project.Scenes.LoadDefault
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
@@ -128,7 +128,7 @@ function Project.Load(ProjectPath)
         Project.Config.Load()
         Runtime.ChangeTitle()
 
-        Scenes.LoadRootScenes("Load")
+        Project.Scenes.LoadRootScenes("Load")
         Runtime.LoadProjectCallback()
     end)
 
@@ -202,10 +202,10 @@ function Project.Save(Crash)
     end
 
     if Crash then
-            print("Attempting to save during crash")
-            print("Dump of root descendants saved to RootDump for debugging (before save itself)")
-            love.filesystem.write("RootDump", table.format(Runtime.Things.Root:GetDescendantTree()))
-        end
+        print("Attempting to save during crash")
+        print("Dump of root descendants saved to RootDump for debugging (before save itself)")
+        love.filesystem.write("RootDump", table.format(Runtime.Things.Root:GetDescendantTree()))
+    end
 
     local Success, Message = pcall(function()
         Project.Config.Save()
@@ -217,7 +217,7 @@ function Project.Save(Crash)
         end
 
         ProjectFS.QueueWrite("Thumbnail.png", Dream:renderThumbnail())
-        Scenes.LoadRootScenes("Save")
+        Project.Scenes.LoadRootScenes("Save")
 
         Project.History.Add(ProjectFS, Project.Config.Get("Name"))
     end)

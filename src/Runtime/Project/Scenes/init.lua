@@ -19,12 +19,6 @@ function Scenes.SaveScene(Path, Target)
     ProjectFS.QueueWrite(Path, Data)
 end
 
-function Scenes.ConfigureTargetsTemp()
-    ---@class Thing
-    local Environment = Things.GetRoot("Environment")
-    Environment.Camera = Environment:FindFirstChild("Camera")
-end
-
 function Scenes.ResolveReferences()
     Scenes.Objects.ResolveReferences()
 end
@@ -42,7 +36,6 @@ function Scenes.LoadScene(Path, Target)
         local Table = Binser.deserialize(Content)[1]
 
         Scenes.Objects.DeserializeObjects(Table, Target)
-        Scenes.ConfigureTargetsTemp()
     end, function(Error)
         print(Error)
     end)
@@ -61,7 +54,6 @@ function Scenes.LoadRootScenes(Mode)
 
     if Mode == "Load" then
         Scenes.ResolveReferences()
-        Scenes.ConfigureTargetsTemp()
     end
 end
 

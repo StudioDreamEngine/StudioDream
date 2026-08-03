@@ -73,6 +73,11 @@ function ListLayout:PostUpdate()
     end
 end
 
+function ListLayout:SetSortMode(NewMode)
+    self.SortMode = NewMode
+    self:RequestUpdateLayout()
+end
+
 function ListLayout:RequestUpdateLayout()
     self.ShouldUpdate = true
 end

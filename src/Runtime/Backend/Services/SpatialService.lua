@@ -38,12 +38,14 @@ function SpatialService.FilterInformation(FilterTable, FilterType)
 	}
 end
 
+local DefaultFilter = SpatialService.FilterInformation({}, Enum.SpatialFilterType.Blacklist)
+
 local Raycast = Dream:getExtension("raytrace")
 
 function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformation)
 	assert(WorldObject, "Internal raycast function requires a WorldObject!")
 
-	local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream(), FilterInformation)
+	local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream(), FilterInformation or DefaultFilter)
 
 	if CastResult then
 		local Object = CastResult:getObject()
