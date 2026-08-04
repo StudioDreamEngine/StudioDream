@@ -201,36 +201,6 @@ function class:getAllMeshes()
 	return list
 end
 
----Merge all meshes, recursively, of an object
----It uses a material of one random mesh and therefore requires only identical materials
----It returns a new object with only one mesh named "merged"
-function class:merge()
-	local meshes = self:getAllMeshes()
-	
-	assert(#meshes > 0, "Object has no meshes")
-	
-	--get size beforehand to avoid resizes
-	local mesh = lib:newMeshBuilder(meshes[1][1].material)
-	local vertexSize = 0
-	local vertexMapSize = 0
-	for _, pair in ipairs(meshes) do
-		vertexSize = vertexSize + pair[1].vertices:getSize()
-		vertexMapSize = vertexMapSize + pair[1].faces:getSize() * 3
-	end
-	mesh:resizeVertex(vertexSize)
-	mesh:resizeIndices(vertexMapSize)
-	
-	--add the meshes
-	for _, pair in ipairs(meshes) do
-		mesh:addMesh(unpack(pair))
-	end
-	
-	--create object
-	local merged = lib:newObject()
-	merged.meshes["merged"] = mesh
-	return merged
-end
-
 ---Apply the current transformation to the meshes
 function class:applyTransform()
 	for _, o in pairs(self.objects) do

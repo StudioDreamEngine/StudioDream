@@ -1,2 +1,9 @@
-What needs to be improved:
-    
+The issue with 3DreamEngine is that StudioDream currently has to communicate with it, 
+3DreamEngine maintains its own entire scene when StudioDream could do that instead
+
+We need to rewrite the 3d engine to be a part of StudioDream either way
+Idea: Do this in 3 steps
+
+1. Strip Down 3DE to the nescessities
+2. Slowly strip down classes and rewrite classes such as Drawable3D to be able to be replacements for those classes
+3. Rewrite the renderer

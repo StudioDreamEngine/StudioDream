@@ -223,9 +223,8 @@ function lib:prepareRuntime()
 	require(lib.root .. "/runtimeBridge")
 
 	--default objects
+	lib.cubeObject = lib:loadObject(lib.root.."/objects/cube")
 	lib.skyObject = lib:loadObject(lib.root .. "/objects/sky", { ignoreMissingMaterials = true })
-	lib.cubeObject = lib:loadObject(lib.root .. "/objects/cube", { ignoreMissingMaterials = true })
-	lib.planeObject = lib:loadObject(lib.root .. "/objects/plane", { ignoreMissingMaterials = true })
 	printVerbose("Loaded Objects")
 	
 	--default textures
