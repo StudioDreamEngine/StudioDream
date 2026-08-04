@@ -1,5 +1,6 @@
 local Project = {}
 local Resources = require("Runtime.Project.Resources")
+local RootScenes = require("Runtime.Project.RootScenes")
 
 local ProjectFS = Runtime.ProjectFS
 
@@ -7,13 +8,13 @@ Project.Scenes = require("Runtime.Project.Scenes")
 Project.History = require("Runtime.Project.History")
 Project.Config = require("Runtime.Project.Configuration")
 
-Project.RegisterRootScene = Project.Scenes.RegisterRootScene
+Project.RegisterRootScene = RootScenes.Register
 Project.LoadDefault = Project.Scenes.LoadDefault
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
 Project.LoadingProject = false
-Project.LoadedProject = Signal:New("WhenAnActualProjectIsLoaded")
+Project.LoadedProject = Signal:New("ProjectLoaded")
 
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
@@ -66,8 +67,6 @@ function Project.ValidateAndMount(ProjectPath)
 end
 
 local DefaultImage = "Internal/Studio/Update_Thumbs/Early_Riser.png"
-
-
 
 function Project.GetSummary(ProjectPath)
     local BaseFS = Runtime.BaseFS
@@ -126,9 +125,8 @@ function Project.Load(ProjectPath)
     local Success, Message = pcall(function()
         Resources.Load()
         Project.Config.Load()
-        Runtime.ChangeTitle()
 
-        Project.Scenes.LoadRootScenes("Load")
+        RootScenes.Load()
         Runtime.LoadProjectCallback()
     end)
 
@@ -140,6 +138,7 @@ function Project.Load(ProjectPath)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
     else
         Project.LoadedProject.Invoke()
+        Runtime.ChangeTitle()
         Project.History.Add(ProjectFS, Project.Config.Get("Name"))
     end
 end
@@ -217,7 +216,7 @@ function Project.Save(Crash)
         end
 
         ProjectFS.QueueWrite("Thumbnail.png", Dream:renderThumbnail())
-        Project.Scenes.LoadRootScenes("Save")
+        RootScenes.Save()
 
         Project.History.Add(ProjectFS, Project.Config.Get("Name"))
     end)

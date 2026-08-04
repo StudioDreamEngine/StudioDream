@@ -19,7 +19,7 @@ function Configuration.Get(Key)
     return Configuration.Config[Key]
 end
 
----@param Mount MountFS
+---@param Mount? MountFS
 function Configuration.Load(Mount)
     local ConfigData
 

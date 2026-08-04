@@ -133,6 +133,7 @@ function Resources.SaveResource(IdentifierID)
 	if Identifier.ResourceType == "Project" then
 		local IdentifierData = Identifier.Data ---@class Path
 
+		Runtime.ProjectFS.QueueWrite(IdentifierData.FilePath..".uid", Identifier.ID)
 		Runtime.ProjectFS.QueueWrite(IdentifierData.FilePath, Runtime.ProjectFS.ReadFile(IdentifierData.FilePath)) -- Code reuse... oh well!
 	end
 end
