@@ -10,5 +10,5 @@ return function ()
     Enum = require("Shared.Types.Enum")
     Path = require("Shared.Types.Path")
     IdentifierType = require("Shared.Types.Identifier")
-    
+    ipairs = require("Shared.Types.ipairs")
 end

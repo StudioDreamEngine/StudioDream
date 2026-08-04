@@ -13,6 +13,8 @@ function ImageButton:new()
 
     self.Hovering = false 
     self.SinkHovering = true
+    self.HoverColorMultiplier = 0.75
+    self.ClickingColorMultiplier = 0.5
 
     self.Clicked = Signal:New("ButtonClicked")
     self.RightClicked = Signal:New("ButtonRightClicked")
@@ -55,7 +57,8 @@ function ImageButton:Update(dt)
 
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
 
-    local Multiplier = (Clicking and 0.5) or (self.Hovering and 0.75) or 1
+    local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
+    local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
     self.ColorMultiplier = Multiplier
 end
 

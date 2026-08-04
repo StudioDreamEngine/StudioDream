@@ -26,16 +26,7 @@ function UndoService.DoIt()
 end
 
 function UndoService.Init()
-    local Input = Runtime.Services.Service("InputService")
-    Input.KeyEvent:Connect(function(DidItBegan,Key)
-        if DidItBegan and Input:KeyDownNumber(Enum.InputCode.LeftCtrl) then
-            if Key == Enum.InputCode.Z then
-                UndoService.Undo()
-            elseif Key == Enum.InputCode.Y then
-                UndoService.DoIt()
-            end
-        end
-    end)
+    
 end
 
 function UndoService.RegisterUndo(Type,Info)
