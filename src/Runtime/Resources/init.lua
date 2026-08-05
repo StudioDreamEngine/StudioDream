@@ -58,7 +58,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 
 	if type(ResourceInfo) == "string" then -- Backwards compat for now
 		IntendedType = ResourceInfo
-	else
+	elseif ResourceInfo then
 		IntendedType = ResourceInfo.Type
 		CustomProperty = ResourceInfo.Property
 	end
