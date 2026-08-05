@@ -102,11 +102,14 @@ function Splash.Load()
     Shared.SetupBullet()
 
     printVerbose("Finishing Runtime Setup")
-    Runtime.PostInit(FLAGS.TargetProject)
+    Runtime.PostInit()
 
     Splash.ChangeStatus("Starting Target")
     printVerbose("Starting Target")
     Shared.StartTarget()
+
+    Splash.ChangeStatus("Loading Project... (Finishing up)")
+    Runtime.PostTarget(FLAGS.TargetProject)
     Splash.ChangeStatus("")
 
     printVerbose("Sucessfully Finished Initalization")

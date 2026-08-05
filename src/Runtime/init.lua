@@ -41,7 +41,7 @@ function Runtime.RequestRestart(NextTarget)
     end)
 end
 
-function Runtime.PostInit(ProjectPath)
+function Runtime.PostInit()
     Runtime.Backend = require("Runtime.Backend")
     Runtime.Backend.Init()
 
@@ -55,7 +55,10 @@ function Runtime.PostInit(ProjectPath)
 
     Runtime.Project = require("Runtime.Project")
     Runtime.Things.CreateEnviornment()
-    
+end
+
+-- runs after the target is initalized
+function Runtime.PostTarget(ProjectPath)
     if ProjectPath then
         Runtime.Project.Load(ProjectPath)
     else
