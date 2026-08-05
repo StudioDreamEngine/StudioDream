@@ -20,6 +20,7 @@ function Material:new()
     self.IOR = 1.0
     self.Translucency = 0.9
     self.CullMode = "back"
+    self.DepthTest = true
 
     -- General textures
     --self.AmbientOcclusionTexture = nil -- unused
@@ -38,10 +39,10 @@ function Material:DefineAPI()
     Material.super.DefineAPI(self)
 
     self.Proxy.Property("Color Color","Color Emission","Color EmissionFactor","number Roughness","number Metallic","boolean Alpha","boolean Stencil","boolean Cutout","boolean Particle"
-    ,"number AlphaCutoff","number IOR","number Translucency","Enum.CullMode CullMode","number MultiTextureBlendScale","boolean Reflective","boolean Simple")
+    ,"number AlphaCutoff","number IOR","number Translucency","Enum.CullMode CullMode","number MultiTextureBlendScale","boolean Reflective","boolean Simple","boolean DepthTest")
     self.Proxy.Group("Colors","Color","Emission","EmissionFactor")
     self.Proxy.Group("Fell","Roughness","Metallic","Reflective")
-    self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode", "Simple")
+    self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode", "Simple", "DepthTest")
     self.Proxy.Property("Resource AlbedoTexture")
     self.Proxy.Group("Texture","AlbedoTexture","MultiTextureBlendScale")
     self.Proxy.Icon("Material")

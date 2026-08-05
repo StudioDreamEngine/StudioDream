@@ -248,7 +248,7 @@ function lib:getRenderShader(mesh, reflection, globalIdentifier, alpha, canvases
 			vertexShader:getId(mat, shadowPass),
 			worldShader:getId(mat, shadowPass),
 			globalIdentifier,
-			(mat.Simple and 1 or 0)
+			(mat.DepthTest and 2 or 0) + (mat.Simple and 1 or 0)
 	)
 	
 	if light then
@@ -304,6 +304,10 @@ function lib:getRenderShader(mesh, reflection, globalIdentifier, alpha, canvases
 		--particle
 		if mat.Particle then
 			table.insert(flags, "#define IS_PARTICLE")
+		end
+
+		if (not mat.DepthTest) then
+			table.insert(flags, "#define NO_DEPTH_TEST")
 		end
 		
 		--collect additional defines

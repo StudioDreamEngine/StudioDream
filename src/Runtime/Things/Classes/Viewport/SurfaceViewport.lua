@@ -10,6 +10,7 @@ function SurfaceViewport:new()
     self.Mesh, self.Drawable = Renderer.Billboard.CreateBillboard(self.ViewportCanvas)
 
     self.DisplaySide = Enum.Side.Front
+    self.DisableDepth = false
 end
 
 function SurfaceViewport:SetParent(NewParent)
@@ -30,8 +31,8 @@ function SurfaceViewport:OnRemove()
 end
 
 function SurfaceViewport:ViewportDefineAPI()
-    self.Proxy.Property("Enum.Side DisplaySide")
-    self.Proxy.Group("General", "DisplaySide")
+    self.Proxy.Property("Enum.Side DisplaySide", "boolean DisableDepth")
+    self.Proxy.Group("General", "DisplaySide", "DisableDepth")
 end
 
 function SurfaceViewport:DefineAPI()
@@ -49,13 +50,20 @@ function SurfaceViewport:CreateNew()
     self.Mesh.material:SetAlbedoTexture(self.ViewportCanvas)
 end
 
+function SurfaceViewport:SetDisableDepth(New)
+    self.DisableDepth = New
+
+    print(New)
+    self.Mesh.material.DepthTest = (not New)
+end
+
 function SurfaceViewport:UpdateDrawable(Parent)
     local TransformPos = Parent.Transform.Position.ToDream()
     local DisplaySide = self.DisplaySide.ToDream()
 
-    local LookatMatrix = Dream:lookAt(TransformPos, DisplaySide)
-
-    self.Drawable:setTransform(LookatMatrix)
+    self.Drawable:resetTransform()
+    self.Drawable:translate(TransformPos)
+    self.Drawable:lookTowards(DisplaySide)
     self.Drawable:translate(0,0,0.02)
     self.Drawable:scale(Parent.Size.X, Parent.Size.Y, Parent.Size.Z)
     self.Drawable:translate(0,0,1)

@@ -28,6 +28,7 @@ function Control3D:new()
         Material.Color = Color
         Material.Alpha = true
         Material.Simple = true
+        Material.DepthTest = false
 
         local Object = Runtime.Backend3D.LoadAdorn(self.Resource, self.AdornObject, Axis)
         Object:setMaterial(Material)

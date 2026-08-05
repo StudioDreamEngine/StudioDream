@@ -223,6 +223,9 @@ vec4 position(mat4 _t, vec4 _v) {
 
 	//apply projection matrix
 	vec4 vPos = transformProj * vec4(vertexPos, 1.0);
+#ifdef NO_DEPTH_TEST
+	vPos.z = 0.0f;
+#endif
 
 	//extract and pass depth
 	depth = vPos.z;
