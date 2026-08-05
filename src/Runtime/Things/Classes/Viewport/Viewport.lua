@@ -13,6 +13,8 @@ function Viewport:new()
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
     self.DisplayList = {}
 
+    self.Dirty = false
+
     self.FilterType = Enum.FilterType.Linear
 end
 
@@ -26,6 +28,11 @@ end
 function Viewport:Draw()
     if FLAGS.DebugDraw then
         love.graphics.circle("fill", self.MousePosition.X, self.MousePosition.Y, 5)
+    end
+
+    if self.Dirty then
+        self.Dirty = false
+        Renderer.ViewportManager.RenderViewport2D(self)
     end
 
     Renderer.ViewportManager.RenderCanvas(self)

@@ -95,7 +95,7 @@ function ViewportManager.Update(dt)
 end
 
 function ViewportManager.Render()
-    ViewportManager.RenderCanvas(RootViewport)
+    RootViewport:Draw()
 end
 
 return ViewportManager

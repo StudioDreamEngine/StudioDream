@@ -51,8 +51,14 @@ function InterfaceManager.Update(dt)
         -- MousePosition check is a hack here for now
         if DisplayUI and DisplayUI.MousePosition then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
             Button.Hovering = false
+
+            local DisplayHovering = true
+
+            if DisplayUI:IsA("ScrollContainer") then 
+                DisplayHovering = DisplayUI.Hovering
+            end
         
-            if Button.TruelyVisible and Utils.IntersectPoint2D(Button:GetChildRect(), DisplayUI.MousePosition) and (not Button:IsAlwaysOnTop()) then
+            if Button.TruelyVisible and Utils.IntersectPoint2D(Button:GetChildRect(), DisplayUI.MousePosition) and DisplayHovering and (not Button:IsAlwaysOnTop()) then
                 table.insert(CurrentlyHovering, Button)
             end
         end
