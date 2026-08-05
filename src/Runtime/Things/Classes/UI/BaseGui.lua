@@ -13,18 +13,24 @@ function BaseGui:GetOffsetPosition()
     if ParentRect then
         Position = Position + (PositionProp.Scale * ParentRect.Size)
 
-        if self.Parent:IsA("BaseGui") then
-            Position = self.Parent:GetRotatedOffset(Position)
+        if self.Parent:IsA("BaseGui") and self.Parent:IsRotated() then
+            local ParentPivot = self.Parent.AbsolutePivot or Vector2.zero
+
+            Position = self.Parent:GetRotatedOffset(Position + ParentPivot) - ParentPivot
         end
     end
 
     return Position
 end
 
+function BaseGui:IsRotated()
+    return math.abs(self.AbsoluteRotation) > 0
+end
+
 function BaseGui:GetAbsoluteRotation()
     local Parent = self:GetParentElement()
 
-    return math.rad(self.Rotation + (Parent and Parent.Rotation or 0))
+    return math.rad(self.Rotation) + (Parent and Parent.AbsoluteRotation or 0)
 end
 
 function BaseGui:GetAbsolutePosition()

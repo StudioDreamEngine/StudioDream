@@ -57,7 +57,7 @@ function UndoService.RegisterUndo(Type,Info)
    
     table.insert(SavedUndoActions,SavedUpFunction)
 
-    print(CurrentUndo,SavedUndoActions)
+    printVerbose(CurrentUndo,SavedUndoActions)
 
     function RegisterObject:Cancel()
         table.remove(SavedUndoActions,table.find(SavedUndoActions,SavedUpFunction))

@@ -13,8 +13,9 @@ function Root:new()
 
     self.Serializable = false
     
-    self.EnvironmentViewport = nil
-    self.RootViewport = nil
+    self.EnvironmentViewport = nil ---@class Viewport3D
+    self.HudViewport = nil ---@class Viewport2D
+    self.RootViewport = nil ---@class Viewport2D
 end
 
 function Root:DefineAPI()
@@ -22,6 +23,11 @@ function Root:DefineAPI()
     
     self.Proxy.MakeNonDuplicatable()
     self.Proxy.Icon("Root")
+end
+
+-- Service() is reccommended to be used instead, but this is here for compatability
+function Root:GetService(Service)
+    return Runtime.Services.Service(Service)
 end
 
 function Root:OnRemove()
@@ -35,7 +41,12 @@ end
 
 ---@return Environment
 function Root:GetEnvironment()
-    return self:FindFirstChild("Environment")
+    return self:FindFirstChildOfClass("Environment")
+end
+
+---@return GuiContainer
+function Root:GetHUD()
+    return self:FindFirstChildOfClass("GuiContainer")
 end
 
 return Root

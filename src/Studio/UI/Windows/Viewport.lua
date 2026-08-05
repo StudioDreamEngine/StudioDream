@@ -21,6 +21,7 @@ function Viewport.Init()
     }
     
     Things.Root.EnvironmentViewport = EnvironmentViewport
+    Things.Root.HudViewport = HudViewport
 end
 
 return Viewport

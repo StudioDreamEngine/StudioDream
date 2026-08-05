@@ -20,6 +20,7 @@ function Client.Init()
     }
 
     Things.Root.EnvironmentViewport = EnvironmentViewport
+    Things.Root.HudViewport = HudViewport
 
     -- Commenting out for now, breaks if no icon is set or someth
     --[[if Runtime.Project.Config.Get("Icon") then

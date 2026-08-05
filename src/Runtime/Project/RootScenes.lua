@@ -26,11 +26,17 @@ function RootScenes.Load()
         end
     end
     Scenes.ResolveReferences()
+    RootScenes.ConfigureTargets()
 
-    Registered = table.clone(NewScenes) -- Hack to fix issue with RootScenes.Save() Referencing root scenes initially created (which have nothing in them)
-    
-    -- Configure enviornment
-    Things.Root.EnvironmentViewport:SetRenderContainer(Things.Root:GetEnvironment())
+    Registered = table.clone(NewScenes) -- Hack to fix issue with RootScenes.Save Referencing root scenes initially created (which have nothing in them)
+end
+
+-- Configure Hud and Environment viewports for new root scenes
+function RootScenes.ConfigureTargets()
+    local Root = Things.Root
+
+    Root.EnvironmentViewport:SetRenderContainer(Root:GetEnvironment())
+    Root.HudViewport:SetRenderContainer(Root:GetHUD())
 end
 
 function RootScenes.Save()
