@@ -206,8 +206,8 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("Output", {
-        Position = Pivot2D.FromScale(0,1),
-        Size = Pivot2D.FromScale(0.8,.2),
+        Position = Pivot2D.FromScale(0.15,1),
+        Size = Pivot2D.FromScale(0.65,.2),
         Pivot = Vector2.new(0,1),
         CornerRadius = 0,
     })
@@ -231,6 +231,12 @@ function StudioLayout.CreateLayout()
             Shadows = true,
         })
     end
+
+    StudioLayout.CreateWindow("Macros", {
+        Position = Pivot2D.FromScale(0,1),
+        Size = Pivot2D.FromScale(0.15,0.2),
+        Pivot = Vector2.new(0,1)
+    })
 
     --[[StudioLayout.CreateWindow("Trollo",{
         Size = Pivot2D.FromScale(0.15,0.6),

@@ -83,7 +83,10 @@ end
 
 function Text:SetFont(Identifier)
     --print(Identifier)
-    self.RenderFont, self.Font = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Font")
+    self.RenderFont, self.Font = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, {
+        Property = "Font",
+        Type = "Font"
+    })
     if (not self.RenderFont) then return end
 
     self.RenderClass.SetFont(self.RenderFont)

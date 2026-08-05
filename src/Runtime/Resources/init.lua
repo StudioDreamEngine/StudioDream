@@ -35,13 +35,15 @@ function Resources.ReloadResources()
 
 	-- It'd be nice if we could know WHICH were changed without checking them all but whatever
 	-- TODO: Also reload
-	for Object, Identifier in pairs(ObjectReferences) do
-		LoadedResources[Identifier.Identifier] = nil
+	for ObjectProp, Identifier in pairs(ObjectReferences) do
+		local Split = string.split(ObjectProp, "_")
+		local ObjectUUID, Property = Split[1], Split[2]
+		local Object = Runtime.Things.Get(ObjectUUID)
 
-		Object:SetResource(Identifier)
+		Resources.LoadResource(Identifier)
+		Object["Set"..Property](Object, Identifier)
 	end
 
-	print(LoadedResources)
 	print("Done")
 end
 
@@ -49,8 +51,17 @@ end
 	Get or Load a resource from an IdentifierID or Identifier
 	Intended to be a way to simplify loading resources from Identifiers or IDs
 ]]
-function Resources.LoadResourceFromIdentifier(Identifier, Object, IntendedType)
+function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
+
+	local IntendedType, CustomProperty = nil, "Resource"
+
+	if type(ResourceInfo) == "string" then -- Backwards compat for now
+		IntendedType = ResourceInfo
+	else
+		IntendedType = ResourceInfo.Type
+		CustomProperty = ResourceInfo.Property
+	end
 
 	local Type = Utils.TypeOf(Identifier)
 
@@ -78,7 +89,9 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, IntendedType)
 
 	if Identifier.ResourceType == "Project" and ObjectUUID then
 		printVerbose("Adding " .. ObjectUUID .. " to object references")
-		ObjectReferences[ObjectUUID] = Identifier
+		if (not ObjectReferences[ObjectUUID]) then ObjectReferences[ObjectUUID] = {} end
+
+		ObjectReferences[ObjectUUID.."_"..CustomProperty] = Identifier
 	end
 
 	return Resources.GetResource(Identifier), Identifier

@@ -128,7 +128,7 @@ function Thing:GetPath()
 end
 
 function Thing:__tostring()
-    return self.Name..": "..self.ClassName
+    return "\""..self.Name.."\": "..self.ClassName.." ("..self.UUID..")"
 end
 
 function Thing:FindConstraintOfType(Type)
