@@ -27,6 +27,7 @@ function Control3D:new()
         local Material = Things.New("Material")
         Material.Color = Color
         Material.Alpha = true
+        Material.Simple = true
 
         local Object = Runtime.Backend3D.LoadAdorn(self.Resource, self.AdornObject, Axis)
         Object:setMaterial(Material)
@@ -105,9 +106,9 @@ function Control3D:Update(dt)
         local HoveringID = self.Hovering and self.Hovering.UUID
         local DownID = self.Down and self.Down.UUID
 
-        if (Adorn.UUID == DownID) then Alpha = 1
-        elseif (Adorn.UUID == HoveringID) then Alpha = 0.7
-        else Alpha = 0.9 end
+        if (Adorn.UUID == DownID) then Alpha = 0.8
+        elseif (Adorn.UUID == HoveringID) then Alpha = 0.6
+        else Alpha = 0.4 end
 
         Data.Material.Color = Color.new(OldColor.R, OldColor.G, OldColor.B, Alpha)
 
