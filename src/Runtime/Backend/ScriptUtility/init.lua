@@ -6,10 +6,35 @@ local LoadQueued = {}
 local StartedScripts = false
 
 local Bridge = require("Runtime.Backend.ScriptUtility.Bridge")
+local PreProcessor = require("Runtime.Backend.ScriptUtility.Preprocessor")
 
 ScriptUtil.BridgeProxy = Bridge.Proxy
+ScriptUtil.Shared = {}
 
-ScriptUtil.Shared={}
+function ScriptUtil.PreProcess(ScriptContent, ID)
+    local ScriptContents = PreProcessor.ProcessScript(ScriptContent)
+
+    -- Wrap contents in function, compile error handler
+    local Contents = "return function()\n"..ScriptContents.."\nend"    
+    local Function, Error = load(Contents, ID, "t", {})
+
+    if (not Function) then
+        print(Error)
+
+        local FallbackFunc, Error2 = load([[
+            return function()
+                print("Failed to Compile ]]..ID..[[, see logs for details")
+            end
+        ]], ID, "t", {
+            print = print,
+            Error = Error
+        })
+
+        return FallbackFunc
+    end
+
+    return Function
+end
 
 -- Queue a script for loading, as we may not want to start scripts immediately
 ---@param Script BaseScript
@@ -66,7 +91,13 @@ function ScriptUtil.CreateGlobals(Script)
         ---@param Object RequirableScript
         require = function(Object)
             if Object:IsA("RequirableScript") then
-                return Object:Require()
+                local Required = Object:Require()
+
+                if (not Required) then
+                    error("Cannot load requested module as it failed to compile")
+                end
+
+                return Required
             end
         end
     }

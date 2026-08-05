@@ -77,7 +77,7 @@ function Platform.ParsePath(Path)
 	local FullPath = NativeFS.getFullPath(Path) or Path
 	FullPath = string.gsub(FullPath, "\\", "/")
 
-	local Info = NativeFS.getInfo(Path)
+	local Info = NativeFS.getInfo(FullPath)
     
 	if Info and Info.type ~= "file" then
 		local LastChar = string.sub(FullPath, -1, -1)

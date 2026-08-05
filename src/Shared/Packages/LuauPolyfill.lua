@@ -54,6 +54,19 @@ do
 		return result
 	end
 
+	-- like gmatch, but returns a list of indexes and values, and isnt an iterator
+	function string.gfind(s, pattern)
+		local previousIndex = 0
+
+		return function()
+			local start, _end = string.find(s, pattern, previousIndex)
+			if (not start) then return end
+
+			previousIndex = _end
+			return start, string.sub(s, start, _end)
+		end
+	end
+
 	-- Thx Emk530
 	if POLYFILL_FLAGS.utf8 then
 		function string.utfsub(s,i,j)
