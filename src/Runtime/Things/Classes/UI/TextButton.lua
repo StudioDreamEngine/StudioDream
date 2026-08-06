@@ -19,11 +19,27 @@ function TextButton:new()
 
     self.Clicked = Signal:New("ButtonClicked")
     self.ChangeCursorWhileHovering = true
+    self.HoverEnter = Signal:New("ButtonHoverEnter")
+    self.HoverExit  = Signal:New("ButtonHoverExit")
+    self._WasHovering = false
 
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering then return end
         
         self.Clicked.Invoke()
+    end)
+
+    -- this is pretty shitty but it'll work for nowww :3
+    -- an issue with this implementation is that if your cursor immediately hoverexit's then hoverenter's onto another cursor in the same frame-
+    -- depending on order of operations, the cursor could get set back to Main if our HoverExit gets ran after their HoverEnter instead-
+    -- of the other way aroundddd :3
+    self.HoverEnter:Connect(function()
+        if Runtime.Cursor.CurrentCursor == 'HoldingObj' then return end
+        Runtime.Cursor.ChangeCursor("Hovering")
+    end)
+    self.HoverExit:Connect(function()
+        if Runtime.Cursor.CurrentCursor == 'HoldingObj' then return end
+        Runtime.Cursor.ChangeCursor("Main")
     end)
 end
 
@@ -58,6 +74,11 @@ function TextButton:Update(dt)
     local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
     local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
     self.ColorMultiplier = Multiplier
+
+    if (not self._WasHovering and self.Hovering) then self.HoverEnter.Invoke() end
+    if (self._WasHovering and not self.Hovering) then self.HoverExit.Invoke() end
+
+    self._WasHovering = self.Hovering
 end
 
 return TextButton
