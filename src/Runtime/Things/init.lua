@@ -72,7 +72,28 @@ function Things.Type(ThingType)
     return require(Classes[ThingType])
 end
 
-function Things.Extend(ThingType) return Things.Type(ThingType):extend() end
+function Things.Extend(SuperType, HyperType)
+    local Class = Things.Type(SuperType):extend()
+    
+    if HyperType then
+        return Things.Implement(Class, HyperType)
+    else
+        return Class
+    end
+end
+
+-- Copy over the functions from an object into this object
+function Things.Implement(Class, Type)
+    Class.hyper = {}
+
+    for Name, Function in pairs(Things.Type(Type)) do
+        if type(Function) == "function" then
+            Class.hyper[Name] = Function
+        else
+            print("Thing class "..Type.." has non-function value called "..Name..", this will become an error in the future.")
+        end
+    end
+end
 
 function Things.SetProperty(Object, Index, Value)
     local HasSetter = Object["Set"..Index]

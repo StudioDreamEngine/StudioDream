@@ -184,6 +184,7 @@ do
 		return string
 	end
 
+	-- #Table but better, TODO: Make this a wrapper for getn?
 	function table.length(Table)
 		local i = 0
 		for _, v in pairs(Table) do i = i + 1 end
@@ -191,6 +192,7 @@ do
 		return i
 	end
 
+	-- Make a table readonly (frozen)
 	function table.freeze(Table)
 		local Proxied = setmetatable({}, {
 			__index = Table,
@@ -205,6 +207,7 @@ do
 		return Proxied
 	end
 
+	-- Unfreeze a frozen table (mikl thats not how freezing tables works! its meant to be frozen PERMANENTLY)
 	function table.unfreeze(Table)
 		if table.find(FreezedTables,Table) then
 			local Proxied = setmetatable({}, {
@@ -226,7 +229,8 @@ do
 		end
 	end
 
-	-- Heavier version of findLite, as it also compares custom types 
+	-- Find a value within a table, if you dont care about custom types (:Is), use findLite instead
+	-- TODO: This function should decide if to check for custom types depending on value
 	function table.find(table, value)
 		if value == nil then return end
 
@@ -248,6 +252,7 @@ do
 	end
 
 ---@diagnostic disable-next-line: duplicate-set-field
+	-- {...} is reccommended instead of this, only use this if you NEED to "n" key for the length
 	function table.pack(...)
 		return {n = select("#", ...), ...}
 	end
@@ -265,6 +270,7 @@ do
 		return copy
 	end
 
+	-- Combine 2 tables
 	function table.combine(t1, t2)
 		for _, v in pairs(t2) do
 			table.insert(t1, v)
