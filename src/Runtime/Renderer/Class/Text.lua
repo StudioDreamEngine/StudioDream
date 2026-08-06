@@ -64,8 +64,8 @@ return function()
                 break
             end
 
-            if Loops > 10 then
-                printVerbose("Failed to fit text: \""..Text.Text.."\" after 5 fitting attempts")
+            if Loops > 8 then
+                printVerbose("Failed to fit text: \""..Text.Text.."\" after 8 fitting attempts")
                 break
             end
 
@@ -120,7 +120,7 @@ return function()
     Text.SetFont("Roboto")
 
     -- Get the position (Vector2) of where a location in the text is
-    function Text.GetPositionFromLocation(Location)
+    function Text.GetPositionFromLocation(position)
         
     end
 
@@ -133,7 +133,12 @@ return function()
         love.graphics.setFont(Text.RenderFont)
         love.graphics.push()
         love.graphics.scale(1/Text.Scale)
-        love.graphics.printf(Text.Text, Text.OffsetPosition.X, Text.OffsetPosition.Y, Text.Lines.Width*Text.Scale)
+        for LineIndex, Line in pairs(Text.Lines.Lines) do
+            LineIndex = LineIndex - 1
+            local Height = Text.Lines.Height*1.5
+
+            love.graphics.print(Line, Text.OffsetPosition.X, Text.OffsetPosition.Y+(LineIndex*Height)) 
+        end
         love.graphics.pop()
     end
 

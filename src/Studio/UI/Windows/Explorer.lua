@@ -29,15 +29,6 @@ AddButtonWow = {
     IsInsertOpen = false
 }
 
-local function ParentInserter(Obj)
-    if AddButtonWow.IsInsertOpen then
-        AddButtonWow.IsInsertOpen = false
-        Studio.Editor3D.CloseInsertWindow()
-    end
-
-    AddButtonWow.Object:SetParent(Obj)
-end
-
 local function SetAllChildNodeVisible(NodeObj,Visiblity)
     for i,ChildNodeObj in pairs(NodeObj.ChildrenInNode) do
         ChildNodeObj.Node:SetVisible(Visiblity)
@@ -203,8 +194,8 @@ end
 
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 local Editor3D = Studio.Editor3D
-local Selecting
-local Hovering
+local Selecting, Hovering
+local Moving = false
 
 local LastClick = 0
 
@@ -240,7 +231,7 @@ local function HandleDragEnd()
     --print("Ended")
     Selecting.Node:SetMouseLocked(false)
 
-    if Hovering then -- If we're hovering over another object, then we attempt to  parent the selected object to it, and redraw
+    if Hovering and Moving then -- If we're hovering over another object, then we attempt to  parent the selected object to it, and redraw
         local CouldParent = Selecting.Thing:SetParent(Hovering.Thing)
         printVerbose(CouldParent)
 
@@ -251,6 +242,7 @@ local function HandleDragEnd()
         Explorer.Tree[Selecting.Thing] = Selecting.Node
     end
 
+    Moving = false
     Selecting = nil
 end
 
@@ -278,9 +270,17 @@ function Explorer.Init()
         end
     end, Enum.MouseButton.LeftClick)
 
+    Studio.Editor3D.OnSelect:Connect(function()
+        if AddButtonWow.IsInsertOpen then
+            AddButtonWow.IsInsertOpen = false
+            Studio.Editor3D.CloseInsertWindow()
+        end
+    end)
+
     ---@param MouseObject InputMouseObject
     InputService.MouseMoved:Connect(function(MouseObject)
         if Selecting and MouseObject.Delta.Magnitude() > 0 then
+            Moving = true
             Selecting.Node:SetMouseLocked(true)
             Explorer.Tree[Object] = nil
         end
@@ -330,7 +330,8 @@ function Explorer.Update(dt)
 
         if table.find(Studio.Editor3D.Selecting, Thing) then
             NodeInner.BackgroundColor = Studio.CurrentTheme.Selecting
-            ParentInserter(NodeInner)
+
+            AddButtonWow.Object:SetParent(NodeInner)
         else
             NodeInner.BackgroundColor = Studio.CurrentTheme.Primary -- CHANGE IT HERE!
         end
