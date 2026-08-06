@@ -108,7 +108,7 @@ function Splash.Load()
     printVerbose("Starting Target")
     Shared.StartTarget()
 
-    Splash.ChangeStatus("Loading Project... (Finishing up)")
+    Splash.ChangeStatus("Loading Project")
     Runtime.PostTarget(FLAGS.TargetProject)
     Splash.ChangeStatus("")
 

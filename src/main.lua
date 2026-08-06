@@ -25,10 +25,10 @@ end
 function love.load(args)
     SetupModifications()
 
-    love.graphics.clear(0.5,0.5,0.5)
-    love.graphics.print("Just getting the basics ready, hold on!")
+    love.graphics.clear(0.101,0.09,0.3)
+    love.graphics.print("["..os.clock().."] StudioDream V"..VERSION_FULL..", Starting Runtime")
     love.graphics.present()
-    
+
     Shared.SetupBullet = require("Shared.SetupGlobals")()
     
     print("StudioDream V"..VERSION_FULL)
