@@ -10,10 +10,10 @@ end
 
 function InsertObject.Init()
     InsertObject.ScrollContainer = Things.Create("ScrollContainer") { -- Not a scroll container for now
-        Size = Pivot2D.FromScale(1,0.9),
+        Size = Pivot2D.FromScale(1,0.8),
         Position = Pivot2D.FromScale(0,1),
         Pivot = Vector2.new(0,1),
-        CanvasSize = Pivot2D.FromScale(1,3),
+        CanvasSize = Pivot2D.FromScale(1,6),
         Parent = InsertObject.Container,
         Layer = 100
     }
@@ -32,14 +32,14 @@ function InsertObject.Init()
 
     InsertObject.SearchBar = Things.Create("TextInput") {
         Size = Pivot2D.FromScale(1,0.1),
-        Position = Pivot2D.FromScale(0,0),
+        Position = Pivot2D.FromScale(0,0.1),
         Pivot = Vector2.new(0,0),
         --ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundColor = Studio.CurrentTheme.Secundary,
         OutlineColor = Studio.CurrentTheme.Outline,
         OutlineSize = 2,
         CornerRadius = 5,
-        Parent = InsertObject.ScrollContainer,
+        Parent = InsertObject.Container,
     }
 
     InsertObject.SearchText = ""

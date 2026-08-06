@@ -26,6 +26,7 @@ function love.load(args)
     SetupModifications()
 
     love.graphics.clear(0.5,0.5,0.5)
+    love.graphics.print("Just getting the basics ready, hold on!")
     love.graphics.present()
     
     Shared.SetupBullet = require("Shared.SetupGlobals")()
