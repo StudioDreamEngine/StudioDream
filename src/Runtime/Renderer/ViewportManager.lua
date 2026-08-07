@@ -14,6 +14,10 @@ function ViewportManager.Init()
 
     Dream:init() ---@diagnostic disable-line: missing-parameter
 
+    LoveEvents.Resize:Connect(function(w,h)
+        printVerbose("Resize detected, Updating Window decorations...")
+        RootViewport:SetSize(Pivot2D.FromOffset(w,h))
+    end)
 
     light = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(1.0, 0.75, 0.5), 10.0)
     light:addNewShadow()
@@ -98,7 +102,8 @@ function ViewportManager.Update(dt)
 end
 
 function ViewportManager.Render()
-    DecorationViewport:Draw()
+   -- DecorationViewport:Draw()
+    RootViewport:Draw()
 end
 
 return ViewportManager

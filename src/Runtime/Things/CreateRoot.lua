@@ -44,7 +44,7 @@ function CreateRoot.CreateRoot()
     }
 
     ---@module 'Viewport2D'
-    local Viewport = Things.Create("GuiContainer") {
+    local Viewport = Things.Create("Viewport2D") {
         Name = "ViewportInternal",
         Serializable = false,
         Parent = Root

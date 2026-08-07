@@ -20,6 +20,10 @@ function Runtime.Init()
     Runtime.Renderer.Init()
     Runtime.Things.Init()
 
+    -- init WindowManager here, as doing it in PostInit can fuck up the splash screen and resizing routines (for some reason)
+    --Runtime.WindowManager = require("Runtime.Backend.WindowManager")
+    --Runtime.WindowManager.Init()
+
     printVerbose("Runtime Initalized")
 end
 
@@ -44,6 +48,8 @@ end
 function Runtime.PostInit()
     Runtime.Backend = require("Runtime.Backend")
     Runtime.Backend.Init()
+
+    --Runtime.WindowManager.CreateTitleBar()
 
     Runtime.SettingsManager = require("Runtime.SettingsManager")
     Runtime.SettingsManager.Init()
@@ -72,6 +78,8 @@ function Runtime.Render()
 end
 
 function Runtime.Update(dt)
+   -- Runtime.WindowManager.Update(dt)
+
     if Runtime.Backend then
         Runtime.Backend.Update(dt)
     end

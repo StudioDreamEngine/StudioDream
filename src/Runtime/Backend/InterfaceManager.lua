@@ -6,6 +6,7 @@ InterfaceManager.Buttons = {}
 function InterfaceManager.Init()
     InterfaceManager.OnMouseMove = Signal:New("MouseMove") 
     InterfaceManager.OnClick = Signal:New("MouseClick") 
+    InterfaceManager.OnRelease = Signal:New("MouseClick") 
     InterfaceManager.OnRightClick = Signal:New("MouseClick2")
     InterfaceManager.OnClickGeneral = Signal:New("MouseClick3")
 
@@ -19,7 +20,14 @@ function InterfaceManager.Init()
         elseif button == 2 then
             InterfaceManager.OnRightClick.Invoke()
         end
+
         InterfaceManager.OnClickGeneral.Invoke()
+    end)
+
+    LoveEvents.MouseReleased:Connect(function(_,_,button)
+        if button == Enum.MouseButton.LeftClick then -- TODO: Use listener
+            InterfaceManager.OnRelease.Invoke()
+        end
     end)
 end
 

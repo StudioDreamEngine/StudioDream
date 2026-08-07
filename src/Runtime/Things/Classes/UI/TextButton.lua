@@ -18,6 +18,8 @@ function TextButton:new()
     --self.SinkHovering = false -- If true, blocks hovering from being true on objects lower than its layer
 
     self.Clicked = Signal:New("ButtonClicked")
+    self.Released = Signal:New("ButtonReleased")
+
     self.ChangeCursorWhileHovering = true
     self.HoverEnter = Signal:New("ButtonHoverEnter")
     self.HoverExit  = Signal:New("ButtonHoverExit")
@@ -27,6 +29,12 @@ function TextButton:new()
         if not self.Hovering then return end
         
         self.Clicked.Invoke()
+    end)
+
+    Runtime.InterfaceManager.OnRelease:Connect(function()
+        if not self.Hovering then return end
+        
+        self.Released.Invoke()
     end)
 
     -- this is pretty shitty but it'll work for nowww :3

@@ -6,9 +6,6 @@ function Backend.Init()
     Runtime.InterfaceManager = require("Runtime.Backend.InterfaceManager")
     Runtime.InterfaceManager.Init()
 
-    Runtime.WindowManager = require("Runtime.Backend.WindowManager")
-    Runtime.WindowManager.Init()
-
     Runtime.ScriptUtil = require("Runtime.Backend.ScriptUtility")
 
     Runtime.Services = require("Runtime.Backend.Services")
