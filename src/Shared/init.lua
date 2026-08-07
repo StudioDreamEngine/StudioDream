@@ -61,6 +61,8 @@ function Shared.Init(Args)
     Runtime = require("Runtime")
     Runtime.Init()
 
+    printVerbose("Runtime ready, creating splash")
+
     -- TODO: Move to runtime
     local Thing = love.image.newImageData("/Assets/Icons/"..FLAGS.Target..".png")
     love.window.setIcon(Thing)

@@ -5,7 +5,7 @@ local Things = Runtime.Things
 local Button2D = Things.Extend("Text")
 
 function Button2D:new()
-    self.super:new()
+    Button2D.super:new()
 
     self.Explorer = {
         Visible = true,

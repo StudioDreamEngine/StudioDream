@@ -15,6 +15,7 @@ function love.conf(t)
     t.window.width = 1570
     t.window.height = 800
     t.window.depth = true
+    t.window.borderless = true
     t.console = true
 
     t.version = "12.0"

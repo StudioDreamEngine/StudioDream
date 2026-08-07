@@ -44,9 +44,9 @@ function Root:GetEnvironment()
     return self:FindFirstChildOfClass("Environment")
 end
 
----@return GuiContainer
+---@return HUD
 function Root:GetHUD()
-    return self:FindFirstChildOfClass("GuiContainer")
+    return self:FindFirstChildOfClass("HUD")
 end
 
 return Root

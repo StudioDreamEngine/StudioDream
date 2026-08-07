@@ -142,7 +142,7 @@ end
 -- Return the object, or the Container
 function BaseGui:GetUIObject(Object, Viewport)
     if Object:IsA("ViewportContainer") then
-        return Object.Adornee -- PROXY: This returns the adornee assigned, which is assigned DIRECTLY. so there is NO proxy!
+        return Object.Adornee
     elseif Object:IsA(Viewport and "Viewport" or "BaseGui") then
         return Object
     end
@@ -231,6 +231,7 @@ function BaseGui:new()
     self.ViewportPosition = Vector2.zero
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteRotation = 0
+    self.AbsolutePivot = Vector2.zero
     self.AbsoluteSize = Vector2.one
 
     self.Visible = true
@@ -295,7 +296,6 @@ end
 function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
-    love.graphics.push()
     love.graphics.rotate(-self.AbsoluteRotation)
     love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
     
@@ -313,7 +313,6 @@ function BaseGui:DrawStyle()
         Runtime.Backend2D.SetColor(Color.new(1,0,0))
         love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
     end
-    love.graphics.pop()
 
     Runtime.Backend2D.SetColor(Color.new(1))
 end
@@ -428,7 +427,6 @@ end
 
 function BaseGui:Invalidate(dt)
     if self.WasInvalidated or self.MouseLocked then
-        --print(self:GetPath())
         self:ProcessInvalidation(self)
         self:InvalidateAutomaticSize()
     end

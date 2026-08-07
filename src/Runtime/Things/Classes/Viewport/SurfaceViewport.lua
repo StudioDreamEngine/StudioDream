@@ -53,7 +53,7 @@ end
 function SurfaceViewport:SetDisableDepth(New)
     self.DisableDepth = New
 
-    print(New)
+    --print(New)
     self.Mesh.material.DepthTest = (not New)
 end
 

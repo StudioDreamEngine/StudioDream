@@ -16,6 +16,7 @@ function Things.Init()
 
     Things.ObjectProxy = require("Runtime.Things.ObjectProxy")
 
+    printVerbose("Creating root tree")
     Things.Root = CreateRoot.CreateRoot()
 
     printVerbose("Tree Created")

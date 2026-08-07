@@ -1,6 +1,10 @@
 print("Please Wait...")
 require("Shared")
 
+local stack
+
+DebugFont = love.graphics.newFont(12)
+
 local function SetupModifications()
     -- Fix issue where empty directories return nothing
     local OldGetDirectoryItems = love.filesystem.getDirectoryItems
@@ -20,6 +24,21 @@ local function SetupModifications()
         end
         return raw_pairs(t)
     end
+
+    --popipopipop popipo
+    --[[local oldpush, oldpop = love.graphics.push, love.graphics.pop
+
+    stack = {}
+
+    love.graphics.push = function(a,path)
+        table.insert(stack, path or debug.traceback())
+        oldpush(a)
+    end
+
+    love.graphics.pop = function(...)
+        table.remove(stack)
+        oldpop(...)
+    end]]
 end
 
 function love.load(args)
@@ -47,6 +66,7 @@ function love.errorhandler(msg)
     local traceback = debug.traceback(msg)
 
     print(traceback)
+    print(stack)
 
     local crash_extra = "Operating System: "..love.system.getOS()
 
@@ -70,7 +90,7 @@ function love.errorhandler(msg)
 
     love.graphics.setColor(1,0.2,0.2)
 
-    love.graphics.setFont(love.graphics.newFont(14))
+    love.graphics.setFont(DebugFont)
     local y = 5
     local function Log(msg)
         love.graphics.print(msg or "", 5, y)
@@ -104,7 +124,6 @@ function love.errorhandler(msg)
 end
 
 local DeltaTime
-local DebugFont = love.graphics.newFont()
 
 function love.draw()
     Shared.Render()

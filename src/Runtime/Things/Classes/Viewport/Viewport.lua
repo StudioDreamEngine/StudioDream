@@ -28,11 +28,8 @@ end
 function Viewport:Draw()
     if FLAGS.DebugDraw then
         love.graphics.circle("fill", self.MousePosition.X, self.MousePosition.Y, 5)
-    end
-
-    if self.Dirty then
-        self.Dirty = false
-        Renderer.ViewportManager.RenderViewport2D(self)
+        love.graphics.setFont(DebugFont)
+        love.graphics.print(self:GetPath(), self.MousePosition.X, self.MousePosition.Y)
     end
 
     Renderer.ViewportManager.RenderCanvas(self)

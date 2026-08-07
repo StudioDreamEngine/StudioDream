@@ -226,8 +226,12 @@ function Thing:GetParentCallback(Callback)
         Parent = Parent.Parent
 
 		-- We need to also be able to use the callback on the object iself
-		if Parent and Callback(Parent) then
-			break
+		if Parent then
+            local CallbackResult = Callback(Parent)
+
+            if CallbackResult then
+			    return (Utils.TypeOf(CallbackResult) == "Thing") and CallbackResult or Parent
+            end
 		end
 	until (not Parent)
 	

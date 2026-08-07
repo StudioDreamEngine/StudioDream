@@ -1,8 +1,9 @@
 local Things
 local ViewportManager = {}
 
-local RootViewport
-local light, light2
+local RootViewport ---@class ViewportContainer
+local DecorationViewport ---@class Viewport2D
+local light
 
 function ViewportManager.Init()
     Things = Runtime.Things
@@ -18,15 +19,17 @@ function ViewportManager.Init()
     light:addNewShadow()
 
     ViewportManager.Viewports = {}
-
-    LoveEvents.Resize:Connect(function(w,h)
-        printVerbose("Resize detected, Updating RootViewport...")
-        RootViewport:SetSize(Pivot2D.FromOffset(w,h))
-    end)
 end
 
 function ViewportManager.SetRootViewport(InRoot)
     RootViewport = InRoot
+end
+
+---@param RootDisplay Viewport2D
+function ViewportManager.SetDecorationViewport(InDecoration, RootDisplay)
+    DecorationViewport = InDecoration
+
+    RootDisplay:SetRenderContainer(RootViewport)
 end
 
 function ViewportManager.CreateViewport(Viewport, Size)
@@ -95,7 +98,7 @@ function ViewportManager.Update(dt)
 end
 
 function ViewportManager.Render()
-    RootViewport:Draw()
+    DecorationViewport:Draw()
 end
 
 return ViewportManager

@@ -23,7 +23,7 @@ function CreateRoot.CreateRoot()
         Name = "Root"
     }
 
-    HUD = Things.Create("GuiContainer") {
+    HUD = Things.Create("HUD") {
         Name = "HUD",
         Parent = Root
     }
@@ -44,9 +44,8 @@ function CreateRoot.CreateRoot()
     }
 
     ---@module 'Viewport2D'
-    local Viewport = Things.Create("Viewport2D") {
+    local Viewport = Things.Create("GuiContainer") {
         Name = "ViewportInternal",
-        Size = Pivot2D.FromOffset(800, 600),
         Serializable = false,
         Parent = Root
     }

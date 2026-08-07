@@ -18,7 +18,7 @@ function FlexItem:GetListLayout()
 end
 
 function FlexItem:Update(dt)
-    self.super.Update(self, dt)
+    FlexItem.super.Update(self, dt)
 
     ---@diagnostic disable-next-line: assign-type-mismatch
     local Target = self.Parent ---@type BaseGui
