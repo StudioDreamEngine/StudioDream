@@ -59,7 +59,7 @@ function Template.Start(MainInfo)
     --MainInfo.Connections
     self.ChangedOption = Signal:New("BlehBlehhh")
 
-    local Text = Runtime.Things.Create("TextButton") {
+    local Text = Studio.Components.CreateStyle("TextButton",{
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
@@ -69,7 +69,7 @@ function Template.Start(MainInfo)
         BackgroundColor = Studio.CurrentTheme.Primary,
         CornerRadius = 5,
         SinkHovering = true,
-    }
+    })
 
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)

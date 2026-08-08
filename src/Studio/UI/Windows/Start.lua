@@ -23,7 +23,7 @@ end
 
 function CreateClose(Parent)
     if not AlreadyDidCloseButton then
-        local Button = Runtime.Things.Create("ImageButton") {
+        local Button = Studio.Components.CreateStyle("ImageButton",{
         Size = Pivot2D.FromScale(0.1,0.1),
         Parent = Parent,
         CornerRadius = 5,
@@ -34,7 +34,7 @@ function CreateClose(Parent)
         Resource = "Internal/Studio/Close.png",
         ScaleType = Enum.ScaleType.LockAspect,
         ForegroundColor = Studio.CurrentTheme.Text,
-        }
+        })
         Button.Clicked:Connect(Start.Close)
     end
     AlreadyDidCloseButton = true
@@ -46,7 +46,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     local ImageToUse = Summary.ImageResource
 
-    local Base = Runtime.Things.Create("TextButton") {
+    local Base = Studio.Components.CreateStyle("TextButton",{
         Text = "",
         Size = Pivot2D.FromScale(0.95,0.2),
         Parent = Scroll,
@@ -56,9 +56,9 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         BackgroundColor = Studio.CurrentTheme.Outline,
         --OutlineSize = 2,
         --OutlineColor = Studio.CurrentTheme.Outline,
-    }
+    })
 
-    local Image = Runtime.Things.Create("Image2D") {
+    local Image = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(.07,.5),
         SquareAxis = Enum.SquareAxis.Y,
@@ -67,9 +67,9 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Pivot = Vector2.new(.5,.5),
         CornerRadius = 5,
         --ScaleType = Enum.ScaleTypes.Fit
-    }
+    })
 
-    local ProjectName = Studio.Components.CreateStyle("Text", {
+    local ProjectName = Studio.Components.CreateStyle("Text",{
         Text = Info.Name,
         ForegroundColor = Studio.CurrentTheme.Text,
         Position = Pivot2D.FromScale(0,0),
@@ -103,7 +103,7 @@ end
 function Start.CreateButton(Options,Text,Image)
     local selfed = {}
 
-    local Base = Runtime.Things.Create("TextButton") {
+    local Base = Studio.Components.CreateStyle("TextButton",{
         Text = Text,
         Size = Pivot2D.FromScale(0.95,0.15),
         Parent = Options,
@@ -115,9 +115,9 @@ function Start.CreateButton(Options,Text,Image)
         TextSize = 5,
         --OutlineColor = Studio.CurrentTheme.Outline,
         ForegroundColor = Studio.CurrentTheme.Text,
-    }
+    })
 
-    selfed.Image = Runtime.Things.Create("Image2D") {
+    selfed.Image = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(.07,.5),
         SquareAxis = Enum.SquareAxis.Y,
@@ -126,7 +126,7 @@ function Start.CreateButton(Options,Text,Image)
         Pivot = Vector2.new(.5,.5),
         CornerRadius = 5,
         --ScaleType = Enum.ScaleTypes.Fit
-    }
+    })
 
     return Base
 end
@@ -137,7 +137,7 @@ function Start.Close()
 end
 
 function Start.Init()
-    Runtime.Things.Create("Image2D") {
+    Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,0.5),
         Position = Pivot2D.FromScale(.5,.005),
         --SquareAxis = Enum.SquareAxis.X,
@@ -146,7 +146,7 @@ function Start.Init()
         Pivot = Vector2.new(.5,0),
         CornerRadius = 5,
         ScaleType = Enum.ScaleType.Crop
-    }
+    })
 
     local Version = Studio.Components.CreateStyle("Text", {
         Text = "Welcome to Early Riser! ("..VERSION..")",
@@ -160,7 +160,7 @@ function Start.Init()
         Alignment = Vector2.new(0.5,0.5)
     })
 
-    local Options = Runtime.Things.Create("Square") {
+    local Options = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.48,0.48),
         Parent = Start.Container,
         Layer = 2,
@@ -170,9 +170,9 @@ function Start.Init()
         BackgroundColor = Studio.CurrentTheme.Secondary,
        -- OutlineSize = 2,
         OutlineColor = Studio.CurrentTheme.Outline,
-    }
+    })
 
-    local RecentProjects = Runtime.Things.Create("Square") {
+    local RecentProjects = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.48,0.48),
         Parent = Start.Container,
         Layer = 2,
@@ -182,25 +182,25 @@ function Start.Init()
         BackgroundColor = Studio.CurrentTheme.Secondary,
        -- OutlineSize = 2,
         OutlineColor = Studio.CurrentTheme.Outline,
-    }
+    })
 
-    local Scroll = Runtime.Things.Create("ScrollContainer") {
+    local Scroll = Studio.Components.CreateStyle("ScrollContainer",{
         Size = Pivot2D.FromScale(1,1),
         Parent = RecentProjects,
         BackgroundColor = Studio.CurrentTheme.Outline,
-    }
+    })
 
-    Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = Scroll,
         Alignment = Enum.Alignment.TopCenter,
         Padding = 3
-    }
+    })
 
-    Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = Options,
         Alignment = Enum.Alignment.Center,
         Padding = 5
-    }
+    })
 
     local NewProject = Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
     local LoadProject = Start.CreateButton(Options,"Load a project","Internal/Studio/TabIcons/InsertIcon.png")

@@ -26,7 +26,7 @@ function Template.Start(MainInfo)
 
     self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
-    local Text = Runtime.Things.Create("TextInput") {
+    local Text = Studio.Components.CreateStyle("TextInput",{
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
@@ -35,9 +35,9 @@ function Template.Start(MainInfo)
         Font = Studio.CurrentTheme.FontBold,
         BackgroundColor = Studio.CurrentTheme.Primary,
         CornerRadius = 5,
-    }
+    })
 
-    local ColorBlock = Runtime.Things.Create("Square") {
+    local ColorBlock = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.8,0.8),
         BackgroundColor = Color.new(1,1,1,1),
         SquareAxis = Enum.SquareAxis.Y,
@@ -47,7 +47,7 @@ function Template.Start(MainInfo)
         ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
         OutlineSize = 1,
         OutlineColor = Studio.CurrentTheme.Outline
-    }
+    })
 
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)

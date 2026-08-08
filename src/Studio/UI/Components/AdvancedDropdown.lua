@@ -107,10 +107,10 @@ return function(Choices)
         end
     end)
 
-    Things.Create("ListLayout") {
+    Components.CreateStyle("ListLayout", {
         Parent = CurrentDropdown,
         Alignment = Vector2.new(0.5,0.5)
-    }
+    })
 
     for _,Choice in pairs(Choices) do
         local CurrentSection = Components.CreateStyle("Square", {

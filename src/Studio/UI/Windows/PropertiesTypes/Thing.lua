@@ -30,7 +30,7 @@ function Template.Start(MainInfo)
 
     self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
-    local Button = Runtime.Things.Create("TextButton") {
+    local Button = Studio.Components.CreateStyle("TextButton",{
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
@@ -39,16 +39,16 @@ function Template.Start(MainInfo)
         Font = Studio.CurrentTheme.FontBold,
         BackgroundColor = Studio.CurrentTheme.Primary,
         CornerRadius = 5,
-    }
+    })
 
-    local Image = Runtime.Things.Create("Image2D") {
+    local Image = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(1,0),
         Position = Pivot2D.FromScale(1,0),
         SquareAxis = Enum.SquareAxis.Y,
         Resource = "Internal/Studio/EditorIcons/Drawable3D.png",
         Parent = Button
-    }
+    })
     --print(MainInfo)
 
     function self.Update()

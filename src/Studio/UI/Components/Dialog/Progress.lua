@@ -19,7 +19,7 @@ return function(Options)
             Parent = Object.Container,
         })
 
-        ProgressContainer = Runtime.Things.Create("Square") {
+        ProgressContainer = Studio.Components.CreateStyle("Square",{
             Size = Pivot2D.FromScale(0.8,0.2),
             Position = Pivot2D.FromScale(.5,.5),
             Pivot = Vector2.new(.5,0),
@@ -27,14 +27,14 @@ return function(Options)
             OutlineSize = 3,
             Layer = 4,
             Parent = Object.Container,
-        }
+        })
 
-        ProgressBar = Runtime.Things.Create("Square") {
+        ProgressBar = Studio.Components.CreateStyle("Square",{
             Size = Pivot2D.FromScale(1,1),
             Position = Pivot2D.FromScale(0,0),
             BackgroundColor = Studio.CurrentTheme.Secondary,
             Parent = ProgressContainer,
-        }
+        })
 
         Object.UpdateText()
     end

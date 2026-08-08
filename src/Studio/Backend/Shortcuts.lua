@@ -97,4 +97,8 @@ function Shortcuts.Init()
     end
 end
 
+function Shortcuts.ChangeKeybind(Name,Key,Number)
+
+end
+
 return Shortcuts

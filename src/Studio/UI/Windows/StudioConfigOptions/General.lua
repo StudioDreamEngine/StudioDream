@@ -2,11 +2,11 @@ local GenConfig = {}
 
 GenConfig.DisplayName = "General Configs"
 
+local SavedStuff = {}
 
-
-local function GenList(Table)
+local function GenList(TableGot)
     local Choices = {}
-    for i,v in ipairs(Table) do
+    for i,v in pairs(TableGot) do
         table.insert(Choices, {
             Text = i,
             Type = "Button",
@@ -14,6 +14,8 @@ local function GenList(Table)
                 Studio.CurrentTheme = v
                 Studio.Theme.CurrentTheme = v
                 Studio.Theme.ThemeChanged.Invoke()
+
+                SavedStuff.DropdownTheme.Toggle(false)
             end
         })
     end
@@ -28,9 +30,19 @@ local ProjectOptions = {
             local Name,Info = Studio.Theme.GetCurrentThemeInfo()
             -- Create the dropdown, when choose, make everything load again maybe? :think:
             Main.Option:SetText(Name)
-            local Dropdown = Studio.Components.DropdownPlus.new(GenList(Studio.Theme.GetThemes()),Main.Option)
-            Dropdown.Toggle(false)
 
+            Studio.Theme.ThemeChanged:Connect(function()
+                local Name,Info = Studio.Theme.GetCurrentThemeInfo()
+                Main.Option:SetText(Name)
+            end)
+
+            local TableBuild = GenList(Studio.Theme.GetThemes())
+            print(TableBuild)
+            --print(Studio.Theme.GetThemes())
+            local Dropdown = Studio.Components.DropdownPlus.new(TableBuild,Main.Option)
+            Dropdown.Toggle(false)
+            SavedStuff.DropdownTheme = Dropdown
+            
             Main.Option.Clicked:Connect(function()
                 Dropdown.Toggle(not Dropdown.MajorParent.Visible)
             end)
@@ -52,13 +64,13 @@ function GenConfig.Create(Parent)
     function CreateObject.CreatePartBlock(Name,TypeOfOption,ParentS)
         local PartObj = {}
 
-        PartObj.Base = Runtime.Things.Create("Square") {
+        PartObj.Base = Studio.Components.CreateStyle("Square",{
             Size = Pivot2D.FromScale(1,0.1),
             Parent =  CreateObject.Scroll,
             BackgroundTransparency = 1,
             --BackgroundColor = Studio.CurrentTheme.Outline,
             CornerRadius = 2,
-        }
+        })
 
         PartObj.Text = Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,.5),
@@ -70,7 +82,7 @@ function GenConfig.Create(Parent)
             Text = Name
         })
 
-        PartObj.Option = Runtime.Things.Create("Text"..(TypeOfOption or "")) {
+        PartObj.Option = Studio.Components.CreateStyle("Text"..(TypeOfOption or ""), {
             Size = Pivot2D.FromScale(0.49,.8),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0,0.5),
@@ -79,7 +91,7 @@ function GenConfig.Create(Parent)
             Layer = 3,
             CornerRadius = 6,
             Parent = PartObj.Base,
-        }
+        })
 
         return PartObj
     end
@@ -91,15 +103,15 @@ function GenConfig.Create(Parent)
     end
 
     function CreateObject.Create()
-        CreateObject.Scroll = Runtime.Things.Create("ScrollContainer") {
+        CreateObject.Scroll = Studio.Components.CreateStyle("ScrollContainer",{
             Size = Pivot2D.FromScale(1,1),
             Parent = Parent,
             BackgroundTransparency = 1,
-        }
+        })
 
-        Runtime.Things.Create("ListLayout") {
+        Studio.Components.CreateStyle("ListLayout",{
             Parent = CreateObject.Scroll,
-        }
+        })
 
         CreateObject.CreateOptions()
         print(CreateObject.Scroll.Visible,CreateObject.Scroll.TruelyVisible)

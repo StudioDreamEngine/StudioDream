@@ -27,7 +27,7 @@ return function(Options)
             CornerRadius = 5,
         })
 
-        Object.InputerRGB = Runtime.Things.Create("TextInput") {
+        Object.InputerRGB = Studio.Components.CreateStyle("TextInput",{
             Size = Pivot2D.FromScale(0.95,0.1) ,
             BackgroundColor = Studio.CurrentTheme.Secondary,
             ForegroundColor = Studio.CurrentTheme.Text,
@@ -42,7 +42,7 @@ return function(Options)
             OutlineSize = 2,
             OutlineColor = Studio.CurrentTheme.Outline,
             Parent = Object.Container
-        }
+        })
         Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,0.8),
             Position = Pivot2D.FromScale(0.5,-0.5),
@@ -54,7 +54,7 @@ return function(Options)
             Alignment = Vector2.new(0.5,0.5)
         })
 
-        Object.InputerHEX = Runtime.Things.Create("TextInput") {
+        Object.InputerHEX = Studio.Components.CreateStyle("TextInput",{
             Size = Pivot2D.FromScale(0.95,0.1) ,
             BackgroundColor = Studio.CurrentTheme.Secondary,
             ForegroundColor = Studio.CurrentTheme.Text,
@@ -69,7 +69,7 @@ return function(Options)
             OutlineSize = 2,
             OutlineColor = Studio.CurrentTheme.Outline,
             Parent = Object.Container
-        }
+        })
         Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,0.8),
             Position = Pivot2D.FromScale(0.5,-0.5),

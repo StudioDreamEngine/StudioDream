@@ -35,14 +35,14 @@ function Bool.Start(MainInfo)
 
     self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
-    local Button = Runtime.Things.Create("ImageButton") {
+    local Button = Studio.Components.CreateStyle("ImageButton",{
         Resource = "Internal/Studio/Boolean.png",
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Parent = MainInfo.Option,
         ForegroundColor = Studio.CurrentTheme.Text,
         SinkHovering = true,
-    }
+    })
 
     function self.Update()
         for i,Info in pairs(MainInfo.WillHandle) do

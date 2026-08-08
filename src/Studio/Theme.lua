@@ -1,7 +1,7 @@
 local Themes = {}
 local ThemesIn = {
 
-    ThemeTest = {
+    ["ThemeTest"] = {
         Outline = Color.FromHex("505050"),
         SecondaryOutline = Color.FromHex("#505050"),
 
@@ -18,7 +18,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
-    BlueNight = {
+    ["Blue Night"] = {
         Outline = Color.FromHex("#020222"),
         SecondaryOutline = Color.FromHex("#9090b0"),
 
@@ -35,7 +35,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
-    Concept = {
+    ["Concept"] = {
         Outline = Color.FromHex("#322F4A"),
         SecondaryOutline = Color.FromHex("#9090b0"),
 
@@ -52,7 +52,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Arial/Arial-Bold.ttf",
     },
 
-    DeadByNight = {
+    ["Dead By Night"] = {
         Outline = Color.FromHex("#111121"),
         SecondaryOutline = Color.FromHex("#9090b0"),
 
@@ -69,7 +69,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
-    Companied = {
+    ["Companied"] = {
         Outline = Color.FromHex("#121213"),
         SecondaryOutline = Color.FromHex("#9090b0"),
 
@@ -86,7 +86,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
-    Ocean = {
+    ["Ocean"] = {
         Outline = Color.FromHex("#000427"),
         SecondaryOutline = Color.FromHex("#8d8dff"),
 
@@ -103,7 +103,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
-    DaySkyie = {
+    ["DaySkyie"] = {
         Outline = Color.FromHex("#585858"),
         SecondaryOutline = Color.FromHex("#8d8dff"),
 
@@ -120,7 +120,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
-    CodeMode = {
+    ["Code-Mode"] = {
         Outline = Color.FromHex("#000000"),
         SecondaryOutline = Color.FromHex("#0e0e0e"),
 
@@ -144,9 +144,14 @@ local ThemesIn = {
     }]]
 }
 
-Themes.CurrentTheme = ThemesIn.BlueNight
+Themes.CurrentTheme = ThemesIn["Blue Night"]
 
 Themes.ThemeChanged = Signal:New("ThemeChanges")
+
+Themes.ThemeChanged:Connect(function()
+    print("UPDATED!!!!!!!!!!!")
+    Studio.EditorUI.RedrawEverything()
+end)
 
 function Themes.GetCurrentThemeInfo()
     for i,v in pairs(ThemesIn) do

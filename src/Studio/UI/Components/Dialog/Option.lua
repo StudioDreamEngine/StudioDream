@@ -26,7 +26,7 @@ return function(Options)
             Alignment = Vector2.new(0.5,0)
         })
 
-        local OptionsContainer = Runtime.Things.Create("Square") {
+        local OptionsContainer = Studio.Components.CreateStyle("Square",{
             Size = Pivot2D.FromScale(1,0.5) ,
             Position = Pivot2D.FromScale(0.5,1),
             Pivot = Vector2.new(0.5,1),
@@ -35,17 +35,17 @@ return function(Options)
             Parent = Object.Container,
             BackgroundTransparency = 1,
             CornerRadius = 2.5,
-        }
+        })
         
-        Runtime.Things.Create("ListLayout") {
+        Studio.Components.CreateStyle("ListLayout",{
             Parent = OptionsContainer,
             Alignment = Vector2.new(0.5,0.5),
             Direction = Enum.LayoutDirection.Horizontal,
             Padding = 10,
-        }
+        })
 
         for i,v in pairs(Options.Choices) do
-            local ThisButton = Runtime.Things.Create("TextButton") {
+            local ThisButton = Studio.Components.CreateStyle("TextButton",{
                 Size = Pivot2D.FromScale(0.4,0.4) ,
                 BackgroundColor = Studio.CurrentTheme.Secondary,
                 ForegroundColor = Studio.CurrentTheme.Text,
@@ -58,7 +58,7 @@ return function(Options)
                 CornerRadius = 2.5,
                 OutlineSize = 2,
                 OutlineColor = Studio.CurrentTheme.Outline
-            }
+            })
 
             ThisButton.Clicked:ConnectOnce(function()
                 if v.OnClick then

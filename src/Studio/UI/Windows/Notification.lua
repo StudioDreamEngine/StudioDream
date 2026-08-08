@@ -6,15 +6,15 @@ local ToTransparency = {
 }
 local Tween = Runtime.Services.Service("TweenService")
 function Notify.Notify(Message,Type)
-    local Window = Things.Create("Square") { 
+    local Window = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(1,0.07),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         BackgroundColor = Studio.CurrentTheme.Outline,
         --Parent = Notify.Container,
         CornerRadius = 5,
-    }
-    local NotifyImage = Things.Create("Image2D") {
+    })
+    local NotifyImage = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(.35,.35),
         Layer = 2,
         Pivot = Vector2.new(0,.5),
@@ -22,8 +22,8 @@ function Notify.Notify(Message,Type)
         Position = Pivot2D.FromScale(.5,.5),
         SquareAxis = Enum.SquareAxis.Y,
         Parent = Window
-    }
-    local Text = Studio.Components.CreateStyle("Text", {
+    })
+    local Text = Studio.Components.CreateStyle("Text",{
         Size = Pivot2D.FromScale(0.3,0.5),
         Layer = 2,
         Pivot = Vector2.new(0,.5),
@@ -50,11 +50,11 @@ function Notify.Init()
     Notify.FullContainer.BackgroundTransparency = 1
     Notify.FullContainer.OutlineSize = 0
     Notify.Container.BackgroundTransparency = 1
-    Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = Notify.Container,
         Alignment = Vector2.new(0,1),
         Padding = 5
-    } 
+    })
     
     Notify.Notify("Studio Loaded, Open a project or make a new one!","Info")
 end

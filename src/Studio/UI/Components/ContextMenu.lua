@@ -57,14 +57,14 @@ local ChoiceTypes = {
         end
 
         if HasImage then
-            ButtonObject.Image = Runtime.Things.Create("Image2D") {
+            ButtonObject.Image = Studio.Components.CreateStyle("Image2D",{
                 Size = Pivot2D.FromScale(1,1),
                 Pivot = Vector2.new(0,0.5),
                 Position = Pivot2D.FromScale(0,0.5),
                 SquareAxis = Enum.SquareAxis.Y,
                 Resource = HasImage,
                 Parent = ButtonObject.Button
-            }
+            })
         end
         
         if Choice.OnCreate and IsNotApplicable then
@@ -83,14 +83,14 @@ local ChoiceTypes = {
     end,
     ["Separator"] = function(Choice, Parent)
         Parent:SetSize(Pivot2D.new(0,1,3,0))
-        Things.Create("Square") {
+        Studio.Components.CreateStyle("Square",{
             Size = Pivot2D.FromScale(0.98,1),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
             BackgroundColor = Studio.CurrentTheme.Primary,
             Parent = Parent,
             CornerRadius = 2,
-        }
+        })
     end,
 }
 

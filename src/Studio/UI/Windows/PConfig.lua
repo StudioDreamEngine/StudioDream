@@ -8,16 +8,16 @@ PConfig.CreatedButtons = {}
 function PConfig.CreateMainSquares()
     local SquareObjects = {}
 
-    SquareObjects.BaseOptions = Runtime.Things.Create("Square") {
+    SquareObjects.BaseOptions = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.3,0.95),
         Parent = PConfig.Container,
         CornerRadius = 5,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(.02,0.02),
         BackgroundColor = Studio.CurrentTheme.Primary,
-    }
+    })
 
-    SquareObjects.Close = Runtime.Things.Create("ImageButton") {
+    SquareObjects.Close = Studio.Components.CreateStyle("ImageButton",{
         Size = Pivot2D.FromScale(0.1,0.1),
         Parent = PConfig.Container,
         CornerRadius = 5,
@@ -29,29 +29,29 @@ function PConfig.CreateMainSquares()
         ScaleType = Enum.ScaleType.LockAspect,
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundColor = Studio.CurrentTheme.Outline
-    }
+    })
 
-    SquareObjects.Options = Runtime.Things.Create("ScrollContainer") {
+    SquareObjects.Options = Studio.Components.CreateStyle("ScrollContainer",{
         Size = Pivot2D.FromScale(1,1),
         Parent = SquareObjects.BaseOptions,
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.5,.5),
-    }
+    })
 
-    Runtime.Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = SquareObjects.Options,
         Alignment = Enum.Alignment.Center,
         Padding = 10,
-    }
+    })
 
-    SquareObjects.RenderOption = Runtime.Things.Create("Square") {
+    SquareObjects.RenderOption = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.65,0.95),
         Parent = PConfig.Container,
         CornerRadius = 5,
         Pivot = Vector2.new(1,0),
         Position = Pivot2D.FromScale(.98,0.02),
         BackgroundColor = Studio.CurrentTheme.Primary,
-    }
+    })
 
     SquareObjects.Close.Clicked:Connect(function()
         PConfig.FullContainer:SetVisible(false)
@@ -70,14 +70,14 @@ end
 function PConfig.CreateOption(Module,Parent,Name)
     local OptionObject = {}
 
-    OptionObject.Main = Runtime.Things.Create("TextButton") {
+    OptionObject.Main = Studio.Components.CreateStyle("TextButton",{
         Size = Pivot2D.FromScale(0.95,0.05),
         Parent = Parent,
         CornerRadius = 5,
         BackgroundColor = Studio.CurrentTheme.Outline,
         ForegroundColor = Studio.CurrentTheme.Text,
         Text = Module.DisplayName
-    }
+    })
 
     OptionObject.Main.Clicked:Connect(function()
         PConfig.ToggleOption(Name)

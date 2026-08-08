@@ -7,8 +7,8 @@ VERSION_FULL = VERSION.." "..TITLE
 DEFAULT_FLAGS = {
     Target = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
     Verbose = false,
-    DebugDraw = true,
-    ExternalOutput = true
+    DebugDraw = false,
+    ExternalOutput = false
 }
 
 function love.conf(t)

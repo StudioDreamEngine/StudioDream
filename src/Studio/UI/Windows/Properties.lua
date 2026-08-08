@@ -29,7 +29,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
     end
 
     --print(PropertyWillHandle)
-    selfed.BaseProperty = Things.Create("Square") { 
+    selfed.BaseProperty = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.new(0,0.99,23,0),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.CurrentTheme.Secondary,
@@ -39,9 +39,9 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         CornerRadius = 6,
         --OutlineColor = Studio.CurrentTheme.Outline,
         --OutlineSize = 1
-    }
+    })
 
-    selfed.Option = Things.Create("Square") {
+    selfed.Option = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.49,.8),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
@@ -50,7 +50,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Layer = 3,
         Parent = selfed.BaseProperty,
         CornerRadius = 6,
-    }
+    })
 
     selfed.Text = Studio.Components.CreateStyle("Text", {
         Size =  Pivot2D.FromScale(0.49,.9),
@@ -71,14 +71,14 @@ end
 function Properties.CreateGroup(GroupName)
     local Group = {}
 
-    Group.BaseGroup = Things.Create("Square") { 
+    Group.BaseGroup = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.new(0,1,26,0),
         BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
         Parent = Properties.ParentWith,
         Name = GroupName,
         CornerRadius = 2,
-    }
+    })
 
     Group.TextOfGroup = Studio.Components.CreateStyle("Text", {
         Size =  Pivot2D.FromScale(0.5,0.8),
@@ -153,20 +153,20 @@ function Properties.RenderEverything(Thing)
 end
 
 function Properties.Init()
-    Properties.ParentWith = Things.Create("ScrollContainer") { 
+    Properties.ParentWith = Studio.Components.CreateStyle("ScrollContainer",{
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Name = "PropertyContainer",
         Parent =  Properties.Container,
         ForegroundColor = Studio.CurrentTheme.Primary
-    }
+    })
 
-    Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = Properties.ParentWith,
         Alignment = Enum.Alignment.TopCenter,
         Padding = 2
-    }
+    })
 
     Studio.Editor3D.OnSelect:Connect(Properties.RenderEverything)
     Studio.Editor3D.OnDeselect:Connect(Properties.Clear)

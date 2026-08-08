@@ -9,14 +9,14 @@ function InsertObject.Close()
 end
 
 function InsertObject.Init()
-    InsertObject.ScrollContainer = Things.Create("ScrollContainer") { -- Not a scroll container for now
+    InsertObject.ScrollContainer = Studio.Components.CreateStyle("ScrollContainer",{ -- Not a scroll container for now
         Size = Pivot2D.FromScale(1,0.8),
         Position = Pivot2D.FromScale(0,1),
         Pivot = Vector2.new(0,1),
         CanvasSize = Pivot2D.FromScale(1,6),
         Parent = InsertObject.Container,
         Layer = 100
-    }
+    })
 
     --[[InsertObject.CloseButton = Runtime.Things.Create("ImageButton") {
         Size = Pivot2D.FromScale(0.1,0.1),
@@ -31,7 +31,7 @@ function InsertObject.Init()
         ScaleType = Enum.ScaleType.LockAspect,
     }]]
 
-    InsertObject.SearchBar = Things.Create("TextInput") {
+    InsertObject.SearchBar = Studio.Components.CreateStyle("TextInput",{
         Size = Pivot2D.FromScale(1,0.1),
         Position = Pivot2D.FromScale(0,0.1),
         Pivot = Vector2.new(0,0),
@@ -40,8 +40,7 @@ function InsertObject.Init()
         CornerRadius = 100,
         Alignment = Enum.Alignment.Center,
         Parent = InsertObject.Container,
-        
-    }
+    })
 
     InsertObject.SearchText = ""
 
@@ -95,10 +94,10 @@ function InsertObject.Init()
         end
     end
 
-    Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = InsertObject.ScrollContainer,
         Alignment = Enum.Alignment.TopCenter
-    }
+    })
 end
 
 function InsertObject.UpdateList()

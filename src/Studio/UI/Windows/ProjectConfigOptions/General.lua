@@ -93,13 +93,13 @@ function Template.Create(Parent)
     function CreateObject.CreatePartBlock(Name,TypeOfOption,ParentS)
         local PartObj = {}
 
-        PartObj.Base = Runtime.Things.Create("Square") {
+        PartObj.Base = Studio.Components.CreateStyle("Square",{
             Size = Pivot2D.FromScale(1,0.1),
             Parent =  CreateObject.Scroll,
             BackgroundTransparency = 1,
             --BackgroundColor = Studio.CurrentTheme.Outline,
             CornerRadius = 2,
-        }
+        })
 
         PartObj.Text = Studio.Components.CreateStyle("Text", {
             Size = Pivot2D.FromScale(1,.5),
@@ -111,7 +111,7 @@ function Template.Create(Parent)
             Text = Name
         })
 
-        PartObj.Option = Runtime.Things.Create("Text"..(TypeOfOption or "")) {
+        PartObj.Option = Studio.Components.CreateStyle("Text"..(TypeOfOption or ""), {
             Size = Pivot2D.FromScale(0.49,.8),
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0,0.5),
@@ -120,7 +120,7 @@ function Template.Create(Parent)
             Layer = 3,
             CornerRadius = 6,
             Parent = PartObj.Base,
-        }
+        })
 
         return PartObj
     end
@@ -132,15 +132,15 @@ function Template.Create(Parent)
     end
 
     function CreateObject.Create()
-        CreateObject.Scroll = Runtime.Things.Create("ScrollContainer") {
+        CreateObject.Scroll = Studio.Components.CreateStyle("ScrollContainer",{
             Size = Pivot2D.FromScale(1,1),
             Parent = Parent,
             BackgroundTransparency = 1,
-        }
+        })
 
-        Runtime.Things.Create("ListLayout") {
+        Studio.Components.CreateStyle("ListLayout",{
             Parent = CreateObject.Scroll,
-        }
+        })
 
         CreateObject.CreateOptions()
         

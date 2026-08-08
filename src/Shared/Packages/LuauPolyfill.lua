@@ -397,6 +397,36 @@ local function InternalPrint(IsVerbose, External, ...)
 end
 
 -- Print only if POLYFILL_FLAGS.Verbose is true
+
+--[[function _G.IsIt(table1,table2)
+	local IsEqual = true
+
+	local function LoopThoughtTable(TableOne,TableTwo)
+		for i1,v1 in pairs(TableOne) do
+			if type(v1) ~= "table" then
+				for i2,v2 in pairs(TableTwo) do
+					if i1 ~= i2 then
+						IsEqual = false
+						return
+					end
+				end
+			else
+				if v2 then
+					--LoopThoughtTable(v1,v2)
+
+				else
+					IsEqual = false
+					return
+				end
+			end
+		end
+	end
+
+	LoopThoughtTable(table1,table2)
+
+	return IsEqual
+end]]
+
 function _G.printVerbose(...)
 	if (not POLYFILL_FLAGS.Verbose) then
 		return

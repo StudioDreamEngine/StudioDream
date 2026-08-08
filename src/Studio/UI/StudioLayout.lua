@@ -9,7 +9,7 @@ StudioLayout.Handles = {}
 function StudioLayout.CreateWindowContainer(Transform, HaveName)
     local Windows = {}
     
-    Windows.FullContainer = Runtime.Things.Create("Square") { 
+    Windows.FullContainer = Studio.Components.CreateStyle("Square",{
         Size = Transform.Size,
         Position = Transform.Position,
         Pivot = Transform.Pivot,
@@ -20,9 +20,9 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         CornerRadius = Transform.CornerRadius or 5,
        -- OutlineSize = 2,
         OutlineColor = Theme.Outline
-    }
+    })
     
-    Windows.Container = Runtime.Things.Create("Square") {
+    Windows.Container = Studio.Components.CreateStyle("Square",{
         Size = (not HaveName) and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.99,0.93),
         Position = (not HaveName) and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.06),
         Pivot = (not HaveName) and Vector2.new(0.5,0.5) or Vector2.new(0.5,0),
@@ -32,7 +32,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Parent = Windows.FullContainer,
         CornerRadius = Transform.CornerRadius or 2.5,
         Serializable = false
-    }
+    })
 
     if Transform.Shadows then
         Windows.Shadow = Studio.Components.CreateDropshadow(Windows.FullContainer)
@@ -125,29 +125,29 @@ end
 ]]
 
 function StudioLayout.CreateTopbar()
-    StudioLayout.TopBar = Things.Create("Square") {
+    StudioLayout.TopBar = Studio.Components.CreateStyle("Square",{
         Parent = Things.Root.RootViewport,
         Name = "TopBar",
         Size = Pivot2D.FromScale(1,0.15),
         BackgroundColor = Theme.Outline
-    }
+    })
 
-    local MenuBar = Things.Create("Square") {
+    local MenuBar = Studio.Components.CreateStyle("Square",{
         Parent = StudioLayout.TopBar,
         Name = "MenuBar",
         Position = Pivot2D.FromScale(0,0.0),
         Size = Pivot2D.FromScale(1,0.2),
         BackgroundTransparency = 1
-    }
+    })
 
-    local TopbarInner = Things.Create("Square") {
+    local TopbarInner = Studio.Components.CreateStyle("Square",{
         Parent = StudioLayout.TopBar,
         Name = "ToolBar",
         Position = Pivot2D.FromScale(0,0.2),
         Size = Pivot2D.FromScale(1,0.8),
         BackgroundColor = Theme.Primary,
         BackgroundTransparency = 0
-    }
+    })
 
     StudioLayout.CreateWindowHandler("TopBar", { Container = TopbarInner })
     StudioLayout.CreateWindowHandler("MenuBar", { Container = MenuBar })
@@ -157,7 +157,7 @@ function StudioLayout.CreateLayout()
     printVerbose("Creating studio layout")
     StudioLayout.CreateTopbar()
 
-    StudioLayout.Windows = Things.Create("Square") {
+    StudioLayout.Windows = Studio.Components.CreateStyle("Square",{
         Name = "WindowContainer",
         Parent = Things.Root.RootViewport,
         Pivot = Vector2.new(0,1),
@@ -165,7 +165,7 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(1,0.85),
         Layer = 10,
         BackgroundTransparency = 1
-    }
+    })
 
     StudioLayout.CreateWindow("Viewport", {
         Size = Pivot2D.FromScale(0.8,.8),
@@ -218,7 +218,8 @@ function StudioLayout.CreateLayout()
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 300,
         TopLevel = true,
-        Shadows = true
+        Shadows = true,
+        Name = "Project Configuration",
     })
 
     StudioLayout.CreateWindow("StudioConfig", {
@@ -227,7 +228,8 @@ function StudioLayout.CreateLayout()
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 300,
         TopLevel = true,
-        Shadows = true
+        Shadows = true,
+        Name = "Editor Configuration",
     })
 
     StudioLayout.CreateWindow("Toolbar", {

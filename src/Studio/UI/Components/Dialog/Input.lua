@@ -15,7 +15,7 @@ return function(Options)
             Name = "WindowText",
             Alignment = Vector2.new(0.5,0.5)
         })
-       Object.Inputer = Runtime.Things.Create("TextInput") {
+       Object.Inputer = Studio.Components.CreateStyle("TextInput",{
             Size = Pivot2D.FromScale(0.95,0.2) ,
             BackgroundColor = Studio.CurrentTheme.Secondary,
             ForegroundColor = Studio.CurrentTheme.Text,
@@ -30,9 +30,9 @@ return function(Options)
             OutlineSize = 2,
             OutlineColor = Studio.CurrentTheme.Outline,
             Parent = Object.Container
-        }
+        })
 
-        Object.Apply = Runtime.Things.Create("TextButton") {
+        Object.Apply = Studio.Components.CreateStyle("TextButton",{
             Size = Pivot2D.FromScale(0.7,0.15) ,
             BackgroundColor = Studio.CurrentTheme.Secondary,
             ForegroundColor = Studio.CurrentTheme.Text,
@@ -47,7 +47,7 @@ return function(Options)
             OutlineSize = 2,
             OutlineColor = Studio.CurrentTheme.Outline,
             Parent = Object.Container
-        }
+        })
 
         local ClickedEvent
 

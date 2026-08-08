@@ -16,13 +16,13 @@ function Template.Start(MainInfo)
     MainInfo.Option.BackgroundTransparency = 1
     MainInfo.Text:SetText("Preview Audio")
 
-    local Button = Runtime.Things.Create("ImageButton") {
+    local Button = Studio.Components.CreateStyle("ImageButton",{
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Resource = "Internal/Studio/PauseAnPlay.png",
         Parent = MainInfo.Option,
         SinkHovering = true,
-    }
+    })
     
     Button:SetImageRect(Rect.new(LineUp.Play,Vector2.new(64,64)))
 

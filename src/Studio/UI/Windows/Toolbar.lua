@@ -63,7 +63,7 @@ end
 function Toolbar.CreateToolButton(Obj)
     local ToolButtonObject = {}
 
-    ToolButtonObject.Main = Things.Create("ImageButton") {
+    ToolButtonObject.Main = Studio.Components.CreateStyle("ImageButton",{
         Size = Pivot2D.FromScale(0.9,0.9),
         --Position = Pivot2D.FromScale(0.5,0.5),
         --Pivot = Vector2.new(0.5,0.5),
@@ -73,15 +73,16 @@ function Toolbar.CreateToolButton(Obj)
         ForegroundTransparency = 1,
         CornerRadius = 100,
         Parent = Toolbar.Container,
-    }
-    ToolButtonObject.Image = Things.Create("Image2D") {
+    })
+
+    ToolButtonObject.Image = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(0.8,0.8),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
         ScaleType = Enum.ScaleType.LockAspect,
         Resource = "Internal/Studio/TabIcons/"..Obj.Icon.."Icon.png",
         Parent = ToolButtonObject.Main,
-    }
+    })
     --[[ToolButtonObject.Text = Things.Create("Text") {
         Size = Pivot2D.FromScale(0.7,0.5),
         Position = Pivot2D.FromScale(0.5,1),
@@ -101,7 +102,7 @@ end
 function Toolbar.CreateSeparator()
     local SepObject = {}
 
-    SepObject.Main = Things.Create("Square") {
+    SepObject.Main = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.9,0.01),
         --Position = Pivot2D.FromScale(0.5,0.5),
         --Pivot = Vector2.new(0.5,0.5),
@@ -110,7 +111,7 @@ function Toolbar.CreateSeparator()
         ForegroundTransparency = 1,
         CornerRadius = 100,
         Parent = Toolbar.Container,
-    }
+    })
 
     return SepObject
 end
@@ -119,12 +120,12 @@ function Toolbar.Init()
     Toolbar.Container.Size = Pivot2D.FromScale(0.8,0.99)
     --Toolbar.FullContainer.BackgroundColor = Studio.CurrentTheme.Primary
 
-    Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = Toolbar.Container,
         Alignment = Enum.Alignment.Center,
         Padding = 5,
         SortMode = Enum.SortMode.Order,
-    }
+    })
 
     for i,v in ipairs(Toolbar.ButtonsToCreate) do
         if v.Name ~= "Selector" then

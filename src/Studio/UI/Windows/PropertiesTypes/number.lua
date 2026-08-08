@@ -13,14 +13,14 @@ end
 function Template.Start(MainInfo)
     local self = {}
 
-    local Text = Runtime.Things.Create("TextInput") {
+    local Text = Studio.Components.CreateStyle("TextInput",{
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 1,
         Pivot = Vector2.new(0.5,0.5),
         Size = Pivot2D.FromScale(0.95,1),
         Position = Pivot2D.FromScale(0.5,0.5),
         Parent = MainInfo.Option,
-    }
+    })
 
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)

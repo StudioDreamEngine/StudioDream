@@ -84,14 +84,14 @@ function Components.CreateIconObject(Name, Icon)
     local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/File_Not_Found.png")
     local Icon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
     
-    local NodeIcon = Things.Create("Image2D") {
+    local NodeIcon = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.new(0,0.1,0,1),
         SquareAxis = Enum.SquareAxis.Y,
         Pivot = Vector2.new(-0.1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
         Resource = Icon,
         Parent = NodeInner
-    }
+    })
     
     return NodeInner
 end
@@ -109,7 +109,7 @@ function Components.ExpandableDropdown(Header, List)
 
     }]]
 
-    ExpandableDropdown.Button = Runtime.Things.Create("ImageButton") {
+    ExpandableDropdown.Button = Studio.Components.CreateStyle("ImageButton",{
         Resource = "Internal/Studio/OpenMenu.png",
         Size = Pivot2D.FromScale(0.8,0.8),
         BackgroundColor = Studio.CurrentTheme.Text,
@@ -119,9 +119,9 @@ function Components.ExpandableDropdown(Header, List)
         Parent = Header,
         ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
         ForegroundColor = Studio.CurrentTheme.Text,
-    }
+    })
 
-    ExpandableDropdown.Container = Things.Create("Square") { 
+    ExpandableDropdown.Container = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.98,1),
         Name = Header.Name.."1",
         AutomaticSize = Enum.AutomaticSize.Y,
@@ -132,13 +132,13 @@ function Components.ExpandableDropdown(Header, List)
         Layer = 3,
         Order = Header.Order,
         Parent = List,
-    }
+    })
 
-    ExpandableDropdown.Layout = Things.Create("ListLayout") {
+    ExpandableDropdown.Layout = Studio.Components.CreateStyle("ListLayout",{
         Parent = ExpandableDropdown.Container,
         Alignment = Enum.Alignment.TopCenter,
         Padding = 2,
-    }
+    })
 
     function ExpandableDropdown.Toggle(Visible)
         ExpandableDropdown.Visible = Visible
@@ -233,7 +233,7 @@ local TypeAssociations = {
 }
 
 function Components.CreateDropshadow(Parent)
-    return Runtime.Things.Create("Image2D") {
+    return Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.new(30,1,30,1),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
@@ -246,10 +246,15 @@ function Components.CreateDropshadow(Parent)
         FilterType = Enum.FilterType.Default,
         Layer = -1,
         IgnoreConstraints = true
-    }
+    })
 end
 
 function Components.CreateStyle(Type, Properties, Style)
+    local MatchedUpOnTheme = {}
+    local Signalwow
+    local ThingCreated
+    local NameOfTheme,TableOfTheme = Studio.Theme.GetCurrentThemeInfo()
+    local AlreadySettupMatchTheme = false
     if (not Style) then
         Style = TypeAssociations[Type]
     end
@@ -265,8 +270,44 @@ function Components.CreateStyle(Type, Properties, Style)
             end
         end
     end
+    
+    ThingCreated = Things.Create(Type) (Properties)
 
-    return Things.Create(Type) (Properties)
+    ThingCreated.OnDestroy:ConnectOnce(function()
+        Signalwow:Disconnect()
+    end)
+
+    local function LoadFromTheme()
+        --MatchedUpOnTheme = {}
+        for ProName,ProVal in pairs(ThingCreated.Proxy.Serializable) do
+            for ConfigName,Value in pairs(TableOfTheme) do
+                if ThingCreated[ProName] == Value then
+                    table.insert(MatchedUpOnTheme,{SettingInTheme = ConfigName,ValueName = ProName})
+                end
+                if ProName == "Font" then
+                    --print(ThingCreated[ProName])
+                    if ThingCreated[ProName] and ThingCreated[ProName].ID == Value then
+                        table.insert(MatchedUpOnTheme,{SettingInTheme = ConfigName,ValueName = ProName})
+                    end 
+                end
+            end
+        end
+    end
+
+    Signalwow = Studio.Theme.ThemeChanged:Connect(function()
+        for i,v in pairs(MatchedUpOnTheme) do
+            if v.ValueName ~= "Font" then
+                ThingCreated[v.ValueName] = Studio.CurrentTheme[v.SettingInTheme]
+            else
+                ThingCreated:SetFont(Studio.CurrentTheme[v.SettingInTheme])
+            end
+            --LoadFromTheme()
+        end
+    end)
+
+    LoadFromTheme()
+
+    return ThingCreated
 end
 
 function Components.Update(dt)

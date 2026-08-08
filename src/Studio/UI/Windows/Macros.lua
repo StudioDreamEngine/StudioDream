@@ -13,9 +13,9 @@ Macros.MacroList = {
 }
 
 function Macros.Init()
-    Runtime.Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = Macros.Container
-    }
+    })
 
     for Name, Macro in pairs(Macros.MacroList) do
         Studio.Components.CreateStyle("TextButton", {

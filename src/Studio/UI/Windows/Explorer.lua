@@ -4,13 +4,13 @@ local SelectionManager = Studio.Editor3D.SelectionManager
 local Explorer = {}
 Explorer.Tree = {}
 
-local AddButtonObject = Runtime.Things.Create("ImageButton") {
+local AddButtonObject = Studio.Components.CreateStyle("ImageButton",{
     Resource = "Internal/Studio/AddThing.png",
     Size = Pivot2D.FromScale(1,1),
     Position = Pivot2D.FromScale(0.5,0),
     Pivot = Vector2.new(1,0.0001),
     SquareAxis = Enum.SquareAxis.Y,
-}
+})
 
 local ScrollContainer
 
@@ -41,7 +41,7 @@ function Explorer.CreateNode(Object, Depth)
 
     NodeObj.ChildrenInNode = {}
 
-    NodeObj.Node = Things.Create("Square") { 
+    NodeObj.Node = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.new(0,1,15,0),
         Pivot = Vector2.new(0,0),
         BackgroundTransparency = 1,
@@ -50,9 +50,9 @@ function Explorer.CreateNode(Object, Depth)
         Parent = ScrollContainer,
         Serializable = false,
         CornerRadius = 5,
-    }
+    })
 
-    NodeObj.Context = Things.Create("Contextulizer") { 
+    NodeObj.Context = Studio.Components.CreateStyle("Contextulizer",{
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
@@ -61,7 +61,7 @@ function Explorer.CreateNode(Object, Depth)
         SinkHovering = false,
         Parent = NodeObj.Node,
         Serializable = false,
-    }
+    })
 
     NodeObj.Context.OnContextCreate:Connect(function()
         print(Object.Proxy.Duplicatable)
@@ -140,7 +140,7 @@ function Explorer.CreateNode(Object, Depth)
     NodeObj.CreateChildrenButton = function()
         NodeObj.AlreadyCreatedChilButton = true
         
-        NodeObj.Button = Runtime.Things.Create("ImageButton") {
+        NodeObj.Button = Studio.Components.CreateStyle("ImageButton",{
             Resource = "Internal/Studio/OpenMenu.png",
             Size = Pivot2D.FromScale(0.8,0.8),
             BackgroundColor = Studio.CurrentTheme.Text,
@@ -151,7 +151,7 @@ function Explorer.CreateNode(Object, Depth)
             Layer = 4,
             ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
             ForegroundColor = Studio.CurrentTheme.Text,
-        }
+        })
 
         NodeObj.IsChildOpen = true
 
@@ -247,7 +247,7 @@ local function HandleDragEnd()
 end
 
 function Explorer.Init()
-    ScrollContainer = Things.Create("ScrollContainer") { 
+    ScrollContainer = Studio.Components.CreateStyle("ScrollContainer",{
         Size = Pivot2D.FromScale(1,1),
         CanvasSize = Pivot2D.FromScale(1,4),
         BackgroundTransparency = 1,
@@ -255,7 +255,7 @@ function Explorer.Init()
         Position = Pivot2D.FromScale(0.5,0.5),
         Parent = Explorer.Container,
         Serializable = false
-    }
+    })
 
     Explorer.Redraw()
     
@@ -310,11 +310,11 @@ function Explorer.Redraw()
     Explorer.Tree = {}
     Explorer.CreateTree(Things.Root, 0)
 
-    Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = ScrollContainer,
         Padding = 3,
         SortMode = Enum.SortMode.Order
-    }
+    })
 end
 
 function Explorer.Update(dt)

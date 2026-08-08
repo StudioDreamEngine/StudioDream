@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
 return function(Args)
-    local ButtonContainer = Things.Create("TextButton") {
+    local ButtonContainer = Studio.Components.CreateStyle("TextButton",{
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Text = "",
@@ -11,9 +11,9 @@ return function(Args)
         CornerRadius = 5,
        -- OutlineSize = 1.5,
         --OutlineColor = Studio.CurrentTheme.Outline
-    }
+    })
 
-    local Image = Things.Create("Image2D") {
+    local Image = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(0.7,0.7),
         SquareAxis = Enum.SquareAxis.Y,
         Parent = ButtonContainer,
@@ -21,9 +21,9 @@ return function(Args)
         Pivot = Vector2.xAxis * .5,
         Position = Pivot2D.FromScale(0.5,0),
         ForegroundColor = Studio.CurrentTheme.Text,
-    }
+    })
 
-    local Text = Studio.Components.CreateStyle("Text", {
+    local Text = Studio.Components.CreateStyle("Text",{
         Parent = ButtonContainer,
         Position = Pivot2D.FromScale(0.5,1),
         Pivot = Vector2.new(.5,1),

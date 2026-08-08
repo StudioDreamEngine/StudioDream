@@ -28,16 +28,16 @@ local function CreatePivotNode(MainInfo,WhatThing)
 
     selfed.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
-    selfed.BaseProperty = Things.Create("Square") { 
+    selfed.BaseProperty = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.new(0,0.95,23,0),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
         Parent = MainInfo.Expand.Container,
         CornerRadius = 6,
-    }
+    })
 
-    selfed.Option = Things.Create("TextInput") {
+    selfed.Option = Studio.Components.CreateStyle("TextInput",{
         Size = Pivot2D.FromScale(0.49,.8),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
@@ -46,7 +46,7 @@ local function CreatePivotNode(MainInfo,WhatThing)
         Parent = selfed.BaseProperty,
         CornerRadius = 6,
          ForegroundColor = Studio.CurrentTheme.Text
-    }
+    })
 
     selfed.Text = Studio.Components.CreateStyle("Text", {
         Size =  Pivot2D.FromScale(0.49,.9),

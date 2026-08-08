@@ -19,14 +19,14 @@ function Output.CreateOutput(Text,Type)
 end
 
 function Output.Init()
-    ScrollContainer = Runtime.Things.Create("ScrollContainer") {
+    ScrollContainer = Studio.Components.CreateStyle("ScrollContainer",{
         CanvasSize = Pivot2D.FromScale(1,4),
         Size = Pivot2D.FromScale(1,1),
         Name = "OutputContainer",
         Parent = Output.Container
-    }
+    })
 
-    local Context = Runtime.Things.Create("Contextulizer") { 
+    local Context = Studio.Components.CreateStyle("Contextulizer",{
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
@@ -34,7 +34,7 @@ function Output.Init()
         Layer = 999,
         Parent = Output.Container,
         Serializable = false,
-    }
+    })
 
     Context:SetChoices({
         {
@@ -49,10 +49,10 @@ function Output.Init()
     })
 
     Output.Container.BackgroundColor = Studio.CurrentTheme.Outline
-    Runtime.Things.Create("ListLayout") {
+    Studio.Components.CreateStyle("ListLayout",{
         Parent = ScrollContainer,
         Reverse = true
-    }
+    })
 
     Scheduler.OnRecoverableError = function(Text)
         local List = string.split(Text, "\n")

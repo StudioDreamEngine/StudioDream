@@ -15,7 +15,7 @@ local Resources = Runtime.Resources
 function Template.Start(MainInfo)
     local self = {}
 
-    local Button = Runtime.Things.Create("TextButton") {
+    local Button = Studio.Components.CreateStyle("TextButton",{
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
@@ -25,16 +25,16 @@ function Template.Start(MainInfo)
         BackgroundColor = Studio.CurrentTheme.Primary,
         CornerRadius = 5,
         SinkHovering = true,
-    }
+    })
 
-    Runtime.Things.Create("Image2D") {
+    Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(1,0),
         Position = Pivot2D.FromScale(1,0),
         SquareAxis = Enum.SquareAxis.Y,
         Resource = "Internal/Studio/InsertResource.png",
         Parent = Button
-    }
+    })
 
     function self.Update()
         local AllSame = CheckAllTheSame(MainInfo.WillHandle)
