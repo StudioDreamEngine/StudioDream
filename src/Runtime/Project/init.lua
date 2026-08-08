@@ -158,10 +158,9 @@ function Project.CreateProject(ProjectPath)
     Project.Save()
 end
 
--- Take existing project and save to zip
-function Project.Export()
+-- Take current project and package it into a zip file, returns the zip file as bytes
+function Project.Package()
     local Zip = love.zip:newZip() ---@class LoveZip
-    local TargetPath = Platform.GetDocuments().."/Export_"..Project.Config.Get("Name")..".sdp" -- TODO: python-like path system?
 
     ProjectFS.ToggleQueueWrites(true) -- Refer to above function
     Project.Save()
@@ -177,8 +176,13 @@ function Project.Export()
 
     ProjectFS.ToggleQueueWrites(false)
 
-    local Data = Zip:finish()
-    NativeFS.write(TargetPath, Data)
+    return Zip:finish()
+end
+
+-- Take existing project and save to zip
+function Project.Export()
+    local TargetPath = Platform.GetDocuments().."/Export_"..Project.Config.Get("Name")..".sdp" -- TODO: python-like path system?
+    NativeFS.write(TargetPath, Project.Package())
 end
 
 -- Save a project

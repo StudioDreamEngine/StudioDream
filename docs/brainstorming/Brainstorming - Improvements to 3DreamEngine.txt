@@ -7,3 +7,31 @@ Idea: Do this in 3 steps
 1. Strip Down 3DE to the nescessities
 2. Slowly strip down classes and rewrite classes such as Drawable3D to be able to be replacements for those classes
 3. Rewrite the renderer
+
+API Idea Stub (Codename Why3D):
+    local Why3D = require("Engine")
+
+    local World = Why3D.new("World")
+    local Mesh = Why3D.new("Mesh")
+    local Material = Why3D.new("Material")
+
+    --[[
+        The world has deferred shaders, which are applied to the image itself.
+
+        deferred shaders can be applied based off a material mask or to the whole image
+        the world configures passes, which the material pixel shader can use during 
+    ]]
+
+    --[[
+        Materials have 3 shader types, Texture (Frag), Pixel (Frag), and Model (Vert)
+    
+        Texture: TODO
+        Model: TODO
+        Pixel:
+            
+    ]]
+
+    Mesh:LoadFromFile("./Assets/Cube.obj") -- Load ONLY the mesh from a file, 
+    Mesh:SetMaterial(Material)
+
+    local Canvas = World:Present()

@@ -30,6 +30,8 @@ function Thing:new()
     self.PropertyChanged = Signal:New("SomethingChanged")
     self.AttributeChanged = Signal:New("AttributeChangedWow")
 
+    self.OnDestroy = Signal:New("OnDestroy")
+
     self.Children = {}
     self.Parent = nil ---@type Thing
     self.Unreferenced = false
@@ -317,6 +319,7 @@ end
 
 function Thing:OnRemove()
     self.Unreferenced = true
+    self.OnDestroy.Invoke(self)
     self:SetParent()
     self:ClearAllChildren()
 end
