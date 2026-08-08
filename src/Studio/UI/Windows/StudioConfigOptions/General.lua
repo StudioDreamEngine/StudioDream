@@ -11,10 +11,10 @@ local function GenList(TableGot)
             Text = i,
             Type = "Button",
             Function = function()
+                Studio.Theme.BeforeChange.Invoke()
                 Studio.CurrentTheme = v
                 Studio.Theme.CurrentTheme = v
                 Studio.Theme.ThemeChanged.Invoke()
-
                 SavedStuff.DropdownTheme.Toggle(false)
             end
         })

@@ -252,6 +252,7 @@ end
 function Components.CreateStyle(Type, Properties, Style)
     local MatchedUpOnTheme = {}
     local Signalwow
+    local Itwasbetterifimadeatable
     local ThingCreated
     local NameOfTheme,TableOfTheme = Studio.Theme.GetCurrentThemeInfo()
     local AlreadySettupMatchTheme = false
@@ -275,6 +276,7 @@ function Components.CreateStyle(Type, Properties, Style)
 
     ThingCreated.OnDestroy:ConnectOnce(function()
         Signalwow:Disconnect()
+        Itwasbetterifimadeatable:Disconnect()
     end)
 
     local function LoadFromTheme()
@@ -294,6 +296,10 @@ function Components.CreateStyle(Type, Properties, Style)
         end
     end
 
+    Itwasbetterifimadeatable = Studio.Theme.BeforeChange:Connect(function() 
+        if not AlreadySettupMatchTheme then LoadFromTheme() AlreadySettupMatchTheme = true end
+    end)
+
     Signalwow = Studio.Theme.ThemeChanged:Connect(function()
         for i,v in pairs(MatchedUpOnTheme) do
             if v.ValueName ~= "Font" then
@@ -304,8 +310,6 @@ function Components.CreateStyle(Type, Properties, Style)
             --LoadFromTheme()
         end
     end)
-
-    LoadFromTheme()
 
     return ThingCreated
 end

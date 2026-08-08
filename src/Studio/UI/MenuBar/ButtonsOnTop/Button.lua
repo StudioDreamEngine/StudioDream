@@ -9,7 +9,7 @@ Runtime.InterfaceManager.OnClick:Connect(function()
 end)
 
 return function(Args)
-    local ButtonContainer = Things.Create("TextButton") {
+    local ButtonContainer = Studio.Components.CreateStyle("TextButton",{
         Size = Pivot2D.FromScale(0.05,0.9),
         Text = Args.Name,
         ForegroundColor = Studio.CurrentTheme.Text,
@@ -17,7 +17,7 @@ return function(Args)
         Alignment = Vector2.new(0.5,0.5),
         HoverColorMultiplier = 5,
         BackgroundTransparency = 0.7,
-    }
+    })
     if Args.Function then
         ButtonContainer.Clicked:Connect(Args.Function)
     end

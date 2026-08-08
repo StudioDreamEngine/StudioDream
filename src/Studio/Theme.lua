@@ -97,7 +97,8 @@ local ThemesIn = {
         Selecting = Color.FromHex("#21c0ff"),
 
         Text = Color.FromHex("#ffffff"),
-
+        Error =  Color.FromHex("#ff3333"),
+        
         FontNormal = "Internal/Fonts/Roboto/Roboto-Medium.ttf",
         FontBold = "Internal/Fonts/Roboto/Roboto-Bold.ttf",
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
@@ -114,7 +115,7 @@ local ThemesIn = {
         Selecting = Color.FromHex("#6998ff"),
 
         Text = Color.FromHex("#1a1a1a"),
-
+        Error =  Color.FromHex("#ff3333"),
         FontNormal = "Internal/Fonts/Roboto/Roboto-Medium.ttf",
         FontBold = "Internal/Fonts/Roboto/Roboto-Bold.ttf",
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
@@ -131,7 +132,7 @@ local ThemesIn = {
         Selecting = Color.FromHex("#000000"),
 
         Text = Color.FromHex("#3eff24"),
-
+        Error =  Color.FromHex("#0059ff"),
         FontNormal = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf",
         FontBold = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf",
         FontTalic = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf"
@@ -146,6 +147,7 @@ local ThemesIn = {
 
 Themes.CurrentTheme = ThemesIn["Blue Night"]
 
+Themes.BeforeChange = Signal:New("ThemeChangesB")
 Themes.ThemeChanged = Signal:New("ThemeChanges")
 
 Themes.ThemeChanged:Connect(function()
