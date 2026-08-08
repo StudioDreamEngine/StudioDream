@@ -28,6 +28,7 @@ function PConfig.CreateMainSquares()
         Resource = "Internal/Studio/Close.png",
         ScaleType = Enum.ScaleType.LockAspect,
         ForegroundColor = Studio.CurrentTheme.Text,
+        BackgroundColor = Studio.CurrentTheme.Outline
     }
 
     SquareObjects.Options = Runtime.Things.Create("ScrollContainer") {

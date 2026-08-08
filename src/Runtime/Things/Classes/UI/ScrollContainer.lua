@@ -2,7 +2,7 @@ local Things = Runtime.Things
 
 -- My idea for this is someth like the list layouts, using the constraint system
 ---@class ScrollContainer: Viewport2D
-local ScrollContainer = Things.Extend("Viewport2D")
+local ScrollContainer = Things.Extend("Viewport2D") -- Also make this get extended form Square!! we need the background stuff sorry
 
 function ScrollContainer:new()
     ScrollContainer.super.new(self)
@@ -13,6 +13,8 @@ function ScrollContainer:new()
     self.CanvasSize = Pivot2D.FromScale(1,2)
 
     self.Hovering = false
+
+    self.ForegroundColor = Color.new(1)
 
     self.WheelMoved = LoveEvents.WheelMoved:Connect(function(_, y)
         if (not self.Hovering) then return end
@@ -26,6 +28,8 @@ end
 function ScrollContainer:DefineAPI()
     ScrollContainer.super.DefineAPI(self)
 
+    self.Proxy.Property("Pivot2D CanvasSize","number ScrollPosition")
+    self.Proxy.Group("Scroll","CanvasSize","ScrollPosition")
     self.Proxy.MakeCreatable()
 end
 
@@ -52,7 +56,8 @@ function ScrollContainer:Draw()
     local CanvasSize = self:GetCanvasSize()
     local BarPos = (-self.ScrollPosition / CanvasSize.Y) * self.AbsoluteSize.Y
     local BarSize = (self.AbsoluteSize.Y / CanvasSize.Y) * self.AbsoluteSize.Y -- There has to be a better way to do this
-
+    Runtime.Backend2D.SetColor(self.ForegroundColor,1 - self.ForegroundTransparency)
+    
     love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - (BarPos/2), 5, BarSize)
 end
 

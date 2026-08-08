@@ -146,6 +146,16 @@ local ThemesIn = {
 
 Themes.CurrentTheme = ThemesIn.BlueNight
 
+Themes.ThemeChanged = Signal:New("ThemeChanges")
+
+function Themes.GetCurrentThemeInfo()
+    for i,v in pairs(ThemesIn) do
+        if v == Themes.CurrentTheme then
+            return i,v
+        end
+    end
+end
+
 function Themes.GetThemes()
     return ThemesIn
 end

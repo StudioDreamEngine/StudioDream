@@ -159,6 +159,7 @@ function Properties.Init()
         Position = Pivot2D.FromScale(0.5,0.5),
         Name = "PropertyContainer",
         Parent =  Properties.Container,
+        ForegroundColor = Studio.CurrentTheme.Primary
     }
 
     Things.Create("ListLayout") {

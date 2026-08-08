@@ -1,24 +1,53 @@
-local Template = {}
+local GenConfig = {}
 
-Template.DisplayName = "General Configs"
+GenConfig.DisplayName = "General Configs"
+
+
+
+local function GenList(Table)
+    local Choices = {}
+    for i,v in ipairs(Table) do
+        table.insert(Choices, {
+            Text = i,
+            Type = "Button",
+            Function = function()
+                Studio.CurrentTheme = v
+                Studio.Theme.CurrentTheme = v
+                Studio.Theme.ThemeChanged.Invoke()
+            end
+        })
+    end
+    return Choices
+end
 
 local ProjectOptions = {
     [1] = {
         Name = "Current Theme",
-        OptionType = "Input",
+        OptionType = "Button",
         FunctionWhenCreate = function(Main)
+            local Name,Info = Studio.Theme.GetCurrentThemeInfo()
             -- Create the dropdown, when choose, make everything load again maybe? :think:
+            Main.Option:SetText(Name)
+            local Dropdown = Studio.Components.DropdownPlus.new(GenList(Studio.Theme.GetThemes()),Main.Option)
+            Dropdown.Toggle(false)
+
+            Main.Option.Clicked:Connect(function()
+                Dropdown.Toggle(not Dropdown.MajorParent.Visible)
+            end)
         end,
     },
+    
 }
 
 
-function Template.Create(Parent)
+function GenConfig.Create(Parent)
     local CreateObject = {}
 
-     Runtime.Project.LoadedProject:Connect(function()
+    print("BLEHBELH")
+
+    Runtime.Project.LoadedProject:Connect(function()
         --print("PROJECT LOADED DUMB FUCK")
-     end)
+    end)
 
     function CreateObject.CreatePartBlock(Name,TypeOfOption,ParentS)
         local PartObj = {}
@@ -73,7 +102,7 @@ function Template.Create(Parent)
         }
 
         CreateObject.CreateOptions()
-        
+        print(CreateObject.Scroll.Visible,CreateObject.Scroll.TruelyVisible)
     end
 
     CreateObject.Create()
@@ -85,4 +114,4 @@ function Template.Create(Parent)
     return CreateObject
 end
 
-return Template
+return GenConfig

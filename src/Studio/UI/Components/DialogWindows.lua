@@ -80,6 +80,8 @@ function DialogWindows.CreateDialogWindow(Type, Options)
         OutlineColor = Studio.CurrentTheme.Outline
     }
     
+    Components.CreateDropshadow(DialogObject.Window)
+
     DialogObject.Container = Runtime.Things.Create("Square") {
         Size = Pivot2D.FromScale(0.99,0.99) ,
         Position = Pivot2D.FromScale(0.5,0.5),

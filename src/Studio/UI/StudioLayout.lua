@@ -217,7 +217,17 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 300,
-        TopLevel = true
+        TopLevel = true,
+        Shadows = true
+    })
+
+    StudioLayout.CreateWindow("StudioConfig", {
+        Size = Pivot2D.FromScale(0.5,0.6),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Layer = 300,
+        TopLevel = true,
+        Shadows = true
     })
 
     StudioLayout.CreateWindow("Toolbar", {
@@ -257,6 +267,7 @@ function StudioLayout.CreateLayout()
 
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("PConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
 end
 
 function StudioLayout.Update(dt)

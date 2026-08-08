@@ -150,9 +150,10 @@ function Start.Init()
 
     local Version = Studio.Components.CreateStyle("Text", {
         Text = "Welcome to Early Riser! ("..VERSION..")",
-        ForegroundColor = Studio.CurrentTheme.Text,
-        Position = Pivot2D.FromScale(0.05,0),
+        ForegroundColor = Color.Invert(Studio.CurrentTheme.Text),
+        Position = Pivot2D.FromScale(0.5,0),
         Size = Pivot2D.FromScale(1,0.1),
+        Pivot = Vector2.new(0.5,0),
         Parent = Start.Container,
         Layer = 2,
         BackgroundTransparency = 1,

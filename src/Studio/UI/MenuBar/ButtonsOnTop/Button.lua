@@ -15,7 +15,7 @@ return function(Args)
         ForegroundColor = Studio.CurrentTheme.Text,
         BackgroundColor = Studio.CurrentTheme.Primary,
         Alignment = Vector2.new(0.5,0.5),
-        HoverColorMultiplier = 2,
+        HoverColorMultiplier = 5,
         BackgroundTransparency = 0.7,
     }
     if Args.Function then

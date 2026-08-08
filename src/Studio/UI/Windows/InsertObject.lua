@@ -35,12 +35,12 @@ function InsertObject.Init()
         Size = Pivot2D.FromScale(1,0.1),
         Position = Pivot2D.FromScale(0,0.1),
         Pivot = Vector2.new(0,0),
-        --ForegroundColor = Studio.CurrentTheme.Text,
-        BackgroundColor = Studio.CurrentTheme.Secundary,
-        OutlineColor = Studio.CurrentTheme.Outline,
-        OutlineSize = 2,
-        CornerRadius = 5,
+        ForegroundColor = Studio.CurrentTheme.Text,
+        BackgroundColor = Studio.CurrentTheme.Secondary,
+        CornerRadius = 100,
+        Alignment = Enum.Alignment.Center,
         Parent = InsertObject.Container,
+        
     }
 
     InsertObject.SearchText = ""
@@ -97,7 +97,7 @@ function InsertObject.Init()
 
     Things.Create("ListLayout") {
         Parent = InsertObject.ScrollContainer,
-        Alignment = Enum.Alignment.TopRight
+        Alignment = Enum.Alignment.TopCenter
     }
 end
 

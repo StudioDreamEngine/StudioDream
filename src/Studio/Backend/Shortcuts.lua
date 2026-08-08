@@ -25,7 +25,31 @@ local HandleThis = {
         Function = function()
             Studio.History.DoIt()
         end,
-    }
+    },
+    ["Move"] = {
+        Settings = {
+            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.One}}
+        },
+        Function = function()
+            Studio.Layout.CallHandle("Toolbar", "SelectTool", "Move")
+        end
+    },
+    ["Scale"] = {
+        Settings = {
+            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.Two}}
+        },
+        Function = function()
+            Studio.Layout.CallHandle("Toolbar", "SelectTool", "Scale")
+        end
+    },
+    ["Rotate"] = {
+        Settings = {
+            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.Three}}
+        },
+        Function = function()
+            Studio.Layout.CallHandle("Toolbar", "SelectTool", "Rotate")
+        end
+    },
 }
 
 local function BuildKeyTable(Inputs)

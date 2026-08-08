@@ -11,8 +11,11 @@ function TextButton:new()
     self.Hovering = false 
     self.HoverColorMultiplier = 0.75
     self.ClickingColorMultiplier = 0.5
+
     self.SinkHovering = true
-    --self.LastHover = false
+
+    self.HoveringStyle = Enum.HoveringStyle.ColorMultiplier
+        --self.LastHover = false
     
     -- not implemented yet
     --self.SinkHovering = false -- If true, blocks hovering from being true on objects lower than its layer
@@ -79,9 +82,13 @@ function TextButton:Update(dt)
     local DisplayUI = self:GetDisplayUI()
     if (not DisplayUI) then return end
     
-    local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
-    local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
-    self.ColorMultiplier = Multiplier
+    if self.HoveringStyle == "colorM" then
+        local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
+        local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
+        self.ColorMultiplier = Multiplier
+    elseif self.HoveringStyle == "colorC" then
+        --local ColorToChange = 
+    end
 
     if (not self._WasHovering and self.Hovering) then self.HoverEnter.Invoke() end
     if (self._WasHovering and not self.Hovering) then self.HoverExit.Invoke() end
