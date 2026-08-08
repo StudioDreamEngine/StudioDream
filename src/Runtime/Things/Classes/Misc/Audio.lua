@@ -72,17 +72,23 @@ end
 
 function Audio:SetVolume(NewVol)
     self.Volume = NewVol
-    self.SoundObject:setVolume(NewVol/100)
+    if self.SoundObject then
+        self.SoundObject:setVolume(NewVol/100)
+    end
 end
 
 function Audio:SetLoop(DoesIt)
     self.DoesLoop = DoesIt
-    self.SoundObject:setLooping(DoesIt)
+    if self.SoundObject then
+        self.SoundObject:setLooping(DoesIt)
+    end
 end
 
 function Audio:SetTimePosition(NewTime)
     self.TimePosition = NewTime
-    self.SoundObject:seek(NewTime)
+    if self.SoundObject then 
+        self.SoundObject:seek(NewTime)
+    end
 end
 
 function Audio:SetPlaying(NewBool)

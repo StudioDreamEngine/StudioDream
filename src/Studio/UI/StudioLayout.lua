@@ -30,7 +30,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Name = "BackWindow",
         Layer = 2,
         Parent = Windows.FullContainer,
-        CornerRadius = 2.5,
+        CornerRadius = Transform.CornerRadius or 2.5,
         Serializable = false
     }
 
@@ -218,6 +218,14 @@ function StudioLayout.CreateLayout()
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 300,
         TopLevel = true
+    })
+
+    StudioLayout.CreateWindow("Toolbar", {
+        Size = Pivot2D.FromScale(0.025,0.7),
+        Pivot = Vector2.new(0,0.5),
+        Position = Pivot2D.FromScale(0.005,0.4),
+        Layer = 300,
+        CornerRadius = 100,
     })
 
     if (not FLAGS.SecondRun) then
