@@ -120,7 +120,7 @@ function GenConfig.Create(Parent)
     CreateObject.Create()
 
     function CreateObject.Toggle(Visibly)
-        CreateObject.Scroll.Visible = Visibly
+        CreateObject.Scroll:SetVisible(Visibly)
     end
 
     return CreateObject

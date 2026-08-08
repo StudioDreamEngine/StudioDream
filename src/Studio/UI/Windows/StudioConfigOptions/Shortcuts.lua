@@ -18,7 +18,7 @@ function Template.Create(Parent)
     CreateObject.Create()
 
     function CreateObject.Toggle(Visibly)
-        CreateObject.WipWow.Visible = Visibly
+        CreateObject.WipWow:SetVisible(Visibly)
     end
 
     return CreateObject
