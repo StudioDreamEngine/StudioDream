@@ -18,6 +18,8 @@ function TextInput:new()
     self.Placeholder = "Text" -- TODO
     self.Text = ""
 
+    self.ClearWhenFocus = false
+
     self.FocusEnd = Signal:New("TextInputFocus_End")
     self.FocusStart = Signal:New("TextInputFocus_Start")
     self.Typed = Signal:New("TextInput_Typed")
@@ -36,6 +38,12 @@ function TextInput:new()
             end
         elseif (Key == Enum.InputCode.Backspace) then
             self.BackspaceDown = nil
+        end
+    end)
+    
+    self.FocusStart:Connect(function()
+        if self.ClearWhenFocus then
+            self.Text = ""
         end
     end)
 

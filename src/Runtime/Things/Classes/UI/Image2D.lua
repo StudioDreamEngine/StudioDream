@@ -3,7 +3,7 @@ local Renderer = Runtime.Renderer
 
 -- using @module here gives the lua language server a base type to use!
 ---@class Image2D: BaseGui
-local Image2D = Things.Extend("BaseGui")
+local Image2D = Things.Extend("Square")
 local DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Icons/Studio.png")
 
 local ImageScale = {
@@ -36,6 +36,8 @@ function Image2D:new()
     self.Slices = {}
 
     self.DefaultIdentifier = nil
+
+    self.BackgroundTransparency = 1
 
     if math.random(1,100) == 1 then
         self.DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Studio/Templates/ImageEyes.png")
@@ -150,6 +152,7 @@ function Image2D:HandleDrawImage(Scale)
 end
 
 function Image2D:Draw()
+    Image2D.super.Draw(self)
     if (not self.ImageQuad) then return end -- TODO: Placeholder image
 
     local _,_, w,h = self.ImageQuad:getViewport()

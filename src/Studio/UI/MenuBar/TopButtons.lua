@@ -10,6 +10,28 @@ return {
     { 
         Component = "Button",
         Arguments = {
+            Name = "Editor",
+            Dropdown = {
+                {
+                    Type = "Button",
+                    Text = "Configuration",
+                    Function = function()
+                        Studio.Editor3D.ToggleWindowOutside("StudioConfig",true)
+                    end
+                },
+                {
+                    Type = "Button",
+                    Text = "Quit",
+                    Function = function()
+                        love.event.quit()
+                    end
+                },
+            }
+        }
+    },
+    { 
+        Component = "Button",
+        Arguments = {
             Name = "File",
             Dropdown = {
                 {

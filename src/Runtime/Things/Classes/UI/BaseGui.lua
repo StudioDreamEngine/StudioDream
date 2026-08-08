@@ -225,6 +225,7 @@ function BaseGui:new()
     -- Used for stuff like text
     self.ForegroundTransparency = 0
     self.ForegroundColor = Color.new(0)
+    self.AbsoluteForegroundColor = Color.new(0) -- Internal
 
     self.Transparency = 0
 
@@ -291,6 +292,12 @@ function BaseGui:SetMouseLocked(NewLocked)
 
     self.MouseLocked = NewLocked
     self:InvalidateRendering()
+end
+
+function BaseGui:SetForegroundColor(NewColor)
+    local ToChange = NewColor or Color.new(1)
+
+    self.ForegroundColor = ToChange
 end
 
 function BaseGui:DrawStyle()

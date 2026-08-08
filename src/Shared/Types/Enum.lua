@@ -125,6 +125,10 @@ local Enums = {
         Back = "back",
         Front = "front"
     },
+    HoveringStyle = {
+        ColorMultiplier = "colorM",
+        ColorChanger = "colorC"
+    },
     InputCode = {
         -- Keyboard
         RightArrow = 'right',
@@ -269,7 +273,8 @@ local Enums = {
 
 local TheNotNoneList = {
     ["FilterType"]=true,
-    ["EasingMode"]=true
+    ["EasingMode"]=true,
+    ["HoveringStyle"]=true,
 }
 
 for Name, Enum in pairs(Enums) do

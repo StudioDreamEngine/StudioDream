@@ -242,7 +242,7 @@ function Components.CreateDropshadow(Parent)
         Name = "Shadow",
         ForegroundTransparency = 0.5,
         Parent = Parent,
-        NineSlice = Rect.new(Vector2.new(20,20), Vector2.new(20,20)),
+        NineSlice = Rect.new(Vector2.new(25,25), Vector2.new(25,25)),
         FilterType = Enum.FilterType.Default,
         Layer = -1,
         IgnoreConstraints = true

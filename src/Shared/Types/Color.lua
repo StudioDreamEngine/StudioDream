@@ -71,4 +71,12 @@ function Color.FromHex(Hex)
     return Color.FromRGB(R,G,B)
 end
 
+function Color.Invert(ColorToInvert)
+    local r, g, b = ColorToInvert.R*255, ColorToInvert.G*255, ColorToInvert.B*255
+
+	local InvertR, InvertG, InvertB = math.round(255 - r), math.round(255 - g), math.round(255 - b)
+	
+	return Color.FromRGB(InvertR, InvertG, InvertB)
+end
+
 return Color

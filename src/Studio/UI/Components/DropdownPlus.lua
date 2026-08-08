@@ -13,6 +13,7 @@ local ChoiceTypes = {
             BackgroundColor = Studio.CurrentTheme.Primary,
             Alignment = Vector2.new(0,0.5),
             CornerRadius = 2,
+            HoverColorMultiplier = 6,
         })
 
         if Choice.Function then

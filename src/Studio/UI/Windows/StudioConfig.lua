@@ -1,16 +1,16 @@
 local Things = Runtime.Things
-local PConfig = {}
+local StudioConfig = {}
 
-PConfig.Container = nil ---@class Square
-PConfig.AllOptions = Utils.LoadModules("Studio/UI/Windows/ProjectConfigOptions/", true)
-PConfig.CreatedButtons = {}
+StudioConfig.Container = nil ---@class Square
+StudioConfig.AllOptions = Utils.LoadModules("Studio/UI/Windows/StudioConfigOptions/", true)
+StudioConfig.CreatedButtons = {}
 
-function PConfig.CreateMainSquares()
+function StudioConfig.CreateMainSquares()
     local SquareObjects = {}
 
     SquareObjects.BaseOptions = Runtime.Things.Create("Square") {
         Size = Pivot2D.FromScale(0.3,0.95),
-        Parent = PConfig.Container,
+        Parent = StudioConfig.Container,
         CornerRadius = 5,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(.02,0.02),
@@ -19,7 +19,7 @@ function PConfig.CreateMainSquares()
 
     SquareObjects.Close = Runtime.Things.Create("ImageButton") {
         Size = Pivot2D.FromScale(0.1,0.1),
-        Parent = PConfig.Container,
+        Parent = StudioConfig.Container,
         CornerRadius = 5,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0,0),
@@ -46,7 +46,7 @@ function PConfig.CreateMainSquares()
 
     SquareObjects.RenderOption = Runtime.Things.Create("Square") {
         Size = Pivot2D.FromScale(0.65,0.95),
-        Parent = PConfig.Container,
+        Parent = StudioConfig.Container,
         CornerRadius = 5,
         Pivot = Vector2.new(1,0),
         Position = Pivot2D.FromScale(.98,0.02),
@@ -54,20 +54,20 @@ function PConfig.CreateMainSquares()
     }
 
     SquareObjects.Close.Clicked:Connect(function()
-        PConfig.FullContainer:SetVisible(false)
+        StudioConfig.FullContainer:SetVisible(false)
     end)
 
     return SquareObjects
 end
 
-function PConfig.ToggleOption(Name)
-    for _,OObj in pairs(PConfig.CreatedButtons) do
+function StudioConfig.ToggleOption(Name)
+    for _,OObj in pairs(StudioConfig.CreatedButtons) do
         OObj.Module.Toggle(false)
     end
-    PConfig.CreatedButtons[Name].Module.Toggle(true)
+    StudioConfig.CreatedButtons[Name].Module.Toggle(true)
 end
 
-function PConfig.CreateOption(Module,Parent,Name)
+function StudioConfig.CreateOption(Module,Parent,Name)
     local OptionObject = {}
 
     OptionObject.Main = Runtime.Things.Create("TextButton") {
@@ -80,30 +80,30 @@ function PConfig.CreateOption(Module,Parent,Name)
     }
 
     OptionObject.Main.Clicked:Connect(function()
-        PConfig.ToggleOption(Name)
+        StudioConfig.ToggleOption(Name)
     end)
 
     return OptionObject
 end
 
-function PConfig.Init()
-    PConfig.Container.BackgroundColor = Studio.CurrentTheme.Outline
-    local Created = PConfig.CreateMainSquares()
-    printVerbose(PConfig.AllOptions)
-    for Name,Module in pairs(PConfig.AllOptions) do
+function StudioConfig.Init()
+    StudioConfig.Container.BackgroundColor = Studio.CurrentTheme.Outline
+    local Created = StudioConfig.CreateMainSquares()
+    printVerbose(StudioConfig.AllOptions)
+    for Name,Module in pairs(StudioConfig.AllOptions) do
         local OptionObject = {
-            Button = PConfig.CreateOption(Module,Created.Options,Name),
+            Button = StudioConfig.CreateOption(Module,Created.Options,Name),
             Module = Module.Create(Created.RenderOption)
         }
-        PConfig.CreatedButtons[Name] = OptionObject
+        StudioConfig.CreatedButtons[Name] = OptionObject
     end
-    for _,OObj in pairs(PConfig.CreatedButtons) do
+    for _,OObj in pairs(StudioConfig.CreatedButtons) do
         OObj.Module.Toggle(false)
     end
 end
 
-function PConfig.Update(dt)
+function StudioConfig.Update(dt)
     
 end
 
-return PConfig
+return StudioConfig
