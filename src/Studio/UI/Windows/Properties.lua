@@ -32,7 +32,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
     selfed.BaseProperty = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.new(0,0.99,23,0),
         Pivot = Vector2.new(0,0),
-        BackgroundColor = Studio.CurrentTheme.Secondary,
+        BackgroundColor = "Secondary",
         Name = PropertyInfos.Name,
         Layer = 3,
         Parent = ParentWhat or Properties.ParentWith,
@@ -59,7 +59,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Text = PropertyInfos.Name,
         Parent = selfed.BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.CurrentTheme.Text
+        ForegroundColor = "Text"
     })
 
     selfed.Connections = PropertyInfos.Connections
@@ -87,7 +87,7 @@ function Properties.CreateGroup(GroupName)
         Text = GroupName,
         Parent = Group.BaseGroup,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         Font = Studio.CurrentTheme.FontBold,
     })
 

@@ -77,7 +77,7 @@ function Components.CreateIconObject(Name, Icon)
         Name = "NodeText",
         Parent = NodeInner,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.CurrentTheme.Text
+        ForegroundColor = "Text"
     })
 
     local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/File_Not_Found.png")
@@ -140,13 +140,13 @@ function Components.ExpandableDropdown(Header, List)
     ExpandableDropdown.Button = Studio.Components.CreateStyle("ImageButton",{
         Resource = "Internal/Studio/OpenMenu.png",
         Size = Pivot2D.FromScale(0.8,0.8),
-        BackgroundColor = Studio.CurrentTheme.Text,
+        BackgroundColor = "Text",
         SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
         Parent = Header,
         ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
     })
 
     ExpandableDropdown.Container = Studio.Components.CreateStyle("Square",{
@@ -156,7 +156,7 @@ function Components.ExpandableDropdown(Header, List)
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0.5,1),
         BackgroundTransparency = 1,
-        BackgroundColor = Studio.CurrentTheme.Outline,
+        BackgroundColor = "Outline",
         Layer = 3,
         Order = Header.Order,
         Parent = List,
@@ -197,6 +197,7 @@ local Styles = {
     RoundedContainer = {
         BackgroundColor = "Secondary",
         ForegroundColor = "Text",
+        Font = "FontNormal",
         CornerRadius = 2
     },
     Text = {
@@ -209,7 +210,10 @@ local Styles = {
 local TypeAssociations = {
     Text = "Text",
     TextButton = "RoundedContainer",
+    TextInput = "Text",
     Square = "Container",
+    Image2D = "Container",
+    ImageButton = "Container"
 }
 
 function Components.CreateDropshadow(Parent)
@@ -229,13 +233,45 @@ function Components.CreateDropshadow(Parent)
     })
 end
 
+local ComponentRegistry = {}
+
+function Components.RegisterToTheme(Object, PropertyName, PaletteID)
+    if (not ComponentRegistry[Object]) then ComponentRegistry[Object] = {} end
+
+    Runtime.Things.SetProperty(Object, PropertyName, Studio.CurrentTheme[PaletteID])
+
+    table.insert(ComponentRegistry[Object], {
+        ColorName = PaletteID,
+        PropertyName = PropertyName
+    })
+end
+
+Studio.Theme.ThemeChanged:Connect(function()
+    for Object, ThemeConfigurations in pairs(ComponentRegistry) do
+        for _, v in pairs(ThemeConfigurations) do
+            if (not Studio.CurrentTheme[v.ColorName]) then
+                print(Studio.CurrentTheme, v.ColorName)
+            end
+
+            Runtime.Things.SetProperty(Object, v.PropertyName, Studio.CurrentTheme[v.ColorName])
+        end
+    end
+
+    --[[for i,v in pairs(MatchedUpOnTheme) do
+        --[[if v.PropertyName ~= "Font" then
+            ThingCreated[v.PropertyName] = Studio.CurrentTheme[v.SettingInTheme]
+        else
+            ThingCreated:SetFont(Studio.CurrentTheme[v.SettingInTheme])
+        end
+        --LoadFromTheme()
+    end]]
+end)
+
 function Components.CreateStyle(Type, Properties, Style)
     local MatchedUpOnTheme = {}
     local Signalwow
-    local Itwasbetterifimadeatable
+    --local Itwasbetterifimadeatable
     local ThingCreated
-    local NameOfTheme,TableOfTheme = Studio.Theme.GetCurrentThemeInfo()
-    local AlreadySettupMatchTheme = false
     
     if (not Style) then
         Style = TypeAssociations[Type]
@@ -244,25 +280,25 @@ function Components.CreateStyle(Type, Properties, Style)
     if Style then
         for Name, Value in pairs(Styles[Style]) do
             if (not Properties[Name]) then
-                if type(Value) == "string" then
-                    Properties[Name] = Studio.CurrentTheme[Value]
-                else
-                    Properties[Name] = Value
-                end
+                Properties[Name] = Value
             end
         end
     end
-    
-    ThingCreated = Things.Create(Type) (Properties)
 
-    ThingCreated.OnDestroy:ConnectOnce(function()
-        Signalwow:Disconnect()
-        Itwasbetterifimadeatable:Disconnect()
-    end)
+    local function SetupTheme()
+        for Name, Value in pairs(Properties) do
+            local ApiDump = Runtime.Things.API[Type]
+            local IntendedType = ApiDump.Types[Name]
 
-    local function LoadFromTheme()
+            if (IntendedType == "Color" or Name == "Font") and table.find(Studio.Theme.GetThemePalette(), Value) then
+                table.insert(MatchedUpOnTheme,{ColorName = Value,PropertyName = Name})
+
+                Properties[Name] = Studio.CurrentTheme[Value]
+            end
+        end
+
         --MatchedUpOnTheme = {}
-        for ProName,ProVal in pairs(ThingCreated.Proxy.Serializable) do
+        --[[for ProName,ProVal in pairs(ThingCreated.Proxy.Serializable) do
             for ConfigName,Value in pairs(TableOfTheme) do
                 if ThingCreated[ProName] == Value then
                     table.insert(MatchedUpOnTheme,{SettingInTheme = ConfigName,ValueName = ProName})
@@ -274,23 +310,14 @@ function Components.CreateStyle(Type, Properties, Style)
                     end 
                 end
             end
-        end
+        end]]
     end
 
-    Itwasbetterifimadeatable = Studio.Theme.BeforeChange:Connect(function() 
-        if not AlreadySettupMatchTheme then LoadFromTheme() AlreadySettupMatchTheme = true end
-    end)
+    SetupTheme()
 
-    Signalwow = Studio.Theme.ThemeChanged:Connect(function()
-        for i,v in pairs(MatchedUpOnTheme) do
-            if v.ValueName ~= "Font" then
-                ThingCreated[v.ValueName] = Studio.CurrentTheme[v.SettingInTheme]
-            else
-                ThingCreated:SetFont(Studio.CurrentTheme[v.SettingInTheme])
-            end
-            --LoadFromTheme()
-        end
-    end)
+    ---@class Thing
+    ThingCreated = Things.Create(Type) (Properties)
+    ComponentRegistry[ThingCreated] = MatchedUpOnTheme
 
     return ThingCreated
 end

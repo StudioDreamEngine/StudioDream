@@ -8,7 +8,7 @@ function Template.Start(MainInfo)
 
     local Text = Studio.Components.CreateStyle("Text", {
         Text = "WIP!",
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,1),
         Parent = MainInfo.Option,

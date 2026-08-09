@@ -40,7 +40,7 @@ function Bool.Start(MainInfo)
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Parent = MainInfo.Option,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         SinkHovering = true,
     })
 

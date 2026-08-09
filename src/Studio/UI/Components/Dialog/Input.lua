@@ -11,14 +11,14 @@ return function(Options)
             Parent = Object.Container,
             Text = Options.Text,
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            ForegroundColor = "Text",
             Name = "WindowText",
             Alignment = Vector2.new(0.5,0.5)
         })
        Object.Inputer = Studio.Components.CreateStyle("TextInput",{
             Size = Pivot2D.FromScale(0.95,0.2) ,
-            BackgroundColor = Studio.CurrentTheme.Secondary,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            BackgroundColor = "Secondary",
+            ForegroundColor = "Text",
             Name = "BackWindow",
             Alignment = Vector2.new(0.5,0.5),
             Layer = 2,
@@ -34,8 +34,8 @@ return function(Options)
 
         Object.Apply = Studio.Components.CreateStyle("TextButton",{
             Size = Pivot2D.FromScale(0.7,0.15) ,
-            BackgroundColor = Studio.CurrentTheme.Secondary,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            BackgroundColor = "Secondary",
+            ForegroundColor = "Text",
             Name = "BackWindow",
             Alignment = Vector2.new(0.5,0.5),
             Layer = 2,

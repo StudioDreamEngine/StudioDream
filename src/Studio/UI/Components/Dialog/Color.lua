@@ -11,7 +11,7 @@ return function(Options)
             Parent = Object.Container,
             Text = Options.Text,
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            ForegroundColor = "Text",
             Alignment = Vector2.new(0.5,0.5)
         })
 
@@ -21,16 +21,16 @@ return function(Options)
             Pivot = Vector2.new(0.5,0.5),
             Parent = Object.Container,
             Text = "Hello color picker still to be made so use the erm thign here!!!",
-            BackgroundColor = Studio.CurrentTheme.Text,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            BackgroundColor = "Text",
+            ForegroundColor = "Text",
             Alignment = Vector2.new(0.5,0.5),
             CornerRadius = 5,
         })
 
         Object.InputerRGB = Studio.Components.CreateStyle("TextInput",{
             Size = Pivot2D.FromScale(0.95,0.1) ,
-            BackgroundColor = Studio.CurrentTheme.Secondary,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            BackgroundColor = "Secondary",
+            ForegroundColor = "Text",
             Name = "BackWindow",
             Alignment = Vector2.new(0.5,0.5),
             Layer = 2,
@@ -50,14 +50,14 @@ return function(Options)
             Parent = Object.InputerRGB,
             Text = "From RGB",
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            ForegroundColor = "Text",
             Alignment = Vector2.new(0.5,0.5)
         })
 
         Object.InputerHEX = Studio.Components.CreateStyle("TextInput",{
             Size = Pivot2D.FromScale(0.95,0.1) ,
-            BackgroundColor = Studio.CurrentTheme.Secondary,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            BackgroundColor = "Secondary",
+            ForegroundColor = "Text",
             Name = "BackWindow",
             Alignment = Vector2.new(0.5,0.5),
             Layer = 2,
@@ -77,7 +77,7 @@ return function(Options)
             Parent = Object.InputerHEX,
             Text = "From HEX",
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            ForegroundColor = "Text",
             Alignment = Vector2.new(0.5,0.5)
         })
 

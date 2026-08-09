@@ -12,7 +12,7 @@ return function(Args)
     local ButtonContainer = Studio.Components.CreateStyle("TextButton",{
         Size = Pivot2D.FromScale(0.05,0.9),
         Text = Args.Name,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         BackgroundColor = Studio.CurrentTheme.Primary,
         Alignment = Vector2.new(0.5,0.5),
         HoverColorMultiplier = 5,

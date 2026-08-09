@@ -31,7 +31,7 @@ function Template.Start(MainInfo)
     self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
     local Button = Studio.Components.CreateStyle("TextButton",{
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
         Parent = MainInfo.Option,

@@ -7,7 +7,7 @@ return function(Args)
         Text = "",
         Clicked = Args.OnClick,
         BackgroundTransparency = 0,
-        BackgroundColor = Studio.CurrentTheme.Secondary,
+        BackgroundColor = "Secondary",
         CornerRadius = 5,
        -- OutlineSize = 1.5,
         --OutlineColor = Studio.CurrentTheme.Outline
@@ -20,7 +20,7 @@ return function(Args)
         Resource = "Internal/Studio/TabIcons/"..Args.Icon..".png",
         Pivot = Vector2.xAxis * .5,
         Position = Pivot2D.FromScale(0.5,0),
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
     })
 
     local Text = Studio.Components.CreateStyle("Text",{
@@ -28,7 +28,7 @@ return function(Args)
         Position = Pivot2D.FromScale(0.5,1),
         Pivot = Vector2.new(.5,1),
         Size = Pivot2D.FromScale(1,0.3),
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         BackgroundTransparency = 1,
         Alignment = Enum.Alignment.TopLeft,
         Text = Args.Name
