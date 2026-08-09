@@ -16,11 +16,14 @@ StudioDream is an engine that is intended to take the accessibility of Roblox, a
 The documentation repo is located [Here](https://github.com/StudioDreamEngine/StudioDream-Docs), there is currently no hosted website for them.
 
 # Running
+**StudioDream requires LÖVE 12 to run, get it from the [github actions artifacts](https://github.com/love2d/love/actions) from the official LÖVE github repository (requires an account)**
 
 ## Windows
-You can run the StudioDream using the ``test-love.bat`` file, or on cmd, you can open the ``src`` folder and type ``lovec .`` to test StudioDream
+To run the StudioDream app, open the ``src`` folder in cmd and type ``lovec .``
 
 ## Linux
+**Make sure the LÖVE 12 AppImage is within a folder located at ``love/love12.AppImage`` in the repository**
+
 Use ``test-love12.sh`` to run StudioDream
 
 # Building

@@ -2,6 +2,7 @@
 -- Handles general background tasks related to the currently rendering viewports
 local InterfaceManager = {}
 InterfaceManager.Buttons = {}
+InterfaceManager.Clicking = false
 
 function InterfaceManager.Init()
     InterfaceManager.OnMouseMove = Signal:New("MouseMove") 
@@ -17,6 +18,7 @@ function InterfaceManager.Init()
     LoveEvents.MousePressed:Connect(function(x,y,button)
         if button == 1 then
             InterfaceManager.OnClick.Invoke()
+            InterfaceManager.Clicking = true
         elseif button == 2 then
             InterfaceManager.OnRightClick.Invoke()
         end
@@ -27,6 +29,7 @@ function InterfaceManager.Init()
     LoveEvents.MouseReleased:Connect(function(_,_,button)
         if button == Enum.MouseButton.LeftClick then -- TODO: Use listener
             InterfaceManager.OnRelease.Invoke()
+            InterfaceManager.Clicking = false
         end
     end)
 end

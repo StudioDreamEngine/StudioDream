@@ -1,0 +1,85 @@
+0.6:
+- Initial beta release
+
+0.6.1:
+- Fixed issue where projects would not load during playtest
+- Fixed issue where start screen would break studio
+- Removed ability to close start screen window (without loading or creating a new project)
+- Misc. general fixes
+
+0.6.2:
+- Fixed UI objects crashing when created in studio
+- Added enum, vector2 and pivot2d property support
+- Added environment global in scripts
+
+0.6.3:
+- You can now name your project on creation
+- Explorer drag parenting fixed
+- UI more stable
+- Trying to make a project in studio dream documents folder now creates a new project folder
+- Fixes on Enum property type
+- Erolin removed
+
+0.6.4:
+- Fixed Issue where properties will sometimes be locked
+- Partially Fixed Vector3 Property type (i still dont get any of mikls new property code)
+- Fixed issue where Buttons wouldnt be unreferenced properly
+
+0.6.5:
+- "Added" Color picker (Doesnt work yet tho it exists)
+- Added output window
+- Errors in scheduler tasks no longer bring down the engine (this does result in issues however where things may break when an error occurs)
+- Erolin removed (whatever the fuck that is)
+
+0.7:
+- Added: SurfaceViewport
+- Revamped the UI a bit
+- Enum property type fully fixed
+- Updates on Move tool
+- More cool internal changes
+- Erolin Removed
+
+0.8:
+- Slightly revamped UI
+- 9-Slice support
+- Lighting and point lights
+- BREAKING CHANGE: RenderService is renamed to RuntimeService)
+- General stability improvements
+  - Scripts will now fallback if they fail to compile
+  - Improvements to project system
+      - With this, old projects will no longer show up
+  - Critical errors should now have more useful information on debugging them
+  - Explorer now contains dropdowns to collapse instance children
+  - BREAKING CHANGE: Scheduler no longer handles tasks during the next frame
+     - With this, Signal:ConnectDeferred and Scheduler.QueueTask exist
+  - BREAKING CHANGE: Paths are now forced to use solely unix-based path formatting (/ instead of \\)
+  - Improvements to ListLayouts (UI constraint updators now use ProcessInvalidation instead of InvalidateRendering)
+- (EXPERIMENTAL) exporting projects as zip
+- (EXPERIMENTAL) saving projects to other folders
+- (EXPERIMENTAL) Project configuration window
+- Added SinkInput to UI Objects
+- Context Menus
+- Added Billboards and Surfaceguis
+- Alot more i cant even list
+- Changes from previous versions not addressed:
+    - Globals can now be indexed with ``.``
+    - First letter of script globals are capitalized
+    - Added PhysicsForce
+
+0.8.5:
+- Revamped Studio UI
+- (BREAKING CHANGE) OutsideService renamed to PlatformService
+- Performance and stability Improvements
+   - 3D Canvas objects are now created per viewport only when required, as opposed to every frame in the old system
+   - Fixed issues regarding AutomaticSize Invalidation
+   - Fixed crashes that occur when parenting certain objects where they shouldnt be
+   - Fixed general issues with the studio explorer
+- New command line arguments
+- Added Transform3D.Lerp
+- (EXPERIMENTAL) UI Objects with negative layers now render behind their parent
+- (EXPERIMENTAL) added IgnoreConstraints, which allows the object to be ignored by AutomaticSize and ListLayouts
+- (EXPERIMENTAL) UI rotation (Currently only works when Pivot is set to 0,0)
+- The corner radius of a UI can now have a limit (idk what mikl means by that but yeah it has one ig)
+- Prob more idk
+
+0.9:

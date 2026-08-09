@@ -154,5 +154,5 @@ function love.quit()
     Shared.OnQuit.Invoke()
     Runtime.Services.OnQuit() -- this FUCKING sucks!!! :3
     print("Closing and Saving logs...")
-    love.filesystem.write("LatestLog", table.concat(PrintLogs, "\n"))
+    love.filesystem.write("Latest.log", table.concat(PrintLogs, "\n"))
 end

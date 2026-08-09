@@ -1,13 +1,40 @@
 local Pivot2D = {}
 
 function Pivot2D.new(OffsetX, ScaleX, OffsetY, ScaleY)
+    local Offset = Vector2.new(OffsetX, OffsetY)
+    local Scale = Vector2.new(ScaleX, ScaleY) -- TODO: Rename to Pivot instead of scale
+
+    return Pivot2D.FromAxises(Offset, Scale)
+end
+
+---@param Offset Vector2
+---@param Scale Vector2
+function Pivot2D.FromAxises(Offset, Scale)
     ---@class Pivot2D
-    local PivotObject = {}
-
-    PivotObject.Offset = Vector2.new(OffsetX, OffsetY)
-    PivotObject.Scale = Vector2.new(ScaleX, ScaleY) -- TODO: Rename to Pivot instead of scale
-
-    PivotObject.Type = "Pivot2D"
+    local PivotObject = setmetatable({
+        Offset = Offset.Copy(),
+        Scale = Scale.Copy(),
+        Type = "Pivot2D"
+    }, {
+        __add = function (t1, t2)
+            if type(t1) == "number" then
+                return Pivot2D.FromAxises(t1 + t2.Offset, t1 + t2.Scale)
+            elseif type(t2) == "number" then
+                return Pivot2D.FromAxises(t1.Offset + t2, t1.Scale + t2)
+            else
+                return Pivot2D.FromAxises(t1.Offset + t2.Offset, t1.Scale + t2.Scale)
+            end
+        end,
+        __sub = function (t1, t2)
+            if type(t1) == "number" then
+                return Pivot2D.FromAxises(t1 - t2.Offset, t1 - t2.Scale)
+            elseif type(t2) == "number" then
+                return Pivot2D.FromAxises(t1.Offset - t2, t1.Scale - t2)
+            else
+                return Pivot2D.FromAxises(t1.Offset - t2.Offset, t1.Scale - t2.Scale)
+            end
+        end,
+    })
 
     function PivotObject.Lerp(OtherPivot, Alpha)
         local Offset = PivotObject.Offset.Lerp(OtherPivot.Offset, Alpha)
