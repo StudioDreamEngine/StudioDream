@@ -1,10 +1,37 @@
 local Shortcuts = {}
 local Input = Runtime.Services.Service("InputService")
 
+local InputsSaved = {
+    ["Undo"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.Z,
+    },
+    ["Example"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.F,
+    },
+    ["Doit"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.Y,
+    },
+    ["Move"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.One,
+    },
+    ["Scale"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.Two,
+    },
+    ["Rotate"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.Three,
+    },
+}
+
 local HandleThis = {
     ["Example"] = {
         Settings = {
-            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.F}} -- For now will only suport as the first key the hold, and second as the presser one, sorrey!!
+            Inputs = {{Key = InputsSaved.Example.First, Mod = true},{Key = InputsSaved.Example.Second}} -- For now will only suport as the first key the hold, and second as the presser one, sorrey!!
         },
         Function = function()
             print("Hello")
@@ -12,7 +39,7 @@ local HandleThis = {
     },
     ["Undo"] = {
         Settings = {
-            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.Z}}
+            Inputs = {{Key = InputsSaved.Undo.First, Mod = true},{Key = InputsSaved.Undo.Second}}
         },
         Function = function()
             Studio.History.Undo()
@@ -20,7 +47,7 @@ local HandleThis = {
     },
     ["Doit"] = {
         Settings = {
-            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.Y}}
+            Inputs = {{Key = InputsSaved.Doit.First, Mod = true},{Key = InputsSaved.Doit.Second}}
         },
         Function = function()
             Studio.History.DoIt()
@@ -28,7 +55,7 @@ local HandleThis = {
     },
     ["Move"] = {
         Settings = {
-            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.One}}
+            Inputs = {{Key = InputsSaved.Move.First, Mod = true},{Key = InputsSaved.Move.Second}}
         },
         Function = function()
             Studio.Layout.CallHandle("Toolbar", "SelectTool", "Move")
@@ -36,7 +63,7 @@ local HandleThis = {
     },
     ["Scale"] = {
         Settings = {
-            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.Two}}
+            Inputs = {{Key = InputsSaved.Scale.First, Mod = true},{Key = InputsSaved.Scale.Second}}
         },
         Function = function()
             Studio.Layout.CallHandle("Toolbar", "SelectTool", "Scale")
@@ -44,7 +71,7 @@ local HandleThis = {
     },
     ["Rotate"] = {
         Settings = {
-            Inputs = {{Key = Enum.InputCode.LeftCtrl, Mod = true},{Key = Enum.InputCode.Three}}
+            Inputs = {{Key = InputsSaved.Rotate.First, Mod = true},{Rotate = InputsSaved.Undo.Second}}
         },
         Function = function()
             Studio.Layout.CallHandle("Toolbar", "SelectTool", "Rotate")
@@ -65,6 +92,22 @@ local function BuildKeyTable(Inputs)
         end
     end
     return TableToBuild
+end
+
+function Shortcuts.GetKeys()
+    return HandleThis
+end
+
+function Shortcuts.SetInput(Name,WhatOrder,NewBind)
+    InputsSaved[Name][WhatOrder] = NewBind
+end
+
+function Shortcuts.GetSpecificInput(Name,WhatOrder)
+    return InputsSaved[Name][WhatOrder]
+end
+
+function Shortcuts.GetInputs()
+    return InputsSaved
 end
 
 function Shortcuts.Init()
