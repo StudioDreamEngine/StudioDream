@@ -10,9 +10,10 @@ function Text:new()
     self.TextSize = 12
     self.TextScaled = true
     self.Text = "Placeholder"
+    self.AbsoluteText = "Placeholder"
 
     self.Font = nil
-
+    
     self.RenderFont = nil
 
     self.Alignment = Vector2.zero
@@ -53,11 +54,16 @@ function Text:SetAlignment(Alignment)
     self:InvalidateRendering()
 end
 
-function Text:SetText(Text)
-    self.Text = Text or ""
-    self.RenderClass.Text = self.Text
+function Text:SetAbsoluteText(Text)
+    self.AbsoluteText = Text
+    self.RenderClass.Text = self.AbsoluteText
 
     self:InvalidateRendering()
+end
+
+function Text:SetText(Text)
+    self.Text = Text or ""
+    self:SetAbsoluteText(self.Text)
 end
 
 function Text:ProcessInvalidations()
@@ -72,7 +78,7 @@ end
 function Text:Draw()
     Text.super.Draw(self)
 
-    self:SetColor("Foreground")
+    self:SetColor("AbsoluteForeground")
     self.RenderClass.Render()
 end
 

@@ -15,15 +15,17 @@ function TextInput:new()
 
     self.InputActive = false
 
-    self.Placeholder = "Text" -- TODO
     self.Text = ""
+    self.Placeholder = "Placeholder" -- TODO
+    self.PlaceholderColor = Color.new(0)
+    self.PlaceholderTransparency = 0.5
 
     self.ClearWhenFocus = false
 
     self.FocusEnd = Signal:New("TextInputFocus_End")
     self.FocusStart = Signal:New("TextInputFocus_Start")
     self.Typed = Signal:New("TextInput_Typed")
-    
+
     self.KeyEvent = InputService.KeyEvent:Connect(function(IsDown, Key)
         if (IsDown) then
             if (self.InputActive) then
@@ -41,9 +43,21 @@ function TextInput:new()
         end
     end)
     
+    if self.Text == "" then
+        self:HandlePlaceholderVisuals(true)
+    end
+
     self.FocusStart:Connect(function()
         if self.ClearWhenFocus then
             self.Text = ""
+        end
+
+        self:HandlePlaceholderVisuals(false)
+    end)
+
+    self.FocusEnd:Connect(function() 
+        if self.Text == "" then
+            self:HandlePlaceholderVisuals(true)
         end
     end)
 
@@ -70,11 +84,24 @@ function TextInput:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
+function TextInput:HandlePlaceholderVisuals(IsPlaceholder)
+    if IsPlaceholder then
+        self:SetAbsoluteText(self.Placeholder)
+        self:SetAbsoluteForegroundColor(self.PlaceholderColor)
+        self:SetAbsoluteForegroundTransparency(self.PlaceholderTransparency)
+    else
+        self:SetAbsoluteText(self.Text)
+        self:SetAbsoluteForegroundColor(self.ForegroundColor)
+        self:SetAbsoluteForegroundTransparency(self.ForegroundTransparency)
+    end
+    print(self.PlaceholderTransparency)
+    print(self.AbsoluteForegroundTransparency)
+end
+
 function TextInput:OnInitalParent(NewParent)
     TextInput.super.OnInitalParent(self, NewParent)
     Runtime.InterfaceManager.RegisterButton(self.UUID)
 end
-
 
 function TextInput:OnRemove()
     self.KeyEvent:Disconnect()

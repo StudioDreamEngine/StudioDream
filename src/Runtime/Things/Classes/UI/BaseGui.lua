@@ -226,6 +226,7 @@ function BaseGui:new()
     self.ForegroundTransparency = 0
     self.ForegroundColor = Color.new(0)
     self.AbsoluteForegroundColor = Color.new(0) -- Internal
+    self.AbsoluteForegroundTransparency = 0
 
     self.Transparency = 0
 
@@ -298,6 +299,22 @@ function BaseGui:SetForegroundColor(NewColor)
     local ToChange = NewColor or Color.new(1)
 
     self.ForegroundColor = ToChange
+    self:SetAbsoluteForegroundColor(self.ForegroundColor)
+end
+
+function BaseGui:SetForegroundTransparency(NewColor)
+    local ToChange = NewColor or 1
+
+    self.ForegroundTransparency = ToChange
+    self:SetAbsoluteForegroundTransparency(self.ForegroundTransparency)
+end
+
+function BaseGui:SetAbsoluteForegroundColor(NewColor)
+    self.AbsoluteForegroundColor = NewColor
+end
+
+function BaseGui:SetAbsoluteForegroundTransparency(NewColor)
+    self.AbsoluteForegroundTransparency = NewColor
 end
 
 function BaseGui:DrawStyle()
