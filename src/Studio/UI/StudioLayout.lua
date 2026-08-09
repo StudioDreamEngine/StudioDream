@@ -255,7 +255,8 @@ function StudioLayout.CreateLayout()
     StudioLayout.CreateWindow("Macros", {
         Position = Pivot2D.FromScale(0,1),
         Size = Pivot2D.FromScale(0.15,0.2),
-        Pivot = Vector2.new(0,1)
+        Pivot = Vector2.new(0,1),
+        Name = "Macros"
     })
 
     --[[StudioLayout.CreateWindow("Trollo",{

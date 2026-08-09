@@ -1,4 +1,5 @@
 return function(Options)
+    ---@class DialogProgress
     local Object = {}
 
     local MaxStages, MaxSubStages = 1, 1
@@ -23,7 +24,7 @@ return function(Options)
             Size = Pivot2D.FromScale(0.8,0.2),
             Position = Pivot2D.FromScale(.5,.5),
             Pivot = Vector2.new(.5,0),
-            BackgroundColor = Studio.CurrentTheme.Tertiary,
+            BackgroundColor = Studio.CurrentTheme.Text,
             OutlineSize = 3,
             Layer = 4,
             Parent = Object.Container,
@@ -39,8 +40,11 @@ return function(Options)
         Object.UpdateText()
     end
 
-    function Object.SetStages(InStages, InSubStages)
+    function Object.SetStages(InStages)
         MaxStages = InStages
+    end
+
+    function Object.SetSubStages(InSubStages)
         MaxSubStages = InSubStages
     end
 
@@ -53,14 +57,20 @@ return function(Options)
 
     function Object.NextStage(NewTitle) 
         Stage = Stage + 1
-        Object.UpdateText()
+        SubStage = 0
         Title = NewTitle
+        Object.UpdateText()
     end
 
-    function Object.SetSubstage(NewSubstage) 
-        SubStage = NewSubstage
+    function Object.NextSubstage()
+        SubStage = SubStage + 1
         Object.UpdateText()
     end
+
+    --[[function Object.SetSubstage(NewSubstage) 
+        SubStage = NewSubstage
+        Object.UpdateText()
+    end]]
 
     function Object.Update()
         

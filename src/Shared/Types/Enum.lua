@@ -34,7 +34,8 @@ local Enums = {
         Vertical = "Vertical"
     },
     StudioDialog = {
-        Option = "Option"
+        Option = "Option",
+        Progress = "Progress"
     },
     InputPlatform = {
         Keyboard = "Keyboard",

@@ -38,18 +38,17 @@ function Slider:OnInitalParent(NewParent)
 end
 
 function Slider:SetSliderPosition(NewNumber)
-    self.SlideAbsolutePivot = (self.SlidePivot*self.AbsoluteSize)
-
     local Percentage = math.clamp(((NewNumber-self.AbsolutePosition.X)/self.AbsoluteSize.X),0,1)
+    self.SlidePivot = self.AbsoluteSize/10 * Percentage
     self.SliderPosition = (Percentage * self.AbsoluteSize.X)
     self.AbsoluteNumberPosition = Percentage*100
 
     self.NumberPosition = math.clamp(self.MaxiumNumber*Percentage,self.MinimumNumber,self.MaxiumNumber)
 
-    print(self.SliderPosition)
-    print(self.NumberPosition)
-    print(self.SlideAbsolutePivot,self.AbsoluteSize)
-    print(self.AbsolutePosition)
+    --print(self.SliderPosition)
+    --print(self.NumberPosition)
+    --print(self.SlideAbsolutePivot,self.AbsoluteSize)
+    --print(self.AbsolutePosition)
 end
 
 function Slider:OnRemove()
@@ -65,11 +64,9 @@ function Slider:Draw()
     if self.Holding then
         self:SetSliderPosition(Runtime.Backend2D.GetMousePosition().X)
     end
-    love.graphics.push()
+
     love.graphics.setColor(1,1,1,1)
-    love.graphics.translate(self.SliderPosition, 0)
-    love.graphics.rectangle("fill", -self.SlideAbsolutePivot.X, -self.SlideAbsolutePivot.Y, Size.X/10, Size.Y/2)
-    love.graphics.pop()
+    love.graphics.rectangle("fill", self.SliderPosition -self.SlidePivot.X, 0, Size.X/10, Size.Y/2)
 end
 
 return Slider

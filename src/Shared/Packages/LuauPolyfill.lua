@@ -367,7 +367,7 @@ local function InternalPrint(IsVerbose, External, ...)
 	local PrintedFrom = string.split(string.split(debug.traceback("",3), "\n")[3],":") -- Get the path, no line number
 
 	local Path = string.sub(PrintedFrom[1], 2)
-	local LineNumber = PrintedFrom[2]
+	local LineNumber = love.filesystem.isFused() and "0" or PrintedFrom[2]
 
 	for _, Arg in pairs(PrintTable) do
 		-- This feels fucking cursed for some reason

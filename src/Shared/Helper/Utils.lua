@@ -24,6 +24,12 @@ function Utils.TypeOf(Object)
     end
 end
 
+function Utils.DebugPrint(String, Pos)
+    love.graphics.setFont(DebugFont)
+    love.graphics.setColor(1,1,1)
+    love.graphics.print(String, Pos.X, Pos.Y)
+end
+
 function Utils.AssertType(Object, ExpectedType, Extra)
     assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
 end

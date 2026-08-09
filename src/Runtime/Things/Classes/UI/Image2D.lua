@@ -132,7 +132,7 @@ function Image2D:HandleDrawImage(Scale)
 
         if Slice.Main then
             Pos = Pos + Slice.Origin
-            QScale = (self.AbsoluteSize-BottomRight)
+            QScale = (self.AbsoluteSize-BottomRight) ---@class Vector2
         elseif Slice.StretchTo then
             local Normal = Slice.StretchTo
 
