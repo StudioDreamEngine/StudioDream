@@ -106,7 +106,7 @@ end
         end
     }
 ]]
-function Components.PropertyValue(Title, Container, Information)
+--[[function Components.PropertyValue(Title, Container, Information)
     local Text = Studio.Components.CreateStyle("Text", {
         Text = Title,
         Size = Pivot2D.FromScale(0.5,1),
@@ -122,7 +122,7 @@ function Components.PropertyValue(Title, Container, Information)
     })
 
     return ValueObject
-end
+end]]
 
 ---@param List BaseGui
 function Components.ExpandableDropdown(Header, List)

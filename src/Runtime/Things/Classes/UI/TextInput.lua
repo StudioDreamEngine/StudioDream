@@ -88,6 +88,12 @@ function TextInput:HandlePlaceholderVisuals(IsPlaceholder)
     self.PlaceholderActive = IsPlaceholder
 end
 
+function TextInput:SetPlaceholder(NewPlaceholder)
+    self.Placeholder = NewPlaceholder
+
+    self:HandlePlaceholderVisuals((self.Text == ""))
+end
+
 function TextInput:SetText(Text)
     TextInput.super.SetText(self, Text)
 
