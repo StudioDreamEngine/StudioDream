@@ -5,6 +5,9 @@ Studio = {}
 function Studio.Init()
     Studio.Theme = require("Studio.Theme")
     Studio.EditorUI = require("Studio.EditorUI")
+    Studio.Backend = require("Studio.Backend")
+    Studio.Backend.Init()
+    
     Studio.CurrentTheme = Studio.Theme.GetThemes()[Runtime.SettingsManager.GetSetting("UsingTheme")] or Studio.Theme.CurrentTheme
     Studio.Editor3D = require("Studio.Editor3D")
 
@@ -14,8 +17,6 @@ function Studio.Init()
     Studio.Build = require("Studio.Build")
 
     Studio.ProjectManager = require("Studio.ProjectManager")
-
-    Studio.Backend = require("Studio.Backend")
     
     Studio.EditorServices = Studio.Backend -- Mikl api backwards compat, remove later!
 
@@ -23,7 +24,6 @@ function Studio.Init()
     Studio.Layout.CreateLayout()
 
     Studio.Editor3D.Init()
-    Studio.Backend.Init()
 
     Runtime.SaveOnCrash = true
 
