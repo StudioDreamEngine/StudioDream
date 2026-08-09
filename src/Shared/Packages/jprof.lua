@@ -115,13 +115,13 @@ if PROF_CAPTURE then
         assert(#zoneStack == 0, "(jprof) Zone stack is not empty")
 
         if not profData then
-            print("(jprof) No profiling data saved (probably because you called prof.connect())")
+            printInternal("(jprof) No profiling data saved (probably because you called prof.connect())")
         else
             local file, msg = love.filesystem.newFile(filename, "w")
             assert(file, msg)
             msgpackListIntoFile(profData, file)
             file:close()
-            print(("(jprof) Saved profiling data to '%s'"):format(filename))
+            printInternal(("(jprof) Saved profiling data to '%s'"):format(filename))
         end
     end
 
