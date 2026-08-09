@@ -5,6 +5,7 @@ function Backend.Init()
     Studio.History = require("Studio.Backend.History")
     Studio.ScriptHandler = require("Studio.Backend.ScriptHandler")
     Studio.ShortcutsHandler = require("Studio.Backend.Shortcuts")
+    Studio.AudioInternal = require("Studio.Backend.AudioInternal")
     Studio.PresenceService = Runtime.Services.Service("PresenceService")
 
     Studio.PresenceService.InitDiscord()

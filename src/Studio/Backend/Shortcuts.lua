@@ -110,7 +110,12 @@ function Shortcuts.GetInputs()
     return InputsSaved
 end
 
+function Shortcuts.SaveTable()
+    Runtime.SettingsManager.ChangeSetting("ShortcutsTable",InputsSaved)
+end
+
 function Shortcuts.Init()
+    InputsSaved = Runtime.SettingsManager.GetSetting("ShortcutsTable") or InputsSaved
     for Name,ShortcutObj in pairs(HandleThis) do
         Input.KeyEvent:Connect(function(DidItBegan,Key)
             if DidItBegan then

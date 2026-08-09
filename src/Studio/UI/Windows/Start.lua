@@ -32,6 +32,7 @@ function CreateClose(Parent)
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0,0),
         BackgroundTransparency = 0,
+        BackgroundColor = Studio.CurrentTheme.Primary,
         Layer = 5,
         Resource = "Internal/Studio/Close.png",
         ScaleType = Enum.ScaleType.LockAspect,

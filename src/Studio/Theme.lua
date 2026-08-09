@@ -1,23 +1,5 @@
 local Themes = {}
 local ThemesIn = {
-
-    ["ThemeTest"] = {
-        Outline = Color.FromHex("505050"),
-        SecondaryOutline = Color.FromHex("#505050"),
-
-        Secondary = Color.FromHex("#808080"), -- This color is meant to either be for less important stuff or to constrast the primary
-        --Tertiary = Color.FromHex("#A0a0a0"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
-        Primary = Color.FromHex("#000000"), -- This color is for the main parts, containers and such
-    
-        Selecting = Color.FromHex("#FFFFFF"),
-        Text = Color.FromHex("#ffffff"),
-        Error =  Color.FromHex("#ff3333"),
-
-        FontNormal = "Internal/Fonts/Roboto/Roboto-Medium.ttf",
-        FontBold = "Internal/Fonts/Roboto/Roboto-Bold.ttf",
-        FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
-    },
-
     ["Blue Night"] = {
         Outline = Color.FromHex("#020222"),
         SecondaryOutline = Color.FromHex("#9090b0"),
@@ -99,23 +81,6 @@ local ThemesIn = {
         Text = Color.FromHex("#ffffff"),
         Error =  Color.FromHex("#ff3333"),
         
-        FontNormal = "Internal/Fonts/Roboto/Roboto-Medium.ttf",
-        FontBold = "Internal/Fonts/Roboto/Roboto-Bold.ttf",
-        FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
-    },
-
-    ["DaySkyie"] = {
-        Outline = Color.FromHex("#585858"),
-        SecondaryOutline = Color.FromHex("#8d8dff"),
-
-        Secondary = Color.FromHex("#a6a5b4"), -- This color is meant to either be for less important stuff or to constrast the primary
-        --Tertiary = Color.FromHex("#9a9ba3"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
-        Primary = Color.FromHex("#e7e7e7"), -- This color is for the main parts, containers and such
-    
-        Selecting = Color.FromHex("#6998ff"),
-
-        Text = Color.FromHex("#1a1a1a"),
-        Error =  Color.FromHex("#ff3333"),
         FontNormal = "Internal/Fonts/Roboto/Roboto-Medium.ttf",
         FontBold = "Internal/Fonts/Roboto/Roboto-Bold.ttf",
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",

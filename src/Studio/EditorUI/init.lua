@@ -6,7 +6,7 @@ function EditorUI.GetViewportInternal()
 end
 
 function EditorUI.RedrawEverything()
-    print(Studio.Theme.GetCurrentThemeInfo())
+    --print(Studio.Theme.GetCurrentThemeInfo())
     local MasterViewport = EditorUI.GetViewportInternal()
     for i,v in pairs(MasterViewport:GetDescendants()) do
         if v.Draw then

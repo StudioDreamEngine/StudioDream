@@ -124,6 +124,7 @@ function ShortcutsConfig.Create(Parent)
                             local KeyBind = Studio.ShortcutsHandler.GetSpecificInput(Name,i)
                             MillionsOfCreatorsAreDoingTheStupiestIdeasOnStudioDream:SetText("("..Enum.InputCode.NameFromValue(KeyBind)..")")
                             PartObj.KeybindWaits = nil
+                            Studio.ShortcutsHandler.SaveTable()
                         end
                     end)
                 else
