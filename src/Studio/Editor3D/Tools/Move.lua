@@ -19,11 +19,17 @@ end
 
 function Move.Init(Snap)
     MoveControl = Things.Create("MoveControl") {
-        Parent = Things.Root.RootViewport
+        Parent = Things.Root.RootViewport,
+        GridSnap = Studio.Editor3D.GridSnap
     }
 
     MoveControl.GridSnap = Snap
     MoveControl.Adornee = Move.Selection
+
+    Studio.Editor3D.GridUpdated:Connect(function()
+        print("Updated")
+        MoveControl:UpdateGrid(Studio.Editor3D.GridSnap)
+    end)
 
     MoveControl.ControlChanged:Connect(function(Plane)
         Info.OffsetTo = Plane

@@ -30,15 +30,17 @@ local ProjectOptions = {
         FunctionWhenCreate = function(Main)
             local Name,Info = Studio.Theme.GetCurrentThemeInfo()
             -- Create the dropdown, when choose, make everything load again maybe? :think:
+            print(Runtime.SettingsManager.GetSetting("UsingTheme"))
+            print(Name)
             Main.Option:SetText(Name)
 
             Studio.Theme.ThemeChanged:Connect(function()
                 local Name,Info = Studio.Theme.GetCurrentThemeInfo()
+                print(Name)
                 Main.Option:SetText(Name)
             end)
 
             local TableBuild = GenList(Studio.Theme.GetThemes())
-            print(TableBuild)
             --print(Studio.Theme.GetThemes())
             local Dropdown = Studio.Components.DropdownPlus.new(TableBuild,Main.Option)
             Dropdown.Toggle(false)
@@ -55,8 +57,6 @@ local ProjectOptions = {
 
 function GenConfig.Create(Parent)
     local CreateObject = {}
-
-    print("BLEHBELH")
 
     Runtime.Project.LoadedProject:Connect(function()
         --print("PROJECT LOADED DUMB FUCK")
@@ -115,7 +115,6 @@ function GenConfig.Create(Parent)
         })
 
         CreateObject.CreateOptions()
-        print(CreateObject.Scroll.Visible,CreateObject.Scroll.TruelyVisible)
     end
 
     CreateObject.Create()

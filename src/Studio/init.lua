@@ -9,6 +9,7 @@ function Studio.Init()
     Studio.Backend.Init()
     
     Studio.CurrentTheme = Studio.Theme.GetThemes()[Runtime.SettingsManager.GetSetting("UsingTheme")] or Studio.Theme.CurrentTheme
+    Studio.Theme.CurrentTheme = Studio.CurrentTheme
     Studio.Editor3D = require("Studio.Editor3D")
 
     Studio.Layout = require("Studio.UI.StudioLayout")

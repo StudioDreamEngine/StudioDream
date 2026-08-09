@@ -32,14 +32,19 @@ return {
     General = {
         Order = 1,
         {
-            Component = "ToolbarButton",
+            Component = "Seperator",
+        },
+        {
+            Component = "ToolbarNumbers",
             Arguments = {
-                Name = "WIP!",
-                Icon = "RotIcon",
+                Name = "Wow",
                 OnClick = function()
                     
                 end
             }
+        },
+        {
+            Component = "Seperator",
         },
     },
 }

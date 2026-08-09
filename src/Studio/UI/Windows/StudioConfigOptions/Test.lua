@@ -1,6 +1,6 @@
 local GenConfig = {}
 
-GenConfig.DisplayName = "TEST"
+GenConfig.DisplayName = "Volume Configs"
 
 function GenConfig.Create(Parent)
     local CreateObject = {}

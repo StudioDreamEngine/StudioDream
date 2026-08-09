@@ -53,8 +53,6 @@ function ToolManager.ChangeTransform(NewTransform)
 end
 
 function ToolManager.RegisterUndo()
-    print("Register")
-
     for _, Select in pairs(Selecting) do
         Studio.History.RegisterUndo("Property",{Obj = Select.Object, Property = "Transform", Val = Select.OriginalTransform})
     end
@@ -112,7 +110,7 @@ function ToolManager.Select(NewSelection)
     CurrentTool.RegisterUndo = ToolManager.RegisterUndo
     
     if CurrentTool.Selection:IsA("Transformable3D") then
-        CurrentTool.Init(CurrentTool.IsRotate and RotationSnap or GridSnap)
+        CurrentTool.Init(CurrentTool.IsRotate and Studio.Editor3D.RotationSnap or Studio.Editor3D.GridSnap)
     end
 end
 

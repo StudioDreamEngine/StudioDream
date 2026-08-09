@@ -130,6 +130,10 @@ local Enums = {
         ColorMultiplier = "colorM",
         ColorChanger = "colorC"
     },
+    SlideAxis = {
+        X = "X",
+        Y = "Y"
+    },
     InputCode = {
         -- Keyboard
         RightArrow = 'right',

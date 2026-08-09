@@ -57,7 +57,7 @@ local ProjectOptions = {}
 function ShortcutsConfig.Create(Parent)
     local CreateObject = {}
 
-    print("BLEHBELH")
+    --print("BLEHBELH")
 
     Runtime.Project.LoadedProject:Connect(function()
         --print("PROJECT LOADED DUMB FUCK")
@@ -141,7 +141,6 @@ function ShortcutsConfig.Create(Parent)
 
     function CreateObject.CreateOptions()
         for _,Option in pairs(ProjectOptions) do
-            print(Option)
             CreateObject.CreatePartBlock(Option.Name,Option.Args,CreateObject.Scroll)
         end
     end
@@ -164,11 +163,11 @@ function ShortcutsConfig.Create(Parent)
             }
             ToBuild.Args = Studio.ShortcutsHandler.GetInputs()[Name]
             table.insert(ProjectOptions,ToBuild)
-            print(ToBuild)
+            --(ToBuild)
         end
 
         CreateObject.CreateOptions()
-        print(CreateObject.Scroll.Visible,CreateObject.Scroll.TruelyVisible)
+        --print(CreateObject.Scroll.Visible,CreateObject.Scroll.TruelyVisible)
     end
 
     CreateObject.Create()

@@ -45,6 +45,10 @@ function Control3D:new()
     self:ConnectEvents()
 end
 
+function Control3D:UpdateGrid(Name,ToWhat)
+    self[Name.."Snap"] = ToWhat
+end
+
 function Control3D:Snap(Value, By)
     if By < 0.01 then return Value end -- Epsilon :3
 

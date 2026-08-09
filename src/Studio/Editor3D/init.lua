@@ -10,6 +10,11 @@ Editor3D.OnDeselect = Signal:New("UnSelectionSignal")
 
 Editor3D.PropertyChanged = Signal:New("ChangedProperty")
 
+Editor3D.GridSnap = 10
+Editor3D.RotationSnap = 10
+
+Editor3D.GridUpdated = Signal:New("GridUpdated")
+
 function Editor3D.OpenInsertWindow(Object)
     local WindowHandle = Studio.Layout.GetHandle("InsertObject")
 
@@ -17,6 +22,11 @@ function Editor3D.OpenInsertWindow(Object)
     Studio.Layout.ToggleWindow(WindowHandle, true)
 
     WindowHandle.TargetObject = Object
+end
+
+function Editor3D.UpdateGrid(Name,ToWhat)
+    Editor3D[Name.."Snap"] = ToWhat
+    Editor3D.GridUpdated.Invoke()
 end
 
 function Editor3D.ToggleWindowOutside(Name,Visible)
