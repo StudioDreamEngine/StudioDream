@@ -17,11 +17,12 @@ local function EndDrag()
     Info.OffsetTo = Vector3.zero
 end
 
-function Move.Init()
+function Move.Init(Snap)
     MoveControl = Things.Create("MoveControl") {
         Parent = Things.Root.RootViewport
     }
 
+    MoveControl.GridSnap = Snap
     MoveControl.Adornee = Move.Selection
 
     MoveControl.ControlChanged:Connect(function(Plane)

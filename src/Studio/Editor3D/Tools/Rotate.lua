@@ -8,6 +8,8 @@ local Info = {
     ["OffsetTo"] = Vector3.zero,
 }
 
+Rotate.IsRotate = true
+
 local function StartDrag(Obj)
     Info.StartPosObj = Obj.Transform.Rotation
 end

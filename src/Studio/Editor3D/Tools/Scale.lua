@@ -23,11 +23,12 @@ local function EndDrag()
     Info.OffsetTo = Vector3.zero
 end
 
-function Scale.Init()
+function Scale.Init(Snap)
     ScaleControl = Things.Create("ScaleControl") {
         Parent = Things.Root.RootViewport
     }
 
+    ScaleControl.GridSnap = Snap
     ScaleControl.Adornee = Scale.Selection
 
     local Selecting = Scale.Selection ---@class Transformable3D

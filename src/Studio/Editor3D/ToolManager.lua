@@ -7,6 +7,8 @@ local Origin = Vector3.zero
 
 local LatestSelection -- Used for scale currently
 
+local GridSnap, RotationSnap = 0.1, 10
+
 local Selecting = {}
 
 function ToolManager.GetCenter(Objects)
@@ -110,7 +112,7 @@ function ToolManager.Select(NewSelection)
     CurrentTool.RegisterUndo = ToolManager.RegisterUndo
     
     if CurrentTool.Selection:IsA("Transformable3D") then
-        CurrentTool.Init()
+        CurrentTool.Init(CurrentTool.IsRotate and RotationSnap or GridSnap)
     end
 end
 

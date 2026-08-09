@@ -256,6 +256,7 @@ function Components.CreateStyle(Type, Properties, Style)
     local ThingCreated
     local NameOfTheme,TableOfTheme = Studio.Theme.GetCurrentThemeInfo()
     local AlreadySettupMatchTheme = false
+    
     if (not Style) then
         Style = TypeAssociations[Type]
     end

@@ -53,6 +53,7 @@ return function(Options)
         ProgressBar:SetSize(Pivot2D.FromScale(Percentage, 1))
 
         TitleContainer:SetText(Title.." ("..SubStage.."/"..MaxSubStages..")")
+        Scheduler.Yield()
     end
 
     function Object.NextStage(NewTitle) 

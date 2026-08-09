@@ -19,6 +19,9 @@ function Control3D:new()
 
     self.Down = false
     self.Hovering = nil
+
+    self.GridSnap = 10
+    self.RotationSnap = 10 -- TODO
     
     self.AdornObject = Runtime.Backend3D.CreateAdorn("ControlAdorn")
     self.Adorns = {}
@@ -40,6 +43,16 @@ function Control3D:new()
     end
 
     self:ConnectEvents()
+end
+
+function Control3D:Snap(Value, By)
+    if By < 0.01 then return Value end -- Epsilon :3
+
+    if Utils.TypeOf(Value) == "Vector3" then
+        return (Value.Round() / By) * By
+    else
+        return math.round(Value / By) * By
+    end
 end
 
 function Control3D:ConnectEvents()
