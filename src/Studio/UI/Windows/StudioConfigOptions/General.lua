@@ -14,6 +14,7 @@ local function GenList(TableGot)
                 Studio.Theme.BeforeChange.Invoke()
                 Studio.CurrentTheme = v
                 Studio.Theme.CurrentTheme = v
+                Runtime.SettingsManager.ChangeSetting("UsingTheme",i)
                 Studio.Theme.ThemeChanged.Invoke()
                 SavedStuff.DropdownTheme.Toggle(false)
             end

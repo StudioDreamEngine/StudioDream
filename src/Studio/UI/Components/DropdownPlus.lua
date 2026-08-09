@@ -1,6 +1,7 @@
 local DropdownPlus = {}
 local Things = Runtime.Things
 local Components = Studio.Components
+local TweenService = Runtime.Services.Service("TweenService")
 
 local ChoiceTypes = {
     ["Button"] = function(Choice, Parent)
@@ -92,7 +93,22 @@ function DropdownPlus.new(Choices,FakeParent)
 
     function DropdownObject.Toggle(Visible)
         --DropdownObject.MajorParent.Visible = Visible -- mikl i swear to god
-        DropdownObject.MajorParent:SetVisible(Visible)
+        if Visible == false then
+            local CurrentPos = DropdownObject.MajorParent.Position
+
+            local MoveDown = TweenService.Create(DropdownObject.MajorParent, {
+                Position = CurrentPos-Pivot2D.FromOffset(0,5)
+            }, Enum.EasingStyle.SineOut, .1)
+
+            MoveDown.Play()
+
+            MoveDown.Completed:Connect(function()
+                DropdownObject.MajorParent:SetVisible(Visible)
+                DropdownObject.MajorParent.Position = CurrentPos
+            end)
+        else
+            DropdownObject.MajorParent:SetVisible(Visible)
+        end
     end
 
     function DropdownObject.Remove()

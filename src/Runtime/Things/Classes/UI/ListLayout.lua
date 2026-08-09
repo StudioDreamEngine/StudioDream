@@ -87,7 +87,7 @@ function ListLayout:SortFunction(a,b,Index)
     local bIndex = b[Index]
 
     if self.Reverse then
-        return (aIndex == bIndex) and (a.NumericalID > b.NumericalID) or (aIndex < bIndex)
+        return (aIndex == bIndex) and (a.NumericalID > b.NumericalID) or (aIndex > bIndex)
     else
         return (aIndex == bIndex) and (a.NumericalID < b.NumericalID) or (aIndex < bIndex)
     end
@@ -115,19 +115,26 @@ function ListLayout:UpdateLayout()
         table.sort(self.Objects, function(a,b)
             return self:SortFunction(a,b,"ListOrder")
         end)
-    else
+    elseif self.SortMode == Enum.SortMode.Alphabetical then
         ---@param a BaseGui
         ---@param b BaseGui
         table.sort(self.Objects, function(a,b)
             return self:SortFunction(a,b,"Name")
         end)
+    --[[elseif self.SortMode == Enum.SortMode.Numerical then
+        table.sort(self.Objects, function(a,b)
+            return self:SortFunction(a,b,"Name")
+        end)]]
     end
 
     -- Pass 1: Handle the inital layout of the objects
+    local Index = 0
     for _, Object in pairs(self.Objects) do
         if Object.Visible then
+            Index=Index+1
             Positions[Object.UUID] = ContentSize
             ContentSize = ContentSize + Object.AbsoluteSize[Axis] + self.Padding
+            Object.LayoutOrder = Index
         end
     end
 

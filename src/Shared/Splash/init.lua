@@ -30,7 +30,8 @@ function Splash.Out()
 
     TweenService.Create(SplashLogoOutline, {
         Size = Pivot2D.FromScale(2,2),
-        ForegroundTransparency = 1
+        ForegroundTransparency = 1,
+        Rotation = 360,
     }, Enum.EasingStyle.ExpoOut, 2).Play()
 
     TweenService.CreateAndPlay(SplashContainer, {

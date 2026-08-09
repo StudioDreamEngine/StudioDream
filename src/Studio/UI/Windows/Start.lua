@@ -7,6 +7,8 @@ local SecondsPerDay = SecondsPerHour * 24
 
 local AlreadyDidCloseButton = false
 
+local DoneLoad = Signal:New("DoneLoadProjects")
+
 local function TimeAgo(Time)
     local Difference = os.time()-Time
 
@@ -50,7 +52,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         Text = "",
         Size = Pivot2D.FromScale(0.95,0.2),
         Parent = Scroll,
-        ListOrder = -Info.Time, -- dumb way to sort
+        Name = tostring(-Info.Time), -- dumb way to sort
         Layer = 2,
         CornerRadius = 5,
         BackgroundColor = Studio.CurrentTheme.Outline,
@@ -97,6 +99,23 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         CreateClose(Start.Container)
         Start.Close()
         Studio.Layout.CallHandle("Explorer", "Redraw")
+    end)
+
+    DoneLoad:Connect(function(LastNumber)
+        if Base.LayoutOrder == 1 then
+            local ProjectName = Studio.Components.CreateStyle("Text",{
+                Text = "Most recent project",
+                ForegroundColor = Studio.CurrentTheme.Text,
+                Position = Pivot2D.FromScale(0,0),
+                --Pivot = Vector2.new(1,0),
+                Parent = Base,
+                Layer = 2,
+                BackgroundTransparency = 1,
+                Alignment = Vector2.new(1,0),
+                Size = Pivot2D.FromScale(1,0.35),
+                Font = Studio.CurrentTheme.FontBold,
+            })
+        end
     end)
 end
 
@@ -193,6 +212,7 @@ function Start.Init()
     Studio.Components.CreateStyle("ListLayout",{
         Parent = Scroll,
         Alignment = Enum.Alignment.TopCenter,
+        Reverse = true,
         Padding = 3
     })
 
@@ -233,7 +253,7 @@ function Start.Init()
     for i,v in pairs(Runtime.SettingsManager.GetSetting("Projects")) do
         Start.CreateProject(Scroll,v,i,Start.FullContainer)
     end
-
+    DoneLoad.Invoke(table.length(Scroll:GetChildren()))
 end
 
 return Start

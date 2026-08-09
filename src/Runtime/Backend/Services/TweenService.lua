@@ -24,6 +24,8 @@ function TweenService.Create(Subject, Target, Style, Time)
     local StartTime = 0
     Tween.Playing = false
 
+    Tween.Completed = Signal:New("Completed_Tween")
+
     local InitalValues = {}
     
     function Tween.Play()
@@ -75,6 +77,7 @@ function TweenService.Create(Subject, Target, Style, Time)
 
         if Elapsed/Time >= 1 then 
             Tween.Stop(true) 
+            Tween.Completed.Invoke()
             return
         end
 

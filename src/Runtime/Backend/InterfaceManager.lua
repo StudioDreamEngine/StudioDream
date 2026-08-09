@@ -17,13 +17,13 @@ function InterfaceManager.Init()
 
     LoveEvents.MousePressed:Connect(function(x,y,button)
         if button == 1 then
-            InterfaceManager.OnClick.Invoke()
+            InterfaceManager.OnClick.Invoke(Vector2.new(x,y))
             InterfaceManager.Clicking = true
         elseif button == 2 then
-            InterfaceManager.OnRightClick.Invoke()
+            InterfaceManager.OnRightClick.Invoke(Vector2.new(x,y))
         end
 
-        InterfaceManager.OnClickGeneral.Invoke()
+        InterfaceManager.OnClickGeneral.Invoke(Vector2.new(x,y))
     end)
 
     LoveEvents.MouseReleased:Connect(function(_,_,button)
