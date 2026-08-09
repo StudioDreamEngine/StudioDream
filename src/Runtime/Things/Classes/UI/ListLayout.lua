@@ -152,7 +152,7 @@ function ListLayout:UpdateLayout()
         end
     end
 
-    Positions = {}
+    Positions = nil
 
     self.RemainingSize = TotalSpace - (ContentSize - self.Padding)
 end

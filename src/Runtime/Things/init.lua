@@ -199,9 +199,9 @@ function Things.UpdatePass(Name, dt)
             but this works too - Bloctans
         ]]
         if Thing.Parent then
-            --Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
+            Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
             Thing[Name](Thing, dt)
-            --Profiler.End()
+            Profiler.End()
         end
     end
 

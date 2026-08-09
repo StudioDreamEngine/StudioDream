@@ -1,7 +1,7 @@
 print("Please Wait...")
 require("Shared")
 
-PROF_CAPTURE = true
+PROF_CAPTURE = false
 
 local stack
 
@@ -132,6 +132,7 @@ local DeltaTime
 function love.draw()
     Shared.Render()
     Profiler.End()
+    Profiler.Frame = false
 
     love.graphics.setFont(DebugFont)
     love.graphics.print(tostring(math.round(1/DeltaTime)).." FPS", love.graphics:getWidth()-50, 0)
@@ -146,6 +147,7 @@ function love.draw()
 end
 
 function love.update(dt)
+    Profiler.Frame = true
     Profiler.Start("frame")
     MYFPSCAPPER9001 = MYFPSCAPPER9001 + 1/60
 
@@ -155,7 +157,9 @@ function love.update(dt)
 end
 
 function love.quit()
+    Profiler.Frame = true
     Profiler.Start("frame")
+
     Shared.OnQuit.Invoke()
     Runtime.Services.OnQuit() -- this FUCKING sucks!!! :3
     print("Closing and Saving logs...")

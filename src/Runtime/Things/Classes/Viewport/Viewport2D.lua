@@ -64,6 +64,8 @@ function Viewport2D:SubmitContainerChildren(Container, Initial)
                 table.insert((Child.Layer < 0) and RenderBehind or RenderAbove, Child)
             end
         end
+
+        SortedChildren = nil
     end
 
     self:SubmitPasses(RenderBehind, Initial and {} or {Container}, RenderAbove)

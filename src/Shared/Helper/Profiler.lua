@@ -23,16 +23,22 @@ function Profiler.Benchmark(Name, AlertStart)
 end
 
 function Profiler.Start(Name)
-    Jprof.push(Name)
+    if Profiler.Frame then
+        Jprof.push(Name)
+    end
 end
 
 function Profiler.EndStart(Name)
-    Jprof.pop()
-    Jprof.push(Name)
+    if Profiler.Frame then
+        Jprof.pop()
+        Jprof.push(Name)
+    end
 end
 
 function Profiler.End()
-    Jprof.pop()
+    if Profiler.Frame then
+        Jprof.pop()
+    end
 end
 
 function Profiler.Quit()

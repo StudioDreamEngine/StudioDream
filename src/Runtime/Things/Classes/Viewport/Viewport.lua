@@ -48,6 +48,10 @@ function Viewport:SetFilterType(New)
 end
 
 function Viewport:CreateNew()
+    if self.ViewportCanvas then
+        self.ViewportCanvas:release()
+    end
+
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 end

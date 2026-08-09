@@ -21,6 +21,7 @@ function Viewport3D:SetAbsoluteSize(New)
     Viewport3D.super.SetAbsoluteSize(self, New)
 
     if New.X > 0 then
+        self.Canvases:unloadCanvasSet()
         self.Canvases:init(New.X, New.Y)
     end
 end

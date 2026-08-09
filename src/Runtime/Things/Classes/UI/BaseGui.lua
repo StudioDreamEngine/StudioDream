@@ -365,7 +365,7 @@ function BaseGui:ProcessInvalidations()
     if self.TruelyVisible ~= NewVisible then
         self.TruelyVisible = NewVisible
 
-        self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
+        --self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
     end
     Profiler.End()
 end

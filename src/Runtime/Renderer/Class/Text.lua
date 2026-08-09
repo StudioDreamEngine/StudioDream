@@ -107,6 +107,7 @@ return function()
     function Text.SetFont(Font)
         if type(Font) == "string" then
             local Font = Font and string.split(Font, "-") or {}
+            printInternal("new font")
             Text.RenderFont = love.graphics.newFont(GetFont(Font[1], Font[2]),32)
         else
             Text.RenderFont = Font
