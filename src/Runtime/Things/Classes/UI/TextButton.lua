@@ -15,6 +15,7 @@ function TextButton:new()
     self.SinkHovering = true
 
     self.HoveringStyle = Enum.HoveringStyle.ColorMultiplier
+    self.Transition = true -- if to transition the hovering effect
         --self.LastHover = false
     
     -- not implemented yet
@@ -81,11 +82,14 @@ function TextButton:Update(dt)
 
     local DisplayUI = self:GetDisplayUI()
     if (not DisplayUI) then return end
+
+    local Delta = self.Transition and math.min(dt*20,1) or 1
     
     if self.HoveringStyle == "colorM" then
         local Clicking = self.Hovering and Runtime.InterfaceManager.Clicking
         local Multiplier = (Clicking and self.ClickingColorMultiplier) or (self.Hovering and self.HoverColorMultiplier) or 1
-        self.ColorMultiplier = Multiplier
+
+        self.ColorMultiplier = math.lerp(self.ColorMultiplier, Multiplier, Delta)
     elseif self.HoveringStyle == "colorC" then
         --local ColorToChange = 
     end

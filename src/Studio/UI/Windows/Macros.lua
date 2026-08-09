@@ -9,6 +9,9 @@ Macros.MacroList = {
     end,
     ["Redraw Explorer"] = function()
         Studio.Layout.CallHandle("Explorer", "Redraw")
+    end,
+    ["Export Project"] = function()
+        Studio.Build.BuildProject()
     end
 }
 

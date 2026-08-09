@@ -11,6 +11,8 @@ function Studio.Init()
     Studio.Layout = require("Studio.UI.StudioLayout")
     Studio.Components = require("Studio.UI.Components")
 
+    Studio.Build = require("Studio.Build")
+
     Studio.ProjectManager = require("Studio.ProjectManager")
 
     Studio.Backend = require("Studio.Backend")

@@ -24,6 +24,7 @@ EXTERNAL="$SQUASH_ROOT/share/studio-dream/"
 cp AppRun "$SQUASH_ROOT/AppRun"
 cp love.desktop "$SQUASH_ROOT/love.desktop"
 cp -r "./Studio.png" "$SQUASH_ROOT/Studio.png"
+cp "./appimagetool.AppImage" "$SQUASH_ROOT/appImageTool.AppImage"
 
 # Setup executable
 cat "$SQUASH_ROOT/bin/love" StudioDream.love > "$SQUASH_ROOT/bin/StudioDream"
@@ -42,4 +43,6 @@ echo Building AppImage..
 ./appimagetool.AppImage $SQUASH_ROOT "$DIST/StudioDream-Linux.AppImage"
 
 echo
-echo Done! Built AppImage is within dist
+echo Done! Built AppImage is within dist \(Run \"source linux.sh\" to automatically change directories\)
+
+cd ../dist

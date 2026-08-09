@@ -14,6 +14,10 @@ function Path.new(FilePath)
     PathObject.FilePath = FilePath
     PathObject.ParentPath = table.concat(SplitPath, "/", 1, #SplitPath-1).."/"
 
+    function PathObject.GetParent()
+        return Path.New(PathObject.ParentPath)
+    end
+
     return PathObject
 end
 

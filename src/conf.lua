@@ -4,12 +4,7 @@ TITLE = "(Early Riser)"
 VERSION_FULL = VERSION.." "..TITLE
 
 -- It's reccommended to no longer change these, you should instead use the command line arguments (StudioDream --Help)
-DEFAULT_FLAGS = {
-    Target = "Studio", -- What this build's functionality should be, disables studio component if "ClientRuntime", enables studio if "Editor"
-    Verbose = false,
-    DebugDraw = false,
-    ExternalOutput = false
-}
+DEFAULT_FLAGS = require("flags")
 
 function love.conf(t)
     t.window.width = 1570
@@ -20,4 +15,6 @@ function love.conf(t)
     t.version = "12.0"
     t.window.title = "StudioDream "..VERSION_FULL.." - No Project"
     t.window.resizable = true
+    
+    t.identity = "StudioDream"
 end

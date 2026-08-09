@@ -9,6 +9,10 @@ if target_path.exists(): shutil.rmtree(target_path.absolute())
 
 source_path = root_path / "src"
 
+ignore = [
+    "flags.lua"
+]
+
 def create(create_path: path.Path, content: bytes = None):
     create_path.parent.mkdir(exist_ok=True, parents=True)
     
@@ -25,7 +29,7 @@ def compile_directory(directory: path.Path):
 
         if file.is_dir(): 
             compile_directory(file)
-        elif file.suffix == ".lua":
+        elif file.suffix == ".lua" and (not file.name in ignore):
             file_target.parent.mkdir(exist_ok=True, parents=True)
 
             os.system(f"luajit -b \"{file.absolute()}\" \"{file_target.absolute()}\"")
