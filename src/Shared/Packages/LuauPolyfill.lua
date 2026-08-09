@@ -392,7 +392,7 @@ local function InternalPrint(IsVerbose, External, ...)
 		PrintCallback(FinalString)
 	end
 
-	table.insert(PrintLogs, FinalString)
+	--table.insert(PrintLogs, FinalString)
 	PrintOG(FinalString)
 end
 

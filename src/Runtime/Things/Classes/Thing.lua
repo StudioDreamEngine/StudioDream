@@ -324,33 +324,34 @@ function Thing:OnRemove()
     self:ClearAllChildren()
 end
 
+local function GetDescendantsImpl(Object, ReturnedDescendants)
+    for _, Descendant in pairs(Object:GetChildren()) do
+        table.insert(ReturnedDescendants, Descendant)
+        GetDescendantsImpl(Descendant)
+    end
+end
+
+
 function Thing:GetDescendants()
     local ReturnedDescendants = {}
-
-    local function GetDescendantsImpl(Object)
-        for _, Descendant in pairs(Object:GetChildren()) do
-            table.insert(ReturnedDescendants, Descendant)
-            GetDescendantsImpl(Descendant)
-        end
-    end
-
-    GetDescendantsImpl(self)
+    
+    GetDescendantsImpl(self, ReturnedDescendants)
 
     return ReturnedDescendants
+end
+
+local function GetDescendantsTreeImpl(Object, Table)
+    Table[Object.Name] = {}
+
+    for _, Descendant in pairs(Object:GetChildren()) do
+        GetDescendantsTreeImpl(Descendant, Table[Object.Name])
+    end
 end
 
 function Thing:GetDescendantTree()
     local ReturnedDescendants = {}
 
-    local function GetDescendantsImpl(Object, Table)
-        Table[Object.Name] = {}
-
-        for _, Descendant in pairs(Object:GetChildren()) do
-            GetDescendantsImpl(Descendant, Table[Object.Name])
-        end
-    end
-
-    GetDescendantsImpl(self, ReturnedDescendants)
+    GetDescendantsTreeImpl(self, ReturnedDescendants)
 
     return ReturnedDescendants
 end

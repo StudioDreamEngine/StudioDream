@@ -48,6 +48,8 @@ end
 function ScriptUtil.StartScripts()
     StartedScripts = true
 
+    print("Start")
+
     ---@param Queued BaseScript
     for _, Queued in pairs(LoadQueued) do Queued:Load() end
     LoadQueued = {}
@@ -83,6 +85,7 @@ function ScriptUtil.CreateGlobals(Script)
         Transform2D = Transform2D,
         Vector2 = Vector2,
         Vector3 = Vector3,
+        Pivot2D = Pivot2D,
         Enum = Enum,
         Rect = Rect,
         Color = Color,

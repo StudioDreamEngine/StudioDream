@@ -1,9 +1,7 @@
 local Profiler = {}
 
-local DeltonInstance
-
 function Profiler.Init()
-    DeltonInstance = Dream.delton
+    
 end
 
 function Profiler.Benchmark(Name, AlertStart)
@@ -25,24 +23,20 @@ function Profiler.Benchmark(Name, AlertStart)
 end
 
 function Profiler.Start(Name)
-    DeltonInstance:start(Name)
+    Jprof.push(Name)
 end
 
 function Profiler.EndStart(Name)
-    DeltonInstance:stop()
-    DeltonInstance:start(Name)
+    Jprof.pop()
+    Jprof.push(Name)
 end
 
 function Profiler.End()
-    DeltonInstance:stop()
+    Jprof.pop()
 end
 
-function Profiler.Present()
-    DeltonInstance:present()
-end
-
-function Profiler.Render()
-    DeltonInstance:step()
+function Profiler.Quit()
+    Jprof.write("prof.mpack")
 end
 
 return Profiler

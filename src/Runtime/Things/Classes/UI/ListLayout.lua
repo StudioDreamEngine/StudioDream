@@ -152,6 +152,8 @@ function ListLayout:UpdateLayout()
         end
     end
 
+    Positions = {}
+
     self.RemainingSize = TotalSpace - (ContentSize - self.Padding)
 end
 

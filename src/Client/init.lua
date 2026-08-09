@@ -39,7 +39,6 @@ function Client.Init()
     --StudioCamera.Init()
 
     print(Things.GetRoot("Environment"):GetDescendants())
-    RuntimeService.StartActivity()
 
     if (not FLAGS.Independent) then
         Runtime.Things.Create("TextButton") {
@@ -52,6 +51,10 @@ function Client.Init()
             end
         }
     end
+end
+
+function Client.PostInit()
+    RuntimeService.StartActivity()
 end
 
 function Client.Update(dt)

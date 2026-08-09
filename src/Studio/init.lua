@@ -52,6 +52,10 @@ function Studio.Init()
     Shared.ProcessQueue()
 end
 
+function Studio.PostInit()
+    
+end
+
 function Studio.Update(dt)
     Studio.Editor3D.Update(dt)
     Studio.Layout.Update(dt)

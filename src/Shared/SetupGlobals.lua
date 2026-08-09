@@ -13,6 +13,7 @@ return function ()
     TweenFunctions = require("Shared.Packages.Tweener")
     require("Shared.Packages.lovezip")
     DiscordRPC = require("Shared.Packages.discordRPC")
+    Jprof = require("Shared.Packages.jprof")
 
     printVerbose("Setting up C Packages")
     Platform = require("Shared.Packages.Platform")

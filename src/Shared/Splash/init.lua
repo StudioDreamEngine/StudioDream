@@ -107,10 +107,14 @@ function Splash.Load()
 
     Splash.ChangeStatus("Starting Target")
     printVerbose("Starting Target")
+    Profiler.Start("Start Target")
     Shared.StartTarget()
+    Profiler.End()
 
     Splash.ChangeStatus("Loading Project")
     Runtime.PostTarget(FLAGS.TargetProject)
+
+    Shared.PostStartTarget()
     Splash.ChangeStatus("")
 
     printVerbose("Sucessfully Finished Initalization")

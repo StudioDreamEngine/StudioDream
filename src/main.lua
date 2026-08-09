@@ -1,6 +1,8 @@
 print("Please Wait...")
 require("Shared")
 
+PROF_CAPTURE = true
+
 local stack
 
 DebugFont = love.graphics.newFont(12)
@@ -49,6 +51,7 @@ function love.load(args)
     love.graphics.present()
 
     Shared.SetupBullet = require("Shared.SetupGlobals")()
+    Profiler.Start("frame")
     
     print("StudioDream V"..VERSION_FULL)
 
@@ -58,6 +61,7 @@ function love.load(args)
 
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
     MYFPSCAPPER9001 = love.timer.getTime()
+    Profiler.End()
 end
 
 local ERROR_SEPERATE = "---------------------------------------------------------------------------------------"
@@ -127,6 +131,7 @@ local DeltaTime
 
 function love.draw()
     Shared.Render()
+    Profiler.End()
 
     love.graphics.setFont(DebugFont)
     love.graphics.print(tostring(math.round(1/DeltaTime)).." FPS", love.graphics:getWidth()-50, 0)
@@ -137,12 +142,11 @@ function love.draw()
         return
     end
 
-    Profiler.Start("Idle Time")
     love.timer.sleep(MYFPSCAPPER9001 - MYFPSINATOR)
-    Profiler.End()
 end
 
 function love.update(dt)
+    Profiler.Start("frame")
     MYFPSCAPPER9001 = MYFPSCAPPER9001 + 1/60
 
     Shared.Update(dt)
@@ -151,6 +155,7 @@ function love.update(dt)
 end
 
 function love.quit()
+    Profiler.Quit()
     Shared.OnQuit.Invoke()
     Runtime.Services.OnQuit() -- this FUCKING sucks!!! :3
     print("Closing and Saving logs...")

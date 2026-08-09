@@ -105,6 +105,10 @@ function Shared.StartTarget()
     end
 end
 
+function Shared.PostStartTarget()
+    Target.PostInit() 
+end
+
 function Shared.UpdateTarget(dt)
     if not Target then return end
     
