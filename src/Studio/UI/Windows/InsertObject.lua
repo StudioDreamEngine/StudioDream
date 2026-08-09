@@ -40,6 +40,7 @@ function InsertObject.Init()
         CornerRadius = 100,
         Alignment = Enum.Alignment.Center,
         Parent = InsertObject.Container,
+        ClearWhenFocus = true,
     })
 
     InsertObject.SearchText = ""
