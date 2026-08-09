@@ -37,7 +37,6 @@ function Components.Init()
 
     local DialogWindows = require("Studio.UI.Components.DialogWindows")
 
-    Components.AdvancedDropdown = require("Studio.UI.Components.AdvancedDropdown")
     Components.CreateDialog = DialogWindows.CreateDialogWindow
     Components.DropdownPlus = require("Studio.UI.Components.DropdownPlus")
     Components.ShowFade = DialogWindows.ShowFade
@@ -94,6 +93,35 @@ function Components.CreateIconObject(Name, Icon)
     })
     
     return NodeInner
+end
+
+--[[
+    Information: {
+        Type = "Dropdown", "Input" or "Checkbox",
+        OnUpdate = function()
+            return Value -- Will be tostring'ed
+        end,
+        OnChange = function(Text) -- called when changed
+            Value = Blah(Text)
+        end
+    }
+]]
+function Components.PropertyValue(Title, Container, Information)
+    local Text = Studio.Components.CreateStyle("Text", {
+        Text = Title,
+        Size = Pivot2D.FromScale(0.5,1),
+        BackgroundTransparency = 1,
+        Parent = Container
+    })
+
+    local ValueObject = Studio.Components.CreateStyle("TextInput", {
+        Text = Value,
+        Size = Pivot2D.FromScale(0.5,1),
+        Position = Pivot2D.FromScale(0.5,0),
+        Parent = Container
+    })
+
+    return ValueObject
 end
 
 ---@param List BaseGui
@@ -155,54 +183,6 @@ function Components.ExpandableDropdown(Header, List)
     end)
     
     return ExpandableDropdown
-end
-
-function Components.SimpleDropdown(Position, Choices, Size)
-    if (not Size) then Size = {} end
-
-    local ButtonsActions = {}
-
-    local CurrentDropdown = DropdownFrame
-    
-    -- Special code for positioning below an object
-    if Position.Type == "Thing" then
-        Size = Position.AbsoluteSize
-        Position = Position.AbsolutePosition + (Position.AbsoluteSize * Vector2.yAxis)
-    end
-
-    local Dropdown = {}
-
-    CurrentDropdown:ClearAllChildren()
-    CurrentDropdown:SetPosition(Pivot2D.FromOffset(Position))
-    CurrentDropdown:SetVisible(true)
-
-    CurrentDropdown:SetSize(Pivot2D.FromOffset(Size.X or 200,0))
-
-    for _, Choice in pairs(Choices) do
-        local Button = Components.CreateStyle("TextButton", {
-            Text = Choice.Text,
-            Clicked = Choice.Function,
-            Name = "SimpleDropdown",
-            Size = Pivot2D.new(0,1,Size.Y or 20,0),
-            Parent = CurrentDropdown,
-            BackgroundTransparency = 1
-        })
-
-        Button.OutlineColor = Studio.CurrentTheme.SecondaryOutline
-        table.insert(ButtonsActions,Button.Clicked)
-    end
-
-    Things.Create("ListLayout") {
-        Parent = CurrentDropdown
-    }
-
-    function Dropdown:RemoveDropdown()
-        CurrentDropdown:SetVisible(false)
-    end
-
-    CurrentDropdown:SetParent(Things.Root.RootViewport) -- This makes them appear already loaded dont remove!
-
-    return Dropdown
 end
 
 local Styles = {

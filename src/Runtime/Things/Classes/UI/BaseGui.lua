@@ -189,7 +189,7 @@ end
 function BaseGui:SetColor(ColorMode, Multiplier)
     local TransparencyValue = (1 - self[ColorMode.."Transparency"]) * (1-self.Transparency)
 
-    Runtime.Backend2D.SetColor(self[ColorMode.."Color"] * (Multiplier and self.ColorMultiplier or 1), TransparencyValue)
+    Runtime.Backend2D.SetColor(self[ColorMode.."Color"] * (Multiplier and self[Multiplier.."Multiplier"] or 1), TransparencyValue)
 end
 
 function BaseGui:new() 
@@ -299,22 +299,12 @@ function BaseGui:SetForegroundColor(NewColor)
     local ToChange = NewColor or Color.new(1)
 
     self.ForegroundColor = ToChange
-    self:SetAbsoluteForegroundColor(self.ForegroundColor)
 end
 
 function BaseGui:SetForegroundTransparency(NewColor)
     local ToChange = NewColor or 1
 
     self.ForegroundTransparency = ToChange
-    self:SetAbsoluteForegroundTransparency(self.ForegroundTransparency)
-end
-
-function BaseGui:SetAbsoluteForegroundColor(NewColor)
-    self.AbsoluteForegroundColor = NewColor
-end
-
-function BaseGui:SetAbsoluteForegroundTransparency(NewColor)
-    self.AbsoluteForegroundTransparency = NewColor
 end
 
 function BaseGui:DrawStyle()
@@ -323,7 +313,7 @@ function BaseGui:DrawStyle()
     love.graphics.rotate(-self.AbsoluteRotation)
     love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
     
-    self:SetColor("Background", true)
+    self:SetColor("Background", "Color")
     self:Draw()
 
     if FLAGS.DebugDraw then

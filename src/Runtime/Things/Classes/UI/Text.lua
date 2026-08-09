@@ -12,6 +12,8 @@ function Text:new()
     self.Text = "Placeholder"
     self.AbsoluteText = "Placeholder"
 
+    self.TextColorMultiplier = 1
+
     self.Font = nil
     
     self.RenderFont = nil
@@ -78,7 +80,7 @@ end
 function Text:Draw()
     Text.super.Draw(self)
 
-    self:SetColor("AbsoluteForeground")
+    self:SetColor("Foreground", "TextColor")
     self.RenderClass.Render()
 end
 

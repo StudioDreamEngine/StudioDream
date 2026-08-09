@@ -1,3 +1,4 @@
+-- Oh god i feel like i havent touched this in years - bloctans, aug 2026
 local TopBar = {}
 local Components = Studio.Components
 local Things = Runtime.Things

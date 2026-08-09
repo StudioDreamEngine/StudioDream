@@ -96,7 +96,7 @@ end
 
 -- Register an IdentifierID as missing its identifier counterpart, used during project load
 function Identifiers.RegisterAsMissing(Identifier)
-	Shared.QueueAbort("ResourceID " .. Identifier .. " is missing, You can resolve missing resources in the Project tab.")
+	Shared.QueueAbort("ResourceID " .. Identifier .. " is missing, You can resolve missing resources in the Project tab (You actually cant right now but in the future you will).")
 	table.insert(Identifiers.Missing, Identifier)
 end
 

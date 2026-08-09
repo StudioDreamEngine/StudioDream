@@ -17,8 +17,7 @@ function TextInput:new()
 
     self.Text = ""
     self.Placeholder = "Placeholder" -- TODO
-    self.PlaceholderColor = Color.new(0)
-    self.PlaceholderTransparency = 0.5
+    self.PlaceholderActive = false
 
     self.ClearWhenFocus = false
 
@@ -42,24 +41,18 @@ function TextInput:new()
             self.BackspaceDown = nil
         end
     end)
-    
-    if self.Text == "" then
-        self:HandlePlaceholderVisuals(true)
-    end
 
     self.FocusStart:Connect(function()
         if self.ClearWhenFocus then
-            self.Text = ""
+            self:SetText("")
         end
-
-        self:HandlePlaceholderVisuals(false)
     end)
 
-    self.FocusEnd:Connect(function() 
+    --[[self.FocusEnd:Connect(function() 
         if self.Text == "" then
             self:HandlePlaceholderVisuals(true)
         end
-    end)
+    end)]]
 
     self.InputEvent = LoveEvents.TextInput:Connect(function(Key)
         if (not self.InputActive or not self:IsVisible()) then return end
@@ -84,18 +77,27 @@ function TextInput:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
+-- For now we can do it this way, but later on we really shouldnt
 function TextInput:HandlePlaceholderVisuals(IsPlaceholder)
     if IsPlaceholder then
         self:SetAbsoluteText(self.Placeholder)
-        self:SetAbsoluteForegroundColor(self.PlaceholderColor)
-        self:SetAbsoluteForegroundTransparency(self.PlaceholderTransparency)
     else
         self:SetAbsoluteText(self.Text)
-        self:SetAbsoluteForegroundColor(self.ForegroundColor)
-        self:SetAbsoluteForegroundTransparency(self.ForegroundTransparency)
     end
-    print(self.PlaceholderTransparency)
-    print(self.AbsoluteForegroundTransparency)
+
+    self.PlaceholderActive = IsPlaceholder
+end
+
+function TextInput:SetText(Text)
+    TextInput.super.SetText(self, Text)
+
+    self:HandlePlaceholderVisuals((self.Text == ""))
+end
+
+function TextInput:Draw()
+    self.TextColorMultiplier = self.PlaceholderActive and 0.5 or 1
+    
+    TextInput.super.Draw(self)
 end
 
 function TextInput:OnInitalParent(NewParent)

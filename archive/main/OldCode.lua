@@ -22,6 +22,54 @@ function InputService.InputChanged()
     return SignalCool
 end
 
+--[[function Components.SimpleDropdown(Position, Choices, Size)
+    if (not Size) then Size = {} end
+
+    local ButtonsActions = {}
+
+    local CurrentDropdown = DropdownFrame
+    
+    -- Special code for positioning below an object
+    if Position.Type == "Thing" then
+        Size = Position.AbsoluteSize
+        Position = Position.AbsolutePosition + (Position.AbsoluteSize * Vector2.yAxis)
+    end
+
+    local Dropdown = {}
+
+    CurrentDropdown:ClearAllChildren()
+    CurrentDropdown:SetPosition(Pivot2D.FromOffset(Position))
+    CurrentDropdown:SetVisible(true)
+
+    CurrentDropdown:SetSize(Pivot2D.FromOffset(Size.X or 200,0))
+
+    for _, Choice in pairs(Choices) do
+        local Button = Components.CreateStyle("TextButton", {
+            Text = Choice.Text,
+            Clicked = Choice.Function,
+            Name = "SimpleDropdown",
+            Size = Pivot2D.new(0,1,Size.Y or 20,0),
+            Parent = CurrentDropdown,
+            BackgroundTransparency = 1
+        })
+
+        Button.OutlineColor = Studio.CurrentTheme.SecondaryOutline
+        table.insert(ButtonsActions,Button.Clicked)
+    end
+
+    Things.Create("ListLayout") {
+        Parent = CurrentDropdown
+    }
+
+    function Dropdown:RemoveDropdown()
+        CurrentDropdown:SetVisible(false)
+    end
+
+    CurrentDropdown:SetParent(Things.Root.RootViewport) -- This makes them appear already loaded dont remove!
+
+    return Dropdown
+end]]
+
 --[[function InputService.JoystickConnect(ContollerID)
     local InputServiceed = {}
 
