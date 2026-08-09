@@ -80,6 +80,7 @@ return function(ProjectZip, Info, BuildDirectory)
     CurrentFlags.Target = "Client"
     CurrentFlags.TargetProject = "project.sdp"
     CurrentFlags.SecondRun = true
+    CurrentFlags.Independent = true
 
     Zip:_add("project.sdp", ProjectZip)
     Zip:_add("flags.lua", "return "..table.format(CurrentFlags))

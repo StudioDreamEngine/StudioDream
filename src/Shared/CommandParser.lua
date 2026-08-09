@@ -21,6 +21,10 @@ local Switches = {
         Type = "Switch",
         Flag = "SecondRun"
     },
+    Independent = {
+        Type = "Switch",
+        Flag = "Independent"
+    },
     Help = {
         Type = "Switch",
         Output = function()
@@ -36,6 +40,7 @@ HELP
         Target [MODE]: The target mode to run, available targets are "Studio" and "Client"
         Verbose: If to enable more verbose prints (THESE WILL NOT BE LOGGED TO THE STUDIO OUTPUT!)
         DebugDraw: If to enable the debug drawing renderers
+        Independent: Treat this as a project that isnt tied to StudioDream
             ]]
         end
     },
