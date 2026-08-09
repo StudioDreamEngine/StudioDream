@@ -11,13 +11,13 @@ local LoveDirectories = {
     "Client",
     "Shared",
     "Assets",
-    "CLibraries",
+    --"CLibraries",
 }
 
 local LoveFiles = {
     "conf.lua",
     "main.lua",
-    "flags.lua"
+    --"flags.lua"
 }
 
 local Targets = {
@@ -33,8 +33,7 @@ function Build.BuildProject()
         return
     end
 
-    love.filesystem.createDirectory("build/love")
-    love.filesystem.createDirectory("build/exec")
+    love.filesystem.createDirectory("build")
 
     local Info = {
         Exclusions = Exclusions,
@@ -42,10 +41,7 @@ function Build.BuildProject()
         Files = LoveFiles
     }
 
-    Targets[TargetBuild](Runtime.ProjectFS, Info, {
-        Love = Platform.ParsePath(love.filesystem.getSaveDirectory().."/build/love"),
-        Exec = Platform.ParsePath(love.filesystem.getSaveDirectory().."/build/exec")
-    })
+    Targets[TargetBuild](Runtime.Project.Package(), Info, Platform.ParsePath(love.filesystem.getSaveDirectory().."/build"))
 end
 
 return Build
