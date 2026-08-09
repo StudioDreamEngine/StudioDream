@@ -68,7 +68,7 @@ function Toolbar.CreateToolButton(Obj)
         --Position = Pivot2D.FromScale(0.5,0.5),
         --Pivot = Vector2.new(0.5,0.5),
         SquareAxis = Enum.SquareAxis.X,
-        BackgroundColor = Studio.CurrentTheme.Secondary,
+        BackgroundColor = "Secondary",
         BackgroundTransparency = 0,
         ForegroundTransparency = 1,
         CornerRadius = 100,
@@ -90,7 +90,7 @@ function Toolbar.CreateToolButton(Obj)
         BackgroundTransparency = 1,
         Parent = ToolButtonObject.Main,
         Text = Obj.Name,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         Alignment = Enum.Alignment.Center,
     }]]
 

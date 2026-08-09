@@ -11,7 +11,7 @@ local ChoiceTypes = {
             Position = Pivot2D.FromScale(0.5,0.5),
             Pivot = Vector2.new(0.5,0.5),
             Parent = Parent,
-            BackgroundColor = Studio.CurrentTheme.Primary,
+            BackgroundColor = "Primary",
             Alignment = Vector2.new(0,0.5),
             CornerRadius = 2,
             HoverColorMultiplier = 6,
@@ -73,7 +73,7 @@ function DropdownPlus.new(Choices,FakeParent)
         Size = Pivot2D.FromOffset(200,0),
         Layer = 999,
         BackgroundTransparency = 0,
-        BackgroundColor = Studio.CurrentTheme.Outline,
+        BackgroundColor = "Outline",
     })
     
     DropdownObject.Shadow = Components.CreateDropshadow(DropdownObject.MajorParent)

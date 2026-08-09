@@ -115,17 +115,31 @@ Themes.CurrentTheme = ThemesIn["Blue Night"]
 Themes.BeforeChange = Signal:New("ThemeChangesB")
 Themes.ThemeChanged = Signal:New("ThemeChanges")
 
-Themes.ThemeChanged:Connect(function()
-    print("UPDATED!!!!!!!!!!!")
-    Studio.EditorUI.RedrawEverything()
-end)
-
 function Themes.GetCurrentThemeInfo()
     for i,v in pairs(ThemesIn) do
         if v == Themes.CurrentTheme then
             return i,v
         end
     end
+end
+
+function Themes.GetThemePalette()
+    return {
+        "Outline",
+        "SecondaryOutline",
+        
+        "Primary",
+        "Secondary",
+
+        "Selecting",
+
+        "Text",
+        "Error",
+
+        "FontNormal",
+        "FontBold",
+        "FontTalic"
+    }
 end
 
 function Themes.GetThemes()

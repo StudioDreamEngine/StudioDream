@@ -21,7 +21,7 @@ return function(Options)
             Parent = Object.Container,
             Text = Options.Text,
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            ForegroundColor = "Text",
             Name = "WindowText",
             Alignment = Vector2.new(0.5,0)
         })
@@ -47,8 +47,8 @@ return function(Options)
         for i,v in pairs(Options.Choices) do
             local ThisButton = Studio.Components.CreateStyle("TextButton",{
                 Size = Pivot2D.FromScale(0.4,0.4) ,
-                BackgroundColor = Studio.CurrentTheme.Secondary,
-                ForegroundColor = Studio.CurrentTheme.Text,
+                BackgroundColor = "Secondary",
+                ForegroundColor = "Text",
                 Name = "BackWindow",
                 Alignment = Vector2.new(0.5,0.5),
                 Layer = 2,

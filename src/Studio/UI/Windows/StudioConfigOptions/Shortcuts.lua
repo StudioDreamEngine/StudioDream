@@ -80,7 +80,7 @@ function ShortcutsConfig.Create(Parent)
             Pivot = Vector2.new(1,.5),
             Parent = PartObj.Base,
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            ForegroundColor = "Text",
             Text = Name
         })
 
@@ -107,7 +107,7 @@ function ShortcutsConfig.Create(Parent)
                 --Position = Pivot2D.FromScale(0.5,0.5),
                 --Pivot = Vector2.new(0,0.5),
                 BackgroundColor = Studio.CurrentTheme.Outline,
-                ForegroundColor = Studio.CurrentTheme.Text,
+                ForegroundColor = "Text",
                 Layer = 3,
                 CornerRadius = 10,
                 Parent = PartObj.Option,

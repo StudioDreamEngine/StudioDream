@@ -143,14 +143,14 @@ function Explorer.CreateNode(Object, Depth)
         NodeObj.Button = Studio.Components.CreateStyle("ImageButton",{
             Resource = "Internal/Studio/OpenMenu.png",
             Size = Pivot2D.FromScale(0.8,0.8),
-            BackgroundColor = Studio.CurrentTheme.Text,
+            BackgroundColor = "Text",
             SquareAxis = Enum.SquareAxis.Y, 
             Position = Pivot2D.FromScale(0,0.5),
             Pivot = Vector2.new(1,0.5),
             Parent = NodeObj.NodeInner,
             Layer = 4,
             ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
-            ForegroundColor = Studio.CurrentTheme.Text,
+            ForegroundColor = "Text",
         })
 
         NodeObj.IsChildOpen = true

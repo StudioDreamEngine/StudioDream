@@ -36,7 +36,7 @@ function CreateClose(Parent)
         Layer = 5,
         Resource = "Internal/Studio/Close.png",
         ScaleType = Enum.ScaleType.LockAspect,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         })
         Button.Clicked:Connect(Start.Close)
     end
@@ -74,7 +74,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     local ProjectName = Studio.Components.CreateStyle("Text",{
         Text = Info.Name,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         Position = Pivot2D.FromScale(0,0),
         Parent = Base,
         Layer = 2,
@@ -86,7 +86,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
 
     local Date = Studio.Components.CreateStyle("Text", {
         Text = "Last Mod: "..TimeAgo(Info.Time),
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         Position = Pivot2D.FromScale(0,0.5),
         Parent = Base,
         Layer = 2,
@@ -106,7 +106,7 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
         if Base.LayoutOrder == 1 then
             local ProjectName = Studio.Components.CreateStyle("Text",{
                 Text = "Most recent project",
-                ForegroundColor = Studio.CurrentTheme.Text,
+                ForegroundColor = "Text",
                 Position = Pivot2D.FromScale(0,0),
                 --Pivot = Vector2.new(1,0),
                 Parent = Base,
@@ -134,7 +134,7 @@ function Start.CreateButton(Options,Text,Image)
         Alignment = Vector2.new(1,0.5),
         TextSize = 5,
         --OutlineColor = Studio.CurrentTheme.Outline,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
     })
 
     selfed.Image = Studio.Components.CreateStyle("Image2D",{
@@ -170,7 +170,7 @@ function Start.Init()
 
     local Version = Studio.Components.CreateStyle("Text", {
         Text = "Welcome to Early Riser! ("..VERSION..")",
-        ForegroundColor = Color.Invert(Studio.CurrentTheme.Text),
+        ForegroundColor = "Outline",
         Position = Pivot2D.FromScale(0.5,0),
         Size = Pivot2D.FromScale(1,0.1),
         Pivot = Vector2.new(0.5,0),
@@ -187,7 +187,7 @@ function Start.Init()
         CornerRadius = 5,
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.25,.75),
-        BackgroundColor = Studio.CurrentTheme.Secondary,
+        BackgroundColor = "Secondary",
        -- OutlineSize = 2,
         OutlineColor = Studio.CurrentTheme.Outline,
     })
@@ -199,7 +199,7 @@ function Start.Init()
         CornerRadius = 5,
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.75,.75),
-        BackgroundColor = Studio.CurrentTheme.Secondary,
+        BackgroundColor = "Secondary",
        -- OutlineSize = 2,
         OutlineColor = Studio.CurrentTheme.Outline,
     })

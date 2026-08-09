@@ -31,7 +31,7 @@ function Notify.Notify(Message,Type)
         Text = Message,
         Parent = Window,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.CurrentTheme.Text
+        ForegroundColor = "Text"
     })
 
     Utils.DebrisThing(Window,5)

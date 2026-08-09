@@ -10,7 +10,7 @@ function Template.Create(Parent)
             Size = Pivot2D.FromScale(1,1),
             Parent = Parent,
             BackgroundTransparency = 1,
-            ForegroundColor = Studio.CurrentTheme.Text,
+            ForegroundColor = "Text",
             Text = "WIP"
         })
     end

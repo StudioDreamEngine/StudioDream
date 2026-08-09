@@ -14,7 +14,7 @@ function StudioConfig.CreateMainSquares()
         CornerRadius = 5,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(.02,0.02),
-        BackgroundColor = Studio.CurrentTheme.Primary,
+        BackgroundColor = "Primary",
     })
 
     SquareObjects.Close = Studio.Components.CreateStyle("ImageButton",{
@@ -27,8 +27,8 @@ function StudioConfig.CreateMainSquares()
         Layer = 2,
         Resource = "Internal/Studio/Close.png",
         ScaleType = Enum.ScaleType.LockAspect,
-        ForegroundColor = Studio.CurrentTheme.Text,
-        BackgroundColor = Studio.CurrentTheme.Outline
+        ForegroundColor = "Text",
+        BackgroundColor = "Outline"
     })
 
     SquareObjects.Options = Studio.Components.CreateStyle("ScrollContainer",{
@@ -50,7 +50,7 @@ function StudioConfig.CreateMainSquares()
         CornerRadius = 5,
         Pivot = Vector2.new(1,0),
         Position = Pivot2D.FromScale(.98,0.02),
-        BackgroundColor = Studio.CurrentTheme.Primary,
+        BackgroundColor = "Primary",
     })
 
     SquareObjects.Close.Clicked:Connect(function()
@@ -74,8 +74,8 @@ function StudioConfig.CreateOption(Module,Parent,Name)
         Size = Pivot2D.FromScale(0.95,0.05),
         Parent = Parent,
         CornerRadius = 5,
-        BackgroundColor = Studio.CurrentTheme.Outline,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        BackgroundColor = "Outline",
+        ForegroundColor = "Text",
         Text = Module.DisplayName
     })
 
@@ -87,7 +87,8 @@ function StudioConfig.CreateOption(Module,Parent,Name)
 end
 
 function StudioConfig.Init()
-    StudioConfig.Container.BackgroundColor = Studio.CurrentTheme.Outline
+    Studio.Components.RegisterToTheme(StudioConfig.Container, "BackgroundColor", "Outline")
+
     local Created = StudioConfig.CreateMainSquares()
     printVerbose(StudioConfig.AllOptions)
     for Name,Module in pairs(StudioConfig.AllOptions) do

@@ -41,11 +41,11 @@ local function CreatePivotNode(MainInfo,WhatThing)
         Size = Pivot2D.FromScale(0.49,.8),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
-        BackgroundColor = Studio.CurrentTheme.Secondary,
+        BackgroundColor = "Secondary",
         Layer = 3,
         Parent = selfed.BaseProperty,
         CornerRadius = 6,
-         ForegroundColor = Studio.CurrentTheme.Text
+         ForegroundColor = "Text"
     })
 
     selfed.Text = Studio.Components.CreateStyle("Text", {
@@ -55,7 +55,7 @@ local function CreatePivotNode(MainInfo,WhatThing)
         Text = WhatThing,
         Parent = selfed.BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.CurrentTheme.Text
+        ForegroundColor = "Text"
     })
     
     local function Update()
@@ -106,7 +106,7 @@ function Template.Start(MainInfo)
     MainInfo.ParentWith = MainInfo.BaseProperty.Parent
     local MainTxt = Studio.Components.CreateStyle("Text", {
         Text = " ",
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,1),
         Parent = MainInfo.Option,

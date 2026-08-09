@@ -13,20 +13,20 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Size = Transform.Size,
         Position = Transform.Position,
         Pivot = Transform.Pivot,
-        BackgroundColor = Theme.Outline,
+        BackgroundColor = "Outline",
         Name = "WindowContainer",
         Layer = Transform.Layer or 1,
         Parent = Transform.TopLevel and Things.Root.RootViewport or StudioLayout.Windows,
         CornerRadius = Transform.CornerRadius or 5,
        -- OutlineSize = 2,
-        OutlineColor = Theme.Outline
+        OutlineColor = "Outline"
     })
     
     Windows.Container = Studio.Components.CreateStyle("Square",{
         Size = (not HaveName) and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.99,0.93),
         Position = (not HaveName) and Pivot2D.FromScale(0.5,0.5) or Pivot2D.FromScale(0.5,0.06),
         Pivot = (not HaveName) and Vector2.new(0.5,0.5) or Vector2.new(0.5,0),
-        BackgroundColor = Theme.Primary,
+        BackgroundColor = "Primary",
         Name = "BackWindow",
         Layer = 2,
         Parent = Windows.FullContainer,
@@ -50,11 +50,11 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Layer = Windows.Container.Layer+5,
         BackgroundTransparency = 0,
         Text = HaveName,
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         Name = "WindowText",
         Alignment = Vector2.new(0.5,0.5),
-        Font = Studio.CurrentTheme.FontTalic,
-        BackgroundColor = Theme.Secondary,
+        Font = "FontTalic",
+        BackgroundColor = "Secondary",
         CornerRadius = 4,
     })
 
@@ -129,7 +129,7 @@ function StudioLayout.CreateTopbar()
         Parent = Things.Root.RootViewport,
         Name = "TopBar",
         Size = Pivot2D.FromScale(1,0.15),
-        BackgroundColor = Theme.Outline
+        BackgroundColor = "Outline"
     })
 
     local MenuBar = Studio.Components.CreateStyle("Square",{
@@ -145,7 +145,7 @@ function StudioLayout.CreateTopbar()
         Name = "ToolBar",
         Position = Pivot2D.FromScale(0,0.2),
         Size = Pivot2D.FromScale(1,0.8),
-        BackgroundColor = Theme.Primary,
+        BackgroundColor = "Primary",
         BackgroundTransparency = 0
     })
 

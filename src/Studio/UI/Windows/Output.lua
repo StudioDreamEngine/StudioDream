@@ -3,7 +3,7 @@ local Output = {}
 local ScrollContainer
 
 function Output.CreateOutput(Text,Type)
-    local ColorToText = Studio.CurrentTheme.Text
+    local ColorToText = "Text"
     
     if Type and Type == "Error" then
         ColorToText = Studio.CurrentTheme.Error
@@ -48,7 +48,7 @@ function Output.Init()
         },
     })
 
-    Output.Container.BackgroundColor = Studio.CurrentTheme.Outline
+    Studio.Components.RegisterToTheme(Output.Container, "BackgroundColor", "Outline")
     Studio.Components.CreateStyle("ListLayout",{
         Parent = ScrollContainer,
         Reverse = true
