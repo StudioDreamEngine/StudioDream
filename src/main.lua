@@ -1,7 +1,7 @@
 print("Please Wait...")
 require("Shared")
 
-PROF_CAPTURE = false
+PROF_CAPTURE = true
 
 local stack
 

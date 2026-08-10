@@ -58,6 +58,56 @@ function Methods:Abs()
     return Vector2.new(math.abs(self.X),math.abs(self.Y))
 end
 
+local Meta = { -- I have no idea how to organize this mess
+    __index = Methods,
+    __unm = function (t)
+        return Vector2.new(-t.X,-t.Y)
+    end,
+    -- TODO: Remove?
+    __eq = function (t1, t2)
+        return (t1.X == t2.X) and (t1.Y == t2.Y)
+    end,
+    __add = function (t1, t2)
+        if type(t1) == "number" then
+            return Vector2.new(t1 + t2.X, t1 + t2.Y)
+        elseif type(t2) == "number" then
+            return Vector2.new(t1.X + t2, t1.Y + t2)
+        else
+            return Vector2.new(t1.X + t2.X, t1.Y + t2.Y)
+        end
+    end,
+    __sub = function (t1, t2)
+        if type(t2) == "number" then
+            return Vector2.new(t1.X - t2, t1.Y - t2)
+        elseif type(t1) == "number" then
+            return Vector2.new(t1 - t2.X, t1 - t2.Y)
+        else
+            return Vector2.new(t1.X - t2.X, t1.Y - t2.Y)
+        end
+    end,
+    __tostring = function (t)
+        return t.X..", "..t.Y
+    end,
+    __mul = function (t1, t2)
+        t2 = t2 or 1
+
+        if type(t2) == "number" then
+            return Vector2.new(t1.X * t2, t1.Y * t2)
+        elseif type(t1) == "number" then
+            return Vector2.new(t2.X * t1, t2.Y * t1)
+        else
+            return Vector2.new(t1.X * t2.X, t1.Y * t2.Y)
+        end
+    end,
+    __div = function (t1, t2)
+        if type(t2) == "number" then
+            return Vector2.new(t1.X / t2, t1.Y / t2)
+        else
+            return Vector2.new(t1.X / t2.X, t1.Y / t2.Y)
+        end
+    end
+}
+
 local Vector2 = setmetatable({}, {
     __index = function (t, k)
         local PossibleConstant = Constant[k]
@@ -102,55 +152,7 @@ function Vector2.new(x,y)
     local Object = setmetatable({
         X = x,
         Y = y,
-    }, { -- I have no idea how to organize this mess
-        __index = Methods,
-        __unm = function (t)
-            return Vector2.new(-t.X,-t.Y)
-        end,
-        __eq = function (t1, t2)
-            print(t1, t2)
-            return (t1.X == t2.X) and (t1.Y == t2.Y)
-        end,
-        __add = function (t1, t2)
-            if type(t1) == "number" then
-                return Vector2.new(t1 + t2.X, t1 + t2.Y)
-            elseif type(t2) == "number" then
-                return Vector2.new(t1.X + t2, t1.Y + t2)
-            else
-                return Vector2.new(t1.X + t2.X, t1.Y + t2.Y)
-            end
-        end,
-        __sub = function (t1, t2)
-            if type(t2) == "number" then
-                return Vector2.new(t1.X - t2, t1.Y - t2)
-            elseif type(t1) == "number" then
-                return Vector2.new(t1 - t2.X, t1 - t2.Y)
-            else
-                return Vector2.new(t1.X - t2.X, t1.Y - t2.Y)
-            end
-        end,
-        __tostring = function (t)
-            return t.X..", "..t.Y
-        end,
-        __mul = function (t1, t2)
-            t2 = t2 or 1
-
-            if type(t2) == "number" then
-                return Vector2.new(t1.X * t2, t1.Y * t2)
-            elseif type(t1) == "number" then
-                return Vector2.new(t2.X * t1, t2.Y * t1)
-            else
-                return Vector2.new(t1.X * t2.X, t1.Y * t2.Y)
-            end
-        end,
-        __div = function (t1, t2)
-            if type(t2) == "number" then
-                return Vector2.new(t1.X / t2, t1.Y / t2)
-            else
-                return Vector2.new(t1.X / t2.X, t1.Y / t2.Y)
-            end
-        end
-    })
+    }, Meta)
 
     return Object
 end

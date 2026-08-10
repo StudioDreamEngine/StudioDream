@@ -21,7 +21,7 @@ local Vector3 = setmetatable({}, {
 })
 
 local Methods = {
-    Type = "Vector2"
+    Type = "Vector3"
 }
 
 function Methods:Copy()
@@ -104,6 +104,50 @@ function Methods:Abs()
     return Vector3.new(math.abs(self.X),math.abs(self.Y),math.abs(self.Z))
 end
 
+local Meta = { -- I have no idea how to organize this mess
+    __index = Methods,
+    __unm = function (t)
+        return Vector3.new(-t.X,-t.Y,-t.Z)
+    end,
+    __add = function (t1, t2)
+        if type(t1) == "number" then
+            return Vector3.new(t1 + t2.X, t1 + t2.Y, t1 + t2.Z, t2.W)
+        elseif type(t2) == "number" then
+            return Vector3.new(t1.X + t2, t1.Y + t2, t1.Z + t2, t1.W)
+        else
+            return Vector3.new(t1.X + t2.X, t1.Y + t2.Y, t1.Z + t2.Z, t1.W)
+        end
+    end,
+    __sub = function (t1, t2)
+        if type(t2) == "number" then
+            return Vector3.new(t1.X - t2, t1.Y - t2, t1.Z - t2, t2.W)
+        else
+            return Vector3.new(t1.X - t2.X, t1.Y - t2.Y, t1.Z - t2.Z, t1.W)
+        end
+    end,
+    __tostring = function (t)
+        return t.X..", "..t.Y..", "..t.Z
+    end,
+    __mul = function (t1, t2)
+        if type(t2) == "number" then
+            return Vector3.new(t1.X * t2, t1.Y * t2, t1.Z * t2, t1.W)
+        elseif type(t1) == "number" then
+            return Vector3.new(t2.X * t1, t2.Y * t1, t2.Z * t1, t2.W)
+        else
+            return Vector3.new(t1.X * t2.X, t1.Y * t2.Y, t1.Z * t2.Z, t1.W)
+        end
+    end,
+    __div = function (t1, t2)
+        if type(t2) == "number" then
+            return Vector3.new(t1.X / t2, t1.Y / t2, t1.Z / t2)
+        elseif type(t1) == "number" then
+            return Vector3.new(t2.X / t1, t2.Y / t1, t2.Z / t1)
+        else
+            return Vector3.new(t1.X / t2.X, t1.Y / t2.Y, t1.Z / t2.Z)
+        end
+    end
+}
+
 ---@param Vector DreamVec3
 function Vector3.FromDream(Vector)
     return Vector3.new(Vector.x, Vector.y, Vector.z)
@@ -128,50 +172,7 @@ function Vector3.new(x,y,z,w)
         Y = y or 0,
         Z = z or 0,
         W = w or 1, -- Optional distance component, any operator (aside from multiplication) will remove the w component as of currently
-        Type = "Vector3"
-    }, { -- I have no idea how to organize this mess
-        __index = Methods,
-        __unm = function (t)
-            return Vector3.new(-t.X,-t.Y,-t.Z)
-        end,
-        __add = function (t1, t2)
-            if type(t1) == "number" then
-                return Vector3.new(t1 + t2.X, t1 + t2.Y, t1 + t2.Z, t2.W)
-            elseif type(t2) == "number" then
-                return Vector3.new(t1.X + t2, t1.Y + t2, t1.Z + t2, t1.W)
-            else
-                return Vector3.new(t1.X + t2.X, t1.Y + t2.Y, t1.Z + t2.Z, t1.W)
-            end
-        end,
-        __sub = function (t1, t2)
-            if type(t2) == "number" then
-                return Vector3.new(t1.X - t2, t1.Y - t2, t1.Z - t2, t2.W)
-            else
-                return Vector3.new(t1.X - t2.X, t1.Y - t2.Y, t1.Z - t2.Z, t1.W)
-            end
-        end,
-        __tostring = function (t)
-            return t.X..", "..t.Y..", "..t.Z
-        end,
-        __mul = function (t1, t2)
-            if type(t2) == "number" then
-                return Vector3.new(t1.X * t2, t1.Y * t2, t1.Z * t2, t1.W)
-            elseif type(t1) == "number" then
-                return Vector3.new(t2.X * t1, t2.Y * t1, t2.Z * t1, t2.W)
-            else
-                return Vector3.new(t1.X * t2.X, t1.Y * t2.Y, t1.Z * t2.Z, t1.W)
-            end
-        end,
-        __div = function (t1, t2)
-            if type(t2) == "number" then
-                return Vector3.new(t1.X / t2, t1.Y / t2, t1.Z / t2)
-            elseif type(t1) == "number" then
-                return Vector3.new(t2.X / t1, t2.Y / t1, t2.Z / t1)
-            else
-                return Vector3.new(t1.X / t2.X, t1.Y / t2.Y, t1.Z / t2.Z)
-            end
-        end
-    })
+    }, Meta)
 
     return Object
 end
