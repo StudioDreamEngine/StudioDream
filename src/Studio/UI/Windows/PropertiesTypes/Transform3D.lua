@@ -62,7 +62,7 @@ function CreateTransformNode(MainInfo,WhatThing)
         for i,Info in pairs(MainInfo.WillHandle) do
         if CheckAllTheSame(MainInfo.WillHandle) then
             local Transform = Info.Thing.Transform
-            local NewMatrix = (WhatThing == "Rotation") and Transform.Rotation.AsAngle().Deg() or Transform.Position
+            local NewMatrix = (WhatThing == "Rotation") and Transform.Rotation.AsAngle():Deg() or Transform.Position
 
             selfed.Option:SetText(tostring(NewMatrix))
         else
@@ -129,7 +129,7 @@ function Template.Start(MainInfo)
         if not Visible then
             for i,Info in pairs(MainInfo.WillHandle) do
                 if CheckAllTheSame(MainInfo.WillHandle) then
-                    MainTxt:SetText("{"..tostring(Info.Thing.Transform.Position).."} {"..tostring(Info.Thing.Transform.Rotation.AsAngle().Deg()).."}")
+                    MainTxt:SetText("{"..tostring(Info.Thing.Transform.Position).."} {"..tostring(Info.Thing.Transform.Rotation.AsAngle():Deg()).."}")
                 else
                     MainTxt:SetText("~")
                 end

@@ -41,6 +41,17 @@ function SelectionManager.SelectObjectInternal(Thing)
     Editor3D.OnSelect.Invoke(Thing)
 end
 
+function SelectionManager.DuplicateAll()
+    local ClonedObjects = {}
+
+    for i,Object in pairs(Editor3D.Selecting) do
+        Object:Clone().Parent = Object.Parent
+        table.insert(ClonedObjects,Object)
+    end
+    
+    Editor3D.Selecting = ClonedObjects
+end
+
 function SelectionManager.Init()
     local SelectionPriority = Runtime.SelectionPriority
     Editor3D = Studio.Editor3D

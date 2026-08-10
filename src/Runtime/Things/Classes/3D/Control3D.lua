@@ -53,7 +53,7 @@ function Control3D:Snap(Value, By)
     if By < 0.01 then return Value end -- Epsilon :3
 
     if Utils.TypeOf(Value) == "Vector3" then
-        return (Value.Round() / By) * By
+        return (Value:Round() / By) * By
     else
         return math.round(Value / By) * By
     end

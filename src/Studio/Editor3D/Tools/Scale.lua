@@ -35,7 +35,7 @@ function Scale.Init(Snap)
     local Selecting = Scale.Selection ---@class Transformable3D
 
     ScaleControl.ControlChanged:Connect(function(Plane, Normal)
-        local ScaleOffset = (Normal.Abs() * Plane)
+        local ScaleOffset = (Normal:Abs() * Plane)
         local ScaleOffset2 = (Normal * Plane)/2
 
         Selecting:SetPosition(Info.StartPos + ScaleOffset2)

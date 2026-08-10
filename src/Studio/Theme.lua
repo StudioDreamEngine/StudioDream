@@ -63,9 +63,9 @@ local ThemesIn = {
         Text = Color.FromHex("#ffffff"),
 
         Error =  Color.FromHex("#ff3333"),
-        FontNormal = "Internal/Fonts/Roboto/Roboto-Medium.ttf",
-        FontBold = "Internal/Fonts/Roboto/Roboto-Bold.ttf",
-        FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
+        FontNormal = "Internal/Fonts/Outfit/Outfit-Regular.ttf",
+        FontBold = "Internal/Fonts/Outfit/Outfit-Bold.ttf",
+        FontTalic = "Internal/Fonts/Outfit/Outfit-Medium.ttf",
     },
 
     ["Ocean"] = {

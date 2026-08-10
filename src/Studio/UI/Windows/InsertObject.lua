@@ -36,7 +36,7 @@ function InsertObject.Init()
         Position = Pivot2D.FromScale(0,0.1),
         Pivot = Vector2.new(0,0),
         ForegroundColor = "Text",
-        BackgroundColor = "Secondary",
+        BackgroundColor = "Primary",
         CornerRadius = 100,
         Alignment = Enum.Alignment.Center,
         Parent = InsertObject.Container,

@@ -100,7 +100,7 @@ function ShortcutsConfig.Create(Parent)
         })
         
         PartObj.KeybindWaits = nil
-        
+        print(Args,Name)
         for i,v in pairs(Args) do
             local MillionsOfCreatorsAreDoingTheStupiestIdeasOnStudioDream = Studio.Components.CreateStyle("TextButton", {
                 Size = Pivot2D.FromScale(0.4,.8),

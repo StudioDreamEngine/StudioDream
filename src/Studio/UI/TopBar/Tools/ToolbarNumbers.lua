@@ -19,9 +19,9 @@ return function(Args,SingleTab)
         local Grid = Studio.Components.CreateStyle("Square",{
         Parent = ButtonContainer,
         Size = Pivot2D.FromScale(1,0.4),
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         BackgroundTransparency = 0,
-        BackgroundColor = Studio.CurrentTheme.Outline,
+        BackgroundColor = "Outline",
         CornerRadius = 5,
     })
     Studio.Components.CreateStyle("Image2D",{
@@ -29,7 +29,7 @@ return function(Args,SingleTab)
         Position = Pivot2D.FromScale(0,0.5),
         Pivot = Vector2.new(0,0.5),
         Size = Pivot2D.FromScale(0.2,1),
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         ScaleType = Enum.ScaleType.LockAspect,
         BackgroundTransparency = 1,
         Resource = Config.Icon
@@ -39,7 +39,7 @@ return function(Args,SingleTab)
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
         Size = Pivot2D.FromScale(0.8,1),
-        ForegroundColor = Studio.CurrentTheme.Text,
+        ForegroundColor = "Text",
         BackgroundTransparency = 1,
         CornerRadius = 5,
         Alignment = Enum.Alignment.MiddleLeft,

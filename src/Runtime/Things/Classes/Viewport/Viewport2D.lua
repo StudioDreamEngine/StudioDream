@@ -53,6 +53,8 @@ function Viewport2D:SubmitContainerChildren(Container, Initial)
         
         - Bloctans
     ]]
+    Profiler.Start("Viewport2D - SubmitContainerChildren")
+
     local SortedChildren = SortByDepth(Container:GetChildren())
     local RenderBehind, RenderAbove = {}, {}
 
@@ -70,6 +72,8 @@ function Viewport2D:SubmitContainerChildren(Container, Initial)
 
     self:SubmitPasses(RenderBehind, Initial and {} or {Container}, RenderAbove)
 
+    Profiler.End()
+
     return RenderBehind, RenderAbove
 end
 
@@ -85,16 +89,22 @@ end
 
 -- Submit the "Passes" (Behind, Child and Above) seperately
 function Viewport2D:SubmitPasses(Behind, Child, Above)
+    Profiler.Start("Viewport2D - SubmitPasses")
+
     self:SubmitChildrenPass(Behind, true)
     self:SubmitChildrenPass(Child)
     self:SubmitChildrenPass(Above, true)
+
+    Profiler.End()
 end
 
 function Viewport2D:ProcessInvalidation(Origin)
     Viewport2D.super.ProcessInvalidation(self, Origin)
 
     if self.RenderContainer then
-        self.RenderContainer:ProcessInvalidation(Origin)
+        Profiler.Start("Viewport2D - RenderContainer Invalidation")
+            self.RenderContainer:ProcessInvalidation(Origin)
+        Profiler.End()
     end
 end
 

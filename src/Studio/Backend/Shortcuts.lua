@@ -26,6 +26,10 @@ local InputsSaved = {
         First = Enum.InputCode.LeftCtrl,
         Second = Enum.InputCode.Three,
     },
+    ["Duplicate"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.D,
+    },
 }
 
 local HandleThis = {
@@ -71,11 +75,20 @@ local HandleThis = {
     },
     ["Rotate"] = {
         Settings = {
-            Inputs = {{Key = InputsSaved.Rotate.First, Mod = true},{Rotate = InputsSaved.Undo.Second}}
+            Inputs = {{Key = InputsSaved.Rotate.First, Mod = true},{Key = InputsSaved.Undo.Second}}
         },
         Function = function()
             Studio.Layout.CallHandle("Toolbar", "SelectTool", "Rotate")
         end
+    },
+    ["Duplicate"] = {
+        Settings = {
+            Inputs = {{Key = InputsSaved.Duplicate.First, Mod = true},{Key = InputsSaved.Duplicate.Second}}
+        },
+        Function = function()
+            Studio.Editor3D.SelectionManager.DuplicateAll()
+            Studio.Layout.CallHandle("Explorer", "Redraw")
+        end,
     },
 }
 
@@ -86,7 +99,7 @@ local function BuildKeyTable(Inputs)
     }
     for _,Key in pairs(Inputs) do
         if Key.Mod then
-            table.insert(TableToBuild.Modifiers,Key.Key)
+            TableToBuild.Modifiers[Key.Key] = false
         else
             TableToBuild.Normal = Key.Key
         end
@@ -114,7 +127,22 @@ function Shortcuts.SaveTable()
     Runtime.SettingsManager.ChangeSetting("ShortcutsTable",InputsSaved)
 end
 
+function Shortcuts.BuildFromSavedTable()
+    if Runtime.SettingsManager.GetSetting("ShortcutsTable") then
+        local NewTable = Runtime.SettingsManager.GetSetting("ShortcutsTable")
+        for Name,Inputs in pairs(InputsSaved) do
+            if (not NewTable[Name]) then
+                NewTable[Name] = Inputs
+            end
+        end
+        Runtime.SettingsManager.ChangeSetting("ShortcutsTable",NewTable)
+    else
+        return InputsSaved
+    end
+end
+
 function Shortcuts.Init()
+    Shortcuts.BuildFromSavedTable()
     InputsSaved = Runtime.SettingsManager.GetSetting("ShortcutsTable") or InputsSaved
     for Name,ShortcutObj in pairs(HandleThis) do
         Input.KeyEvent:Connect(function(DidItBegan,Key)
@@ -125,7 +153,8 @@ function Shortcuts.Init()
                 -- God this is probably the worse handle thing but okay
 
                 for Key,_ in pairs(BuildedTable.Modifiers) do
-                    Key = Input:KeyDown(Key)
+                    --print(Key)
+                    BuildedTable.Modifiers[Key] = Input.KeyDown(Key)
                 end
 
                 for i, KeyPress in pairs(BuildedTable.Modifiers) do
@@ -136,8 +165,8 @@ function Shortcuts.Init()
                         Is.ModifiersOn = true
                     end
                 end
-                
-                if Is.ModifiersOn and Key == BuildedTable.Normal then
+                --print(Is.ModifiersOn)
+                if Is.ModifiersOn == true and Key == BuildedTable.Normal then
                     ShortcutObj.Function()
                 end
             end
