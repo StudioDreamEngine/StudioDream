@@ -28,11 +28,11 @@ local function NewTransform(Matrix, Rotated)
         return Vector3.FromDream(Matrix:toEuler())
     end
 
-    function Object.Copy()
+    function Object:Copy()
         return Transform3D.FromMatrix(Object.GetMatrix())
     end
 
-    function Object.Lerp(OtherTransform, Alpha)
+    function Object:Lerp(OtherTransform, Alpha)
         local Matrix1 = Matrix ---@class DreamMat4
         local Matrix2 = OtherTransform.GetMatrix() ---@class DreamMat4
 

@@ -12,8 +12,8 @@ end
 function Pivot2D.FromAxises(Offset, Scale)
     ---@class Pivot2D
     local PivotObject = setmetatable({
-        Offset = Offset.Copy(),
-        Scale = Scale.Copy(),
+        Offset = Offset:Copy(),
+        Scale = Scale:Copy(),
         Type = "Pivot2D"
     }, {
         __add = function (t1, t2)
@@ -36,9 +36,9 @@ function Pivot2D.FromAxises(Offset, Scale)
         end,
     })
 
-    function PivotObject.Lerp(OtherPivot, Alpha)
-        local Offset = PivotObject.Offset.Lerp(OtherPivot.Offset, Alpha)
-        local Scale = PivotObject.Scale.Lerp(OtherPivot.Scale, Alpha)
+    function PivotObject:Lerp(OtherPivot, Alpha)
+        local Offset = PivotObject.Offset:Lerp(OtherPivot.Offset, Alpha)
+        local Scale = PivotObject.Scale:Lerp(OtherPivot.Scale, Alpha)
 
         return Pivot2D.new(Offset.X, Scale.X, Offset.Y, Scale.Y)
     end

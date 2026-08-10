@@ -110,7 +110,7 @@ function Control3D:Update(dt)
 
     local Transform = self.Adornee.Transform
 
-    local CameraDistance = (Transform.Position - Camera.Position).Magnitude()
+    local CameraDistance = (Transform.Position - Camera.Position):Magnitude()
     CameraDistance = math.sqrt(CameraDistance) / 8 -- Black magic, Literally black magic.
 
     local Hovering = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)

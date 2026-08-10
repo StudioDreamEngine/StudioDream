@@ -32,7 +32,7 @@ function Environment:new()
     self.Lights = {}
 
     self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
-    self.PhysicsWorld:setGravity(self.Gravity.ToBullet())
+    self.PhysicsWorld:setGravity(self.Gravity:ToBullet())
 
     RuntimeService.OnRunning:ConnectOnce(function()
         self.StepPhysics = true
@@ -59,7 +59,7 @@ end]]
 
 function Environment:SetGravity(NewGravity)
     self.Gravity = NewGravity
-    self.PhysicsWorld:setGravity(NewGravity.ToBullet())
+    self.PhysicsWorld:setGravity(NewGravity:ToBullet())
 end
 
 function Environment:Raycast(origin, direction, FilterInformation)

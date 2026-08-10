@@ -45,7 +45,7 @@ local Raycast = Dream:getExtension("raytrace")
 function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformation)
 	assert(WorldObject, "Internal raycast function requires a WorldObject!")
 
-	local CastResult = Raycast:cast(WorldObject, Origin.ToDream(), Direction.ToDream(), FilterInformation or DefaultFilter)
+	local CastResult = Raycast:cast(WorldObject, Origin:ToDream(), Direction:ToDream(), FilterInformation or DefaultFilter)
 
 	if CastResult then
 		local Object = CastResult:getObject()

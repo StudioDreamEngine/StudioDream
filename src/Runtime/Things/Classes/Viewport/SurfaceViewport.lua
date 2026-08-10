@@ -58,8 +58,8 @@ function SurfaceViewport:SetDisableDepth(New)
 end
 
 function SurfaceViewport:UpdateDrawable(Parent)
-    local TransformPos = Parent.Transform.Position.ToDream()
-    local DisplaySide = self.DisplaySide.ToDream()
+    local TransformPos = Parent.Transform.Position:ToDream()
+    local DisplaySide = self.DisplaySide:ToDream()
 
     self.Drawable:resetTransform()
     self.Drawable:translate(TransformPos)

@@ -309,7 +309,12 @@ function Thing:DescendantOf(Object)
 end
 
 function Thing:IsA(ObjectType)
-    return self:is(Things.Type(ObjectType))
+    local Type = Things.Type(ObjectType)
+    local Result = self:is(Type)
+
+    Type = nil
+
+    return Result
     --return self:is(Things.ClassDump[ObjectType])
 end
 

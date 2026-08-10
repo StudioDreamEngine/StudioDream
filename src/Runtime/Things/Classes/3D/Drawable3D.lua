@@ -55,7 +55,7 @@ end
 ---@param NewVelocity Vector3
 function Drawable3D:SetVelocity(NewVelocity)
     printVerbose(NewVelocity)
-    self.PhysicsBody:setLinearVelocity(NewVelocity.ToBullet())
+    self.PhysicsBody:setLinearVelocity(NewVelocity:ToBullet())
     self.PhysicsBody:activate()
 end
 
@@ -66,7 +66,7 @@ end
 function Drawable3D:SetTransform(NewTransform)
     Drawable3D.super.SetTransform(self, NewTransform)
     
-    self.PhysicsBody:setWorldTransform(Runtime.Phys.ToBullet(NewTransform))
+    self.PhysicsBody:setWorldTransform(Runtime.Phys:ToBullet(NewTransform))
     self.PhysicsBody:activate()
 end
 
@@ -92,7 +92,7 @@ function Drawable3D:CreateBody()
         World:RemoveBody(self)
     end
 
-    self.PhysicsBody = Runtime.Phys.CreateBody(self.PhysicsShape, Runtime.Phys.ToBullet(self.Transform), self.Dynamic)
+    self.PhysicsBody = Runtime.Phys.CreateBody(self.PhysicsShape, Runtime.Phys:ToBullet(self.Transform), self.Dynamic)
 end
 
 function Drawable3D:CheckAABB(Min, Max)
@@ -121,7 +121,7 @@ function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
     if (not self.Drawable) then return end
 
-    self.Drawable:scale(self.Scale.ToDream())
+    self.Drawable:scale(self.Scale:ToDream())
     self.Mass = 1
     
     self.Drawable.reflection = self.Material and (self.Material.Reflective and self._Reflection or false) or false

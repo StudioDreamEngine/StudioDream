@@ -29,7 +29,7 @@ end
 
 function RotateControl:OnChange()
     local DistanceFrom = (self:GetPlane() - self.InitalOffset)
-    self.ControlChanged.Invoke(self.NormalSide, (DistanceFrom * self.NormalSide).Axis())
+    self.ControlChanged.Invoke(self.NormalSide, (DistanceFrom * self.NormalSide):Axis())
 end
 
 function RotateControl:DefineAPI()
@@ -57,8 +57,8 @@ end
 function RotateControl:UpdateAdorn(Axis, Adorn, Transform, CameraDistance)
     -- ...oh god
     Adorn:resetTransform()
-    Adorn:translate((Transform.Position + (Axis * self.Adornee.Size)).ToDream())
-    Adorn:lookTowards(-Axis.ToDream())
+    Adorn:translate((Transform.Position + (Axis * self.Adornee.Size)):ToDream())
+    Adorn:lookTowards(-Axis:ToDream())
     Adorn:scale(CameraDistance)
     Adorn:translate(0,0,2)
     Adorn:rotateX(math.pi/2)

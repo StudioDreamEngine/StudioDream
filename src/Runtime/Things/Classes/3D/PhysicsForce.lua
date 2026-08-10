@@ -27,7 +27,7 @@ function PhysicsForce:Update(dt)
         local Body = self.Parent.PhysicsBody
         if (not Body) then return end
 
-        Body:applyCentralForce((self.Force/self.Parent.Mass).ToBullet())
+        Body:applyCentralForce((self.Force/self.Parent.Mass):ToBullet())
     end
 end
 

@@ -20,6 +20,90 @@ local Vector3 = setmetatable({}, {
     end
 })
 
+local Methods = {
+    Type = "Vector2"
+}
+
+function Methods:Copy()
+    return Vector3.new(self.X,self.Y,self.Z)
+end
+
+function Methods:Lerp(SecondVector, Alpha)
+    return Vector3.new(math.lerp(self.X, SecondVector.X, Alpha),math.lerp(self.Y, SecondVector.Y, Alpha),math.lerp(self.Z, SecondVector.Z, Alpha))
+end
+
+function Methods:ToDream()
+    return Dream.vec3(self.X, self.Y, self.Z)
+end
+
+function Methods:ToBullet()
+    return Bullet.btVector3(self.X, self.Y, self.Z)
+end
+
+function Methods:Merge(OtherVector)
+    local NewVector = Methods:Copy()
+
+    if OtherVector.X > self.X then NewVector.X = OtherVector.X end
+    if OtherVector.Y > self.Y then NewVector.Y = OtherVector.Y end
+    if OtherVector.Z > self.Z then NewVector.Z = OtherVector.Z end
+
+    return NewVector
+end
+
+function Methods:Unit()
+    local Unit = Vector3.new(self.X/self:Magnitude(),self.Y/self:Magnitude(),self.Z/self:Magnitude())
+
+    return (self:Magnitude() > 0) and Unit or Vector3.zero
+end
+
+function Methods:Cross(SecondVector)
+    return Vector3.new(self.Y * SecondVector.Z - self.Z * SecondVector.Y, self.Z * SecondVector.X - self.X * SecondVector.Z, self.X * SecondVector.Y - self.Y * SecondVector.X)
+end
+
+function Methods:Dot(SecondVector)
+    return (self.X * SecondVector.X) + (self.Y * SecondVector.Y) + (self.Z * SecondVector.Z)
+end
+
+-- Return the simple version of the vector2, Useful for serialization
+function Methods:Simple()
+    return {
+        X = self.X, 
+        Y = self.Y,
+        Z = self.Z,
+        Simple = true
+    }
+end
+
+function Methods:Deg()
+    return Vector3.new(math.deg(self.X),math.deg(self.Y),math.deg(self.Z))
+end
+
+function Methods:Rad()
+    return Vector3.new(math.rad(self.X),math.rad(self.Y),math.rad(self.Z))
+end
+
+-- for some reason __eq isnt working
+function Methods:Is(SecondVector)
+    return (self.X == SecondVector.X) and (self.Y == SecondVector.Y) and (self.Z == SecondVector.Z)
+end
+
+function Methods:Magnitude()
+    return (self.X*self.X + self.Y*self.Y + self.Z*self.Z) ^ 1/3
+end
+
+-- Return the sum of all axises, useful for getting the value of one axis if all other axises should be zero
+function Methods:Axis()
+    return (self.X + self.Y + self.Z)
+end
+
+function Methods:Round()
+    return Vector3.new(math.round(self.X),math.round(self.Y),math.round(self.Z))
+end
+
+function Methods:Abs()
+    return Vector3.new(math.abs(self.X),math.abs(self.Y),math.abs(self.Z))
+end
+
 ---@param Vector DreamVec3
 function Vector3.FromDream(Vector)
     return Vector3.new(Vector.x, Vector.y, Vector.z)
@@ -46,6 +130,7 @@ function Vector3.new(x,y,z,w)
         W = w or 1, -- Optional distance component, any operator (aside from multiplication) will remove the w component as of currently
         Type = "Vector3"
     }, { -- I have no idea how to organize this mess
+        __index = Methods,
         __unm = function (t)
             return Vector3.new(-t.X,-t.Y,-t.Z)
         end,
@@ -87,86 +172,6 @@ function Vector3.new(x,y,z,w)
             end
         end
     })
-
-    function Object.Copy()
-        return Vector3.new(Object.X,Object.Y,Object.Z)
-    end
-
-    function Object.Lerp(SecondVector, Alpha)
-        return Vector3.new(math.lerp(Object.X, SecondVector.X, Alpha),math.lerp(Object.Y, SecondVector.Y, Alpha),math.lerp(Object.Z, SecondVector.Z, Alpha))
-    end
-
-    function Object.ToDream()
-        return Dream.vec3(Object.X, Object.Y, Object.Z)
-    end
-
-    function Object.ToBullet()
-        return Bullet.btVector3(Object.X, Object.Y, Object.Z)
-    end
-
-    function Object.Merge(OtherVector)
-        local NewVector = Object.Copy()
-
-        if OtherVector.X > Object.X then NewVector.X = OtherVector.X end
-        if OtherVector.Y > Object.Y then NewVector.Y = OtherVector.Y end
-        if OtherVector.Z > Object.Z then NewVector.Z = OtherVector.Z end
-
-        return NewVector
-    end
-
-    function Object.Unit()
-        local Unit = Vector3.new(Object.X/Object.Magnitude(),Object.Y/Object.Magnitude(),Object.Z/Object.Magnitude())
-
-        return (Object.Magnitude() > 0) and Unit or Vector3.zero
-    end
-
-    function Object.Cross(SecondVector)
-        return Vector3.new(Object.Y * SecondVector.Z - Object.Z * SecondVector.Y, Object.Z * SecondVector.X - Object.X * SecondVector.Z, Object.X * SecondVector.Y - Object.Y * SecondVector.X)
-    end
-
-    function Object.Dot(SecondVector)
-        return (Object.X * SecondVector.X) + (Object.Y * SecondVector.Y) + (Object.Z * SecondVector.Z)
-    end
-
-    -- Return the simple version of the vector2, Useful for serialization
-    function Object.Simple()
-        return {
-            X = Object.X, 
-            Y = Object.Y,
-            Z = Object.Z,
-            Simple = true
-        }
-    end
-
-    function Object.Deg()
-        return Vector3.new(math.deg(Object.X),math.deg(Object.Y),math.deg(Object.Z))
-    end
-
-    function Object.Rad()
-        return Vector3.new(math.rad(Object.X),math.rad(Object.Y),math.rad(Object.Z))
-    end
-
-    -- for some reason __eq isnt working
-    function Object:Is(SecondVector)
-        return (Object.X == SecondVector.X) and (Object.Y == SecondVector.Y) and (Object.Z == SecondVector.Z)
-    end
-
-    function Object.Magnitude()
-        return (Object.X*Object.X + Object.Y*Object.Y + Object.Z*Object.Z) ^ 1/3
-    end
-
-    -- Return the sum of all axises, useful for getting the value of one axis if all other axises should be zero
-    function Object.Axis()
-        return (Object.X + Object.Y + Object.Z)
-    end
-    
-    function Object.Round()
-        return Vector3.new(math.round(Object.X),math.round(Object.Y),math.round(Object.Z))
-    end
-
-    function Object.Abs()
-        return Vector3.new(math.abs(Object.X),math.abs(Object.Y),math.abs(Object.Z))
-    end
 
     return Object
 end

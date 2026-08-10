@@ -43,7 +43,7 @@ function StudioCamera.Update(dt)
 
         local Forward = Camera.Transform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
         local Side = Camera.Transform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
-        local Direction = (Forward + Side).Unit()
+        local Direction = (Forward + Side):Unit()
 
         -- TODO: fix this fuckass random 200 number value >:3
         CameraRotation.X = CameraRotation.X + MouseDelta.X/200
@@ -55,7 +55,7 @@ function StudioCamera.Update(dt)
         
         Camera:SetTransform(NewTransform)
 
-        --Camera:SetTransform(Camera.Transform.Lerp(NewTransform, dt*8))
+        --Camera:SetTransform(Camera.Transform:Lerp(NewTransform, dt*8))
     end)
 
     if not sucess then

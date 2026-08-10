@@ -280,7 +280,7 @@ function Explorer.Init()
 
     ---@param MouseObject InputMouseObject
     InputService.MouseMoved:Connect(function(MouseObject)
-        if Selecting and MouseObject.Delta.Magnitude() > 0 then
+        if Selecting and MouseObject.Delta:Magnitude() > 0 then
             Moving = true
             Selecting.Node:SetMouseLocked(true)
             Explorer.Tree[Object] = nil

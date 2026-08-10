@@ -61,7 +61,7 @@ function TweenService.Create(Subject, Target, Style, Time)
             local TargetValue = 0
 
             if type(SubjectVal) == "table" and SubjectVal.Lerp then
-                TargetValue = SubjectVal.Lerp(Value, Alpha)
+                TargetValue = SubjectVal:Lerp(Value, Alpha)
             elseif type(SubjectVal) == "number" then
                 TargetValue = math.lerp(SubjectVal, Value, Alpha)
             end

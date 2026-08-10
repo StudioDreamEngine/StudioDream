@@ -34,16 +34,20 @@ function BaseGui:GetAbsoluteRotation()
 end
 
 function BaseGui:GetAbsolutePosition()
+    Profiler.Start("Get ParentRect")
     local ParentRect = self:GetParentRect(true)
 
+    Profiler.EndStart("Get Offset")
     local Position = self:GetOffsetPosition()
     local Display = self:GetDisplayUI() ---@class Viewport2D
     
+    Profiler.EndStart("Add pos")
     if ParentRect then
         Position = Position + ParentRect.Origin
     end
 
     -- Handle stuff that should only be handled if we actually have a DisplayUI
+    Profiler.EndStart("ViewportPos")
     if Display and Display:IsA("Viewport2D") then
         if self.MouseLocked then
             Position = Display.MousePosition + self.LockOrigin
@@ -51,6 +55,7 @@ function BaseGui:GetAbsolutePosition()
 
         self.ViewportPosition = Position + self.AbsolutePivot + Display.ViewportPosition
     end
+    Profiler.End()
 
     return Position
 end
@@ -130,6 +135,8 @@ function BaseGui:GetRotatedBounds()
 end
 
 function BaseGui:GetRotatedOffset(Offset)
+    if self.AbsoluteRotation == 0 then return Offset end
+
     local sin = math.sin(self.AbsoluteRotation) -- sin(0) == 0
     local cos = math.cos(self.AbsoluteRotation) -- cos(0) == 1
 
@@ -341,18 +348,23 @@ function BaseGui:UpdateTransforms()
         self.PropagatedChange.Invoke("AbsoluteSize", NewSize)
     end
 
+    Profiler.Start("BaseGui - Process Pivot")
     self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
+    Profiler.EndStart("BaseGui - Process Position")
     self.AbsolutePosition = self:GetAbsolutePosition()
     --self.RotatedPivot = -(self.Pivot * self:GetRotatedBounds())
+    Profiler.End()
 
     self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 end
 
 function BaseGui:InvalidateAutomaticSize()
+    Profiler.Start("Invalidate - Automatic Size")
     if self.Parent and self.Parent.AutomaticSize then
         self.Parent:ProcessInvalidation()
         self.Parent:InvalidateAutomaticSize()
     end
+    Profiler.End()
 end
 
 -- Same as ProcessInvalidation, Except it doesnt Update WasInvalidated, and doesnt propagate, used for handling AutomaticSize changes
@@ -381,11 +393,13 @@ function BaseGui:ProcessInvalidation(Origin)
     self.WasInvalidated = false
 
     -- We cant simply mark invalidation, if we did then invalidation would be frame-dependent, which is bad!
+    Profiler.Start("BaseGui - Invalidate Children")
     for _, v in pairs(self:GetChildren()) do
         if v:IsA("BaseGui") then
             v:ProcessInvalidation(Origin)
         end
     end
+    Profiler.End()
 end
 
 -- TODO: Also be able to store causes of invalidation within a frame

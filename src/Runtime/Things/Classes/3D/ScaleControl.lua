@@ -29,7 +29,7 @@ end
 
 function ScaleControl:OnChange()
     local DistanceFrom = (self:GetPlane() - self.InitalOffset)
-    local Snapped = self:Snap((DistanceFrom * self.NormalSide).Axis(), self.GridSnap)
+    local Snapped = self:Snap((DistanceFrom * self.NormalSide):Axis(), self.GridSnap)
 
     self.ControlChanged.Invoke(self.NormalSide, Snapped)
 end
@@ -62,8 +62,8 @@ end
 function ScaleControl:UpdateAdorn(Axis, Adorn, Transform, CameraDistance)
     -- ...oh god
     Adorn:resetTransform()
-    Adorn:translate((Transform.Position + (Axis * self.Adornee.Size)).ToDream())
-    Adorn:lookTowards(-Axis.ToDream())
+    Adorn:translate((Transform.Position + (Axis * self.Adornee.Size)):ToDream())
+    Adorn:lookTowards(-Axis:ToDream())
     Adorn:scale(CameraDistance)
     Adorn:translate(0,0,2)
     Adorn:rotateX(math.pi/2)

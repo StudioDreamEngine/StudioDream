@@ -100,8 +100,8 @@ function Things.SetProperty(Object, Index, Value)
     local HasSetter = Object["Set"..Index]
     --[[local CopiedValue
 
-    if type(Value) == "table" and Value.Copy then
-        CopiedValue = Value.Copy()
+    if type(Value) == "table" and Value:Copy then
+        CopiedValue = Value:Copy()
     else
         CopiedValue = Value
     end]]

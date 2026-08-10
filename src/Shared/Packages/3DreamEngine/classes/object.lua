@@ -148,7 +148,7 @@ function class:getBoundingBox()
 
 	for _, mesh in pairs(self:getAllMeshes()) do
 		local meshSize = mesh[1]:getMeshSize() ---@class Vector3
-		CurrentBox = CurrentBox.Merge(meshSize)
+		CurrentBox = CurrentBox:Merge(meshSize)
 	end
 
 	return CurrentBox

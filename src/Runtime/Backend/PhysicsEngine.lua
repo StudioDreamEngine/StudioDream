@@ -42,11 +42,11 @@ function PhysicsEngine.ShapeFromMesh(obj, size)
 end
 
 function PhysicsEngine.CreateShape(Size)
-    return Bullet.btBoxShape(Size.ToBullet())
+    return Bullet.btBoxShape(Size:ToBullet())
 end
 
 -- dream to bullet
-function PhysicsEngine.ToBullet(DreamTransform)
+function PhysicsEngine:ToBullet(DreamTransform)
     local Matrix = DreamTransform.GetMatrix()
 
     local Transform = Bullet.btTransform()
