@@ -6,6 +6,7 @@ local Constant = {
     one = {1,1}
 }
 
+---@class Vector2
 local Methods = {
     Type = "Vector2"
 }
@@ -136,7 +137,7 @@ function Vector2.FromString(String)
     return Vector2.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0)
 end
 
-
+---@return Vector2
 function Vector2.new(x,y)
     if (not y) then
         local ExistingVector = x
@@ -148,13 +149,10 @@ function Vector2.new(x,y)
         end
     end
 
-    ---@class Vector2
-    local Object = setmetatable({
+    return setmetatable({
         X = x,
         Y = y,
     }, Meta)
-
-    return Object
 end
 
 return Vector2

@@ -80,6 +80,8 @@ function InterfaceManager.Update(dt)
         end
     end
 
+    Runtime.Cursor.ChangeCursorInternal((#CurrentlyHovering > 0) and "Hovering" or "Main", true)
+
     if #CurrentlyHovering > 0 then
         table.sort(CurrentlyHovering, function (a, b) return a.AbsoluteLayer > b.AbsoluteLayer end)
         

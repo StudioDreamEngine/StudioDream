@@ -101,11 +101,13 @@ end
 end]]
 
 function BaseGui:GetAbsoluteSize()
-    local AbsoluteSize = self.Size.Offset
+    local Size = self:GetProperty("Size")
+
+    local AbsoluteSize = Size.Offset
     local ParentRect = self:GetParentRect()
 
     if ParentRect then -- Only do this if we found a parent element
-        local Scale = (ParentRect.Size * self.Size.Scale)
+        local Scale = (ParentRect.Size * Size.Scale)
 
         if self.SquareAxis then
             Scale = Vector2.one * Scale[self.SquareAxis]
@@ -377,7 +379,7 @@ function BaseGui:ProcessInvalidations()
     if self.TruelyVisible ~= NewVisible then
         self.TruelyVisible = NewVisible
 
-        --self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
+        self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
     end
     Profiler.End()
 end

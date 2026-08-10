@@ -67,7 +67,7 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
         local Data = ScriptObject.Resource.Data
 
         if ScriptObject.Resource.ResourceType == "Project" then
-            Platform.Execute(ConfiguredEditor, Runtime.ProjectFS.GetFullPath(Data.FilePath))
+            Platform.Execute(ConfiguredEditor, "\""..Runtime.ProjectFS.GetFullPath(Data.FilePath).."\"")
         end
     end
 end

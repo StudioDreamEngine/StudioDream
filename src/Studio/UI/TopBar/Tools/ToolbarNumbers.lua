@@ -12,10 +12,36 @@ return function(Args,SingleTab)
 
     Studio.Components.CreateStyle("ListLayout",{
         Parent = ButtonContainer,
-        Padding = 5
+        Padding = 0,
+        Alignment = Enum.Alignment.Center
     })
 
-    function CreateOption(Config)
+    local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(1,0.5), ButtonContainer)
+
+    -- In the configs, we should have a function that still creates the container itself
+    Studio.Components.PropertyValue(PropertyList, {
+        Icon = "TabIcons/MoveIcon.png",
+        Type = "Input",
+        OnChange = function(Text)
+            Studio.Editor3D.UpdateGrid("Grid",tonumber(Text) or 0.5)
+        end,
+        OnUpdate = function()
+            return Studio.Editor3D.GridSnap
+        end,
+    })
+
+    Studio.Components.PropertyValue(PropertyList, {
+        Icon = "TabIcons/RotIcon.png",
+        Type = "Input",
+        OnChange = function(Text)
+            Studio.Editor3D.UpdateGrid("Rotation",tonumber(Text) or 0.5)
+        end,
+        OnUpdate = function()
+            return Studio.Editor3D.RotationSnap
+        end,
+    })
+
+    --[[function CreateOption(Config)
         local Grid = Studio.Components.CreateStyle("Square",{
         Parent = ButtonContainer,
         Size = Pivot2D.FromScale(1,0.4),
@@ -59,7 +85,7 @@ return function(Args,SingleTab)
     CreateOption({
         Icon = "Internal/Studio/TabIcons/RotIcon.png",
         SnapTo = "RotationSnap"
-    })
+    })]]
     --Grid.Placeholder = tostring(Studio.Editor3D.GridSnap)
     --Text:SetFont(Studio.CurrentTheme.FontBold)
     return ButtonContainer

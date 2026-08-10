@@ -18,7 +18,7 @@ function ListLayout:new()
 
     self.SortMode = Enum.SortMode.Alphabetical
 
-    self.RemainingSize = 0
+    self.RemainingSize = Vector2.zero
     self.ShouldUpdate = false
     
     self.OnChangedEvents = {}
@@ -106,6 +106,8 @@ function ListLayout:UpdateLayout()
     local TotalSpace = ParentSize[Axis]
 
     local ContentSize = 0
+    local FlexSize = 0 -- ContentSize excluding flex objects
+
     local Positions = {}
 
     -- Sort the objects so they appear how they are supposed to
@@ -128,12 +130,16 @@ function ListLayout:UpdateLayout()
     end
 
     -- Pass 1: Handle the inital layout of the objects
-    local Index = 0
-    for _, Object in pairs(self.Objects) do
+    for Index, Object in pairs(self.Objects) do
         if Object.Visible then
-            Index=Index+1
             Positions[Object.UUID] = ContentSize
-            ContentSize = ContentSize + Object.AbsoluteSize[Axis] + self.Padding
+            local ToAdd = Object.AbsoluteSize[Axis] + self.Padding
+
+            if (not Object:FindFirstChildOfClass("Flex")) then
+                FlexSize = FlexSize + ToAdd
+            end
+
+            ContentSize = ContentSize + ToAdd
             Object.LayoutOrder = Index
         end
     end
@@ -154,7 +160,8 @@ function ListLayout:UpdateLayout()
 
     Positions = nil
 
-    self.RemainingSize = TotalSpace - (ContentSize - self.Padding)
+    local Remaining = (TotalSpace - (FlexSize - self.Padding))
+    self.RemainingSize = Pivot2D.FromOffset((ParentSize * OpposingVector) + (Remaining * AxisVector))
 end
 
 return ListLayout

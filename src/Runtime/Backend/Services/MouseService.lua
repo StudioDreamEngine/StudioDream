@@ -8,15 +8,31 @@ MouseService.CurrentCursor = '' -- gotta make sure this is read-only for Scripts
 -- honestly, we really need to add ScriptCapability shit anyway; but that'll be really annoyingggg :3
 
 function MouseService.Init()
-    
+    MouseService.LoadCursorPack("Assets/Cursors/")
 end
 
-local CurrentCursorPack = "Assets/Cursors/"
+local CurrentCursorPack = {}
+
+function MouseService.LoadCursorPack(Pack)
+    for _, Name in pairs(love.filesystem.getDirectoryItems(Pack)) do
+        CurrentCursorPack[string.sub(Name, 0,-5)] = love.mouse.newCursor(Pack..Name,0,0)
+    end
+end
+
+MouseService.ClientUsingCursor = false
+
+function MouseService.ChangeCursorInternal(ChangeTo, InternalCall)
+    if MouseService.ClientUsingCursor and InternalCall then return end -- ass way to do this but whatever bro
+
+    love.mouse.setCursor(CurrentCursorPack[ChangeTo])
+    --print("Cursor Changed to: "..ChangeTo)
+end
 
 function MouseService.ChangeCursor(ChangeTo)
-    love.mouse.setCursor(love.mouse.newCursor(CurrentCursorPack..ChangeTo..".png", 0,0))
+    MouseService.ClientUsingCursor = (ChangeTo ~= "Main")
+
     MouseService.CurrentCursor = ChangeTo
-    printVerbose("Cursor Changed to: "..ChangeTo)
+    MouseService.ChangeCursorInternal(ChangeTo)
 end
 
 function MouseService.GetPosition()
