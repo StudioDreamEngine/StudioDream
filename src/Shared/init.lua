@@ -54,6 +54,9 @@ function Shared.Init(Args)
     end
 
     print("Flags:",FLAGS)
+
+    PROF_CAPTURE = FLAGS.ProfileCapture
+    Jprof = require("Shared.Packages.jprof")
     
     --Shared.Theme = require("Shared.Theme") -- mikl please NEVER put random studio shit in shared
 

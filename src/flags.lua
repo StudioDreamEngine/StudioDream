@@ -3,5 +3,6 @@ return {
     Verbose = false,
     DebugDraw = false,
     ExternalOutput = true,
-    Independent = false
+    Independent = false,
+    ProfileCapture = false
 }

@@ -25,6 +25,10 @@ local Switches = {
         Type = "Switch",
         Flag = "Independent"
     },
+    ProfileCapture = {
+        Type = "Switch",
+        Flag = "ProfileCapture"
+    },
     Help = {
         Type = "Switch",
         Output = function()
@@ -40,16 +44,18 @@ HELP
         Target [MODE]: The target mode to run, available targets are "Studio" and "Client"
         Verbose: If to enable more verbose prints (THESE WILL NOT BE LOGGED TO THE STUDIO OUTPUT!)
         DebugDraw: If to enable the debug drawing renderers
+        ProfileCapture: Profile the engine (May use alot of ram, capture saved as prof.mpack in appdata)
         Independent: Treat this as a project that isnt tied to StudioDream
             ]]
         end
     },
-    PLEASEHELPLUZ = {
+    HELPMELUZ = {
         Type = "Switch",
         Output = function()
             return [[
-                Okay damn calm down, idk how this works but bloctans said u can use the "Help" command
-                to well, help u
+            
+Okay damn calm down, idk how this works but bloctans said u can use the "Help" command
+to well, help u
             ]]
         end
     }

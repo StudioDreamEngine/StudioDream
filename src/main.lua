@@ -1,8 +1,6 @@
 print("Please Wait...")
 require("Shared")
 
-PROF_CAPTURE = true
-
 local stack
 
 DebugFont = love.graphics.newFont(12)
@@ -51,8 +49,6 @@ function love.load(args)
     love.graphics.present()
 
     Shared.SetupBullet = require("Shared.SetupGlobals")()
-    Profiler.Start("frame")
-    
     print("StudioDream V"..VERSION_FULL)
 
     Shared.Init(love.restart or args)
@@ -61,7 +57,6 @@ function love.load(args)
 
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
     MYFPSCAPPER9001 = love.timer.getTime()
-    Profiler.End()
 end
 
 local ERROR_SEPERATE = "---------------------------------------------------------------------------------------"

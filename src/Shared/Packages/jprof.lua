@@ -64,6 +64,8 @@ local function addEvent(name, memCount, annot)
 end
 
 if PROF_CAPTURE then
+    print("(jprof) start")
+
     function profiler.push(name, annotation)
         if not profEnabled then return end
 
