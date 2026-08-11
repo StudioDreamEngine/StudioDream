@@ -358,14 +358,23 @@ function BaseGui:DrawStyle()
 end
 
 function BaseGui:UpdateTransforms()
+    Profiler.Start("BaseGui - Process UpdateTransforms")
     self.AbsoluteRotation = self:GetAbsoluteRotation()
 
+    Profiler.Start("BaseGui - Process GetAbsoluteSize")
     local NewSize = self:GetAbsoluteSize()
+    Profiler.End()
 
+    Profiler.Start("BaseGui - NewSize Check")
     if (not NewSize:Is(self.AbsoluteSize)) then
+        Profiler.Start("BaseGui - SetAbsoluteSize Function")
         self:SetAbsoluteSize(NewSize)
+        Profiler.End()
+        Profiler.Start("BaseGui - PropagatedChange Invoke")
         self.PropagatedChange.Invoke("AbsoluteSize", NewSize)
+        Profiler.End()
     end
+    Profiler.End()
 
     Profiler.Start("BaseGui - Process Pivot")
     self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
@@ -375,6 +384,8 @@ function BaseGui:UpdateTransforms()
     Profiler.End()
 
     self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
+
+    Profiler.End()
 end
 
 function BaseGui:InvalidateAutomaticSize()
@@ -393,17 +404,24 @@ function BaseGui:ProcessInvalidations()
 
     local NewVisible = self:IsVisible()
 
+    Profiler.Start("BaseGui - TruelyVisible Check")
     if self.TruelyVisible ~= NewVisible then
         self.TruelyVisible = NewVisible
 
+        Profiler.Start("BaseGui - Invoke PropagatedChange")
         self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
+        Profiler.End()
     end
-    
+    Profiler.End()
+
+    Profiler.Start("BaseGui - IsActive and more TruelyActive check")
     local NewActive = self:IsActive()
 
     if self.TruelyActive ~= NewActive then
         self.TruelyActive = NewActive
     end
+    Profiler.End()
+
     Profiler.End()
 end
 
