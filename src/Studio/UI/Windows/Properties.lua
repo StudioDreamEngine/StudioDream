@@ -104,6 +104,7 @@ function Properties.Clear()
     end
 
     Properties.DestroyCalls = {}
+    Properties.ResetSignal.Invoke()
 end
 
 function Properties.RenderEverything(Thing)
@@ -145,7 +146,11 @@ function Properties.RenderEverything(Thing)
             end
 
             table.insert(PropertyInfo.Connections, Properties.ResetSignal:Connect(function()
-                for _,v in pairs(PropertyInfo.Connections) do v:Disconnect() end
+                for _,v in pairs(PropertyInfo.Connections) do 
+                    if not v.AlreadyDisconnected then
+                        v:Disconnect()
+                    end
+                end
                 PropertyInfo.Connections = {}
             end))
         end

@@ -53,8 +53,10 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 		SingleEventObject.Type = "SignalConnection"
 		SingleEventObject.EventId = EventId
 		SingleEventObject.EventName = EventName
+		SingleEventObject.AlreadyDisconnected = false
 
 		function SingleEventObject:Disconnect() 
+			SingleEventObject.AlreadyDisconnected = true
 			assert(SingleEventObject.EventId, "Attempted to disconnect already-disconnected Signal.")
 
 			Events[SingleEventObject.EventId] = nil
