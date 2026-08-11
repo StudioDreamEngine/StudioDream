@@ -86,12 +86,10 @@ function InterfaceManager.Update(dt)
         table.sort(CurrentlyHovering, function (a, b) return a.AbsoluteLayer > b.AbsoluteLayer end)
         
         for _, Hovering in pairs(CurrentlyHovering) do
-            if Hovering.TruelyActive then
-                Hovering.Hovering = true
+            Hovering.Hovering = true
 
-                if Hovering.SinkHovering then
-                    break
-                end
+            if Hovering.SinkHovering then
+                break
             end
         end
     end

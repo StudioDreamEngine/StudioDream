@@ -35,9 +35,9 @@ function Profiler.EndStart(Name)
     end
 end
 
-function Profiler.End()
+function Profiler.End(Name)
     if Profiler.Frame then
-        Jprof.pop()
+        Jprof.pop(Name)
     end
 end
 

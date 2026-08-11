@@ -34,20 +34,16 @@ function BaseGui:GetAbsoluteRotation()
 end
 
 function BaseGui:GetAbsolutePosition()
-    Profiler.Start("Get ParentRect")
     local ParentRect = self:GetParentRect(true)
 
-    Profiler.EndStart("Get Offset")
     local Position = self:GetOffsetPosition()
     local Display = self:GetDisplayUI() ---@class Viewport2D
     
-    Profiler.EndStart("Add pos")
     if ParentRect then
         Position = Position + ParentRect.Origin
     end
 
     -- Handle stuff that should only be handled if we actually have a DisplayUI
-    Profiler.EndStart("ViewportPos")
     if Display and Display:IsA("Viewport2D") then
         if self.MouseLocked then
             Position = Display.MousePosition + self.LockOrigin
@@ -55,7 +51,6 @@ function BaseGui:GetAbsolutePosition()
 
         self.ViewportPosition = Position + self.AbsolutePivot + Display.ViewportPosition
     end
-    Profiler.End()
 
     return Position
 end
@@ -217,7 +212,6 @@ function BaseGui:new()
     self.SquareAxis = nil
 
     self.Active = true
-    self.TruelyActive = true
 
     self.AbsoluteLayer = 0
     self.ListOrder = 0
@@ -298,7 +292,7 @@ end
 function BaseGui:IsActive()
     local Active = true
 
-    Profiler.Start("IsVisible")
+    Profiler.Start("IsActive Check")
     self:GetParentCallback(function(Parent)
         if Parent:IsA("BaseGui") and (not Parent.Active) then
             Active = false
@@ -414,14 +408,6 @@ function BaseGui:ProcessInvalidations()
     end
     Profiler.End()
 
-    Profiler.Start("BaseGui - IsActive and more TruelyActive check")
-    local NewActive = self:IsActive()
-
-    if self.TruelyActive ~= NewActive then
-        self.TruelyActive = NewActive
-    end
-    Profiler.End()
-
     Profiler.End()
 end
 
@@ -472,11 +458,10 @@ end
 -- Shouldnt trigger invalidation imo, but its the easiest way to implement it
 function BaseGui:SetActive(New)
     self.Active = New
-    self:InvalidateRendering()
 end
 
 function BaseGui:SetPosition(New)
-    local Same = self.Position.Is(New)
+    local Same = self.Position:Is(New)
 
     self.Position = New
     self:InvalidateRendering(Same)
@@ -494,7 +479,7 @@ end
 
 ---@param New Pivot2D
 function BaseGui:SetSize(New)
-    local Same = self.Size.Is(New)
+    local Same = self.Size:Is(New)
 
     self.Size = New
     self:InvalidateRendering(Same)

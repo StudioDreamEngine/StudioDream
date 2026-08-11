@@ -33,6 +33,8 @@ function Thing:new()
     self.OnDestroy = Signal:New("OnDestroy")
 
     self.Children = {}
+    self.InterfaceChildren = {}
+
     self.Parent = nil ---@type Thing
     self.Unreferenced = false
 
@@ -286,11 +288,16 @@ function Thing:SetParent(NewParent)
     if OldParent then
         OldParent.ChildrenChanged.Invoke(Enum.Hierachy.Removed, self)
         OldParent.Children[self.UUID] = nil
+        table.removeValue(OldParent.InterfaceChildren, self)
     end
 
     if NewParent then
         NewParent.ChildrenChanged.Invoke(Enum.Hierachy.Added, self)
         NewParent.Children[self.UUID] = self
+
+        if self:IsA("BaseGui") then
+            table.insert(NewParent.InterfaceChildren, self)
+        end
     end
 
     self.Parent = NewParent
@@ -320,6 +327,10 @@ end
 
 function Thing:GetChildren()
     return self.Children
+end
+
+function Thing:GetInterfaceChildren()
+    return self.InterfaceChildren
 end
 
 function Thing:OnRemove()

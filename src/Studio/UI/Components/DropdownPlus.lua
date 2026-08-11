@@ -104,8 +104,8 @@ function DropdownPlus.new(Choices,FakeParent)
             return
         end]]
 
-        DropdownObject.Container:SetVisible(true)
         DropdownObject.MajorParent:SetActive(false)
+        DropdownObject.Container:SetVisible(true)
         DropdownObject.Container.ForegroundTransparency = Visible and 1 or 0
 
         DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 1 or 0))
@@ -123,8 +123,8 @@ function DropdownPlus.new(Choices,FakeParent)
 
         Move.Completed:Connect(function()
             DropdownObject.Container:SetVisible(Visible)
-            DropdownObject.MajorParent:SetActive(true)
             DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 0 or 1))
+            DropdownObject.MajorParent:SetActive(Visible)
         end)
     end
 

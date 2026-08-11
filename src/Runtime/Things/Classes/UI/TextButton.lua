@@ -31,7 +31,8 @@ function TextButton:new()
 
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering then return end
-        
+        if (not self:IsActive()) then return end
+
         self.Clicked.Invoke()
     end)
 
