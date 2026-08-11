@@ -70,7 +70,7 @@ function DropdownPlus.new(Choices,FakeParent)
 
     DropdownObject.Container = Things.Create("Viewport2D") {
         AutomaticSize = Enum.AutomaticSize.Y,
-        Size = Pivot2D.FromOffset(500,100),
+        Size = Pivot2D.FromOffset(100,800),
         Layer = 999,
     }
 
@@ -87,7 +87,7 @@ function DropdownPlus.new(Choices,FakeParent)
 
     Components.CreateStyle("ListLayout", {
         Parent = DropdownObject.MajorParent,
-        Alignment = Vector2.new(0.5,0.5)
+        Alignment = Vector2.new(0.5,0)
     })
 
     for i,Choice in pairs(Choices) do
@@ -103,8 +103,6 @@ function DropdownPlus.new(Choices,FakeParent)
             DropdownObject.MajorParent:SetVisible(Visible)
             return
         end]]
-
-        local Size = DropdownObject.Container.AbsoluteSize
 
         DropdownObject.Container:SetVisible(true)
         DropdownObject.MajorParent:SetActive(false)
