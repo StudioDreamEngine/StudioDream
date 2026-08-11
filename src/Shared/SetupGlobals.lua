@@ -14,6 +14,8 @@ return function ()
     require("Shared.Packages.lovezip")
     DiscordRPC = require("Shared.Packages.discordRPC")
 
+    require("table.clear")
+
     printVerbose("Setting up C Packages")
     Platform = require("Shared.Packages.Platform")
     NativeFS = require("Shared.Packages.nativefs")

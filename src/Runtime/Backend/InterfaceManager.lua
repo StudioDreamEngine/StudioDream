@@ -42,6 +42,8 @@ function InterfaceManager.UnregisterButton(Button)
     table.removeValue(InterfaceManager.Buttons, Button)
 end
 
+local CurrentlyHovering = {}
+
 function InterfaceManager.Update(dt)
     local Backend2D = Runtime.Backend2D
     local ViewportManager = Runtime.Renderer.ViewportManager
@@ -56,7 +58,7 @@ function InterfaceManager.Update(dt)
     end
 
     Profiler.Start("InterfaceManager - Process Hovering")
-    local CurrentlyHovering = {}
+    table.clear(CurrentlyHovering)
 
     for _, ButtonID in pairs(InterfaceManager.Buttons) do
         local Button = Runtime.Things.Get(ButtonID)

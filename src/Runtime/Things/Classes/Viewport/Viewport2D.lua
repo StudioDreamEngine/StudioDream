@@ -68,8 +68,9 @@ end
 -- Create the display list that will be used by the renderer
 function Viewport2D:CreateDisplayList()
     self.CurrentOrder = 1
-    self.DisplayList = {}
-    self.TopLayer = {}
+
+    table.clear(self.DisplayList)
+    table.clear(self.TopLayer)
     
     self:SubmitContainerChildren(self.RenderContainer or self)
 
