@@ -216,6 +216,9 @@ function BaseGui:new()
     self.AutomaticSize = nil
     self.SquareAxis = nil
 
+    self.Active = true
+    self.TruelyActive = true
+
     self.AbsoluteLayer = 0
     self.ListOrder = 0
 
@@ -290,6 +293,20 @@ function BaseGui:IsVisible()
     Profiler.End()
 
     return self.Visible and Visible
+end
+
+function BaseGui:IsActive()
+    local Active = true
+
+    Profiler.Start("IsVisible")
+    self:GetParentCallback(function(Parent)
+        if Parent:IsA("BaseGui") and (not Parent.Active) then
+            Active = false
+        end
+    end)
+    Profiler.End()
+
+    return self.Active and Active
 end
 
 function BaseGui:SetMouseLocked(NewLocked)
@@ -381,6 +398,12 @@ function BaseGui:ProcessInvalidations()
 
         self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
     end
+    
+    local NewActive = self:IsActive()
+
+    if self.TruelyActive ~= NewActive then
+        self.TruelyActive = NewActive
+    end
     Profiler.End()
 end
 
@@ -423,6 +446,12 @@ end
 
 function BaseGui:SetVisible(NewVisiblity)
     self.Visible = NewVisiblity
+    self:InvalidateRendering()
+end
+
+-- Shouldnt trigger invalidation imo, but its the easiest way to implement it
+function BaseGui:SetActive(New)
+    self.Active = New
     self:InvalidateRendering()
 end
 

@@ -47,7 +47,7 @@ local ProjectOptions = {}
             SavedStuff.DropdownTheme = Dropdown
             
             Main.Option.Clicked:Connect(function()
-                Dropdown.Toggle(not Dropdown.MajorParent.Visible)
+                Dropdown.Toggle(not Dropdown.Container.Visible)
             end)
         end,
     },

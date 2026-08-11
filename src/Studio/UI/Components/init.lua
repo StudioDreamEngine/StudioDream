@@ -58,14 +58,14 @@ function Components.CreateIconObject(Name, Icon)
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
         Size = Pivot2D.new(0,1,20,0),
-        BackgroundColor = Studio.CurrentTheme.Primary,
+        BackgroundColor = "Primary",
         --BackgroundTransparency = 0.5,
         Text = "",
         Layer = 3,
         Name = Name,
         SinkHovering = true,
-        --[[OutlineSize = 0.5,
-        OutlineColor = Studio.Theme.GetCurrentTheme().Outline,]]
+        OutlineSize = 0.2,
+        OutlineColor = "Outline",
         CornerRadius = 5,
     })
     
@@ -171,11 +171,8 @@ local ValueTypes = {
             local Final
 
             -- God... why..........
-            if (type(Update) ~= "nil") then
-                Final = (Update and true or false)
-            else
-                Final = nil
-            end
+            if (type(Update) ~= "nil") then Final = (Update and true or false)
+            else Final = nil end
 
             UpdateButton(Final)
         end
@@ -190,10 +187,10 @@ local ValueTypes = {
         Icon = Thing
         Title = "Hello",
         Type = "Dropdown", "Input" or "Checkbox",
-        OnUpdate = function() -- Called each time the updator is called
+        Update = function() -- Called each time the updator is called
             return Value -- Will be tostring'ed
         end,
-        OnChange = function(Text) -- Called every time the user changes the value
+        Change = function(Text) -- Called every time the user changes the value
             Value = Blah(Text)
         end
     }
@@ -240,13 +237,13 @@ function Components.PropertyValue(PropertyList, Information)
         })
     end
 
+    Information.OnUpdate = Information.Update
+
     PropertyValue.Update = ValueTypes[Information.Type](ValueContainer, Information)
     PropertyValue.Update()
 
-    local OriginalOnChange = Information.OnChange
-
     Information.OnChange = function(Value)
-        OriginalOnChange(Value)
+        Information.Change(Value)
         PropertyValue.Update()
     end
 

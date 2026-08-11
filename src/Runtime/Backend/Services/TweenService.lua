@@ -75,9 +75,9 @@ function TweenService.Create(Subject, Target, Style, Time)
 
         local Elapsed = (GlobalTick-StartTime)
 
-        if Elapsed/Time >= 1 then 
+        if Elapsed/Time >= 1 then
+            Tween.Completed.Invoke() 
             Tween.Stop(true) 
-            Tween.Completed.Invoke()
             return
         end
 

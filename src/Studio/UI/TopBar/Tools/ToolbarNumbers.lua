@@ -22,10 +22,10 @@ return function(Args,SingleTab)
     Studio.Components.PropertyValue(PropertyList, {
         Icon = "TabIcons/MoveIcon.png",
         Type = "Input",
-        OnChange = function(Text)
+        Change = function(Text)
             Studio.Editor3D.UpdateGrid("Grid",tonumber(Text) or 0.5)
         end,
-        OnUpdate = function()
+        Update = function()
             return Studio.Editor3D.GridSnap
         end,
     })
@@ -33,10 +33,10 @@ return function(Args,SingleTab)
     Studio.Components.PropertyValue(PropertyList, {
         Icon = "TabIcons/RotIcon.png",
         Type = "Input",
-        OnChange = function(Text)
+        Change = function(Text)
             Studio.Editor3D.UpdateGrid("Rotation",tonumber(Text) or 0.5)
         end,
-        OnUpdate = function()
+        Update = function()
             return Studio.Editor3D.RotationSnap
         end,
     })

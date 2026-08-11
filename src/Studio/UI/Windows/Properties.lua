@@ -46,7 +46,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
         Name = PropertyInfos.Name,
-        BackgroundColor = Studio.CurrentTheme.Outline,
+        BackgroundColor = "Outline",
         Layer = 3,
         Parent = selfed.BaseProperty,
         CornerRadius = 6,
@@ -159,7 +159,7 @@ function Properties.Init()
         Position = Pivot2D.FromScale(0.5,0.5),
         Name = "PropertyContainer",
         Parent =  Properties.Container,
-        ForegroundColor = Studio.CurrentTheme.Primary
+        ForegroundColor = "Primary"
     })
 
     Studio.Components.CreateStyle("ListLayout",{

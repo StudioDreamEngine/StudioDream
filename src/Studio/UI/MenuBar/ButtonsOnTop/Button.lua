@@ -31,8 +31,8 @@ return function(Args)
                 OpendDropdown.Toggle(false)
             end
             --Dropdown.Setup(ButtonContainer, Vector2.new(0,0.5))
-            Dropdown.Toggle(not Dropdown.MajorParent.Visible)
-            if Dropdown.MajorParent.Visible then
+            Dropdown.Toggle(not Dropdown.Container.Visible)
+            if Dropdown.Container.Visible then
                 Studio.AudioInternal.PlayAudio("Internal/DefaultSounds/Open.ogg",{})
                 OpendDropdown = Dropdown
                 CurrentButtonPressed = ButtonContainer

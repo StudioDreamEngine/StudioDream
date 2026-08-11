@@ -37,6 +37,10 @@ function ViewportManager.SetDecorationViewport(InDecoration, RootDisplay)
 end
 
 function ViewportManager.CreateViewport(Viewport, Size)
+    if Size.X < 10 or Size.Y < 10 then
+        Size = Vector2.one
+    end
+
     local Canvas = Runtime.Backend2D.NewCanvas(Size)
 
     ViewportManager.Viewports[Viewport.UUID] = Viewport
@@ -87,11 +91,15 @@ end
 
 -- Render the canvas itself to the screen
 function ViewportManager.RenderCanvas(Viewport) 
+    love.graphics.push("all")
+    
     if Viewport:IsA("Viewport2D") then
         ViewportManager.RenderViewport2D(Viewport)
     else
         ViewportManager.RenderViewport3D(Viewport)
     end
+
+    love.graphics.pop()
 
     Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas) 
 end

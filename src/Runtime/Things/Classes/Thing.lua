@@ -332,7 +332,7 @@ end
 local function GetDescendantsImpl(Object, ReturnedDescendants)
     for _, Descendant in pairs(Object:GetChildren()) do
         table.insert(ReturnedDescendants, Descendant)
-        GetDescendantsImpl(Descendant)
+        GetDescendantsImpl(Descendant, ReturnedDescendants)
     end
 end
 

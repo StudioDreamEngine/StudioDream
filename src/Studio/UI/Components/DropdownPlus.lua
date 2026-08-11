@@ -56,8 +56,8 @@ function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
         local UsingSize = FakeParent.AbsoluteSize
         local UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Vector2.yAxis)
 
-        MajorComponent.MajorParent:SetSize(Pivot2D.FromOffset(UsingSize.X or 200,0))
-        MajorComponent.MajorParent:SetPosition(Pivot2D.FromOffset(UsingPosition))
+        MajorComponent.Container:SetSize(Pivot2D.FromOffset(UsingSize.X or 200,0))
+        MajorComponent.Container:SetPosition(Pivot2D.FromOffset(UsingPosition))
 
         for _, Choice in pairs(MajorComponent.Choices) do
             Choice.Button:SetSize(Pivot2D.new(0,1,UsingSize.Y or 20,0))
@@ -68,16 +68,21 @@ end
 function DropdownPlus.new(Choices,FakeParent)
     local DropdownObject = {}
 
-    DropdownObject.MajorParent = Components.CreateStyle("Square", {
+    DropdownObject.Container = Things.Create("Viewport2D") {
         AutomaticSize = Enum.AutomaticSize.Y,
-        Size = Pivot2D.FromOffset(200,0),
+        Size = Pivot2D.FromOffset(500,100),
         Layer = 999,
+    }
+
+    DropdownObject.MajorParent = Components.CreateStyle("Square", {
         BackgroundTransparency = 0,
         BackgroundColor = "Outline",
+        Size = Pivot2D.FromScale(1,1),
+        AutomaticSize = Enum.AutomaticSize.Y,
+        Parent = DropdownObject.Container
     })
     
     DropdownObject.Shadow = Components.CreateDropshadow(DropdownObject.MajorParent)
-
     DropdownObject.Choices = {}
 
     Components.CreateStyle("ListLayout", {
@@ -91,31 +96,45 @@ function DropdownPlus.new(Choices,FakeParent)
 
     DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent)
 
-    function DropdownObject.Toggle(Visible)
+    function DropdownObject.Toggle(Visible, Animation)
         --DropdownObject.MajorParent.Visible = Visible -- mikl i swear to god
-        if Visible == false then
-            local CurrentPos = DropdownObject.MajorParent.Position
 
-            local MoveDown = TweenService.Create(DropdownObject.MajorParent, {
-                Position = CurrentPos-Pivot2D.FromOffset(0,5)
-            }, Enum.EasingStyle.SineOut, .1)
-
-            MoveDown.Play()
-
-            MoveDown.Completed:Connect(function()
-                DropdownObject.MajorParent:SetVisible(Visible)
-                DropdownObject.MajorParent.Position = CurrentPos
-            end)
-        else
+        --[[if (not Animation) then
             DropdownObject.MajorParent:SetVisible(Visible)
-        end
+            return
+        end]]
+
+        local Size = DropdownObject.Container.AbsoluteSize
+
+        DropdownObject.Container:SetVisible(true)
+        DropdownObject.MajorParent:SetActive(false)
+        DropdownObject.Container.ForegroundTransparency = Visible and 1 or 0
+
+        DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 1 or 0))
+
+        local Move = TweenService.Create(DropdownObject.MajorParent, {
+            Pivot = Vector2.new(0,Visible and 0 or 1),
+        }, Enum.EasingStyle.ExpoOut, .25)
+
+        local Move2 = TweenService.Create(DropdownObject.Container, {
+            ForegroundTransparency = Visible and 0 or 1
+        }, Enum.EasingStyle.ExpoOut, .25)
+
+        Move.Play()
+        Move2.Play()
+
+        Move.Completed:Connect(function()
+            DropdownObject.Container:SetVisible(Visible)
+            DropdownObject.MajorParent:SetActive(true)
+            DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 0 or 1))
+        end)
     end
 
     function DropdownObject.Remove()
-        DropdownObject.MajorParent:Destroy()
+        DropdownObject.Container:Destroy()
     end
 
-    DropdownObject.MajorParent:SetParent(Things.Root.RootViewport)
+    DropdownObject.Container:SetParent(Things.Root.RootViewport)
 
     return DropdownObject
 end

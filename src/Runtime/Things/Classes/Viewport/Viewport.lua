@@ -13,6 +13,8 @@ function Viewport:new()
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
     self.DisplayList = {}
 
+    self.ForegroundColor = Color.new(1,1,1)
+
     self.Dirty = false
 
     self.FilterType = Enum.FilterType.Linear
@@ -32,6 +34,7 @@ function Viewport:Draw()
         love.graphics.print(self:GetPath(), self.MousePosition.X, self.MousePosition.Y)
     end
 
+    self:SetColor("Foreground", "Color")
     Renderer.ViewportManager.RenderCanvas(self)
 end
 
