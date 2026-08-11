@@ -58,7 +58,7 @@ end
 function Methods:Abs()
     return Vector2.new(math.abs(self.X),math.abs(self.Y))
 end
-
+Profiler.Start("Vector2 - Meta Creation")
 local Meta = { -- I have no idea how to organize this mess
     __index = Methods,
     __unm = function (t)
@@ -108,7 +108,9 @@ local Meta = { -- I have no idea how to organize this mess
         end
     end
 }
+Profiler.End()
 
+Profiler.Start("Vector2 - Vector2 Metatable")
 local Vector2 = setmetatable({}, {
     __index = function (t, k)
         local PossibleConstant = Constant[k]
@@ -120,6 +122,7 @@ local Vector2 = setmetatable({}, {
         end
     end
 })
+Profiler.End()
 
 function Vector2.FromSimple(Simple)
     if Simple.Simple then
@@ -139,6 +142,7 @@ end
 
 ---@return Vector2
 function Vector2.new(x,y)
+    Profiler.Start("Vector2 - Creation")
     if (not y) then
         local ExistingVector = x
 
@@ -149,10 +153,14 @@ function Vector2.new(x,y)
         end
     end
 
-    return setmetatable({
+    local MetaTableWow = setmetatable({
         X = x,
         Y = y,
     }, Meta)
+
+    Profiler.End()
+
+    return MetaTableWow
 end
 
 return Vector2

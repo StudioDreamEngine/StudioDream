@@ -439,7 +439,9 @@ function BaseGui:ProcessInvalidation(Origin)
     Profiler.Start("BaseGui - Invalidate Children")
     for _, v in pairs(self:GetChildren()) do
         if v:IsA("BaseGui") then
+            Profiler.Start("Children - Invalidate ("..v.ClassName..")")
             v:ProcessInvalidation(Origin)
+            Profiler.End()
         end
     end
     Profiler.End()

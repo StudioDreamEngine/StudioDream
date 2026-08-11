@@ -1,15 +1,17 @@
 local Pivot2D = {}
 
 function Pivot2D.new(OffsetX, ScaleX, OffsetY, ScaleY)
+    Profiler.Start("Pivot2D - Creation")
     local Offset = Vector2.new(OffsetX, OffsetY)
     local Scale = Vector2.new(ScaleX, ScaleY) -- TODO: Rename to Pivot instead of scale
-
+    Profiler.End()
     return Pivot2D.FromAxises(Offset, Scale)
 end
 
 ---@param Offset Vector2
 ---@param Scale Vector2
 function Pivot2D.FromAxises(Offset, Scale)
+    Profiler.Start("Pivot2D - FromAxises")
     ---@class Pivot2D
     local PivotObject = setmetatable({
         Offset = Offset:Copy(),
@@ -46,7 +48,8 @@ function Pivot2D.FromAxises(Offset, Scale)
     function PivotObject.Is(OtherPivot)
         return PivotObject.Scale:Is(OtherPivot.Scale) and PivotObject.Offset:Is(OtherPivot.Offset)
     end
-
+    
+    Profiler.End()
     return PivotObject
 end
 
