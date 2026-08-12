@@ -27,8 +27,6 @@ function Viewport2D:SubmitChild(Child)
     self.CurrentOrder = self.CurrentOrder + 1
     Child.AbsoluteLayer = self.CurrentOrder + self.AbsoluteLayer
 
-    Utils.AssertType(Child.Position, "Pivot2D", Child.Name)
-
     -- Check if the viewport has given a request to update the transforms
     self:SendChild(Child, self.CurrentOrder)
 

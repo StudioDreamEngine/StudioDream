@@ -82,6 +82,40 @@ end
 
 function Shared.Render()
     Runtime.Render()
+
+    if love.keyboard.isDown(".") then
+        Shared.RenderStats()
+    end
+end
+
+function Shared.RenderStats()
+    local Stats = love.graphics.getStats()
+    local ThingStats = Runtime.Things.GetCount()
+
+    local DebugStats = {
+        { Name = "(Love) FPS",                  Value = love.timer.getFPS() },
+        { Name = "(Love) Loaded Textures",      Value = Stats.textures },
+        { Name = "(Love) Loaded Fonts",         Value = Stats.fonts },
+        { Name = "(Love) Texture Memory",       Value = tostring(math.round(Stats.texturememory/1000000)).."mb" },
+        { Name = "(GPU) Draw Calls",            Value = Stats.drawcalls },
+        { Name = "(GPU) Draw Calls (Batched)",  Value = Stats.drawcallsbatched },
+        { Name = "(Runtime) Object Count",      Value = ThingStats.Objects },
+        { Name = "(Runtime) Invalidations This Frame",      Value = ThingStats.Invalidated },
+        { Name = "(Runtime) Is Profiling",      Value = FLAGS.ProfileCapture },
+        { Name = "(Lua) Heap Size",             Value = math.round(collectgarbage("count")).."kb" }
+    }
+
+    love.graphics.setFont(DebugFont)
+    local DebugString = ""
+
+    for _, Stat in pairs(DebugStats) do
+        DebugString = DebugString .. Stat.Name .. ": " .. tostring(Stat.Value) .. "\n"
+    end
+
+    love.graphics.setColor(0,0,0,0.5)
+    love.graphics.rectangle("fill", 0, 0, 250,200)
+    love.graphics.setColor(1,1,1,1)
+    love.graphics.print(DebugString, 0, 0)
 end
 
 function Shared.Update(dt)

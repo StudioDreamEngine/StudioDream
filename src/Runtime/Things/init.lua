@@ -9,6 +9,7 @@ Things.API = {}
 Things.ClassDump = {} -- Copy of classes for stuff such as IsA
 
 local CreateRoot
+local Invalidated = 0
 
 function Things.Init()
     Classes = Utils.LoadModules("Runtime/Things/Classes/")
@@ -130,6 +131,10 @@ function Things.Create(Object, UUID)
     end
 end
 
+function Things.LogInvalidation()
+    Invalidated = Invalidated + 1
+end
+
 function Things.New(ThingType, CustomUUID)
     local Thing = Things.Type(ThingType)()
     Thing:new()
@@ -188,6 +193,13 @@ function Things.Remove(Thing)
     Objects[Thing.UUID] = nil
 end
 
+function Things.GetCount()
+    return {
+        Objects = table.length(Objects),
+        Invalidated = Invalidated
+    }
+end
+
 function Things.UpdatePass(Name, dt)
     Profiler.Start(Name.." Pass")
 
@@ -209,6 +221,8 @@ function Things.UpdatePass(Name, dt)
 end
 
 function Things.Update(dt)
+    Invalidated = 0
+
     Profiler.Start("Things - Update Passes")
     Things.UpdatePass("Update", dt)
     Things.UpdatePass("Invalidate", dt)

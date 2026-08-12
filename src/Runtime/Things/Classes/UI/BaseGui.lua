@@ -36,9 +36,15 @@ end
 function BaseGui:GetAbsolutePosition()
     local ParentRect = self:GetParentRect(true)
 
+    Profiler.Start("offset position")
+
     local Position = self:GetOffsetPosition()
+
+    Profiler.EndStart("display ui")
     local Display = self:GetDisplayUI() ---@class Viewport2D
     
+    Profiler.EndStart("calculate")
+
     if ParentRect then
         Position = Position + ParentRect.Origin
     end
@@ -51,6 +57,8 @@ function BaseGui:GetAbsolutePosition()
 
         self.ViewportPosition = Position + self.AbsolutePivot + Display.ViewportPosition
     end
+
+    Profiler.End()
 
     return Position
 end
@@ -66,9 +74,9 @@ end
 function BaseGui:GetContentSize()
     local Size = Vector2.zero
 
-    for _, v in pairs(self:GetChildren()) do
+    for _, v in pairs(self:GetInterfaceChildren()) do
         -- the negative layer check is an ABSOLUTELY nasty hack and really shouldnt be here, but im too lazy - bloctans
-        if v:IsA("BaseGui") and (not v.IgnoreConstraints) then
+        if (not v.IgnoreConstraints) then
             local PositionProp = v:GetProperty("Position")
             local AbsoluteEnd = PositionProp.Offset + v.AbsoluteSize
 
@@ -395,6 +403,8 @@ end
 function BaseGui:ProcessInvalidations()
     Profiler.Start("BaseGui - Process Invalidation")
     self:UpdateTransforms() 
+
+    Runtime.Things.LogInvalidation()
 
     local NewVisible = self:IsVisible()
 

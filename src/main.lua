@@ -122,16 +122,10 @@ function love.errorhandler(msg)
 	end
 end
 
-local DeltaTime
-
 function love.draw()
     Shared.Render()
     Profiler.End()
     Profiler.Frame = false
-
-    love.graphics.setFont(DebugFont)
-    love.graphics.print(tostring(math.round(1/DeltaTime)).." FPS", love.graphics:getWidth()-50, 0)
-
     local MYFPSINATOR = love.timer.getTime()
     if MYFPSCAPPER9001 <= MYFPSINATOR then
         MYFPSCAPPER9001 = MYFPSINATOR
@@ -148,7 +142,7 @@ function love.update(dt)
 
     Shared.Update(dt)
     
-    DeltaTime = dt
+    if FLAGS.AlwaysCollect then collectgarbage("collect") end
 end
 
 function love.quit()

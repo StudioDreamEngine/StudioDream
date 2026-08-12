@@ -10,10 +10,8 @@ function GuiContainer:new()
 end
 
 function GuiContainer:ProcessInvalidation(Origin)
-    for _, v in pairs(self:GetChildren()) do
-        if v:IsA("BaseGui") then
-            v:ProcessInvalidation(Origin)
-        end
+    for _, v in pairs(self:GetInterfaceChildren()) do
+        v:ProcessInvalidation(Origin)
     end
 end
 

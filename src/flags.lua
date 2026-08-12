@@ -4,5 +4,6 @@ return {
     DebugDraw = false,
     ExternalOutput = true,
     Independent = false,
-    ProfileCapture = false
+    ProfileCapture = false,
+    AlwaysCollect = false
 }

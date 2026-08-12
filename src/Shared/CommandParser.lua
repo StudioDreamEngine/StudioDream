@@ -29,6 +29,10 @@ local Switches = {
         Type = "Switch",
         Flag = "ProfileCapture"
     },
+    AlwaysCollect = {
+        Type = "Switch",
+        Flag = "AlwaysCollect"
+    },
     Help = {
         Type = "Switch",
         Output = function()
@@ -46,6 +50,7 @@ HELP
         DebugDraw: If to enable the debug drawing renderers
         ProfileCapture: Profile the engine (May use alot of ram, capture saved as prof.mpack in appdata)
         Independent: Treat this as a project that isnt tied to StudioDream
+        AlwaysCollect: Experimental flag to always run the garbage collector after every frame
             ]]
         end
     },

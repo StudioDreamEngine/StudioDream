@@ -589,7 +589,4 @@ end
 
 function lib:presentDebug()
 	self.delton:step()
-	if love.keyboard.isDown(".") then
-		self.delton:present()
-	end
 end

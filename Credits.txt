@@ -17,6 +17,7 @@ Packages:
 Code Snippets/Special Thanks:
     Luawiz for improved object (Thing) creation
     Emk530 for utf8sub
+    Sasha and all the other people in the love discord for helping with the memory leak issues
     trusti for general support regarding the physics engine (bullet3)
     wyteroze for suggesting i use binary search for TextScaled fitting
     AlecStey for NetworkService

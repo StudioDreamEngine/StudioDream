@@ -83,8 +83,8 @@ end
 -- Manages how the world is displayed to external packages such as 3DreamEngine and Bullet
 function Environment:ManageWorldHierachy()
     self.DreamWorld.objects = {}
-    self.Objects = {} -- This table is an optimization, as we need to be able to accerss
-    self.Lights = {}
+    table.clear(self.Objects) -- This table is an optimization, as we need to be able to accerss
+    table.clear(self.Lights)
 
     for _, Child in pairs(self:GetDescendants()) do
         if Child:IsA("Drawable3D") then

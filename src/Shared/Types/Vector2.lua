@@ -60,7 +60,24 @@ function Methods:Abs()
 end
 
 local Meta = { -- I have no idea how to organize this mess
-    __index = Methods,
+    __index = function(self, key)
+		if key == "X" then
+			return self[1]
+		elseif key == "Y" then
+			return self[2]
+		else
+			return rawget(Methods, key)
+		end
+	end,
+	
+	__newindex = function(self, key, value)
+		if key == "X" then
+			rawset(self, 1, value)
+		elseif key == "Y" then
+			rawset(self, 2, value)
+		end
+	end,
+
     __unm = function (t)
         return Vector2.new(-t.X,-t.Y)
     end,
@@ -139,7 +156,6 @@ end
 
 ---@return Vector2
 function Vector2.new(x,y)
-    Profiler.Start("Vector2 - Creation")
     if (not y) then
         local ExistingVector = x
 
@@ -150,11 +166,8 @@ function Vector2.new(x,y)
         end
     end
 
-    local MetaTableWow = setmetatable({
-        X = x,
-        Y = y,
-    }, Meta)
-
+    Profiler.Start("Vector2 - Creation")
+    local MetaTableWow = setmetatable({ x,y }, Meta)
     Profiler.End()
 
     return MetaTableWow
