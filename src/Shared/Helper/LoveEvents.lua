@@ -17,6 +17,11 @@ LoveEvents.Focus = Signal:New("Focus")
 ---@param Event Signal
 for EventName, Event in pairs(LoveEvents) do
     love[string.lower(EventName)] = function(...) 
+        -- TODO: Fix this later, doesnt matter for now
+        if EventName == "TextInput" and love.keyboard.isDown(".") then
+            return
+        end
+
         Event.Invoke(nil, ...) 
     end
 end

@@ -1,0 +1,8 @@
+RULED OUT:
+    InterfaceManager.Update
+    ListLayout:UpdateLayout
+    BaseGui:InvalidateAutomaticSize
+    3DreamEngine
+
+LIKELY CAUSE:
+    Something within BaseGui:ProcessInvalidation

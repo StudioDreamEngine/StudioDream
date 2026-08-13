@@ -44,15 +44,14 @@ end
 
 -- Debug function
 function Scheduler.GetTasks()
-    local i = 0
-    for _, _ in pairs(ActiveTasks) do i = i + 1 end
-    return i
+    return table.length(PausedTasks) + table.length(ActiveTasks)
 end
 
 function Scheduler.PauseTask(Task, Paused)
     local CurrentTask = coroutine.running()
 
     assert(CurrentTask ~= Task, "Cannot currently run PauseTask in the current task!")
+    error("Not implemented")
 
     PausedTasks[Task] = {
 
@@ -159,7 +158,7 @@ function Scheduler.Update()
     end
 
     -- Clear all canceling tasks, since im lazy
-    CancelingTasks = {}
+    table.clear(CancelingTasks)
 end
 
 return Scheduler

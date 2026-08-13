@@ -18,7 +18,7 @@ function ListLayout:new()
 
     self.SortMode = Enum.SortMode.Alphabetical
 
-    self.RemainingSize = Vector2.zero
+    self.RemainingSize = Pivot2D.FromOffset(0,0)
     self.ShouldUpdate = false
     
     self.OnChangedEvents = {}
