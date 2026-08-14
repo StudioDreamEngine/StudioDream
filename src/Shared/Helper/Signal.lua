@@ -67,7 +67,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 	end
 
 	function EventObject:Destroy()
-		Events = {}
+		table.clear(Events)
 		EventObject = {}
 	end
 	

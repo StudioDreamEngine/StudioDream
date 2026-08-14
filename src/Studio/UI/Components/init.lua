@@ -361,7 +361,9 @@ function Components.CreateDropshadow(Parent)
     })
 end
 
-local ComponentRegistry = {}
+local ComponentRegistry = setmetatable({}, {
+    __mode = "k"
+})
 
 function Components.RegisterToTheme(Object, PropertyName, PaletteID)
     if (not ComponentRegistry[Object]) then ComponentRegistry[Object] = {} end
@@ -397,8 +399,6 @@ end)
 
 function Components.CreateStyle(Type, Properties, Style)
     local MatchedUpOnTheme = {}
-    local Signalwow
-    --local Itwasbetterifimadeatable
     local ThingCreated
     
     if (not Style) then
@@ -424,21 +424,6 @@ function Components.CreateStyle(Type, Properties, Style)
                 Properties[Name] = Studio.CurrentTheme[Value]
             end
         end
-
-        --MatchedUpOnTheme = {}
-        --[[for ProName,ProVal in pairs(ThingCreated.Proxy.Serializable) do
-            for ConfigName,Value in pairs(TableOfTheme) do
-                if ThingCreated[ProName] == Value then
-                    table.insert(MatchedUpOnTheme,{SettingInTheme = ConfigName,ValueName = ProName})
-                end
-                if ProName == "Font" then
-                    --print(ThingCreated[ProName])
-                    if ThingCreated[ProName] and ThingCreated[ProName].ID == Value then
-                        table.insert(MatchedUpOnTheme,{SettingInTheme = ConfigName,ValueName = ProName})
-                    end 
-                end
-            end
-        end]]
     end
 
     SetupTheme()
@@ -446,6 +431,10 @@ function Components.CreateStyle(Type, Properties, Style)
     ---@class Thing
     ThingCreated = Things.Create(Type) (Properties)
     ComponentRegistry[ThingCreated] = MatchedUpOnTheme
+
+    ThingCreated.OnDestroy:ConnectOnce(function()
+        ComponentRegistry[ThingCreated] = nil
+    end)
 
     return ThingCreated
 end
