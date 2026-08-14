@@ -1,8 +1,11 @@
 -- I dont like the organization of this much...
-local Things = {}
+local Things = {} ---@class Things
 
 -- AllThings doesnt roll off the tounge as well
-local Objects = {}
+local Objects = setmetatable({}, {
+    __mode = 'v'
+})
+
 local Classes = {}
 
 Things.API = {}
@@ -131,6 +134,18 @@ function Things.Create(Object, UUID)
     end
 end
 
+function Things.CollectOrphans()
+    local Orphans = {}
+
+    for _, Object in pairs(Objects) do
+        if (not Object.Parent) then
+            table.insert(Orphans, Object.OrphanedPath..Object.ClassName)
+        end
+    end
+
+    return Orphans
+end
+
 function Things.LogInvalidation()
     Invalidated = Invalidated + 1
 end
@@ -171,7 +186,7 @@ function Things.New(ThingType, CustomUUID)
             
             --print("Thing "..Thing.Name..", Changed "..k.." To "..tostring(v).." Their old Value is: "..tostring(Thing[k]))
 
-           -- Profiler.End()
+        -- Profiler.End()
 
             Thing[k] = v
         end
@@ -194,9 +209,12 @@ function Things.Remove(Thing)
 end
 
 function Things.GetCount()
+    local Orphans = Things.CollectOrphans()
+
     return {
         Objects = table.length(Objects),
-        Invalidated = Invalidated
+        Invalidated = Invalidated,
+        Orphans = "("..#Orphans..") "..table.concat(Orphans, ", ")
     }
 end
 

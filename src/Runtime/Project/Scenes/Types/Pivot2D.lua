@@ -2,8 +2,8 @@ local Serializer = {}
 
 function Serializer.Serialize(Value)
     return {
-        Scale = Value.Scale.Simple(),
-        Offset = Value.Offset.Simple()
+        Scale = Value.Scale:Simple(),
+        Offset = Value.Offset:Simple()
     }
 end
 

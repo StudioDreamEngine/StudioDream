@@ -32,7 +32,6 @@ function Audio:DefineAPI()
     self.Proxy.Group("Audio","Resource","Duration","TimePosition","Volume","DoesLoop","PlayButton")
     self.Proxy.Icon("Audio")
 
-
     self.Proxy.Attribute("PlayButton","RenderType","AudioPlayer")
     self.Proxy.Attribute("TimePosition", "RenderType","Timer")
 
@@ -91,25 +90,24 @@ function Audio:SetTimePosition(NewTime)
     end
 end
 
-function Audio:SetPlaying(NewBool)
-    self.Playing = NewBool
-end
-
 function Audio:Update(dt)
     Audio.super.Update(dt)
 
     if self.SoundObject then
         self:SetLoop()
 
-        self.Playing:SetPlaying(self.SoundObject:isPlaying())
+        local Playing = self.SoundObject:isPlaying()
+
+        if (not Playing) and self.Playing then
+            print("Stopped")
+            self.StoppedPlaying.Invoke()
+        end
+
+        self.Playing = Playing
 
         self.Duration = self.SoundObject:getDuration()
 
         self:SetTimePosition(self.SoundObject:tell())
-
-        if self.TimePosition >= self.Duration then
-            self.StoppedPlaying.Invoke()
-        end
     end
 end
 

@@ -159,7 +159,7 @@ local ValueTypes = {
         -- Mikls code.. im lazy... (2)
         local function UpdateButton(Property)
             Value = Property
-            Button:SetImageRect(Rect.new(LineUp[tostring(Property)],Vector2.new(64,64)))
+            Button:SetImageRect(Rect.new(LineUp[Property],Vector2.new(64,64)))
         end
 
         Button.Clicked:Connect(function()
@@ -237,14 +237,16 @@ function Components.PropertyValue(PropertyList, Information)
         })
     end
 
-    Information.OnUpdate = Information.Update
+    Information.OnUpdate = function()
+        return Information.Update()
+    end
 
-    PropertyValue.Update = ValueTypes[Information.Type](ValueContainer, Information)
-    PropertyValue.Update()
+    PropertyValue.PtopUpdator = ValueTypes[Information.Type](ValueContainer, Information)
+    PropertyValue.PtopUpdator()
 
     Information.OnChange = function(Value)
         Information.Change(Value)
-        PropertyValue.Update()
+        PropertyValue.PropUpdator()
     end
 
     return PropertyValue

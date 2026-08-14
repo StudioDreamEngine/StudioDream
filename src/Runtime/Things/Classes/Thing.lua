@@ -15,6 +15,7 @@ function Thing:new()
         - Bloctans :3
     ]]
     self.Type = "Thing"
+    self.OrphanedPath = "Created"
 
     -- Check if the object itself can be serialized
     self.Serializable = true
@@ -298,6 +299,8 @@ function Thing:SetParent(NewParent)
         if self:IsA("BaseGui") then
             table.insert(NewParent.InterfaceChildren, self)
         end
+    else
+        self.OrphanedPath = self:GetPath()
     end
 
     self.Parent = NewParent

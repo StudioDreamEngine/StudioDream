@@ -126,7 +126,7 @@ function Project.Load(ProjectPath)
         Resources.Load()
         Project.Config.Load()
 
-        RootScenes.Load()
+        RootScenes.Load(Runtime.Things)
         Runtime.LoadProjectCallback()
     end)
 

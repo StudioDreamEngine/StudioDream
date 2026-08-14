@@ -2,11 +2,11 @@ local RootScenes = {}
 local Registered = {}
 
 local ProjectFS = Runtime.ProjectFS
-local Things = Runtime.Things
 
 function RootScenes.Register(SceneObject, SceneName) Registered[SceneObject] = SceneName end
 
-function RootScenes.Load()
+---@param Things Things
+function RootScenes.Load(Things)
     local Scenes = Runtime.Project.Scenes
     local NewScenes = {}
 
@@ -26,13 +26,13 @@ function RootScenes.Load()
         end
     end
     Scenes.ResolveReferences()
-    RootScenes.ConfigureTargets()
+    RootScenes.ConfigureTargets(Things)
 
     Registered = table.clone(NewScenes) -- Hack to fix issue with RootScenes.Save Referencing root scenes initially created (which have nothing in them)
 end
 
 -- Configure Hud and Environment viewports for new root scenes
-function RootScenes.ConfigureTargets()
+function RootScenes.ConfigureTargets(Things)
     local Root = Things.Root
 
     Root.EnvironmentViewport:SetRenderContainer(Root:GetEnvironment())

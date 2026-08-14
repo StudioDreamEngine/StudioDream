@@ -103,6 +103,7 @@ function Shared.RenderStats()
         { Name = "(Runtime) Invalidations This Frame",      Value = ThingStats.Invalidated },
         { Name = "(Runtime) Is Profiling",      Value = FLAGS.ProfileCapture },
         { Name = "(Runtime) Scheduler Tasks",   Value = Scheduler.GetTasks() },
+        { Name = "(Runtime) Orphaned Objects",  Value = ThingStats.Orphans },
         { Name = "(Lua) Heap Size",             Value = math.round(collectgarbage("count")).."kb" }
     }
 

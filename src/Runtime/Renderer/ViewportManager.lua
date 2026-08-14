@@ -1,4 +1,3 @@
-local Things
 local ViewportManager = {}
 
 local RootViewport ---@class ViewportContainer
@@ -6,8 +5,6 @@ local DecorationViewport ---@class Viewport2D
 local light
 
 function ViewportManager.Init()
-    Things = Runtime.Things
-
     Dream:setSky(love.graphics.newCubeImage("Assets/sky.png"))
     Dream:setDefaultReflection(false)
     Dream:setBloom(3)
