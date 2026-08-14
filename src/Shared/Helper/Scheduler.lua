@@ -44,7 +44,7 @@ end
 
 -- Debug function
 function Scheduler.GetTasks()
-    return table.length(PausedTasks) + table.length(ActiveTasks)
+    return table.length(PausedTasks) + table.length(ActiveTasks) + table.length(CancelingTasks)
 end
 
 function Scheduler.PauseTask(Task, Paused)

@@ -87,6 +87,8 @@ function Control3D:OnRemove()
     Runtime.Backend3D.RemoveAdorn(self.AdornObject.UUID)
     self:DisconnectEvents()
 
+    table.clear(self.Adorns)
+
     Control3D.super.OnRemove(self)
 end
 
