@@ -26,6 +26,8 @@ function Control3D:new()
     self.AdornObject = Runtime.Backend3D.CreateAdorn("ControlAdorn")
     self.Adorns = {}
 
+    self.Materials = {}
+
     for Axis, Color in pairs(self.Lookup) do
         local Material = Things.New("Material")
         Material.Color = Color
@@ -40,6 +42,8 @@ function Control3D:new()
             Adorn = Object,
             Material = Material
         }
+
+        table.insert(self.Materials,Material)
     end
 
     self:ConnectEvents()
@@ -86,7 +90,9 @@ end
 function Control3D:OnRemove()
     Runtime.Backend3D.RemoveAdorn(self.AdornObject.UUID)
     self:DisconnectEvents()
-
+    for i,v in pairs(self.Materials) do
+        v:Destroy()
+    end
     Control3D.super.OnRemove(self)
 end
 

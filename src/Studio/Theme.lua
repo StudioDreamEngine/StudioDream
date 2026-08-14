@@ -68,6 +68,23 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Outfit/Outfit-Medium.ttf",
     },
 
+    ["GREEN"] = {
+        Outline = Color.FromHex("#00180d"),
+        SecondaryOutline = Color.FromHex("#005a3c"),
+
+        Secondary = Color.FromHex("#085c3c"), -- This color is meant to either be for less important stuff or to constrast the primary
+        --Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        Primary = Color.FromHex("#63e2a2"), -- This color is for the main parts, containers and such
+    
+        Selecting = Color.FromHex("#00ffc8"),
+        Text = Color.FromHex("#ffffff"),
+
+        Error =  Color.FromHex("#5f33ff"),
+        FontNormal = "Internal/Fonts/Outfit/Outfit-Regular.ttf",
+        FontBold = "Internal/Fonts/Outfit/Outfit-Bold.ttf",
+        FontTalic = "Internal/Fonts/Outfit/Outfit-Medium.ttf",
+    },
+
     ["Ocean"] = {
         Outline = Color.FromHex("#000427"),
         SecondaryOutline = Color.FromHex("#8d8dff"),
@@ -101,6 +118,26 @@ local ThemesIn = {
         FontNormal = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf",
         FontBold = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf",
         FontTalic = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf"
+    },
+
+     ["OldSchool-Mode"] = {
+        Outline = Color.FromHex("#000000"),
+        SecondaryOutline = Color.FromHex("#0e0e0e"),
+
+        Secondary = Color.FromHex("#1d1d1d"), -- This color is meant to either be for less important stuff or to constrast the primary
+        --Tertiary = Color.FromHex("#0e0e0e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
+        Primary = Color.FromHex("#252525"), -- This color is for the main parts, containers and such
+    
+        Selecting = Color.FromHex("#000000"),
+
+        Text = Color.FromHex("#3eff24"),
+        Error =  Color.FromHex("#0059ff"),
+        --[[FontNormal = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-Regular.ttf",
+        FontBold = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-SemiBold.ttf",
+        FontTalic = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf"]]
+        FontNormal = "Internal/Fonts/Code/Code.ttf",
+        FontBold = "Internal/Fonts/Code/Code.ttf",
+        FontTalic = "Internal/Fonts/Code/Code.ttf"
     },
     --[[local DarkSky = {
     NodeColor = Color.new(0.314, 0.294, 0.502),
