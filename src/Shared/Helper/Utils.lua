@@ -24,6 +24,10 @@ function Utils.TypeOf(Object)
     end
 end
 
+function Utils.Boolean()
+    
+end
+
 function Utils.DebugPrint(String, Pos)
     love.graphics.setFont(DebugFont)
     love.graphics.setColor(1,1,1)
@@ -51,6 +55,7 @@ function Utils.DebrisThing(Obj,Timer)
     end)
 end
 
+-- TODO: Remove in 0.10/1.0
 function Utils.CountTable(Table) error("Utils.CountTable is deprecated, use table.length(Table) instead.") end ---@deprecated
 function Utils.UltraCloneTable(Table) error("Utils.UltraCloneTable is deprecated, use table.deepcopy(Table) instead.") end ---@deprecated
 function Utils.GetEnumNameByValue(EnumName,Val) error("Utils.GetEnumNameByValue is deprecated, Enum-related utilities should be in the enum perhaps") end ---@deprecated
@@ -76,6 +81,8 @@ function Utils.SendNotification(Message,Type)
 end
 
 function Utils.SetMode(WidthAndHeight,Stuff)
+    printVerbose("Utils.SetMode is set to be replaced by WindowService in the future")
+
     local X, Y, flags = love.window.getMode()
     if not Stuff then
         Stuff = flags

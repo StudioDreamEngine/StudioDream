@@ -76,7 +76,6 @@ function Explorer.CreateNode(Object, Depth)
             Applicable = Object.Proxy.Duplicatable,
             Function = function(Menu)
                 Object:Clone():SetParent(Object.Parent)
-                Explorer.Redraw()
                 Menu.Remove()
             end,
         },
@@ -87,7 +86,6 @@ function Explorer.CreateNode(Object, Depth)
             Applicable = Object.Proxy.Creatable,
             Function = function(Menu)
                 Object:Destroy()
-                Explorer.Redraw()
                 Menu.Remove()
             end,
         },
@@ -100,7 +98,6 @@ function Explorer.CreateNode(Object, Depth)
             Function = function(Menu)
                 local Folder = Things.Create("Folder") {Parent = Object.Parent}
                 Object:SetParent(Folder) 
-                Explorer.Redraw()
                 Menu.Remove()
             end,
         },
@@ -114,7 +111,6 @@ function Explorer.CreateNode(Object, Depth)
                     v:SetParent(Object.Parent)
                 end
                 Object:Destroy()
-                Explorer.Redraw()
                 Menu.Remove()
             end,
         },
@@ -125,7 +121,6 @@ function Explorer.CreateNode(Object, Depth)
             Image = "Internal/Studio/ContextMenu/Ungruped.png",
             Function = function(Menu)
                 Studio.Editor3D.OpenInsertWindow()
-                Explorer.Redraw()
                 Menu.Remove()
             end,
         },
@@ -234,10 +229,6 @@ local function HandleDragEnd()
     if Hovering and Moving then -- If we're hovering over another object, then we attempt to  parent the selected object to it, and redraw
         local CouldParent = Selecting.Thing:SetParent(Hovering.Thing)
         printVerbose(CouldParent)
-
-        if CouldParent then 
-            Explorer.Redraw() 
-        end
     else -- Otherwise, we just put it back in the tree
         Explorer.Tree[Selecting.Thing] = Selecting.Node
     end
@@ -297,8 +288,6 @@ function Explorer.Init()
             end
 
             toDelete = {}
-
-            Explorer.Redraw()
         end
     end)
 

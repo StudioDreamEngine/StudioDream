@@ -11,6 +11,8 @@ local Classes = {}
 Things.API = {}
 Things.ClassDump = {} -- Copy of classes for stuff such as IsA
 
+Things.HierachyChanged = Signal:New("HierachyChanged")
+
 local CreateRoot
 local Invalidated = 0
 

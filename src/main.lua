@@ -156,4 +156,5 @@ function love.quit()
     Profiler.End()
 
     Profiler.Quit()
+    PrintOG("StudioDream has closed without issue.")
 end
