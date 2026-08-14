@@ -155,7 +155,10 @@ function Properties.RenderEverything(Thing)
                         v:Disconnect()
                     end
                 end
-                PropertyInfo.Connections = {}
+                Property.WillHandle = nil
+                Property = nil
+                HandlerObject = nil
+                PropertyInfo.Connections = nil
             end))
         end
     end
