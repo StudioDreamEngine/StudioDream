@@ -103,15 +103,19 @@ function Properties.Clear()
         Function()
     end
 
+    for i,v in pairs(Properties.ParentWith:GetChildren()) do
+        print(i,v)
+    end
+
     Properties.DestroyCalls = {}
     Properties.ResetSignal.Invoke()
 end
 
 function Properties.RenderEverything(Thing)
     --print(Editor3D.Selecting)
-    Properties.ParentWith.ScrollPosition = -200
-
     Properties.Clear()
+
+    Properties.ParentWith.ScrollPosition = -200
     Properties.ParentWith:SetScroll(0)
 
     for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
@@ -151,7 +155,10 @@ function Properties.RenderEverything(Thing)
                         v:Disconnect()
                     end
                 end
-                PropertyInfo.Connections = {}
+                Property.WillHandle = nil
+                Property = nil
+                HandlerObject = nil
+                PropertyInfo.Connections = nil
             end))
         end
     end
