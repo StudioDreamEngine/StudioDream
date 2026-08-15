@@ -10,7 +10,7 @@ function Drawable3D:new()
     self.Drawable = nil ---@class DreamObject
     self.Resource = nil
 
-    self.Collidable = false
+    self.Collidable = true
 
     self.PhysicsBody = nil
     self.PhysicsShape = nil
