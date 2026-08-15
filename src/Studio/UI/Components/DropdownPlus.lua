@@ -118,11 +118,11 @@ function DropdownPlus.new(Choices,FakeParent)
 
         local Move = TweenService.Create(DropdownObject.MajorParent, {
             Pivot = Vector2.new(0,Visible and 0 or 1),
-        }, Enum.EasingStyle.ExpoOut, .25)
+        }, Enum.EasingStyle.QuintOut, .2)
 
         local Move2 = TweenService.Create(DropdownObject.Container, {
             ForegroundTransparency = Visible and 0 or 1
-        }, Enum.EasingStyle.ExpoOut, .25)
+        }, Enum.EasingStyle.QuintOut, .2)
 
         Move.Play()
         Move2.Play()
@@ -131,6 +131,8 @@ function DropdownPlus.new(Choices,FakeParent)
             DropdownObject.Visible = Visible
             DropdownObject.Container:SetVisible(Visible)
             DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 0 or 1))
+
+            --print(Visible)
             DropdownObject.MajorParent:SetActive(Visible)
         end)
     end

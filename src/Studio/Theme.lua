@@ -149,7 +149,6 @@ local ThemesIn = {
 
 Themes.CurrentTheme = ThemesIn["Blue Night"]
 
-Themes.BeforeChange = Signal:New("ThemeChangesB")
 Themes.ThemeChanged = Signal:New("ThemeChanges")
 
 function Themes.GetCurrentThemeInfo()

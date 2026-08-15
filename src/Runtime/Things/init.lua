@@ -156,6 +156,7 @@ function Things.LogInvalidation()
 end
 
 function Things.New(ThingType, CustomUUID)
+    ---@class Thing
     local Thing = Things.Type(ThingType)()
     Thing:new()
     Thing:DefineAPI()
@@ -223,7 +224,7 @@ function Things.GetCount()
     }
 end
 
-function Things.UpdatePass(Name, dt)
+function Things.UpdatePass(Name, dt, Function)
     Profiler.Start(Name.." Pass")
 
     for _, Thing in pairs(Objects) do
@@ -235,7 +236,13 @@ function Things.UpdatePass(Name, dt)
         ]]
         if Thing.Parent then
             Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
-            Thing[Name](Thing, dt)
+
+            if Function then
+                Function(Thing)
+            else
+                Thing[Name](Thing, dt)
+            end
+
             Profiler.End()
         end
     end

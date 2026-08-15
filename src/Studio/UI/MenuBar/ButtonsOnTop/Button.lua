@@ -33,11 +33,11 @@ return function(Args)
             --Dropdown.Setup(ButtonContainer, Vector2.new(0,0.5))
             Dropdown.Toggle(not Dropdown.Container.Visible)
             if Dropdown.Container.Visible then
-                --Studio.AudioInternal.PlayAudio("Internal/DefaultSounds/Open.ogg",{})
+                Studio.AudioInternal.PlayAudio("Internal/DefaultSounds/Open.ogg",{})
                 OpendDropdown = Dropdown
                 CurrentButtonPressed = ButtonContainer
             else
-               -- Studio.AudioInternal.PlayAudio("Internal/DefaultSounds/Close.ogg",{})
+                Studio.AudioInternal.PlayAudio("Internal/DefaultSounds/Close.ogg",{})
             end
         end)
     end

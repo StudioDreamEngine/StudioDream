@@ -4,7 +4,6 @@ local Renderer = Runtime.Renderer
 -- using @module here gives the lua language server a base type to use!
 ---@class Image2D: BaseGui
 local Image2D = Things.Extend("Square")
-local DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Icons/Studio.png")
 
 local ImageScale = {
     [Enum.ScaleType.Stretch] = function(Scale) 
@@ -27,26 +26,21 @@ function Image2D:new()
     
     self.CornerRadius = 0
     self.ForegroundColor = Color.new(1)
+    self.BackgroundTransparency = 1
 
     self.ScaleType = Enum.ScaleType.Stretch
     self.FilterType = Enum.FilterType.Pixelated
 
+    self.Flipped = false
     self.ImageSize = Vector2.zero
     self.NineSlice = Rect.new(Vector2.zero, Vector2.zero)
     self.Slices = {}
 
     self.DefaultIdentifier = nil
 
-    self.ImageSituation = Enum.ImageSituation.Normal
+    local IdentifierPath = (math.random(1,100) == 1) and "ImageEyes" or "ImageTemplate"
 
-    self.BackgroundTransparency = 1
-
-    if math.random(1,100) == 1 then
-        self.DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Studio/Templates/ImageEyes.png")
-    else
-        self.DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Studio/Templates/ImageTemplate.png")
-    end
-
+    self.DefaultIdentifier = Runtime.Resources.GetIdentifierFromID("Internal/Templates/"..IdentifierPath..".png")
     self:SetResource(self.DefaultIdentifier)
 end
 
@@ -54,8 +48,8 @@ function Image2D:DefineAPI()
     Image2D.super.DefineAPI(self)
 
     self.Proxy.Icon("Image2D")
-    self.Proxy.Property("Rect ImageRect","Resource Resource","Enum.FilterType FilterType","Rect NineSlice","Enum.ImageSituation ImageSituation")
-    self.Proxy.Group("Visuals","Resource","ImageRect","FilterType","NineSlice","ImageSituation")
+    self.Proxy.Property("Rect ImageRect","Resource Resource","Enum.FilterType FilterType","Rect NineSlice","boolean Flipped")
+    self.Proxy.Group("Visuals","Resource","ImageRect","FilterType","NineSlice","Flipped")
     self.Proxy.MakeCreatable()
 end
 
@@ -103,12 +97,6 @@ function Image2D:CreateSlices(ImageSize)
     --Profiler.End()
 end
 
-function Image2D:SetImageSituation(NewSituation)
-    self.ImageSituation = NewSituation
-
-
-end
-
 function Image2D:SetNineSlice(NewNineSlice)
     self.NineSlice = NewNineSlice
     self:RefreshQuad()
@@ -122,11 +110,13 @@ function Image2D:SetImageRect(NewRect)
 end
 
 function Image2D:HandleDrawImage(Scale)
-    local FirstSit = self.ImageSituation == "mirror" and -1 or 1
-    local SecondSit = self.ImageSituation == "flip" and -1 or 1
     if (not self.NineSlice.Usable()) then
         love.graphics.scale(Scale.X, Scale.Y)
-        love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,FirstSit,SecondSit) -- Draw Image
+        local X,Y = self.ImageSize.X/2, self.ImageSize.Y/2
+
+        love.graphics.translate(X,Y)
+        love.graphics.scale((self.Flipped and -1 or 1),1)
+        love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,1,1,X,Y) -- Draw Image
         return
     end
 
@@ -155,7 +145,7 @@ function Image2D:HandleDrawImage(Scale)
             QScale = QScale / Slice.Size
         end
 
-        love.graphics.draw(self.ImageFile, Slice.Quad, Pos.X, Pos.Y, 0, QScale.X*FirstSit, QScale.Y*SecondSit, Slice.Offset.X,Slice.Offset.Y)
+        love.graphics.draw(self.ImageFile, Slice.Quad, Pos.X, Pos.Y, 0, QScale.X, QScale.Y, Slice.Offset.X,Slice.Offset.Y)
 
         --Profiler.End()
     end

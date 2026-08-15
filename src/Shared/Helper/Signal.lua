@@ -41,7 +41,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 			Event[3]:Disconnect() 
 		end
 
-		Events = {}
+		table.clear(Events)
 	end
 	
 	---@return SignalConnection

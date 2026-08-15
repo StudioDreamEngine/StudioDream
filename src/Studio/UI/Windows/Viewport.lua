@@ -8,6 +8,7 @@ function Viewport.Init()
     local EnvironmentViewport = Things.Create("Viewport3D") {
         RenderContainer = Environment,
         Name = "MainViewport",
+        Layer = 7,
         Size = Pivot2D.FromScale(1,1),
         Parent = Viewport.Container
     }
@@ -15,7 +16,7 @@ function Viewport.Init()
     local HudViewport = Things.Create("Viewport2D") {
         RenderContainer = Things.GetRoot("HUD"),
         Name = "HudViewport",
-        Layer = 2,
+        Layer = 10,
         Size = Pivot2D.FromScale(1,1),
         Parent = Viewport.Container
     }

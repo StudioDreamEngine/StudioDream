@@ -11,7 +11,6 @@ local function GenList(TableGot)
             Text = i,
             Type = "Button",
             Function = function()
-                Studio.Theme.BeforeChange.Invoke()
                 Studio.CurrentTheme = v
                 Studio.Theme.CurrentTheme = v
                 Runtime.SettingsManager.ChangeSetting("UsingTheme",i)
@@ -57,10 +56,6 @@ local ProjectOptions = {
 
 function GenConfig.Create(Parent)
     local CreateObject = {}
-
-    Runtime.Project.LoadedProject:Connect(function()
-        --print("PROJECT LOADED DUMB FUCK")
-    end)
 
     function CreateObject.CreatePartBlock(Name,TypeOfOption,ParentS)
         local PartObj = {}

@@ -11,6 +11,8 @@ function Audio:new()
     self.Resource = nil
     self.SoundObject = nil ---@class love.Source
 
+    self.KeepReference = true
+
     self.Playing = false
     self.PlayButton = nil
     self.DoesLoop = false
@@ -97,6 +99,7 @@ function Audio:Update(dt)
         self:SetLoop()
 
         local Playing = self.SoundObject:isPlaying()
+        self.KeepReference = Playing
 
         if (not Playing) and self.Playing then
             print("Stopped")

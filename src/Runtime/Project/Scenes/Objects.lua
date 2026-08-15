@@ -4,10 +4,10 @@ local Objects = {}
 
 Objects.References = {}
 
-local TypeSerializers = Utils.LoadModules("Runtime/Project/Scenes/Types/")
+local TypeSerializers = Utils.LoadModules("Runtime/Project/Scenes/Serializers/")
 
 function Objects.HandleType(Property, Type, Deserialize, Identifier)
-    if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier or "Unknown"..")") end
+    if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier.Name or "Unknown"..")") end
 
     local Serializer = require(TypeSerializers[Type])
     Serializer.SerializeType = Objects.HandleType
@@ -78,7 +78,9 @@ function Objects.SerializeObject(Object, Root)
             if (PropertyName == "Parent") and (Object.UUID == Root.UUID) then 
                 Property = nil
             else
-                Property = Objects.HandleType(Property, Type, false, PropertyName)
+                Property = Objects.HandleType(Property, Type, false,  {
+                    Name = PropertyName
+                })
             end
             
             ObjectData[PropertyName] = {
@@ -107,7 +109,10 @@ function Objects.DeserializeObject(ObjectData)
 
     for PropertyName, PropertyData in pairs(ObjectData.Properties) do
         local Type = PropertyData.Type
-        local Property = Objects.HandleType(PropertyData.Value, Type, true)
+        local Property = Objects.HandleType(PropertyData.Value, Type, true, {
+            --Object = ObjectData.UUID,
+            Name = PropertyName
+        })
 
         if Property then -- Only apply property if it exists
             if Type == "Thing" then
@@ -126,7 +131,7 @@ function Objects.DeserializeObject(ObjectData)
     end)
     
     if (not Success) then
-        Shared.QueueAbort("Error while loading Object "..ObjectData.Properties.Name.Value..", Traceback is in logs")
+        Shared.QueueAbort("Error while loading Object "..ObjectData.Properties.Name.Value.." ("..ObjectData.UUID.."), Traceback in log")
         return
     end
 
