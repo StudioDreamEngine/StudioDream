@@ -10,6 +10,8 @@ function Drawable3D:new()
     self.Drawable = nil ---@class DreamObject
     self.Resource = nil
 
+    self.Collidable = false
+
     self.PhysicsBody = nil
     self.PhysicsShape = nil
 
@@ -26,15 +28,23 @@ function Drawable3D:DefineAPI()
 
     self.Proxy.Property("Vector3 Scale")--, "boolean Outline")
     self.Proxy.Property("Thing Material")
-    self.Proxy.Property("Vector3 Velocity")
+    self.Proxy.Property("Vector3 Velocity", "boolean Collidable")
 
-    self.Proxy.Group("Physics", "Dynamic", "Velocity")
+    self.Proxy.Group("Physics", "Dynamic", "Velocity", "Collidable")
     self.Proxy.Group("Transform", "Scale")
     self.Proxy.Group("Visuals", "Material")
 end
 
 function Drawable3D:SetOutline(Toggle)
     self.Outline = Toggle
+end
+
+function Drawable3D:SetCollidable(New)
+    self.Collidable = New
+
+    if (not self.Collidable) then -- We dont need to care about adding the body back, HandlePhysicsHierachy does that for us once Collidable is true
+        self:RemoveBody()
+    end
 end
 
 function Drawable3D:SetMaterial(NewMaterial)
@@ -85,12 +95,20 @@ function Drawable3D:SetDynamic(NewDynamic)
     self:CreateBody()
 end
 
-function Drawable3D:CreateBody()
+function Drawable3D:RemoveBody()
     local World = self:GetWorld()
 
     if World then
         World:RemoveBody(self)
     end
+end
+
+function Drawable3D:CanAddBody()
+    return self.Collidable
+end
+
+function Drawable3D:CreateBody()
+    self:RemoveBody()
 
     self.PhysicsBody = Runtime.Phys.CreateBody(self.PhysicsShape, Runtime.Phys:ToBullet(self.Transform), self.Dynamic)
 end
