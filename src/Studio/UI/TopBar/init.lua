@@ -33,7 +33,7 @@ function TopBar.CreateTab(TabName, Tab)
     })
 
     local SingleTab = Things.Create("Square") {
-        Size = Pivot2D.new(-12,1,-12,1),
+        Size = Pivot2D.new(1,-12,1,-12),
         Pivot = Vector2.one * .5,
         Position = Pivot2D.FromScale(.5,.5),
         BackgroundTransparency = 1,
