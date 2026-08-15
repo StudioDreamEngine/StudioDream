@@ -74,7 +74,7 @@ function Environment:RemoveBody(Child)
 end
 
 function Environment:HandlePhysicsHierachy(Child)
-    if (not self.PhysicsBodies[Child]) then
+    if (not self.PhysicsBodies[Child]) and Child:CanAddBody() then
         self.PhysicsBodies[Child] = true
         self.PhysicsWorld:addRigidBody(Child.PhysicsBody)
     end

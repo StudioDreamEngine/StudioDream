@@ -30,6 +30,8 @@ function Scenes.LoadScene(Resource, Default, Path)
         if (not Resource.Objects) then
             print("Attempting to load as V1 scene, might not work!")
             ObjectsV1.DeserializeObjects(Resource, Default)
+
+            Runtime.Project.NotificationCallback("Loaded "..Path.." as V1 scene, V1 scenes will not be supported after 0.9")
         else
             if Default then Default:Destroy() end
 

@@ -126,11 +126,11 @@ local Enums = {
         Back = "back",
         Front = "front"
     },
-    ImageSituation = {
+    --[[ImageSituation = {
         Normal = "normal",
         Mirrored = "mirror",
         Flipped = "flip"
-    },
+    },]]
     HoveringStyle = {
         ColorMultiplier = "colorM",
         ColorChanger = "colorC"

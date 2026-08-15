@@ -88,7 +88,7 @@ local function CreatePivotNode(MainInfo,WhatThing)
 
             --print(FromString)
 
-            local Transform = IsRotate and Pivot2D.new(FromString.X,Info.Thing[Info.Property].Scale.X,FromString.Y,Info.Thing[Info.Property].Scale.Y) or Pivot2D.new(Info.Thing[Info.Property].Offset.X,FromString.X,Info.Thing[Info.Property].Offset.Y,FromString.Y)
+            local Transform = IsRotate and Pivot2D.new(Info.Thing[Info.Property].Scale.X,FromString.X,Info.Thing[Info.Property].Scale.Y,FromString.Y) or Pivot2D.new(FromString.X,Info.Thing[Info.Property].Offset.X,FromString.Y,Info.Thing[Info.Property].Offset.Y)
 
             Things.SetProperty(Info.Thing, Info.Property, Transform)
         end

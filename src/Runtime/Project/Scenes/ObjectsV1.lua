@@ -1,4 +1,5 @@
 -- Handle the serialization of scene objects/things
+-- TODO: Deprecate in 0.10
 local Things = Runtime.Things
 local Objects = {}
 

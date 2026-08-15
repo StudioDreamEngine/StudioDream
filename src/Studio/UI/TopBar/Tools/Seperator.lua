@@ -2,7 +2,7 @@ local Things = Runtime.Things
 
 return function()
     return Studio.Components.CreateStyle("Square", {
-        Size = Pivot2D.new(2,0,0,1),
+        Size = Pivot2D.new(0,2,1,0),
         BackgroundColor = "Outline"
     })
 end

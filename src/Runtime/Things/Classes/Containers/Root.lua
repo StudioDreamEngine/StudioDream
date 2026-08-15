@@ -46,7 +46,7 @@ end
 
 ---@return HUD
 function Root:GetHUD()
-    return self:FindFirstChildOfClass("HUD")
+    return self:FindFirstChildOfClass("GuiContainer")
 end
 
 return Root

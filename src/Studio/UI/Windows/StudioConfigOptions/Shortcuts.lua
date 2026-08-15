@@ -2,27 +2,6 @@ local ShortcutsConfig = {}
 
 ShortcutsConfig.DisplayName = "Keybinds Configs"
 
-local SavedStuff = {}
-
-local function GenList(TableGot)
-    local Choices = {}
-    for i,v in pairs(TableGot) do
-        table.insert(Choices, {
-            Text = i,
-            Type = "Button",
-            Function = function()
-                Studio.Theme.BeforeChange.Invoke()
-                Studio.CurrentTheme = v
-                Studio.Theme.CurrentTheme = v
-                Runtime.SettingsManager.ChangeSetting("UsingTheme",i)
-                Studio.Theme.ThemeChanged.Invoke()
-                SavedStuff.DropdownTheme.Toggle(false)
-            end
-        })
-    end
-    return Choices
-end
-
 local ProjectOptions = {}
 
 --[[local ProjectOptions = {
