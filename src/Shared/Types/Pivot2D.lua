@@ -99,6 +99,4 @@ function Pivot2D.FromString(Text)
     return Pivot2D.new((SplitText[1] or DefaultNumber),(SplitText[2] or DefaultNumber),(SplitText[3] or DefaultNumber),(SplitText[4] or DefaultNumber))
 end
 
-Pivot2D.FromString("{0,10},{0,50}")
-
 return Pivot2D

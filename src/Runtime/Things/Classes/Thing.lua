@@ -50,12 +50,18 @@ function Thing:new()
 
     self.Attributes = {}
 
+    self.PlaceholderSignals = {}
     --[[self.Proxy.Info({
         Groups = {
             -- TODO
         },
         ConstraintUpdator = nil -- Function that constraints use on update for an object
     })]]
+end
+
+function Thing:AddPlaceholderSignal(Signal)
+    table.insert(self.PlaceholderSignals,Signal)
+    return Signal
 end
 
 --[[
@@ -367,6 +373,12 @@ end
 function Thing:OnRemove()
     self.Unreferenced = true
     self.OnDestroy.Invoke(self)
+    for _,Signal in pairs(self.PlaceholderSignals) do
+        if not Signal.AlreadyDisconnected then
+            Signal:Disconnect()
+        end
+    end
+    table.clear(self.PlaceholderSignals)
     self:SetParent()
     self:ClearAllChildren()
 end

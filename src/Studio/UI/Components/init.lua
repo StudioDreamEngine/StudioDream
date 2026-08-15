@@ -99,8 +99,9 @@ function Components.CreateIconObject(Name, Icon)
 end
 
 function Components.CreateContainer(Size, Parent)
-    return Things.Create("Square") {
-        BackgroundTransparency = 1,
+    return Things.Create("TextButton") {
+        BackgroundTransparency = 0,
+        Text = "",
         Size = Size,
         Name = "ContainerComponent",
         Parent = Parent

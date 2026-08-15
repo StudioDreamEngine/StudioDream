@@ -52,7 +52,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Text = HaveName,
         Name = "WindowText",
         Alignment = Vector2.new(0.5,0.5),
-        BackgroundColor = "Secondary",
+        BackgroundColor = "Outline",
         CornerRadius = 4,
     })
     Windows.Namer = Studio.Components.CreateStyle("Text", {
@@ -191,7 +191,7 @@ function StudioLayout.CreateLayout()
         TopLevel = true
     })
 
-    StudioLayout.CreateWindow("Properties", {
+    StudioLayout.CreateWindow("Inspector", {
         Name = "Inspector",
         Size = Pivot2D.FromScale(0.2,.5),
         Position = Pivot2D.FromScale(1,1),

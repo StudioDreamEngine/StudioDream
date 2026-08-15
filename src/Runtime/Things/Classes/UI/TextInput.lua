@@ -70,6 +70,12 @@ function TextInput:new()
     end)
 end
 
+function TextInput:FocusHere()
+    if self.InputActive == true then return end
+    self.FocusStart.Invoke()
+    self.InputActive = true
+end
+
 function TextInput:DefineAPI()
     TextInput.super.DefineAPI(self)
 
