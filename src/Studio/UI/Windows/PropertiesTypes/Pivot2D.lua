@@ -29,7 +29,7 @@ local function CreatePivotNode(MainInfo,WhatThing)
     selfed.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
     selfed.BaseProperty = Studio.Components.CreateStyle("Square",{
-        Size = Pivot2D.new(0,0.95,23,0),
+        Size = Pivot2D.new(0.95,0,0,23),
         Pivot = Vector2.new(0,0),
         BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,

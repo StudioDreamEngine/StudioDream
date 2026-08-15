@@ -78,4 +78,30 @@ function Transform3D.FromPosition(X,Y,Z)
     return NewTransform(Matrix)
 end
 
+function Transform3D.FromString(Text)
+    local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
+    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,]+}")
+    local DefaultNumber = 0
+    local StringsCreated = {}
+
+    for String in FindBrack do
+        local RemoveKeys = string.gsub(String,"[%{ %}]","")
+        table.insert(StringsCreated,RemoveKeys)
+    end
+
+    local FinalString
+
+    if #StringsCreated > 0 then
+        FinalString = StringsCreated[1]..","..StringsCreated[2]
+    else
+        FinalString = Text
+    end
+
+    local SplitText = string.split(FinalString,"[%, %s]")
+
+    return Transform3D.FromPosition((SplitText[1] or DefaultNumber),(SplitText[2] or DefaultNumber),(SplitText[3] or DefaultNumber))*Transform3D.FromAngle((SplitText[4] or DefaultNumber),(SplitText[5] or DefaultNumber),(SplitText[6] or DefaultNumber))
+end
+
+Transform3D.FromString("{0,10,0},{0,50,0}")
+
 return Transform3D

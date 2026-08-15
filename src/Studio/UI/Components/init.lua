@@ -60,7 +60,7 @@ function Components.CreateIconObject(Name, Icon)
     local NodeInner = Studio.Components.CreateStyle("TextButton", {
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
-        Size = Pivot2D.new(0,1,20,0),
+        Size = Pivot2D.new(1,0,0,20),
         BackgroundColor = "Primary",
         --BackgroundTransparency = 0.5,
         Text = "",
@@ -87,7 +87,7 @@ function Components.CreateIconObject(Name, Icon)
     local Icon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
     
     local NodeIcon = Studio.Components.CreateStyle("Image2D",{
-        Size = Pivot2D.new(0,0.1,0,1),
+        Size = Pivot2D.FromScale(0.1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Pivot = Vector2.new(-0.1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
@@ -208,7 +208,7 @@ local TypeAssociations = {
 
 function Components.CreateDropshadow(Parent)
     return Studio.Components.CreateStyle("Image2D",{
-        Size = Pivot2D.new(30,1,30,1),
+        Size = Pivot2D.new(1,30,1,30),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
         Resource = "Internal/Studio/Blur.png",

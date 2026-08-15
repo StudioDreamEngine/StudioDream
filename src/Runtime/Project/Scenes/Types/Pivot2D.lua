@@ -11,7 +11,7 @@ function Serializer.Deserialize(Value)
     local Offset = Vector2.FromSimple(Value.Offset)
     local Scale = Vector2.FromSimple(Value.Scale)
 
-    return Pivot2D.new(Offset.X, Scale.X, Offset.Y, Scale.Y)
+    return Pivot2D.new(Scale.X, Offset.X, Scale.Y, Offset.Y)
 end
 
 return Serializer

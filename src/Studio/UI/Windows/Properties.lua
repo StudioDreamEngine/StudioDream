@@ -30,7 +30,7 @@ function Properties.CreateProperty(PropertyInfos,ParentWhat)
 
     --print(PropertyWillHandle)
     selfed.BaseProperty = Studio.Components.CreateStyle("Square",{
-        Size = Pivot2D.new(0,0.99,23,0),
+        Size = Pivot2D.new(0.99,0,0,23),
         Pivot = Vector2.new(0,0),
         BackgroundColor = "Secondary",
         Name = PropertyInfos.Name,
@@ -72,7 +72,7 @@ function Properties.CreateGroup(GroupName)
     local Group = {}
 
     Group.BaseGroup = Studio.Components.CreateStyle("Square",{
-        Size = Pivot2D.new(0,1,26,0),
+        Size = Pivot2D.new(1,0,0,26),
         BackgroundColor = Studio.CurrentTheme.Outline,
         Layer = 3,
         Parent = Properties.ParentWith,

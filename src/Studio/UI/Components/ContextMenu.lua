@@ -82,7 +82,7 @@ local ChoiceTypes = {
         end]] --???
     end,
     ["Separator"] = function(Choice, Parent)
-        Parent:SetSize(Pivot2D.new(0,1,3,0))
+        Parent:SetSize(Pivot2D.new(1,0,0,3))
         Studio.Components.CreateStyle("Square",{
             Size = Pivot2D.FromScale(0.98,1),
             Position = Pivot2D.FromScale(0.5,0.5),
@@ -98,7 +98,7 @@ function ContextMenu.CreateButton(Choice,MajorParent,DropdownObject)
     local Button = {}
 
     Button.Button = Components.CreateStyle("Square", {
-        Size = Pivot2D.new(0,1,20,0),
+        Size = Pivot2D.new(1,0,0,20),
         BackgroundTransparency = 1,
         Parent = MajorParent
     })
@@ -129,7 +129,7 @@ function ContextMenu.HandleNotParentSize(MajorComponent,FakeParent)
         MajorComponent.MajorParent:SetPosition(Pivot2D.FromOffset(UsingPosition))
 
         for _, Choice in pairs(MajorComponent.Choices) do
-            Choice.Button:SetSize(Pivot2D.new(0,1,UsingSize.Y or 20,0))
+            Choice.Button:SetSize(Pivot2D.new(1,0,0,UsingSize.Y or 20))
         end
     end)
 end

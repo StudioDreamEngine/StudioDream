@@ -24,9 +24,9 @@ function Decorations.Init()
     end)
 
     RootViewport = Things.Create("Viewport2D") {
-        Size = Pivot2D.new(-10,1,-35,1),
+        Size = Pivot2D.new(1,-10,1,-35),
         Pivot = Vector2.new(0.5,0),
-        Position = Pivot2D.new(0,0.5,30,0),
+        Position = Pivot2D.new(0.5,0,0,30),
         Parent = DecorationRoot,
         Name = "Root"
     }
@@ -37,7 +37,7 @@ end
 function Decorations.CreateTitleBar()
     TitleBar = Things.Create("Square") {
         Parent = DecorationRoot,
-        Size = Pivot2D.new(0,1,30,0),
+        Size = Pivot2D.new(1,0,0,30),
         BackgroundColor = Color.new(0,0,1),
         Text = ""
     }
@@ -46,7 +46,7 @@ function Decorations.CreateTitleBar()
     local Capture = Things.Create("TextButton") {
         BackgroundTransparency = 1,
         Text = "",
-        Size = Pivot2D.new(-100,1,0,1),
+        Size = Pivot2D.new(1,-100,1,0),
         Parent = TitleBar
     }
 

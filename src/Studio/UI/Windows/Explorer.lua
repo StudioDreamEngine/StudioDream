@@ -45,7 +45,7 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
     NodeObj.ChildrenInNode = {}
 
     NodeObj.Node = Studio.Components.CreateStyle("Square",{
-        Size = Pivot2D.new(0,1,15,0),
+        Size = Pivot2D.new(1,0,0,15),
         Pivot = Vector2.new(0,0),
         BackgroundTransparency = 1,
         Layer = 3,
@@ -58,7 +58,7 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
     NodeObj.AlreadyCreatedChilButton = false
 
     NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
-    NodeObj.NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
+    NodeObj.NodeInner:SetSize(Pivot2D.new(1,-Depth*20,1,0))
     NodeObj.NodeInner:SetParent(NodeObj.Node)
     
     NodeObj.ParentLines = {}

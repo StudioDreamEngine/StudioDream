@@ -14,7 +14,7 @@ function Output.CreateOutput(Text,Type)
         BackgroundTransparency = 1,
         ForegroundColor = ColorToText,
         Text = Text,
-        Size = Pivot2D.new(0,1,15,0)
+        Size = Pivot2D.new(1,0,0,15)
     })
 end
 

@@ -57,7 +57,7 @@ function InsertObject.Init()
             local IconObject = Studio.Components.CreateIconObject(ClassName, Class.ExplorerIcon)
 
             IconObject:SetPivot(Vector2.zero)
-            IconObject:SetSize(Pivot2D.new(-20,1,20,0))
+            IconObject:SetSize(Pivot2D.new(1,-20,0,20))
             IconObject.Name = ClassName
             IconObject:SetParent(InsertObject.ScrollContainer)
             IconObject.Clicked:Connect(function()

@@ -22,7 +22,7 @@ local ChoiceTypes = {
         end
     end,
     ["Separator"] = function(Func,Parent,Text)
-        Parent:SetSize(Pivot2D.new(0,1,1,0))
+        Parent:SetSize(Pivot2D.new(1,0,0,1))
         Things.Create("Square") {
             Size = Pivot2D.FromScale(0.9,0.35),
             Position = Pivot2D.FromScale(0.5,0.5),
@@ -42,7 +42,7 @@ function DropdownPlus.CreateButton(Choice,MajorParent)
     local Button = {}
 
     Button.Button = Components.CreateStyle("Square", {
-        Size = Pivot2D.new(0,1,20,0),
+        Size = Pivot2D.new(1,0,0,20),
         BackgroundTransparency = 1,
         Parent = MajorParent
     })
@@ -60,7 +60,7 @@ function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
         MajorComponent.Container:SetPosition(Pivot2D.FromOffset(UsingPosition))
 
         for _, Choice in pairs(MajorComponent.Choices) do
-            Choice.Button:SetSize(Pivot2D.new(0,1,UsingSize.Y or 20,0))
+            Choice.Button:SetSize(Pivot2D.new(1,0,0,UsingSize.Y or 20))
         end
     end)
 end
