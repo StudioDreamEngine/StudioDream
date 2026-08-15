@@ -61,7 +61,7 @@ end
 
 function Pivot2D.FromScale(Scale, ScaleY)
     if ScaleY then
-        return Pivot2D.new(Scale, 0, Scale, 0)
+        return Pivot2D.new(Scale, 0, ScaleY, 0)
     else
         return Pivot2D.new(Scale.X, 0, Scale.Y, 0)
     end

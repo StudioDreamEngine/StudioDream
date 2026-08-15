@@ -30,6 +30,8 @@ function Preprocessor.ProcessScript(ScriptContents)
         table.insert(Replacements, {VarStart, i+2, Generated})
     end
 
+    -- Find \ escape sequences in pattern matches? (TODO)
+
     -- Find any `!=` comparision operator 
     for i,v in string.gfind(ScriptContents,  "[%!]=") do
         table.insert(Replacements, {i, i+2, "~="})

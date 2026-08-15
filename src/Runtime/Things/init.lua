@@ -253,7 +253,7 @@ function Things.Update(dt)
     Profiler.End()
     
     if Things.FireTreeChange then
-        print(Things.FireTreeChange:GetPath())
+        --print(Things.FireTreeChange:GetPath())
         Things.TreeChanged.Invoke()
         Things.FireTreeChange = false
     end
