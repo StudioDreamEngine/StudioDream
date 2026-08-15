@@ -321,16 +321,14 @@ function Thing:SetParent(NewParent)
         if self:IsA("BaseGui") then
             table.insert(NewParent.InterfaceChildren, self)
         end
-
-        if NewParent:IsSerializable() then
-            Runtime.Things.RequestTreeChange(self)
-        end
     else
         self.OrphanedPath = self:GetPath()
+    end
+    
+    local SerializeCheck = NewParent or OldParent
 
-        if OldParent:IsSerializable() then
-            Runtime.Things.RequestTreeChange(self)
-        end
+    if SerializeCheck:IsSerializable() then
+        Runtime.Things.RequestTreeChange(self)
     end
 
     self.Parent = NewParent
