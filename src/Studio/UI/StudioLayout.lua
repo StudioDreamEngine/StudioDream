@@ -42,19 +42,30 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     --print(HaveName)
     if (not HaveName) then return Windows end
     --print("BLEH")
-    Windows.Namer = Studio.Components.CreateStyle("Text", {
-        Size = Pivot2D.FromScale(1,0.04),
+    Windows.ContainerNamer = Studio.Components.CreateStyle("Square", {
+        Size = Pivot2D.FromScale(0.99,0.1),
         Position = Pivot2D.FromScale(0.5,0.01),
         Pivot = Vector2.new(0.5,0),
         Parent = Windows.FullContainer,
-        Layer = Windows.Container.Layer+5,
+        Layer = 1,
         BackgroundTransparency = 0,
+        Text = HaveName,
+        Name = "WindowText",
+        Alignment = Vector2.new(0.5,0.5),
+        BackgroundColor = "Secondary",
+        CornerRadius = 4,
+    })
+    Windows.Namer = Studio.Components.CreateStyle("Text", {
+        Size = Pivot2D.FromScale(0.99,0.5),
+        Position = Pivot2D.FromScale(0.5,0),
+        Pivot = Vector2.new(0.5,0),
+        Parent = Windows.ContainerNamer,
+        BackgroundTransparency = 1,
         Text = HaveName,
         ForegroundColor = "Text",
         Name = "WindowText",
         Alignment = Vector2.new(0.5,0.5),
         Font = "FontTalic",
-        BackgroundColor = "Secondary",
         CornerRadius = 4,
     })
 

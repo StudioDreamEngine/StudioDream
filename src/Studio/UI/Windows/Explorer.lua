@@ -3,6 +3,7 @@ local SelectionManager = Studio.Editor3D.SelectionManager
 
 local Explorer = {}
 Explorer.Tree = {}
+Explorer.Nodes = {}
 
 local AddButtonObject = Studio.Components.CreateStyle("ImageButton",{
     Resource = "Internal/Studio/AddThing.png",
@@ -17,6 +18,8 @@ local ScrollContainer
 local AddButtonWow = {}
 
 local Order = 0
+
+local ExpandedState = {}
 
 AddButtonWow = {
     Object = AddButtonObject,
@@ -36,7 +39,7 @@ local function SetAllChildNodeVisible(NodeObj,Visiblity)
     end
 end
 
-function Explorer.CreateNode(Object, Depth)
+function Explorer.CreateNode(Object, Depth, IsLastChild)
     local NodeObj = {}
 
     NodeObj.ChildrenInNode = {}
@@ -58,9 +61,82 @@ function Explorer.CreateNode(Object, Depth)
     NodeObj.NodeInner:SetSize(Pivot2D.new(-Depth*20,1,0,1))
     NodeObj.NodeInner:SetParent(NodeObj.Node)
     
+    NodeObj.ParentLines = {}
+
+    function NodeObj.CreateParentLine(LineDepth)
+        LineDepth = LineDepth or Depth
+
+        local ParentLine = Studio.Components.CreateStyle("Square", {
+            Size = Pivot2D.FromScale(0.01, 1),
+            Position = Pivot2D.FromScale(-0.025 * LineDepth, 0.5),
+            Pivot = Vector2.new(0.5, 0.5),
+
+            BackgroundColor = "Outline",
+            BackgroundTransparency = 0,
+
+            Layer = 1,
+            Parent = NodeObj.NodeInner,
+            Serializable = false,
+
+            CornerRadius = 0,
+            LimitCornerRadius = true,
+        })
+
+        table.insert(NodeObj.ParentLines, ParentLine)
+
+        return ParentLine
+    end
+
+    function NodeObj.CreateLastParentLine(LineDepth)
+        LineDepth = LineDepth or Depth
+
+        local ParentLine = Studio.Components.CreateStyle("Square", {
+            Size = Pivot2D.FromScale(0.01, 0.5),
+            Position = Pivot2D.FromScale(-0.025 * LineDepth, 0),
+            Pivot = Vector2.new(0.5, 0),
+            BackgroundColor = "Outline",
+            BackgroundTransparency = 0,
+            Layer = 1,
+            Parent = NodeObj.NodeInner,
+            Serializable = false,
+            CornerRadius = 0,
+            LimitCornerRadius = true,
+        })
+
+        Studio.Components.CreateStyle("Square", {
+            Size = Pivot2D.FromScale(2.5, 0.5),
+            Position = Pivot2D.FromScale(0,1),
+            Pivot = Vector2.new(0, 1),
+            BackgroundColor = "Outline",
+            BackgroundTransparency = 0,
+            Layer = 1,
+            Parent = ParentLine,
+            Serializable = false,
+        })
+
+        table.insert(NodeObj.ParentLines, ParentLine)
+
+        return ParentLine
+    end
+
+    if Depth > 0 then
+        if IsLastChild then
+            NodeObj.CreateLastParentLine()
+        else
+            NodeObj.CreateParentLine()
+        end
+    end
+
     NodeObj.CreateChildrenButton = function()
         NodeObj.AlreadyCreatedChilButton = true
         
+        --[[for i,v in pairs(NodeObj.ParentLines) do
+            v:Destroy()
+        end]]
+        if #NodeObj.ParentLines > 0 then
+            NodeObj.ParentLines[1]:Destroy()
+        end
+
         NodeObj.Button = Studio.Components.CreateStyle("ImageButton",{
             Resource = "Internal/Studio/OpenMenu.png",
             Size = Pivot2D.FromScale(0.8,0.8),
@@ -74,10 +150,19 @@ function Explorer.CreateNode(Object, Depth)
             ForegroundColor = "Text",
         })
 
-        NodeObj.IsChildOpen = true
+        if ExpandedState[Object] ~= nil then
+            NodeObj.IsChildOpen = ExpandedState[Object]
+        else
+            NodeObj.IsChildOpen = true
+        end
+        NodeObj.Button:SetImageRect(Rect.new(
+            Vector2.new(NodeObj.IsChildOpen and 64 or 0, 0),
+            Vector2.new(64,64)
+        ))
 
         NodeObj.Button.Clicked:Connect(function()
             NodeObj.IsChildOpen = not NodeObj.IsChildOpen
+            ExpandedState[Object] = NodeObj.IsChildOpen
             SetAllChildNodeVisible(NodeObj,NodeObj.IsChildOpen)
             NodeObj.Button:SetImageRect(Rect.new(
                 Vector2.new(NodeObj.IsChildOpen and 64 or 0, 0),
@@ -89,26 +174,37 @@ function Explorer.CreateNode(Object, Depth)
     return NodeObj
 end
 
-function Explorer.CreateTree(Object, Depth, BeforeNodeObj)
+function Explorer.CreateTree(Object, Depth, BeforeNodeObj, IsLastChild)
     Order = Order + 1
 
-    local NodeObj = Explorer.CreateNode(Object, Depth)
+    local NodeObj = Explorer.CreateNode(Object, Depth, IsLastChild)
     NodeObj.Node.ListOrder = Order
     NodeObj.Node:SetParent(ScrollContainer)
+    --NodeObj.CreateParentLine(Depth+1)
     printVerbose(NodeObj.NodeInner.BackgroundColor)
     Explorer.Tree[Object] = NodeObj.NodeInner
-    
+    Explorer.Nodes[Object] = NodeObj
+
     -- ??
-    if BeforeNodeObj then
-        table.insert(BeforeNodeObj.ChildrenInNode,NodeObj)
-        if not BeforeNodeObj.AlreadyCreatedChilButton then
-            BeforeNodeObj.CreateChildrenButton()
+    local IndexChild = 0
+    for _, Child in pairs(Object:GetChildren()) do
+        IndexChild = IndexChild + 1
+        local IsLastChildCheck = IndexChild == table.length(Object:GetChildren())
+        --print(table.length(Object:GetChildren()),IndexChild)
+        if Child.Serializable then
+            Explorer.CreateTree(Child, Depth + 1, NodeObj, IsLastChildCheck)
         end
     end
 
-    for _, Child in pairs(Object:GetChildren()) do
-        if Child.Serializable then
-            Explorer.CreateTree(Child, Depth + 1, NodeObj)
+    if NodeObj.AlreadyCreatedChilButton then
+        SetAllChildNodeVisible(NodeObj, NodeObj.IsChildOpen)
+    end
+
+    if BeforeNodeObj then
+        table.insert(BeforeNodeObj.ChildrenInNode, NodeObj)
+
+        if not BeforeNodeObj.AlreadyCreatedChilButton then
+            BeforeNodeObj.CreateChildrenButton()
         end
     end
 end
@@ -161,6 +257,34 @@ local function HandleDragEnd()
 
     Moving = false
     Selecting = nil
+end
+
+local function OpenAncestors(Object)
+    local Current = Object.Parent
+
+    while Current do
+        local NodeObj = Explorer.Nodes[Current]
+        if NodeObj then
+            ExpandedState[Current] = true
+            NodeObj.IsChildOpen = true
+
+            if NodeObj.Button then
+                NodeObj.Button:SetImageRect(Rect.new(
+                    Vector2.new(64, 0),
+                    Vector2.new(64,64)
+                ))
+            end
+        end
+        if Current == Things.Root then
+            break
+        end
+        Current = Current.Parent
+    end
+
+    local RootNode = Explorer.Nodes[Things.Root]
+    if RootNode then
+        SetAllChildNodeVisible(RootNode, true)
+    end
 end
 
 function Explorer.Init()
@@ -266,6 +390,10 @@ function Explorer.Init()
             AddButtonWow.IsInsertOpen = false
             Studio.Editor3D.CloseInsertWindow()
         end
+
+        for _, Object in pairs(Studio.Editor3D.Selecting) do
+            OpenAncestors(Object)
+        end
     end)
 
     ---@param MouseObject InputMouseObject
@@ -300,7 +428,11 @@ function Explorer.Redraw()
     ScrollContainer:ClearAllChildren({"ListLayout"})
 
     Explorer.Tree = {}
+    Explorer.Nodes = {}
+
     Explorer.CreateTree(Things.Root, 0)
+
+    ExpandedState = {}
 end
 
 function Explorer.Update(dt)

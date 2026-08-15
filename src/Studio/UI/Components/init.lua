@@ -67,7 +67,7 @@ function Components.CreateIconObject(Name, Icon)
         Layer = 3,
         Name = Name,
         SinkHovering = true,
-        OutlineSize = 0.2,
+        OutlineSize = 0,
         OutlineColor = "Outline",
         CornerRadius = 5,
     })
