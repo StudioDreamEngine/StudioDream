@@ -1,133 +1,144 @@
-local Pivoted = {}
+local Template = {}
+local Things = Runtime.Things
 
-local Size = Vector2.new(64,64)
+local UpdateSignal
 
-local LineUp = {
-    ["true"] = Vector2.new(64,0),
-    ["false"] = Vector2.new(0,0),
-}
+local function CheckAllTheSame(table)
+    local FirstVal = table[1] and table[1].Thing[table[1].Property]
+    for i, Info in pairs(table) do
+        if Info.Thing[Info.Property] ~= FirstVal then
+            return false
+        end
+    end
+    return true
+end
 
-local SomethingUpdated = Signal:New("Wow")
-
-function Pivoted.Start(FrameOption,Thing,Property,ActualNode)
-    print(Thing[Property])
-
-    local IsOpen = true
-    local CreatedNodes = {}
-    local Inputs = {}
-
-    local function CreateOption(FrameOption,Name,Value,Thing,PropertyGiven)
-        
-        local BaseProperty = Runtime.Things.Create("Square") { 
-            Size = Pivot2D.new(0,1,15,0),
-            Pivot = Vector2.new(0,0),
-            BackgroundColor = Studio.Theme.CurrentTheme.Outline,
-            Layer = 3,
-            Parent = FrameOption.Parent.Parent,
-            ListOrder = FrameOption.Parent.ListOrder+0.1,
-            OutlineSize = 2,
-            OutlineColor = Studio.Theme.CurrentTheme.Outline
-        }
-
-        Runtime.Things.Create("Text") {
-            Size =  Pivot2D.FromScale(0.5,1),
-            Position = Pivot2D.FromScale(0.05,0.5),
-            Pivot = Vector2.new(0,0.5),
-            Text = Name,
-            Name = "PropertyName",
-            Parent = BaseProperty,
-            BackgroundTransparency = 1,
-            ForegroundColor = Studio.Theme.CurrentTheme.Text2
-        }
-
-        local Option = Runtime.Things.Create("TextInput") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
-            Size = Pivot2D.FromScale(0.49,1),
-            Position = Pivot2D.FromScale(0.51,0.5),
-            Pivot = Vector2.new(0,0.5),
-            BackgroundColor = Studio.Theme.CurrentTheme.Outline,
-            Layer = 3,
-            Name = "Frame",
-            Text = tostring(Vector2.new(Value.X,Value.Y)),
-            Parent = BaseProperty,
-            ForegroundColor = Studio.Theme.CurrentTheme.Text2
-        }
-
-        Runtime.Things.Create("Square") { -- The frame where options will be in, aka textlabel for strings, tables open and close ect ect!!!
-            Size = Pivot2D.FromScale(0.015,0.85),
-            Position = Pivot2D.FromScale(0.5,0.5),
-            Pivot = Vector2.new(0.5,0.5),
-            BackgroundColor = Studio.Theme.CurrentTheme.Primary,
-            Layer = 3,
-            Name = "Frame",
-            Parent = BaseProperty,
-        }
-
-        CreatedNodes[Name] = BaseProperty
-        Inputs[Name] = Option
-
-        Option.FocusEnd:Connect(function()
-            local NewVector = Vector2.FromString(Option.Text)
-            Option.Text = tostring(NewVector)
-
-            local RebuiltPivot = Pivot2D.new(0,0,0,0)
-            RebuiltPivot.Offset = Vector2.FromString(Inputs.Offset.Text)
-            RebuiltPivot.Scale = Vector2.FromString(Inputs.Scale.Text)
-
-            Runtime.Things.SetProperty(Thing, Property, RebuiltPivot)
-        end)
-
-        SomethingUpdated:Connect(function(NewVal)
-            Option:SetText(tostring(NewVal[Name]))
-        end)
-
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
     end
 
+    return NewTable
+end
 
-    local function ChangeButton(But,Property)
-        But:SetImageRect(Rect.new(LineUp[tostring(Property)],Size))
-    end
+local function CreatePivotNode(MainInfo,WhatThing)
+    local selfed = {}
 
-    local Button = Runtime.Things.Create("ImageButton") {
-        Resource = "Internal/Icons/Engine/OpenMenu.png",
-        Size = Pivot2D.FromScale(1,1),
-        BackgroundColor = Studio.Theme.CurrentTheme.Text,
-        SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
-        Position = Pivot2D.FromScale(1,0.5),
-        Pivot = Vector2.new(1,0.5),
-        Parent = FrameOption,
-    }
+    selfed.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
 
-    local TextToEverythin = Runtime.Things.Create("Text") {
-        Size =  Pivot2D.FromScale(0.5,1),
-        Position = Pivot2D.FromScale(0,0.5),
+    selfed.BaseProperty = Studio.Components.CreateStyle("Square",{
+        Size = Pivot2D.new(0.95,0,0,23),
+        Pivot = Vector2.new(0,0),
+        BackgroundColor = Studio.CurrentTheme.Outline,
+        Layer = 3,
+        Parent = MainInfo.Expand.Container,
+        CornerRadius = 6,
+    })
+
+    selfed.Option = Studio.Components.CreateStyle("TextInput",{
+        Size = Pivot2D.FromScale(0.49,.8),
+        Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0,0.5),
-        Text = "",
-        Parent = FrameOption,
+        BackgroundColor = "Secondary",
+        Layer = 3,
+        Parent = selfed.BaseProperty,
+        CornerRadius = 6,
+         ForegroundColor = "Text"
+    })
+
+    selfed.Text = Studio.Components.CreateStyle("Text", {
+        Size =  Pivot2D.FromScale(0.49,.9),
+        Position = Pivot2D.FromScale(0.005,0.5),
+        Pivot = Vector2.new(0,0.5),
+        Text = WhatThing,
+        Parent = selfed.BaseProperty,
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2
-    }
+        ForegroundColor = "Text"
+    })
+    
+    local function Update()
+        for i,Info in pairs(MainInfo.WillHandle) do
+        if CheckAllTheSame(MainInfo.WillHandle) then
+            local Transform = Info.Thing[Info.Property]
+            local NewMatrix = (WhatThing == "Scale") and Transform.Scale  or Transform.Offset
 
-    ChangeButton(Button,IsOpen)
-    print(Thing[Property])
+            selfed.Option:SetText(tostring(NewMatrix))
+        else
+            selfed.Option:SetText("~")
+        end
+    end
+    end
 
-    Button.Clicked:Connect(function()
-        IsOpen = not IsOpen
-        ChangeButton(Button,IsOpen)
-        for i,v in pairs(CreatedNodes) do
-            v:SetVisible(IsOpen)
+    Update()
+
+    table.insert(MainInfo.Connections,UpdateSignal:Connect(function()
+        Update()
+    end))
+
+    table.insert(MainInfo.Connections,selfed.Option.FocusStart:Connect(function()
+        Studio.History.RegisterUndo("LotsOfObjects",selfed.SavedFrozen)
+    end))
+
+    table.insert(MainInfo.Connections,selfed.Option.FocusEnd:Connect(function()
+        for i,Info in pairs(MainInfo.WillHandle) do
+            local IsRotate = (WhatThing == "Offset")
+            local FromString = Vector2.FromString(selfed.Option.Text)
+
+            --print(FromString)
+
+            local Transform = IsRotate and Pivot2D.new(Info.Thing[Info.Property].Scale.X,FromString.X,Info.Thing[Info.Property].Scale.Y,FromString.Y) or Pivot2D.new(FromString.X,Info.Thing[Info.Property].Offset.X,FromString.Y,Info.Thing[Info.Property].Offset.Y)
+
+            Things.SetProperty(Info.Thing, Info.Property, Transform)
         end
 
-        TextToEverythin:SetText((not IsOpen) and ("{"..tostring(Thing[Property].Scale).."}".."{"..tostring(Thing[Property].Offset).."}") or "")
-        
-    end)
+        selfed.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+        Studio.History.RegisterUndo("LotsOfObjects",selfed.SavedFrozen)
+    end))
 
-    CreateOption(FrameOption,"Scale",Thing[Property].Scale,Thing,Property)
-    CreateOption(FrameOption,"Offset",Thing[Property].Offset,Thing,Property)
-    --CreateOption(FrameOption,"Angle",Thing[Property].Position,Thing,Property)]]
+    return selfed
 end
 
-function Transform3D.Update(NewValue)
-    SomethingUpdated.Invoke(NewValue)
+function Template.Start(MainInfo)
+    local self = {}
+    --MainInfo.Connections
+    MainInfo.ParentWith = MainInfo.BaseProperty.Parent
+    local MainTxt = Studio.Components.CreateStyle("Text", {
+        Text = " ",
+        ForegroundColor = "Text",
+        BackgroundTransparency = 1,
+        Size = Pivot2D.FromScale(1,1),
+        Parent = MainInfo.Option,
+        Alignment = Enum.Alignment.Center,
+        Font = Studio.CurrentTheme.FontBold,
+    })
+
+    local Expand = Studio.Components.ExpandableDropdown(MainInfo.Option, MainInfo.ParentWith)
+
+    MainInfo.Expand = Expand
+    UpdateSignal = Signal:New("Update")
+
+    function self.Update()
+        UpdateSignal.Invoke()
+    end
+
+    table.insert(MainInfo.Connections,MainInfo.Expand.VisibleChanged:Connect(function(Visible)
+        if not Visible then
+            for i,Info in pairs(MainInfo.WillHandle) do
+                if CheckAllTheSame(MainInfo.WillHandle) then
+                    MainTxt:SetText("{"..tostring(Info.Thing[Info.Property].Scale).."} {"..tostring(Info.Thing[Info.Property].Offset).."}")
+                else
+                    MainTxt:SetText("~")
+                end
+            end
+        else
+            MainTxt:SetText(" ")
+        end
+    end))
+    CreatePivotNode(MainInfo,"Scale")
+    CreatePivotNode(MainInfo,"Offset")
+    return self
 end
 
-return Pivoted
+return Template

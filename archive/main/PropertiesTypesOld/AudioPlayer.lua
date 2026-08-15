@@ -1,48 +1,49 @@
 local Template = {}
 
-Template.CustomConnect = "Playing"
-
 local LineUp = {
         ["Play"] = Vector2.new(64,0),
         ["Stop"] = Vector2.new(0,0),
     }
 
-Template.CustomName = "Preview Sound"
+function Template.Start(MainInfo)
+    local self = {}
+    --MainInfo.Connections
 
-local button
+    for i,v in pairs(MainInfo.WillHandle) do
+        -- Nothin, this is mostly for when the property will be set up
+    end
 
-function Template.Start(FrameOption,Thing,Property,BaseProperty) -- Scrapped for now
-   -- BaseProperty:GetChild("PropertyName")
-    button = Runtime.Things.Create("ImageButton") {
+    MainInfo.Option.BackgroundTransparency = 1
+    MainInfo.Text:SetText("Preview Audio")
+
+    local Button = Studio.Components.CreateStyle("ImageButton",{
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
-        Resource = "Internal/Icons/Engine/PauseAnPlay.png",
-        Parent = FrameOption
-    }
+        Resource = "Internal/Studio/PauseAnPlay.png",
+        Parent = MainInfo.Option,
+        SinkHovering = true,
+    })
     
-    button:SetImageRect(Rect.new(LineUp.Play,Vector2.new(64,64)))
+    Button:SetImageRect(Rect.new(LineUp.Play,Vector2.new(64,64)))
 
-    button.Clicked:Connect(function()
-        if Thing.Resource then
-            if Thing.Playing then
-                Thing:Pause()
-            else
-                Thing:Play()
-            end
-            --button:SetImageRect(Rect.new(LineUp[Thing.Playing and "Play" or "Stop"],Vector2.new(64,64)))
-        else
-            Utils.SendNotification("Audio thing doesnt has a Resource to play","info")
+    function self.Update()
+        for i,Info in pairs(MainInfo.WillHandle) do
+            Button:SetImageRect(Rect.new(LineUp[Info.Thing.Playing and "Play" or "Stop"],Vector2.new(64,64)))
         end
-    end)
-end
+    end
 
-function Template.Update(DoesItStillPlay)
-    button:SetImageRect(Rect.new(LineUp[DoesItStillPlay and "Stop" or "Play"],Vector2.new(64,64)))
-end 
+    table.insert(MainInfo.Connections,Button.Clicked:Connect(function()
+        self.Update()
+        for i,Info in pairs(MainInfo.WillHandle) do
+            if Info.Thing.Playing then
+                Info.Thing:Pause()
+            else
+                Info.Thing:Play()
+            end
+        end
+    end))
 
-function Template.WhenReset(Thing)
-    Thing:Rewind()
-    Thing:Stop()
+    return self
 end
 
 return Template

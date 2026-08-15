@@ -47,6 +47,11 @@ function Drawable3D:SetCollidable(New)
     end
 end
 
+function Drawable3D:OnRemove()
+    self:RemoveBody() -- the fact we dont havent made this a thing until 0.9
+    Drawable3D.super.OnRemove(self)
+end
+
 function Drawable3D:SetMaterial(NewMaterial)
     printVerbose(NewMaterial)
     self.Material = NewMaterial

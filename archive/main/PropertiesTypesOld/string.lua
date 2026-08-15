@@ -1,26 +1,71 @@
-local Stringed = {}
-local Stringthing
+local Template = {}
 
-function Stringed.Start(FrameOption,Thing,Property) 
-    Stringthing = Runtime.Things.Create("TextInput") {
-        Size = Pivot2D.FromScale(1,1),
-        Text = tostring(Thing[Property]),
+local function CheckAllTheSame(table)
+    local FirstVal = table[1] and table[1].Thing[table[1].Property]
+    for i, Info in pairs(table) do
+        if Info.Thing[Info.Property] ~= FirstVal then
+            return false
+        end
+    end
+    return true
+end
+
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
+function Template.Start(MainInfo)
+    local self = {}
+
+    self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+
+    local Text = Studio.Components.CreateStyle("TextInput",{
+        ForegroundColor = "Text",
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
-        Parent = FrameOption
-    }
+        Pivot = Vector2.new(0.5,0.5),
+        Size = Pivot2D.FromScale(0.95,1),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Parent = MainInfo.Option,
+    })
+    
+    function self.Update()
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
+        
+        for i,Info in pairs(MainInfo.WillHandle) do
+            if AllSame then
+                Text:SetText(Info.Thing[Info.Property])
+            else
+                Text:SetText("~")
+            end
+        end
+    end
 
-    Stringthing.FocusEnd:Connect(function()
-        Studio.EditorServices.Undo.RegisterUndo(function() Runtime.Things.SetProperty(Thing,Property,Thing[Property]) end)
-        Thing[Property] = Stringthing.Text
-        --print(Studio.Layout.WindowsCreated)
+    table.insert(MainInfo.Connections, Text.FocusEnd:Connect(function() 
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
 
-        Studio.Layout.CallHandle("Explorer", "Redraw") -- Change this pls :skull:
-    end)
+    table.insert(MainInfo.Connections, Text.FocusEnd:Connect(function()
+        for i,Info in pairs(MainInfo.WillHandle) do
+            print(Info)
+            Runtime.Things.SetProperty(Info.Thing, Info.Property, Text.Text)
+        end
+        Studio.Layout.CallHandle("Explorer", "Redraw") -- Make this as a attribute thing!!@! 
+        
+        self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
+
+    self.Update()
+
+    return self
 end
 
-function Stringed.Update(NewVal)
-    Stringthing:SetText(tostring(NewVal))
-end
 
-return Stringed
+
+return Template

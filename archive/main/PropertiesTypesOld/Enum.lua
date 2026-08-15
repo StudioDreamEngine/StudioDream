@@ -1,96 +1,133 @@
-local Enumed = {}
+local Template = {}
 
 local GeneratedList
-local ChangedOption = Signal:New("BlehBleh")
 
--- Creates the list of Enums for the dropdown
-local function GenerateList(Option,Frame,Thing)
-    local Enum = Enum[Option]
+local function CheckAllTheSame(table)
+    local FirstVal = table[1] and table[1].Thing[table[1].Property]
+    for i, Info in pairs(table) do
+        if Info.Thing[Info.Property] ~= FirstVal then
+            return false
+        end
+    end
+    return true
+end
+
+function GenerateList(MainInfo,ChangedOption,Things,Property)
+    local RefObject = Things[1].Thing
+    local EnumList = table.clone(RefObject.Proxy.Enums[Property])
+
     local Index = 0
     local Choices = {}
+    
+    local function GenerateButton(Name, Value)
+        table.insert(Choices, {
+            Text = tostring(Name),
+            Type = "Button",
+            Function = function()
+                for i,Info in pairs(Things) do
+                    Runtime.Things.SetProperty(Info.Thing, Property, Value)
+                end
 
-    for i,v in pairs(Enum) do
-        if i ~= "Type" or i ~= "NameFromValue" then
-            Index=Index+1
+                ChangedOption.Invoke()
 
-            table.insert(Choices,{
-                Text = tostring(i),
-                Type = "Button",
-                Function = function()
-                    Thing[Option] = v
-                    ChangedOption.Invoke()
+                if GeneratedList then 
+                    GeneratedList.Remove() 
                     GeneratedList = nil
                 end
-            })
+            end
+        })
+    end
+
+    for i,v in pairs(EnumList) do
+        if type(v) ~= "function" then
+            if i ~= "Type" then -- TRUST ME I TRIED "AND" AND IT DIDNT WORK :SKULL:
+                Index=Index+1
+                --print(i,v)
+                GenerateButton(i,v)
+            end
         end
     end
 
-    GeneratedList = Studio.Components.AdvancedDropdown(Choices)
-    GeneratedList.Setup(Frame, Vector2.new(0,1))
-    GeneratedList.Toggle(true)
+    GenerateButton("None", nil)
+
+    return Choices
 end
 
-local Size = Vector2.new(64,64)
-local LineUp = {
-    ["true"] = Vector2.new(64,0),
-    ["false"] = Vector2.new(0,0),
-}
-
-local function ChangeButton(But,Property)
-    But:SetImageRect(Rect.new(LineUp[tostring(Property)],Size))
-end
-
-function Enumed.Start(FrameOption,Thing,Property) 
+function Template.Start(MainInfo)
+    local self = {}
     local EnumLock = false
-    local ConnectFunction
-    
-    local TextClick = Runtime.Things.Create("TextButton") {
-        Text = tostring(Utils.GetEnumNameByValue(Property,Thing[Property])),
-        ForegroundColor = Studio.Theme.CurrentTheme.Text,
-        BackgroundColor = Studio.Theme.CurrentTheme.Secondary,
-        Size = Pivot2D.FromScale(0.97,0.95),
-        Position = Pivot2D.FromScale(0.5,0.5),
-        Pivot = Vector2.new(0.5,0.5),
-        Parent = FrameOption,
-        CornerRadius=5
-    }
+    --MainInfo.Connections
+    self.ChangedOption = Signal:New("BlehBlehhh")
 
-    local Button = Runtime.Things.Create("Image2D") {
-        Resource = "Internal/Icons/Engine/OpenMenu.png",
+    local Text = Studio.Components.CreateStyle("TextButton",{
+        ForegroundColor = "Text",
+        BackgroundTransparency = 0,
         Size = Pivot2D.FromScale(1,1),
-        BackgroundColor = Studio.Theme.CurrentTheme.Text,
-        SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
-        Position = Pivot2D.FromScale(1,0.5),
-        Pivot = Vector2.new(1,0.5),
-        Parent = TextClick,
-    }
+        Parent = MainInfo.Option,
+        Alignment = Enum.Alignment.Center,
+        Font = Studio.CurrentTheme.FontBold,
+        BackgroundColor = Studio.CurrentTheme.Primary,
+        CornerRadius = 5,
+        SinkHovering = true,
+    })
 
-    ChangeButton(Button,EnumLock)
+    function self.Update()
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
 
-    TextClick.Clicked:Connect(function()
-        print(EnumLock)
+        for i,Info in pairs(MainInfo.WillHandle) do
+            if AllSame then
+                ---@class Thing
+                local Thing = Info.Thing
+                local EnumList = Thing.Proxy.Enums[Info.Property]
 
-        if not ConnectFunction then
-            ConnectFunction = ChangedOption:Connect(function()
-                print("Bleh")
-                TextClick.Text = tostring(Utils.GetEnumNameByValue(Property,Thing[Property]))
-                EnumLock = false
-                ChangeButton(Button,EnumLock)
-            end)
+                Text:SetText(EnumList.NameFromValue(Info.Thing[Info.Property]) or "None") -- Gonna have to do it the shitty way for now until we have an enum rewrite
+            else
+                Text:SetText("~")
+            end
         end
+    end
 
-        EnumLock = not EnumLock
-        ChangeButton(Button,EnumLock)
-
-        if EnumLock then
-            GenerateList(Property,FrameOption,Thing)
-        else
-            if (not GeneratedList) then return end -- Guard Clauses mikl! Guard clauses
-            
+    function self.Destroy()
+        if GeneratedList then 
+            GeneratedList.Remove() 
             GeneratedList = nil
         end
-    end)
+    end
+    
+    self.Update()
 
+    table.insert(MainInfo.Connections,self.ChangedOption:Connect(function()
+        EnumLock=false
+    end))
+
+    table.insert(MainInfo.Connections,Text.Clicked:Connect(function()
+        self.Destroy()
+
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
+        local TableWow = {}
+
+        if AllSame then
+            local PropertyOne
+            for i,Info in pairs(MainInfo.WillHandle) do
+                PropertyOne = Info.Property
+                table.insert(TableWow,{
+                    Thing = Info.Thing,
+                })
+            end
+
+            EnumLock = not EnumLock
+
+            if EnumLock then
+                local ListGenerated = GenerateList(MainInfo,self.ChangedOption,TableWow,PropertyOne)
+                --print(ListGenerated)
+                GeneratedList = Studio.Components.DropdownPlus.new(ListGenerated,Text)
+            else
+                self.Destroy()
+            end
+        end
+    end))
+
+    return self
 end
 
-return Enumed
+return Template

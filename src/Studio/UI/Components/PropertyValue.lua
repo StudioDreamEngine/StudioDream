@@ -231,6 +231,7 @@ local ValueFunction = function(PropertyList, Information, Style)
 
     if Information.Subs then
         PropertyValue.UI.SubContainer = Studio.Components.ExpandableDropdown(PropertyValue.UI.ValueContainer, PropertyList.Parent).Container
+        
         for _,Object in pairs(Information.Subs) do
             Object.UI.Container:SetParent(PropertyValue.UI.SubContainer)
         end

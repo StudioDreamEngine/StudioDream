@@ -1,5 +1,14 @@
-local Stringed = {}
-local Stringthing
+local Template = {}
+
+local function CheckAllTheSame(table)
+    local FirstVal = table[1] and table[1].Thing[table[1].Property]
+    for i, Info in pairs(table) do
+        if Info.Thing[Info.Property] ~= FirstVal then
+            return false
+        end
+    end
+    return true
+end
 
 local function FormatTime(Time)
     local totalSeconds = Time or 0
@@ -10,26 +19,62 @@ local function FormatTime(Time)
 	return string.format("%d:%02d", minutes, seconds)
 end
 
-function Stringed.Start(FrameOption,Thing,Property) 
-    Stringthing = Runtime.Things.Create("TextInput") {
-        Size = Pivot2D.FromScale(1,1),
-        Text = FormatTime(Thing[Property]),
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
+function Template.Start(MainInfo)
+    local self = {}
+
+    self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+
+    local Text = Studio.Components.CreateStyle("TextInput",{
+        ForegroundColor = "Text",
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
-        Parent = FrameOption
-    }
+        Pivot = Vector2.new(0.5,0.5),
+        Size = Pivot2D.FromScale(0.95,1),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Parent = MainInfo.Option,
+    })
 
-    Stringthing.FocusEnd:Connect(function() -- not done :heart:
-        --[[Studio.EditorServices.Undo.RegisterUndo(Thing,Property,Thing[Property])
-        Thing[Property] = Stringthing.Text
-        --print(Studio.Layout.WindowsCreated)
+    function self.Update(DoesntTimer)
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
+        for i,Info in pairs(MainInfo.WillHandle) do -- on the start it will aways have 1 so ye
+            if AllSame then
+                Text:SetText((not DoesntTimer) and FormatTime(Info.Thing[Info.Property]) or Info.Thing[Info.Property])
+            else
+                Text:SetText("~")
+            end
+        end
 
-        Studio.Layout.CallHandle("Explorer", "Redraw") -- Change this pls :skull:]]
-    end)
+    end
+
+    self.Update()
+
+    table.insert(MainInfo.Connections,Text.FocusStart:Connect(function()
+        for i,Info in pairs(MainInfo.WillHandle) do
+            print("ahh")
+            self.Update(true)
+        end
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
+
+    table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
+        for i,Info in pairs(MainInfo.WillHandle) do
+            Runtime.Things.SetProperty(Info.Thing, Info.Property, tonumber(Text.Text))
+        end
+        self.Update()
+        self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
+
+    return self
 end
 
-function Stringed.Update(NewVal)
-    Stringthing:SetText(FormatTime(NewVal))
-end
-
-return Stringed
+return Template

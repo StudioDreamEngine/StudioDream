@@ -1,31 +1,81 @@
-local VectorThree = {}
-local VectorThing
+-- literall just for testing - bloctans
+local Template = {}
 
-function VectorThree.Start(FrameOption,Thing,Property) -- maybe a signal for when the option is changed? like u stop typing the new object name ect ect
+local function CheckAllTheSame(table)
+    local FirstVal = table[1] and table[1].Thing[table[1].Property]
+    for i, Info in pairs(table) do
+        if Info.Thing[Info.Property] ~= FirstVal then
+            return false
+        end
+    end
+    return true
+end
 
-    VectorThing = Runtime.Things.Create("TextInput") {
-        Size = Pivot2D.FromScale(1,1),
-        Text = tostring(Thing[Property]),
+local function CheckIfTheresSpecificProperty(Table,Property)
+    for i,v in pairs(Table) do
+        if v.Property == Property then
+            return true
+        end
+    end
+    return false
+end
+
+local function MapOutForUndo(Table)
+    local NewTable = {}
+    NewTable.ObjectsToChange = {}
+    for i,v in pairs(Table) do 
+        table.insert(NewTable.ObjectsToChange,{Property = v.Property,Obj = v.Thing,Val = v.Thing[v.Property]})
+    end
+
+    return NewTable
+end
+
+function Template.Start(MainInfo)
+    local self = {}
+
+    self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+
+    local Text = Studio.Components.CreateStyle("TextInput",{
+        ForegroundColor = "Text",
         BackgroundTransparency = 1,
-        ForegroundColor = Studio.Theme.CurrentTheme.Text2,
-        Parent = FrameOption
-    }
+        Pivot = Vector2.new(0.5,0.5),
+        Size = Pivot2D.FromScale(0.95,1),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Parent = MainInfo.Option,
+    })
 
-    VectorThing.FocusEnd:Connect(function()
-        local ToFilter = string.gsub(VectorThing.Text,"%a","")
-        local SplitVecText = string.split(ToFilter,",")
-            
-        local RebuildVector = Vector3.new(tonumber(SplitVecText[1]) or 0.01,tonumber(SplitVecText[2])or 0.01,tonumber(SplitVecText[3])or 0.01)
-        
-        --Thing[Property] = RebuildVector -- mikl for the love of god
+    function self.Update()
+        local AllSame = CheckAllTheSame(MainInfo.WillHandle)
 
-        Runtime.Things.SetProperty(Thing, Property, RebuildVector)
-        VectorThing.Text = tostring(Thing[Property])
-    end)
+        for i,Info in pairs(MainInfo.WillHandle) do -- on the start it will aways have 1 so ye
+            if AllSame then
+                Text:SetText(tostring(Info.Thing[Info.Property]))
+            else
+                Text:SetText("~")
+            end
+        end
+
+    end
+
+    self.Update()
+
+    table.insert(MainInfo.Connections,Text.FocusStart:Connect(function()
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
+
+    table.insert(MainInfo.Connections,Text.FocusEnd:Connect(function()
+        for i,Info in pairs(MainInfo.WillHandle) do
+            print(Text.Text)
+            print(Vector3.FromString(Text.Text))
+
+            Runtime.Things.SetProperty(Info.Thing, Info.Property, Vector3.FromString(Text.Text))
+        end
+
+        self.SavedFrozen = MapOutForUndo(MainInfo.WillHandle)
+        Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
+    end))
+
+    return self
 end
 
-function VectorThree.Update(NewVal)
-    --VectorThing:SetText(tostring(NewVal)) -- Commenting out until we only update when we have to
-end
-
-return VectorThree
+return Template

@@ -136,6 +136,7 @@ function Components.ExpandableDropdown(Header, List)
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
         Parent = Header,
+        IgnoreConstraints = true,
         ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
         ForegroundColor = "Text",
     })
