@@ -45,11 +45,48 @@ function SelectionManager.DuplicateAll()
     local ClonedObjects = {}
 
     for i,Object in pairs(Editor3D.Selecting) do
+        if not Object.Proxy.Duplicatable then return end
         Object:Clone().Parent = Object.Parent
         table.insert(ClonedObjects,Object)
     end
     
     Editor3D.Selecting = ClonedObjects
+end
+
+function SelectionManager.DeleteAll()
+    for i,Object in pairs(Editor3D.Selecting) do
+        Object:Destroy()
+    end
+end
+
+function SelectionManager.GroupAll()
+    local FolderTo = Things.Create("Folder") {
+        Parent = Editor3D.Selecting[1].Parent
+    }
+
+    for i,Object in pairs(Editor3D.Selecting) do
+        if not Object.Proxy.Creatable then return end
+        Object.Parent = FolderTo
+    end
+    
+    SelectionManager.DeselectAll()
+    SelectionManager.SelectObject(FolderTo)
+end
+
+function SelectionManager.UngroupAll()
+    local ToSelect = {}
+
+    for _,Object in pairs(Editor3D.Selecting) do
+        if Object and Object:IsA("Folder") then
+            for _,Child in pairs(Object:GetChildren()) do
+                Child.Parent = Object.Parent
+                table.insert(ToSelect,Child)
+            end
+            Object:Destroy()
+        end
+    end
+
+    Editor3D.Selecting = ToSelect
 end
 
 function SelectionManager.Init()

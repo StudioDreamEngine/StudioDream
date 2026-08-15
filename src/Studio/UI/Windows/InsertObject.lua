@@ -68,7 +68,7 @@ function InsertObject.Init()
                 local DefaultTarget = Studio.Editor3D.GetDefaultTarget()
 
                 local CreatedObject = Things.Create(ClassName) {
-                    Parent = InsertObject.TargetObject or DefaultTarget,
+                    Parent = Studio.Editor3D.Selecting[1]--InsertObject.TargetObject or DefaultTarget,
                 }  
 
                 Studio.Layout.CallHandle("Explorer", "Redraw")

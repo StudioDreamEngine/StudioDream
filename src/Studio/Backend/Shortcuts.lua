@@ -30,6 +30,17 @@ local InputsSaved = {
         First = Enum.InputCode.LeftCtrl,
         Second = Enum.InputCode.D,
     },
+    ["Group"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.G,
+    },
+    ["UnGroup"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.U,
+    },
+    ["Delete"] = {
+        First = Enum.InputCode.Delete,
+    },
 }
 
 local HandleThis = {
@@ -87,6 +98,33 @@ local HandleThis = {
         },
         Function = function()
             Studio.Editor3D.SelectionManager.DuplicateAll()
+            Studio.Layout.CallHandle("Explorer", "Redraw")
+        end,
+    },
+    ["Delete"] = {
+        Settings = {
+            Inputs = {{Key = InputsSaved.Delete.First}}
+        },
+        Function = function()
+            Studio.Editor3D.SelectionManager.DeleteAll()
+            Studio.Layout.CallHandle("Explorer", "Redraw")
+        end,
+    },
+    ["Group"] = {
+        Settings = {
+            Inputs = {{Key = InputsSaved.Group.First, Mod = true},{Key = InputsSaved.Group.Second}}
+        },
+        Function = function()
+            Studio.Editor3D.SelectionManager.GroupAll()
+            Studio.Layout.CallHandle("Explorer", "Redraw")
+        end,
+    },
+    ["UnGroup"] = {
+        Settings = {
+            Inputs = {{Key = InputsSaved.UnGroup.First, Mod = true},{Key = InputsSaved.UnGroup.Second}}
+        },
+        Function = function()
+            Studio.Editor3D.SelectionManager.UngroupAll()
             Studio.Layout.CallHandle("Explorer", "Redraw")
         end,
     },

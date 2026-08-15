@@ -37,6 +37,8 @@ function Image2D:new()
 
     self.DefaultIdentifier = nil
 
+    self.ImageSituation = Enum.ImageSituation.Normal
+
     self.BackgroundTransparency = 1
 
     if math.random(1,100) == 1 then
@@ -52,8 +54,8 @@ function Image2D:DefineAPI()
     Image2D.super.DefineAPI(self)
 
     self.Proxy.Icon("Image2D")
-    self.Proxy.Property("Rect ImageRect","Resource Resource","Enum.FilterType FilterType","Rect NineSlice")
-    self.Proxy.Group("Visuals","Resource","ImageRect","FilterType","NineSlice")
+    self.Proxy.Property("Rect ImageRect","Resource Resource","Enum.FilterType FilterType","Rect NineSlice","Enum.ImageSituation ImageSituation")
+    self.Proxy.Group("Visuals","Resource","ImageRect","FilterType","NineSlice","ImageSituation")
     self.Proxy.MakeCreatable()
 end
 
@@ -101,6 +103,12 @@ function Image2D:CreateSlices(ImageSize)
     --Profiler.End()
 end
 
+function Image2D:SetImageSituation(NewSituation)
+    self.ImageSituation = NewSituation
+
+
+end
+
 function Image2D:SetNineSlice(NewNineSlice)
     self.NineSlice = NewNineSlice
     self:RefreshQuad()
@@ -114,9 +122,11 @@ function Image2D:SetImageRect(NewRect)
 end
 
 function Image2D:HandleDrawImage(Scale)
+    local FirstSit = self.ImageSituation == "mirror" and -1 or 1
+    local SecondSit = self.ImageSituation == "flip" and -1 or 1
     if (not self.NineSlice.Usable()) then
         love.graphics.scale(Scale.X, Scale.Y)
-        love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0) -- Draw Image
+        love.graphics.draw(self.ImageFile,self.ImageQuad,0,0,0,FirstSit,SecondSit) -- Draw Image
         return
     end
 
@@ -145,7 +155,7 @@ function Image2D:HandleDrawImage(Scale)
             QScale = QScale / Slice.Size
         end
 
-        love.graphics.draw(self.ImageFile, Slice.Quad, Pos.X, Pos.Y, 0, QScale.X, QScale.Y,Slice.Offset.X,Slice.Offset.Y)
+        love.graphics.draw(self.ImageFile, Slice.Quad, Pos.X, Pos.Y, 0, QScale.X*FirstSit, QScale.Y*SecondSit, Slice.Offset.X,Slice.Offset.Y)
 
         --Profiler.End()
     end

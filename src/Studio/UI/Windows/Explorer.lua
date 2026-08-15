@@ -52,80 +52,6 @@ function Explorer.CreateNode(Object, Depth)
         CornerRadius = 5,
     })
 
-    NodeObj.Context = Studio.Components.CreateStyle("Contextulizer",{
-        Size = Pivot2D.FromScale(1,1),
-        Pivot = Vector2.new(0.5,0.5),
-        Position = Pivot2D.FromScale(0.5,0.5),
-        --BackgroundTransparency = 1,
-        Layer = 999,
-        SinkHovering = false,
-        Parent = NodeObj.Node,
-        Serializable = false,
-    })
-
-    NodeObj.Context.OnContextCreate:Connect(function()
-        print(Object.Proxy.Duplicatable)
-    end)
-
-    NodeObj.Context:SetChoices({
-        {
-            Type = "Button",
-            Text = "Duplicate thing",
-            SubText = "Sets cloned thing to current parent",
-            Image = "Internal/Studio/ContextMenu/Clone.png",
-            Applicable = Object.Proxy.Duplicatable,
-            Function = function(Menu)
-                Object:Clone():SetParent(Object.Parent)
-                Menu.Remove()
-            end,
-        },
-        {
-            Type = "Button",
-            Text = "Delete thing",
-            Image = "Internal/Studio/ContextMenu/Delete.png",
-            Applicable = Object.Proxy.Creatable,
-            Function = function(Menu)
-                Object:Destroy()
-                Menu.Remove()
-            end,
-        },
-        {Type = "Separator"},
-        {
-            Type = "Button",
-            Text = "Group thing",
-            Image = "Internal/Studio/ContextMenu/Group.png",
-            Applicable = Object.Proxy.Creatable,
-            Function = function(Menu)
-                local Folder = Things.Create("Folder") {Parent = Object.Parent}
-                Object:SetParent(Folder) 
-                Menu.Remove()
-            end,
-        },
-        {
-            Type = "Button",
-            Text = "Ungroup thing",
-            Image = "Internal/Studio/ContextMenu/Ungruped.png",
-            Applicable = Object:IsA("Folder"),
-            Function = function(Menu)
-                for i,v in pairs(Object:GetChildren()) do
-                    v:SetParent(Object.Parent)
-                end
-                Object:Destroy()
-                Menu.Remove()
-            end,
-        },
-        {Type = "Separator"},
-        {
-            Type = "Button",
-            Text = "Insert thing",
-            Image = "Internal/Studio/ContextMenu/Ungruped.png",
-            Function = function(Menu)
-                Studio.Editor3D.OpenInsertWindow()
-                Menu.Remove()
-            end,
-        },
-    })
-
     NodeObj.AlreadyCreatedChilButton = false
 
     NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
@@ -248,6 +174,79 @@ function Explorer.Init()
         Serializable = false
     })
 
+    Studio.Components.CreateStyle("ListLayout",{
+        Parent = ScrollContainer,
+        Padding = 3,
+        SortMode = Enum.SortMode.Order
+    })
+
+    local Context = Studio.Components.CreateStyle("Contextulizer",{
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        BackgroundTransparency = 0.5,
+        Layer = 999,
+        SinkHovering = false,
+        Parent = Explorer.Container,
+        Serializable = false,
+    })
+
+    Context:SetChoices({
+        {
+            Type = "Button",
+            Text = #Studio.Editor3D.Selecting > 1 and "Duplicate things" or "Duplicate thing",
+            --SubText = "Sets cloned thing to current parent",
+            Image = "Internal/Studio/ContextMenu/Clone.png",
+            --Applicable = #Studio.Editor3D.Selecting > 0,
+            Function = function(Menu)
+                Studio.Editor3D.SelectionManager.DuplicateAll()
+                Explorer.Redraw()
+            end,
+        },
+        {
+            Type = "Button",
+            Text = #Studio.Editor3D.Selecting > 1 and "Delete things" or "Delete thing",
+            Image = "Internal/Studio/ContextMenu/Delete.png",
+            --Applicable = #Studio.Editor3D.Selecting > 0,
+            Function = function(Menu)
+                Studio.Editor3D.SelectionManager.DeleteAll()
+                Explorer.Redraw()
+            end,
+        },
+        {Type = "Separator"},
+        {
+            Type = "Button",
+            Text = #Studio.Editor3D.Selecting > 1 and "Group things" or "Group thing",
+            Image = "Internal/Studio/ContextMenu/Group.png",
+            --Applicable = #Studio.Editor3D.Selecting > 0,
+            Function = function(Menu)
+                Studio.Editor3D.SelectionManager.GroupAll()
+                Explorer.Redraw()
+                Explorer.Redraw()
+            end,
+        },
+        {
+            Type = "Button",
+            Text = #Studio.Editor3D.Selecting > 1 and "UnGroup things" or "UnGroup thing",
+            Image = "Internal/Studio/ContextMenu/Ungruped.png",
+            --Applicable = #Studio.Editor3D.Selecting > 0,
+            Function = function(Menu)
+                Studio.Editor3D.SelectionManager.UngroupAll()
+                Explorer.Redraw()
+            end,
+        },
+        {Type = "Separator"},
+        {
+            Type = "Button",
+            Text = "Insert thing",
+            Image = "Internal/Studio/ContextMenu/Ungruped.png",
+            Function = function(Menu)
+                Studio.Editor3D.OpenInsertWindow()
+                Menu.Remove()
+            end,
+        },
+    })
+
     Explorer.Redraw()
     
     InputService.MouseEvent:Connect(function(IsDown)
@@ -298,16 +297,10 @@ function Explorer.Init()
 end
 
 function Explorer.Redraw()
-    ScrollContainer:ClearAllChildren()
-    
+    ScrollContainer:ClearAllChildren({"ListLayout"})
+
     Explorer.Tree = {}
     Explorer.CreateTree(Things.Root, 0)
-
-    Studio.Components.CreateStyle("ListLayout",{
-        Parent = ScrollContainer,
-        Padding = 3,
-        SortMode = Enum.SortMode.Order
-    })
 end
 
 function Explorer.Update(dt)
