@@ -34,7 +34,6 @@ end
 function ListLayout:BindObject(_child)
     local Binded = ListLayout.super.BindObject(self, _child)
     if (not Binded) then return end
-    --print(_child.Name, "binded to", self.Name)
     self:UpdateLayout()
 
     if _child:IsA("BaseGui") then
@@ -160,7 +159,7 @@ function ListLayout:UpdateLayout()
 
     Positions = nil
 
-    local Remaining = (TotalSpace - (FlexSize - self.Padding))
+    local Remaining = (TotalSpace - FlexSize)
     self.RemainingSize = Pivot2D.FromOffset((ParentSize * OpposingVector) + (Remaining * AxisVector))
 end
 

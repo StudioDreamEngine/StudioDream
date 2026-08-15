@@ -28,7 +28,6 @@ end
 function MoveControl:OnChange()
     local MoveAxis = self.Down.Thing:Abs()
     local Value = (self:GetPlane() - self.InitalOffset) * MoveAxis
-    print(self.GridSnap)
     self.ControlChanged.Invoke(self:Snap(Value, self.GridSnap))
 end
 

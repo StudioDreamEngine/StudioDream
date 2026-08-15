@@ -1,3 +1,4 @@
 TODO: Something that needs to be done
 FUTURE: Something that needs to be done
 PROXY: This returns a thing that isnt proxied, and needs attention
+OPTIMIZATION: Tag that indicates this is something to be optimized

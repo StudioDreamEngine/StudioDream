@@ -37,6 +37,7 @@ function TopBar.CreateTab(TabName, Tab)
         Pivot = Vector2.one * .5,
         Position = Pivot2D.FromScale(.5,.5),
         BackgroundTransparency = 1,
+        Name = "Tab",
         Parent = TopBar.TabContainer
     }
 
@@ -65,6 +66,7 @@ function TopBar.Init()
         BackgroundTransparency = 1,
         Size = Pivot2D.FromScale(1,0.3),
         Parent = TopBar.Container,
+        Name = "TabMenu",
         OutlineSize = 1,
         OutlineColor = Studio.CurrentTheme.Outline
     })
@@ -79,6 +81,7 @@ function TopBar.Init()
     TopBar.TabContainer = Components.CreateStyle("Square", {
         Position = Pivot2D.FromScale(0,0.3),
         Size = Pivot2D.FromScale(1,0.7),
+        Name = "TabTools",
         BackgroundTransparency = 1,
         Parent = TopBar.Container
     })

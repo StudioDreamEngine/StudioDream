@@ -44,7 +44,7 @@ end
 
 -- Debug function
 function Scheduler.GetTasks()
-    return table.length(PausedTasks) + table.length(ActiveTasks) + table.length(CancelingTasks)
+    return table.length(Origins)
 end
 
 function Scheduler.PauseTask(Task, Paused)
@@ -158,7 +158,7 @@ function Scheduler.Update()
         Origins[Task] = nil
     end
 
-    -- Clear all canceling tasks, since im lazy
+    -- Clear all canceling tasks
     table.clear(CancelingTasks)
 end
 

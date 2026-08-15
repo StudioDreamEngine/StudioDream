@@ -85,6 +85,8 @@ function DropdownPlus.new(Choices,FakeParent)
     DropdownObject.Shadow = Components.CreateDropshadow(DropdownObject.MajorParent)
     DropdownObject.Choices = {}
 
+    DropdownObject.Visible = true
+
     Components.CreateStyle("ListLayout", {
         Parent = DropdownObject.MajorParent,
         Alignment = Vector2.new(0.5,0)
@@ -97,6 +99,10 @@ function DropdownPlus.new(Choices,FakeParent)
     DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent)
 
     function DropdownObject.Toggle(Visible, Animation)
+        if (type(Visible) == "nil") then
+            Visible = (not DropdownObject.Visible)
+        end
+
         --DropdownObject.MajorParent.Visible = Visible -- mikl i swear to god
 
         --[[if (not Animation) then
@@ -122,6 +128,7 @@ function DropdownPlus.new(Choices,FakeParent)
         Move2.Play()
 
         Move.Completed:Connect(function()
+            DropdownObject.Visible = Visible
             DropdownObject.Container:SetVisible(Visible)
             DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 0 or 1))
             DropdownObject.MajorParent:SetActive(Visible)

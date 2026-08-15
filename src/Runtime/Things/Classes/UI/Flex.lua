@@ -11,6 +11,8 @@ function FlexItem:new()
 
     self.ConstraintProperties = {"Size"}
     self.ObjectFilter = "BaseGui"
+
+    self.Connection = nil
 end
 
 function FlexItem:GetListLayout()
@@ -25,6 +27,8 @@ function FlexItem:Update(dt)
 
     local ListLayout = self:GetListLayout()
     if (not ListLayout) then return end
+
+    ListLayout:RequestUpdateLayout() -- Flex items for now will always update their list layouts, TODO: Make this not happen, OPTIMIZATION
 
     Target:SetConstraint(self, "Size", ListLayout.RemainingSize)
 end

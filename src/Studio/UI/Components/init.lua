@@ -102,6 +102,7 @@ function Components.CreateContainer(Size, Parent)
     return Things.Create("Square") {
         BackgroundTransparency = 1,
         Size = Size,
+        Name = "ContainerComponent",
         Parent = Parent
     }
 end

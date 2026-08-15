@@ -17,7 +17,7 @@ function Drawable3D:new()
     self.Velocity = Vector3.zero
 
     self.Material = Dream:newMaterial()
-    print("Create reflection")
+    printVerbose("Create reflection")
     self._Reflection = Dream:newReflection(love.graphics.newCubeImage("Assets/sky.png"))
 end
 

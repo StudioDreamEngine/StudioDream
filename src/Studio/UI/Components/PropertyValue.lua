@@ -57,26 +57,35 @@ local ValueTypes = {
         end
     end,
     Dropdown = function(Parent, Info)
-        -- TODO
-
         ---@class TextButton
         local ValueObject = Studio.Components.CreateStyle("TextButton", {
-            Position = Pivot2D.FromScale(1,0.5),
-            Pivot = Vector2.new(0,0),
-            Alignment = Enum.Alignment.MiddleCenter,
+            Position = Pivot2D.FromScale(0,0.5),
+            IgnoreConstraints = true, -- HACK
+            Pivot = Vector2.new(0,0.5),
+            Alignment = Enum.Alignment.Center,
             Size = Pivot2D.FromScale(1,0.9),
             ForegroundColor = "Text",
             Placeholder = Info.Placeholder or "None",
             Parent = Parent,
         })
 
-        Things.Create("Flex") {
-            Parent = ValueObject
-        }
+        local Choices = {}
+        assert(Info.Choices, "Choices missing from PropertyValue info")
 
-        ValueObject.Clicked:Connect(function()
-            
-        end)
+        for _, Choice in pairs(Info.Choices) do
+            table.insert(Choices, {
+                Type = "Button",
+                Text = Choice,
+                Function = function()
+                    Info.OnChange(Choice)
+                end
+            })
+        end
+
+        local Dropdown = Studio.Components.DropdownPlus.new(Choices, ValueObject)
+        Dropdown.Toggle(false)
+
+        ValueObject.Clicked:Connect(Dropdown.Toggle)
 
         return function(Value)
             ValueObject:SetText(Value)
@@ -122,6 +131,7 @@ return function(PropertyList, Information)
         Size = Pivot2D.FromScale(HasTitle and 0.5 or 1,0.8),
         Pivot = Vector2.new(1,0.5),
         Position = Pivot2D.FromScale(1,0.5),
+        Name = "ValueContainer",
         BackgroundColor = "Outline",
         BackgroundTransparency = (Information.Type ~= "Checkbox") and 0 or 1, -- hard-coded but im too lazy
         Parent = Container,
@@ -139,6 +149,7 @@ return function(PropertyList, Information)
             Size = Pivot2D.FromScale(1,1),
             Parent = ValueContainer,
             SquareAxis = Enum.SquareAxis.Y,
+            Layer = 10,
             BackgroundTransparency = 1,
             Resource = "Internal/Studio/"..Information.Icon
         })

@@ -83,7 +83,7 @@ function Runtime.Update(dt)
     if Runtime.Backend then
         Runtime.Backend.Update(dt)
     end
-    
+
     Runtime.Renderer.ViewportManager.Update(dt) -- temporary
     Runtime.Things.Update(dt)
 end

@@ -5,6 +5,7 @@ return function(Args,SingleTab)
     local ButtonContainer = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.1,1),
         BackgroundTransparency = 0.5,
+        Name = "ToolbarSnap",
         CornerRadius = 5,
        -- OutlineSize = 1.5,
         --OutlineColor = Studio.CurrentTheme.Outline
@@ -21,7 +22,7 @@ return function(Args,SingleTab)
     -- In the configs, we should have a function that still creates the container itself
     Studio.Components.PropertyValue(PropertyList, {
         Icon = "TabIcons/MoveIcon.png",
-        Type = "Dropdown",
+        Type = "Input",
         UserChange = function(Text)
             Studio.Editor3D.UpdateGrid("Grid",tonumber(Text) or 0.5)
         end,
