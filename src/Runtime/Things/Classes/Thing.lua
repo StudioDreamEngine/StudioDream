@@ -244,7 +244,29 @@ function Thing:GetParentCallback(Callback)
 end
 
 function Thing:IsSerializable()
-    return self.TruelySerializable
+    local Serializable = true
+    local EncounteredRoot
+
+    ---@param ParentThing Thing
+    self:GetParentCallback(function(ParentThing)
+        if ParentThing:IsA("Root") then
+            EncounteredRoot = true
+        end
+
+        if not (ParentThing.Serializable) and not (ParentThing:IsA("Root")) then
+            Serializable = false
+        end
+    end)
+
+    if (not EncounteredRoot) then return end
+
+    -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
+    -- Return false if object itself isnt serializable
+    if (not self.Serializable) then
+        return false
+    end
+
+    return Serializable
 end
 
 function Thing:CheckRecursion(NewParent)
@@ -299,8 +321,16 @@ function Thing:SetParent(NewParent)
         if self:IsA("BaseGui") then
             table.insert(NewParent.InterfaceChildren, self)
         end
+
+        if NewParent:IsSerializable() then
+            Runtime.Things.RequestTreeChange(self)
+        end
     else
         self.OrphanedPath = self:GetPath()
+
+        if OldParent:IsSerializable() then
+            Runtime.Things.RequestTreeChange(self)
+        end
     end
 
     self.Parent = NewParent

@@ -11,7 +11,7 @@ local Classes = {}
 Things.API = {}
 Things.ClassDump = {} -- Copy of classes for stuff such as IsA
 
-Things.HierachyChanged = Signal:New("HierachyChanged")
+Things.TreeChanged = Signal:New("HierachyChanged")
 
 local CreateRoot
 local Invalidated = 0
@@ -24,6 +24,7 @@ function Things.Init()
 
     printVerbose("Creating root tree")
     Things.Root = CreateRoot.CreateRoot()
+    Things.FireTreeChange = false
 
     printVerbose("Tree Created")
 end
@@ -71,7 +72,9 @@ end
 
 function Things.SetDebugObject(Object) Things.DebugObj = Object end
 
-
+function Things.RequestTreeChange(From)
+    Things.FireTreeChange = From
+end
 
 
 function Things.Type(ThingType) 
@@ -244,10 +247,16 @@ function Things.Update(dt)
     Invalidated = 0
 
     Profiler.Start("Things - Update Passes")
-    Things.UpdatePass("Update", dt)
+    Things.UpdatePass("Update", dt) -- LEAK: Check trello
     Things.UpdatePass("Invalidate", dt)
     Things.UpdatePass("PostUpdate", dt)
     Profiler.End()
+    
+    if Things.FireTreeChange then
+        print(Things.FireTreeChange:GetPath())
+        Things.TreeChanged.Invoke()
+        Things.FireTreeChange = false
+    end
 end
 
 return Things

@@ -291,6 +291,10 @@ function Explorer.Init()
         end
     end)
 
+    Runtime.Things.TreeChanged:Connect(function()
+        printInternal("Redrew explorer")
+        Explorer.Redraw()
+    end)
 end
 
 function Explorer.Redraw()
