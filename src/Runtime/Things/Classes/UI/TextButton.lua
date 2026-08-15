@@ -53,6 +53,10 @@ function TextButton:OnRemove()
 
     self.Hovering = false
     self.Clicked:DisconnectAll()
+    self.Released:DisconnectAll()
+    self.HoverEnter:DisconnectAll()
+    self.HoverExit:DisconnectAll()
+
     Runtime.InterfaceManager.UnregisterButton(self.UUID)
 end
 

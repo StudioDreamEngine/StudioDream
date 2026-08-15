@@ -22,10 +22,6 @@ function PlatformService.ChangeIcon(Resource)
     love.window.setIcon(ToImageData)
 end
 
-function PlatformService.SetWindowSettings(WindowVect,Flags)
-    Utils.SetMode(WindowVect,Flags)
-end
-
 function PlatformService.OpenURL(Link)
     love.system.openURL(Link)
 end

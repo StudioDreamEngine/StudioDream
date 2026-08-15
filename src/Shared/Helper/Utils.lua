@@ -24,8 +24,14 @@ function Utils.TypeOf(Object)
     end
 end
 
-function Utils.Boolean()
-    
+function Utils.Boolean(Value)
+    local Final
+
+    -- God... why..........
+    if (type(Value) ~= "nil") then Final = (Value and true or false)
+    else Final = nil end
+
+    return Final
 end
 
 function Utils.DebugPrint(String, Pos)
@@ -59,7 +65,7 @@ end
 function Utils.CountTable(Table) error("Utils.CountTable is deprecated, use table.length(Table) instead.") end ---@deprecated
 function Utils.UltraCloneTable(Table) error("Utils.UltraCloneTable is deprecated, use table.deepcopy(Table) instead.") end ---@deprecated
 function Utils.GetEnumNameByValue(EnumName,Val) error("Utils.GetEnumNameByValue is deprecated, Enum-related utilities should be in the enum perhaps") end ---@deprecated
-function Utils.SetWindowSize(Vect2) error("SetWindowSize is deprecated, use Utils.SetMode") end ---@deprecated
+function Utils.SetWindowSize(Vect2) error("SetWindowSize is deprecated, use WindowService instead") end ---@deprecated
 
 -- Shouldnt be a util but whatever ig
 function Utils.Warn(Message)
@@ -80,17 +86,8 @@ function Utils.SendNotification(Message,Type)
     Studio.Layout.GetHandle("Notification").Notify(Message,Type)
 end
 
-function Utils.SetMode(WidthAndHeight,Stuff)
-    printVerbose("Utils.SetMode is set to be replaced by WindowService in the future")
-
-    local X, Y, flags = love.window.getMode()
-    if not Stuff then
-        Stuff = flags
-    end
-    Stuff["depth"] = true
-    -- TODO: When theres no stuff, make so it gets the saved Stuff, or just create a table
-    love.window.setMode(WidthAndHeight.X, WidthAndHeight.Y,Stuff)
-end
+---@deprecated
+function Utils.SetMode(WidthAndHeight,Stuff) error("Utils.SetMode is deprecated, use WindowService instead.") end
 
 function Utils.LoadModules(Path, Require)
     local Classes = {}

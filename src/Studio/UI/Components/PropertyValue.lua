@@ -23,8 +23,8 @@ local ValueTypes = {
             Parent = ValueObject
         }
 
-        return function()
-            ValueObject:SetText(Info.OnUpdate())
+        return function(Value)
+            ValueObject:SetText(Value)
         end
     end,
     Checkbox = function(Parent, Info)
@@ -47,43 +47,59 @@ local ValueTypes = {
             SinkHovering = true,
         })
 
-        -- Mikls code.. im lazy... (2)
-        local function UpdateButton(Property)
-            Value = Property
-            Button:SetImageRect(Rect.new(LineUp[Property],Vector2.new(64,64)))
-        end
-
         Button.Clicked:Connect(function()
             Info.OnChange(not Value)
         end)
 
-        return function()
-            local Update = Info.OnUpdate()
-            local Final
-
-            -- God... why..........
-            if (type(Update) ~= "nil") then Final = (Update and true or false)
-            else Final = nil end
-
-            UpdateButton(Final)
+        return function(InValue)
+            Value = Utils.Boolean(InValue)
+            Button:SetImageRect(Rect.new(LineUp[Value],Vector2.new(64,64)))
         end
     end,
-    Dropdown = function()
+    Dropdown = function(Parent, Info)
         -- TODO
+
+        ---@class TextButton
+        local ValueObject = Studio.Components.CreateStyle("TextButton", {
+            Position = Pivot2D.FromScale(1,0.5),
+            Pivot = Vector2.new(0,0),
+            Alignment = Enum.Alignment.MiddleCenter,
+            Size = Pivot2D.FromScale(1,0.9),
+            ForegroundColor = "Text",
+            Placeholder = Info.Placeholder or "None",
+            Parent = Parent,
+        })
+
+        Things.Create("Flex") {
+            Parent = ValueObject
+        }
+
+        ValueObject.Clicked:Connect(function()
+            
+        end)
+
+        return function(Value)
+            ValueObject:SetText(Value)
+        end
     end
 }
 
 --[[
+    PropertyList: PropertyList Object created with Components.PropertyList
     Information: {
         Icon = Thing
         Title = "Hello",
         Type = "Dropdown", "Input" or "Checkbox",
-        Update = function() -- Called each time the updator is called
+        Update = function() -- Called each time the updator is called, return a text-friendly version of `Value`
             return Value -- Will be tostring'ed
         end,
-        Change = function(Text) -- Called every time the user changes the value
+        UserChange = function(Text) -- Called every time the user changes the value, its your job to take `Text` and update the corresponding `Value`
             Value = Blah(Text)
-        end
+        end,
+        Choices = { -- Choices list (dropdown only)
+            "a",
+            "b"
+        }
     }
 ]]
 return function(PropertyList, Information)
@@ -128,17 +144,25 @@ return function(PropertyList, Information)
         })
     end
 
+    PropertyValue.PropUpdator = ValueTypes[Information.Type](ValueContainer, Information)
+
+    -- Called every time the PropertyValue should be updated
     Information.OnUpdate = function()
-        return tostring(Information.Update())
+        local UpdateResult = tostring(Information.Update())
+        printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
+
+        PropertyValue.PropUpdator(UpdateResult)
     end
 
-    PropertyValue.PtopUpdator = ValueTypes[Information.Type](ValueContainer, Information)
-    PropertyValue.PtopUpdator()
-
+    -- Called every time the user changes the value
     Information.OnChange = function(Value)
-        Information.Change(Value)
-        PropertyValue.PropUpdator()
+        printVerbose("PropertyValue OnChange w/ "..Value)
+
+        Information.UserChange(Value)
+        Information.OnUpdate()
     end
+
+    Information.OnUpdate()
 
     return PropertyValue
 end

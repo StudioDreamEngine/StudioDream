@@ -21,8 +21,8 @@ return function(Args,SingleTab)
     -- In the configs, we should have a function that still creates the container itself
     Studio.Components.PropertyValue(PropertyList, {
         Icon = "TabIcons/MoveIcon.png",
-        Type = "Input",
-        Change = function(Text)
+        Type = "Dropdown",
+        UserChange = function(Text)
             Studio.Editor3D.UpdateGrid("Grid",tonumber(Text) or 0.5)
         end,
         Update = function()
@@ -33,7 +33,7 @@ return function(Args,SingleTab)
     Studio.Components.PropertyValue(PropertyList, {
         Icon = "TabIcons/RotIcon.png",
         Type = "Input",
-        Change = function(Text)
+        UserChange = function(Text)
             Studio.Editor3D.UpdateGrid("Rotation",tonumber(Text) or 0.5)
         end,
         Update = function()

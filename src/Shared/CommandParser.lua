@@ -72,12 +72,11 @@ local function HandleSwitch(Arg, NextArg)
 
     if Config.Type == "Switch" then
         if Config.Output then return Config.Output() end
+        
         local IsInverse = (string.sub(FlagName,1,1) == "!")
-        local FlagValue = (not IsInverse)
-
         if IsInverse then FlagName = string.sub(FlagName,2,-1) end
 
-        FLAGS[FlagName] = FlagValue
+        FLAGS[FlagName] = (not IsInverse)
     elseif Config.Type == "String" then
         local IsValid = true
 

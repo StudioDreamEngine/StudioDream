@@ -30,11 +30,12 @@ function Preprocessor.ProcessScript(ScriptContents)
         table.insert(Replacements, {VarStart, i+2, Generated})
     end
 
-
+    -- Find any `!=` comparision operator 
+    for i,v in string.gfind(ScriptContents,  "[%!]=") do
+        table.insert(Replacements, {i, i+2, "~="})
+    end
 
     -- Find for tokens (for luau-like for loops) (TODO)
-
-
 
     -- Apply replacements from preprocessor parsing
     local GeneratedScript = ""

@@ -30,13 +30,13 @@ local ProjectOptions = {
         FunctionWhenCreate = function(Main)
             local Name,Info = Studio.Theme.GetCurrentThemeInfo()
             -- Create the dropdown, when choose, make everything load again maybe? :think:
-            print(Runtime.SettingsManager.GetSetting("UsingTheme"))
-            print(Name)
+            printVerbose("Theme Set", Runtime.SettingsManager.GetSetting("UsingTheme"))
+            printVerbose("Theme Found", Name)
             Main.Option:SetText(Name)
 
             Studio.Theme.ThemeChanged:Connect(function()
                 local Name,Info = Studio.Theme.GetCurrentThemeInfo()
-                print(Name)
+                printVerbose("Changing Theme to", Name)
                 Main.Option:SetText(Name)
             end)
 

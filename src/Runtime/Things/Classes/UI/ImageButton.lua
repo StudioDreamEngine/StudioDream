@@ -52,6 +52,9 @@ end
 function ImageButton:OnRemove()
     self.Clicked:DisconnectAll()
     self.RightClicked:DisconnectAll()
+    self.HoverEnter:DisconnectAll()
+    self.HoverExit:DisconnectAll()
+
     self.Hovering = false
 
     ImageButton.super.OnRemove(self)

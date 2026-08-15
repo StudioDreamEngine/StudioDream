@@ -92,6 +92,7 @@ function BaseFS.Mount(PathString, MountName)
 
     -- Unmount this mountobject and KILL it
     function MountObject.Unmount()
+        print("Unmounting "..Path.FilePath)
         love.filesystem.unmountFullPath(Path.FilePath)
         MountObject = {}
     end

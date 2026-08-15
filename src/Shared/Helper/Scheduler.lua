@@ -155,6 +155,7 @@ function Scheduler.Update()
         -- We cannot close the coroutine on lua 5.1, so we pray the garbage collector does the work for us.
         ActiveTasks[Task] = nil
         PausedTasks[Task] = nil
+        Origins[Task] = nil
     end
 
     -- Clear all canceling tasks, since im lazy

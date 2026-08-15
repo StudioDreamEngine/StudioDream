@@ -103,9 +103,9 @@ function Properties.Clear()
         Function()
     end
 
-    for i,v in pairs(Properties.ParentWith:GetChildren()) do
+    --[[for i,v in pairs(Properties.ParentWith:GetChildren()) do
         print(i,v)
-    end
+    end]]
 
     Properties.DestroyCalls = {}
     Properties.ResetSignal.Invoke()
