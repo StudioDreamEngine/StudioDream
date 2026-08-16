@@ -10,17 +10,37 @@ local function CreateSub(Info,AddInfo)
     Studio.Components.PropertyValue(PropertyList, {
         Title = AddInfo.Name,
         Type = "Input",
-        Translate = Info.Type,
         Disabled = Info.Disabled,
         StyleSelect = true,
         UserChange = function(InfoGiven)
+            local Vectorized = Vector3.FromString(InfoGiven)
+            if AddInfo.Name == "Rotation" then
+                Vectorized = Vectorized:Rad()
+            end
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
-                Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)
+                local ReverseGivenFrom = ((AddInfo.TypeOf or AddInfo.Name)=="Angle"and"Position"or"Angle")
+                local ReverseGiven = ((AddInfo.TypeOf or AddInfo.Name)=="Rotation"and"Position"or"Rotation")
+
+                local FirstTransform = Transform3D["From"..(AddInfo.TypeOf or AddInfo.Name)](Vectorized.X,Vectorized.Y,Vectorized.Z)
+                local BaseTransform 
+
+                if ReverseGiven == "Rotation" then
+                    local GotAngle = Thing.Transform.Rotation.AsAngle()
+                    print(GotAngle)
+                    BaseTransform = Transform3D.FromAngle(GotAngle.X,GotAngle.Y,GotAngle.Z)
+                else
+                    BaseTransform = Transform3D.FromPosition(Thing.Transform.Position.X,Thing.Transform.Position.Y,Thing.Transform.Position.Z)
+                end
+
+                print(BaseTransform)
+                Runtime.Things.SetProperty(Thing, Info.Name,BaseTransform*FirstTransform)
             end
         end,
-        Update = function()
+        ReturnDisplay = function()
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name][AddInfo.Name]) or "~"
+            return IsAllSame and tostring((
+                AddInfo.Name ~= "Rotation" and Studio.Editor3D.Selecting[1][Info.Name][AddInfo.Name] or Studio.Editor3D.Selecting[1][Info.Name][AddInfo.Name].AsAngle():Deg())) 
+                or "~"
         end
     },{
         ValueContainer = "Secondary",
@@ -38,12 +58,14 @@ function Template.Create(Info)
         Translate = Info.Type,
         Disabled = Info.Disabled,
         StyleSelect = true,
+        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)
             end
         end,
-        Update = function()
+        ReturnDisplay = function()
+            print("updated!!!!!!!!!")
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
             return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "~"
         end
@@ -55,6 +77,11 @@ function Template.Create(Info)
     PropertyObject.SubContainer.Container.Name = Info.Name.."1"
     CreateSub(Info,{
         Name = "Position",
+        Parent = PropertyObject.SubContainer.Container
+    })
+    CreateSub(Info,{
+        Name = "Rotation",
+        TypeOf = "Angle",
         Parent = PropertyObject.SubContainer.Container
     })
     return PropertyObject

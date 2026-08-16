@@ -48,7 +48,7 @@ local function NewTransform(Matrix, Rotated)
             end
         end,
         __tostring = function(self)
-            return "{"..tostring(self.Position).."} , {"..tostring(self.AsAngle():Deg()).."}"
+            return "{"..tostring(self.Position).."} , {"..tostring(self.AsAngle():Deg()).."}" -- bullshit
         end
     })
 end
@@ -85,7 +85,7 @@ end
 
 function Transform3D.FromString(Text)
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
-    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,]+}")
+    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-]+}")
     local DefaultNumber = 0
     local StringsCreated = {}
 
@@ -100,14 +100,14 @@ function Transform3D.FromString(Text)
         print(Text)
         print(RemoveWhiteSpace)
         print(StringsCreated[1],StringsCreated[2])
-        FinalString = StringsCreated[1]..","..StringsCreated[2]
+        FinalString = (StringsCreated[1] or "0,0,0")..","..(StringsCreated[2] or "0,0,0")
     else
         FinalString = Text
     end
 
     local SplitText = string.split(FinalString,"[%, %s]")
-
-    return Transform3D.FromPosition((SplitText[1] or DefaultNumber),(SplitText[2] or DefaultNumber),(SplitText[3] or DefaultNumber))*Transform3D.FromAngle((SplitText[4] or DefaultNumber),(SplitText[5] or DefaultNumber),(SplitText[6] or DefaultNumber))
+    local ToRad = Vector3.new((tonumber(SplitText[4]) or DefaultNumber),(tonumber(SplitText[5]) or DefaultNumber),(tonumber(SplitText[6]) or DefaultNumber)):Rad()
+    return Transform3D.FromPosition((tonumber(SplitText[1]) or DefaultNumber),(tonumber(SplitText[2]) or DefaultNumber),(tonumber(SplitText[3]) or DefaultNumber))*Transform3D.FromAngle(ToRad.X,ToRad.Y,ToRad.Z)
 end
 
 return Transform3D

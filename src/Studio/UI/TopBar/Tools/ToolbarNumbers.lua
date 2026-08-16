@@ -26,7 +26,7 @@ return function(Args,SingleTab)
         UserChange = function(Text)
             Studio.Editor3D.UpdateGrid("Grid",tonumber(Text) or 0.5)
         end,
-        Update = function()
+        ReturnDisplay = function()
             return Studio.Editor3D.GridSnap
         end,
     })
@@ -37,7 +37,7 @@ return function(Args,SingleTab)
         UserChange = function(Text)
             Studio.Editor3D.UpdateGrid("Rotation",tonumber(Text) or 0.5)
         end,
-        Update = function()
+        ReturnDisplay = function()
             return Studio.Editor3D.RotationSnap
         end,
     })

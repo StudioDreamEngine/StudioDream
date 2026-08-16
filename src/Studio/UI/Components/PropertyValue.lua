@@ -127,7 +127,7 @@ local ValueTypes = {
         Title = "Hello",
         Type = "Dropdown", "Input" or "Checkbox",
         Translate = "Any Type" -- Will translate the string of the input to an actual value (Input only)
-        Update = function() -- Called each time the updator is called, return a text-friendly version of `Value`
+        ReturnDisplay = function() -- Called each time the updator is called, return a text-friendly version of `Value`
             return Value -- Will be tostring'ed
         end,
         UserChange = function(Text) -- Called every time the user changes the value, its your job to take `Text` and update the corresponding `Value`
@@ -223,10 +223,20 @@ local ValueFunction = function(PropertyList, Information, Style)
 
     -- Called every time the PropertyValue should be updated
     Information.OnUpdate = function()
-        local UpdateResult = tostring(Information.Update())
+        local UpdateResult = tostring(Information.ReturnDisplay())
         printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
 
         PropertyValue.PropUpdator(UpdateResult)
+    end
+
+    if Information.KeepTrackOf then
+        for _,Thing in pairs(Information.KeepTrackOf.Things) do
+            Container:AddPlaceholderSignal(Thing.PropertyChanged:Connect(function(Val,Property) -- Can be a memory leak so change this to something better later
+                if Property == Information.KeepTrackOf.Property then
+                    Information.OnUpdate()
+                end
+            end))
+        end
     end
 
     if Information.StyleSelect then

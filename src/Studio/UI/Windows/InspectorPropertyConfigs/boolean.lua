@@ -14,7 +14,7 @@ function Template.Create(Info)
                 Runtime.Things.SetProperty(Thing, Info.Name, (not Thing[Info.Name]))
             end
         end,
-        Update = function()
+        ReturnDisplay = function()
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
             return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "~"
         end
