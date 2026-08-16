@@ -55,70 +55,19 @@ local ProjectOptions = {
 
 
 function GenConfig.Create(Parent)
-    local CreateObject = {}
-
-    function CreateObject.CreatePartBlock(Name,TypeOfOption,ParentS)
-        local PartObj = {}
-
-        PartObj.Base = Studio.Components.CreateStyle("Square",{
-            Size = Pivot2D.FromScale(1,0.1),
-            Parent =  CreateObject.Scroll,
-            BackgroundTransparency = 1,
-            --BackgroundColor = Studio.CurrentTheme.Outline,
-            CornerRadius = 2,
-        })
-
-        PartObj.Text = Studio.Components.CreateStyle("Text", {
-            Size = Pivot2D.FromScale(1,.5),
-            Position = Pivot2D.FromScale(1,.5),
-            Pivot = Vector2.new(1,.5),
-            Parent = PartObj.Base,
-            BackgroundTransparency = 1,
-            ForegroundColor = "Text",
-            Text = Name
-        })
-
-        PartObj.Option = Studio.Components.CreateStyle("Text"..(TypeOfOption or ""), {
-            Size = Pivot2D.FromScale(0.49,.8),
-            Position = Pivot2D.FromScale(0.5,0.5),
-            Pivot = Vector2.new(0,0.5),
-            BackgroundColor = "Outline",
-            ForegroundColor = "Text",
-            Layer = 3,
-            CornerRadius = 6,
-            Parent = PartObj.Base,
-        })
-
-        return PartObj
-    end
-
-    function CreateObject.CreateOptions()
-        for _,Option in pairs(ProjectOptions) do
-            Option.FunctionWhenCreate(CreateObject.CreatePartBlock(Option.Name,Option.OptionType,CreateObject.Scroll))
-        end
-    end
-
-    function CreateObject.Create()
-        CreateObject.Scroll = Studio.Components.CreateStyle("ScrollContainer",{
-            Size = Pivot2D.FromScale(1,1),
-            Parent = Parent,
-            BackgroundTransparency = 1,
-        })
-
-        Studio.Components.CreateStyle("ListLayout",{
-            Parent = CreateObject.Scroll,
-        })
-
-        CreateObject.CreateOptions()
-    end
-
-    CreateObject.Create()
-
-    function CreateObject.Toggle(Visibly)
-        CreateObject.Scroll:SetVisible(Visibly)
-    end
-
-    return CreateObject
+    local Settings = Studio.Components.Settings.new({
+        {
+            Title = "Theme",
+            Type = "Dropdown",
+            Update = function() -- Called each time the updator is called, return a text-friendly version of `Value`
+                --return Value -- Will be tostring'ed
+            end,
+            UserChange = function(Text) -- Called every time the user changes the value, its your job to take `Text` and update the corresponding `Value`
+                
+            end,
+            Choices = Studio.Theme.GetThemes()
+        }
+    }, Parent)
 end
 
 return GenConfig

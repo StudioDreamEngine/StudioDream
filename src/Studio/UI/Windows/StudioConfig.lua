@@ -62,9 +62,10 @@ end
 
 function StudioConfig.ToggleOption(Name)
     for _,OObj in pairs(StudioConfig.CreatedButtons) do
-        OObj.Module.Toggle(false)
+        OObj.Container:SetVisible(false)
     end
-    StudioConfig.CreatedButtons[Name].Module.Toggle(true)
+
+    StudioConfig.CreatedButtons[Name].Container:SetVisible(true)
 end
 
 function StudioConfig.CreateOption(Module,Parent,Name)
@@ -91,15 +92,24 @@ function StudioConfig.Init()
 
     local Created = StudioConfig.CreateMainSquares()
     printVerbose(StudioConfig.AllOptions)
+    
     for Name,Module in pairs(StudioConfig.AllOptions) do
+        local OptionContainer = Things.Create("Square") {
+            Parent = Created.RenderOption,
+            Size = Pivot2D.FromScale(1,1)
+        }
+
         local OptionObject = {
             Button = StudioConfig.CreateOption(Module,Created.Options,Name),
-            Module = Module.Create(Created.RenderOption)
+            Module = Module.Create(OptionContainer),
+            Container = OptionContainer
         }
+
         StudioConfig.CreatedButtons[Name] = OptionObject
     end
+
     for _,OObj in pairs(StudioConfig.CreatedButtons) do
-        OObj.Module.Toggle(false)
+        OObj.Container:SetVisible(false)
     end
 end
 

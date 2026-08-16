@@ -31,7 +31,7 @@ function TextButton:new()
 
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering then return end
-        if (not self:IsActive()) then return end --OPTIMIZATION: this isnt good!!!
+        if (not self:IsActive()) then print("Inactive") return end --OPTIMIZATION: this isnt good!!!
 
         self.Clicked.Invoke()
     end)

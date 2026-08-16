@@ -53,12 +53,23 @@ end
 function ScrollContainer:Draw()
     ScrollContainer.super.Draw(self)
     
-    local CanvasSize = self:GetCanvasSize()
-    local BarPos = (-self.ScrollPosition / CanvasSize.Y) * self.AbsoluteSize.Y
-    local BarSize = (self.AbsoluteSize.Y / CanvasSize.Y) * self.AbsoluteSize.Y -- There has to be a better way to do this
+    --[[
+        Draw the scrollbar, this little bitch is so fucking stubborn
+
+        Sometimes i wish i never had to write ui code again, but here i am, 
+        suffering through like what, the 25th stage of hell?
+        
+        - Bloctans
+    ]]
+    local CanvasScale = (self:GetCanvasSize().Y / self.AbsoluteSize.Y) -- How large CanvasSize is compared to AbsoluteSize
+
+    local BarPos = (-self.ScrollPosition / CanvasScale)
+    local BarSize = self.AbsoluteSize.Y / CanvasScale
+    local BarPivot = BarSize * (BarPos / self.AbsoluteSize.Y)
+    
     Runtime.Backend2D.SetColor(self.ForegroundColor,1 - self.ForegroundTransparency)
     
-    love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - (BarPos/2), 5, BarSize)
+    love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - BarPivot, 5, BarSize)
 end
 
 function ScrollContainer:SetAbsoluteSize(New)

@@ -40,6 +40,7 @@ function Components.Init()
     Components.ContextMenu = require("Studio.UI.Components.ContextMenu")
     Components.PropertyValue = require("Studio.UI.Components.PropertyValue")
     Components.DropdownPlus = require("Studio.UI.Components.DropdownPlus")
+    Components.Settings = require("Studio.UI.Components.Settings")
 
     Components.CreateDialog = DialogWindows.CreateDialogWindow
     Components.ShowFade = DialogWindows.ShowFade
