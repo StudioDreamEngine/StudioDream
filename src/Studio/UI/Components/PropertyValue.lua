@@ -170,15 +170,6 @@ local ValueTypes = {
         Square = "Outline"
 ]]
 
-local TranslateTable = { -- I hate i have to do this
-    ["Vector3"] = Vector3,
-    ["Vector2"] = Vector2,
-    ["Transform3D"] = Transform3D,
-    ["Rect"] = Rect,
-    ["Pivot2D"] = Pivot2D,
-    ["Color"] = Color,
-}
-
 local ValueFunction = function(PropertyList, Information, Style)
     local PropertyValue = {}
     Style = Style or {}
@@ -299,7 +290,7 @@ local ValueFunction = function(PropertyList, Information, Style)
 
         -- Auto-translate value
         if Information.Translate then
-            Value = TranslateTable[Information.Translate].FromString(Value)
+            Value = _G[Information.Translate].FromString(Value)
         end
 
         Information.UserChange(Value)
