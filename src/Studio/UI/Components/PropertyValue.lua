@@ -244,9 +244,10 @@ local ValueFunction = function(PropertyList, Information, Style)
 
         local function UpdateSelect()  
             if ToggleThing then
-                if Information.Type == "Input" then
+                if Information.Type == "Input" then -- TODO: Move to ValueType function
                     PropertyValue.Prop:FocusHere()
                 end
+
                 Container.BackgroundColor = Studio.CurrentTheme["Selecting"]
             else
                 Container.BackgroundColor = Studio.CurrentTheme[Style.Container or "Primary"]

@@ -21,15 +21,17 @@ local function CreateSub(Info,AddInfo)
             end
 
             for _,Thing in pairs(Studio.Editor3D.Selecting) do -- also need to figure out a good way to improve this
-                ---@class Transform3D
-                local BaseTransform = Thing[Info.Name]
-                local NewTransform = IsRotation and Transform3D.FromAngle(Vectorized) or Transform3D.FromPosition(Vectorized)
+                if IsRotation then
+                    local Transform1 = Thing[Info.Name].PositionMatrix()
+                    local Transform2 = Transform3D.FromAngle(Vectorized)
 
-                if IsRotation then BaseTransform = BaseTransform.PositionMatrix()
-                else BaseTransform = BaseTransform.Rotation end
+                    Runtime.Things.SetProperty(Thing, Info.Name, Transform1 * Transform2) 
+                else
+                    local Transform2 = Transform3D.FromPosition(Vectorized)
+                    local Transform1 = Thing[Info.Name].Rotation
 
-                print(BaseTransform)
-                Runtime.Things.SetProperty(Thing, Info.Name,BaseTransform*NewTransform)
+                    Runtime.Things.SetProperty(Thing, Info.Name, Transform2 * Transform1) 
+                end
             end
         end,
         ReturnDisplay = function()

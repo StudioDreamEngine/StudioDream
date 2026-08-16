@@ -56,6 +56,18 @@ local function NewTransform(Matrix, Rotated)
                 assert("Transform3D expected, got ("..Utils.TypeOf(t2)..")")
             end
         end,
+        __add = function (t1, t2)
+            if t1.Type == "Transform3D" and t2.Type == "Vector3" then
+                return NewTransform(t1.GetMatrix() + Dream.mat4(
+                    0, 0, 0, t2.X,
+                    0, 0, 0, t2.Y,
+                    0, 0, 0, t2.Z,
+                    0, 0, 0, 0
+                ))
+            else
+                assert("Transform3D expected, got ("..Utils.TypeOf(t2)..")")
+            end
+        end,
         __tostring = function(self)
             return "{"..tostring(self.Position).."} , {"..tostring(self.AsAngle():Deg()).."}" -- bullshit
         end
