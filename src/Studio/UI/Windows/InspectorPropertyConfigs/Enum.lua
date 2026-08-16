@@ -37,6 +37,19 @@ function Template.Create(Info)
         Container = "Secondary"
     })
 
+    Studio.Components.CreateStyle("ImageButton",{
+        Resource = "Internal/Studio/ScrollEnum.png",
+        Size = Pivot2D.FromScale(0.8,0.8),
+        BackgroundColor = "Text",
+        SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
+        Position = Pivot2D.FromScale(1,0.5),
+        Pivot = Vector2.new(1,0.5),
+        Parent = PropertyObject.PropertyVal.UI.ValueContainer,
+        IgnoreConstraints = true,
+        --ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
+        ForegroundColor = "Text",
+    })
+
     return PropertyObject
 end
 

@@ -7,6 +7,8 @@ Inspector.Container = nil ---@class Square
 
 local ScrollContainer
 
+local SearchText = ""
+
 function Inspector.CreateProperty(PropertyInfo)
     local BaseSquare = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.new(1,0,0,20),
@@ -55,6 +57,8 @@ function Inspector.CreateGroup(GroupName)
 
     ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, ScrollContainer)
     
+    Group.BaseGroup.Dropdown = ExpandableDropdown.Container
+
     return ExpandableDropdown.Container
 end
 
@@ -93,13 +97,60 @@ function Inspector.Clean()
     ScrollContainer:ClearAllChildren({"ListLayout"})
 end
 
+function Inspector.UpdateList()
+    for _,GroupNode in pairs(ScrollContainer:GetChildren()) do
+        if GroupNode.Dropdown then
+            for i,v in pairs(GroupNode.Dropdown:GetChildren()) do
+                if (v:IsA("Square")) then
+                    v:SetVisible((SearchText=='') and true or string.find(v.Name:lower(), SearchText:lower()))
+                end
+            end
+        end
+    end
+end
+
 function Inspector.Init()
-    ScrollContainer = Studio.Components.CreateStyle("ScrollContainer",{
+
+    local SearchBar = Studio.Components.CreateStyle("TextInput",{
+        Size = Pivot2D.FromScale(0.95,0.05),
+        Position = Pivot2D.FromScale(0.5,0),
+        Pivot = Vector2.new(0.5,0),
+        ForegroundColor = "Text",
+        BackgroundTransparency = 0,
+        CornerRadius = 8,
+        Layer = 2,
+        BackgroundColor = "Outline",
+        Alignment = Enum.Alignment.Center,
+        Parent = Inspector.Container,
+        ClearWhenFocus = true,
+        Placeholder = "Search a thing class name!"
+    })
+
+    Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0,0),
+        SquareAxis = Enum.SquareAxis.Y,
+        Resource = "Internal/Studio/Search.png",
+        Parent = SearchBar
+    })
+
+    SearchBar.Typed:Connect(function(NewText)
+        SearchText = NewText
+        Inspector.UpdateList()
+    end)
+
+    SearchBar.FocusEnd:Connect(function()
+        SearchText = ""
+        Inspector.UpdateList()
+    end)
+
+    ScrollContainer = Studio.Components.CreateStyle("ScrollContainer",{
+        Size = Pivot2D.FromScale(1,0.94),
         CanvasSize = Pivot2D.FromScale(1,4),
         BackgroundTransparency = 1,
-        Pivot = Vector2.new(0.5,0.5),
-        Position = Pivot2D.FromScale(0.5,0.5),
+        Pivot = Vector2.new(0.5,0),
+        Position = Pivot2D.FromScale(0.5,0.06),
         Parent = Inspector.Container,
         Serializable = false
     })

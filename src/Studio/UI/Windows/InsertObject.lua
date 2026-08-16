@@ -35,12 +35,23 @@ function InsertObject.Init()
         Size = Pivot2D.FromScale(1,0.1),
         Position = Pivot2D.FromScale(0,0.1),
         Pivot = Vector2.new(0,0),
-        ForegroundColor = "Outline",
+        ForegroundColor = "Text",
         BackgroundTransparency = 0,
         CornerRadius = 8,
+        BackgroundColor = "Outline",
         Alignment = Enum.Alignment.Center,
         Parent = InsertObject.Container,
         ClearWhenFocus = true,
+        Placeholder = "Search a thing class name!"
+    })
+
+    Studio.Components.CreateStyle("Image2D",{
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0,0),
+        SquareAxis = Enum.SquareAxis.Y,
+        Resource = "Internal/Studio/Search.png",
+        Parent = InsertObject.SearchBar
     })
 
     InsertObject.SearchText = ""
@@ -50,6 +61,10 @@ function InsertObject.Init()
         InsertObject.UpdateList()
     end)
 
+    InsertObject.SearchBar.FocusEnd:Connect(function()
+        InsertObject.SearchText = ""
+        InsertObject.UpdateList()
+    end)
     --InsertObject.CloseButton.Clicked:Connect(InsertObject.Close)
 
     for ClassName, Class in pairs(Runtime.Things.API) do
