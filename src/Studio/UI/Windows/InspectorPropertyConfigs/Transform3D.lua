@@ -13,27 +13,23 @@ local function CreateSub(Info,AddInfo)
         Disabled = Info.Disabled,
         StyleSelect = true,
         UserChange = function(InfoGiven)
+            local IsRotation = (AddInfo.Name == "Rotation")
             local Vectorized = Vector3.FromString(InfoGiven)
-            if AddInfo.Name == "Rotation" then
+
+            if IsRotation then
                 Vectorized = Vectorized:Rad()
             end
-            for _,Thing in pairs(Studio.Editor3D.Selecting) do
-                local ReverseGivenFrom = ((AddInfo.TypeOf or AddInfo.Name)=="Angle"and"Position"or"Angle")
-                local ReverseGiven = ((AddInfo.TypeOf or AddInfo.Name)=="Rotation"and"Position"or"Rotation")
 
-                local FirstTransform = Transform3D["From"..(AddInfo.TypeOf or AddInfo.Name)](Vectorized.X,Vectorized.Y,Vectorized.Z)
-                local BaseTransform 
+            for _,Thing in pairs(Studio.Editor3D.Selecting) do -- also need to figure out a good way to improve this
+                ---@class Transform3D
+                local BaseTransform = Thing[Info.Name]
+                local NewTransform = IsRotation and Transform3D.FromAngle(Vectorized) or Transform3D.FromPosition(Vectorized)
 
-                if ReverseGiven == "Rotation" then
-                    local GotAngle = Thing.Transform.Rotation.AsAngle()
-                    print(GotAngle)
-                    BaseTransform = Transform3D.FromAngle(GotAngle.X,GotAngle.Y,GotAngle.Z)
-                else
-                    BaseTransform = Transform3D.FromPosition(Thing.Transform.Position.X,Thing.Transform.Position.Y,Thing.Transform.Position.Z)
-                end
+                if IsRotation then BaseTransform = BaseTransform.PositionMatrix()
+                else BaseTransform = BaseTransform.Rotation end
 
                 print(BaseTransform)
-                Runtime.Things.SetProperty(Thing, Info.Name,BaseTransform*FirstTransform)
+                Runtime.Things.SetProperty(Thing, Info.Name,BaseTransform*NewTransform)
             end
         end,
         ReturnDisplay = function()
@@ -65,7 +61,7 @@ function Template.Create(Info)
             end
         end,
         ReturnDisplay = function()
-            print("updated!!!!!!!!!")
+            print("updated!!!!!!!!!") -- TODO: Improve
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
             return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "~"
         end
@@ -73,17 +69,20 @@ function Template.Create(Info)
         ValueContainer = "Outline",
         Container = "Secondary"
     })
+
     PropertyObject.SubContainer = Studio.Components.ExpandableDropdown(PropertyObject.PropertyVal.UI.ValueContainer,Info.UltraParent)
     PropertyObject.SubContainer.Container.Name = Info.Name.."1"
+
     CreateSub(Info,{
         Name = "Position",
         Parent = PropertyObject.SubContainer.Container
     })
+
     CreateSub(Info,{
         Name = "Rotation",
-        TypeOf = "Angle",
         Parent = PropertyObject.SubContainer.Container
     })
+
     return PropertyObject
 end
 

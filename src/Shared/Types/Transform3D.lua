@@ -28,6 +28,15 @@ local function NewTransform(Matrix, Rotated)
         return Vector3.FromDream(Matrix:toEuler())
     end
 
+    function Object.PositionMatrix()
+        return NewTransform(Dream.mat4(
+            1, 0, 0, Matrix[4],
+            0, 1, 0, Matrix[8],
+            0, 0, 1, Matrix[12],
+            0, 0, 0, 1
+        ), true) -- I dont like doing this... oh well!
+    end
+
     function Object:Copy()
         return Transform3D.FromMatrix(Object.GetMatrix())
     end
@@ -83,7 +92,7 @@ function Transform3D.FromPosition(X,Y,Z)
     return NewTransform(Matrix)
 end
 
-function Transform3D.FromString(Text)
+function Transform3D.FromString(Text) -- also need to figure out a good way to improve this
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
     local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-]+}")
     local DefaultNumber = 0

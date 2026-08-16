@@ -39,7 +39,7 @@ function BaseConstraint:Update()
     -- i guess bro
     for _, Object in pairs(self.Objects) do
         if Object.IgnoreConstraints then
-            print("IgnoreConstraints object found in objects check")
+            printVerbose("IgnoreConstraints object found in objects check, unbinding...")
             self:UnbindObject(Object)
         end
     end
