@@ -62,6 +62,7 @@ function TextInput:new()
     end)
 
     Runtime.InterfaceManager.OnClick:Connect(function()
+        if not self.Active then return end
         if self.Hovering ~= self.InputActive then
             self["Focus" .. (self.Hovering and "Start" or "End") ].Invoke()
         end
@@ -71,7 +72,7 @@ function TextInput:new()
 end
 
 function TextInput:FocusHere()
-    if self.InputActive == true then return end
+    if self.InputActive == true or (not self.Active) then return end
     self.FocusStart.Invoke()
     self.InputActive = true
 end
@@ -80,6 +81,8 @@ function TextInput:DefineAPI()
     TextInput.super.DefineAPI(self)
 
     self.Proxy.Icon("TextInput")
+    self.Proxy.Property("boolean Active")
+    self.Proxy.Group("Transform","Active")
     self.Proxy.MakeCreatable()
 end
 

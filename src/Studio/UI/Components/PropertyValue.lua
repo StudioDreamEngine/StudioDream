@@ -4,6 +4,14 @@ local Things = Runtime.Things
 -- All Value types for PropertyValue, returns their Update function
 local ValueTypes = {
     Input = function(Parent, Info)
+        local CanBeActive
+
+        if Info.Disabled then
+            CanBeActive = false
+        else
+            CanBeActive = true
+        end
+
         ---@class TextInput
         local ValueObject = Studio.Components.CreateStyle("TextInput", {
             Position = Pivot2D.FromScale(0,0),
@@ -12,10 +20,14 @@ local ValueTypes = {
             ForegroundColor = "Text",
             Placeholder = Info.Placeholder or "0",
             Parent = Parent,
+            ForegroundTransparency = Info.Disabled and 0.5 or 0,
+            Active = CanBeActive
         })
 
         ValueObject.FocusEnd:Connect(function()
-            Info.OnChange(ValueObject.Text)
+            if not Info.Disabled then 
+                Info.OnChange(ValueObject.Text)
+            end
         end)
 
         Things.Create("Flex") {
@@ -27,6 +39,13 @@ local ValueTypes = {
         end, ValueObject
     end,
     Checkbox = function(Parent, Info)
+        local CanBeActive
+
+        if Info.Disabled then
+            CanBeActive = false
+        else
+            CanBeActive = true
+        end
         -- Mikls code.. im lazy...
         local LineUp = {
             ["true"] = Vector2.new(64,0),
@@ -44,15 +63,19 @@ local ValueTypes = {
             Parent = Parent,
             ForegroundColor = "Text",
             SinkHovering = true,
+            ForegroundTransparency = Info.Disabled and 0.5 or 0,
+            Active = CanBeActive,
         })
 
         Button.Clicked:Connect(function()
-            Info.OnChange(not Value)
+            if not Info.Disabled then
+                Info.OnChange(not Value)
+            end
         end)
 
         return function(InValue)
             Value = Utils.Boolean(InValue)
-            Button:SetImageRect(Rect.new(LineUp[Value],Vector2.new(64,64)))
+            Button:SetImageRect(Rect.new(LineUp[(type(InValue) == "string" and InValue or Value)],Vector2.new(64,64)))
         end
     end,
     Dropdown = function(Parent, Info)
@@ -65,6 +88,7 @@ local ValueTypes = {
             Size = Pivot2D.FromScale(1,0.9),
             ForegroundColor = "Text",
             Placeholder = Info.Placeholder or "None",
+            ForegroundTransparency = Info.Disabled and 0.5 or 0,
             Parent = Parent,
         })
 
@@ -84,7 +108,11 @@ local ValueTypes = {
         local Dropdown = Studio.Components.DropdownPlus.new(Choices, ValueObject)
         Dropdown.Toggle(false)
 
-        ValueObject.Clicked:Connect(Dropdown.Toggle)
+        ValueObject.Clicked:Connect(function()
+            if not Info.Disabled then
+                Dropdown.Toggle()
+            end 
+        end)
 
         return function(Value)
             ValueObject:SetText(Value)
@@ -134,18 +162,19 @@ local ValueFunction = function(PropertyList, Information, Style)
     local HasTitle = Information.Title
 
     PropertyValue.UI.Container = Container
-
+    PropertyValue.UI.Container.Name = Information.Name or PropertyValue.UI.Container.Name
     if HasTitle then
         PropertyValue.UI.Title = Studio.Components.CreateStyle("Text", {
             Text = Information.Title,
             Pivot = Vector2.new(0,0.5),
             Position = Pivot2D.FromScale(0.05,0.5),
-            Size = Pivot2D.FromScale(0.4,0.6),
+            Size = Pivot2D.FromScale(0.4,0.95),
             BackgroundTransparency = 1,
             ForegroundColor = Style.Title or "Text",
             Parent = Container,
-            Alignment = Enum.Alignment.Center,
-            Font = Style.TitleFont or "FontBold" 
+            Alignment = Enum.Alignment.MiddleLeft,
+            Font = Style.TitleFont or "FontNormal",
+            ForegroundTransparency = Information.Disabled and 0.5 or 0,
         })
     end
 
@@ -177,7 +206,11 @@ local ValueFunction = function(PropertyList, Information, Style)
         })
     end
 
-    PropertyValue.PropUpdator,PropertyValue.Prop = ValueTypes[Information.Type](PropertyValue.UI.ValueContainer, Information)
+    if type(Information.Type) ~= "function" then
+        PropertyValue.PropUpdator,PropertyValue.Prop = ValueTypes[Information.Type](PropertyValue.UI.ValueContainer, Information)
+    else
+        PropertyValue.PropUpdator,PropertyValue.Prop = Information.Type(PropertyValue.UI.ValueContainer, Information)
+    end
 
     -- Called every time the PropertyValue should be updated
     Information.OnUpdate = function()
@@ -186,8 +219,6 @@ local ValueFunction = function(PropertyList, Information, Style)
 
         PropertyValue.PropUpdator(UpdateResult)
     end
-
-    -- Called every time the user changes the value
 
     if Information.StyleSelect then
         local ToggleThing = false
@@ -215,8 +246,10 @@ local ValueFunction = function(PropertyList, Information, Style)
         end)
     end
 
+    -- Called every time the user changes the value
+
     Information.OnChange = function(Value)
-        printVerbose("PropertyValue OnChange w/ "..Value)
+        printVerbose("PropertyValue OnChange w/ "..tostring(Value))
         if Information.Translate then
             Value = TranslateTable[Information.Translate].FromString(Value)
         end
@@ -230,7 +263,7 @@ local ValueFunction = function(PropertyList, Information, Style)
     Information.OnUpdate()
 
     if Information.Subs then
-        PropertyValue.UI.SubContainer = Studio.Components.ExpandableDropdown(PropertyValue.UI.ValueContainer, PropertyList.Parent).Container
+        PropertyValue.UI.SubContainer = Studio.Components.ExpandableDropdown(PropertyValue.UI.ValueContainer,PropertyList.SubsParent or PropertyList.Parent).Container
         
         for _,Object in pairs(Information.Subs) do
             Object.UI.Container:SetParent(PropertyValue.UI.SubContainer)

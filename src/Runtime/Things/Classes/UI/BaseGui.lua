@@ -269,9 +269,12 @@ function BaseGui:DefineAPI()
     self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum.SquareAxis SquareAxis", "number ListOrder", "boolean Visible","number Rotation")
     self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency", "number ColorMultiplier")
     self.Proxy.Property("Enum.AutomaticSize AutomaticSize","boolean IgnoreConstraints")
+    self.Proxy.Property("Vector2 AbsolutePosition","Vector2 AbsoluteSize")
+    self.Proxy.Attribute("AbsolutePosition","SeeOnlyInspect",true)
+    self.Proxy.Attribute("AbsoluteSize","SeeOnlyInspect",true)
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
-    self.Proxy.Group("Transform", "Size", "Position", "Pivot", "SquareAxis",  "AutomaticSize", "Rotation")
+    self.Proxy.Group("Transform", "Size", "Position", "Pivot", "SquareAxis",  "AutomaticSize", "Rotation","AbsolutePosition","AbsoluteSize")
     self.Proxy.Group("Layout", "Visible",  "Layer", "ListOrder", "IgnoreConstraints")
     self.Proxy.Group("Color", "ColorMultiplier")
 

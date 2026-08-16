@@ -43,7 +43,12 @@ local function NewTransform(Matrix, Rotated)
         __mul = function (t1, t2)
             if t1.Type == "Transform3D" and t2.Type == "Transform3D" then
                 return NewTransform(t1.GetMatrix() * t2.GetMatrix())
+            else
+                assert("Transform3D expected, got ("..Utils.TypeOf(t2)..")")
             end
+        end,
+        __tostring = function(self)
+            return "{"..tostring(self.Position).."} , {"..tostring(self.AsAngle():Deg()).."}"
         end
     })
 end
@@ -85,13 +90,16 @@ function Transform3D.FromString(Text)
     local StringsCreated = {}
 
     for String in FindBrack do
-        local RemoveKeys = string.gsub(String,"[%{ %}]","")
+        local RemoveKeys = string.gsub(String,"[%{%}]","")
         table.insert(StringsCreated,RemoveKeys)
     end
 
     local FinalString
 
     if #StringsCreated > 0 then
+        print(Text)
+        print(RemoveWhiteSpace)
+        print(StringsCreated[1],StringsCreated[2])
         FinalString = StringsCreated[1]..","..StringsCreated[2]
     else
         FinalString = Text
@@ -101,7 +109,5 @@ function Transform3D.FromString(Text)
 
     return Transform3D.FromPosition((SplitText[1] or DefaultNumber),(SplitText[2] or DefaultNumber),(SplitText[3] or DefaultNumber))*Transform3D.FromAngle((SplitText[4] or DefaultNumber),(SplitText[5] or DefaultNumber),(SplitText[6] or DefaultNumber))
 end
-
-Transform3D.FromString("{0,10,0},{0,50,0}")
 
 return Transform3D

@@ -45,6 +45,9 @@ local Meta = {
             return Pivot2D.FromAxises(t1.Scale - t2.Scale, t1.Offset - t2.Offset)
         end
     end,
+    __tostring = function(self)
+        return "{"..tostring(Scale).."},{"..tostring(Offset).."}"
+    end
 }
 
 ---@param Offset Vector2

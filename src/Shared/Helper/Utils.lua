@@ -24,6 +24,16 @@ function Utils.TypeOf(Object)
     end
 end
 
+function Utils.IsAllPropertiesTheSame(table,CheckProperty)
+    local FirstVal = table[1] and table[1][CheckProperty]
+    for _, Thing in pairs(table) do
+        if Thing[CheckProperty] ~= FirstVal then
+            return false
+        end
+    end
+    return true
+end
+
 function Utils.Boolean(Value)
     local Final
 

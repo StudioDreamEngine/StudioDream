@@ -1,52 +1,33 @@
 local Things = Runtime.Things
 local Inspector = {}
 
+Inspector.LoadedConfigs = Utils.LoadModules("Studio/UI/Windows/InspectorPropertyConfigs/", true)
+
 Inspector.Container = nil ---@class Square
 
-local ValueToProperty = {
-    ["Vector3"] = "Input",
-    ["Transform3D"] = "Input"
-}
-
 local ScrollContainer
-
-function Inspector.CreateProperty(Info)
-    local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(1,0.1), Info.Parent)
-
-    Studio.Components.PropertyValue(PropertyList, {
-        Title = "VectorTest",
-        Type = "Input",
-        Translate = Info.Type,
-        StyleSelect = true,
-        UserChange = function(Text)
-            print(Text)
-            print(Utils.TypeOf(Text))
-        end,
-        Update = function()
-            return Vector3.zero
-        end,
-        Subs = {
-            Studio.Components.PropertyValue(Studio.Components.PropertyList(Pivot2D.new(1,0,0,30), Info.Parent), {
-                Title = "VectorTest",
-                Type = "Input",
-                Translate = Info.Type,
-                StyleSelect = true,
-                UserChange = function(Text)
-                    print(Text)
-                    print(Utils.TypeOf(Text))
-                end,
-                Update = function()
-                    return Vector3.zero
-                end,
-            },{
-                ValueContainer = "Secondary",
-                Container = "Outline"
-            })
-        }
-    },{
-        ValueContainer = "Outline",
-        Container = "Secondary"
+print(Inspector.LoadedConfigs)
+function Inspector.CreateProperty(PropertyInfo)
+    local BaseSquare = Studio.Components.CreateStyle("Square",{
+        Size = Pivot2D.new(1,0,0,20),
+        BackgroundTransparency = 1,
+        Parent = PropertyInfo.Parent,
+        Name = PropertyInfo.Name
     })
+    local GiveInfo = {
+        Parent = BaseSquare,
+        UltraParent = PropertyInfo.Parent,
+        Name = PropertyInfo.Name,
+        Type = PropertyInfo.Type,
+        Disabled = PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name] and (PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name].SeeOnlyInspect or false) or false
+    }
+    if Inspector.LoadedConfigs[PropertyInfo.Type] then
+        local Return = Inspector.LoadedConfigs[PropertyInfo.Type].Create(GiveInfo)
+        Return.PropertyVal.UI.Container.Name = PropertyInfo.Name
+    else
+        local Return = Inspector.LoadedConfigs.NotFound.Create(GiveInfo)
+        Return.PropertyVal.UI.Container.Name = PropertyInfo.Name
+    end
 end
 
 function Inspector.CreateGroup(GroupName)
@@ -73,8 +54,42 @@ function Inspector.CreateGroup(GroupName)
     })
 
     ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, ScrollContainer)
-
+    
     return ExpandableDropdown.Container
+end
+
+function Inspector.RenderEverything()
+    Inspector.Clean()
+
+    local LoadedGroups = {}
+
+    for _,Thing in pairs(Studio.Editor3D.Selecting) do
+        for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
+            if not LoadedGroups[GroupName] then
+                LoadedGroups[GroupName] = {}
+            end
+            for _,ProToAdd in pairs(GroupData) do
+                LoadedGroups[GroupName][ProToAdd] = Thing
+            end
+        end
+    end
+    
+    for GroupName,GroupData in pairs(LoadedGroups) do
+        local GroupNode = Inspector.CreateGroup(GroupName)
+        for Property, Thing in pairs(GroupData) do
+            local PropertyInfo = {
+                Name = Property,
+                Type = Utils.TypeOf(Thing[Property]),
+                Parent = GroupNode,
+                Thing = Thing,
+            }
+            Inspector.CreateProperty(PropertyInfo)
+        end
+    end
+end
+
+function Inspector.Clean()
+    ScrollContainer:ClearAllChildren({"ListLayout"})
 end
 
 function Inspector.Init()
@@ -94,10 +109,8 @@ function Inspector.Init()
         Padding = 2
     })
 
-    Inspector.CreateProperty({
-        Parent = ScrollContainer,
-        Type = "Vector3"
-    })
+    Studio.Editor3D.OnSelect:Connect(Inspector.RenderEverything)
+    Studio.Editor3D.OnDeselect:Connect(Inspector.Clean)
 end
 
 function Inspector.Update(dt)
