@@ -92,6 +92,19 @@ local ValueTypes = {
             Parent = Parent,
         })
 
+        local Button = Studio.Components.CreateStyle("Image2D",{
+            Resource = "Internal/Studio/OpenMenu.png",
+            Size = Pivot2D.FromScale(0.8,0.8),
+            BackgroundColor = "Text",
+            SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
+            Position = Pivot2D.FromScale(1,0.5),
+            Pivot = Vector2.new(1,0.5),
+            Parent = ValueObject,
+            IgnoreConstraints = true,
+            ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
+            ForegroundColor = "Text",
+        })
+
         local Choices = {}
         assert(Info.Choices, "Choices missing from PropertyValue info")
 
@@ -111,6 +124,10 @@ local ValueTypes = {
         ValueObject.Clicked:Connect(function()
             if not Info.Disabled then
                 Dropdown.Toggle()
+                Button:SetImageRect(Rect.new(
+                    Vector2.new(Dropdown.Visible and 64 or 0, 0),
+                    Vector2.new(64,64)
+                ))
             end 
         end)
 
