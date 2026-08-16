@@ -4,7 +4,7 @@ local Components = Studio.Components
 local TweenService = Runtime.Services.Service("TweenService")
 
 local ChoiceTypes = {
-    ["Button"] = function(Choice, Parent)
+    ["Button"] = function(Choice, Object, Parent)
         local Button = Components.CreateStyle("TextButton", {
             Text = Choice.Text,
             Size = Pivot2D.FromScale(0.95,0.8),
@@ -12,17 +12,21 @@ local ChoiceTypes = {
             Pivot = Vector2.new(0.5,0.5),
             Parent = Parent,
             BackgroundColor = "Primary",
+            SinkHovering = false,
             Alignment = Vector2.new(0,0.5),
             CornerRadius = 2,
             HoverColorMultiplier = 6,
         })
 
         if Choice.Function then
-            Button.Clicked:Connect(Choice.Function)
+            Button.Clicked:Connect(function()
+                Object.Toggle(false)
+                Choice.Function()
+            end)
         end
     end,
-    ["Separator"] = function(Func,Parent,Text)
-        Parent:SetSize(Pivot2D.new(1,0,0,1))
+    ["Separator"] = function(Func,Object, Parent)
+        --Parent:SetSize(Pivot2D.new(1,0,0,1))
         Things.Create("Square") {
             Size = Pivot2D.FromScale(0.9,0.35),
             Position = Pivot2D.FromScale(0.5,0.5),
@@ -38,15 +42,15 @@ local ChoiceTypes = {
     end,
 }
 
-function DropdownPlus.CreateButton(Choice,MajorParent)
+function DropdownPlus.CreateButton(Choice,Object)
     local Button = {}
 
     Button.Button = Components.CreateStyle("Square", {
         Size = Pivot2D.new(1,0,0,20),
         BackgroundTransparency = 1,
-        Parent = MajorParent
+        Parent = Object.MajorParent
     })
-    Button.Type = ChoiceTypes[Choice.Type](Choice,Button.Button)
+    Button.Type = ChoiceTypes[Choice.Type](Choice,Object,Button.Button)
 
     return Button
 end
@@ -93,7 +97,7 @@ function DropdownPlus.new(Choices,FakeParent)
     })
 
     for i,Choice in pairs(Choices) do
-        table.insert(DropdownObject.Choices,DropdownPlus.CreateButton(Choice,DropdownObject.MajorParent))
+        table.insert(DropdownObject.Choices, DropdownPlus.CreateButton(Choice,DropdownObject))
     end
 
     DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent)
@@ -110,11 +114,10 @@ function DropdownPlus.new(Choices,FakeParent)
             return
         end]]
 
-        DropdownObject.MajorParent:SetActive(false)
         DropdownObject.Container:SetVisible(true)
         DropdownObject.Container.ForegroundTransparency = Visible and 1 or 0
-
         DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 1 or 0))
+        DropdownObject.MajorParent:SetActive(false)
 
         local Move = TweenService.Create(DropdownObject.MajorParent, {
             Pivot = Vector2.new(0,Visible and 0 or 1),
@@ -132,7 +135,6 @@ function DropdownPlus.new(Choices,FakeParent)
             DropdownObject.Container:SetVisible(Visible)
             DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 0 or 1))
 
-            --print(Visible)
             DropdownObject.MajorParent:SetActive(Visible)
         end)
     end

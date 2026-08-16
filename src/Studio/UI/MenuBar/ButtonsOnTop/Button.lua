@@ -1,9 +1,7 @@
-local Things = Runtime.Things
-local Components = Studio.Components
 local OpendDropdown = nil
-local CurrentButtonPressed = nil
+
 Runtime.InterfaceManager.OnClick:Connect(function()
-    if CurrentButtonPressed and not CurrentButtonPressed.Hovering then
+    if (not Runtime.InterfaceManager.Hovering) then -- god why
         OpendDropdown.Toggle(false)
     end
 end)
@@ -35,7 +33,6 @@ return function(Args)
             if Dropdown.Container.Visible then
                 Studio.AudioInternal.PlayAudio("Internal/DefaultSounds/Open.ogg",{})
                 OpendDropdown = Dropdown
-                CurrentButtonPressed = ButtonContainer
             else
                 Studio.AudioInternal.PlayAudio("Internal/DefaultSounds/Close.ogg",{})
             end

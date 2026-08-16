@@ -2,7 +2,9 @@
 -- Handles general background tasks related to the currently rendering viewports
 local InterfaceManager = {}
 InterfaceManager.Buttons = {}
+
 InterfaceManager.Clicking = false
+InterfaceManager.Hovering = false
 
 function InterfaceManager.Init()
     InterfaceManager.OnMouseMove = Signal:New("MouseMove") 
@@ -59,6 +61,7 @@ function InterfaceManager.Update(dt)
 
     Profiler.Start("InterfaceManager - Process Hovering")
     table.clear(CurrentlyHovering)
+    InterfaceManager.Hovering = false
 
     for _, ButtonID in pairs(InterfaceManager.Buttons) do
         local Button = Runtime.Things.Get(ButtonID)
@@ -89,6 +92,7 @@ function InterfaceManager.Update(dt)
         
         for _, Hovering in pairs(CurrentlyHovering) do
             Hovering.Hovering = true
+            InterfaceManager.Hovering = true
 
             if Hovering.SinkHovering then
                 break
