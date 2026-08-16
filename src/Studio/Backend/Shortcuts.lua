@@ -135,6 +135,7 @@ local function BuildKeyTable(Inputs)
         Modifiers = {},
         Normal = nil
     }
+
     for _,Key in pairs(Inputs) do
         if Key.Mod then
             TableToBuild.Modifiers[Key.Key] = false
@@ -142,6 +143,7 @@ local function BuildKeyTable(Inputs)
             TableToBuild.Normal = Key.Key
         end
     end
+    
     return TableToBuild
 end
 
@@ -151,28 +153,31 @@ end
 
 function Shortcuts.SetInput(Name,WhatOrder,NewBind)
     InputsSaved[Name][WhatOrder] = NewBind
+    Shortcuts.Save()
 end
 
-function Shortcuts.GetSpecificInput(Name,WhatOrder)
-    return InputsSaved[Name][WhatOrder]
+function Shortcuts.GetInput(Name)
+    return InputsSaved[Name]
 end
 
 function Shortcuts.GetInputs()
     return InputsSaved
 end
 
-function Shortcuts.SaveTable()
+function Shortcuts.Save()
     Runtime.SettingsManager.ChangeSetting("ShortcutsTable",InputsSaved)
 end
 
 function Shortcuts.BuildFromSavedTable()
     if Runtime.SettingsManager.GetSetting("ShortcutsTable") then
         local NewTable = Runtime.SettingsManager.GetSetting("ShortcutsTable")
+
         for Name,Inputs in pairs(InputsSaved) do
             if (not NewTable[Name]) then
                 NewTable[Name] = Inputs
             end
         end
+
         Runtime.SettingsManager.ChangeSetting("ShortcutsTable",NewTable)
     else
         return InputsSaved
@@ -181,7 +186,9 @@ end
 
 function Shortcuts.Init()
     Shortcuts.BuildFromSavedTable()
+
     InputsSaved = Runtime.SettingsManager.GetSetting("ShortcutsTable") or InputsSaved
+
     for Name,ShortcutObj in pairs(HandleThis) do
         Input.KeyEvent:Connect(function(DidItBegan,Key)
             if DidItBegan then
@@ -189,9 +196,7 @@ function Shortcuts.Init()
                 local Is = {ModifiersOn = false, NormalOn = false}
 
                 -- God this is probably the worse handle thing but okay
-
                 for Key,_ in pairs(BuildedTable.Modifiers) do
-                    --print(Key)
                     BuildedTable.Modifiers[Key] = Input.KeyDown(Key)
                 end
 
@@ -203,7 +208,7 @@ function Shortcuts.Init()
                         Is.ModifiersOn = true
                     end
                 end
-                --print(Is.ModifiersOn)
+                
                 if Is.ModifiersOn == true and Key == BuildedTable.Normal then
                     ShortcutObj.Function()
                 end
@@ -212,6 +217,7 @@ function Shortcuts.Init()
     end
 end
 
+-- why are there 2 functions that do the same thing... BUDDY!!!
 function Shortcuts.ChangeKeybind(Name,Key,Number)
 
 end

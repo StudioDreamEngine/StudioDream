@@ -26,7 +26,7 @@ function SelectionPriorityService.Call(IsDown)
     end
 
     if (not EnvironmentViewport) or (not Utils.IntersectPoint2D(Rect.new(Vector2.zero, EnvironmentViewport.AbsoluteSize), EnvironmentViewport.MousePosition)) then
-        print("No EnvironmentViewport is specified currently, skipping SelectionPriorityService call...")
+        printVerbose("Skipping SelectionPriorityService call, requirements not met...")
         return
     end
 

@@ -87,7 +87,7 @@ return { new = function(Info, Window)
 
             local OptionObject = {
                 Button = Settings.CreateOption(TabMenu, Name),
-                PropertyValue = Settings.CreateChoices(Choices, RenderContainer),
+                PropertyValue = Settings.CreateChoices(Choices, OptionContainer),
                 Container = OptionContainer
             }
 

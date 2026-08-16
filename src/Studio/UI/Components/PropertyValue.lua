@@ -133,12 +133,17 @@ local ValueTypes = {
         })
 
         ValueObject.Clicked:Connect(function()
-            Info.UserRequest(Info.OnChange)
+            local RequestText = Info.UserRequest(Info.OnChange)
+
+            Info.PropUpdator(RequestText)
         end)
 
         return function(Value)
             ValueObject:SetText(Value)
         end
+    end,
+    Slider = function() -- TODO
+        
     end
 }
 
@@ -233,9 +238,9 @@ local ValueFunction = function(PropertyList, Information, Style)
     end
 
     if type(Information.Type) ~= "function" then
-        PropertyValue.PropUpdator,PropertyValue.Prop = ValueTypes[Information.Type](PropertyValue.UI.ValueContainer, Information)
+        Information.PropUpdator,PropertyValue.Prop = ValueTypes[Information.Type](PropertyValue.UI.ValueContainer, Information)
     else
-        PropertyValue.PropUpdator,PropertyValue.Prop = Information.Type(PropertyValue.UI.ValueContainer, Information)
+        Information.PropUpdator,PropertyValue.Prop = Information.Type(PropertyValue.UI.ValueContainer, Information)
     end
 
     -- Called every time the PropertyValue should be updated
@@ -243,7 +248,7 @@ local ValueFunction = function(PropertyList, Information, Style)
         local UpdateResult = tostring(Information.ReturnDisplay())
         printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
 
-        PropertyValue.PropUpdator(UpdateResult)
+        Information.PropUpdator(UpdateResult)
     end
 
     if Information.KeepTrackOf then
