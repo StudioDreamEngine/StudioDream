@@ -2,6 +2,7 @@ local Transform3D = {}
 
 ---@param Matrix DreamMat4
 local function NewTransform(Matrix, Rotated)
+    ---@class Transform3D
     local Object = {}
 
     Object.Type = "Transform3D"
@@ -72,6 +73,27 @@ local function NewTransform(Matrix, Rotated)
             return "{"..tostring(self.Position).."} , {"..tostring(self.AsAngle():Deg()).."}" -- bullshit
         end
     })
+end
+
+function Transform3D.LookAt(Eye, Target)
+    local direction = (Eye - Target):ToDream()
+    local up = Dream.vec3(0.0, 1.0, 0.0)
+
+	local zaxis = direction:normalize()
+	local xaxis = zaxis:cross(up)
+
+	-- "It just works!" - Todd Howard
+	if xaxis:length() == 0 then xaxis = Dream.vec3(1,0,0) end
+
+	local yaxis = xaxis:cross(zaxis)
+	
+	local rotate = Dream.mat4({
+		xaxis.x, yaxis.x, -zaxis.x, 0.0,
+		xaxis.y, yaxis.y, -zaxis.y, 0.0,
+		xaxis.z, yaxis.z, -zaxis.z, 0.0,
+		0, 0, 0, 1
+	})
+    return Transform3D.FromPosition(Eye) * Transform3D.FromMatrix(rotate)
 end
 
 function Transform3D.FromAngle(X,Y,Z)

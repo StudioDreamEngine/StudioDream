@@ -377,6 +377,15 @@ function Explorer.Init()
                 Menu.Remove()
             end,
         },
+        {
+            Type = "Button",
+            Text = "Zoom To",
+            Image = "Internal/Studio/ContextMenu/Ungruped.png",
+            Function = function(Menu)
+                Studio.Editor3D.ZoomTo()
+                Menu.Remove()
+            end,
+        }
     })
 
     Explorer.Redraw()

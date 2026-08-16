@@ -10,16 +10,25 @@ local InputService = Runtime.Services.Service("InputService") ---@class InputSer
 
 local PrevDT = 0
 
+-- ass function :fire:
+---@param NewTransform Transform3D
+function StudioCamera.SetTransform(NewTransform)
+    local Position = NewTransform.Position
+
+    CameraRotation = Vector2.new(-math.pi/4, -math.pi/4) -- really hacky way to do this, we basically assume this angle
+    CameraPosition = Position
+end
+
 function StudioCamera.Init()
     InputService.MouseEvent:Connect(function(IsDown)
-        if IsDown then
+        if IsDown and Runtime.SelectionPriority.InViewport then
             MouseService.SetMouseMode(Enum.MouseMode.Locked)
         else
             MouseService.SetMouseMode(Enum.MouseMode.Free)
             MouseDelta = Vector2.zero
         end
 
-        HoldingCamera = IsDown
+        HoldingCamera = IsDown and Runtime.SelectionPriority.InViewport
     end, Enum.MouseButton.RightClick)
 
     InputService.MouseMoved:Connect(function(MouseObject)

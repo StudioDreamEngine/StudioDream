@@ -8,7 +8,7 @@ Macros.MacroList = {
         Runtime.Resources.ReloadResources()
     end,
     ["Redraw Explorer"] = function()
-        Studio.Layout.CallHandle("Explorer", "Redraw")
+        --Studio.Layout.CallHandle("Explorer", "Redraw")
     end,
     ["Export Project"] = function()
         Studio.Build.BuildProject()

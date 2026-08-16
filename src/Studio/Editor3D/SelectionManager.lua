@@ -28,6 +28,18 @@ function SelectionManager.SelectObject(Thing)
     end
 end
 
+function SelectionManager.ZoomTo()
+    local Target = Editor3D.Selecting[1] ---@class Transformable3D
+    if (not Target) or (not Target:IsA("Transformable3D")) then return end
+
+    local Size = Target.Size or Vector3.one ---@class Vector3
+    local Position = Target.Position ---@class Vector3
+    local StudioCamera = Editor3D.StudioCamera
+
+    local Matrix = Transform3D.LookAt(Position + Size*2, Position)
+    StudioCamera.SetTransform(Matrix)
+end
+
 -- Select object itself
 function SelectionManager.SelectObjectInternal(Thing)
     if InputService.KeyDown(Enum.InputCode.LeftShift) then
@@ -97,7 +109,7 @@ function SelectionManager.Init()
     ---@diagnostic disable-next-line: duplicate-set-field
     Runtime.LoadProjectCallback = function()
         SelectionManager.DeselectAll()
-        Studio.Layout.CallHandle("Explorer", "Redraw")
+        --Studio.Layout.CallHandle("Explorer", "Redraw")
     end
 
     SelectionPriority.BindSignal(function()

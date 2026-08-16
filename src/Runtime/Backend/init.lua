@@ -25,6 +25,7 @@ end
 function Backend.Update(dt)
     Runtime.InterfaceManager.Update(dt)
     Runtime.Services.Update(dt)
+    Runtime.SelectionPriority.Update()
 end
 
 return Backend

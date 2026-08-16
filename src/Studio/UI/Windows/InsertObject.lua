@@ -86,7 +86,7 @@ function InsertObject.Init()
                     Parent = DefaultTarget,
                 }  
 
-                Studio.Layout.CallHandle("Explorer", "Redraw")
+                --Studio.Layout.CallHandle("Explorer", "Redraw")
 
                 --[[Studio.Components.CreateDialog(Enum.StudioDialog.Option,{
                     Text = "Are you sure you want to insert "..ClassName.."?",
@@ -98,7 +98,7 @@ function InsertObject.Init()
                                     Parent = InsertObject.TargetObject,
                                 }  
 
-                                Studio.Layout.CallHandle("Explorer", "Redraw")
+                                --Studio.Layout.CallHandle("Explorer", "Redraw")
                             end
                         },
                         {

@@ -6,7 +6,11 @@ local InputsSaved = {
         First = Enum.InputCode.LeftCtrl,
         Second = Enum.InputCode.Z,
     },
-    ["Example"] = {
+    --[[["Example"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.F,
+    },]]
+    ["SnapToPart"] = {
         First = Enum.InputCode.LeftCtrl,
         Second = Enum.InputCode.F,
     },
@@ -44,12 +48,20 @@ local InputsSaved = {
 }
 
 local HandleThis = {
-    ["Example"] = {
+    --[[["Example"] = {
         Settings = {
             Inputs = {{Key = InputsSaved.Example.First, Mod = true},{Key = InputsSaved.Example.Second}} -- For now will only suport as the first key the hold, and second as the presser one, sorrey!!
         },
         Function = function()
             print("Hello")
+        end,
+    },]]
+    ["SnapToPart"] = {
+        Settings = {
+            Inputs = {{Key = InputsSaved.SnapToPart.First, Mod = true},{Key = InputsSaved.SnapToPart.Second}}
+        },
+        Function = function()
+            Studio.Editor3D.ZoomTo()
         end,
     },
     ["Undo"] = {
@@ -98,7 +110,7 @@ local HandleThis = {
         },
         Function = function()
             Studio.Editor3D.SelectionManager.DuplicateAll()
-            Studio.Layout.CallHandle("Explorer", "Redraw")
+            --Studio.Layout.CallHandle("Explorer", "Redraw")
         end,
     },
     ["Delete"] = {
@@ -107,7 +119,7 @@ local HandleThis = {
         },
         Function = function()
             Studio.Editor3D.SelectionManager.DeleteAll()
-            Studio.Layout.CallHandle("Explorer", "Redraw")
+            --Studio.Layout.CallHandle("Explorer", "Redraw")
         end,
     },
     ["Group"] = {
@@ -116,7 +128,7 @@ local HandleThis = {
         },
         Function = function()
             Studio.Editor3D.SelectionManager.GroupAll()
-            Studio.Layout.CallHandle("Explorer", "Redraw")
+            --Studio.Layout.CallHandle("Explorer", "Redraw")
         end,
     },
     ["UnGroup"] = {
@@ -125,7 +137,7 @@ local HandleThis = {
         },
         Function = function()
             Studio.Editor3D.SelectionManager.UngroupAll()
-            Studio.Layout.CallHandle("Explorer", "Redraw")
+            --Studio.Layout.CallHandle("Explorer", "Redraw")
         end,
     },
 }

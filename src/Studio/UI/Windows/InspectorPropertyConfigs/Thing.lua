@@ -26,7 +26,7 @@ function Template.Create(Info)
 
                 PropertyObject.PropertyVal.UI.ValueContainer:AddPlaceholderSignal(SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
                     Change(NewThing)
-                    Studio.Layout.CallHandle("Explorer", "Redraw")
+                    --Studio.Layout.CallHandle("Explorer", "Redraw")
                 end))
             else
                 SelectionManager.ObjectPicker = false
