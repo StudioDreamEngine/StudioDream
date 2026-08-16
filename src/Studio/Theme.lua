@@ -147,19 +147,31 @@ local ThemesIn = {
     }]]
 }
 
-Themes.CurrentTheme = ThemesIn["Blue Night"]
+local FallbackTheme = "Blue Night"
+Themes.CurrentName = FallbackTheme -- This is the NAME of the theme, the theme data is stored in Studio.CurrentTheme
 
 Themes.ThemeChanged = Signal:New("ThemeChanges")
 
-function Themes.GetCurrentThemeInfo()
-    for i,v in pairs(ThemesIn) do
-        if v == Themes.CurrentTheme then
-            return i,v
-        end
+function Themes.GetCurrentTheme()
+    local SettingTheme = Runtime.SettingsManager.GetSetting("UsingTheme")
+
+    if (not SettingTheme) then
+        print("no configured theme found, using fallback theme")
+        SettingTheme = FallbackTheme
     end
+
+    Themes.CurrentName = SettingTheme
+    return ThemesIn[Themes.CurrentName]
 end
 
-function Themes.GetThemePalette()
+function Themes.ChangeTheme(NewTheme)
+    Runtime.SettingsManager.ChangeSetting("UsingTheme",NewTheme)
+
+    Studio.CurrentTheme = Themes.GetCurrentTheme()
+    Studio.Theme.ThemeChanged.Invoke()
+end
+
+function Themes.GetPalette()
     return {
         "Outline",
         "SecondaryOutline",
@@ -176,6 +188,13 @@ function Themes.GetThemePalette()
         "FontBold",
         "FontTalic"
     }
+end
+
+function Themes.GetNames()
+    local Names = {}
+    for i,v in pairs(ThemesIn) do table.insert(Names, i) end
+
+    return Names
 end
 
 function Themes.GetThemes()

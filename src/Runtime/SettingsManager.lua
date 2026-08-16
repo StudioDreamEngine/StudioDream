@@ -4,7 +4,8 @@ local Settings = {}
 local DefaultSettings = {
     CodeEditor = nil,
     Projects = {},
-    Version = 2
+    Version = 2,
+    UsingTheme = "Blue Night"
 }
 
 function SettingsManager.Init()

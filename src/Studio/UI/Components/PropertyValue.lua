@@ -158,11 +158,20 @@ local ValueFunction = function(PropertyList, Information, Style)
     Style = Style or {}
     PropertyValue.UI = {}
 
-    local Container = Components.CreateContainer(PropertyList.Size, PropertyList.Parent)
+    local Container = Things.Create("TextButton") {
+        BackgroundTransparency = 0,
+        Text = "",
+        Size = PropertyList.Size,
+        Name = Information.Name or "Container",
+        CornerRadius = 5,
+        Parent = PropertyList.Parent
+    }
     local HasTitle = Information.Title
 
     PropertyValue.UI.Container = Container
-    PropertyValue.UI.Container.Name = Information.Name or PropertyValue.UI.Container.Name
+
+    Studio.Components.RegisterToTheme(Container, "BackgroundColor", Style.Container or "Primary")
+
     if HasTitle then
         PropertyValue.UI.Title = Studio.Components.CreateStyle("Text", {
             Text = Information.Title,
@@ -228,9 +237,9 @@ local ValueFunction = function(PropertyList, Information, Style)
                 if Information.Type == "Input" then
                     PropertyValue.Prop:FocusHere()
                 end
-                PropertyValue.UI.Container.BackgroundColor = Studio.CurrentTheme["Selecting"]
+                Container.BackgroundColor = Studio.CurrentTheme["Selecting"]
             else
-                PropertyValue.UI.Container.BackgroundColor = Studio.CurrentTheme[Style.Container or "Primary"]
+                Container.BackgroundColor = Studio.CurrentTheme[Style.Container or "Primary"]
             end
         end
         
@@ -250,15 +259,15 @@ local ValueFunction = function(PropertyList, Information, Style)
 
     Information.OnChange = function(Value)
         printVerbose("PropertyValue OnChange w/ "..tostring(Value))
+
+        -- Auto-translate value
         if Information.Translate then
             Value = TranslateTable[Information.Translate].FromString(Value)
         end
+
         Information.UserChange(Value)
         Information.OnUpdate()
     end
-
-    PropertyValue.UI.Container.BackgroundColor = Studio.CurrentTheme[Style.Container or "Primary"]
-    PropertyValue.UI.Container.CornerRadius = 5
 
     Information.OnUpdate()
 

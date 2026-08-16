@@ -4,35 +4,6 @@ ShortcutsConfig.DisplayName = "Keybinds Configs"
 
 local ProjectOptions = {}
 
---[[local ProjectOptions = {
-    [1] = {
-        Name = "Current Theme",
-        OptionType = "Button",
-        FunctionWhenCreate = function(Main)
-            local Name,Info = Studio.Theme.GetCurrentThemeInfo()
-            -- Create the dropdown, when choose, make everything load again maybe? :think:
-            Main.Option:SetText(Name)
-
-            Studio.Theme.ThemeChanged:Connect(function()
-                local Name,Info = Studio.Theme.GetCurrentThemeInfo()
-                Main.Option:SetText(Name)
-            end)
-
-            local TableBuild = GenList(Studio.Theme.GetThemes())
-            print(TableBuild)
-            --print(Studio.Theme.GetThemes())
-            local Dropdown = Studio.Components.DropdownPlus.new(TableBuild,Main.Option)
-            Dropdown.Toggle(false)
-            SavedStuff.DropdownTheme = Dropdown
-            
-            Main.Option.Clicked:Connect(function()
-                Dropdown.Toggle(not Dropdown.Container.Visible)
-            end)
-        end,
-    },
-    
-}]]
-
 function ShortcutsConfig.Create(Parent)
     local CreateObject = {}
 

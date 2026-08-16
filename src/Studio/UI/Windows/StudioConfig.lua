@@ -96,7 +96,8 @@ function StudioConfig.Init()
     for Name,Module in pairs(StudioConfig.AllOptions) do
         local OptionContainer = Things.Create("Square") {
             Parent = Created.RenderOption,
-            Size = Pivot2D.FromScale(1,1)
+            Size = Pivot2D.FromScale(1,1),
+            BackgroundTransparency = 1
         }
 
         local OptionObject = {

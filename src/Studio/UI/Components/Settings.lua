@@ -12,10 +12,11 @@ function Settings.new(Choices, Parent)
         Parent = Scroll,
     })
 
-    Runtime.Things.Create("Text") {
-        Text = ":3",
-        Parent = Scroll
-    }
+    local PropertyList = Studio.Components.PropertyList(Pivot2D.new(1,0,0,30), Scroll)
+
+    for _, Choice in pairs(Choices) do
+        local PropertyValue = Studio.Components.PropertyValue(PropertyList, Choice)
+    end
 
     return Scroll
 end

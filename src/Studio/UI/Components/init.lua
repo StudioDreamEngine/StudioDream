@@ -274,7 +274,7 @@ function Components.CreateStyle(Type, Properties, Style)
             local ApiDump = Runtime.Things.API[Type]
             local IntendedType = ApiDump.Types[Name]
 
-            if (IntendedType == "Color" or Name == "Font") and table.find(Studio.Theme.GetThemePalette(), Value) then
+            if (IntendedType == "Color" or Name == "Font") and table.find(Studio.Theme.GetPalette(), Value) then
                 table.insert(MatchedUpOnTheme,{ColorName = Value,PropertyName = Name})
 
                 Properties[Name] = Studio.CurrentTheme[Value]

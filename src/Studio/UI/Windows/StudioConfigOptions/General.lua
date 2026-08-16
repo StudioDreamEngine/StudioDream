@@ -60,12 +60,12 @@ function GenConfig.Create(Parent)
             Title = "Theme",
             Type = "Dropdown",
             Update = function() -- Called each time the updator is called, return a text-friendly version of `Value`
-                --return Value -- Will be tostring'ed
+                return Studio.Theme.CurrentName
             end,
             UserChange = function(Text) -- Called every time the user changes the value, its your job to take `Text` and update the corresponding `Value`
-                
+                Studio.Theme.ChangeTheme(Text)
             end,
-            Choices = Studio.Theme.GetThemes()
+            Choices = Studio.Theme.GetNames()
         }
     }, Parent)
 end
