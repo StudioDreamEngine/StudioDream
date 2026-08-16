@@ -16,7 +16,20 @@ function Rect.new(Position, Size)
         
     RectObject.Type = "Rect"
 
-    return RectObject
+    return setmetatable(RectObject,{
+        __tostring = function(self)
+            return "{"..tostring(RectObject.Origin).."} , {"..tostring(RectObject.Size).."}"
+        end,
+        __add = function(t1,t2)
+            if type(t2) == "number" then
+                return Rect.new(t1.Origin+t2,t1.Size+t2)
+            elseif Utils.TypeOf(t2) == "Rect" then
+                return Rect.new(t1.Origin+t2.Origin,t1.Size+t2.Size)
+            else
+                assert("Rect expected, got ("..Utils.TypeOf(t2)..")")
+            end
+        end
+    })
 end
 
 function Rect.FromString(Text)
@@ -26,7 +39,7 @@ function Rect.FromString(Text)
     local StringsCreated = {}
 
     for String in FindBrack do
-        local RemoveKeys = string.gsub(String,"[%{ %}]","")
+        local RemoveKeys = string.gsub(String,"{[%d,%-]+}","")
         table.insert(StringsCreated,RemoveKeys)
     end
 

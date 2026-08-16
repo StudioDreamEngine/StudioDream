@@ -12,32 +12,31 @@ local function CreateSub(Info,AddInfo)
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
-        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property =  Studio.Editor3D.Selecting[1][Info.Name][AddInfo.Name]},
+        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property =  Studio.Editor3D.Selecting[1][Info.Name]},
         UserChange = function(InfoGiven)
-            local IsOffset = (AddInfo.Name == "Offset")
+            local IsSize = (AddInfo.Name == "Size")
             local Vectorized = Vector2.FromString(InfoGiven)
 
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
-                if not IsOffset then
-                    FinalPivot = Pivot2D.FromAxises(Vectorized,Thing[Info.Name].Offset)
+                if not IsSize then
+                    FinalRect = Rect.new(Thing[Info.Name].Origin,Vectorized)
                 else
-                    FinalPivot = Pivot2D.FromAxises(Thing[Info.Name].Scale,Vectorized)
+                    FinalRect = Rect.new(Vectorized,Thing[Info.Name].Size)
                 end
 
-                Runtime.Things.SetProperty(Thing, Info.Name, FinalPivot)
+                Runtime.Things.SetProperty(Thing, Info.Name, FinalRect)
             end
         end,
         ReturnDisplay = function()
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            local IsOffset = (AddInfo.Name == "Offset")
+            local IsSize = (AddInfo.Name == "Size")
             local ReturnTheSame
-
-            if not IsOffset then
-                ReturnTheSame = Studio.Editor3D.Selecting[1][Info.Name].Scale
+            local ReverseTheSame
+            if not IsSize then
+                ReturnTheSame = Studio.Editor3D.Selecting[1][Info.Name].Size
             else
-                ReturnTheSame = Studio.Editor3D.Selecting[1][Info.Name].Offset
+                ReturnTheSame = Studio.Editor3D.Selecting[1][Info.Name].Origin
             end
-
             return IsAllSame and tostring(ReturnTheSame) or "~"
         end
     },{
@@ -64,7 +63,7 @@ function Template.Create(Info)
         end,
         ReturnDisplay = function()
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "~"
+            return IsAllSame and (tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "???") or "~"
         end
     },{
         ValueContainer = "Outline",
@@ -75,12 +74,12 @@ function Template.Create(Info)
     PropertyObject.SubContainer.Container.Name = Info.Name.."1"
 
     CreateSub(Info,{
-        Name = "Scale",
+        Name = "Origin",
         Parent = PropertyObject.SubContainer.Container
     })
 
     CreateSub(Info,{
-        Name = "Offset",
+        Name = "Size",
         Parent = PropertyObject.SubContainer.Container
     })
 

@@ -175,7 +175,7 @@ local ValueFunction = function(PropertyList, Information, Style)
     Style = Style or {}
     PropertyValue.UI = {}
 
-    local Container = Things.Create("TextButton") {
+    local Container = Things.Create(Information.StyleSelect and "TextButton" or "Square") {
         BackgroundTransparency = 0,
         Text = "",
         Size = PropertyList.Size,

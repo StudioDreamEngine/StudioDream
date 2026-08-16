@@ -6,7 +6,7 @@ Inspector.LoadedConfigs = Utils.LoadModules("Studio/UI/Windows/InspectorProperty
 Inspector.Container = nil ---@class Square
 
 local ScrollContainer
-print(Inspector.LoadedConfigs)
+
 function Inspector.CreateProperty(PropertyInfo)
     local BaseSquare = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.new(1,0,0,20),
@@ -77,9 +77,10 @@ function Inspector.RenderEverything()
     for GroupName,GroupData in pairs(LoadedGroups) do
         local GroupNode = Inspector.CreateGroup(GroupName)
         for Property, Thing in pairs(GroupData) do
+            --print(Utils.TypeOf(Thing[Property]),Property)
             local PropertyInfo = {
                 Name = Property,
-                Type = Thing.Proxy.Enums[Property] and "Enum" or Utils.TypeOf(Thing[Property]),
+                Type = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property],
                 Parent = GroupNode,
                 Thing = Thing,
             }

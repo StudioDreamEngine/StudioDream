@@ -70,16 +70,24 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
             Size = Pivot2D.FromScale(0.01, 1),
             Position = Pivot2D.FromScale(-0.025 * LineDepth, 0.5),
             Pivot = Vector2.new(0.5, 0.5),
-
             BackgroundColor = "Outline",
             BackgroundTransparency = 0,
-
             Layer = 1,
             Parent = NodeObj.NodeInner,
             Serializable = false,
-
             CornerRadius = 0,
             LimitCornerRadius = true,
+        })
+
+        Studio.Components.CreateStyle("Square", {
+            Size = Pivot2D.FromScale(2.5, 0.25),
+            Position = Pivot2D.FromScale(0,0.5),
+            Pivot = Vector2.new(0, 0.5),
+            BackgroundColor = "Outline",
+            BackgroundTransparency = 0,
+            Layer = 1,
+            Parent = ParentLine,
+            Serializable = false,
         })
 
         table.insert(NodeObj.ParentLines, ParentLine)
