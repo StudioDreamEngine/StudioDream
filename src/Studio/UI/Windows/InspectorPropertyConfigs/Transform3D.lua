@@ -20,7 +20,7 @@ local function CreateSub(Info,AddInfo)
                 Vectorized = Vectorized:Rad()
             end
 
-            for _,Thing in pairs(Studio.Editor3D.Selecting) do -- also need to figure out a good way to improve this
+            for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 if IsRotation then
                     local Transform1 = Thing[Info.Name].PositionMatrix()
                     local Transform2 = Transform3D.FromAngle(Vectorized)

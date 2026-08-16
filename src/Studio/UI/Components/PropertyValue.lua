@@ -117,6 +117,28 @@ local ValueTypes = {
         return function(Value)
             ValueObject:SetText(Value)
         end
+    end,
+    Button = function(Parent, Info)
+        ---@class TextButton
+        local ValueObject = Studio.Components.CreateStyle("TextButton", {
+            Position = Pivot2D.FromScale(0,0.5),
+            IgnoreConstraints = true, -- HACK
+            Pivot = Vector2.new(0,0.5),
+            Alignment = Enum.Alignment.Center,
+            Size = Pivot2D.FromScale(1,0.9),
+            ForegroundColor = "Text",
+            Placeholder = Info.Placeholder or "None",
+            ForegroundTransparency = Info.Disabled and 0.5 or 0,
+            Parent = Parent,
+        })
+
+        ValueObject.Clicked:Connect(function()
+            Info.UserRequest(Info.OnChange)
+        end)
+
+        return function(Value)
+            ValueObject:SetText(Value)
+        end
     end
 }
 
@@ -132,6 +154,10 @@ local ValueTypes = {
         end,
         UserChange = function(Text) -- Called every time the user changes the value, its your job to take `Text` and update the corresponding `Value`
             Value = Blah(Text)
+        end,
+        UserRequest = function(Change) -- Only for buttons, called on click, the passed change function is to be called when ready for it to be
+            Scheduler.Wait(5)
+            Change("Hello!!")
         end,
         Choices = { -- Choices list (dropdown only)
             "a",
