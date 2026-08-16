@@ -37,7 +37,7 @@ function Template.Create(Info)
         Container = "Secondary"
     })
 
-    Studio.Components.CreateStyle("ImageButton",{
+    --[[Studio.Components.CreateStyle("ImageButton",{
         Resource = "Internal/Studio/ScrollEnum.png",
         Size = Pivot2D.FromScale(0.8,0.8),
         BackgroundColor = "Text",
@@ -48,7 +48,7 @@ function Template.Create(Info)
         IgnoreConstraints = true,
         --ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
         ForegroundColor = "Text",
-    })
+    })]]
 
     return PropertyObject
 end
