@@ -1,4 +1,6 @@
 local Things = Runtime.Things
+local Components = Studio.Components
+
 local Template = {}
 
 Template.Container = nil ---@class Square

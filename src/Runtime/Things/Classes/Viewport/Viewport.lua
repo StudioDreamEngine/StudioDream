@@ -2,8 +2,8 @@ local Things = Runtime.Things
 local Renderer = Runtime.Renderer
 
 -- using @module here gives the lua language server a base type to use!
----@class Viewport: BaseGui
-local Viewport = Things.Extend("BaseGui")
+---@class Viewport: Square
+local Viewport = Things.Extend("Square")
 
 function Viewport:new()
     Viewport.super.new(self)
@@ -13,6 +13,7 @@ function Viewport:new()
     self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
     self.DisplayList = {}
 
+    self.BackgroundTransparency = 1
     self.ForegroundColor = Color.new(1,1,1)
 
     self.Dirty = false
@@ -33,6 +34,8 @@ function Viewport:Draw()
         love.graphics.setFont(DebugFont)
         love.graphics.print(self:GetPath(), self.MousePosition.X, self.MousePosition.Y)
     end
+    
+    Viewport.super.Draw(self)
 
     self:SetColor("Foreground", "Color")
     Renderer.ViewportManager.RenderCanvas(self)

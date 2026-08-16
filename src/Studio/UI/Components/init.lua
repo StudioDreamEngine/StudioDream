@@ -1,3 +1,4 @@
+-- Stores shared ui elements used around the studio ui (Dialogs, Dropdowns, etc)
 local Things = Runtime.Things
 local Components = {}
 
@@ -88,7 +89,7 @@ function Components.CreateIconObject(Name, Icon)
     local Icon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
     
     local NodeIcon = Studio.Components.CreateStyle("Image2D",{
-        Size = Pivot2D.FromScale(0.1,1),
+        Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Pivot = Vector2.new(-0.1,0.5),
         Position = Pivot2D.FromScale(0,0.5),

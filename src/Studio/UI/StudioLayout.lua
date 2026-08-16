@@ -69,6 +69,26 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         CornerRadius = 4,
     })
 
+    if Transform.Closable then
+        Studio.Components.CreateStyle("ImageButton", {
+            Size = Pivot2D.FromScale(1.5,0.5),
+            SquareAxis = Enum.SquareAxis.Y,
+            Parent = Windows.ContainerNamer,
+            CornerRadius = 5,
+            Pivot = Vector2.new(0,0),
+            Position = Pivot2D.FromScale(0,0),
+            BackgroundTransparency = 0,
+            Layer = 2,
+            Clicked = function()
+                Windows.FullContainer:SetVisible(false)
+            end,
+            Resource = "Internal/Studio/Close.png",
+            ScaleType = Enum.ScaleType.LockAspect,
+            ForegroundColor = "Text",
+            BackgroundColor = "Outline"
+        })
+    end
+
     return Windows
 end
 
@@ -239,6 +259,7 @@ function StudioLayout.CreateLayout()
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
         --TopLevel = true,
+        Closable = true,
         Shadows = true,
         Name = "Editor Configuration",
     })

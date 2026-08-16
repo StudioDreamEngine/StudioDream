@@ -83,3 +83,11 @@
 - Prob more idk
 
 0.9:
+- Performance and stability Improvements
+    - Fixed memory leak regarding scheduler tasks not being cleaned up properly
+    - Optimized many of the engine types to use less memory
+    - 
+- BaseGui.SquareAxis behaves 
+- Viewport objects now extend from Square instead of BaseGui, enabling them to have a background
+- (BREAKING CHANGE) Scene objects now save their root object, with this, old projects are now no longer supported
+    - efforts have been made to make sure you can migrate over your projects. However, old projects will no longer load subseqent versions

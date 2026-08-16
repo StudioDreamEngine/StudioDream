@@ -112,9 +112,18 @@ function BaseGui:GetAbsoluteSize()
     if ParentRect then -- Only do this if we found a parent element
         local Scale = (ParentRect.Size * Size.Scale)
 
+        Profiler.Start("Calculate SquareAxis")
         if self.SquareAxis then
-            Scale = Vector2.one * Scale[self.SquareAxis]
+            -- Definitions
+            local Opposing = (self.SquareAxis == "X") and "Y" or "X"
+            local SquareBy = (self.SquareAxis == "X") and Vector2.xAxis or Vector2.yAxis
+
+            local Aspect = Size.Scale[Opposing] / Size.Scale[self.SquareAxis] -- Get aspect ratio
+            Aspect = SquareBy + (Aspect * (Vector2.one - SquareBy)) -- Calculate scale of the opposing axis
+
+            Scale = ((Vector2.one * Scale[self.SquareAxis]) * Aspect) -- Apply aspect to AbsoluteSize
         end
+        Profiler.End()
     
         AbsoluteSize = AbsoluteSize + Scale
     end

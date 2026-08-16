@@ -1,9 +1,11 @@
 -- Manage the priority of selection signals on the viewport
 -- You might wonder: Why Runtime? well... its because of the 3DControls!
----@class 
+---@class SelectionPriorityService
 local SelectionPriorityService = {}
 
 local Signals = {}
+
+SelectionPriorityService.GuiClick = Signal:New("GuiClick")
 
 function SelectionPriorityService.Init()
     local InputService = Runtime.Services.Service("InputService") ---@class InputService
@@ -14,14 +16,23 @@ end
 function SelectionPriorityService.Call(IsDown)
     local EnvironmentViewport = Runtime.Things.Root.EnvironmentViewport
 
-    if (not EnvironmentViewport) then
+    if Runtime.InterfaceManager.Hovering then
+        if (not IsDown) then 
+            printVerbose("Click Invoked")
+            SelectionPriorityService.GuiClick:Invoke() 
+        end
+
+        return
+    end
+
+    if (not EnvironmentViewport) or (not Utils.IntersectPoint2D(Rect.new(Vector2.zero, EnvironmentViewport.AbsoluteSize), EnvironmentViewport.MousePosition)) then
         print("No EnvironmentViewport is specified currently, skipping SelectionPriorityService call...")
         return
     end
 
-    if IsDown and (not Utils.IntersectPoint2D(Rect.new(Vector2.zero, EnvironmentViewport.AbsoluteSize), EnvironmentViewport.MousePosition)) then
+    --[[if IsDown then
         return
-    end
+    end]]
     
     local HighestPriority = {
         Priority = 0
@@ -34,6 +45,7 @@ function SelectionPriorityService.Call(IsDown)
     end
 
     if HighestPriority.Function then
+        printVerbose("SelectionPriority Function invoked")
         HighestPriority.Function(IsDown)
     end
 end

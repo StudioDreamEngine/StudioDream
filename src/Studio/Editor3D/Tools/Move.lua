@@ -27,7 +27,7 @@ function Move.Init(Snap)
     MoveControl.Adornee = Move.Selection
 
     Studio.Editor3D.GridUpdated:Connect(function()
-        print("Updated")
+        printVerbose("Updated")
         MoveControl:UpdateGrid(Studio.Editor3D.GridSnap)
     end)
 

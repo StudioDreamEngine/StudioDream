@@ -63,7 +63,7 @@ function Template.Create(Info)
             end
         end,
         ReturnDisplay = function()
-            print("updated!!!!!!!!!") -- TODO: Improve
+            printVerbose("updated!!!!!!!!!") -- TODO: Improve
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
             return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "~"
         end

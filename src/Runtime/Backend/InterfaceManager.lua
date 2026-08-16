@@ -18,14 +18,16 @@ function InterfaceManager.Init()
     love.keyboard.setTextInput(true)
 
     LoveEvents.MousePressed:Connect(function(x,y,button)
-        if button == 1 then
-            InterfaceManager.OnClick.Invoke(Vector2.new(x,y))
-            InterfaceManager.Clicking = true
-        elseif button == 2 then
+        if button == Enum.MouseButton.RightClick then
             InterfaceManager.OnRightClick.Invoke(Vector2.new(x,y))
         end
 
         InterfaceManager.OnClickGeneral.Invoke(Vector2.new(x,y))
+    end)
+
+    Runtime.SelectionPriority.GuiClick:Connect(function()
+        InterfaceManager.OnClick.Invoke()
+        InterfaceManager.Clicking = true
     end)
 
     LoveEvents.MouseReleased:Connect(function(_,_,button)

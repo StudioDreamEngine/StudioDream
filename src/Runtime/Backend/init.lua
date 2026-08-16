@@ -3,12 +3,15 @@
 local Backend = {}
 
 function Backend.Init()
+    Runtime.Services = require("Runtime.Backend.Services")
+    
+    Runtime.SelectionPriority = require("Runtime.Backend.SelectionPriority")
+    Runtime.SelectionPriority.Init()
+
     Runtime.InterfaceManager = require("Runtime.Backend.InterfaceManager")
     Runtime.InterfaceManager.Init()
 
     Runtime.ScriptUtil = require("Runtime.Backend.ScriptUtility")
-
-    Runtime.Services = require("Runtime.Backend.Services")
 
     ---@class MouseService
     Runtime.Cursor = Runtime.Services.Service("MouseService") -- For now, lazy
@@ -17,9 +20,6 @@ function Backend.Init()
     Runtime.ProjectFS = require("Runtime.Backend.ProjectFS")
 
     Runtime.Phys = require("Runtime.Backend.PhysicsEngine")
-
-    Runtime.SelectionPriority = require("Runtime.Backend.SelectionPriority")
-    Runtime.SelectionPriority.Init()
 end
 
 function Backend.Update(dt)

@@ -12,7 +12,6 @@ local ChoiceTypes = {
             Pivot = Vector2.new(0.5,0.5),
             Parent = Parent,
             BackgroundColor = "Primary",
-            SinkHovering = false,
             Alignment = Vector2.new(0,0.5),
             CornerRadius = 2,
             HoverColorMultiplier = 6,
