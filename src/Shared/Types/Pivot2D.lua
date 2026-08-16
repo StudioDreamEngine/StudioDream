@@ -46,7 +46,7 @@ local Meta = {
         end
     end,
     __tostring = function(self)
-        return "{"..tostring(Scale).."},{"..tostring(Offset).."}"
+        return "{"..tostring(self.Scale).."},{"..tostring(self.Offset).."}"
     end
 }
 

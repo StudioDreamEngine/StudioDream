@@ -79,7 +79,7 @@ function Inspector.RenderEverything()
         for Property, Thing in pairs(GroupData) do
             local PropertyInfo = {
                 Name = Property,
-                Type = Utils.TypeOf(Thing[Property]),
+                Type = Thing.Proxy.Enums[Property] and "Enum" or Utils.TypeOf(Thing[Property]),
                 Parent = GroupNode,
                 Thing = Thing,
             }
