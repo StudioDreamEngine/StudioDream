@@ -88,36 +88,63 @@ function Shared.Render()
     end
 end
 
+local Tooltips = {}
+
+
 function Shared.RenderStats()
     local Stats = love.graphics.getStats()
     local ThingStats = Runtime.Things.GetCount()
+    local MousePos = Runtime.Backend2D.GetMousePosition()
 
     local DebugStats = {
         { Name = "(Love) FPS",                  Value = love.timer.getFPS() },
         { Name = "(Love) Loaded Textures",      Value = Stats.textures },
         { Name = "(Love) Loaded Fonts",         Value = Stats.fonts },
         { Name = "(Love) Texture Memory",       Value = tostring(math.round(Stats.texturememory/1000000)).."mb" },
+        { Name = "(Love) Mouse position",       Value = tostring(MousePos) },
         { Name = "(GPU) Draw Calls",            Value = Stats.drawcalls },
         { Name = "(GPU) Draw Calls (Batched)",  Value = Stats.drawcallsbatched },
         { Name = "(Runtime) Object Count",      Value = ThingStats.Objects },
         { Name = "(Runtime) Invalidations This Frame",      Value = ThingStats.Invalidated },
         { Name = "(Runtime) Is Profiling",      Value = FLAGS.ProfileCapture },
         { Name = "(Runtime) Scheduler Tasks",   Value = Scheduler.GetTasks() },
-        { Name = "(Runtime) Orphaned Objects",  Value = ThingStats.Orphans },
+        { Name = "(Runtime) Orphaned - Destroyed", Help = "Objects that have been destroyed, but still have a reference and thus are still in memory.", Value = ThingStats.Orphans },
+        { Name = "(Runtime) Orphaned - Unparented", Help = "Objects that are not parented, but havent been destroyed, and thus are still in memory.", Value = ThingStats.ScriptOrphans },
         { Name = "(Lua) Heap Size",             Value = math.round(collectgarbage("count")).."kb" }
     }
 
     love.graphics.setFont(DebugFont)
     local DebugString = ""
 
-    for _, Stat in pairs(DebugStats) do
+    for Index, Stat in pairs(DebugStats) do
+        if Stat.Help and (not Tooltips[Index]) then
+            Tooltips[Index] = {
+                Str = Stat.Help,
+                Rect = Rect.new(Vector2.new(0,(Index-1)*16), Vector2.new(400,20))
+            }
+        end
+
         DebugString = DebugString .. Stat.Name .. ": " .. tostring(Stat.Value) .. "\n"
     end
 
     love.graphics.setColor(0,0,0,0.5)
-    love.graphics.rectangle("fill", 0, 0, 250,200)
+    love.graphics.rectangle("fill", 0, 0, 250,300)
     love.graphics.setColor(1,1,1,1)
     love.graphics.print(DebugString, 0, 0)
+
+    for Index, Tooltip in pairs(Tooltips) do
+        if Utils.IntersectPoint2D(Tooltip.Rect, MousePos) then
+            local Width, Wrapped = DebugFont:getWrap(Tooltip.Str, 200)
+
+            love.graphics.push()
+            love.graphics.translate(MousePos.X+20, MousePos.Y)
+            love.graphics.setColor(0,0,0,1)
+            love.graphics.rectangle("fill", 0, 0, Width, (#Wrapped) * 16)
+            love.graphics.setColor(1,1,1,1)
+            love.graphics.printf(Tooltip.Str, 0,0, Width)
+            love.graphics.pop()
+        end
+    end
 end
 
 function Shared.Update(dt)

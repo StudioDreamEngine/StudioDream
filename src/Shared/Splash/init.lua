@@ -13,6 +13,14 @@ function Splash.ChangeStatus(NewStatus)
     SplashShadow:SetText(NewStatus)
 end
 
+function Splash.Cleanup()
+    SplashStatus = nil
+    SplashShadow = nil
+    SplashLogo = nil
+    SplashLogoOutline = nil
+    SplashContainer = nil
+end
+
 function Splash.Out()
     local StartSound = love.audio.newSource("/Assets/DefaultSounds/Jingle.wav", "static")
     love.audio.play(StartSound) -- Temporary?
@@ -39,6 +47,7 @@ function Splash.Out()
     }, Enum.EasingStyle.Linear, 1)
 
     SplashContainer:Destroy()
+    Splash.Cleanup()
 end
 
 function Splash.Create()

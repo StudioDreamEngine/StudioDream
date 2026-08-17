@@ -67,7 +67,7 @@ function BaseConstraint:SetParent(NewParent)
     self:Unbind()
     local CouldParent, Reason = BaseConstraint.super.SetParent(self, NewParent)
 
-    if NewParent and NewParent:IsA(self.ParentFilter) then
+    if self.Parent and self.Parent:IsA(self.ParentFilter) then
         self:Bind()
     end
 

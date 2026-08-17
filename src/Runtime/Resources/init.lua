@@ -66,9 +66,9 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	local Type = Utils.TypeOf(Identifier)
 
 	if Type == "string" then
-		printVerbose(
+		--[[printVerbose(
 			"Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine."
-		)
+		)]]
 		Identifier = Identifiers.GetIdentifierFromID(Identifier)
 	elseif Type == "userdata" then -- TODO: Merge w/ Above
 		Identifier = IdentifierType.new(Identifier, "Buffer", "Buffer-" .. CreateUUID())

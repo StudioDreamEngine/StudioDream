@@ -25,6 +25,7 @@ function Template.Create(Info)
         Choices = TableBuilded,
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
+                print("Change")
                 Runtime.Things.SetProperty(Thing, Info.Name, EnumList[InfoGiven])
             end
         end,

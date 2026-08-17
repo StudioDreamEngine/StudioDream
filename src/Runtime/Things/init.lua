@@ -140,15 +140,17 @@ function Things.Create(Object, UUID)
 end
 
 function Things.CollectOrphans()
-    local Orphans = {}
+    local ScriptOrphans, Orphans = {}, {}
 
     for _, Object in pairs(Objects) do
-        if (not Object.Parent) then
-            table.insert(Orphans, Object.OrphanedPath..Object.ClassName)
+        if (Object.Unreferenced) then
+            table.insert(Orphans, Object.OrphanedPath)
+        elseif (not Object.Parent) then
+            table.insert(ScriptOrphans, Object.OrphanedPath)
         end
     end
 
-    return Orphans
+    return ScriptOrphans, Orphans
 end
 
 function Things.LogInvalidation()
@@ -211,16 +213,16 @@ end
 
 function Things.Remove(Thing)
     Thing:OnRemove()
-    Objects[Thing.UUID] = nil
 end
 
 function Things.GetCount()
-    local Orphans = Things.CollectOrphans()
+    local ScriptOrphans, Orphans = Things.CollectOrphans()
 
     return {
         Objects = table.length(Objects),
         Invalidated = Invalidated,
-        Orphans = "("..#Orphans..") "..table.concat(Orphans, ", ")
+        Orphans = "("..#Orphans..") "..table.concat(Orphans, ", "),
+        ScriptOrphans = "("..#ScriptOrphans..") "..table.concat(ScriptOrphans, ", "),
     }
 end
 

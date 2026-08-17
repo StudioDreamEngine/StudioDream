@@ -372,6 +372,7 @@ end
 
 function Thing:OnRemove()
     self.Unreferenced = true
+
     self.OnDestroy.Invoke(self)
     for _,Signal in pairs(self.PlaceholderSignals) do
         if not Signal.AlreadyDisconnected then
@@ -379,6 +380,7 @@ function Thing:OnRemove()
         end
     end
     table.clear(self.PlaceholderSignals)
+
     self:SetParent()
     self:ClearAllChildren()
 end
@@ -444,13 +446,16 @@ function Thing:ClearAllChildren(NameFilter)
     if NameFilter and type(NameFilter) == "string" then assert("ClearAllChildren filter needs to be a table of strings") end
     NameFilter = NameFilter or {}
 
-    for ChildUUID,_ in pairs(self.Children) do
+    for ChildUUID, _ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)
 
         if Child and (not table.find(NameFilter, Child.Name)) then
             Child:Destroy()
-            self.Children[ChildUUID] = nil
         end
+
+        -- Certain objects are stubborn for some reason
+        --self.Children[ChildUUID] = nil
+        --table.removeValue(self.InterfaceChildren, Child)
     end 
 end
 

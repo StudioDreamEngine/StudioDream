@@ -33,10 +33,6 @@ function ScrollContainer:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function ScrollContainer:OnRemove()
-    ScrollContainer.super.OnRemove(self)
-end
-
 function ScrollContainer:SetScroll(Scroll)
     self.ScrollTarget = Scroll
 end

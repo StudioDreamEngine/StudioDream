@@ -21,7 +21,7 @@ for EventName, Event in pairs(LoveEvents) do
         --[[if EventName == "TextInput" and love.keyboard.isDown(".") then
             return
         end]]
-
+        
         Event.Invoke(nil, ...) 
     end
 end

@@ -140,6 +140,7 @@ end
 local OpenFuncs = {
 	-- Open a file on a users drive
 	OpenFileDialog = function(Title)
+		printVerbose("Open file dialog")
 		local ReturnPathC = tinyfiledialog.tinyfd_openFileDialog(Title, nil, 2, nil, nil, 0) 
 
 		-- I love ffi so much, i love when it crashes on me with no error!
@@ -148,6 +149,7 @@ local OpenFuncs = {
 
 	-- Open a folder on a users drive
 	OpenFolderDialog = function(Title)
+		printVerbose("Open folder dialog")
 		local ReturnPathC = tinyfiledialog.tinyfd_selectFolderDialog(Title, nil)
 
 		-- I love ffi so much, i love when it crashes on me with no error!

@@ -12,10 +12,6 @@ function Script:new()
     self.RestartOnEnable = true -- TODO: Add support
 end
 
-function Script:OnRemove()
-    Script.super.OnRemove(self)
-end
-
 function Script:DefineAPI()
     Script.super.DefineAPI(self)
     self.Proxy.MakeCreatable()
