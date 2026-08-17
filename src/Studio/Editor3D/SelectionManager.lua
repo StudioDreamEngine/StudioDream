@@ -33,11 +33,14 @@ function SelectionManager.ZoomTo()
     if (not Target) or (not Target:IsA("Transformable3D")) then return end
 
     local Size = Target.Size or Vector3.one ---@class Vector3
-    local Position = Target.Position ---@class Vector3
     local StudioCamera = Editor3D.StudioCamera
 
-    local Matrix = Transform3D.LookAt(Position + Size*2, Position)
-    StudioCamera.SetTransform(Matrix)
+    local Distance = Vector3.GetHigherAxis(Size)*2
+    local Position = Target.Position ---@class Vector3
+
+    local SnapThisShit = Position-StudioCamera.Thing.Transform.Forward*Distance
+    local Matrix = Transform3D.LookAt(SnapThisShit,Position)
+    StudioCamera.Thing:SetTransform(Matrix)
 end
 
 -- Select object itself

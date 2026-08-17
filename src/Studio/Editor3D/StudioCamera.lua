@@ -10,6 +10,8 @@ local InputService = Runtime.Services.Service("InputService") ---@class InputSer
 
 local PrevDT = 0
 
+StudioCamera.Thing = nil
+
 -- ass function :fire:
 ---@param NewTransform Transform3D
 function StudioCamera.SetTransform(NewTransform)
@@ -44,6 +46,10 @@ function StudioCamera.Update(dt)
         PrevDT = dt
     
         local Camera = Runtime.Things.Root:GetCamera()   
+
+        if StudioCamera.Thing~=Camera then
+            StudioCamera.Thing = Camera
+        end
 
         local KeyDownNum = InputService.KeyDownNumber
 

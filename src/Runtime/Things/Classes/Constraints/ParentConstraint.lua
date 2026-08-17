@@ -15,7 +15,7 @@ function ParentConstraint:SetParent(NewParent)
 
     if self.ChildrenEvent then self.ChildrenEvent:Disconnect(); self.ChildrenEvent = nil end -- Cleanup
 
-    -- Parent would be nil, thus we cant connect a new event
+    -- Parent would be nil, this we cant connect a new event
     -- (No guard clause here do to return from superfunction)
     if self.Parent and self.Parent:IsA(self.ParentFilter) then 
         -- Check if any object in the parent is added or removed

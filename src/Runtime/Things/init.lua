@@ -176,7 +176,7 @@ function Things.New(ThingType, CustomUUID)
 
     local Proxy = setmetatable({
         Proxied = true,
-        ProxyMessage = "This object is proxied, thus it's contents will not show up here"
+        ProxyMessage = "This object is proxied, this it's contents will not show up here"
     }, {
         __metatable = getmetatable(Thing),
         __index = Thing,

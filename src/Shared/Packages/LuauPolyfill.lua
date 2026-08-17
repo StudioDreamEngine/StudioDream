@@ -297,6 +297,10 @@ do
 		end
 	end
 
+	function math.dotround(number)
+		return math.round(number*1000)/1000
+	end
+
 	function math.sign(number)
 		if number > 0 then
 			return 1

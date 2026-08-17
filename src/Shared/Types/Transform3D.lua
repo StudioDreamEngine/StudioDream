@@ -70,7 +70,8 @@ local function NewTransform(Matrix, Rotated)
             end
         end,
         __tostring = function(self)
-            return "{"..tostring(self.Position).."} , {"..tostring(self.AsAngle():Deg()).."}" -- bullshit
+            local Degree = self.AsAngle():Deg()
+            return "{"..tostring(Vector3.new(self.Position.X,self.Position.Y,self.Position.Z)).."} , {"..tostring(Vector3.new(Degree.X,Degree.Y,Degree.Z)).."}" -- bullshit
         end
     })
 end

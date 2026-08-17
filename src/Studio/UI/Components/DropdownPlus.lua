@@ -105,37 +105,46 @@ function DropdownPlus.new(Choices,FakeParent)
         if (type(Visible) == "nil") then
             Visible = (not DropdownObject.Visible)
         end
-
+        printVerbose("Visible nil check")
         --DropdownObject.MajorParent.Visible = Visible -- mikl i swear to god
 
         --[[if (not Animation) then
             DropdownObject.MajorParent:SetVisible(Visible)
             return
         end]]
-
         DropdownObject.Container:SetVisible(true)
+        printVerbose("Container set Visible to true")
         DropdownObject.Container.ForegroundTransparency = Visible and 1 or 0
+        printVerbose("Container set ForegroundTransparency")
         DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 1 or 0))
+        printVerbose("Container set MajorParent Pivot")
         DropdownObject.MajorParent:SetActive(false)
+        printVerbose("Container set MajorParent SetActive")
 
         local Move = TweenService.Create(DropdownObject.MajorParent, {
             Pivot = Vector2.new(0,Visible and 0 or 1),
         }, Enum.EasingStyle.QuintOut, .2)
-
+        printVerbose("Tween create Move")
         local Move2 = TweenService.Create(DropdownObject.Container, {
             ForegroundTransparency = Visible and 0 or 1
         }, Enum.EasingStyle.QuintOut, .2)
-
+        printVerbose("Tween create Move2")
         Move.Play()
+        printVerbose("Tween play Move")
         Move2.Play()
+        printVerbose("Tween play Move2")
 
         Move.Completed:Connect(function()
             DropdownObject.Visible = Visible
+            printVerbose("DropdownObject Visible (2)")
             DropdownObject.Container:SetVisible(Visible)
+            printVerbose("DropdownObject Container SetVisible (2)")
             DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 0 or 1))
-
+            printVerbose("DropdownObject MajorParent SetPivot (2)")
             DropdownObject.MajorParent:SetActive(Visible)
+            printVerbose("DropdownObject MajorParent SetActive (2)")
         end)
+        printVerbose("Move completed")
     end
 
     function DropdownObject.Remove()

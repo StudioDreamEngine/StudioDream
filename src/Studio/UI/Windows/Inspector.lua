@@ -9,6 +9,7 @@ local ScrollContainer
 local SearchBar
 
 local SearchText = ""
+local LoadedGroups = {}
 
 function Inspector.CreateProperty(PropertyInfo)
     local BaseSquare = Studio.Components.CreateStyle("Square",{
@@ -68,7 +69,7 @@ function Inspector.RenderEverything()
 
     ScrollContainer.ScrollPosition = -200
     ScrollContainer:SetScroll(0)
-    local LoadedGroups = {}
+    LoadedGroups = {}
 
     for _,Thing in pairs(Studio.Editor3D.Selecting) do
         for GroupName, GroupData in pairs(Thing.Proxy.Groups) do

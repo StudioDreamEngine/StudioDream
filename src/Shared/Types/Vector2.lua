@@ -104,7 +104,7 @@ local Meta = { -- I have no idea how to organize this mess
         end
     end,
     __tostring = function (t)
-        return t.X..", "..t.Y
+        return math.dotround(t.X)..", "..math.dotround(t.Y)
     end,
     __mul = function (t1, t2)
         t2 = t2 or 1

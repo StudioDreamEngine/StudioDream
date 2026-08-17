@@ -248,7 +248,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
-        --TopLevel = true,
+        TopLevel = true,
         Shadows = true,
         Name = "Project Configuration",
     })
@@ -258,7 +258,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
-        --TopLevel = true,
+        TopLevel = true,
         Closable = true,
         Shadows = true,
         Name = "Editor Configuration",

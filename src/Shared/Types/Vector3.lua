@@ -126,7 +126,7 @@ local Meta = { -- I have no idea how to organize this mess
         end
     end,
     __tostring = function (t)
-        return t.X..", "..t.Y..", "..t.Z
+        return math.dotround(t.X)..", "..math.dotround(t.Y)..", "..math.dotround(t.Z)
     end,
     __mul = function (t1, t2)
         if type(t2) == "number" then
@@ -163,6 +163,10 @@ function Vector3.FromString(String)
 
     -- Theres 100% a better way to do this
     return Vector3.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0, tonumber(SplitText[3]) or 0)
+end
+
+function Vector3.GetHigherAxis(Vector)
+   return math.max(Vector.X,Vector.Y,Vector.Z)
 end
 
 function Vector3.new(x,y,z,w)
