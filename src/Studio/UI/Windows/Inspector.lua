@@ -6,6 +6,7 @@ Inspector.LoadedConfigs = Utils.LoadModules("Studio/UI/Windows/InspectorProperty
 Inspector.Container = nil ---@class Square
 
 local ScrollContainer
+local SearchBar
 
 local SearchText = ""
 
@@ -63,8 +64,10 @@ function Inspector.CreateGroup(GroupName)
 end
 
 function Inspector.RenderEverything()
-    Inspector.Clean()
+    ScrollContainer:ClearAllChildren({"ListLayout"})
 
+    ScrollContainer.ScrollPosition = -200
+    ScrollContainer:SetScroll(0)
     local LoadedGroups = {}
 
     for _,Thing in pairs(Studio.Editor3D.Selecting) do
@@ -91,10 +94,15 @@ function Inspector.RenderEverything()
             Inspector.CreateProperty(PropertyInfo)
         end
     end
+
+    Inspector.UpdateList()
 end
 
 function Inspector.Clean()
     ScrollContainer:ClearAllChildren({"ListLayout"})
+    SearchBar:SetText("")
+    SearchText = ""
+    Inspector.UpdateList()
 end
 
 function Inspector.UpdateList()
@@ -111,9 +119,9 @@ end
 
 function Inspector.Init()
 
-    local SearchBar = Studio.Components.CreateStyle("TextInput",{
+    SearchBar = Studio.Components.CreateStyle("TextInput",{
         Size = Pivot2D.FromScale(0.95,0.05),
-        Position = Pivot2D.FromScale(0.5,0),
+        Position = Pivot2D.FromScale(0.5,0.005),
         Pivot = Vector2.new(0.5,0),
         ForegroundColor = "Text",
         BackgroundTransparency = 0,
@@ -141,7 +149,6 @@ function Inspector.Init()
     end)
 
     SearchBar.FocusEnd:Connect(function()
-        SearchText = ""
         Inspector.UpdateList()
     end)
 

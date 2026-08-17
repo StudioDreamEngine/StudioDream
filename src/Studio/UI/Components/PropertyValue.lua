@@ -296,12 +296,12 @@ local ValueFunction = function(PropertyList, Information, Style)
         local ContainerSignal = Container:AddPlaceholderSignal(Runtime.InterfaceManager.OnClick:Connect(function()
             if Container.Hovering then return end
             ToggleThing = false
-            UpdateSelect()
+            --UpdateSelect()
         end))
 
         Container.Clicked:Connect(function()
             ToggleThing = not ToggleThing
-            UpdateSelect()
+            --UpdateSelect()
         end)
     end
 

@@ -41,7 +41,7 @@ function Template.Create(Info)
         ReturnDisplay = function()
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
             local FirstObject = Studio.Editor3D.Selecting[1]
-            Image:SetResource(IsAllSame and (FirstObject[Info.Name] and "Internal/Studio/EditorIcons/"..FirstObject[Info.Name].Proxy.ExplorerIcon..".png" or "Internal/Studio/EditorIcons/Drawable3D.png") or "Internal/Studio/EditorIcons/Drawable3D.png")
+            Image:SetResource(IsAllSame and (FirstObject[Info.Name] and "Internal/Studio/EditorIcons/"..FirstObject[Info.Name].Proxy.ExplorerIcon..".png" or "Internal/Studio/EditorIcons/Unkown.png") or "Internal/Studio/EditorIcons/Unkown.png")
             return IsAllSame and tostring(FirstObject[Info.Name] and FirstObject[Info.Name].Name or "~") or "~"
         end
     },{
