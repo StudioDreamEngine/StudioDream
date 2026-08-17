@@ -76,7 +76,7 @@ local function NewTransform(Matrix, Rotated)
 end
 
 function Transform3D.LookAt(Eye, Target)
-    local direction = (Eye - Target):ToDream()
+    local direction = (Target - Eye):ToDream()
     local up = Dream.vec3(0.0, 1.0, 0.0)
 
 	local zaxis = direction:normalize()

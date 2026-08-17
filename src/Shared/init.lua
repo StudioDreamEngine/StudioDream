@@ -97,20 +97,20 @@ function Shared.RenderStats()
     local MousePos = Runtime.Backend2D.GetMousePosition()
 
     local DebugStats = {
-        { Name = "(Love) FPS",                  Value = love.timer.getFPS() },
-        { Name = "(Love) Loaded Textures",      Value = Stats.textures },
-        { Name = "(Love) Loaded Fonts",         Value = Stats.fonts },
-        { Name = "(Love) Texture Memory",       Value = tostring(math.round(Stats.texturememory/1000000)).."mb" },
-        { Name = "(Love) Mouse position",       Value = tostring(MousePos) },
-        { Name = "(GPU) Draw Calls",            Value = Stats.drawcalls },
-        { Name = "(GPU) Draw Calls (Batched)",  Value = Stats.drawcallsbatched },
-        { Name = "(Runtime) Object Count",      Value = ThingStats.Objects },
-        { Name = "(Runtime) Invalidations This Frame",      Value = ThingStats.Invalidated },
-        { Name = "(Runtime) Is Profiling",      Value = FLAGS.ProfileCapture },
-        { Name = "(Runtime) Scheduler Tasks",   Value = Scheduler.GetTasks() },
-        { Name = "(Runtime) Orphaned - Destroyed", Help = "Objects that have been destroyed, but still have a reference and thus are still in memory.", Value = ThingStats.Orphans },
-        { Name = "(Runtime) Orphaned - Unparented", Help = "Objects that are not parented, but havent been destroyed, and thus are still in memory.", Value = ThingStats.ScriptOrphans },
-        { Name = "(Lua) Heap Size",             Value = math.round(collectgarbage("count")).."kb" }
+        { Name = "(Love) FPS",                                                                                                                              Value = love.timer.getFPS() },
+        { Name = "(Love) Loaded Textures",                                                                                                                  Value = Stats.textures },
+        { Name = "(Love) Loaded Fonts",                                                                                                                     Value = Stats.fonts },
+        { Name = "(Love) Texture Memory",                                                                                                                   Value = tostring(math.round(Stats.texturememory/1000000)).."mb" },
+        { Name = "(Love) Mouse position",                                                                                                                   Value = tostring(MousePos) },
+        { Name = "(GPU) Draw Calls",                                                                                                                        Value = Stats.drawcalls },
+        { Name = "(GPU) Draw Calls (Batched)",                                                                                                              Value = Stats.drawcallsbatched },
+        { Name = "(Runtime) Object Count",                                                                                                                  Value = ThingStats.Objects },
+        { Name = "(Runtime) Invalidations This Frame", Help = "An invalidation is when a UI object decides it needs to be re-rendered",                     Value = ThingStats.Invalidated },
+        { Name = "(Runtime) Is Profiling",                                                                                                                  Value = FLAGS.ProfileCapture },
+        { Name = "(Runtime) Scheduler Tasks",                                                                                                               Value = Scheduler.GetTasks() },
+        { Name = "(Runtime) Orphaned - Destroyed",  Help = "Objects that have been destroyed, but still have a reference and thus are still in memory.",    Value = ThingStats.Orphans },
+        { Name = "(Runtime) Orphaned - Unparented", Help = "Objects that are not parented, but havent been destroyed, and thus are still in memory.",       Value = ThingStats.ScriptOrphans },
+        { Name = "(Lua) Heap Size", Help = "The lua heap is the amount of memory studiodream itself takes up (but not love)",                               Value = math.round(collectgarbage("count")).."kb" }
     }
 
     love.graphics.setFont(DebugFont)
