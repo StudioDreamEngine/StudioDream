@@ -238,6 +238,17 @@ function Start.Init()
     local NewProject = Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
     local LoadProject = Start.CreateButton(Options,"Load a project","Internal/Studio/TabIcons/InsertIcon.png")
 
+    Studio.Components.CreateStyle("Text", {
+        Text = "StudioDream by Mikl, Bloctans and Sonickirb, Full credits in the help tab",
+        ForegroundColor = "Text",
+        Size = Pivot2D.FromScale(1,0.05),
+        Parent = Options,
+        IgnoreConstraints = true,
+        Position = Pivot2D.FromScale(0,1),
+        Pivot = Vector2.new(0,1),
+        Alignment = Vector2.new(0.5,0.5)
+    })
+
     NewProject.Clicked:Connect(function()
         --Studio.ProjectManager.NewProject("Demo Project")
         local Cool = Studio.Components.CreateDialog("Input",{

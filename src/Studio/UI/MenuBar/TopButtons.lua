@@ -10,6 +10,68 @@ return {
     { 
         Component = "Button",
         Arguments = {
+            Name = "File",
+            Dropdown = {
+                {
+                    Type = "Button",
+                    Text = "Load Project",
+                    Function = Studio.ProjectManager.LoadProject
+                },
+                {
+                    Type = "Button",
+                    Text = "Save Project",
+                    Function = Studio.ProjectManager.SaveProject
+                },
+                {
+                    Type = "Button",
+                    Text = "Save Project To",
+                    Function = Studio.ProjectManager.SaveProjectTo
+                },
+                {
+                    Type = "Button",
+                    Text = "Export Project (ZIP)",
+                    Function = Studio.ProjectManager.PackageProject
+                }
+            }
+        }
+    },
+    { 
+        Component = "Button",
+        Arguments = {
+            Name = "Project",
+            Dropdown = {
+                {
+                    Type = "Button",
+                    Text = "Project Settings",
+                    Function = function()
+                        Studio.Editor3D.ToggleWindowOutside("PConfig",true)
+                    end
+                },
+                {
+                    Type = "Button",
+                    Text = "Resolve Missing Resources",
+                    Function = function()
+                        print("TODO")
+                    end
+                },
+                {
+                    Type = "Separator"
+                },
+                {
+                    Type = "Button",
+                    Text = "Test",
+                    SubResource = "Assets/Icons/Client.png",
+                    Function = function(T)
+                        Runtime.Project.Save()
+                        Runtime.RequestRestart("Client")
+                    end
+                },
+            }
+        }
+    },
+    { 
+        Component = "Button",
+        Arguments = {
             Name = "Editor",
             Dropdown = {
                 {
@@ -29,7 +91,7 @@ return {
             }
         }
     },
-    { 
+    --[[{ 
         Component = "Button",
         Arguments = {
             Name = "DoNothing",
@@ -92,86 +154,46 @@ return {
                 },
             }
         }
-    },
-    { 
-        Component = "Button",
-        Arguments = {
-            Name = "File",
-            Dropdown = {
-                {
-                    Type = "Button",
-                    Text = "Load Project",
-                    Function = Studio.ProjectManager.LoadProject
-                },
-                {
-                    Type = "Button",
-                    Text = "Save Project",
-                    Function = Studio.ProjectManager.SaveProject
-                },
-                {
-                    Type = "Button",
-                    Text = "Save Project To",
-                    Function = Studio.ProjectManager.SaveProjectTo
-                },
-                {
-                    Type = "Button",
-                    Text = "Export Project (ZIP)",
-                    Function = Studio.ProjectManager.PackageProject
-                }
-            }
-        }
-    },
-    { 
-        Component = "Button",
-        Arguments = {
-            Name = "Project",
-            Dropdown = {
-                {
-                    Type = "Button",
-                    Text = "Project Settings",
-                    Function = function()
-                        Studio.Editor3D.ToggleWindowOutside("PConfig",true)
-                    end
-                },
-                {
-                    Type = "Separator",
-                },
-                {
-                    Type = "Button",
-                    Text = "Resolve Missing Resources",
-                    Function = function()
-                        
-                    end
-                }
-            }
-        }
-    },
-    { -- Tools
-        Component = "Button",
-        Arguments = {
-            Name = "Help",
-            Function = function()
-                local Outside = Runtime.Services.Service("PlatformService")
-                Outside.OpenURL("https://www.youtube.com/@StudioDreamEngine")
-            end,
-        }
-    },
+    },]]
     {
         Component = "Button",
         Arguments = {
-            Name = "Test",
+            Name = "Help",
             Type = "Dropdown",
             Dropdown = {
                 {
                     Type = "Button",
-                    Text = "Play",
-                    SubResource = "Assets/Icons/Client.png",
+                    Text = "Documentation",
                     Function = function(T)
-                        Runtime.Project.Save()
-                        Runtime.RequestRestart("Client")
+                        local Outside = Runtime.Services.Service("PlatformService")
+                        Outside.OpenURL("https://www.youtube.com/@StudioDreamEngine")
                     end
                 },
-
+                {
+                    Type = "Button",
+                    Text = "Discord",
+                    Function = function(T)
+                        local Outside = Runtime.Services.Service("PlatformService")
+                        Outside.OpenURL("https://www.youtube.com/@StudioDreamEngine")
+                    end
+                },
+                {
+                    Type = "Separator"
+                },
+                {
+                    Type = "Button",
+                    Text = "About",
+                    Function = function(T)
+                        
+                    end
+                },
+                {
+                    Type = "Button",
+                    Text = "Credits",
+                    Function = function(T)
+                        
+                    end
+                },
             }
         }
     },
