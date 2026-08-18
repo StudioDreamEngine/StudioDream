@@ -168,11 +168,23 @@ function Start.Init()
         ScaleType = Enum.ScaleType.Crop
     })
 
+    Studio.Components.CreateStyle("Text", {
+        Text = "(Expect many crashes, annoyances and bugs, Studiodream is still in an early stage)",
+        ForegroundColor = "Text",
+        Position = Pivot2D.FromScale(0.5,-0.02),
+        Size = Pivot2D.FromScale(1,0.05),
+        Pivot = Vector2.new(0.5,1),
+        Parent = Start.FullContainer,
+        Layer = 2,
+        BackgroundTransparency = 1,
+        Alignment = Vector2.new(0.5,0.5)
+    })
+
     local Version = Studio.Components.CreateStyle("Text", {
         Text = "Welcome to Early Riser! ("..VERSION..")",
         ForegroundColor = "Outline",
         Position = Pivot2D.FromScale(0.5,0),
-        Size = Pivot2D.FromScale(1,0.1),
+        Size = Pivot2D.FromScale(1,0.05),
         Pivot = Vector2.new(0.5,0),
         Parent = Start.Container,
         Layer = 2,
