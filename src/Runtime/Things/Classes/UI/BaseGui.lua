@@ -76,7 +76,7 @@ function BaseGui:GetContentSize()
 
     for _, v in pairs(self:GetInterfaceChildren()) do
         -- the negative layer check is an ABSOLUTELY nasty hack and really shouldnt be here, but im too lazy - bloctans
-        if (not v.IgnoreConstraints) then
+        if (not v.IgnoreConstraints) and v.Visible then
             local PositionProp = v:GetProperty("Position")
             local AbsoluteEnd = PositionProp.Offset + v.AbsoluteSize
 
