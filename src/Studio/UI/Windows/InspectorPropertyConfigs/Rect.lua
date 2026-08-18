@@ -12,7 +12,7 @@ local function CreateSub(Info,AddInfo)
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
-        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property =  Studio.Editor3D.Selecting[1][Info.Name]},
+        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             local IsSize = (AddInfo.Name == "Size")
             local Vectorized = Vector2.FromString(InfoGiven)

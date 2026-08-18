@@ -190,6 +190,11 @@ function Things.New(ThingType, CustomUUID)
 
             if Thing[k] ~= v then
                 Thing.PropertyChanged.Invoke(k,v)
+                if CallSetPropertyOnDirect then
+                    if Thing["Set"..k] then
+                        Thing["Set"..k](v)
+                    end
+                end
             end
             
             --print("Thing "..Thing.Name..", Changed "..k.." To "..tostring(v).." Their old Value is: "..tostring(Thing[k]))

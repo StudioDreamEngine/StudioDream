@@ -261,11 +261,23 @@ local ValueFunction = function(PropertyList, Information, Style)
     end
 
     -- Called every time the PropertyValue should be updated
-    Information.OnUpdate = function()
+    Information.OnUpdate = function(DoesCallFromLink)
         local UpdateResult = tostring(Information.ReturnDisplay())
         printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
-
+        
         Information.PropUpdator(UpdateResult)
+
+        --[[if DoesCallFromLink then
+            print("IT INDEED WORK")
+        end
+        if Information.LinkAnotherProperty then
+            print("HAS!!")
+           for _,Links in pairs(Information.LinkAnotherProperty) do
+            Links.LinkedWith = PropertyValue
+            print(Links)
+                Links.OnUpdate(true)
+           end
+        end]]
     end
 
     if Information.KeepTrackOf then
@@ -328,6 +340,8 @@ local ValueFunction = function(PropertyList, Information, Style)
             Object.UI.Container:SetParent(PropertyValue.UI.SubContainer)
         end
     end
+
+    PropertyValue.OnUpdate = Information.OnUpdate
 
     return PropertyValue
 end

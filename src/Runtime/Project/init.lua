@@ -137,10 +137,10 @@ function Project.Load(ProjectPath)
         print(Message)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
     else
-        Project.LoadedProject.Invoke()
         Runtime.ChangeTitle()
         Project.History.Add(ProjectFS, Project.Config.Get("Name"))
     end
+    Project.LoadedProject.Invoke()
 end
 
 -- Remount to a new directory and save project
@@ -156,6 +156,7 @@ function Project.CreateProject(ProjectPath)
     NativeFS.createDirectory(ProjectPath)
     ProjectFS.Remount(ProjectPath)
     Project.Save()
+    Project.LoadedProject.Invoke()
 end
 
 -- Take current project and package it into a zip file, returns the zip file as bytes

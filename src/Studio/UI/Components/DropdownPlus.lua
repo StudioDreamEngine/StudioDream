@@ -135,6 +135,7 @@ function DropdownPlus.new(Choices,FakeParent)
         printVerbose("Tween play Move2")
 
         Move.Completed:Connect(function()
+            printVerbose("Move completed function start")
             DropdownObject.Visible = Visible
             printVerbose("DropdownObject Visible (2)")
             DropdownObject.Container:SetVisible(Visible)

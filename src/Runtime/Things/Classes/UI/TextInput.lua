@@ -72,9 +72,15 @@ function TextInput:new()
 end
 
 function TextInput:FocusHere()
-    if self.InputActive == true or (not self.Active) then return end
+    if not self.Active then return end
     self.FocusStart.Invoke()
     self.InputActive = true
+end
+
+function TextInput:StopFocus()
+    if not self.Active then return end
+    self.FocusEnd.Invoke()
+    self.InputActive = false
 end
 
 function TextInput:DefineAPI()

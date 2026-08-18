@@ -12,6 +12,7 @@ local function CreateSub(Info,AddInfo)
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
+        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             local IsRotation = (AddInfo.Name == "Rotation")
             local Vectorized = Vector3.FromString(InfoGiven)

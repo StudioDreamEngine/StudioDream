@@ -8,6 +8,7 @@ function Template.Create(Info)
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
+        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 Runtime.Things.SetProperty(Thing, Info.Name, tonumber(InfoGiven))

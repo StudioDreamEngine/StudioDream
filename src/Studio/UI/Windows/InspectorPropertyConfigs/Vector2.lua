@@ -10,6 +10,7 @@ function Template.Create(Info)
         Translate = Info.Type,
         Disabled = Info.Disabled,
         StyleSelect = true,
+        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)

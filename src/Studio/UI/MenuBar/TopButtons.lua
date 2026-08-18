@@ -44,7 +44,7 @@ return {
                     Type = "Button",
                     Text = "Project Settings",
                     Function = function()
-                        Studio.Editor3D.ToggleWindowOutside("PConfig",true)
+                        Studio.Editor3D.ToggleWindowOutside("ProjectConfig",true)
                     end
                 },
                 {
@@ -172,6 +172,14 @@ return {
                 {
                     Type = "Button",
                     Text = "Discord",
+                    Function = function(T)
+                        local Outside = Runtime.Services.Service("PlatformService")
+                        Outside.OpenURL("https://discord.com/invite/yyCa7ed77X")
+                    end
+                },
+                {
+                    Type = "Button",
+                    Text = "Youtube",
                     Function = function(T)
                         local Outside = Runtime.Services.Service("PlatformService")
                         Outside.OpenURL("https://www.youtube.com/@StudioDreamEngine")

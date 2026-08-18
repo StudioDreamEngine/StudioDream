@@ -243,7 +243,7 @@ function StudioLayout.CreateLayout()
         CornerRadius = 0,
     })
 
-    StudioLayout.CreateWindow("PConfig", {
+    StudioLayout.CreateWindow("ProjectConfig", {
         Size = Pivot2D.FromScale(0.5,0.6),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
@@ -301,7 +301,7 @@ function StudioLayout.CreateLayout()
     })]]
 
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("PConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
 end
 

@@ -5,5 +5,6 @@ return {
     ExternalOutput = true,
     Independent = false,
     ProfileCapture = false,
-    AlwaysCollect = false
+    AlwaysCollect = false,
+    CallSetPropertyOnDirect = true,
 }
