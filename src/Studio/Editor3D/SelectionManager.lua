@@ -39,8 +39,8 @@ function SelectionManager.ZoomTo()
     local Position = Target.Position ---@class Vector3
 
     local SnapThisShit = Position-StudioCamera.Thing.Transform.Forward*Distance
-    local Matrix = Transform3D.LookAt(SnapThisShit,Position)
-    StudioCamera.Thing:SetTransform(Matrix)
+    
+    StudioCamera.SetTransform(SnapThisShit,Position)
 end
 
 -- Select object itself

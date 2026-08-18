@@ -1,24 +1,22 @@
 local StudioCamera = {}
 
-local HoldingCamera = false
-local CameraRotation = Vector2.zero
+local PanningCamera = false
+
+local CameraFocus = Vector3.zAxis
 local CameraPosition = Vector3.zero
+local CameraTransform = Transform3D.FromPosition(0,0,0)
+
 local MouseDelta = Vector2.zero
 
 local MouseService = Runtime.Services.Service("MouseService") ---@class MouseService
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
-local PrevDT = 0
-
 StudioCamera.Thing = nil
 
 -- ass function :fire:
----@param NewTransform Transform3D
-function StudioCamera.SetTransform(NewTransform)
-    local Position = NewTransform.Position
-
-    CameraRotation = Vector2.new(-math.pi/4, -math.pi/4) -- really hacky way to do this, we basically assume this angle
-    CameraPosition = Position
+function StudioCamera.SetTransform(Eye, Focus)
+    CameraFocus = Focus
+    CameraPosition = Eye
 end
 
 function StudioCamera.Init()
@@ -30,11 +28,11 @@ function StudioCamera.Init()
             MouseDelta = Vector2.zero
         end
 
-        HoldingCamera = IsDown and Runtime.SelectionPriority.InViewport
+        PanningCamera = IsDown and Runtime.SelectionPriority.InViewport
     end, Enum.MouseButton.RightClick)
 
     InputService.MouseMoved:Connect(function(MouseObject)
-        if (not HoldingCamera) then return end
+        if not (PanningCamera) then return end
 
         local Delta = MouseObject.Delta
         MouseDelta = Delta
@@ -43,8 +41,6 @@ end
 
 function StudioCamera.Update(dt)
     local sucess, error = pcall(function()
-        PrevDT = dt
-    
         local Camera = Runtime.Things.Root:GetCamera()   
 
         if StudioCamera.Thing~=Camera then
@@ -56,22 +52,28 @@ function StudioCamera.Update(dt)
         if (not Camera) then return end
         if (not Camera.Transform) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") return end
 
-        local Forward = Camera.Transform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
-        local Side = Camera.Transform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
-        local Up = Camera.Transform.Up * (KeyDownNum(Enum.InputCode.E) - KeyDownNum(Enum.InputCode.Q))
-        local Direction = (Forward + Side + Up):Unit()
+        local Forward = CameraTransform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
+        local Side = CameraTransform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
+        local Up = CameraTransform.Up * (KeyDownNum(Enum.InputCode.E) - KeyDownNum(Enum.InputCode.Q))
+        local Direction = (Forward + Side + Up):Unit() * dt * 3
 
-        -- TODO: fix this fuckass random 200 number value >:3
-        CameraRotation.X = CameraRotation.X + MouseDelta.X/200
-        CameraRotation.Y = CameraRotation.Y - MouseDelta.Y/200
+        -- Fuckass focus code
+        if PanningCamera then
+            local CDirection = (CameraFocus - CameraPosition):Unit()
 
-        CameraPosition = CameraPosition + Direction*dt*3
+            local SideV = (CameraTransform.Side * MouseDelta.X/200)
+            local UpV = (CameraTransform.Up * MouseDelta.Y/200)
 
-        local NewTransform = Transform3D.FromPosition(CameraPosition) * Transform3D.FromAngle(0, CameraRotation.X, 0) * Transform3D.FromAngle(CameraRotation.Y, 0, 0)
-        
-        Camera:SetTransform(NewTransform)
+            CameraFocus = CameraPosition + (CDirection - UpV + SideV) + Direction
+        else
+            CameraFocus = CameraFocus + Direction
+        end
 
-        --Camera:SetTransform(Camera.Transform:Lerp(NewTransform, dt*8))
+        --(CameraTransform.Up * MouseDelta.Y/200) - 
+        CameraPosition = CameraPosition + Direction
+
+        CameraTransform = Transform3D.LookAt(CameraPosition, CameraFocus)
+        Camera:SetTransform(CameraTransform)
     end)
 
     if not sucess then

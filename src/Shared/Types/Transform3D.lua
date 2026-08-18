@@ -19,7 +19,7 @@ local function NewTransform(Matrix, Rotated)
             Matrix[5], Matrix[6], Matrix[7], 0,
             Matrix[9], Matrix[10], Matrix[11], 0,
             0, 0, 0, 1
-        ), true) -- I dont like doing this... oh well!
+        ), true) -- I dont like doing this... too bad!
     end
 
     ---@return DreamMat4
@@ -35,7 +35,7 @@ local function NewTransform(Matrix, Rotated)
             0, 1, 0, Matrix[8],
             0, 0, 1, Matrix[12],
             0, 0, 0, 1
-        ), true) -- I dont like doing this... oh well!
+        ), true) -- I dont like doing this... too bad!
     end
 
     function Object:Copy()
@@ -81,12 +81,12 @@ function Transform3D.LookAt(Eye, Target)
     local up = Dream.vec3(0.0, 1.0, 0.0)
 
 	local zaxis = direction:normalize()
-	local xaxis = zaxis:cross(up)
+	local xaxis = zaxis:cross(up):normalize()
 
 	-- "It just works!" - Todd Howard
 	if xaxis:length() == 0 then xaxis = Dream.vec3(1,0,0) end
 
-	local yaxis = xaxis:cross(zaxis)
+	local yaxis = xaxis:cross(zaxis):normalize()
 	
 	local rotate = Dream.mat4({
 		xaxis.x, yaxis.x, -zaxis.x, 0.0,
