@@ -4,14 +4,15 @@ local Backend = {}
 function Backend.CanvasCall(Canvas, DrawFunction)
     local OldCanvas = love.graphics.getCanvas()
 
-    love.graphics.setCanvas({ Canvas, stencil=true })
+    love.graphics.setCanvas(Canvas)
+
     love.graphics.push()
     love.graphics.origin() -- just in case
 
     DrawFunction()
 
     love.graphics.pop()
-    love.graphics.setCanvas({ OldCanvas, stencil=true })
+    love.graphics.setCanvas(OldCanvas)
 end
 
 function Backend.GetMouseDown(Button)
@@ -35,8 +36,10 @@ function Backend.SetColor(Color, Transparency)
     love.graphics.setColor(Color.R, Color.G, Color.B, Transparency)
 end
 
-function Backend.NewCanvas(Size)
-    return love.graphics.newCanvas(Size.X, Size.Y)
+function Backend.NewCanvas(Size, Stencil)
+    local StencilCanvas = Stencil and love.graphics.newCanvas(Size.X, Size.Y, { format = "stencil8" })
+
+    return love.graphics.newCanvas(Size.X, Size.Y), StencilCanvas
 end
 
 function Backend.NewQuad(Rect, ImageSize)

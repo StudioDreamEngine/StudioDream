@@ -38,10 +38,10 @@ function ViewportManager.CreateViewport(Viewport, Size)
         Size = Vector2.one
     end
 
-    local Canvas = Runtime.Backend2D.NewCanvas(Size)
+    local Canvas, Stencil = Runtime.Backend2D.NewCanvas(Size, true)
 
     ViewportManager.Viewports[Viewport.UUID] = Viewport
-    return Canvas
+    return Canvas, Stencil
 end
 
 local function RectStencil(Rect)
@@ -51,7 +51,7 @@ end
 -- Render the contents of a 2d viewport
 function ViewportManager.RenderViewport2D(Viewport)
     --Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
-    Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
+    Runtime.Backend2D.CanvasCall({Viewport.ViewportCanvas, depthstencil=Viewport.StencilCanvas}, function()
         love.graphics.clear()
 
         for _, Element in pairs(Viewport.DisplayList) do

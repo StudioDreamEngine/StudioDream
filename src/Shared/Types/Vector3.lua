@@ -82,6 +82,14 @@ function Methods:Rad()
     return Vector3.new(math.rad(self.X),math.rad(self.Y),math.rad(self.Z))
 end
 
+function Methods:Tangents()
+    local xTan = math.atan2(self.Y, self.Z)
+    local yTan = math.atan2(self.X, self.Z)
+    local zTan = math.atan2(self.Y, self.X)
+
+    return Vector3.new(xTan, yTan, zTan)
+end
+
 -- for some reason __eq isnt working
 function Methods:Is(SecondVector)
     return (self.X == SecondVector.X) and (self.Y == SecondVector.Y) and (self.Z == SecondVector.Z)
