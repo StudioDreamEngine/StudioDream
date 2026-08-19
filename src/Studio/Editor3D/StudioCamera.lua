@@ -77,7 +77,7 @@ function StudioCamera.Update(dt)
     end)
 
     if not sucess then
-        --print(error)
+        print(error)
     end
 end
 

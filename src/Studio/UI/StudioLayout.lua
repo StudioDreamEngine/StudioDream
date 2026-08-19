@@ -250,6 +250,7 @@ function StudioLayout.CreateLayout()
         Layer = 500,
         TopLevel = true,
         Shadows = true,
+        Closable = true,
         Name = "Project Configuration",
     })
 
@@ -262,6 +263,17 @@ function StudioLayout.CreateLayout()
         Closable = true,
         Shadows = true,
         Name = "Editor Configuration",
+    })
+
+    StudioLayout.CreateWindow("Credits", {
+        Size = Pivot2D.FromScale(0.5,0.6),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Layer = 500,
+        TopLevel = true,
+        Closable = true,
+        Shadows = true,
+        Name = "Credits",
     })
 
     StudioLayout.CreateWindow("Toolbar", {
@@ -303,6 +315,7 @@ function StudioLayout.CreateLayout()
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
 end
 
 function StudioLayout.Update(dt)
