@@ -199,7 +199,7 @@ return {
                     Type = "Button",
                     Text = "Credits",
                     Function = function(T)
-                        
+                        Studio.Editor3D.ToggleWindowOutside("Credits",true)
                     end
                 },
             }
