@@ -54,6 +54,7 @@ function Shared.Init(Args)
     end
 
     print("Flags:",FLAGS)
+    printVerbose("UUID Seed: "..UUIDSeed)
 
     PROF_CAPTURE = FLAGS.ProfileCapture
     Jprof = require("Shared.Packages.jprof")
@@ -154,7 +155,7 @@ function Shared.Update(dt)
         Scheduler.Update()
         Runtime.Update(dt)
 
-        Shared.UpdateTarget(dt)
+        Shared.UpdateTarget(dt) 
     Profiler.End()
 end
 

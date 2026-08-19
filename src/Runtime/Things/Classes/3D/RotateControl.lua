@@ -9,27 +9,19 @@ local RotateControl = Things.Extend("Control3D")
 function RotateControl:GetPlane()
     local Camera = Things.Root:GetCamera()
     local MouseRay = Camera:GetMouseRay()
-    local Transform = self.Adornee.Transform
 
-    local Rays = {
-        Z = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Side, MouseRay) * Vector3.zAxis,
-        Y = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Forward, MouseRay) * Vector3.yAxis, -- Idk if Y should use the forward vector... too bad!
-        X = Camera:LocalRayDirectionToPlane(self.InitalPos, Transform.Forward, MouseRay) * Vector3.xAxis
-    }
-
-    return Rays.X + Rays.Y + Rays.Z
+    return Camera:LocalRayDirectionToPlane(self.InitalPos, self.AxisNormal, MouseRay)
 end
 
 function RotateControl:OnStart()
     self.InitalPos = self.Adornee.Position
-
-    self.InitalOffset = self:GetPlane()
-    self.NormalSide = self.Down.Thing
+    self.AxisNormal = self.Down.Thing
 end
 
 function RotateControl:OnChange()
-    local DistanceFrom = (self:GetPlane() - self.InitalOffset)
-    self.ControlChanged.Invoke(self.NormalSide, (DistanceFrom * self.NormalSide):Axis())
+    local Plane = self:GetPlane():Unit():Tangents()
+
+    self.ControlChanged.Invoke((Plane * self.AxisNormal):Axis(), self.AxisNormal)
 end
 
 function RotateControl:DefineAPI()
@@ -40,8 +32,7 @@ end
 
 function RotateControl:new()
     self.InitalPos = Vector3.zero
-    self.InitalOffset = Vector3.zero
-    self.NormalSide = Vector3.zero
+    self.AxisNormal = Vector3.zero
 
     self.Lookup = {
         [Vector3.zAxis] = Color.new(0,0,1,0.8),
@@ -57,10 +48,9 @@ end
 function RotateControl:UpdateAdorn(Axis, Adorn, Transform, CameraDistance)
     -- ...oh god
     Adorn:resetTransform()
-    Adorn:translate((Transform.Position + (Axis * self.Adornee.Size)):ToDream())
+    Adorn:translate(Transform.Position:ToDream())
     Adorn:lookTowards(-Axis:ToDream())
-    Adorn:scale(CameraDistance)
-    Adorn:translate(0,0,2)
+    Adorn:scale(CameraDistance*2)
     Adorn:rotateX(math.pi/2)
 end
 

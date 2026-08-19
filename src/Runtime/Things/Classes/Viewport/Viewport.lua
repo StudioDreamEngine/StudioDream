@@ -10,7 +10,7 @@ function Viewport:new()
 
     self.RenderContainer = nil -- idk what to name this
 
-    self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
+    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
     self.DisplayList = {}
 
     self.BackgroundTransparency = 1
@@ -58,7 +58,7 @@ function Viewport:CreateNew()
         self.ViewportCanvas:release()
     end
 
-    self.ViewportCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
+    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 end
 

@@ -1,7 +1,7 @@
 local Rotate = {}
 local Things = Runtime.Things
 
-local MoveControl ---@class MoveControl
+local RotateControl ---@class RotateControl
 
 local Info = {
     ["StartRotObj"] = Vector3.zero,
@@ -20,24 +20,22 @@ local function EndDrag()
 end
 
 function Rotate.Init()
-    MoveControl = Things.Create("RotateControl") {
+    RotateControl = Things.Create("RotateControl") {
         Parent = Things.Root.RootViewport,
     }
 
-    MoveControl.Adornee = Rotate.Selection
+    RotateControl.Adornee = Rotate.Selection
 
-    MoveControl.OnMove:Connect(function(Plane)
-        Info.OffsetTo = Plane
-
-        Rotate.ChangeTransform(Transform3D.FromAngle(Info.StartRotObj.X + Info.OffsetTo.X,Info.StartRotObj.Y + Info.OffsetTo.Y,Info.StartRotObj.Z + Info.OffsetTo.Z))
+    RotateControl.ControlChanged:Connect(function(Axis, Rotation)
+        
     end)
 
-    MoveControl.StartMove:Connect(function()
+    RotateControl.StartControl:Connect(function()
         ToolManager.SetupSelection()
         StartDrag(Rotate.Selection)
     end)
 
-    MoveControl.EndMove:Connect(function()
+    RotateControl.EndControl:Connect(function()
         Rotate.RegisterUndo()
         EndDrag()
     end)
@@ -48,7 +46,7 @@ function Rotate.Update()
 end
 
 function Rotate.Destroy()
-    Things.Remove(MoveControl)
+    Things.Remove(RotateControl)
 end
 
 return Rotate

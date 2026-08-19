@@ -340,10 +340,9 @@ do
 end
 
 -- UUID --
-local Seed = math.seed()
-math.randomseed(Seed)
+UUIDSeed = math.seed()
+math.randomseed(UUIDSeed)
 
-print("UUID Seed: "..Seed)
 function _G.CreateUUID()
 	local UUID = ""
 
