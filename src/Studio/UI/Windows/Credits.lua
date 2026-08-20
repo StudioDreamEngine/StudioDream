@@ -79,7 +79,8 @@ function Credits.Init()
     Scroll = Things.Create("ScrollContainer") {
         Size = Pivot2D.FromScale(1,1),
         Parent = Credits.Container,
-        CanvasSize = Pivot2D.new(1,0,0,500)
+        Name = "Credits",
+        CanvasSize = Pivot2D.new(1,0,0,400)
     }
 
     Studio.Components.CreateStyle("ListLayout", {

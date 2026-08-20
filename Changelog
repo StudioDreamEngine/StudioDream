@@ -92,6 +92,8 @@
     - Improved studio camera, added the ability to zoom to a selected part (Ctrl+F)
     - Snap to grid
     - Other minor visual improvements
+    - Compacted menu bar, Credits
+    - (EXPERIMENTAL) Exporting projects to an executable format (Linux only right now)
 - UI
     - Improved UI Rotation
     - Custom font resources

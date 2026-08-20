@@ -57,7 +57,8 @@ function ScrollContainer:Draw()
         
         - Bloctans
     ]]
-    local CanvasScale = (self:GetCanvasSize().Y / self.AbsoluteSize.Y) -- How large CanvasSize is compared to AbsoluteSize
+    local TotalCanvasSize = self:GetCanvasSize()
+    local CanvasScale = (TotalCanvasSize.Y / self.AbsoluteSize.Y) -- How large CanvasSize is compared to AbsoluteSize
 
     local BarPos = (-self.ScrollPosition / CanvasScale)
     local BarSize = self.AbsoluteSize.Y / CanvasScale
@@ -81,10 +82,10 @@ function ScrollContainer:Update(dt)
     local MaxScroll = self:GetCanvasSize().Y
 
     -- Elastic scroll bounding, because why not
-    if self.ScrollTarget > 0 then
-        self.ScrollTarget = self.ScrollTarget + (0 - self.ScrollTarget)*dt*12
-    elseif self.ScrollTarget < -MaxScroll then
+    if self.ScrollTarget < -MaxScroll then
         self.ScrollTarget = self.ScrollTarget + (-MaxScroll - self.ScrollTarget)*dt*12
+    elseif self.ScrollTarget > 0 then
+        self.ScrollTarget = self.ScrollTarget + (0 - self.ScrollTarget)*dt*12
     end
 
     local ObjectRect = Rect.new(Vector2.zero, self.AbsoluteSize)
