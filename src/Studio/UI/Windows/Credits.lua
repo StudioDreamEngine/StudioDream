@@ -10,7 +10,7 @@ local CreditsDisplay = {
         Name = "StudioDream",
         Content = {
             "Bloctans - Basically made everything possible",
-            "Mikl - Studio Interface, Graphics, General Support",
+            "Mikl - Studio Interface, Graphics, General Support, Mascot Desing and Modelling",
             "Sonickirb - General Support"
         }
     },
