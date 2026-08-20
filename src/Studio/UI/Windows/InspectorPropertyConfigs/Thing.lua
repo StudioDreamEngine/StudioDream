@@ -19,7 +19,7 @@ function Template.Create(Info)
         Type = "Button",
         Disabled = Info.Disabled,
         StyleSelect = true,
-        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        TrackObjects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserRequest = function(Change)
             if not SelectionManager.ObjectPicker then
                 SelectionManager.ObjectPicker = Studio.Editor3D.Selecting[1]

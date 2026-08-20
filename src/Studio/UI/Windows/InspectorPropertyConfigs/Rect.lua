@@ -12,12 +12,14 @@ local function CreateSub(Info,AddInfo)
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
-        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        TrackObjects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             local IsSize = (AddInfo.Name == "Size")
             local Vectorized = Vector2.FromString(InfoGiven)
 
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
+                local FinalRect
+
                 if not IsSize then
                     FinalRect = Rect.new(Thing[Info.Name].Origin,Vectorized)
                 else
@@ -31,12 +33,13 @@ local function CreateSub(Info,AddInfo)
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
             local IsSize = (AddInfo.Name == "Size")
             local ReturnTheSame
-            local ReverseTheSame
+
             if not IsSize then
                 ReturnTheSame = Studio.Editor3D.Selecting[1][Info.Name].Size
             else
                 ReturnTheSame = Studio.Editor3D.Selecting[1][Info.Name].Origin
             end
+
             return IsAllSame and tostring(ReturnTheSame) or "~"
         end
     },{
@@ -55,7 +58,7 @@ function Template.Create(Info)
         Translate = Info.Type,
         Disabled = Info.Disabled,
         StyleSelect = true,
-        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        TrackObjects = {Things = Studio.Editor3D.Selecting, Property = Info.Name},
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)

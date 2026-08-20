@@ -261,29 +261,17 @@ local ValueFunction = function(PropertyList, Information, Style)
     end
 
     -- Called every time the PropertyValue should be updated
-    Information.OnUpdate = function(DoesCallFromLink)
+    Information.OnUpdate = function()
         local UpdateResult = tostring(Information.ReturnDisplay())
         printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
         
         Information.PropUpdator(UpdateResult)
-
-        --[[if DoesCallFromLink then
-            print("IT INDEED WORK")
-        end
-        if Information.LinkAnotherProperty then
-            print("HAS!!")
-           for _,Links in pairs(Information.LinkAnotherProperty) do
-            Links.LinkedWith = PropertyValue
-            print(Links)
-                Links.OnUpdate(true)
-           end
-        end]]
     end
 
-    if Information.KeepTrackOf then
-        for _,Thing in pairs(Information.KeepTrackOf.Things) do
-            Container:AddPlaceholderSignal(Thing.PropertyChanged:Connect(function(Val,Property) -- Can be a memory leak so change this to something better later
-                if Property == Information.KeepTrackOf.Property then
+    if Information.TrackObjects then
+        for _,Thing in pairs(Information.TrackObjects.Things) do
+            Container:AddPlaceholderSignal(Thing.PropertyChanged:ConnectDeferred(function(Val,Property) -- Can be a memory leak so change this to something better later
+                if Property == Information.TrackObjects.Property then
                     Information.OnUpdate()
                 end
             end))
@@ -293,27 +281,13 @@ local ValueFunction = function(PropertyList, Information, Style)
     if Information.StyleSelect then
         local ToggleThing = false
 
-        local function UpdateSelect()  
-            if ToggleThing then
-                if Information.Type == "Input" then -- TODO: Move to ValueType function
-                    PropertyValue.Prop:FocusHere()
-                end
-
-                Container.BackgroundColor = Studio.CurrentTheme["Selecting"]
-            else
-                Container.BackgroundColor = Studio.CurrentTheme[Style.Container or "Primary"]
-            end
-        end
-        
         local ContainerSignal = Container:AddPlaceholderSignal(Runtime.InterfaceManager.OnClick:Connect(function()
             if Container.Hovering then return end
             ToggleThing = false
-            --UpdateSelect()
         end))
 
         Container.Clicked:Connect(function()
             ToggleThing = not ToggleThing
-            --UpdateSelect()
         end)
     end
 
@@ -332,15 +306,6 @@ local ValueFunction = function(PropertyList, Information, Style)
     end
 
     Information.OnUpdate()
-
-    if Information.Subs then
-        PropertyValue.UI.SubContainer = Studio.Components.ExpandableDropdown(PropertyValue.UI.ValueContainer,PropertyList.SubsParent or PropertyList.Parent).Container
-        
-        for _,Object in pairs(Information.Subs) do
-            Object.UI.Container:SetParent(PropertyValue.UI.SubContainer)
-        end
-    end
-
     PropertyValue.OnUpdate = Information.OnUpdate
 
     return PropertyValue

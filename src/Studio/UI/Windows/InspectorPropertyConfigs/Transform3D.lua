@@ -12,7 +12,7 @@ local function CreateSub(Info,AddInfo)
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
-        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        TrackObjects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             local IsRotation = (AddInfo.Name == "Rotation")
             local Vectorized = Vector3.FromString(InfoGiven)
@@ -57,7 +57,7 @@ function Template.Create(Info)
         Translate = Info.Type,
         Disabled = Info.Disabled,
         StyleSelect = true,
-        KeepTrackOf = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        TrackObjects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)
