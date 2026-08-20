@@ -5,6 +5,11 @@ AudioInternal.Volumes = {
 }
 
 function AudioInternal.PlayAudio(Path,Configs)
+    print(Runtime.SettingsManager.GetSetting("SFXEnabled"))
+    if Runtime.SettingsManager.GetSetting("SFXEnabled")~=nil and Runtime.SettingsManager.GetSetting("SFXEnabled")==false then 
+        return 
+    end
+        
     local PlayAudio = Runtime.Things.Create("Audio") {
         Resource = Path,
         Volume = Configs.DoesntLinkWithMaster and 100 or AudioInternal.Volumes.SFX

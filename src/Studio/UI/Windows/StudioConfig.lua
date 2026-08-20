@@ -64,6 +64,28 @@ function StudioConfig.Init()
                     Studio.Theme.ChangeTheme(Text)
                 end,
                 Choices = Studio.Theme.GetNames()
+            },
+            {
+                Title = "Mute VFX",
+                Type = "Checkbox",
+                UserChange = function(InfoGiven)
+                    local Display
+                    if Runtime.SettingsManager.GetSetting("SFXEnabled")~=nil then
+                        Display = Runtime.SettingsManager.GetSetting("SFXEnabled")
+                    else
+                        Display = true
+                    end
+                    Runtime.SettingsManager.ChangeSetting("SFXEnabled", (not Display))
+                end,
+                ReturnDisplay = function()
+                    local Display
+                    if Runtime.SettingsManager.GetSetting("SFXEnabled")~=nil then
+                        Display = Runtime.SettingsManager.GetSetting("SFXEnabled")
+                    else
+                        Display = true
+                    end
+                    return Display
+                end
             }
         },
         Shortcuts = StudioConfig.GenerateShortcuts()
