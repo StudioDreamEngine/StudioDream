@@ -1,8 +1,6 @@
 print("Please Wait...")
 require("Shared")
 
-local stack
-
 DebugFont = love.graphics.newFont(12)
 
 local function SetupModifications()
@@ -78,7 +76,6 @@ function love.errorhandler(msg)
     local traceback = debug.traceback(msg)
 
     print(traceback)
-    print(stack)
 
     local crash_extra = "Operating System: "..love.system.getOS()
 
@@ -132,8 +129,10 @@ end
 
 function love.draw()
     Shared.Render()
+
     Profiler.End()
     Profiler.Frame = false
+
     local MYFPSINATOR = love.timer.getTime()
     if MYFPSCAPPER9001 <= MYFPSINATOR then
         MYFPSCAPPER9001 = MYFPSINATOR
