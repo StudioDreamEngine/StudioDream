@@ -27,7 +27,7 @@ function Rotate.Init()
     RotateControl.Adornee = Rotate.Selection
 
     RotateControl.ControlChanged:Connect(function(Axis, Rotation)
-        
+        Rotate.ChangeTransform(Transform3D.FromAngle(Rotation * Axis))
     end)
 
     RotateControl.StartControl:Connect(function()

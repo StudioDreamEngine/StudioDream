@@ -10,18 +10,22 @@ function RotateControl:GetPlane()
     local Camera = Things.Root:GetCamera()
     local MouseRay = Camera:GetMouseRay()
 
-    return Camera:LocalRayDirectionToPlane(self.InitalPos, self.AxisNormal, MouseRay)
+    return Camera:LocalRayDirectionToPlane(self.InitalPos, self.AxisNormal, MouseRay):Unit():Tangents()
+end
+
+function RotateControl:GetRotation()
+    return (self:GetPlane() * -self.AxisNormal):Axis()
 end
 
 function RotateControl:OnStart()
     self.InitalPos = self.Adornee.Position
     self.AxisNormal = self.Down.Thing
+
+    self.InitialRotation = self:GetRotation()
 end
 
 function RotateControl:OnChange()
-    local Plane = self:GetPlane():Unit():Tangents()
-
-    self.ControlChanged.Invoke((Plane * self.AxisNormal):Axis(), self.AxisNormal)
+    self.ControlChanged.Invoke(self:GetRotation() - self.InitialRotation, self.AxisNormal)
 end
 
 function RotateControl:DefineAPI()
@@ -33,6 +37,7 @@ end
 function RotateControl:new()
     self.InitalPos = Vector3.zero
     self.AxisNormal = Vector3.zero
+    self.InitialRotation = 0
 
     self.Lookup = {
         [Vector3.zAxis] = Color.new(0,0,1,0.8),
