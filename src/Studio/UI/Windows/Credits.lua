@@ -6,53 +6,88 @@ local Credits = {}
 Credits.Container = nil ---@class Square
 
 local CreditsDisplay = {
-    ["- General -"] = {
-        "Bloctans - Basically made everything possible",
-        "Mikl - UI, And other stuff",
+    {
+        Name = "StudioDream",
+        Content = {
+            "Bloctans - Basically made everything possible",
+            "Mikl - Studio Interface, Graphics, General Support",
+            "Sonickirb - General Support"
+        }
     },
-    ["- Scripting -"] = {
-        "Bloctans - Basically made everything possible",
-        "Mikl - UI, And other stuff",
+    {
+        Name = "Launcher",
+        Content = {
+            "Sonickirb - Creator",
+            "Mikl - Windows zip export",
+        }
     },
-    ["- Launcher -"] = {
-        "SonicKirb - Made the whole launcher",
-        "Mikl - Added Windows zip export",
+    {
+        Name = "Special Thanks",
+        Content = {
+            "Luawiz, Emk530 - Reused code (Improved object creation, utf8sub)",
+            "Sasha + LOVE server members - Misc. Support",
+            "trusti - Physics engine support (bullet3)",
+            "wyteroze - Suggesting I use binary search for TextScaled fitting",
+            "Alecstey - NetworkService"
+        }
+    },
+    { 
+        Name = "Packages",
+        Content = {
+            "bakpakin/binser (Github), Licensed under MIT",
+            "rxi/classic (Github), Licensed under MIT",
+            "Bloctans/LuauPolyfill (Github), Licensed under MIT",
+            "meepen/Lua-5.1-UTF-8 (Github), Licensed under MIT",
+            "3dreamengine/3DreamEngine (Github), Licensed under MIT",
+            "EngineerSmith/nativefs (Github), Licensed under MIT",
+            "SwadicalRag/bullet3-lua (Github), Licensed under Zlib",
+            "kikito/tween.lua (Github), Code used (Tween functions) Licensed under MIT",
+            "pfirsich/lua-discordRPC (Github), Licensed under MIT",
+        }
     }
 }
 
-function Credits.CreateName(Name,Parent)
+local Scroll
+
+function Credits.CreateName(Name)
     Studio.Components.CreateStyle("Text", {
-        Size = Pivot2D.new(1,0,0.08,0),
+        Size = Pivot2D.new(0.8,0,0,25),
         BackgroundTransparency = 1,
-        Parent = Credits.Container,
+        Parent = Scroll,
         Text = Name,
-        Alignment = Enum.Alignment.Center,
+        Alignment = Enum.Alignment.MiddleLeft,
         ForegroundColor = "Text",
     })
 end
 
 function Credits.CreateCategory(Name,MyTable)
     local Text=Studio.Components.CreateStyle("Text", {
-        Size = Pivot2D.FromScale(1, 0.1),
+        Size = Pivot2D.new(1,0,0,50),
         BackgroundTransparency = 1,
-        Parent = Credits.Container,
+        Parent = Scroll,
         Text = Name,
-        Alignment = Enum.Alignment.Center,
+        Alignment = Enum.Alignment.MiddleLeft,
         ForegroundColor = "Text",
     })
+
     for i,v in pairs(MyTable) do
-        Credits.CreateName(v,Auto)
+        Credits.CreateName(v)
     end
 end
 
 function Credits.Init()
+    Scroll = Things.Create("ScrollContainer") {
+        Size = Pivot2D.FromScale(1,1),
+        Parent = Credits.Container,
+        CanvasSize = Pivot2D.new(1,0,0,500)
+    }
+
     Studio.Components.CreateStyle("ListLayout", {
-            Parent = Credits.Container,
-            Alignment = Enum.Alignment.Center,
-            Padding = 10,
-        })
+        Parent = Scroll,
+    })
+
     for i,v in pairs(CreditsDisplay) do
-        Credits.CreateCategory(i,v)
+        Credits.CreateCategory(v.Name,v.Content)
     end
 end
 

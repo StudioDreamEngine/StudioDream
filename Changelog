@@ -83,11 +83,49 @@
 - Prob more idk
 
 0.9:
-- Performance and stability Improvements
-    - Fixed memory leak regarding scheduler tasks not being cleaned up properly
-    - Optimized many of the engine types to use less memory
-    - 
-- BaseGui.SquareAxis behaves 
-- Viewport objects now extend from Square instead of BaseGui, enabling them to have a background
-- (BREAKING CHANGE) Scene objects now save their root object, with this, old projects are now no longer supported
-    - efforts have been made to make sure you can migrate over your projects. However, old projects will no longer load subseqent versions
+- Studio
+    - Revamped inspector
+    - Added Macros (Utilities used in testing)
+    - Added Shortcuts (With partially editable keybinds)
+    - Studio settings (Changing themes)
+    - Moved tools to the side
+    - Improved studio camera, added the ability to zoom to a selected part (Ctrl+F)
+    - Snap to grid
+    - Other minor visual improvements
+- UI
+    - Improved UI Rotation
+    - Custom font resources
+    - Flipping images (Image2D.Flipped)
+    - BaseGui.SquareAxis now behaves simillarly to SizeConstraint
+    - Improved animations for buttons and dropdowns
+    - Viewport objects now extend from Square instead of BaseGui, enabling them to have a background
+    - (EXPERIMENTAL) Support for alphabetical sorting of ListLayouts
+    - Text now has a placeholder property
+- 3D
+    - General improvements to 3D Controls/tools
+       - All tools are now colored, transparent and render above any object
+       - Improved rotation tool
+    - Drawables now have a Collidable property
+    - Added SpatialService.FilterInformation for raycasts
+    - New material options: Simple rendering and disable depth test
+       - With this, SurfaceGuis and Billboards now have DisableDepth
+- Runtime/Misc
+    - (BREAKING CHANGE) Scene objects now save their root object, with this, old projects are now no longer supported
+        - efforts have been made to make sure you can migrate over your projects. However, old projects will no longer load subseqent versions
+    - (EXPERIMENTAL) Lua Preprocessor, including support for self-assignment and the != comparision operator
+    - Improved many engine types
+        - All engine types have been optimized to use less memory
+        - Added Vector3:Tangents and Vector3.GetHigherAxis()
+        - Added Transform3D.LookAt
+        - Added Pivot2D.FromAxises
+        - (BREAKING CHANGE) the args in Pivot2D.new have been swapped
+        - Added FromString functions for all engine types
+    - Nerdy technical changes
+        - Replaced Delton with jprof
+        - Every Viewport now has its own stencil buffer, hopefully improving any sudden crashes (if any were present)
+        - Fixed memory leak regarding scheduler tasks not being cleaned up properly
+        - Object table now uses weak references, enabling you to tell if an object is still in memory
+        - the ``.`` key now shows debug information
+- Many other minor changes, along with many more i might've not listed
+- Changes from previous versions not addressed:
+    - Resources should now properly handle invalid filetypes
