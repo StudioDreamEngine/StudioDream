@@ -41,11 +41,24 @@ local function SetupModifications()
     end]]
 end
 
+local y = 0
+local function DebugLog(msg, error)
+    if error then
+        love.graphics.setColor(1,0.2,0.2)
+    else
+        love.graphics.setColor(1,1,1)
+    end
+
+    love.graphics.setFont(DebugFont)
+    love.graphics.print(msg or "", 6, y)
+    y = y + 16
+end
+
 function love.load(args)
     SetupModifications()
 
     love.graphics.clear(0.101,0.09,0.3)
-    love.graphics.print("["..os.clock().."] StudioDream V"..VERSION_FULL..", Starting Runtime")
+    DebugLog("["..os.clock().."] StudioDream V"..VERSION_FULL..", Starting Runtime")
     love.graphics.present()
 
     Shared.SetupBullet = require("Shared.SetupGlobals")()
@@ -90,17 +103,12 @@ function love.errorhandler(msg)
     love.graphics.setColor(1,0.2,0.2)
 
     love.graphics.setFont(DebugFont)
-    local y = 5
-    local function Log(msg)
-        love.graphics.print(msg or "", 5, y)
-        y = y + 20
-    end
 
-    Log("Something happened!")
-    Log("The error has been copied to your clipboard, Press ESC to exit.")
-    Log()
+    DebugLog("Something happened!", true)
+    DebugLog("The error has been copied to your clipboard, Press ESC to exit.", true)
+    DebugLog(nil, true)
     for i,v in pairs(string.split(full_trace, "\n")) do
-        Log(v)
+        DebugLog(v, true)
     end
 
     love.graphics.present()
