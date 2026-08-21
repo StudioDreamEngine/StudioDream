@@ -80,7 +80,7 @@ function Credits.Init()
         Size = Pivot2D.FromScale(1,1),
         Parent = Credits.Container,
         Name = "Credits",
-        CanvasSize = Pivot2D.new(1,0,0,400)
+        CanvasSize = Pivot2D.new(1,0,0,700)
     }
 
     Studio.Components.CreateStyle("ListLayout", {

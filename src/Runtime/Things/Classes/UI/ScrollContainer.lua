@@ -57,11 +57,14 @@ function ScrollContainer:Draw()
         
         - Bloctans
     ]]
-    local TotalCanvasSize = self:GetCanvasSize()
+    local TotalCanvasSize = self:GetCanvasSize() - self.AbsoluteSize.Y
+
+    -- oh god...
+    local CanvasScale2 = (self:GetCanvasSize().Y / self.AbsoluteSize.Y)
     local CanvasScale = (TotalCanvasSize.Y / self.AbsoluteSize.Y) -- How large CanvasSize is compared to AbsoluteSize
 
     local BarPos = (-self.ScrollPosition / CanvasScale)
-    local BarSize = self.AbsoluteSize.Y / CanvasScale
+    local BarSize = self.AbsoluteSize.Y / CanvasScale2
     local BarPivot = BarSize * (BarPos / self.AbsoluteSize.Y)
     
     Runtime.Backend2D.SetColor(self.ForegroundColor,1 - self.ForegroundTransparency)
@@ -79,7 +82,7 @@ function ScrollContainer:Update(dt)
 
     self.ScrollPosition = math.lerp(self.ScrollPosition, self.ScrollTarget, .4)
 
-    local MaxScroll = self:GetCanvasSize().Y
+    local MaxScroll = self:GetCanvasSize().Y - self.AbsoluteSize.Y
 
     -- Elastic scroll bounding, because why not
     if self.ScrollTarget < -MaxScroll then
