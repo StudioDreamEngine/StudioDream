@@ -86,13 +86,19 @@ function Inspector.RenderEverything()
         local GroupNode = Inspector.CreateGroup(GroupName)
         for Property, Thing in pairs(GroupData) do
             --print(Utils.TypeOf(Thing[Property]),Property)
-            local PropertyInfo = {
-                Name = Property,
-                Type = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property],
-                Parent = GroupNode,
-                Thing = Thing,
-            }
-            Inspector.CreateProperty(PropertyInfo)
+
+            xpcall(function()
+                local PropertyInfo = {
+                    Name = Property,
+                    Type = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property],
+                    Parent = GroupNode,
+                    Thing = Thing,
+                }
+                Inspector.CreateProperty(PropertyInfo)
+            end, function(Error)
+                -- mikl istg
+                print(debug.traceback("Failed to create property node, "..Error))
+            end)
         end
     end
 

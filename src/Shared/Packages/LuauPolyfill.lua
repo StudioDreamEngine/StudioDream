@@ -279,6 +279,12 @@ do
 
 	-- https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value
 	function table:clone()
+		local mt = getmetatable(self)
+
+		if mt and mt.__clone then -- might work i think i think
+			return mt:__clone()
+		end
+
 		local t2 = {}
 		for k,v in pairs(self) do
 			t2[k] = v

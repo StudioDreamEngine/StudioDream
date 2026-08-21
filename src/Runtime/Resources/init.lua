@@ -39,6 +39,7 @@ function Resources.ReloadResources()
 		local Split = string.split(ObjectProp, "_")
 		local ObjectUUID, Property = Split[1], Split[2]
 		local Object = Runtime.Things.Get(ObjectUUID)
+		--print(Identifier, Property)
 
 		Resources.LoadResource(Identifier)
 		Object["Set"..Property](Object, Identifier)
@@ -91,9 +92,9 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 
 	if Identifier.ResourceType == "Project" and ObjectUUID then
 		printVerbose("Adding " .. ObjectUUID .. " to object references")
-		if (not ObjectReferences[ObjectUUID]) then ObjectReferences[ObjectUUID] = {} end
-
 		ObjectReferences[ObjectUUID.."_"..CustomProperty] = Identifier
+	elseif Identifier.ResourceType ~= "Internal" then
+		printVerbose("Cannot add", Identifier, "to ObjectReferences")
 	end
 
 	return Resources.GetResource(Identifier), Identifier

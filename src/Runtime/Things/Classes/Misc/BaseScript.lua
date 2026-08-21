@@ -41,8 +41,9 @@ end
 
 function BaseScript:SetResource(Identifier)
     self.ModuleFunction, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Script")
-    self.ModuleFunction = self.ModuleFunction()
+    if (not self.ModuleFunction) then return end
 
+    self.ModuleFunction = self.ModuleFunction()
     setfenv(self.ModuleFunction, ScriptUtil.CreateGlobals(self))
 end
 
