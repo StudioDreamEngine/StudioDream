@@ -8,6 +8,8 @@ Idea: Do this in 3 steps
 2. Slowly strip down classes and rewrite classes such as Drawable3D to be able to be replacements for those classes
 3. Rewrite the renderer
 
+Perhaps we can also approach it as a proper api, Why3D provides the renderer and some other stuff, its up to the engine to manage the heiherarchy
+
 API Idea Stub (Codename Why3D):
     local Why3D = require("Engine")
 

@@ -15,6 +15,8 @@ StudioDream is an engine that is intended to take the accessibility of Roblox, a
 # Overview
 The documentation repo is located [Here](https://github.com/StudioDreamEngine/StudioDream-Docs), there is currently no hosted website for them.
 
+StudioDream currently uses the 3DreamEngine project, however **we plan to make our own seperate 3d engine for Studiodream in the near future**.
+
 # Running
 **StudioDream requires LÖVE 12 to run, get it from the [github actions artifacts](https://github.com/love2d/love/actions) from the official LÖVE github repository (requires an account)**
 

@@ -15,15 +15,24 @@ function Square:new()
     self.OutlineTransparency = 0
     self.HasDropShadow = false -- vro
     self.LimitCornerRadious = true
+
+    self.InterfaceShader = nil
+    self.ShaderObject = nil
 end
 
 function Square:DefineAPI()
     Square.super.DefineAPI(self)
 
     self.Proxy.Property("number CornerRadius", "number OutlineSize", "Color OutlineColor","number BackgroundTransparency", "Color BackgroundColor", "boolean Hovering","boolean LimitCornerRadious")
+    self.Proxy.Property("Resource InterfaceShader")
     self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor","LimitCornerRadious")
-    self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor")
+    self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor", "InterfaceShader")
     self.Proxy.MakeCreatable()
+end
+
+function Square:SetShader(Identifier)
+    self.ShaderObject, self.InterfaceShader = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Shader")
+    if (not self.ShaderObject) then return end
 end
 
 function Square:CalculateRadius() -- this was kinda fun to do
@@ -48,6 +57,11 @@ end
 
 function Square:SetOutlineSize(number)
     self.OutlineSize = number
+end
+
+-- oh boy, MORE ABSTRACTION!!! LOVELY!!!$
+function Square:DrawExtended()
+    self:Draw()
 end
 
 function Square:Draw()

@@ -2,7 +2,7 @@ local Things = Runtime.Things
 local Renderer = Runtime.Renderer
 
 -- using @module here gives the lua language server a base type to use!
----@class Image2D: BaseGui
+---@class Image2D: Square
 local Image2D = Things.Extend("Square")
 
 local ImageScale = {

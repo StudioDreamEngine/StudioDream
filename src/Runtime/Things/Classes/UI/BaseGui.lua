@@ -355,6 +355,7 @@ function BaseGui:SetForegroundTransparency(NewColor)
     self.ForegroundTransparency = ToChange
 end
 
+-- Draw an object, and apply its rotation, pivot and color
 function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
 
@@ -362,7 +363,12 @@ function BaseGui:DrawStyle()
     love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
     
     self:SetColor("Background", "Color")
-    self:Draw()
+    
+    if self.DrawExtended then -- Draw an object with a special extension function created by a child class (eg. shaders)
+        self:DrawExtended()
+    else -- Draw an object 
+        self:Draw()
+    end
 
     if FLAGS.DebugDraw then
         local Rect = self:GetProperty("ChildRect")

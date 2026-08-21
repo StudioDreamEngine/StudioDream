@@ -9,7 +9,8 @@ return {
     dae = "Mesh",
     lua = "Script",
     luau = "Script",
-    ttf = "Font"
+    ttf = "Font",
+    glsl = "Shader"
     --jpg = "Image",
     --jpeg = "Image",
 }
