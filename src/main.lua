@@ -14,8 +14,8 @@ local function SetupModifications()
     end
 
     -- __pairs support (https://stackoverflow.com/questions/70466069/pairs-and-ipairs-metamethods-does-not-work-at-all)
-    local raw_pairs = pairs
-    pairs = function(t)
+    raw_pairs = pairs
+    pairs = function(t) -- todo: possibility of adding to luaupolyfill
         local metatable = getmetatable(t)
         if metatable and metatable.__pairs then
             return metatable.__pairs(t)
