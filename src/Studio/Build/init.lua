@@ -101,10 +101,13 @@ function Build.BuildProject()
 
     local ZipBytes = Zip:finish()
 
-    Targets[TargetBuild](Progress, ZipBytes, BuildDirectory)
+    local Success = Targets[TargetBuild](Progress, ZipBytes, BuildDirectory)
 
     Progress.Close()
-    Studio.Components.SimpleDialog("Project has been built!") -- TODO: Use notifs
+    
+    if Success then
+        Studio.Components.SimpleDialog("Project has been built!") -- TODO: Use notifs
+    end
 end
 
 return Build

@@ -11,6 +11,9 @@ rename Love2D.zip StudioDream.love
 
 copy /b "C:\Program Files\LOVE\love.exe"+StudioDream.love "dist/win/StudioDream.exe"
 
+:: For now, just export the windows version with the base love exe for exports
+copy /b "C:\Program Files\LOVE\love.exe" "dist/win/LoveExport.exe"
+
 del StudioDream.love
 
 echo Make sure to include the DLL's in your love installation directory within dist/win!

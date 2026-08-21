@@ -45,4 +45,6 @@ return function(Progress, ZipBytes, BuildDirectory)
 
     os.execute("chmod +x "..ToolPath)
     os.execute(Command)
+
+    return true
 end
