@@ -10,5 +10,6 @@ return function ()
     Enum = require("Shared.Types.Enum")
     Path = require("Shared.Types.Path")
     IdentifierType = require("Shared.Types.Identifier")
+    GradientSequence = require("Shared.Types.GradientSequence")
     --ipairs = require("Shared.Types.ipairs")
 end

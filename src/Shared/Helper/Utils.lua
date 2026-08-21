@@ -24,6 +24,39 @@ function Utils.TypeOf(Object)
     end
 end
 
+function Utils.SerializeMyTable(Table,CustomSerialize)
+    CustomSerialize = CustomSerialize or {}
+	local Proxied = setmetatable({}, {
+		__index = Table,
+		__pairs = function(...)
+            local BuildedTable = {}
+            for i,v in pairs(Table) do
+                if i~="Type" then
+                    if not table.find(CustomSerialize,i) then
+                        BuildedTable[i] = v
+                    end
+                end
+            end
+			return pairs(BuildedTable)
+		end,
+        __ipairs = function(...)
+            local BuildedTable = {}
+            for i,v in pairs(Table) do
+                if i~="Type" then
+                    if not table.find(CustomSerialize,i) then
+                        BuildedTable[i] = v
+                    end
+                end
+            end
+			return ipairs(BuildedTable)
+		end,
+        __clone = function()
+            return table.rawclone(Table)
+        end
+	})
+	return Proxied
+end
+
 function Utils.IsAllPropertiesTheSame(table,CheckProperty)
     local FirstVal = table[1] and table[1][CheckProperty]
     for _, Thing in pairs(table) do

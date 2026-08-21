@@ -269,12 +269,19 @@ do
 		end
 		return copy
 	end
-
 	-- Combine 2 tables
 	function table.combine(t1, t2)
 		for _, v in pairs(t2) do
 			table.insert(t1, v)
 		end
+	end
+
+	function table.rawclone(table)
+		local t2 = {}
+		for k,v in raw_pairs(table) do
+			t2[k] = v
+		end
+		return t2
 	end
 
 	-- https://stackoverflow.com/questions/640642/how-do-you-copy-a-lua-table-by-value

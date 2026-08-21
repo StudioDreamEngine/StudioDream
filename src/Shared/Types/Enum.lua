@@ -296,6 +296,12 @@ for Name, Enum in pairs(Enums) do
     if TheNotNoneList[Name]~=true then
         Enum.None = nil
     end
+    --print(Utils.SerializeMyTable(Enum,{"NameFromValue"}))
+    Enums[Name] = Utils.SerializeMyTable(Enum,{"NameFromValue"})
+end
+
+for i,v in pairs(Enums.EasingMode) do
+    print(i,v)
 end
 
 return Enums
