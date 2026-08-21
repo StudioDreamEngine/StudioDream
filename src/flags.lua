@@ -4,6 +4,7 @@ return {
     DebugDraw = false,
     ExternalOutput = true,
     Independent = false,
+    TargetProject = nil,
     ProfileCapture = false,
     AlwaysCollect = false,
     CallSetPropertyOnDirect = true,

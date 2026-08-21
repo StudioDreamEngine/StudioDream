@@ -13,7 +13,7 @@ function ProjectFS.IsQueuingWrites() return Mount.QueueWrites end
 
 -- General
 function ProjectFS.FileExists(Path) return Mount.FileExists(Path) end
-function ProjectFS.IsWritable() return not Mount.IsZip    end
+function ProjectFS.IsWritable() return not Mount.ReadOnly    end
 function ProjectFS.ListDirectory(Path) return Mount.ListDirectory(Path) end
 function ProjectFS.GetFullPath(FilePath) return Mount.GetFullPath(FilePath) end
 
@@ -27,7 +27,7 @@ function ProjectFS.ReadFile(Path) return Mount.ReadFile(Path) end
 
 -- Mounting wrappers
 function ProjectFS.GetMount() if Mount then return Mount.GetMount() end end
-function ProjectFS.MountProject(Project) Mount = BaseFS.Mount(Project); return Mount end
+function ProjectFS.MountProject(Project, Local) Mount = BaseFS.Mount(Project, nil, Local); return Mount end
 function ProjectFS.UnmountProject() Mount.Unmount(); Mount = nil end
 function ProjectFS.Remount(Path) 
     if Mount then Mount.Unmount() end 

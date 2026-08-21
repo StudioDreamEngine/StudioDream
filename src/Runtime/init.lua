@@ -65,6 +65,8 @@ end
 
 -- runs after the target is initalized
 function Runtime.PostTarget(ProjectPath)
+    printVerbose("Loading project:",ProjectPath)
+
     if ProjectPath then
         Runtime.Project.Load(ProjectPath)
     else

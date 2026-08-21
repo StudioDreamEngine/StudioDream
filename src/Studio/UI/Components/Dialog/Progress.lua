@@ -41,7 +41,11 @@ return function(Options)
     end
 
     function Object.SetStages(InStages)
+        Stage = 0
+        SubStage = 0
+
         MaxStages = InStages
+        Object.UpdateText()
     end
 
     function Object.SetSubStages(InSubStages)

@@ -21,10 +21,6 @@ local Switches = {
         Type = "Switch",
         Flag = "SecondRun"
     },
-    Independent = {
-        Type = "Switch",
-        Flag = "Independent"
-    },
     ProfileCapture = {
         Type = "Switch",
         Flag = "ProfileCapture"
@@ -49,7 +45,6 @@ HELP
         Verbose: If to enable more verbose prints (THESE WILL NOT BE LOGGED TO THE STUDIO OUTPUT!)
         DebugDraw: If to enable the debug drawing renderers
         ProfileCapture: Profile the engine (May use alot of ram, capture saved as prof.mpack in appdata)
-        Independent: Treat this as a project that isnt tied to StudioDream
         AlwaysCollect: Experimental flag to always run the garbage collector after every frame
             ]]
         end

@@ -16,7 +16,6 @@ Shared.AbortQueue = {}
 
 FLAGS = DEFAULT_FLAGS
 FLAGS.SecondRun = false
-FLAGS.TargetProject = nil
 
 function Shared.QueueAbort(Msg)
     printVerbose(Msg)

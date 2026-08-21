@@ -333,7 +333,7 @@ function Thing:SetParent(NewParent)
     
     local SerializeCheck = NewParent or OldParent
 
-    if SerializeCheck:IsSerializable() then
+    if SerializeCheck and SerializeCheck:IsSerializable() then
         Runtime.Things.RequestTreeChange(self)
     end
 

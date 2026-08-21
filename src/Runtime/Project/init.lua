@@ -18,6 +18,14 @@ Project.LoadedProject = Signal:New("ProjectLoaded")
 
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
+    if FLAGS.Independent then -- dumb way to do this perhaps, idk
+        printVerbose("Independent flag set, Forcing load of project.sdp regardless of ProjectPath")
+        local CouldMount = ProjectFS.MountProject("project.sdp", true)
+        if (not CouldMount) then error("Failed to mount project.sdp") end
+
+        return
+    end
+
     assert(ProjectPath, "ProjectPath was blank!")
 
     local Info = NativeFS.getInfo(ProjectPath)

@@ -32,7 +32,7 @@ def compile_directory(directory: path.Path):
         elif file.suffix == ".lua" and (not file.name in ignore):
             file_target.parent.mkdir(exist_ok=True, parents=True)
 
-            os.system(f"luajit -O3 -jv -b \"{file.absolute()}\" \"{file_target.absolute()}\"")
+            os.system(f"luajit -O3 -b \"{file.absolute()}\" \"{file_target.absolute()}\"")
         else:
             create(file_target, file.read_bytes())
 

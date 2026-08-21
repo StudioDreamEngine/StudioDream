@@ -1,3 +1,3 @@
-return function(ProjectFS, Exclusions)
-    print("Windows build is currently WIP")
+return function(Progress, ZipBytes, BuildDirectory)
+
 end

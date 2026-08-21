@@ -1,12 +1,12 @@
 local BaseFS = {}
 
 ---@return MountFS|nil
-function BaseFS.Mount(PathString, MountName)
+function BaseFS.Mount(PathString, MountName, IsLocal)
     ---@class MountFS
     local MountObject = {}
     local Path = Path.new(Platform.ParsePath(PathString)) ---@class Path
 
-    MountObject.IsZip = (Path.FileType ~= nil)
+    MountObject.ReadOnly = IsLocal or (Path.FileType ~= nil)
     MountObject.MountPath = Path
 
     MountObject.QueueWrites = false
@@ -14,7 +14,16 @@ function BaseFS.Mount(PathString, MountName)
 
     print("Attempting to mount new project: "..Path.FilePath)
     
-    local WasMounted = love.filesystem.mountFullPath(Path.FilePath, MountName or "ProjectMount")
+    local WasMounted
+
+    -- god
+    if IsLocal then
+        local Data = love.data.newByteData(love.filesystem.read(Path.FilePath))
+        WasMounted = love.filesystem.mount(Data, Path.FilePath, MountName or "ProjectMount")
+    else
+        WasMounted = love.filesystem.mountFullPath(Path.FilePath, MountName or "ProjectMount")
+    end
+
     if (not WasMounted) then print("Failed to mount") return end
 
     local MountDir = (MountName or "ProjectMount").."/"
@@ -26,7 +35,7 @@ function BaseFS.Mount(PathString, MountName)
 
     -- Create a directory at this mount point
     function MountObject.CreateDirectory(Path)
-        if MountObject.IsZip then print("MountFS.CreateDirectory - Mount object is read only (zip)") end
+        if MountObject.ReadOnly then print("MountFS.CreateDirectory - Mount object is read only (zip)") end
 
         error("MountObject.CreateDirectory currently not tested! dont wanna fuck shit up if it doesnt work...")
         love.filesystem.createDirectory(MountDir..Path)
@@ -44,7 +53,7 @@ function BaseFS.Mount(PathString, MountName)
 
     -- Write a file or queue a file to be written
     function MountObject.QueueWrite(WritePath, Data)
-        if MountObject.IsZip then print("MountFS.QueueWrite - Mount object is read only (zip)") end
+        if MountObject.ReadOnly then print("MountFS.QueueWrite - Mount object is read only (zip)") end
 
         if MountObject.QueueWrites then
             MountObject.Writes[WritePath] = Data
@@ -63,7 +72,7 @@ function BaseFS.Mount(PathString, MountName)
 
     -- Apply queued writes to new path
     function MountObject.ApplyWrites(NewPath)
-        NewPath = Platform.ParsePath(NewPath) or Path.FilePath
+        NewPath = Platform.ParsePath(NewPath)
 
         for Path, Data in pairs(MountObject.Writes) do
             NativeFS.write(NewPath..Path, Data)
@@ -93,7 +102,14 @@ function BaseFS.Mount(PathString, MountName)
     -- Unmount this mountobject and KILL it
     function MountObject.Unmount()
         print("Unmounting "..Path.FilePath)
-        love.filesystem.unmountFullPath(Path.FilePath)
+
+        -- man
+        if (not IsLocal) then
+            love.filesystem.unmountFullPath(Path.FilePath)
+        else
+            error("Cannot unmount local MountObject")
+        end
+
         MountObject = {}
     end
 
