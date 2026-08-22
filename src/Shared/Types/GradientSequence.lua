@@ -2,31 +2,39 @@ local GradientSequence = {}
 
 --[[ SequenceTime can go 1 though 0!!! ]]
 
-function GradientSequence.NewColorkey(Sec,Color)
+function GradientSequence.NewKey(Sec,Color)
+    Utils.AssertType(Color, "Color")
+
     return {
-        SequenceTime = Sec,
+        SequenceTime = math.clamp(Sec,0,1),
         Color = Color,
         Type = "ColorKey"
     }
 end 
 
 function GradientSequence.NewSequence(TableOf)
-    if Utils.TypeOf(TableOf) ~= "Table" then
-        assert("Table expected, got "..Utils.TypeOf(TableOf))
-    end
-    local BuildNewTable = {}
+    Utils.AssertType(TableOf, "table")
 
-    for i,v in ipairs(TableOf) do -- Organize table and kills equal sequencetime colors
-        if Utils.TypeOf(v) == "ColorKey" then
-            BuildNewTable[v.SequenceTime] = Color
-        else
-            assert(Utils.TypeOf(v).." ins't a ColorKey Type")
-        end
+    local SequenceObject = {
+        Type = "GradientSequence"
+    }
+
+    local Keys = {}
+
+    function SequenceObject.AddKey(Key)
+        Utils.AssertType(Key, "ColorKey")
+        Keys[Key.SequenceTime] = Key.Color
     end
 
-    BuildNewTable.Type = "GradientSequence"
+    function SequenceObject.GetKeys()
+        return Keys
+    end
+
+    for _,v in ipairs(TableOf) do -- Organize table and kills equal sequencetime colors
+        SequenceObject.AddKey(v)
+    end
     
-    return BuildNewTable
+    return SequenceObject
 end
 
 return GradientSequence

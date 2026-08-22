@@ -31,7 +31,7 @@ function Slider:new()
 
     self.SlideCornerRadius = 100
     self.LimitSlideCornerRadius = true
-    self.SlideTrueRadiousOfCorners = 0
+    self.SlideTrueRadiusOfCorners = 0
 
     self.NumberPosChanged = Signal:New("Slide_NumberPos")
     self.StartHolding = Signal:New("Slide_Hold")
@@ -100,12 +100,12 @@ function Slider:CalculateRadius() -- this was kinda fun to do
         end
         --print(Size)
         if self.SlideCornerRadius > Size then
-            self.SlideTrueRadiousOfCorners = Size
+            self.SlideTrueRadiusOfCorners = Size
         else
-            self.SlideTrueRadiousOfCorners = self.SlideCornerRadius
+            self.SlideTrueRadiusOfCorners = self.SlideCornerRadius
         end
     else 
-        self.SlideTrueRadiousOfCorners = self.SlideCornerRadius
+        self.SlideTrueRadiusOfCorners = self.SlideCornerRadius
     end
 end
 
@@ -131,9 +131,9 @@ function Slider:Draw()
     self:SetColor("AbsoluteForeground")
 
     if self.SlideAxis == "X" then
-        love.graphics.rectangle("fill", self.SliderPosition - self.SlidePivot.X, 0, self.SlideSizeAbsolute.X, self.SlideSizeAbsolute.Y,self.SlideTrueRadiousOfCorners,self.SlideTrueRadiousOfCorners)
+        love.graphics.rectangle("fill", self.SliderPosition - self.SlidePivot.X, 0, self.SlideSizeAbsolute.X, self.SlideSizeAbsolute.Y,self.SlideTrueRadiusOfCorners,self.SlideTrueRadiusOfCorners)
     else
-        love.graphics.rectangle("fill", 0, self.SliderPosition - self.SlidePivot.Y, self.SlideSizeAbsolute.X, self.SlideSizeAbsolute.Y,self.SlideTrueRadiousOfCorners,self.SlideTrueRadiousOfCorners)
+        love.graphics.rectangle("fill", 0, self.SliderPosition - self.SlidePivot.Y, self.SlideSizeAbsolute.X, self.SlideSizeAbsolute.Y,self.SlideTrueRadiusOfCorners,self.SlideTrueRadiusOfCorners)
     end
 end
 

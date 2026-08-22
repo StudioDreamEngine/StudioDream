@@ -59,6 +59,7 @@ function Methods:Abs()
     return Vector2.new(math.abs(self.X),math.abs(self.Y))
 end
 
+-- hopefully asserting types each time here isnt too big of a memory or time issue
 local Meta = { -- I have no idea how to organize this mess
     __index = function(self, key)
 		if key == "X" then
@@ -91,6 +92,7 @@ local Meta = { -- I have no idea how to organize this mess
         elseif type(t2) == "number" then
             return Vector2.new(t1.X + t2, t1.Y + t2)
         else
+            Utils.AssertTypes({t1,t2}, "Vector2")
             return Vector2.new(t1.X + t2.X, t1.Y + t2.Y)
         end
     end,
@@ -100,6 +102,7 @@ local Meta = { -- I have no idea how to organize this mess
         elseif type(t1) == "number" then
             return Vector2.new(t1 - t2.X, t1 - t2.Y)
         else
+            Utils.AssertTypes({t1,t2}, "Vector2")
             return Vector2.new(t1.X - t2.X, t1.Y - t2.Y)
         end
     end,
@@ -114,6 +117,7 @@ local Meta = { -- I have no idea how to organize this mess
         elseif type(t1) == "number" then
             return Vector2.new(t2.X * t1, t2.Y * t1)
         else
+            Utils.AssertTypes({t1,t2}, "Vector2")
             return Vector2.new(t1.X * t2.X, t1.Y * t2.Y)
         end
     end,
@@ -121,6 +125,7 @@ local Meta = { -- I have no idea how to organize this mess
         if type(t2) == "number" then
             return Vector2.new(t1.X / t2, t1.Y / t2)
         else
+            Utils.AssertTypes({t1,t2}, "Vector2")
             return Vector2.new(t1.X / t2.X, t1.Y / t2.Y)
         end
     end
@@ -157,6 +162,7 @@ end
 ---@return Vector2
 function Vector2.new(x,y)
     if (not y) then
+        Utils.AssertTypes(x, "Vector3")
         local ExistingVector = x
 
         if ExistingVector.Simple then
@@ -165,6 +171,8 @@ function Vector2.new(x,y)
             return ExistingVector
         end
     end
+
+    Utils.AssertTypes({x,y}, "number")
 
     Profiler.Start("Vector2 - Creation")
     local MetaTableWow = setmetatable({ x,y }, Meta)

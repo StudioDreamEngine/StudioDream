@@ -66,29 +66,36 @@ function Audio:Pause()
     end
 end
 
+function Audio:RefreshSource()
+    if self.SoundObject then
+        self.SoundObject:setVolume(self.Volume/100)
+        self.SoundObject:setLooping(self.DoesLoop)
+    end
+end
+
 function Audio:SetResource(Identifier)
     self.SoundObject, self.Resource = Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Sound")
     if (not self.SoundObject) then return end
+
+    self:RefreshSource()
+    self.SoundObject:seek(0)
 end
 
 function Audio:SetVolume(NewVol)
     self.Volume = NewVol
-    if self.SoundObject then
-        self.SoundObject:setVolume(NewVol/100)
-    end
+    self:RefreshSource()
 end
 
 function Audio:SetLoop(DoesIt)
     self.DoesLoop = DoesIt
-    if self.SoundObject then
-        self.SoundObject:setLooping(DoesIt)
-    end
+    self:RefreshSource()
 end
 
 function Audio:SetTimePosition(NewTime)
     self.TimePosition = NewTime
-    if self.SoundObject then 
-        self.SoundObject:seek(NewTime)
+
+    if self.SoundObject then
+        self.SoundObject:seek(self.TimePosition)
     end
 end
 

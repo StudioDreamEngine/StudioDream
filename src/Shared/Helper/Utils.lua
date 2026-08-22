@@ -83,8 +83,16 @@ function Utils.DebugPrint(String, Pos)
     love.graphics.print(String, Pos.X, Pos.Y)
 end
 
-function Utils.AssertType(Object, ExpectedType, Extra)
-    assert(Object.Type == ExpectedType, "Expected "..ExpectedType..", got "..Object.Type.." ("..Extra..")")
+function Utils.AssertType(Object, ExpectedType)
+    local Type = Utils.TypeOf(Object)
+
+    assert(Type == ExpectedType, "Expected "..ExpectedType..", got "..Type)
+end
+
+function Utils.AssertTypes(Objects, ExpectedType)
+    for _, Object in pairs(Objects) do
+        Utils.AssertType(Object, ExpectedType)
+    end
 end
 
 function Utils.Keys(Table)

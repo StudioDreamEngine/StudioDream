@@ -24,6 +24,8 @@ function Color.new(R,G,B,A)
         end
     })
 
+    Utils.AssertTypes({R,G,B},"number")
+
     if not (G or B) then
         Object.R = R
         Object.G = R
