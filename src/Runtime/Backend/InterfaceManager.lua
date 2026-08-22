@@ -7,7 +7,7 @@ InterfaceManager.Clicking = false
 InterfaceManager.Hovering = false
 
 print("Load shader")
-local ShaderData, _ = Runtime.Resources.LoadResourceFromIdentifier("Internal/InterfaceShader.glsl")
+local ShaderData, _ = Runtime.Resources.LoadResourceFromIdentifier("Internal/Shaders/InterfaceShader.glsl")
 InterfaceManager.Shader = ShaderData
 print("a")
 
