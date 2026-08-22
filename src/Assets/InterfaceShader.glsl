@@ -1,7 +1,7 @@
 // Handles general support for ui effects applied by shaders (Gradients, etc)
 
 struct Gradient {
-    vec3 colors[16];
+    vec4 colors[16];
     float time[16];
 };
 
@@ -14,13 +14,13 @@ vec4 position(mat4 transform_projection, vec4 vertex_position)
     return transform_projection * vertex_position;
 }
 
-vec3 lerp(vec3 a, vec3 b, float alpha) {
+vec4 lerp(vec4 a, vec4 b, float alpha) {
     return a + (b-a) * alpha;
 }
 
 vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
     vec4 texturecolor = Texel(tex, texture_coords);
-    vec3 gradient_color = vec3(1,1,1);
+    vec4 gradient_color = vec4(1,1,1,1);
 
     float gradtime = texture_coords.x;
 
@@ -38,8 +38,8 @@ vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
         }
 
         // Setup color
-        vec3 current_color = gradient.colors[i];
-        vec3 next_color;
+        vec4 current_color = gradient.colors[i];
+        vec4 next_color;
 
         if (can_sample) { next_color = current_color; } else { next_color = gradient.colors[i+1]; }
 
@@ -47,5 +47,5 @@ vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
         gradient_color = lerp(current_color, next_color, (gradtime-current_time)/(next_time-current_time));
     }
     
-    return texturecolor * color * vec4(gradient_color,1);
+    return texturecolor * color * gradient_color;
 }

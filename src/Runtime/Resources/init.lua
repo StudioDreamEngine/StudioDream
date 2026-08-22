@@ -8,6 +8,8 @@ local LoaderModPath = "Runtime.Resources.Loaders."
 local LoadedResources
 local ObjectReferences = {}
 
+local Clonable = { "Sound" }
+
 Resources.Missing = {}
 
 function Resources.Init()
@@ -113,7 +115,7 @@ local function LoadWithContents(Identifier, Contents)
 		"Cannot read resource (Identifier: " .. Identifier.ID .. ", Path: " .. Identifier.Data.FilePath .. ")"
 	)
 
-	return Resources.InitiateLoader(Format, Contents, Identifier)
+	return Resources.InitiateLoader(Format, Contents, Identifier), table.find(Clonable, Format)
 end
 
 -- Use a Resource Loader given the specified data and format
@@ -126,12 +128,12 @@ end
 
 function Resources.LoadResource(Identifier)
 	local ResourceType = Identifier.ResourceType
-	local Resource
+	local Resource, Clonable
 
 	if ResourceType == "Internal" then
-		Resource = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
+		Resource, Clonable = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
 	elseif ResourceType == "Project" then
-		Resource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
+		Resource, Clonable = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
 	elseif ResourceType == "Buffer" then
 		Resource = Identifier.Data
 	else
@@ -139,6 +141,18 @@ function Resources.LoadResource(Identifier)
 	end
 
 	LoadedResources[Identifier.ID] = Resource
+
+	--[[if (not LoadedResources[Identifier.ID]) then
+		LoadedResources[Identifier.ID] = {
+			Clonable = Clonable
+		}
+	end
+
+	if Clonable then
+		table.insert(LoadedResources[Identifier.ID], Resource)
+	else
+		LoadedResources[Identifier.ID][1] = Resource
+	end]]
 
 	return Resource
 end
@@ -173,7 +187,7 @@ function Resources.GetResource(Identifier, Reload)
 
 	local LoadedResource = LoadedResources[Identifier.ID]
 
-	if Reload or (not LoadedResource) then -- If the resource isnt loaded yet, cache it
+	if (not LoadedResource) or Reload then -- If the resource isnt loaded yet, cache it
 		LoadedResource = Resources.LoadResource(Identifier)
 	end
 

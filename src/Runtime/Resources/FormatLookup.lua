@@ -10,7 +10,7 @@ return {
     lua = "Script",
     luau = "Script",
     ttf = "Font",
-    glsl = "Shader"
+    glsl = "Shader",
     --jpg = "Image",
     --jpeg = "Image",
 }
