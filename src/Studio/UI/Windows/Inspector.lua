@@ -23,7 +23,8 @@ function Inspector.CreateProperty(PropertyInfo)
         UltraParent = PropertyInfo.Parent,
         Name = PropertyInfo.Name,
         Type = PropertyInfo.Type,
-        Disabled = PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name] and (PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name].SeeOnlyInspect or false) or false
+        Disabled = PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name] and (PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name].SeeOnlyInspect or false) or false,
+        Attributes = PropertyInfo.Attributes
     }
     if Inspector.LoadedConfigs[PropertyInfo.Type] then
         local Return = Inspector.LoadedConfigs[PropertyInfo.Type].Create(GiveInfo)
@@ -93,6 +94,7 @@ function Inspector.RenderEverything()
                     Type = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property],
                     Parent = GroupNode,
                     Thing = Thing,
+                    Attributes = Thing.Proxy.Attributes[Property]
                 }
                 Inspector.CreateProperty(PropertyInfo)
             end, function(Error)

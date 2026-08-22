@@ -26,4 +26,16 @@ function PlatformService.OpenURL(Link)
     love.system.openURL(Link)
 end
 
+function PlatformService.GetExecutablePath()
+    if love.filesystem.isFused() then
+        return love.filesystem.getSource()
+    else
+        assert("You can only use GetProjectPath using a compiled version of StudioDream.")
+    end
+end
+
+function PlatformService.IsFused()
+    return Independent
+end
+
 return PlatformService
