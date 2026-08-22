@@ -1,3 +1,6 @@
+-- please stfu lsp
+---@diagnostic disable: param-type-mismatch, need-check-nil
+
 local Things = Runtime.Things
 
 -- using @module here gives the lua language server a base type to use!
@@ -10,7 +13,7 @@ function Square:new()
     self.TrueRadiusOfCorners = 0
     self.CornerRadius = 0
 
-    self.Gradient = nil
+    self.Gradient = nil ---@class GradientSequence
 
     self.OutlineSize = 0
     self.OutlineColor = Color.new(0,0,0)
@@ -46,13 +49,29 @@ function Square:CalculateRadius() -- this was kinda fun to do
     end
 end
 
+function Square:SetGradient(NewGrad)
+    self.Gradient = NewGrad
+    self.Gradient:ProcessUniforms()
+end
+
 function Square:SetOutlineSize(number)
     self.OutlineSize = number
 end
 
 -- oh boy, MORE ABSTRACTION!!! LOVELY!!!$
 function Square:DrawExtended()
-    love.graphics.setShader(Runtime.InterfaceManager.Shader)
+    local Shader = Runtime.InterfaceManager.Shader
+
+    love.graphics.setShader(Shader)
+
+    if self.Gradient then
+        Shader:sendColor("gradient.colors", self.Gradient.GetColors())
+        Shader:send("gradient.time", self.Gradient.GetTimes())
+        Shader:send("gradient_length", self.Gradient.GetKeyLength())
+    else
+        Shader:send("gradient_length", 0)
+    end
+
     self:Draw()
     love.graphics.setShader()
 end

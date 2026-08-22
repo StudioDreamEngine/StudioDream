@@ -125,7 +125,7 @@ do
 
 					Value = "\""..message.."\""
 				elseif table.find(DontPrint, i) or RecordedTables[v] then -- Tables that reference tables are a death sentence, so we skip em
-					Value = "Table Skipped"
+					Value = "Table Skipped (tables that have been seen before are skipped)"
 				elseif Depth < 10 then
 					RecordedTables[v] = true
 					Value = table.format(v, {Depth = Depth, RecordedTables = RecordedTables})
@@ -190,6 +190,16 @@ do
 		for _, v in pairs(Table) do i = i + 1 end
 
 		return i
+	end
+
+	function table.create(length, value)
+		local newtable = {}
+
+		for i = 1, length do
+			newtable[i] = value
+		end
+
+		return newtable
 	end
 
 	-- Make a table readonly (frozen)

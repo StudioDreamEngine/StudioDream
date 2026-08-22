@@ -1,6 +1,7 @@
 local Color = {}
 
 function Color.new(R,G,B,A)
+    ---@class Color
     local Object = setmetatable({
         R = 1,
         G = 1,
