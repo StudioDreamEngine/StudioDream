@@ -61,7 +61,9 @@ end
 
 -- oh boy, MORE ABSTRACTION!!! LOVELY!!!$
 function Square:DrawExtended()
+    love.graphics.setShader(Runtime.InterfaceManager.Shader)
     self:Draw()
+    love.graphics.setShader()
 end
 
 function Square:Draw()
