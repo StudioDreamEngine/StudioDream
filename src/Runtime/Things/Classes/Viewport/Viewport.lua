@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch, need-check-nil
 local Things = Runtime.Things
 local Renderer = Runtime.Renderer
 
@@ -10,15 +11,13 @@ function Viewport:new()
 
     self.RenderContainer = nil -- idk what to name this
 
-    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, Vector2.one)
+    self.FilterType = Enum.FilterType.Linear
+    self:CreateNew()
+
     self.DisplayList = {}
 
     self.BackgroundTransparency = 1
     self.ForegroundColor = Color.new(1,1,1)
-
-    self.Dirty = false
-
-    self.FilterType = Enum.FilterType.Linear
 end
 
 function Viewport:DefineAPI()
@@ -38,6 +37,7 @@ function Viewport:Draw()
     Viewport.super.Draw(self)
 
     self:SetColor("Foreground", "Color")
+
     Renderer.ViewportManager.RenderCanvas(self)
 end
 
@@ -56,9 +56,11 @@ end
 function Viewport:CreateNew()
     if self.ViewportCanvas then
         self.ViewportCanvas:release()
+        self.StencilCanvas:release()
+        self.MatCanvas:release()
     end
 
-    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
+    self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 end
 

@@ -12,6 +12,10 @@ function Render.Get3DBackend()
     return require("Runtime.Renderer.Backend3D")
 end
 
+function Render.GetShaders()
+    return require("Runtime.Renderer.Shaders")
+end
+
 function Render.Init()
     Backend3D = Runtime.Backend3D
     Backend3D.Init()

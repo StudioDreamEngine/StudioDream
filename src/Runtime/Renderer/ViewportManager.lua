@@ -35,24 +35,25 @@ end
 
 function ViewportManager.CreateViewport(Viewport, Size)
     if Size.X < 10 or Size.Y < 10 then
-        Size = Vector2.one
+        Size = Vector2.one * 2
     end
 
-    local Canvas, Stencil = Runtime.Backend2D.NewCanvas(Size, true)
+    local Canvas, Stencil, Mask = Runtime.Backend2D.NewCanvas(Size, true)
 
     ViewportManager.Viewports[Viewport.UUID] = Viewport
-    return Canvas, Stencil
-end
-
-local function RectStencil(Rect)
-    love.graphics.rectangle("fill", 0,0,Rect.X, Rect.Y)
+    return Canvas, Stencil, Mask
 end
 
 -- Render the contents of a 2d viewport
 function ViewportManager.RenderViewport2D(Viewport)
     --Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
-    Runtime.Backend2D.CanvasCall({Viewport.ViewportCanvas, depthstencil=Viewport.StencilCanvas}, function()
+    Runtime.Backend2D.CanvasCall({Viewport.ViewportCanvas, Viewport.MatCanvas, depthstencil=Viewport.StencilCanvas}, function()
         love.graphics.clear()
+
+        -- This is a hack to make sure that the shader is entirely cleared, stupid but works
+        Runtime.Backend2D.ShaderCall(function()
+            love.graphics.rectangle("fill",0,0,Viewport.AbsoluteSize.X,Viewport.AbsoluteSize.Y)
+        end, "Hack")
 
         for _, Element in pairs(Viewport.DisplayList) do
             love.graphics.push()
@@ -98,7 +99,10 @@ function ViewportManager.RenderCanvas(Viewport)
 
     love.graphics.pop()
 
-    Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas) 
+    Runtime.Backend2D.ShaderCall(function(Shader)
+        Shader:send("mat_canvas", Viewport.MatCanvas)
+        Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
+    end, "Final")
 end
 
 function ViewportManager.Update(dt)

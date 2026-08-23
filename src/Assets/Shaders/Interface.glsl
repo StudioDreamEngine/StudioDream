@@ -1,4 +1,17 @@
-// Handles general support for ui effects applied by shaders (Gradients, etc)
+#pragma language glsl3
+// Handles general support for ui effects applied by shaders (Gradients, etc), also deals with the detection of screen-space effects
+
+#ifdef VERTEX
+
+vec4 position(mat4 transform_projection, vec4 vertex_position)
+{
+    // The order of operations matters when doing matrix multiplication.
+    return transform_projection * vertex_position;
+}
+
+#endif
+
+#ifdef PIXEL
 
 struct Gradient {
     vec4 colors[16];
@@ -7,22 +20,19 @@ struct Gradient {
 
 uniform Gradient gradient;
 uniform lowp int gradient_length;
+uniform lowp int effect_bitmask;
 
-vec4 position(mat4 transform_projection, vec4 vertex_position)
-{
-    // The order of operations matters when doing matrix multiplication.
-    return transform_projection * vertex_position;
-}
+uniform Image MainTex;
 
 vec4 lerp(vec4 a, vec4 b, float alpha) {
     return a + (b-a) * alpha;
 }
 
-vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
-    vec4 texturecolor = Texel(tex, texture_coords);
+void effect() {
+    vec4 texturecolor = Texel(MainTex, VaryingTexCoord.xy);
     vec4 gradient_color = vec4(1,1,1,1);
 
-    float gradtime = texture_coords.x;
+    float gradtime = VaryingTexCoord.x;
 
     for(int i = 0; i < int(gradient_length); i++) {
         // Setup time
@@ -46,6 +56,16 @@ vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords) {
         // Find color
         gradient_color = lerp(current_color, next_color, (gradtime-current_time)/(next_time-current_time));
     }
-    
-    return texturecolor * color * gradient_color;
+
+    vec4 out_color = texturecolor * VaryingColor * gradient_color;
+
+    love_Canvases[0] = out_color;
+
+    if (effect_bitmask > 0 && out_color.a > 0f) {
+        love_Canvases[1] = vec4(out_color.a,0,0,1);
+    } else {
+        love_Canvases[1] = vec4(0,0,0,1);
+    }
 }
+
+#endif

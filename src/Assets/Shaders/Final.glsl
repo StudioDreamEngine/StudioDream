@@ -1,0 +1,50 @@
+// Applies screen-space effects
+
+const float blur_size = 10.0;
+const float max_samples = (blur_size*2.0 * blur_size*2.0);
+
+uniform Image mat_canvas;
+
+bool sample_shadow(vec2 coords) {
+    vec4 mat_sampled = Texel(mat_canvas, coords);
+    return (mat_sampled.r > 0.9f);
+}
+
+vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
+{
+    //float Shrink = -0.2;
+
+    texture_coords = texture_coords;//(texture_coords - 0.5) * (1.0 - Shrink) + 0.5;
+
+    //if (texture_coords.x < 0.0 || texture_coords.x > 1.0 ||
+    //    texture_coords.y < 0.0 || texture_coords.y > 1.0)
+    //    return vec4(0.0);
+
+    vec2 texel_size = 1.0 / vec2(textureSize(tex, 0));
+
+    vec4 blur_result = vec4(0.0);
+    float samples = 0.0;
+
+    bool tex_in_shadow = sample_shadow(texture_coords);
+
+    if (tex_in_shadow) {
+        return Texel(tex, texture_coords) * color;
+    }
+
+    for (float x = -blur_size; x <= blur_size; x++) {
+        for (float y = -blur_size; y <= blur_size; y++) {
+            vec2 texel_pos = texture_coords + (vec2(x,y) * texel_size);
+            bool in_shadow = sample_shadow(texel_pos);
+
+            if (in_shadow) {
+                samples += 1.0;
+            }
+        }
+    }
+
+    if (samples > 0.0) {
+        blur_result = vec4(0.0,0.0,0.0,samples/max_samples);
+    }
+
+    return Texel(tex, texture_coords) * color + blur_result;
+}

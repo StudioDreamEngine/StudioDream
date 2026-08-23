@@ -19,6 +19,8 @@ function Square:new()
     self.OutlineColor = Color.new(0,0,0)
     self.OutlineTransparency = 0
     
+    self.Dropshadow = false
+
     self.LimitCornerRadius = true
 
     --self.InterfaceShader = nil
@@ -29,9 +31,9 @@ function Square:DefineAPI()
     Square.super.DefineAPI(self)
 
     self.Proxy.Property("number CornerRadius", "number OutlineSize", "Color OutlineColor","number BackgroundTransparency", "Color BackgroundColor", "boolean Hovering","boolean LimitCornerRadius")
-    self.Proxy.Property("Resource InterfaceShader")
+    self.Proxy.Property("GradientSequence Gradient", "boolean Dropshadow")
     self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor","LimitCornerRadius")
-    self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor", "InterfaceShader")
+    self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor", "Gradient", "Dropshadow")
     self.Proxy.MakeCreatable()
 end
 
@@ -60,20 +62,19 @@ end
 
 -- oh boy, MORE ABSTRACTION!!! LOVELY!!!$
 function Square:DrawExtended()
-    local Shader = Runtime.InterfaceManager.Shader
+    Runtime.Backend2D.ShaderCall(function(Shader)
+        if self.Gradient then
+            Shader:sendColor("gradient.colors", self.Gradient.GetColors())
+            Shader:send("gradient.time", self.Gradient.GetTimes())
+            Shader:send("gradient_length", self.Gradient.GetKeyLength())
+        else
+            Shader:send("gradient_length", 0)
+        end
 
-    love.graphics.setShader(Shader)
+        Shader:send("effect_bitmask", (self.Dropshadow and 1 or 0))
 
-    if self.Gradient then
-        Shader:sendColor("gradient.colors", self.Gradient.GetColors())
-        Shader:send("gradient.time", self.Gradient.GetTimes())
-        Shader:send("gradient_length", self.Gradient.GetKeyLength())
-    else
-        Shader:send("gradient_length", 0)
-    end
-
-    self:Draw()
-    love.graphics.setShader()
+        self:Draw()
+    end, "Interface")
 end
 
 function Square:Draw()

@@ -12,6 +12,7 @@ function Runtime.Init()
     Profiler.Init()
     Platform.Init("StudioDream")
 
+    Runtime.Shaders = Runtime.Renderer.GetShaders()
     Runtime.Backend2D = Runtime.Renderer.Get2DBackend()
     Runtime.Backend3D = Runtime.Renderer.Get3DBackend()
 

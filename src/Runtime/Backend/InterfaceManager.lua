@@ -6,11 +6,6 @@ InterfaceManager.Buttons = {}
 InterfaceManager.Clicking = false
 InterfaceManager.Hovering = false
 
-print("Load shader")
-local ShaderData, _ = Runtime.Resources.LoadResourceFromIdentifier("Internal/Shaders/InterfaceShader.glsl")
-InterfaceManager.Shader = ShaderData
-print("a")
-
 function InterfaceManager.Init()
     InterfaceManager.OnMouseMove = Signal:New("MouseMove") 
     InterfaceManager.OnClick = Signal:New("MouseClick") 

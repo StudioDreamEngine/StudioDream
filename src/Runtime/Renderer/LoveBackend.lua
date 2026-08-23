@@ -15,6 +15,14 @@ function Backend.CanvasCall(Canvas, DrawFunction)
     love.graphics.setCanvas(OldCanvas)
 end
 
+function Backend.ShaderCall(DrawFunction, Shader)
+    Shader = Runtime.Shaders[Shader]
+
+    love.graphics.setShader(Shader)
+    DrawFunction(Shader)
+    love.graphics.setShader()
+end
+
 function Backend.GetMouseDown(Button)
     return love.mouse.isDown(Button or 1)
 end
@@ -38,8 +46,9 @@ end
 
 function Backend.NewCanvas(Size, Stencil)
     local StencilCanvas = Stencil and love.graphics.newCanvas(Size.X, Size.Y, { format = "stencil8" })
+    local MatCanvas = love.graphics.newCanvas(Size.X, Size.Y)
 
-    return love.graphics.newCanvas(Size.X, Size.Y), StencilCanvas
+    return love.graphics.newCanvas(Size.X, Size.Y), StencilCanvas, MatCanvas
 end
 
 function Backend.NewQuad(Rect, ImageSize)
