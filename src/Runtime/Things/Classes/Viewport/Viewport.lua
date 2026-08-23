@@ -27,6 +27,10 @@ function Viewport:DefineAPI()
     self.Proxy.Group("General", "RenderContainer", "FilterType")
 end
 
+function Viewport:GetCanvas()
+    return {self.ViewportCanvas, self.MatCanvas, depthstencil=self.StencilCanvas}
+end
+
 function Viewport:Draw()
     if FLAGS.DebugDraw then
         love.graphics.circle("fill", self.MousePosition.X, self.MousePosition.Y, 5)

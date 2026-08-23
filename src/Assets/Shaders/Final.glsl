@@ -23,15 +23,16 @@ vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
     vec2 texel_size = 1.0 / vec2(textureSize(tex, 0));
 
     vec4 blur_result = vec4(0.0);
-    float samples = 0.0;
+    lowp float samples = 0.0;
 
     for (float x = -blur_size; x <= blur_size; x++) {
         for (float y = -blur_size; y <= blur_size; y++) {
             vec2 texel_pos = texture_coords + (vec2(x,y) * texel_size);
             bool in_shadow = sample_shadow(texel_pos);
+            //bool in_epsilon = (x == 0.0 || y == 0.0);
 
-            if (in_shadow) {
-                samples += 1.0;
+            if (in_shadow) { //&& !in_epsilon) {
+                samples += 1.0;//1.0/abs(x) + 1.0/abs(y);
             }
         }
     }

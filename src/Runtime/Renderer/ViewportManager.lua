@@ -47,7 +47,7 @@ end
 -- Render the contents of a 2d viewport
 function ViewportManager.RenderViewport2D(Viewport)
     --Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
-    Runtime.Backend2D.CanvasCall({Viewport.ViewportCanvas, Viewport.MatCanvas, depthstencil=Viewport.StencilCanvas}, function()
+    Runtime.Backend2D.CanvasCall(Viewport:GetCanvas(), function()
         love.graphics.clear()
 
         -- Dumbass hack because we need to make sure EVERY pixel has been drawn to before drawing more`
