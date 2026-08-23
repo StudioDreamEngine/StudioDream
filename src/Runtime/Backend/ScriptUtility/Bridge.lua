@@ -24,7 +24,7 @@ end
 
 local function ProxyFunction(OldFunction, ...)
     local Result = OldFunction(...)
-    local NewResult
+    local NewResult = {}
 
     if Utils.TypeOf(Result) == "table" then
         for _, v in pairs(Result) do
