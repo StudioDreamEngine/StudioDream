@@ -397,17 +397,17 @@ function BaseGui:UpdateTransforms()
 end
 
 function BaseGui:InvalidateAutomaticSize()
-    Profiler.Start("Invalidate - Automatic Size")
+    --Profiler.Start("Invalidate - Automatic Size")
     if self.Parent and self.Parent.AutomaticSize then
         self.Parent:ProcessInvalidation()
         self.Parent:InvalidateAutomaticSize()
     end
-    Profiler.End()
+    --Profiler.End()
 end
 
 -- Same as ProcessInvalidation, Except it doesnt Update WasInvalidated, and doesnt propagate, used for handling AutomaticSize changes
 function BaseGui:ProcessInvalidations()
-    Profiler.Start("BaseGui - Process Invalidation")
+    --Profiler.Start("BaseGui - Process Invalidation")
     self:UpdateTransforms() 
 
     Runtime.Things.LogInvalidation()
@@ -419,7 +419,7 @@ function BaseGui:ProcessInvalidations()
         self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
     end
 
-    Profiler.End()
+    --Profiler.End()
 end
 
 -- Process the invalidation for an object

@@ -158,7 +158,7 @@ local OpenFuncs = {
 }
 
 -- Open a file or folder on a users and ONLY call Callback IF the user doesnt cancel the prompt
-function Platform.OpenWithCallback(Title, Type, Callback)
+function Platform.OpenWithCallback(Title, Type, Callback, Callback2)
 	local Path = OpenFuncs[Type](Title)
 
 	if Path then

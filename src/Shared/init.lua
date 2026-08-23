@@ -59,7 +59,7 @@ function Shared.Init(Args)
     Jprof = require("Shared.Packages.jprof")
 
     if PROF_CAPTURE then
-        Jprof.connect(false)
+        Jprof.connect(true)
     end
     
     --Shared.Theme = require("Shared.Theme") -- mikl please NEVER put random studio shit in shared
@@ -157,9 +157,11 @@ function Shared.Update(dt)
     GlobalTick = GlobalTick + dt
 
     Profiler.Start("StudioDream - Update")
-        Scheduler.Update()
-        Runtime.Update(dt)
+        Profiler.Start("Process Scheduled tasks")
+            Scheduler.Update()
+        Profiler.End()
 
+        Runtime.Update(dt)
         Shared.UpdateTarget(dt) 
     Profiler.End()
 end

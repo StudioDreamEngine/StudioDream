@@ -76,7 +76,6 @@ function Image2D:RefreshQuad()
 end
 
 function Image2D:CreateSlices(ImageSize)
-    --Profiler.Start("Image2D - Create Slices")
     local NineSlice = self.NineSlice
 
     local SliceData = Renderer.Image.GetSlices(NineSlice, ImageSize)
@@ -94,7 +93,6 @@ function Image2D:CreateSlices(ImageSize)
             Quad = Runtime.Backend2D.NewQuad(Rect.new(Slice.Pos, Slice.Size), ImageSize)
         })
     end
-    --Profiler.End()
 end
 
 function Image2D:SetNineSlice(NewNineSlice)
@@ -124,7 +122,6 @@ function Image2D:HandleDrawImage(Scale)
 
     -- top 5 most ass code ever - bloctans
     for _, Slice in pairs(self.Slices) do
-        --Profiler.Start("Image2D - Draw Slices")
         self:SetColor("Foreground")
 
         local Pos = (Slice.Pivot * self.AbsoluteSize)
@@ -146,8 +143,6 @@ function Image2D:HandleDrawImage(Scale)
         end
 
         love.graphics.draw(self.ImageFile, Slice.Quad, Pos.X, Pos.Y, 0, QScale.X, QScale.Y, Slice.Offset.X,Slice.Offset.Y)
-
-        --Profiler.End()
     end
 end
 

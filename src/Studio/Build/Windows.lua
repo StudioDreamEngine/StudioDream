@@ -23,6 +23,6 @@ return function(Progress, ZipBytes, BuildDirectory)
     end
 
     local LoveBytes = love.filesystem.read(ExportPath)
-    love.filesystem.write("build/Project.exe", LoveBytes+ZipBytes)
+    love.filesystem.write("build/Project.exe", LoveBytes..ZipBytes)
     love.filesystem.remove(ExportPath)
 end

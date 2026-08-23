@@ -153,15 +153,17 @@ function love.update(dt)
 end
 
 function love.quit()
+    printVerbose("Gracefully shutting down StudioDream...")
+
     Profiler.Frame = true
     Profiler.Start("frame")
 
     Shared.OnQuit.Invoke()
     Runtime.Services.OnQuit() -- this FUCKING sucks!!! :3
-    print("Closing and Saving logs...")
+
     love.filesystem.write("Latest.log", table.concat(PrintLogs, "\n"))
+    print("Saved logs, You can find Latest.log at "..love.filesystem.getAppdataDirectory())
     Profiler.End("frame")
 
     Profiler.Quit()
-    PrintOG("StudioDream has closed without issue.")
 end
