@@ -242,7 +242,7 @@ function Things.UpdatePass(Name, dt, Function)
             but this works too - Bloctans
         ]]
         if Thing.Parent then
-            Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
+            --Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
 
             if Function then
                 Function(Thing)
@@ -250,7 +250,7 @@ function Things.UpdatePass(Name, dt, Function)
                 Thing[Name](Thing, dt)
             end
 
-            Profiler.End()
+            --Profiler.End()
         end
     end
 

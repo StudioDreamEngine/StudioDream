@@ -130,7 +130,7 @@ end
 function love.draw()
     Shared.Render()
 
-    Profiler.End()
+    Profiler.End("frame")
     Profiler.Frame = false
 
     local MYFPSINATOR = love.timer.getTime()
@@ -160,7 +160,7 @@ function love.quit()
     Runtime.Services.OnQuit() -- this FUCKING sucks!!! :3
     print("Closing and Saving logs...")
     love.filesystem.write("Latest.log", table.concat(PrintLogs, "\n"))
-    Profiler.End()
+    Profiler.End("frame")
 
     Profiler.Quit()
     PrintOG("StudioDream has closed without issue.")

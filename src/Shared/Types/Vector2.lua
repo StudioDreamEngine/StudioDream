@@ -174,9 +174,7 @@ function Vector2.new(x,y)
 
     Utils.AssertTypes({x,y}, "number")
 
-    Profiler.Start("Vector2 - Creation")
     local MetaTableWow = setmetatable({ x,y }, Meta)
-    Profiler.End()
 
     return MetaTableWow
 end

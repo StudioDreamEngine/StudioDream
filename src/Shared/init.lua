@@ -57,6 +57,10 @@ function Shared.Init(Args)
 
     PROF_CAPTURE = FLAGS.ProfileCapture
     Jprof = require("Shared.Packages.jprof")
+
+    if PROF_CAPTURE then
+        Jprof.connect(false)
+    end
     
     --Shared.Theme = require("Shared.Theme") -- mikl please NEVER put random studio shit in shared
 
@@ -126,6 +130,8 @@ function Shared.RenderStats()
 
         DebugString = DebugString .. Stat.Name .. ": " .. tostring(Stat.Value) .. "\n"
     end
+
+    --Profiler.Render()
 
     love.graphics.setColor(0,0,0,0.5)
     love.graphics.rectangle("fill", 0, 0, 250,300)

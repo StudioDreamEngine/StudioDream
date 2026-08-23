@@ -36,15 +36,9 @@ end
 function BaseGui:GetAbsolutePosition()
     local ParentRect = self:GetParentRect(true)
 
-    Profiler.Start("offset position")
-
     local Position = self:GetOffsetPosition()
-
-    Profiler.EndStart("display ui")
     local Display = self:GetDisplayUI() ---@class Viewport2D
     
-    Profiler.EndStart("calculate")
-
     if ParentRect then
         Position = Position + ParentRect.Origin
     end
@@ -57,8 +51,6 @@ function BaseGui:GetAbsolutePosition()
 
         self.ViewportPosition = Position + self.AbsolutePivot + Display.ViewportPosition
     end
-
-    Profiler.End()
 
     return Position
 end
@@ -300,13 +292,13 @@ end
 function BaseGui:IsVisible()
     local Visible = true
 
-    Profiler.Start("IsVisible")
+    --Profiler.Start("IsVisible")
     self:GetParentCallback(function(Parent)
         if Parent:IsA("BaseGui") and (not Parent.Visible) then
             Visible = false
         end
     end)
-    Profiler.End()
+    --Profiler.End()
 
     return self.Visible and Visible
 end
@@ -314,13 +306,13 @@ end
 function BaseGui:IsActive()
     local Active = true
 
-    Profiler.Start("IsActive Check")
+    --Profiler.Start("IsActive Check")
     self:GetParentCallback(function(Parent)
         if Parent:IsA("BaseGui") and (not Parent.Active) then
             Active = false
         end
     end)
-    Profiler.End()
+    --Profiler.End()
 
     return self.Active and Active
 end
@@ -386,34 +378,22 @@ function BaseGui:DrawStyle()
 end
 
 function BaseGui:UpdateTransforms()
-    Profiler.Start("BaseGui - Process UpdateTransforms")
+    --Profiler.Start("BaseGui - Process UpdateTransforms")
     self.AbsoluteRotation = self:GetAbsoluteRotation()
 
-    Profiler.Start("BaseGui - Process GetAbsoluteSize")
     local NewSize = self:GetAbsoluteSize()
-    Profiler.End()
 
-    Profiler.Start("BaseGui - NewSize Check")
     if (not NewSize:Is(self.AbsoluteSize)) then
-        Profiler.Start("BaseGui - SetAbsoluteSize Function")
         self:SetAbsoluteSize(NewSize)
-        Profiler.End()
-        Profiler.Start("BaseGui - PropagatedChange Invoke")
         self.PropagatedChange.Invoke("AbsoluteSize", NewSize)
-        Profiler.End()
     end
-    Profiler.End()
 
-    Profiler.Start("BaseGui - Process Pivot")
     self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
-    Profiler.EndStart("BaseGui - Process Position")
     self.AbsolutePosition = self:GetAbsolutePosition()
     --self.RotatedPivot = -(self.Pivot * self:GetRotatedBounds())
-    Profiler.End()
-
     self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 
-    Profiler.End()
+    --Profiler.End()
 end
 
 function BaseGui:InvalidateAutomaticSize()
@@ -434,15 +414,10 @@ function BaseGui:ProcessInvalidations()
 
     local NewVisible = self:IsVisible()
 
-    Profiler.Start("BaseGui - TruelyVisible Check")
     if self.TruelyVisible ~= NewVisible then
         self.TruelyVisible = NewVisible
-
-        Profiler.Start("BaseGui - Invoke PropagatedChange")
         self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
-        Profiler.End()
     end
-    Profiler.End()
 
     Profiler.End()
 end
@@ -458,15 +433,13 @@ function BaseGui:ProcessInvalidation(Origin)
     self.WasInvalidated = false
 
     -- We cant simply mark invalidation, if we did then invalidation would be frame-dependent, which is bad!
-    Profiler.Start("BaseGui - Invalidate Children")
+    --Profiler.Start("BaseGui - Invalidate Children")
     for _, v in pairs(self:GetChildren()) do
         if v:IsA("BaseGui") then
-            Profiler.Start("Children - Invalidate ("..v.ClassName..")")
             v:ProcessInvalidation(Origin)
-            Profiler.End()
         end
     end
-    Profiler.End()
+    --Profiler.End()
 end
 
 -- TODO: Also be able to store causes of invalidation within a frame

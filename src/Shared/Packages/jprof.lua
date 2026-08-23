@@ -64,7 +64,7 @@ local function addEvent(name, memCount, annot)
 end
 
 if PROF_CAPTURE then
-    print("(jprof) start")
+    printInternal("(jprof) start")
 
     function profiler.push(name, annotation)
         if not profEnabled then return end
@@ -138,20 +138,20 @@ if PROF_CAPTURE then
         if sock then
             profiler.socket = sock
         else
-            print("(jprof) Could not create socket:", err)
+            printInternal("(jprof) Could not create socket:", err)
             return
         end
 
         local status = profiler.socket:setoption("tcp-nodelay", true)
         if not status then
-            print("(jprof) Could not set socket option.")
+            printInternal("(jprof) Could not set socket option.")
         end
 
         local status, err = profiler.socket:connect(address or "localhost", port or 1338)
         if status then
-            print("(jprof) Connected to viewer.")
+            printInternal("(jprof) Connected to viewer.")
         else
-            print("(jprof) Error connecting to viewer:", err)
+            printInternal("(jprof) Error connecting to viewer:", err)
             profiler.socket = nil
             return
         end
@@ -173,12 +173,12 @@ if PROF_CAPTURE then
             local num, err = profiler.socket:send(header .. data)
             if not num then
                 if err == "closed" then
-                    print("(jprof) Connection to viewer closed.")
+                    printInternal("(jprof) Connection to viewer closed.")
                     profiler.socket = nil
                     netBuffer = nil
                     return
                 else
-                    print("(jprof) Error sending data:", err)
+                    printInternal("(jprof) Error sending data:", err)
                 end
             end
             netBuffer = {}
