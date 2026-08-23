@@ -50,7 +50,7 @@ function ViewportManager.RenderViewport2D(Viewport)
     Runtime.Backend2D.CanvasCall({Viewport.ViewportCanvas, Viewport.MatCanvas, depthstencil=Viewport.StencilCanvas}, function()
         love.graphics.clear()
 
-        -- This is a hack to make sure that the shader is entirely cleared, stupid but works
+        -- Dumbass hack because we need to make sure EVERY pixel has been drawn to before drawing more`
         Runtime.Backend2D.ShaderCall(function()
             love.graphics.rectangle("fill",0,0,Viewport.AbsoluteSize.X,Viewport.AbsoluteSize.Y)
         end, "Hack")
