@@ -35,7 +35,7 @@ function PlatformService.GetExecutablePath()
 end
 
 function PlatformService.IsFused()
-    return Independent
+    return FLAGS.Independent
 end
 
 return PlatformService

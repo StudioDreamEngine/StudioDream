@@ -138,5 +138,18 @@
 - Changes from previous versions not addressed:
     - Resources should now properly handle invalid filetypes
 
-0.9.1:
-- Improved project builds
+0.10:
+- Studio
+    - Automatic script creation should now handle duplicates
+    - Improved project builds
+    - Added windows build
+- UI
+    - UI objects can how have dropshadows
+    - Fixed text wrapping issues brought by 0.9
+    - Fixed scrollbar not being properly aligned with the scroll position of the ScrollContainer
+    - Fixed ScrollContainers not properly using CanvasSize provided
+- Runtime/Misc
+    - Backend
+        - New shader pipeline for ui objects
+- Changes from previous versions not addressed:
+    - (0.9) Reverted negative ui layer support due to aforementioned memory leaks

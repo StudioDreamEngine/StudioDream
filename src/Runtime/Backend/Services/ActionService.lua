@@ -18,6 +18,16 @@ local ActionsOnService = {}
 
         MyAction.Began -- Event that checks when the action has started input
         MyAction.Value -- The value of the current action, if this is a direction it will be a vector2 and shows what direction your currently holding
+
+
+        -- By default, shortcuts use ctrl
+        MyCopyShortcut = ActionService:CreateShortcut("Name", Enum.KeyCode.C, Enum.Modifier.Primary) 
+    
+        
+        -- Primary - Ctrl
+        -- Secondary - Alt
+        -- Meta - Window or command
+        we are not adding shift key support
 ]]
 
 function ActionService.Init()

@@ -172,6 +172,14 @@ function Thing:GetChild(Name) -- THIS IS FOR INTERNAL!!
     end
 end
 
+function Thing:SetName(Name)
+    if self:IsSerializable() then
+        Runtime.Things.RequestTreeChange(self)
+    end
+    
+    self.Name = Name
+end
+
 -- Get the property or the override for it
 -- If you dont want the overriden property, dont use this
 function Thing:GetProperty(Property)

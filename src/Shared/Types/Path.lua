@@ -10,12 +10,16 @@ function Path.new(FilePath)
     PathObject.Type = "Path"
 
     PathObject.FileType = (#SplitType > 1) and SplitType[#SplitType] or nil
-    PathObject.FileName = SplitPath[#SplitPath]
+    PathObject.FileStem = SplitPath[#SplitPath]
+
+    local Split2 = string.split(SplitType[1], "/")-- WHY
+    PathObject.FileName = Split2[#Split2]
+    
     PathObject.FilePath = FilePath
     PathObject.ParentPath = table.concat(SplitPath, "/", 1, #SplitPath-1).."/"
 
     function PathObject.GetParent()
-        return Path.New(PathObject.ParentPath)
+        return Path.new(PathObject.ParentPath)
     end
 
     return PathObject

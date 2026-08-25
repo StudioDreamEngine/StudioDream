@@ -15,6 +15,21 @@ function RuntimeService.StartActivity()
     RuntimeService.OnRunning:Invoke()
 end
 
+-- Returns the current time since the game has started, calculated based of DeltaTime
+function RuntimeService.GetGlobalTime()
+    return GlobalTick
+end
+
+-- Returns the current unix time
+function RuntimeService.GetUnixTime()
+    return os.time()
+end
+
+-- Returns the current cpu time, as provided by os.clock
+function RuntimeService.GetCpuTime()
+    return os.clock()
+end
+
 -- Ignore the code blockout!! cus idk how to do services rn
 function RuntimeService.Init()
     RuntimeService.OnStep = Signal:New("GameStep")

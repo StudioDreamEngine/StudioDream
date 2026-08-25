@@ -97,7 +97,7 @@ function Template.Create(Info)
         end,
         ReturnDisplay = function()
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name] and Studio.Editor3D.Selecting[1][Info.Name].Data.FileName or "No Resource Set.") or "~"
+            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name] and Studio.Editor3D.Selecting[1][Info.Name].Data.FileStem or "No Resource Set.") or "~"
         end
     },{
         ValueContainer = "Outline",

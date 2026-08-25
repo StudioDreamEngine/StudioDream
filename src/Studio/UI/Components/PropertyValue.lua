@@ -294,7 +294,7 @@ local ValueFunction = function(PropertyList, Information, Style)
     -- Called every time the user changes the value
 
     Information.OnChange = function(Value)
-        if Value then 
+        if type(Value) ~= "nil" then 
             printVerbose("PropertyValue OnChange w/ "..tostring(Value))
 
             -- Auto-translate value

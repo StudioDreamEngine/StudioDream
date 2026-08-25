@@ -65,7 +65,7 @@ return function()
             end
 
             if Loops > 8 then
-                printVerbose("Failed to fit text: \""..Text.Text.."\" after 8 fitting attempts")
+                --printVerbose("Failed to fit text: \""..Text.Text.."\" after 8 fitting attempts")
                 break
             end
 
@@ -135,7 +135,7 @@ return function()
         love.graphics.scale(1/Text.Scale)
         for LineIndex, Line in pairs(Text.Lines.Lines) do
             LineIndex = LineIndex - 1
-            local Height = Text.Lines.Height*1.5
+            local Height = Text.Lines.Height*Text.Scale
 
             love.graphics.print(Line, Text.OffsetPosition.X, Text.OffsetPosition.Y+(LineIndex*Height)) 
         end

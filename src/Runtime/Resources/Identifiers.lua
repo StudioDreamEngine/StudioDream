@@ -1,8 +1,10 @@
 local Identifiers = {}
 local RegisteredIdentifiers = {}
+local DuplicateCounts = {}
 
 Identifiers.Missing = {}
 
+---@param FilePath string
 -- Given a file path (relative to system root), load any file, inside or outside the project.
 function Identifiers.LoadIdentifierIDFromPath(FilePath)
 	local Mount = Runtime.ProjectFS.GetMount()
@@ -32,10 +34,13 @@ end
 	--Todo
 end]]
 
+---@param FilePath string
 --[[
 	Get the IdentifierID of the specified Path (FilePath)
 	This will NOT register an identifier OR create a new file.
 	FilePath is relative to the project mount point.
+
+	TODO: Is this needed?
 ]]
 function Identifiers.GetIdentifierIDFromPath(FilePath)
 	if Utils.TypeOf(FilePath) == "Path" then
@@ -45,7 +50,36 @@ function Identifiers.GetIdentifierIDFromPath(FilePath)
 	return Runtime.ProjectFS.ReadFile(FilePath .. ".uid")
 end
 
--- Given a file path (relative to the project mount), create the file (if it doesnt exist) and register an identifier
+---@param FilePath string
+-- Create an identifier based off FilePath, accounting for duplicates in the parent folder
+function Identifiers.CreateIdentifier(FilePath)
+	FilePath = Path.new(FilePath) ---@diagnostic disable-line: cast-local-type
+
+	local ParentPath = FilePath.GetParent().FilePath
+
+	local DirectoryItems = Runtime.ProjectFS.ListDirectory(ParentPath)
+	local TotalDuplicates = 0
+	local FileName
+
+	while true do
+		FileName = FilePath.FileName..((TotalDuplicates > 0) and TotalDuplicates or "").."."..FilePath.FileType
+		TotalDuplicates = TotalDuplicates + 1
+
+		if (not table.find(DirectoryItems, FileName)) then
+			break
+		end
+	end
+
+	return Identifiers.LoadOrCreateIdentifier(ParentPath..FileName)
+end
+
+---@param FilePath string
+---@param FileData? string
+--[[
+	Given a file path (relative to the project mount), create the file (if it doesnt exist) and register an identifier 
+	
+	(THIS DOES NOT HANDLE DUPLICATES IN THE CASE OF CREATION, USE Resources.CreateIdentifier for that)
+]]
 function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 	local ProjectFS = Runtime.ProjectFS
 
@@ -86,20 +120,26 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 	return Identifier, false
 end
 
+---@param Identifier string
+---@param FilePath string
 -- Configure (Register) an Identifier to be Associated with a File Path
 function Identifiers.RegisterIdentifier(Identifier, FilePath)
-	local NewIdentifier = IdentifierType.new(Path.new(FilePath), "Project", Identifier)
+	local PathObj = Path.new(FilePath) ---@class Path
+
+	local NewIdentifier = IdentifierType.new(PathObj, "Project", Identifier)
 	RegisteredIdentifiers[Identifier] = NewIdentifier
 
 	return NewIdentifier
 end
 
+---@param Identifier string
 -- Register an IdentifierID as missing its identifier counterpart, used during project load
 function Identifiers.RegisterAsMissing(Identifier)
 	Shared.QueueAbort("ResourceID " .. Identifier .. " is missing, You can resolve missing resources in the Project tab (You actually cant right now but in the future you will).")
 	table.insert(Identifiers.Missing, Identifier)
 end
 
+---@param IdentifierID string
 -- Get an internal path for a studio asset, only used for studio.
 function Identifiers.GetStudioPath(IdentifierID)
 	local PathSplit = string.split(IdentifierID, "/")

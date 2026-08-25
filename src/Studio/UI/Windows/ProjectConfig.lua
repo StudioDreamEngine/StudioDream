@@ -34,7 +34,7 @@ function ProjectConfig.Init()
                     Runtime.Project.Config.Set("Icon",Identifier)
                 end,
                 ReturnDisplay = function()
-                    return Runtime.Project.Config.Get("Icon") and Runtime.Resources.GetIdentifierFromID(Runtime.Project.Config.Get("Icon")).Data.FileName or "Internal/Icons/Client.png"
+                    return Runtime.Project.Config.Get("Icon") and Runtime.Resources.GetIdentifierFromID(Runtime.Project.Config.Get("Icon")).Data.FileStem or "Internal/Icons/Client.png"
                 end,
             },
             {

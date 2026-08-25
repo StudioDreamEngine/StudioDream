@@ -22,6 +22,7 @@ function Resources.Init()
 	Resources.RegisterAsMissing = Identifiers.RegisterAsMissing
 	Resources.LoadIdentifierIDFromPath = Identifiers.LoadIdentifierIDFromPath
 	Resources.GetIdentifierIDFromPath = Identifiers.GetIdentifierIDFromPath
+	Resources.CreateIdentifier = Identifiers.CreateIdentifier
 end
 
 function Resources.Clear()

@@ -189,7 +189,7 @@ function Explorer.CreateTree(Object, Depth, BeforeNodeObj, IsLastChild)
     NodeObj.Node.ListOrder = Order
     NodeObj.Node:SetParent(ScrollContainer)
     --NodeObj.CreateParentLine(Depth+1)
-    printVerbose(NodeObj.NodeInner.BackgroundColor)
+    --printVerbose(NodeObj.NodeInner.BackgroundColor)
     Explorer.Tree[Object] = NodeObj.NodeInner
     Explorer.Nodes[Object] = NodeObj
 

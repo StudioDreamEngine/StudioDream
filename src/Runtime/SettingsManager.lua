@@ -5,7 +5,9 @@ local DefaultSettings = {
     CodeEditor = nil,
     Projects = {},
     Version = 2,
-    UsingTheme = "Blue Night"
+    UsingTheme = "Blue Night",
+    AutomaticCreation = true,
+    --EverSetCreation = false
 }
 
 function SettingsManager.Init()
@@ -25,6 +27,8 @@ function SettingsManager.Init()
         for Setting, Value in pairs(Deserialized) do
             Settings[Setting] = Value
         end
+    else
+        printVerbose("StudioSettings.dat not found, using defaults")
     end
 end
 

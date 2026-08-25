@@ -3,7 +3,6 @@
 local Scenes = {}
 
 local ProjectFS = Runtime.ProjectFS
-local ObjectsV1 = require("Runtime.Project.Scenes.ObjectsV1")
 
 Scenes.Objects = require("Runtime.Project.Scenes.Objects")
 Scenes.LoadDefault = require("Runtime.Project.Scenes.LoadDefault")
@@ -20,24 +19,16 @@ end
 
 function Scenes.ResolveReferences()
     Scenes.Objects.ResolveReferences()
-    ObjectsV1.ResolveReferences() -- Should figure out a better way to do this
 end
 
 function Scenes.LoadScene(Resource, Default, Path)
     print("Loading Scene: "..Path)
 
     local Success, Message = xpcall(function()
-        if (not Resource.Objects) then
-            print("Attempting to load as V1 scene, might not work!")
-            ObjectsV1.DeserializeObjects(Resource, Default)
+        if Default then Default:Destroy() end
 
-            Runtime.Project.NotificationCallback("Loaded "..Path.." as V1 scene, V1 scenes will not be supported after 0.9")
-        else
-            if Default then Default:Destroy() end
-
-            local Scene = Scenes.Objects.DeserializeObjects(Resource.Objects)
-            return Scene
-        end
+        local Scene = Scenes.Objects.DeserializeObjects(Resource.Objects)
+        return Scene
     end, function(Error)
         print(Error)
     end)
