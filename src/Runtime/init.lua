@@ -50,8 +50,6 @@ function Runtime.PostInit()
     Runtime.Backend = require("Runtime.Backend")
     Runtime.Backend.Init()
 
-    --Runtime.WindowManager.CreateTitleBar()
-
     Runtime.SettingsManager = require("Runtime.SettingsManager")
     Runtime.SettingsManager.Init()
 

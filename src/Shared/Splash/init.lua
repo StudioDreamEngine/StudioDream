@@ -8,9 +8,15 @@ local SplashLogoOutline ---@class Image2D
 local SplashContainer ---@class Square
 
 function Splash.ChangeStatus(NewStatus)
-    Scheduler.Yield()
-    SplashStatus:SetText(NewStatus)
-    SplashShadow:SetText(NewStatus)
+    printVerbose(NewStatus)
+
+    if FLAGS.Verbose then
+        DebugLog(NewStatus)
+    else
+        Scheduler.Yield()
+        SplashStatus:SetText(NewStatus)
+        SplashShadow:SetText(NewStatus)
+    end
 end
 
 function Splash.Cleanup()
@@ -22,6 +28,10 @@ function Splash.Cleanup()
 end
 
 function Splash.Out()
+    SplashStatus:Destroy()
+    SplashShadow:Destroy()
+    Scheduler.Yield()
+
     local StartSound = love.audio.newSource("/Assets/DefaultSounds/Jingle.wav", "static")
     love.audio.play(StartSound) -- Temporary?
 
@@ -108,23 +118,18 @@ function Splash.Load()
     local SplashError = function(FullMsg) error(FullMsg.."\n\nSplash Stack (IGNORE)") end
     Scheduler.OnRecoverableError = SplashError
 
-    Scheduler.Yield()
+    Splash.ChangeStatus("Setup Physics Engine")
     Shared.SetupBullet()
 
-    printVerbose("Finishing Runtime Setup")
+    Splash.ChangeStatus("Finishing Runtime Setup")
     Runtime.PostInit()
 
     Splash.ChangeStatus("Starting Target")
-    printVerbose("Starting Target")
-    Profiler.Start("Start Target")
     Shared.StartTarget()
-    Profiler.End()
 
     Splash.ChangeStatus("Loading Project")
     Runtime.PostTarget(FLAGS.TargetProject)
-
     Shared.PostStartTarget()
-    Splash.ChangeStatus("")
 
     printVerbose("Sucessfully Finished Initalization")
     if (Scheduler.OnRecoverableError == SplashError) then

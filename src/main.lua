@@ -1,7 +1,7 @@
 print("Please Wait...")
 require("Shared")
 
-DebugFont = love.graphics.newFont(12)
+DebugFont = love.graphics.newFont(10)
 
 local function SetupModifications()
     -- Fix issue where empty directories return nothing
@@ -40,28 +40,31 @@ local function SetupModifications()
     end]]
 end
 
-local y = 0
-local function DebugLog(msg, error)
-    if error then
-        love.graphics.setColor(1,0.2,0.2)
-    else
-        love.graphics.setColor(1,1,1)
+local dbglog = {}
+
+function DebugLog(msg)
+    love.graphics.setFont(DebugFont)
+    love.graphics.clear(0.1,0.1,0.3)
+    love.graphics.setColor(1,1,1)
+
+    if #dbglog > 50 then
+        table.remove(dbglog, 1)
     end
 
-    love.graphics.setFont(DebugFont)
-    love.graphics.print(msg or "", 6, y)
-    y = y + 16
+    table.insert(dbglog, "["..os.clock().."] "..msg)
+
+    love.graphics.print(table.concat(dbglog, "\n"), 6, 0)
+    love.graphics.present()
 end
 
 function love.load(args)
     SetupModifications()
 
-    love.graphics.clear(0.101,0.09,0.3)
-    DebugLog("["..os.clock().."] StudioDream V"..VERSION_FULL..", Starting Runtime")
-    love.graphics.present()
-
+    DebugLog("StudioDream V"..VERSION_FULL..", Setting up globals")
     Shared.SetupBullet = require("Shared.SetupGlobals")()
     print("StudioDream V"..VERSION_FULL)
+
+    DebugLog("Starting runtime, hold on!")
 
     Shared.Init(love.restart or args)
 
@@ -69,6 +72,7 @@ function love.load(args)
 
     love.mouse.setCursor(love.mouse.newCursor("/Assets/Cursors/Main.png", 0,0))
     MYFPSCAPPER9001 = love.timer.getTime()
+    DebugLog("Ready!")
 end
 
 local ERROR_SEPERATE = "---------------------------------------------------------------------------------------"
@@ -102,14 +106,13 @@ function love.errorhandler(msg)
 
     love.graphics.setFont(DebugFont)
 
-    DebugLog("Something happened!", true)
-    DebugLog("The error has been copied to your clipboard, Press ESC to exit.", true)
-    DebugLog(nil, true)
+    DebugLog("")
+    DebugLog("Something happened!")
+    DebugLog("The error has been copied to your clipboard, Press ESC to exit.")
+    DebugLog("")
     for i,v in pairs(string.split(full_trace, "\n")) do
-        DebugLog(v, true)
+        DebugLog(v)
     end
-
-    love.graphics.present()
 
     return function()
 		love.event.pump()

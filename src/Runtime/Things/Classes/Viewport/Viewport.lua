@@ -32,17 +32,16 @@ function Viewport:GetCanvas()
 end
 
 function Viewport:Draw()
+    Viewport.super.Draw(self)
+
+    self:SetColor("Foreground", "Color")
+    Renderer.ViewportManager.RenderCanvas(self)
+
     if FLAGS.DebugDraw then
         love.graphics.circle("fill", self.MousePosition.X, self.MousePosition.Y, 5)
         love.graphics.setFont(DebugFont)
         love.graphics.print(self:GetPath(), self.MousePosition.X, self.MousePosition.Y)
     end
-    
-    Viewport.super.Draw(self)
-
-    self:SetColor("Foreground", "Color")
-
-    Renderer.ViewportManager.RenderCanvas(self)
 end
 
 -- Send a child to the display list
