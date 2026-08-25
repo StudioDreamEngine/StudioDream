@@ -55,7 +55,7 @@ function DropdownPlus.CreateButton(Choice,Object)
 end
 
 function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
-    Components.RegisterUpdator(function()
+    return Components.RegisterUpdator(function()
         local UsingSize = FakeParent.AbsoluteSize
         local UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Vector2.yAxis)
 
@@ -99,7 +99,12 @@ function DropdownPlus.new(Choices,FakeParent)
         table.insert(DropdownObject.Choices, DropdownPlus.CreateButton(Choice,DropdownObject))
     end
 
-    DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent)
+    local Updator = DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent)
+
+    FakeParent.OnDestroy:ConnectOnce(function()
+        DropdownObject.Remove()
+        DropdownObject.Container = nil
+    end)
 
     function DropdownObject.Toggle(Visible, Animation)
         if (type(Visible) == "nil") then
@@ -139,6 +144,7 @@ function DropdownPlus.new(Choices,FakeParent)
 
     function DropdownObject.Remove()
         DropdownObject.Container:Destroy()
+        Components.UnregisterUpdator(Updator)
     end
 
     DropdownObject.Container:SetParent(Things.Root.RootViewport)

@@ -62,6 +62,7 @@ function InterfaceManager.Update(dt)
     end
 
     Profiler.Start("InterfaceManager - Process Hovering")
+
     table.clear(CurrentlyHovering)
     InterfaceManager.Hovering = false
 
@@ -101,6 +102,7 @@ function InterfaceManager.Update(dt)
             end
         end
     end
+    
     Profiler.End()
 end
 

@@ -1,7 +1,7 @@
 print("Please Wait...")
 require("Shared")
 
-DebugFont = love.graphics.newFont(10)
+DebugFont = love.graphics.newFont(12)
 
 local function SetupModifications()
     -- Fix issue where empty directories return nothing
@@ -47,7 +47,7 @@ function DebugLog(msg)
     love.graphics.clear(0.1,0.1,0.3)
     love.graphics.setColor(1,1,1)
 
-    if #dbglog > 50 then
+    if #dbglog > 40 then
         table.remove(dbglog, 1)
     end
 
@@ -88,6 +88,8 @@ function love.errorhandler(msg)
     
     if (not success) then
         crash_extra = crash_extra.."\nCouldnt save project: "..msg.."\n(ABOVE ONLY APPEARS WHEN THE CRASH CALLBACK FAILS, IT IS NOT THE ERROR!)"
+    else
+        crash_extra = crash_extra.."\nProject was successfully saved"
     end
 
     local full_trace = crash_extra.."\n"..ERROR_SEPERATE.."\n"..traceback
@@ -107,7 +109,7 @@ function love.errorhandler(msg)
     love.graphics.setFont(DebugFont)
 
     DebugLog("")
-    DebugLog("Something happened!")
+    DebugLog("Something happened! (Non-Recoverable Error)")
     DebugLog("The error has been copied to your clipboard, Press ESC to exit.")
     DebugLog("")
     for i,v in pairs(string.split(full_trace, "\n")) do

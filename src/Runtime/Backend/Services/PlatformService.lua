@@ -1,16 +1,29 @@
 local PlatformService = {}
 
-function PlatformService.Init()
+local Dimensions, WinFlags
 
+function PlatformService.UpdateMode() love.window.setMode(Dimensions.X, Dimensions.Y, WinFlags) end
+
+function PlatformService.SetSize(InDimensions)
+    Dimensions = InDimensions
+    PlatformService.UpdateMode()
 end
 
-function PlatformService.GetWindowSettings()
-    local width, height, flags = love.window.getMode()
-    return Vector2.new(width,height), flags
+function PlatformService.GetPosition()
+    return Vector2.new(WinFlags.x, WinFlags.y)
 end
 
-function PlatformService.GetTitle()
-    return love.window.getTitle()
+---@param Position Vector2
+function PlatformService.SetPosition(Position)
+    WinFlags.x = Position.X
+    WinFlags.y = Position.Y
+
+    PlatformService.UpdateMode()
+end
+
+function PlatformService.SetBorderless(Borderless)
+    WinFlags.borderless = Borderless
+    PlatformService.UpdateMode()
 end
 
 function PlatformService.ChangeTitle(NewTitle)
@@ -20,6 +33,12 @@ end
 function PlatformService.ChangeIcon(Resource)
     local ToImageData = Utils.TextureToImageData(Resource)
     love.window.setIcon(ToImageData)
+end
+
+function PlatformService.Init()
+    local _Width, _Height
+    _Width, _Height, WinFlags = love.window.getMode()
+    Dimensions = Vector2.new(_Width, _Height)
 end
 
 function PlatformService.OpenURL(Link)

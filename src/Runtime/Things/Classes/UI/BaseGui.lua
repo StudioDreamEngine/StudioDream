@@ -153,9 +153,9 @@ function BaseGui:GetRotatedOffset(Offset)
 end
 
 -- Return the object, or the Container
-function BaseGui:GetUIObject(Object, Viewport)
+function BaseGui:GetUIObject(Object, Viewport, DontResolve)
     if Object:IsA("ViewportContainer") then
-        return Object.Adornee
+        return DontResolve and Object or Object.Adornee
     elseif Object:IsA(Viewport and "Viewport" or "BaseGui") then
         return Object
     end
@@ -189,9 +189,9 @@ end
 
 -- Find the parent Viewport2D rendering this object
 -- TODO: Viewport2D should provide this directly to the object when the display list is created
-function BaseGui:GetDisplayUI()
+function BaseGui:GetDisplayUI(DontResolve)
     return self:GetParentCallback(function(Object)
-        return self:GetUIObject(Object, true)
+        return self:GetUIObject(Object, true, DontResolve)
     end)
 end
 

@@ -47,7 +47,10 @@ end
 
 function SurfaceViewport:CreateNew()
     SurfaceViewport.super.CreateNew(self)
-    self.Mesh.material:SetAlbedoTexture(self.ViewportCanvas)
+
+    if self.Mesh then
+        self.Mesh.material:SetAlbedoTexture(self.ViewportCanvas)
+    end
 end
 
 function SurfaceViewport:SetDisableDepth(New)

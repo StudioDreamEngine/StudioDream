@@ -9,7 +9,7 @@ function BillboardViewport:ViewportDefineAPI()
 end
 
 function BillboardViewport:UpdateDrawable(Parent)
-    local ParentViewport = self:GetDisplayUI()
+    local ParentViewport = self:GetDisplayUI(true)
     if (not ParentViewport) then return end
 
     Renderer.Billboard.UpdateTransform(self, Parent.Position, ParentViewport)
