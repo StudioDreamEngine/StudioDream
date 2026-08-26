@@ -16,6 +16,8 @@ function Viewport:new()
 
     self.DisplayList = {}
 
+    self.Shader = Runtime.Shaders.Final()
+
     self.BackgroundTransparency = 1
     self.ForegroundColor = Color.new(1,1,1)
 end
@@ -54,6 +56,11 @@ end
 function Viewport:SetFilterType(New)
     self.FilterType = New
     self:CreateNew()
+end
+
+function Viewport:OnRemove()
+    Viewport.super.OnRemove(self)
+    self.Shader:release()
 end
 
 function Viewport:CreateNew()

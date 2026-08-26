@@ -1,0 +1,17 @@
+my idea is some kind of cross between TOML, XML and YAML
+NAML (Not a markup language)
+
+No comments for now
+Line-Dependent (as in parsed by line)
+
+These Define "Entity Categories", which are basically lists for entities
+{Objects}
+
+[Object UUID] // These define a new entity entry
+Name: (string)... // every entity property is defined by a key, followed by their universal seperator (: ), their type "(...)", then the value
+Resource: (kv)ID:blah;ResourceType:Test // the kv type is a flat list type that is less readable but easily parsable, intended for stuff where resolving doesnt matter
+Transform: (kv)1:0:0:0:0:1:0:0:0:0:1:0:0:0:0:1 // kv can also just be a list
+// I suppose as a last resort we can always just add json support too
+
+// XML-Like closing tags
+{/Objects}

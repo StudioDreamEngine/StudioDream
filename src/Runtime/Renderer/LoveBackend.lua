@@ -16,7 +16,9 @@ function Backend.CanvasCall(Canvas, DrawFunction)
 end
 
 function Backend.ShaderCall(DrawFunction, Shader)
-    Shader = Runtime.Shaders[Shader]
+    if type(Shader) == "string" then
+        Shader = Runtime.Shaders[Shader]
+    end
 
     love.graphics.setShader(Shader)
     DrawFunction(Shader)

@@ -157,11 +157,10 @@ function Shared.Update(dt)
     GlobalTick = GlobalTick + dt
 
     Profiler.Start("StudioDream - Update")
-        Profiler.Start("Process Scheduled tasks")
-            Scheduler.Update()
-        Profiler.End()
+        Scheduler.Update()
 
         Runtime.Update(dt)
+
         Shared.UpdateTarget(dt) 
     Profiler.End()
 end

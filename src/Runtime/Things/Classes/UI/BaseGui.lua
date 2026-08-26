@@ -353,7 +353,7 @@ function BaseGui:DrawStyle()
 
     love.graphics.rotate(-self.AbsoluteRotation)
     love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
-    
+
     self:SetColor("Background", "Color")
     
     if self.DrawExtended then -- Draw an object with a special extension function created by a child class (eg. shaders)
