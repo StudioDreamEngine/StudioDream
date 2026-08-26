@@ -16,7 +16,9 @@ vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
 
     vec4 out_color = Texel(tex, texture_coords) * color;
 
-    if (tex_in_shadow) {
+    return out_color;
+
+    /*if (tex_in_shadow) {
         return out_color;
     }
 
@@ -41,5 +43,5 @@ vec4 effect(vec4 color, Image tex, vec2 texture_coords, vec2 screen_coords)
         blur_result = vec4(0.0,0.0,0.0,samples/max_samples);
     }
 
-    return out_color + blur_result;
+    return out_color + blur_result;*/
 }
