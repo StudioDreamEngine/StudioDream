@@ -26,7 +26,6 @@ local function SortFunc(a,b) return a.Layer < b.Layer end
 function Viewport2D:SubmitChild(Child)
     self.CurrentOrder = self.CurrentOrder + 1
     Child.AbsoluteLayer = self.CurrentOrder + self.AbsoluteLayer
-
     -- Check if the viewport has given a request to update the transforms
     self:SendChild(Child, self.CurrentOrder)
 

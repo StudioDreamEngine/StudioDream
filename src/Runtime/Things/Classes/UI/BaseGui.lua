@@ -253,6 +253,8 @@ function BaseGui:new()
     self.AbsolutePivot = Vector2.zero
     self.AbsoluteSize = Vector2.one
 
+    self.Dropshadow = false
+
     self.Visible = true
     self.TruelyVisible = true
 

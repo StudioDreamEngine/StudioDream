@@ -18,8 +18,6 @@ function Square:new()
     self.OutlineSize = 0
     self.OutlineColor = Color.new(0,0,0)
     self.OutlineTransparency = 0
-    
-    self.Dropshadow = false
 
     self.LimitCornerRadius = true
 
@@ -62,7 +60,7 @@ end
 
 -- oh boy, MORE ABSTRACTION!!! LOVELY!!!$
 function Square:DrawExtended()
-    --[[Runtime.Backend2D.ShaderCall(function(Shader)
+    Runtime.Backend2D.ShaderCall(function(Shader)
         if self.Gradient then
             Shader:sendColor("gradient.colors", self.Gradient.GetColors())
             Shader:send("gradient.time", self.Gradient.GetTimes())
@@ -74,9 +72,7 @@ function Square:DrawExtended()
         Shader:send("effect_bitmask", (self.Dropshadow and 1 or 0))
 
         self:Draw()
-    end, "Interface")]]
-
-    self:Draw()
+    end, "Interface")
 end
 
 function Square:Draw()

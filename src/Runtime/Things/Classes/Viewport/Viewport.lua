@@ -11,12 +11,12 @@ function Viewport:new()
 
     self.RenderContainer = nil -- idk what to name this
 
+    self.Shader = Runtime.Shaders.Final()
+
     self.FilterType = Enum.FilterType.Linear
     self:CreateNew()
 
     self.DisplayList = {}
-
-    self.Shader = Runtime.Shaders.Final()
 
     self.BackgroundTransparency = 1
     self.ForegroundColor = Color.new(1,1,1)
@@ -72,6 +72,8 @@ function Viewport:CreateNew()
 
     self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
+
+    self.Shader:send("mat_canvas", self.MatCanvas)
 end
 
 ---@param NewFolder Thing

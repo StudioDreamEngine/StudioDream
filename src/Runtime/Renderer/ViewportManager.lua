@@ -101,8 +101,7 @@ function ViewportManager.RenderCanvas(Viewport)
 
     love.graphics.pop()
 
-    Runtime.Backend2D.ShaderCall(function(Shader)
-        Shader:send("mat_canvas", Viewport.MatCanvas)
+    Runtime.Backend2D.ShaderCall(function()
         Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
     end, Viewport.Shader)
 end
