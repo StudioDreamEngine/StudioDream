@@ -139,6 +139,10 @@ local Enums = {
         X = "X",
         Y = "Y"
     },
+    FullScreenMode = {
+        Desktop = "desktop",
+        Exclusive = "exclusive",
+    },
     InputCode = {
         -- Keyboard
         RightArrow = 'right',

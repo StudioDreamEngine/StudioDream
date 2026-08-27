@@ -4,8 +4,32 @@ local InsertObject = {}
 InsertObject.Container = nil ---@class Square
 InsertObject.TargetObject = nil
 
+InsertObject.HiperCreated = {}
+
 function InsertObject.Close()
     Studio.Layout.ToggleWindow(InsertObject, false)
+end
+
+function InsertObject.CreateHiper(HiperName)
+    if not InsertObject.HiperCreated[HiperName] then
+        local hiperObject = {}
+        hiperObject.MainText = Studio.Components.CreateStyle("Text", {
+            Size = Pivot2D.new(1,0,0.15,0),
+            Text = HiperName,
+            Name = HiperName,
+            Parent = InsertObject.ScrollContainer,
+            BackgroundTransparency = 1,
+            ForegroundColor = "Text"
+        })
+        hiperObject.ExpandableDropdown = Studio.Components.ExpandableDropdown(hiperObject.MainText, InsertObject.ScrollContainer)
+
+        InsertObject.HiperCreated[HiperName] = hiperObject
+        hiperObject.MainText.Dropdown = hiperObject.ExpandableDropdown.Container
+
+        return hiperObject
+    else
+        return InsertObject.HiperCreated[HiperName]
+    end
 end
 
 function InsertObject.Init()
@@ -66,15 +90,21 @@ function InsertObject.Init()
         InsertObject.UpdateList()
     end)
     --InsertObject.CloseButton.Clicked:Connect(InsertObject.Close)
-
+    Studio.Components.CreateStyle("ListLayout",{
+        Parent = InsertObject.ScrollContainer,
+        Alignment = Enum.Alignment.TopCenter
+    })
     for ClassName, Class in pairs(Runtime.Things.API) do
         if Class.Creatable then
+            print(Class.HiperType)
+            local Hiper = InsertObject.CreateHiper(Class.HiperType)
+            local ToParentWith = Hiper.ExpandableDropdown.Container
             local IconObject = Studio.Components.CreateIconObject(ClassName, Class.ExplorerIcon)
 
             IconObject:SetPivot(Vector2.zero)
             IconObject:SetSize(Pivot2D.new(1,-20,0,20))
             IconObject.Name = ClassName
-            IconObject:SetParent(InsertObject.ScrollContainer)
+            IconObject:SetParent(ToParentWith)
             IconObject.Clicked:Connect(function()
                 InsertObject.Close()
 
@@ -109,20 +139,27 @@ function InsertObject.Init()
             end)
         end
     end
-
-    Studio.Components.CreateStyle("ListLayout",{
-        Parent = InsertObject.ScrollContainer,
-        Alignment = Enum.Alignment.TopCenter
-    })
 end
 
 function InsertObject.UpdateList()
+    for _,GroupNode in pairs(InsertObject.ScrollContainer:GetChildren()) do
+        if GroupNode.Dropdown then
+            for i,v in pairs(GroupNode.Dropdown:GetChildren()) do
+                if (v:IsA("Square")) then
+                    v:SetVisible((SearchText=='') and true or string.find(v.Name:lower(), InsertObject.SearchText:lower()))
+                end
+            end
+        end
+    end
+end
+
+--[[function InsertObject.UpdateList()
     for i, v in pairs(InsertObject.ScrollContainer:GetChildren()) do
         if (v:IsA("TextButton")) then
             v:SetVisible((InsertObject.SearchText=='') and true or string.find(v.Name:lower(), InsertObject.SearchText:lower()))
         end
     end
-end
+end]]
 
 function InsertObject.Update(dt)
     

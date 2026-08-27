@@ -12,6 +12,8 @@ end
 function Folder:DefineAPI()
     Folder.super.DefineAPI(self)
 
+    self.Proxy.SetHiperType("Containers")
+
     self.Proxy.Icon("Folder")
     self.Proxy.Property("boolean LockObjectsIn")
     self.Proxy.Group("Objects", "LockObjectsIn")

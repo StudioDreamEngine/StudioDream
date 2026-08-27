@@ -11,6 +11,7 @@ end
 
 function Unkown:DefineAPI()
     Unkown.super.DefineAPI(self)
+    self.Proxy.SetHiperType("???")
     self.Proxy.Icon("Unkown")
 end
 

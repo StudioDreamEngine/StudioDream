@@ -13,6 +13,8 @@ end
 function Base3D:DefineAPI()
     Base3D.super.DefineAPI(self)
 
+    self.Proxy.SetHiperType("3D")
+
     self.Proxy.Property("Transform3D Transform", "boolean Dynamic")
     self.Proxy.Group("Transform", "Transform")
 end

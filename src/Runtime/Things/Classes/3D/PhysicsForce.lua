@@ -12,6 +12,8 @@ end
 function PhysicsForce:DefineAPI()
     PhysicsForce.super.DefineAPI(self)
 
+    self.Proxy.SetHiperType("Physics")
+
     self.Proxy.Property("Vector3 Force")
     self.Proxy.Group("Physics", "Force")
     

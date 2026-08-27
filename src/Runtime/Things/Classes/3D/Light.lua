@@ -8,6 +8,7 @@ local Light = Things.Extend("Transformable3D")
 function Light:new()
     Light.super.new(self)
 
+    
     self.Light = Dream:newLight("sun", Dream.vec3(0, 0, 0), Dream.vec3(1.0, 1.0, 1.0), 1.0)
     self.Brightness = 1
     self.LightType = "point"
@@ -32,6 +33,8 @@ end
 
 function Light:DefineAPI()
     Light.super.DefineAPI(self)
+
+    self.Proxy.SetHiperType("3D")
 
     self.Proxy.Icon("Light")
     self.Proxy.Property("Transform3D Transform", "number Brightness","Enum.LightType LightType","Color Color","number Range")

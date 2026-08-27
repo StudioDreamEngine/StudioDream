@@ -38,6 +38,8 @@ end
 function Material:DefineAPI()
     Material.super.DefineAPI(self)
 
+    self.Proxy.SetHiperType("3D")
+    
     self.Proxy.Property("Color Color","Color Emission","Color EmissionFactor","number Roughness","number Metallic","boolean Alpha","boolean Stencil","boolean Cutout","boolean Particle"
     ,"number AlphaCutoff","number IOR","number Translucency","Enum.CullMode CullMode","number MultiTextureBlendScale","boolean Reflective","boolean Simple","boolean DepthTest")
     self.Proxy.Group("Colors","Color","Emission","EmissionFactor")

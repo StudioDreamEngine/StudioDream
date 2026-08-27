@@ -1,5 +1,5 @@
 local function WinCopy(Source, Target)
-    os.execute("copy \""..Source.."\" \""..Target.."\"")
+    os.execute('copy "' .. Source .. '" "' .. Target .. '"')
 end
 
 -- Progress: Dialog object for progress itself
@@ -17,12 +17,12 @@ return function(Progress, ZipBytes, BuildDirectory)
 
     local ExportPath = "build/LoveExport.exe"
 
-    if (not love.filesystem.getInfo(ExportPath)) then
+    if not love.filesystem.getInfo(ExportPath) then
         Shared.QueueAbort("BUILD: could not find export template for windows")
         return false
     end
 
     local LoveBytes = love.filesystem.read(ExportPath)
-    love.filesystem.write("build/Project.exe", LoveBytes..ZipBytes)
+    love.filesystem.write("build/Project.exe", LoveBytes .. ZipBytes)
     love.filesystem.remove(ExportPath)
 end
