@@ -131,7 +131,6 @@ function Splash.Load()
 
     Splash.ChangeStatus("Loading Project")
     Runtime.PostTarget(FLAGS.TargetProject)
-    Shared.PostStartTarget()
 
     printVerbose("Sucessfully Finished Initalization")
     if (Scheduler.OnRecoverableError == SplashError) then

@@ -149,8 +149,6 @@ function Project.Load(ProjectPath)
         Project.History.Add(ProjectFS, Project.Config.Get("Name"))
     end
     Project.LoadedProject.Invoke()
-
-    Runtime.Things.TreeChanged.Invoke()
 end
 
 -- Remount to a new directory and save project

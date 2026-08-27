@@ -51,10 +51,10 @@ function Client.Init()
             end
         }
     end
-end
 
-function Client.PostInit()
-    RuntimeService.StartActivity()
+    Runtime.Project.LoadedProject:Connect(function()
+        RuntimeService.StartActivity()
+    end)
 end
 
 function Client.Update(dt)

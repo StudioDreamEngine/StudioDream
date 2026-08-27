@@ -10,8 +10,6 @@ function Root:new()
         Visible = true,
         Icon = "Root",
     }
-
-    self.Serializable = false
     
     self.EnvironmentViewport = nil ---@class Viewport3D
     self.HudViewport = nil ---@class Viewport2D

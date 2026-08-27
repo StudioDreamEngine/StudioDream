@@ -43,11 +43,17 @@ function BaseGui:GetAbsolutePosition()
         Position = Position + ParentRect.Origin
     end
 
+    self.DontDraw = false
+
     -- Handle stuff that should only be handled if we actually have a DisplayUI
     if Display and Display:IsA("Viewport2D") then
         if self.MouseLocked then
             Position = Display.MousePosition + self.LockOrigin
         end
+
+        local YPos = Position.Y + self.AbsoluteSize.Y
+
+        self.DontDraw = (Position.Y > Display.AbsoluteSize.Y) or (YPos < 0)
 
         self.ViewportPosition = Position + self.AbsolutePivot + Display.ViewportPosition
     end
@@ -231,6 +237,8 @@ function BaseGui:new()
     self.MouseLocked = false -- I didnt wanna implement this as a thing in explorer
     self.LockOrigin = Vector2.zero
 
+    self.DontDraw = false
+
     self.ColorMultiplier = 1
     self.ClipsChildren = true
 
@@ -354,6 +362,7 @@ end
 -- Draw an object, and apply its rotation, pivot and color
 function BaseGui:DrawStyle()
     if (not self.EverInvalidated) then return end -- We wait for the first invalidation before rendering the element
+    if (self.DontDraw) then return end
 
     love.graphics.rotate(-self.AbsoluteRotation)
     love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
