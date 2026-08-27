@@ -8,6 +8,7 @@ local SplashLogoOutline ---@class Image2D
 local SplashContainer ---@class Square
 
 function Splash.ChangeStatus(NewStatus)
+    if FLAGS.Independent then return end
     printVerbose(NewStatus)
 
     if FLAGS.Verbose or FLAGS.Independent then
@@ -61,6 +62,7 @@ function Splash.Out()
 end
 
 function Splash.Create()
+    if FLAGS.Independent then return end
     printVerbose("Create splash")
 
     SplashContainer = Things.Create("Square") {

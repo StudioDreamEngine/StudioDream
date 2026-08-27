@@ -252,7 +252,8 @@ function Start.Init()
     NewProject.Clicked:Connect(function()
         --Studio.ProjectManager.NewProject("Demo Project")
         local Cool = Studio.Components.CreateDialog("Input",{
-            Text = "Input a name for your new project"
+            Text = "Input a name for your new project",
+            Placeholder = "Name your new creation!",
         })
         CreateClose(Start.Container)
         Start.Close()

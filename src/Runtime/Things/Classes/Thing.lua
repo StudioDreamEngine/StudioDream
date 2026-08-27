@@ -128,6 +128,14 @@ function Thing:UnbindConstraints(Object)
     end
 end
 
+function Thing:GetCategory()
+    return self.proxy.HiperType
+end
+
+function Thing:IsCategory(IsIt)
+    return self.proxy.HiperType == IsIt
+end
+
 function Thing:GetPath()
     local String = self.Name
 
