@@ -58,9 +58,9 @@ function ViewportManager.RenderViewport2D(Viewport)
         for _, Element in pairs(Viewport.DisplayList) do
             love.graphics.push()
             love.graphics.translate(Element.AbsolutePosition.X,Element.AbsolutePosition.Y)
-            Profiler.Start("Draw "..Element.ClassName)
+            --Profiler.Start("Draw "..Element.ClassName)
             Element:DrawStyle()
-            Profiler.End()
+            --Profiler.End()
             love.graphics.pop()
         end
     end)
@@ -101,9 +101,9 @@ function ViewportManager.RenderCanvas(Viewport)
 
     love.graphics.pop()
 
-    Runtime.Backend2D.ShaderCall(function()
-        Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
-    end, Viewport.Shader)
+    --Runtime.Backend2D.ShaderCall(function()
+    Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
+    --end, Viewport.Shader)
 end
 
 function ViewportManager.Update(dt)

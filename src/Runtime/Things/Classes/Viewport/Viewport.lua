@@ -75,7 +75,7 @@ function Viewport:CreateNew()
     self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 
-    self.Shader:send("mat_canvas", self.MatCanvas)
+    --self.Shader:send("mat_canvas", self.MatCanvas)
 end
 
 ---@param NewFolder Thing

@@ -95,11 +95,14 @@ return function()
         Text.ContainerSize = NewSize
         Text.Scale = Lines.Scale
 
-        Text.OffsetPosition = Utils.GetAlignment(Text.Alignment, Text.ContainerSize, Text.TextBounds)*Text.Scale
+        Text.SetAlignment()
     end
 
     function Text.SetAlignment(NewAlignment)
-        Text.Alignment = NewAlignment
+        if NewAlignment then
+            Text.Alignment = NewAlignment
+        end
+
         Text.OffsetPosition = Utils.GetAlignment(Text.Alignment, Text.ContainerSize, Text.TextBounds)*Text.Scale
     end
 
