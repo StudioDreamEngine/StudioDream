@@ -271,16 +271,16 @@ function Thing:IsSerializable()
 
     ---@param ParentThing Thing
     self:GetParentCallback(function(ParentThing)
-        if ParentThing:IsA("Root") then
+        if ParentThing:IsA("Root") then -- Prevent unparented objects from being considered serialized
             EncounteredRoot = true
         end
 
-        if not (ParentThing.Serializable) and not (ParentThing:IsA("Root")) then
+        if not (ParentThing.Serializable) then
             Serializable = false
         end
     end)
 
-    if (not EncounteredRoot) then return end
+    if (not EncounteredRoot) then return end -- Prevent unparented objects from being considered serialized
 
     -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
     -- Return false if object itself isnt serializable
@@ -349,7 +349,8 @@ function Thing:SetParent(NewParent)
     
     local SerializeCheck = NewParent or OldParent
 
-    if SerializeCheck and SerializeCheck:IsSerializable() then
+    -- The "NewParent:IsA("Root")" check here is to make sure that root objects are always requested for tree change, THIS SHOULD BE CHANGED LATER
+    if (NewParent and NewParent:IsA("Root")) or (SerializeCheck and SerializeCheck:IsSerializable()) then
         Runtime.Things.RequestTreeChange(self)
     end
 
