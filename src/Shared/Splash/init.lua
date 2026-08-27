@@ -10,7 +10,7 @@ local SplashContainer ---@class Square
 function Splash.ChangeStatus(NewStatus)
     printVerbose(NewStatus)
 
-    if FLAGS.Verbose then
+    if FLAGS.Verbose or FLAGS.Independent then
         DebugLog(NewStatus)
     else
         Scheduler.Yield()

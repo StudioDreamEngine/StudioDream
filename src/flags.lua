@@ -6,6 +6,7 @@ return {
     Independent = false,
     TargetProject = nil,
     ProfileCapture = false,
+    SecondRun = false,
     AlwaysCollect = false,
-    CallSetPropertyOnDirect = true,
+    --CallSetPropertyOnDirect = true,
 }

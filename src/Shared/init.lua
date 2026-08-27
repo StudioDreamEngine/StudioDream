@@ -15,7 +15,6 @@ local LastQueue = 0
 Shared.AbortQueue = {}
 
 FLAGS = DEFAULT_FLAGS
-FLAGS.SecondRun = false
 
 function Shared.QueueAbort(Msg)
     printVerbose(Msg)
@@ -74,12 +73,12 @@ function Shared.Init(Args)
     local Thing = love.image.newImageData("/Assets/Icons/"..FLAGS.Target..".png")
     love.window.setIcon(Thing)
 
+    Shared.OnQuit = Signal:New("IQUITIT!")
+
     Shared.Splash = require("Shared.Splash")
     Shared.Splash.Create()
 
     Scheduler.NewTask(Shared.Splash.Load)
-
-    Shared.OnQuit = Signal:New("IQUITIT!")
 
     SharedInit.End()
 end
