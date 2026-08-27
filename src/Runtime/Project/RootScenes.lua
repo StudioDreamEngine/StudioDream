@@ -14,10 +14,9 @@ function RootScenes.Load(Things)
         Object:ClearAllChildren()
 
         if ProjectFS.FileExists(Scene..".sds") then
-            local Content = ProjectFS.ReadFile(Scene..".sds")
-            local Table = Binser.deserialize(Content)[1]
+            local Deserializer = NAML.Deserialize(ProjectFS.ReadFile(Scene..".sds"))
 
-            local Return = Scenes.LoadScene(Table, Object, Scene)
+            local Return = Scenes.LoadScene(Deserializer, Object, Scene)
             Return:SetParent(Things.Root)
 
             NewScenes[Return] = Scene

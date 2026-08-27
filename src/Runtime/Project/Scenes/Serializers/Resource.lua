@@ -6,13 +6,15 @@ function Serializer.Serialize(Value)
         return
     end
 
-    return {
+    return NAML.SerializeList({
         ResourceType = Value.ResourceType,
         ID = Value.ID
-    }
+    })
 end
 
 function Serializer.Deserialize(Value)
+    Value = NAML.DeserializeList(Value)
+
     local Type = Value.ResourceType
 
     if (not Type) then

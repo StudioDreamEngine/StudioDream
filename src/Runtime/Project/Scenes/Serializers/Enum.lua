@@ -10,10 +10,12 @@ function Serializer.Serialize(Value)
         Data = Serializer.SerializeType(Value, Type, false)
     }
 
-    return Serialized
+    return NAML.SerializeList(Serialized)
 end
 
 function Serializer.Deserialize(Value)
+    Value = NAML.DeserializeList(Value)
+
     if (not Value.New) then
         print("Serialized enum was incorrectly serialized, re-save the project.")
         return

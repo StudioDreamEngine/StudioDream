@@ -1,3 +1,3 @@
 return function(SceneBytes)
-    return Binser.deserialize(SceneBytes)[1]
+    return NAML.Deserialize(SceneBytes)
 end

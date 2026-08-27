@@ -4,7 +4,15 @@ local Objects = {}
 
 Objects.References = {}
 
+local Serializer = nil ---@class NAMLSerializer
+local Deserializer = nil ---@class NAMLDeserializer
+
 local TypeSerializers = Utils.LoadModules("Runtime/Project/Scenes/Serializers/")
+
+function Objects.SetSerializers(InSerializer, InDeserializer)
+    Serializer = InSerializer
+    Deserializer = InDeserializer
+end
 
 function Objects.HandleType(Property, Type, Deserialize, Identifier)
     if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier.Name or "Unknown"..")") end
@@ -47,19 +55,18 @@ end
 -- Serialize all things under a root object as a table of objects
 ---@param Root Thing
 function Objects.SerializeObjects(Root)
-    local Final = {}
-
     local ToSerialize = Root:GetDescendants()
     table.insert(ToSerialize, Root)
 
     ---@param DescendantObject Thing
     for _, DescendantObject in pairs(ToSerialize) do
         if CheckSerializable(DescendantObject) then -- Only serialize if we can
-            Final[DescendantObject.UUID] = Objects.SerializeObject(DescendantObject, Root)
+            local Data = Objects.SerializeObject(DescendantObject, Root)
+
+            Serializer.SetCategory(Data.IsRoot and "Root" or "Objects")
+            Serializer.AddEntity(Data.Type, Data.UUID, Data.Properties)
         end
     end
-
-    return Final
 end
 
 ---@param Object Thing
@@ -83,10 +90,7 @@ function Objects.SerializeObject(Object, Root)
                 })
             end
             
-            ObjectData[PropertyName] = {
-                Type = Type,
-                Value = Property
-            }
+            table.insert(ObjectData, Serializer.CreateData(PropertyName, Type, Property))
         end
     end
 
@@ -102,12 +106,12 @@ end
 
 
 
-
+---@param ObjectData NAMLDeserializedEntity
 function Objects.DeserializeObject(ObjectData)
     local Properties = {}
     local RelocationQueue = {}
 
-    for PropertyName, PropertyData in pairs(ObjectData.Properties) do
+    for PropertyName, PropertyData in pairs(ObjectData.Data) do
         local Type = PropertyData.Type
         local Property = Objects.HandleType(PropertyData.Value, Type, true, {
             --Object = ObjectData.UUID,
@@ -124,14 +128,14 @@ function Objects.DeserializeObject(ObjectData)
     end
 
     local Success, Thing = xpcall(function(...)
-        return Things.Create(ObjectData.Type, ObjectData.UUID)(Properties)
+        return Things.Create(ObjectData.Type, ObjectData.ID)(Properties)
     end, function(Error)
         print(Error)
         print(debug.traceback())
     end)
     
     if (not Success) then
-        Shared.QueueAbort("Error while loading Object "..ObjectData.Properties.Name.Value.." ("..ObjectData.UUID.."), Traceback in log")
+        Shared.QueueAbort("Error while loading Object "..ObjectData.Properties.Name.Value.." ("..ObjectData.ID.."), Traceback in log")
         return
     end
 
@@ -143,19 +147,24 @@ end
     Objects: The list of objects being deserialized
     Root: The target, or where the objects will be deserialized to
 ]]
-function Objects.DeserializeObjects(ObjectsTable)
+function Objects.DeserializeObjects(Root, NamlObjects)
+    Root[1].IsRoot = true
+
+    local ObjectsTable = table.combine(NamlObjects, Root)
+
     local RelocationQueues = {}
     local LocalReferences = {}
-    local RootObject
 
     -- Part 1: Deserialize all objects
     local Deserialize = Profiler.Benchmark("Scene - Deserialize Objects", true)
     for _, ObjectData in pairs(ObjectsTable) do
         local Object, RelocationQueue = Objects.DeserializeObject(ObjectData)
 
-        if Object then
-            if ObjectData.IsRoot then RootObject = Object end -- Resolve root object
+        if ObjectData.IsRoot then -- dumbass hack
+            Root = Object
+        end
 
+        if Object then
             table.insert(LocalReferences, Object.UUID)
             RelocationQueues[Object] = RelocationQueue
         end
@@ -170,7 +179,7 @@ function Objects.DeserializeObjects(ObjectsTable)
     end
     Deserialize.End()
 
-    return RootObject
+    return Root
 end
 
 function Objects.ResolveLocalReferences(Object, RelocationQueue, LocalReferences)
@@ -187,7 +196,13 @@ end
 function Objects.ResolveReferences()
     for Object, RelocationQueue in pairs(Objects.References) do
         for PropertyName, UUID in pairs(RelocationQueue) do
-            Things.SetProperty(Object, PropertyName, Things.Get(UUID))
+            local ObjectRef = Things.Get(UUID)
+
+            if (not ObjectRef) then
+                print("No ref")
+            else
+                Things.SetProperty(Object, PropertyName, ObjectRef)
+            end
         end
     end
 

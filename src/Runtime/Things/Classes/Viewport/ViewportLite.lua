@@ -23,17 +23,19 @@ end
 
 local function SortFunc(a,b) return a.Layer < b.Layer end
 
-function Viewport2D:SendChild(Child)
+function Viewport2D:SubmitChild(Child)
     self.CurrentOrder = self.CurrentOrder + 1
     Child.AbsoluteLayer = self.CurrentOrder + self.AbsoluteLayer
-
     -- Check if the viewport has given a request to update the transforms
-    Viewport2D.super.SendChild(self, Child, self.CurrentOrder)
+    self:SendChild(Child, self.CurrentOrder)
+
+    if (not Child:IsA("Viewport")) then
+        self:SubmitContainerChildren(Child)
+    end
 end
 
--- Submit the children of an thing and the thing itself to the display list
--- Initial: If the container is a viewport or not
-function Viewport2D:SubmitContainerChildren(Container, Initial)
+-- Submit the children of an object/thing to the display list
+function Viewport2D:SubmitContainerChildren(Container)
     --[[
         We need to sort every child based on their layer before submitting anything
         This is not much of a HACK, but it's a clever way of doing z-indexing with the way rendering is setup
@@ -43,41 +45,13 @@ function Viewport2D:SubmitContainerChildren(Container, Initial)
     local InterfaceChildren = Container:GetInterfaceChildren()
     table.sort(InterfaceChildren, SortFunc)
 
-    local RenderBehind, RenderAbove = {}, {}
-
-    if Initial or (not Container:IsA("Viewport2D")) then
-        for _, Child in pairs(InterfaceChildren) do
-            if Child:IsAlwaysOnTop() then
-                table.insert(self.TopLayer, Child)
-            elseif Child.TruelyVisible then
-                table.insert((Child.Layer < 0) and RenderBehind or RenderAbove, Child)
-            end
+    for _, Child in pairs(InterfaceChildren) do
+        if Child:IsAlwaysOnTop() then
+            table.insert(self.TopLayer, Child)
+        elseif Child.TruelyVisible then
+            self:SubmitChild(Child)
         end
     end
-
-    self:SubmitPasses(RenderBehind, (not Initial) and Container or nil, RenderAbove)
-
-    RenderBehind = {}
-    RenderAbove = {}
-
-    return RenderBehind, RenderAbove
-end
-
-function Viewport2D:SubmitChildrenPass(Table, Submit) 
-    for _, Child in pairs(Table) do 
-        if Submit then 
-            self:SubmitContainerChildren(Child)
-        else
-            self:SendChild(Child)
-        end
-    end 
-end
-
--- Submit the "Passes" (Behind, Child and Above) seperately
-function Viewport2D:SubmitPasses(Behind, Child, Above)
-    self:SubmitChildrenPass(Behind, true)
-    self:SubmitChildrenPass({Child})
-    self:SubmitChildrenPass(Above, true)
 end
 
 function Viewport2D:ProcessInvalidation(Origin)
@@ -91,14 +65,15 @@ end
 -- Create the display list that will be used by the renderer
 function Viewport2D:CreateDisplayList()
     self.CurrentOrder = 1
-    self.DisplayList = {}
-    self.TopLayer = {}
+
+    table.clear(self.DisplayList)
+    table.clear(self.TopLayer)
     
-    self:SubmitContainerChildren(self.RenderContainer or self, true)
+    self:SubmitContainerChildren(self.RenderContainer or self)
 
     -- Now submit our objects that are supposed to be always on top
     for _, Child in pairs(self.TopLayer) do
-        self:SubmitContainerChildren(Child)
+        self:SubmitChild(Child)
     end
 end
 

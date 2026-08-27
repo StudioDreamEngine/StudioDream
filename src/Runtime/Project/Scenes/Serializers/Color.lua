@@ -1,15 +1,13 @@
 local Serializer = {}
 
 function Serializer.Serialize(Value)
-    return {
-        R = Value.R,
-        G = Value.G,
-        B = Value.B
-    }
+    return NAML.Util.SerializeList(Value.ToShader())
 end
 
 function Serializer.Deserialize(Value)
-    return Color.new(Value.R, Value.G, Value.B)
+    Value = NAML.Util.DeserializeList(Value)
+
+    return Color.new(Value[1],Value[2],Value[3],Value[4])
 end
 
 return Serializer

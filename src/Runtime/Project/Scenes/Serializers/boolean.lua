@@ -1,11 +1,13 @@
 local Serializer = {}
 
+local TrueValues = {"true", "yes"}
+
 function Serializer.Serialize(Value)
-    return Value
+    return tostring(Value)
 end
 
 function Serializer.Deserialize(Value)
-    return Value
+    return table.find(TrueValues, string.lower(Value))
 end
 
 return Serializer

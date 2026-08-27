@@ -284,6 +284,8 @@ do
 		for _, v in pairs(t2) do
 			table.insert(t1, v)
 		end
+
+		return t1
 	end
 
 	function table.rawclone(table)

@@ -13,6 +13,7 @@ return function ()
     TweenFunctions = require("Shared.Packages.Tweener")
     require("Shared.Packages.lovezip")
     DiscordRPC = require("Shared.Packages.discordRPC")
+    NAML = require("Shared.Packages.NAML")
 
     require("table.clear")
 

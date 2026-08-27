@@ -1,11 +1,11 @@
 local Serializer = {}
 
 function Serializer.Serialize(Value)
-    return Value
+    return tostring(Value)
 end
 
 function Serializer.Deserialize(Value)
-    return Value
+    return tonumber(Value)
 end
 
 return Serializer

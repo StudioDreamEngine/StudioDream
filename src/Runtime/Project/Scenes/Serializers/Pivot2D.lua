@@ -1,13 +1,15 @@
 local Serializer = {}
 
 function Serializer.Serialize(Value)
-    return {
+    return NAML.SerializeList({
         Scale = Value.Scale:Simple(),
         Offset = Value.Offset:Simple()
-    }
+    })
 end
 
 function Serializer.Deserialize(Value)
+    Value = NAML.DeserializeList(Value)
+
     local Offset = Vector2.FromSimple(Value.Offset)
     local Scale = Vector2.FromSimple(Value.Scale)
 

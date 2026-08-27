@@ -39,6 +39,7 @@ void effect() {
         float current_time = gradient.time[i];
         float next_time;
 
+        // TODO: We could perhaps improve performance here if we add a dummy value at the end of the lists, preventing the need for this code
         bool can_sample = (i == gradient_length-1);
         if (can_sample) { next_time = current_time; } else { next_time = gradient.time[i+1]; }
 

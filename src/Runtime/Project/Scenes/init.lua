@@ -8,26 +8,28 @@ Scenes.Objects = require("Runtime.Project.Scenes.Objects")
 Scenes.LoadDefault = require("Runtime.Project.Scenes.LoadDefault")
 
 function Scenes.SaveScene(Path, Target)
-    local ObjectTable = Scenes.Objects.SerializeObjects(Target)
+    local Serializer = NAML.Serialize()
+    
+    Scenes.Objects.SetSerializers(Serializer)
+    Scenes.Objects.SerializeObjects(Target)
 
-    local Data = Binser.serialize({
-        Objects = ObjectTable
-    })
-
-    ProjectFS.QueueWrite(Path, Data)
+    ProjectFS.QueueWrite(Path, Serializer.GenerateNAML())
 end
 
 function Scenes.ResolveReferences()
     Scenes.Objects.ResolveReferences()
 end
 
-function Scenes.LoadScene(Resource, Default, Path)
+---@param Deserializer NAMLDeserializer
+function Scenes.LoadScene(Deserializer, Default, Path)
     print("Loading Scene: "..Path)
 
     local Success, Message = xpcall(function()
         if Default then Default:Destroy() end
 
-        local Scene = Scenes.Objects.DeserializeObjects(Resource.Objects)
+        Scenes.Objects.SetSerializers(nil, Deserializer)
+
+        local Scene = Scenes.Objects.DeserializeObjects(Deserializer.GetCategory("Root"), Deserializer.GetCategory("Objects"))
         return Scene
     end, function(Error)
         print(Error)
