@@ -95,6 +95,9 @@ function InputService.Init()
     InputService.MouseEvent = Signal:New("MouseEventSignal")
     InputService.MouseMoved = Signal:New("MouseMoveSignal")
 
+    InputService.JoystickAdded = Signal:New("Input-JoystickConnect")
+    InputService.JoystickRemoved = Signal:New("Input-JoystickRemove")
+
     -- Pass the value itself as we assume the enum is used anyways
     LoveEvents.MousePressed:Connect(function(_,_,button) InputService.MouseEvent.Invoke(button, true)  end)
     LoveEvents.MouseReleased:Connect(function(_,_,button) InputService.MouseEvent.Invoke(button, false) end)
@@ -102,11 +105,13 @@ function InputService.Init()
     LoveEvents.JoystickAdded:Connect(function(Primitive) 
         local NewJoyObject = CreateJoystickObject(Primitive)
         InputService.JoysticksConnected[NewJoyObject.ID] = NewJoyObject
+        InputService.JoystickAdded.Invoke(NewJoyObject)
     end)
 
     LoveEvents.JoystickRemoved:Connect(function(Primitive)
         local JoyObject = InputService.GetJoystickByPrimitive(Primitive)
         JoyObject:Destroy()
+        InputService.JoystickRemoved.Invoke(NewJoyObject)
         InputService.JoysticksConnected[JoyObject.ID] = nil
     end)
 
