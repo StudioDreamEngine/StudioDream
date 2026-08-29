@@ -181,7 +181,7 @@ function StudioLayout.CreateTopbar()
     })
 
     StudioLayout.CreateWindowHandler("TopBar", { Container = TopbarInner })
-    --StudioLayout.CreateWindowHandler("MenuBar", { Container = MenuBar })
+    StudioLayout.CreateWindowHandler("MenuBar", { Container = MenuBar })
 end
 
 function StudioLayout.CreateLayout()

@@ -15,6 +15,10 @@ function Input:new()
     self.Focused = false
 end
 
+function Input:GetPosition()
+    return self.Cursor.CharPosition
+end
+
 function Input:ChangePosBy(By)
     self:ChangePos(self.Cursor.CharPosition + By)
 end
