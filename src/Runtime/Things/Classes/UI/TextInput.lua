@@ -27,15 +27,17 @@ function TextInput:new()
 
     self.KeyEvent = InputService.KeyEvent:Connect(function(IsDown, Key)
         if (IsDown) then
-            if (self.InputActive) then
-                if (Key == Enum.InputCode.Enter) then
-                    self.FocusEnd.Invoke()
-                    self.InputActive = nil
-                elseif (Key == Enum.InputCode.Backspace) then
-                    self:SetText(string.sub(self.Text, 0, -2))
-                    self.Typed.Invoke(self.Text)
-                    self.BackspaceDown = GlobalTick
-                end
+            if (not self.InputActive) then return end
+
+            if (Key == Enum.InputCode.Enter) then
+                self:StopFocus()
+            elseif (Key == Enum.InputCode.Backspace) then
+                self:SetText(string.sub(self.Text, 0, -2))
+                self.BackspaceDown = GlobalTick
+            elseif (Key == Enum.InputCode.LeftArrow) then
+                self.RenderClass:ChangePosBy(-1)
+            elseif (Key == Enum.InputCode.RightArrow) then
+                self.RenderClass:ChangePosBy(1)
             end
         elseif (Key == Enum.InputCode.Backspace) then
             self.BackspaceDown = nil
@@ -48,39 +50,42 @@ function TextInput:new()
         end
     end)
 
-    --[[self.FocusEnd:Connect(function() 
-        if self.Text == "" then
-            self:HandlePlaceholderVisuals(true)
-        end
-    end)]]
-
     self.InputEvent = LoveEvents.TextInput:Connect(function(Key)
         if (not self.InputActive or not self:IsVisible()) then return end
 
         self:SetText(self.Text..Key)
-        self.Typed.Invoke(self.Text)
     end)
 
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Active then return end
-        if self.Hovering ~= self.InputActive then
-            self["Focus" .. (self.Hovering and "Start" or "End") ].Invoke()
+        
+        if self.Hovering then
+            self:StartFocus()
+        else
+            self:StopFocus()
         end
-
-        self.InputActive = self.Hovering
     end)
 end
 
-function TextInput:FocusHere()
+function TextInput:OnReady()
+    self.RenderClass = Runtime.Renderer.Input() ---@class InputRender
+    self.RenderClass:new()
+end
+
+function TextInput:StartFocus()
     if not self.Active then return end
     self.FocusStart.Invoke()
     self.InputActive = true
+
+    self.RenderClass:ToggleFocus(self.InputActive)
 end
 
 function TextInput:StopFocus()
     if not self.Active then return end
     self.FocusEnd.Invoke()
     self.InputActive = false
+
+    self.RenderClass:ToggleFocus(self.InputActive)
 end
 
 function TextInput:DefineAPI()
@@ -105,7 +110,6 @@ end
 
 function TextInput:SetPlaceholder(NewPlaceholder)
     self.Placeholder = NewPlaceholder
-
     self:HandlePlaceholderVisuals((self.Text == ""))
 end
 
@@ -113,12 +117,19 @@ function TextInput:SetText(Text)
     TextInput.super.SetText(self, Text)
 
     self:HandlePlaceholderVisuals((self.Text == ""))
+    self.Typed.Invoke(self.Text)
 end
 
 function TextInput:Draw()
     self.TextColorMultiplier = self.PlaceholderActive and 0.5 or 1
     
     TextInput.super.Draw(self)
+end
+
+function TextInput:ProcessInvalidations()
+    TextInput.super.ProcessInvalidations(self)
+
+    self.RenderClass:ChangePos(#self.Text)
 end
 
 function TextInput:OnInitalParent(NewParent)
@@ -150,11 +161,6 @@ function TextInput:Update(dt)
     TextInput.super.Update(self, dt)
 
     self:HandleKeys()
-
-    --[[print("-------")
-    print(self.Hovering,self.UUID)
-    print(self.InputActive)
-    print(self.Text)]]
 end
 
 return TextInput

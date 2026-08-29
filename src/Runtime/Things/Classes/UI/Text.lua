@@ -23,7 +23,11 @@ function Text:new()
     self.FilterType = Enum.FilterType.Default
 
     --self.DefaultFont = Studio.CurrentTheme.FontNormal
-    self.RenderClass = Runtime.Renderer.ClassText() ---@class TextRender
+end
+
+function Text:OnReady()
+    self.RenderClass = Runtime.Renderer.Text() ---@class TextRender
+    self.RenderClass:new()
 end
 
 function Text:DefineAPI()
@@ -40,7 +44,7 @@ function Text:AttemptWrap(Size)
     if (not self.TruelyVisible) then return end
 
     Profiler.Start("Text - Attempt Wrap")
-    self.RenderClass.AttemptWrap(Size, self.TextScaled, self.TextSize)
+    self.RenderClass:AttemptWrap(Size, self.TextScaled, self.TextSize)
     Profiler.End()
 end
 
@@ -52,7 +56,7 @@ end
 
 function Text:SetAlignment(Alignment)
     self.Alignment = Alignment
-    self.RenderClass.SetAlignment(Alignment)
+    self.RenderClass:SetAlignment(Alignment)
     self:InvalidateRendering()
 end
 
@@ -73,20 +77,16 @@ function Text:ProcessInvalidations()
     self:AttemptWrap(self.AbsoluteSize)
 end
 
-function Text:GetLetters()
-    
-end
-
 function Text:Draw()
     Text.super.Draw(self)
 
     self:SetColor("Foreground", "TextColor")
-    self.RenderClass.Render()
+    self.RenderClass:Render()
 end
 
 function Text:SetFilterType(NewFilter)
     self.FilterType = NewFilter
-    self.RenderClass.SetFilter(NewFilter)
+    self.RenderClass:SetFilter(NewFilter)
 end
 
 function Text:SetFont(Identifier)
@@ -97,7 +97,7 @@ function Text:SetFont(Identifier)
     })
     if (not self.RenderFont) then return end
 
-    self.RenderClass.SetFont(self.RenderFont)
+    self.RenderClass:SetFont(self.RenderFont)
     self:InvalidateRendering()
 end
 
