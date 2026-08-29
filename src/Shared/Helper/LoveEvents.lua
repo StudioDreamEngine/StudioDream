@@ -14,6 +14,12 @@ LoveEvents.TextInput = Signal:New("TextInput")
 
 LoveEvents.Focus = Signal:New("Focus")
 
+LoveEvents.JoystickRemoved = Signal:New("JoystickConnected")
+LoveEvents.JoystickAdded = Signal:New("JoystickDisconnected")
+
+LoveEvents.JoystickRelesed = Signal:New("JoystickRelesed")
+LoveEvents.JoystickPressed = Signal:New("JoystickPressed")
+
 ---@param Event Signal
 for EventName, Event in pairs(LoveEvents) do
     love[string.lower(EventName)] = function(...) 

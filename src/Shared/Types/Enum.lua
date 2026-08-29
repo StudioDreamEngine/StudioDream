@@ -126,6 +126,12 @@ local Enums = {
         Back = "back",
         Front = "front"
     },
+    JoystickAxis = {
+        JoyLeft = "left",
+        JoyRight = "right",
+        TriggerLeft = "triggerleft",
+        TriggerRight = "triggerright"
+    },
     --[[ImageSituation = {
         Normal = "normal",
         Mirrored = "mirror",
