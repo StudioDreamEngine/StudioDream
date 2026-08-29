@@ -22,9 +22,10 @@ function Render.Init()
 
     Render.ViewportManager.Init()
     
-    Render.ClassText = require("Runtime.Renderer.Class.Text")
+    Render.Text = require("Runtime.Renderer.Class.Text")
     Render.Image = require("Runtime.Renderer.Class.Image")
     Render.Billboard = require("Runtime.Renderer.Class.Billboard")
+    Render.Input = require("Runtime.Renderer.Class.Input")
 end
 
 function Render.Render()

@@ -5,145 +5,146 @@ local function GetFont(Name, Weight)
     return string.format("Assets/Fonts/%s/%s-%s.ttf", Name, Name, Weight)
 end
 
-return function()
-    ---@class TextRender
-    local Text = {}
+---@class TextRender: ClassicObject
+local Text = Object:extend()
 
-    Text.RenderFont = nil
-    Text.TextBounds = Vector2.zero
-    Text.ContainerSize  = Vector2.zero
+function Text:new()
+    self.RenderFont = nil
+    self.ContainerSize  = Vector2.zero
 
-    Text.Alignment = Enum.Alignment.MiddleLeft
+    self.Alignment = Enum.Alignment.MiddleLeft
 
-    Text.Scale = 0
-    Text.OffsetPosition = Vector2.zero
+    self.OffsetPosition = Vector2.zero
 
-    Text.Text = "Placeholder"
+    self.Text = "Placeholder"
+    self.Lines = {
+        Width = 0,
+        Lines = {},
+        Height = 0
+    } 
 
-    Text.Lines = {}
+    self:SetFont("Roboto")
+end
 
-    -- Wrapping
-    local function PerformWrap(CurrentSize, WrapLength)
-        local Scale = 32 / CurrentSize
-
-        local Width, Lines = Text.RenderFont:getWrap(Text.Text, WrapLength * Scale)
-        local Height = Text.RenderFont:getHeight()/Scale
-
-        Width = Width/Scale
-
-        -- should simplify this y axis equation tbh
-        return Vector2.new(Width, (#Lines * Height)), {
-            Width = Width,
-            Scale = Scale,
-            Height = Height,
-            Lines = Lines
-        }
+function Text:SetAlignment(NewAlignment)
+    if NewAlignment then
+        self.Alignment = NewAlignment
     end
 
-    local function SearchScaled(ContainerSize)
-        local CurrentSize = ContainerSize.Y+1
-        local Min, Max = 1, ContainerSize.Y
+    -- not the greatest, but cut on variables
+    self.OffsetPosition = Utils.GetAlignment(self.Alignment, self.ContainerSize, Vector2.new(self.Lines.Width, (#self.Lines.Lines * self.Lines.Height)))
+end
 
-        local TextBounds, Lines
-    
-        Profiler.Start("Text - Perform Scaled Wrap")
-        if Text.Text == "" or ContainerSize.Y < 1 then 
-            Profiler.End()
-            return PerformWrap(1, ContainerSize.X)
-        end
+-- Rendering
+function Text:SetFont(Font)
+    if type(Font) == "string" then
+        local Font = Font and string.split(Font, "-") or {}
+        self.RenderFont = love.graphics.newFont(GetFont(Font[1], Font[2]),32)
+    else
+        self.RenderFont = Font
+    end
+end
 
-        local Loops = 0
+function Text:SetFilter(NewFilter)
+    self.RenderFont:setFilter(NewFilter,NewFilter)
+end
 
-        -- Perform a very overcomplicated binary search to find the best fit
-        while true do
-            CurrentSize = Min + (Max - Min)/2
-            TextBounds, Lines = PerformWrap(CurrentSize, ContainerSize.X)
-            Loops = Loops + 1
+-- Wrapping
+function Text:PerformWrap(CurrentSize, WrapLength)
+    local Scale = 32 / CurrentSize
 
-            if math.abs(ContainerSize.Y - TextBounds.Y) < ContainerSize.Y/4 then
-                break
-            end
+    local Width, Lines = self.RenderFont:getWrap(self.Text, WrapLength * Scale)
+    local Height = self.RenderFont:getHeight()/Scale
 
-            if Loops > 8 then
-                --printVerbose("Failed to fit text: \""..Text.Text.."\" after 8 fitting attempts")
-                break
-            end
+    Width = Width/Scale
 
-            if ContainerSize.Y < TextBounds.Y then -- Text is too big
-                Max = CurrentSize -- We now know this is our upper limit
-            elseif ContainerSize.Y > TextBounds.Y then -- Text is too small
-                Min = CurrentSize -- We now know this is our lower limit
-            end
-        end
+    -- should simplify this y axis equation tbh
+    return Vector2.new(Width, (#Lines * Height)), {
+        Width = Width,
+        Scale = Scale,
+        Height = Height,
+        Lines = Lines
+    }
+end
+
+function Text:SearchScaled(ContainerSize)
+    local CurrentSize = ContainerSize.Y+1
+    local Min, Max = 1, ContainerSize.Y
+
+    local TextBounds, Lines
+
+    Profiler.Start("Text - Perform Scaled Wrap")
+    if self.Text == "" or ContainerSize.Y < 1 then -- Default to size 1
         Profiler.End()
-
-        return TextBounds, Lines
+        return self:PerformWrap(1, ContainerSize.X)
     end
 
-    function Text.AttemptWrap(NewSize, TextScaled, TextSize)
-        local ContainerSize = NewSize
-        local TextBounds, Lines
+    local Loops = 0
 
-        if TextScaled then
-            TextBounds, Lines = SearchScaled(ContainerSize)
-        else
-            TextBounds, Lines = PerformWrap(TextSize, ContainerSize.X)
+    -- Perform a very overcomplicated binary search to find the best fit
+    while true do
+        CurrentSize = Min + (Max - Min)/2
+        TextBounds, Lines = self:PerformWrap(CurrentSize, ContainerSize.X)
+        Loops = Loops + 1
+
+        local Y = TextBounds.Y
+
+        if math.abs(ContainerSize.Y - Y) < ContainerSize.Y/4 then
+            break
         end
 
-        Text.Lines = Lines
-        Text.TextBounds = TextBounds
-        Text.ContainerSize = NewSize
-        Text.Scale = Lines.Scale
-
-        Text.SetAlignment()
-    end
-
-    function Text.SetAlignment(NewAlignment)
-        if NewAlignment then
-            Text.Alignment = NewAlignment
+        if Loops > 5 then
+            --printVerbose("Failed to fit text: \""..Text.Text.."\" after 8 fitting attempts")
+            break
         end
 
-        Text.OffsetPosition = Utils.GetAlignment(Text.Alignment, Text.ContainerSize, Text.TextBounds)*Text.Scale
-    end
-
-    -- Rendering
-    function Text.SetFont(Font)
-        if type(Font) == "string" then
-            local Font = Font and string.split(Font, "-") or {}
-            Text.RenderFont = love.graphics.newFont(GetFont(Font[1], Font[2]),32)
-        else
-            Text.RenderFont = Font
+        if ContainerSize.Y < Y then -- Text is too big
+            Max = CurrentSize -- We now know this is our upper limit
+        elseif ContainerSize.Y > Y then -- Text is too small
+            Min = CurrentSize -- We now know this is our lower limit
         end
     end
+    Profiler.End()
 
-    function Text.SetFilter(NewFilter)
-        Text.RenderFont:setFilter(NewFilter,NewFilter)
+    return TextBounds, Lines
+end
+
+function Text:AttemptWrap(NewSize, TextScaled, TextSize)
+    local ContainerSize = NewSize
+    local Lines
+
+    if TextScaled then
+        _, Lines = self:SearchScaled(ContainerSize)
+    else
+        _, Lines = self:PerformWrap(TextSize, ContainerSize.X)
     end
 
-    Text.SetFont("Roboto")
+    Lines.Height = Lines.Height * Lines.Scale
+    Lines.Width = Lines.Width  * Lines.Scale
 
-    -- Get the position (Vector2) of where a location in the text is
-    function Text.GetPositionFromLocation(position)
-        
-    end
+    self.Lines = Lines
+    self.ContainerSize = NewSize*Lines.Scale
 
-    -- Get the location in text from where a position is
-    function Text.GetLocationFromPosition(Location)
-        
-    end
+    self:SetAlignment()
+end
 
-    function Text.Render()
-        love.graphics.setFont(Text.RenderFont)
+function Text:RenderLine(Index, Line)
+    love.graphics.print(Line,0,0) 
+end
+
+function Text:Render()
+    love.graphics.setFont(self.RenderFont)
+    love.graphics.push()
+    love.graphics.scale(1/self.Lines.Scale)
+
+    for LineIndex, Line in pairs(self.Lines.Lines) do
         love.graphics.push()
-        love.graphics.scale(1/Text.Scale)
-        for LineIndex, Line in pairs(Text.Lines.Lines) do
-            LineIndex = LineIndex - 1
-            local Height = Text.Lines.Height*Text.Scale
-
-            love.graphics.print(Line, Text.OffsetPosition.X, Text.OffsetPosition.Y+(LineIndex*Height)) 
-        end
+        love.graphics.translate(self.OffsetPosition.X, self.OffsetPosition.Y+((LineIndex-1)*self.Lines.Height))
+        self:RenderLine(LineIndex-1, Line)
         love.graphics.pop()
     end
 
-    return Text
+    love.graphics.pop()
 end
+
+return Text
