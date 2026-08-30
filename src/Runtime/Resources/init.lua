@@ -100,7 +100,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 		printVerbose("Cannot add", Identifier, "to ObjectReferences")
 	end
 
-	return Resources.GetResource(Identifier), Identifier
+	return Resources.GetResource(Identifier), Identifier.ID
 end
 
 local function LoadWithContents(Identifier, Contents)

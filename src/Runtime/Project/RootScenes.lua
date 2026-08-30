@@ -27,6 +27,7 @@ function RootScenes.Load(Things)
     Scenes.ResolveReferences()
     RootScenes.ConfigureTargets(Things)
 
+    table.clear(Registered)
     Registered = table.clone(NewScenes) -- Hack to fix issue with RootScenes.Save Referencing root scenes initially created (which have nothing in them)
 end
 

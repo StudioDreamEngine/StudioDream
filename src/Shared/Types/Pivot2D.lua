@@ -81,30 +81,28 @@ function Pivot2D.FromOffset(Offset, OffsetY)
 end
 
 function Pivot2D.FromString(Text)
-    print(Text)
+
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
     local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-%.]+}")
     local DefaultNumber = 0
     local StringsCreated = {}
 
     for String in FindBrack do
-        print(String)
         local RemoveKeys = string.gsub(String,"[%{%}]","")
-        print(RemoveKeys)
         table.insert(StringsCreated,RemoveKeys)
     end
 
     local FinalString
-    print(StringsCreated)
+
     if #StringsCreated > 0 then
         FinalString = StringsCreated[1]..","..StringsCreated[2]
     else
         FinalString = Text
     end
-    print(FinalString)
+
     local SplitText = string.split(FinalString,"[%, %s]")
-    print(SplitText)
-    return Pivot2D.new((tonumber(SplitText[1]) or DefaultNumber),(tonumber(SplitText[2]) or DefaultNumber),(tonumber(SplitText[3]) or DefaultNumber),(tonumber(SplitText[4]) or DefaultNumber))
+
+    return Pivot2D.new((tonumber(SplitText[1]) or DefaultNumber),(tonumber(SplitText[3]) or DefaultNumber),(tonumber(SplitText[2]) or DefaultNumber),(tonumber(SplitText[4]) or DefaultNumber))
 end
 
 return Pivot2D

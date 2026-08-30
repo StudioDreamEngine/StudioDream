@@ -53,7 +53,11 @@ function Rect.FromString(Text)
 
     local SplitText = string.split(FinalString,"[%, %s]")
 
-    return Rect.new(Vector2.new((SplitText[1] or DefaultNumber),(SplitText[1] or DefaultNumber)),Vector2.new((SplitText[3] or DefaultNumber),(SplitText[4] or DefaultNumber)))
+    for Index, Text in pairs(SplitText) do
+        SplitText[Index] = tonumber(Text) or DefaultNumber
+    end
+
+    return Rect.new(Vector2.new(SplitText[1],SplitText[2]),Vector2.new(SplitText[3],SplitText[4]))
 end
 
 return Rect

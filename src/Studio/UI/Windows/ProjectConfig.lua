@@ -45,13 +45,13 @@ function ProjectConfig.Init()
                     Runtime.Project.Config.Set("WindowSize",tostring(InfoGiven))
                 end,
                 ReturnDisplay = function()
-                    print(Runtime.Project.Config.Get("WindowSize"))
+                    --print(Runtime.Project.Config.Get("WindowSize"))
                     if Runtime.Project.Config.Get("WindowSize") then
                         Decide = Vector2.FromString(Runtime.Project.Config.Get("WindowSize"))
                     else
                         Decide = Vector2.new(700,500)
                     end
-                    print(Decide)
+                    --print(Decide)
                     return Decide
                 end
             },

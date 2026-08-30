@@ -93,6 +93,7 @@ function Components.CreateIconObject(Name, Icon)
         SquareAxis = Enum.SquareAxis.Y,
         Pivot = Vector2.new(-0.1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
+        Name = "NodeIcon",
         Resource = Icon,
         Parent = NodeInner
     })

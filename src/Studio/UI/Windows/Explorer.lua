@@ -74,6 +74,7 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
             BackgroundTransparency = 0,
             Layer = 1,
             Parent = NodeObj.NodeInner,
+            Name = "ParentLine",
             Serializable = false,
             CornerRadius = 0,
             LimitCornerRadius = true,
@@ -84,6 +85,7 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
             Position = Pivot2D.FromScale(0,0.5),
             Pivot = Vector2.new(0, 0.5),
             BackgroundColor = "Outline",
+            --Name = "ParentLineExtend",
             BackgroundTransparency = 0,
             Layer = 1,
             Parent = ParentLine,
@@ -91,8 +93,6 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
         })
 
         table.insert(NodeObj.ParentLines, ParentLine)
-
-        return ParentLine
     end
 
     function NodeObj.CreateLastParentLine(LineDepth)
@@ -104,6 +104,7 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
             Pivot = Vector2.new(0.5, 0),
             BackgroundColor = "Outline",
             BackgroundTransparency = 0,
+            Name = "ParentLineLast",
             Layer = 1,
             Parent = NodeObj.NodeInner,
             Serializable = false,
@@ -123,8 +124,6 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
         })
 
         table.insert(NodeObj.ParentLines, ParentLine)
-
-        return ParentLine
     end
 
     if Depth > 0 then
@@ -143,6 +142,7 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
         end]]
         if #NodeObj.ParentLines > 0 then
             NodeObj.ParentLines[1]:Destroy()
+            NodeObj.ParentLines[1] = nil -- mikl i swear to god
         end
 
         NodeObj.Button = Studio.Components.CreateStyle("ImageButton",{
@@ -443,8 +443,8 @@ end
 function Explorer.Redraw()
     ScrollContainer:ClearAllChildren({"ListLayout"})
 
-    Explorer.Tree = {}
-    Explorer.Nodes = {}
+    table.clear(Explorer.Tree)
+    table.clear(Explorer.Nodes)
 
     Explorer.CreateTree(Things.Root, 0)
 

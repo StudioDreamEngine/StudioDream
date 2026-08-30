@@ -87,7 +87,7 @@ function Template.Create(Info)
                 local Identifier, _ = Runtime.Resources.LoadIdentifierIDFromPath(NewPath)
                 if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
 
-                Change(Identifier)
+                Change(Identifier.ID)
             end)
         end,
         UserChange = function(InfoGiven)
@@ -97,7 +97,7 @@ function Template.Create(Info)
         end,
         ReturnDisplay = function()
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name] and Studio.Editor3D.Selecting[1][Info.Name].Data.FileStem or "No Resource Set.") or "~"
+            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name] and Runtime.Resources.GetIdentifierFromID(Studio.Editor3D.Selecting[1][Info.Name]).Data.FileStem or "No Resource Set.") or "~"
         end
     },{
         ValueContainer = "Outline",
