@@ -39,7 +39,7 @@ function Rect.FromString(Text)
     local StringsCreated = {}
 
     for String in FindBrack do
-        local RemoveKeys = string.gsub(String,"{[%d,%-]+}","")
+        local RemoveKeys = string.gsub(String,"[%{%}]","")
         table.insert(StringsCreated,RemoveKeys)
     end
 
@@ -50,10 +50,12 @@ function Rect.FromString(Text)
     else
         FinalString = Text
     end
-    
+
     local SplitText = string.split(FinalString,"[%, %s]")
 
     return Rect.new(Vector2.new((SplitText[1] or DefaultNumber),(SplitText[1] or DefaultNumber)),Vector2.new((SplitText[3] or DefaultNumber),(SplitText[4] or DefaultNumber)))
 end
+
+Rect.FromString("{0,0},{0,0}")
 
 return Rect
