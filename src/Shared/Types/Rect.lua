@@ -34,7 +34,7 @@ end
 
 function Rect.FromString(Text)
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
-    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,]+}")
+    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-%.]+}")
     local DefaultNumber = 0
     local StringsCreated = {}
 

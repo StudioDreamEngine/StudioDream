@@ -129,7 +129,7 @@ end
 
 function Transform3D.FromString(Text) -- also need to figure out a good way to improve this
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
-    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-]+}")
+    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-%.]+}")
     local DefaultNumber = 0
     local StringsCreated = {}
 
