@@ -56,6 +56,4 @@ function Rect.FromString(Text)
     return Rect.new(Vector2.new((SplitText[1] or DefaultNumber),(SplitText[1] or DefaultNumber)),Vector2.new((SplitText[3] or DefaultNumber),(SplitText[4] or DefaultNumber)))
 end
 
-Rect.FromString("{0,0},{0,0}")
-
 return Rect

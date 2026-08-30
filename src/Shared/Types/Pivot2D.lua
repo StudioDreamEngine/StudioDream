@@ -82,25 +82,22 @@ end
 
 function Pivot2D.FromString(Text)
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
-    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,]+}")
+    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-]+}")
     local DefaultNumber = 0
     local StringsCreated = {}
 
     for String in FindBrack do
-        local RemoveKeys = string.gsub(String,"[%{ %}]","")
+        local RemoveKeys = string.gsub(String,"[%{%}]","")
         table.insert(StringsCreated,RemoveKeys)
     end
 
     local FinalString
-
     if #StringsCreated > 0 then
         FinalString = StringsCreated[1]..","..StringsCreated[2]
     else
         FinalString = Text
     end
-    
     local SplitText = string.split(FinalString,"[%, %s]")
-    print(SplitText)
     return Pivot2D.new((tonumber(SplitText[1]) or DefaultNumber),(tonumber(SplitText[2]) or DefaultNumber),(tonumber(SplitText[3]) or DefaultNumber),(tonumber(SplitText[4]) or DefaultNumber))
 end
 
