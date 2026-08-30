@@ -100,20 +100,21 @@ function Shared.RenderStats()
     local MousePos = Runtime.Backend2D.GetMousePosition()
 
     local DebugStats = {
-        { Name = "(Love) FPS",                  Value = love.timer.getFPS() },
-        { Name = "(Love) Loaded Textures",      Value = Stats.textures },
-        { Name = "(Love) Loaded Fonts",         Value = Stats.fonts },
-        { Name = "(Love) Texture Memory",       Value = tostring(math.round(Stats.texturememory/1000000)).."mb" },
-        { Name = "(Love) Mouse position",       Value = tostring(MousePos) },
-        { Name = "(GPU) Draw Calls",            Value = Stats.drawcalls },
-        { Name = "(GPU) Draw Calls (Batched)",  Value = Stats.drawcallsbatched },
-        { Name = "(Runtime) Object Count",      Value = ThingStats.Objects },
-        { Name = "(Runtime) Invalidations This Frame",      Value = ThingStats.Invalidated },
-        { Name = "(Runtime) Is Profiling",      Value = FLAGS.ProfileCapture },
-        { Name = "(Runtime) Scheduler Tasks",   Value = Scheduler.GetTasks() },
-        { Name = "(Runtime) Orphaned - Destroyed", Help = "Objects that have been destroyed, but still have a reference and this are still in memory.", Value = ThingStats.Orphans },
-        { Name = "(Runtime) Orphaned - Unparented", Help = "Objects that are not parented, but havent been destroyed, and this are still in memory.", Value = ThingStats.ScriptOrphans },
-        { Name = "(Lua) Heap Size",             Value = math.round(collectgarbage("count")).."kb" }
+        { Name = "(Love) FPS",                                                                                                                                  Value = love.timer.getFPS() },
+        { Name = "(Love) Loaded Textures",                                                                                                                      Value = Stats.textures },
+        { Name = "(Love) Loaded Fonts",                                                                                                                         Value = Stats.fonts },
+        { Name = "(Love) Texture Memory",                                                                                                                       Value = tostring(math.round(Stats.texturememory/1000000)).."mb" },
+        { Name = "(Love) Mouse position",                                                                                                                       Value = tostring(MousePos) },
+        { Name = "(GPU) Draw Calls",                    Help = "The amount of objects LOVE has sent to the gpu itself",                                         Value = Stats.drawcalls },
+        { Name = "(GPU) Draw Calls (Batched)",          Help = "Batching is a process where several simillar draw calls are sent to the gpu at once",           Value = Stats.drawcallsbatched },
+        { Name = "(Runtime) Object Count",                                                                                                                      Value = ThingStats.Objects },
+        { Name = "(Runtime) Rendered",                  Help = "The amount of objects ViewportManager has counted as rendered since the start of the frame",    Value = Runtime.Renderer.ViewportManager.GetRendered() },
+        { Name = "(Runtime) Invalidations This Frame",  Help = "How many ui objects have had their positions and size on screen re-calculated this frame",      Value = ThingStats.Invalidated },
+        { Name = "(Runtime) Is Profiling",                                                                                                                      Value = FLAGS.ProfileCapture },
+        { Name = "(Runtime) Scheduler Tasks",                                                                                                                   Value = Scheduler.GetTasks() },
+        { Name = "(Runtime) Orphaned - Destroyed",      Help = "Objects that have been destroyed, but still have a reference and thus are still in memory.",    Value = ThingStats.Orphans },
+        { Name = "(Runtime) Orphaned - Unparented",     Help = "Objects that are not parented, but havent been destroyed, and thus are still in memory.",       Value = ThingStats.ScriptOrphans },
+        { Name = "(Lua) Heap Size",                     Help = "How much memory StudioDream itself is taking up in the lua vm",                                 Value = math.round(collectgarbage("count")).."kb" }
     }
 
     love.graphics.setFont(DebugFont)

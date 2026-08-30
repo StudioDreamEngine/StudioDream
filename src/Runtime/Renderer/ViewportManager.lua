@@ -4,6 +4,8 @@ local RootViewport ---@class ViewportContainer
 local DecorationViewport ---@class Viewport2D
 local light
 
+Rendered = 0
+
 function ViewportManager.Init()
     Dream:setSky(love.graphics.newCubeImage("Assets/sky.png"))
     Dream:setDefaultReflection(false)
@@ -24,6 +26,10 @@ end
 
 function ViewportManager.SetRootViewport(InRoot)
     RootViewport = InRoot
+end
+
+function ViewportManager.GetRendered()
+    return Rendered
 end
 
 ---@param RootDisplay Viewport2D
@@ -48,8 +54,6 @@ end
 function ViewportManager.RenderViewport2D(Viewport)
     --Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
     Runtime.Backend2D.CanvasCall(Viewport:GetCanvas(), function()
-        love.graphics.clear()
-
         -- Dumbass hack because we need to make sure EVERY pixel has been drawn to before drawing more`
         Runtime.Backend2D.ShaderCall(function()
             love.graphics.rectangle("fill",0,0,Viewport.AbsoluteSize.X,Viewport.AbsoluteSize.Y)
@@ -58,6 +62,7 @@ function ViewportManager.RenderViewport2D(Viewport)
         for _, Element in pairs(Viewport.DisplayList) do
             love.graphics.push()
             love.graphics.translate(Element.AbsolutePosition.X,Element.AbsolutePosition.Y)
+            Rendered = Rendered + 1
             --Profiler.Start("Draw "..Element.ClassName)
             Element:DrawStyle()
             --Profiler.End()
@@ -112,6 +117,8 @@ function ViewportManager.Update(dt)
 end
 
 function ViewportManager.Render()
+    Rendered = 0
+
    -- DecorationViewport:Draw()
     RootViewport:Draw()
 end

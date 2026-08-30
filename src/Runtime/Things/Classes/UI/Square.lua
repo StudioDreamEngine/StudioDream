@@ -40,7 +40,9 @@ end
     if (not self.ShaderObject) then return end
 end]]
 
-function Square:CalculateRadius() -- this was kinda fun to do
+function Square:SetAbsoluteSize(NewSize) -- this was kinda fun to do
+    Square.super.SetAbsoluteSize(self, NewSize)
+
     if self.LimitCornerRadius then
         local Size = (self.AbsoluteSize.X < self.AbsoluteSize.Y) and self.AbsoluteSize.X/2 or self.AbsoluteSize.Y/2
         self.TrueRadiusOfCorners = (self.CornerRadius > Size) and Size or self.CornerRadius
@@ -77,11 +79,7 @@ end
 
 function Square:Draw()
     local Size = self.AbsoluteSize 
-    local r,g,b,a = love.graphics.getColor()
-    
-    self:CalculateRadius()
 
-    love.graphics.setColor(r,g,b,a)
     love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.TrueRadiusOfCorners, self.TrueRadiusOfCorners)
     
     if self.OutlineSize > 0 then

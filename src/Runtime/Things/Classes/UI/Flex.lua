@@ -53,8 +53,8 @@ function FlexItem:BindFlexParent()
 end
 
 function FlexItem:UnbindFlexParent()
-    self.Connection:Disconnect()
-    self.Connection2:Disconnect()
+    if self.Connection then self.Connection:Disconnect() end
+    if self.Connection2 then self.Connection2:Disconnect() end
 end
 
 function FlexItem:OnRemove()

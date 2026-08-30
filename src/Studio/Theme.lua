@@ -153,7 +153,7 @@ Themes.CurrentName = FallbackTheme -- This is the NAME of the theme, the theme d
 Themes.ThemeChanged = Signal:New("ThemeChanges")
 
 function Themes.GetCurrentTheme()
-    local SettingTheme = Runtime.SettingsManager.GetSetting("UsingTheme")
+    local SettingTheme = Runtime.SettingsManager.Get("UsingTheme")
 
     if (not SettingTheme) then
         print("no configured theme found, using fallback theme")
@@ -165,7 +165,7 @@ function Themes.GetCurrentTheme()
 end
 
 function Themes.ChangeTheme(NewTheme)
-    Runtime.SettingsManager.ChangeSetting("UsingTheme",NewTheme)
+    Runtime.SettingsManager.Set("UsingTheme",NewTheme)
 
     Studio.CurrentTheme = Themes.GetCurrentTheme()
     Studio.Theme.ThemeChanged.Invoke()

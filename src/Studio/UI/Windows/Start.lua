@@ -275,7 +275,7 @@ function Start.Init()
 
     Version.Size = Pivot2D.FromScale(1,0.05)
 
-    for i,v in pairs(Runtime.SettingsManager.GetSetting("Projects")) do
+    for i,v in pairs(Runtime.SettingsManager.Get("Projects")) do
         Start.CreateProject(Scroll,v,i,Start.FullContainer)
     end
     DoneLoad.Invoke(table.length(Scroll:GetChildren()))

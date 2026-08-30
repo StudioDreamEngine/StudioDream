@@ -120,7 +120,7 @@ function InputService.Init()
         JoyObject.ButtonPressed.Invoke(Button)
     end)
 
-    LoveEvents.JoystickRelesed:Connect(function(Primitive,Button)
+    LoveEvents.JoystickReleased:Connect(function(Primitive,Button)
         local JoyObject = InputService.GetJoystickByPrimitive(Primitive)
         JoyObject.ButtonReleased.Invoke(Button)
     end)

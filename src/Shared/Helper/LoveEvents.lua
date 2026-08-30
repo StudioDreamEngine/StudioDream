@@ -17,7 +17,7 @@ LoveEvents.Focus = Signal:New("Focus")
 LoveEvents.JoystickRemoved = Signal:New("JoystickConnected")
 LoveEvents.JoystickAdded = Signal:New("JoystickDisconnected")
 
-LoveEvents.JoystickRelesed = Signal:New("JoystickRelesed")
+LoveEvents.JoystickReleased = Signal:New("JoystickReleased")
 LoveEvents.JoystickPressed = Signal:New("JoystickPressed")
 
 ---@param Event Signal
@@ -33,5 +33,7 @@ for EventName, Event in pairs(LoveEvents) do
 end
 
 -- TODO: Perhaps also assign draw, load and update to events?
+-- i just realized we cant assign any of those (w/ this system atleast), 
+-- load is called too early for this, draw doesnt need to be, update is what the signal system runs on
 
 return LoveEvents

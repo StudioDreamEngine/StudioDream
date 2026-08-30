@@ -4,7 +4,13 @@ local Backend = {}
 function Backend.CanvasCall(Canvas, DrawFunction)
     local OldCanvas = love.graphics.getCanvas()
 
+    if FLAGS.DebugDraw then
+        DrawFunction()
+        return
+    end
+    
     love.graphics.setCanvas(Canvas)
+    love.graphics.clear()
 
     love.graphics.push()
     love.graphics.origin() -- just in case

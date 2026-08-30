@@ -177,12 +177,12 @@ function Shortcuts.GetInputs()
 end
 
 function Shortcuts.Save()
-    Runtime.SettingsManager.ChangeSetting("ShortcutsTable",InputsSaved)
+    Runtime.SettingsManager.Set("ShortcutsTable",InputsSaved)
 end
 
 function Shortcuts.BuildFromSavedTable()
-    if Runtime.SettingsManager.GetSetting("ShortcutsTable") then
-        local NewTable = Runtime.SettingsManager.GetSetting("ShortcutsTable")
+    if Runtime.SettingsManager.Get("ShortcutsTable") then
+        local NewTable = Runtime.SettingsManager.Get("ShortcutsTable")
 
         for Name,Inputs in pairs(InputsSaved) do
             if (not NewTable[Name]) then
@@ -190,7 +190,7 @@ function Shortcuts.BuildFromSavedTable()
             end
         end
 
-        Runtime.SettingsManager.ChangeSetting("ShortcutsTable",NewTable)
+        Runtime.SettingsManager.Set("ShortcutsTable",NewTable)
     else
         return InputsSaved
     end
@@ -199,7 +199,7 @@ end
 function Shortcuts.Init()
     Shortcuts.BuildFromSavedTable()
 
-    InputsSaved = Runtime.SettingsManager.GetSetting("ShortcutsTable") or InputsSaved
+    InputsSaved = Runtime.SettingsManager.Get("ShortcutsTable") or InputsSaved
 
     for Name,ShortcutObj in pairs(HandleThis) do
         Input.KeyEvent:Connect(function(DidItBegan,Key)

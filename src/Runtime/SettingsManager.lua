@@ -7,7 +7,7 @@ local DefaultSettings = {
     Version = 2,
     UsingTheme = "Blue Night",
     AutomaticCreation = true,
-    --EverSetCreation = false
+    FlagCreation = false -- If or if not we've shown the automatic creation dialog
 }
 
 function SettingsManager.Init()
@@ -32,7 +32,7 @@ function SettingsManager.Init()
     end
 end
 
-function SettingsManager.ChangeSetting(Setting, Value)
+function SettingsManager.Set(Setting, Value)
     Settings[Setting] = Value
     SettingsManager.Save()
 end
@@ -42,7 +42,7 @@ function SettingsManager.Save()
     love.filesystem.write("StudioSettings.dat", Serialized)
 end
 
-function SettingsManager.GetSetting(Setting)
+function SettingsManager.Get(Setting)
     --print(DefaultSettings)
     return Settings[Setting]
 end
