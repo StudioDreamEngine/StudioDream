@@ -1,6 +1,8 @@
 local Pivot2D = {}
 
 function Pivot2D.new(ScaleX, OffsetX, ScaleY, OffsetY)
+    printVerbose("Cooll!!!")
+    printVerbose(ScaleX, OffsetX, ScaleY, OffsetY)
     local Offset = Vector2.new(OffsetX, OffsetY)
     local Scale = Vector2.new(ScaleX, ScaleY) -- TODO: Rename to Pivot instead of scale
     
@@ -98,8 +100,8 @@ function Pivot2D.FromString(Text)
     end
     
     local SplitText = string.split(FinalString,"[%, %s]")
-
-    return Pivot2D.new((SplitText[1] or DefaultNumber),(SplitText[2] or DefaultNumber),(SplitText[3] or DefaultNumber),(SplitText[4] or DefaultNumber))
+    print(SplitText)
+    return Pivot2D.new((tonumber(SplitText[1]) or DefaultNumber),(tonumber(SplitText[2]) or DefaultNumber),(tonumber(SplitText[3]) or DefaultNumber),(tonumber(SplitText[4]) or DefaultNumber))
 end
 
 return Pivot2D
