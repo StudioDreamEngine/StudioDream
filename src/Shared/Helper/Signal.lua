@@ -36,6 +36,13 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 		end
 	end
 
+	function EventObject:Wait()
+		local Invoked = false
+		EventObject:ConnectOnce(function() Invoked = true end)
+
+		repeat Scheduler.Yield() until Invoked
+	end
+
 	function EventObject:DisconnectAll()
 		for _, Event in pairs(Events) do
 			Event[3]:Disconnect() 
@@ -104,7 +111,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 			v[1] - Callback function
 			v[2] - Listener ID to match for
 			v[3] - Event object
-			v[4] - Call only once then disconnect
+			v[4] - Call once
 			v[5] - Call deferred
 		]]
 		for EventID,v in pairs(Events) do 
@@ -126,7 +133,8 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 				table.insert(Args, MatchingListener)
 				
 				-- When the table is packed, it ignores any nil args, so for unpacking to
-				-- work we have to nil any indexes that arent nil.
+				-- work we have to nil any indexes that arent nil. 
+				-- (persumably internally when you nil an index it isnt actually removed until the next collection round but idk)
 				for i = 1,Args.n do 
 					if (not Args[i]) and (type(Args[i]) ~= "boolean") then 
 						Args[i] = nil 

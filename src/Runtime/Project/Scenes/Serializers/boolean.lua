@@ -7,7 +7,7 @@ function Serializer.Serialize(Value)
 end
 
 function Serializer.Deserialize(Value)
-    return table.find(TrueValues, string.lower(Value))
+    return (table.findLite(TrueValues, string.lower(Value)) and true or false)
 end
 
 return Serializer

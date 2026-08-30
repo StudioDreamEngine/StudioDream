@@ -376,18 +376,16 @@ function BaseGui:DrawStyle()
     end
 
     if FLAGS.DebugDraw then
-        local Rect = self:GetProperty("ChildRect")
-
         love.graphics.setLineWidth(1)
 
-        Runtime.Backend2D.SetColor(Color.new(0,0,1))
+        Runtime.Backend2D.SetColor(Color.new(1,0,0))
         love.graphics.rectangle("line", 0, 0, self.AbsoluteSize.X, self.AbsoluteSize.Y)
 
-        Runtime.Backend2D.SetColor(Color.new(1,0,0))
-        love.graphics.rectangle("line", 0, 0, Rect.Size.X, Rect.Size.Y)
+        --love.graphics.setFont(DebugFont)
+        --love.graphics.print(Runtime.Renderer.ViewportManager.GetRendered(), 0, 0)
     end
 
-    Runtime.Backend2D.SetColor(Color.new(1))
+    --Runtime.Backend2D.SetColor(Color.new(1))
 end
 
 function BaseGui:UpdateTransforms()

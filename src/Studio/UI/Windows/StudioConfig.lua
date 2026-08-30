@@ -70,17 +70,17 @@ function StudioConfig.Init()
                 Type = "Checkbox",
                 UserChange = function(InfoGiven)
                     local Display
-                    if Runtime.SettingsManager.GetSetting("SFXEnabled")~=nil then
-                        Display = Runtime.SettingsManager.GetSetting("SFXEnabled")
+                    if Runtime.SettingsManager.Get("SFXEnabled")~=nil then
+                        Display = Runtime.SettingsManager.Get("SFXEnabled")
                     else
                         Display = true
                     end
-                    Runtime.SettingsManager.ChangeSetting("SFXEnabled", (not Display))
+                    Runtime.SettingsManager.Set("SFXEnabled", (not Display))
                 end,
                 ReturnDisplay = function()
                     local Display
-                    if Runtime.SettingsManager.GetSetting("SFXEnabled")~=nil then
-                        Display = Runtime.SettingsManager.GetSetting("SFXEnabled")
+                    if Runtime.SettingsManager.Get("SFXEnabled")~=nil then
+                        Display = Runtime.SettingsManager.Get("SFXEnabled")
                     else
                         Display = true
                     end

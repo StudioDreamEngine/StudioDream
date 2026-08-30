@@ -54,11 +54,13 @@ function Output.Init()
         Reverse = true
     })
 
-    Scheduler.OnRecoverableError = function(Text)
-        local List = string.split(Text, "\n")
+    if FLAGS.ExternalOutput then
+        Scheduler.OnRecoverableError = function(Text)
+            local List = string.split(Text, "\n")
 
-        for i = #List,1,-1 do
-            Output.CreateOutput(List[i],"Error")
+            for i = #List,1,-1 do
+                Output.CreateOutput(List[i],"Error")
+            end
         end
     end
 

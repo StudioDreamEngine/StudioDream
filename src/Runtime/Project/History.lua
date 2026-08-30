@@ -1,6 +1,6 @@
 local History = {}
 
-local RecentProjects = Runtime.SettingsManager.GetSetting("Projects")
+local RecentProjects = Runtime.SettingsManager.Get("Projects")
 
 function History.Clear()
     RecentProjects = {}
@@ -10,7 +10,7 @@ function History.Remove(Path)
     print("Removing "..Path.." from project history")
     RecentProjects[Path] = nil
 
-    Runtime.SettingsManager.ChangeSetting("Projects", RecentProjects)
+    Runtime.SettingsManager.Set("Projects", RecentProjects)
     printVerbose(RecentProjects)
 end
 
@@ -22,7 +22,7 @@ function History.Add(Path, Name)
             Time = os.time()
         }
 
-        Runtime.SettingsManager.ChangeSetting("Projects", RecentProjects)
+        Runtime.SettingsManager.Set("Projects", RecentProjects)
         printVerbose(RecentProjects)
     end
 end

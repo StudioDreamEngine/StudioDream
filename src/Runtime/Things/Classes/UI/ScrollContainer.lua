@@ -11,6 +11,7 @@ function ScrollContainer:new()
     self.LastScroll = 0
 
     self.CanvasSize = Pivot2D.FromScale(1,2)
+    self.UseCanvasSize = false -- If or if not to use the canvas size for the scale attribute of pivots
 
     self.Hovering = false
 
@@ -42,8 +43,13 @@ function ScrollContainer:GetCanvasSize()
     return self.CanvasSize.Offset + (self.AbsoluteSize * self.CanvasSize.Scale)
 end
 
+function ScrollContainer:SetUseCanvasSize(new)
+    self.UseCanvasSize = new
+    self:UpdateConstraint()
+end
+
 function ScrollContainer:UpdateConstraint()
-    self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), self.AbsoluteSize))
+    self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), (self.UseCanvasSize and self:GetCanvasSize() or self.AbsoluteSize)))
 end
 
 function ScrollContainer:Draw()

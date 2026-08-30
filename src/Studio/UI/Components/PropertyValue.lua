@@ -75,6 +75,7 @@ local ValueTypes = {
 
         return function(InValue)
             Value = Utils.Boolean(InValue)
+
             Button:SetImageRect(Rect.new(LineUp[(type(InValue) == "string" and InValue or Value)],Vector2.new(64,64)))
         end
     end,

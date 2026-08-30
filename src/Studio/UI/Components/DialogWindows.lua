@@ -55,6 +55,7 @@ function DialogWindows.DestroyDialogWindow()
         Components.UnregisterUpdator(ActiveDialogWindow.Updator)
 
         ActiveDialogWindow.Window:Destroy()
+        ActiveDialogWindow.OnClose.Invoke()
         ActiveDialogWindow = nil
     end
     DialogWindows.HideFade()
@@ -95,6 +96,7 @@ function DialogWindows.CreateDialogWindow(Type, Options)
 
     DialogObject.Shadow = Components.CreateDropshadow(DialogObject.MajorParent)
 
+    DialogObject.OnClose = Signal:New("DialogClose")
     DialogObject.Close = DialogWindows.DestroyDialogWindow
     DialogObject.Updator = Components.RegisterUpdator(DialogObject.Update)
 

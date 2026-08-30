@@ -52,7 +52,7 @@ function Components.Init()
 end
 
 function Components.SimpleDialog(Text, Callback)
-    Studio.Components.CreateDialog("Option", {
+    return Studio.Components.CreateDialog("Option", {
         Text = Text,
         OnClick = Callback
     })

@@ -99,7 +99,7 @@ function Inspector.RenderEverything()
                 Inspector.CreateProperty(PropertyInfo)
             end, function(Error)
                 -- mikl istg
-                print(debug.traceback("Failed to create property node, "..Error))
+                print(debug.traceback("Failed to create property node for "..Property..", "..Error))
             end)
         end
     end
