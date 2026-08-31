@@ -7,13 +7,12 @@ function Template.Create(Info)
     PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
         Title = Info.Name,
         Type = "Input",
-        Disabled = Info.Disabled,
+        Disabled = true,
         StyleSelect = true,
         UserChange = function(InfoGiven)
-            
         end,
         ReturnDisplay = function()
-            return "This is a working in progress..."
+            return "Unimplemented ("..Info.Type..")"
         end
     },{
         ValueContainer = "Outline",

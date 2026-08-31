@@ -13,7 +13,7 @@ function ViewportContainer:DefineAPI()
     ViewportContainer.super.DefineAPI(self)
     self.Proxy.Icon("HUD")
 
-    self.Proxy.SetHiperType("Containers")
+    self.Proxy.SetCategory("Containers")
 
     self.Proxy.MakeCreatable()
 end

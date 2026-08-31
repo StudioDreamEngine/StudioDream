@@ -48,7 +48,7 @@ function Editor3D.CloseInsertWindow(Object)
 end
 
 function Editor3D.GetDefaultTarget()
-    return Editor3D.Selecting[1] or Runtime.Things.GetRoot("Environment")
+    return Editor3D.Selecting[1] or Runtime.Things.Root:GetEnvironment()
 end
 
 function Editor3D.Init()

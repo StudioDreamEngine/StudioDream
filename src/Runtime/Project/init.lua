@@ -68,7 +68,6 @@ function Project.ValidateAndMount(ProjectPath)
 
     -- Final check that should never fail, may fail if it attempts to mount a path already mounted, but idk
     if not CouldMount then
-        print(CouldMount)
         error("Failed to mount (CRITICAL), Past checks should've caught this!")
         return Shared.QueueAbort("Critical mount error, check logs")
     end

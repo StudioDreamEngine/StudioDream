@@ -4,7 +4,7 @@ local Things = Runtime.Things
 
 function Debug.Init()
     Services.Service("InputService").InputBegan:Connect(function(Key)
-        local Environment = Things.GetRoot("Environment")
+        local Environment = Things.Root:GetEnvironment()
 
         print(Key)
 

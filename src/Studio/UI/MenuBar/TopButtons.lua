@@ -55,11 +55,20 @@ return {
                     end
                 },
                 {
+                    Type = "Button",
+                    Text = "Test",
+                    SubResource = "Assets/Icons/Client.png",
+                    Function = function(T)
+                        Runtime.Project.Save()
+                        Studio.ProjectManager.RunStudioProject()
+                    end
+                },
+                {
                     Type = "Separator"
                 },
                 {
                     Type = "Button",
-                    Text = "Test",
+                    Text = "Test in client",
                     SubResource = "Assets/Icons/Client.png",
                     Function = function(T)
                         Runtime.Project.Save()

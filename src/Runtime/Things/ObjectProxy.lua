@@ -22,7 +22,7 @@ return { new = function()
 
     ObjectProxy.Enums = {}
 
-    ObjectProxy.HiperType = "Nothin"
+    ObjectProxy.Category = "Nothin"
 
     -- Register a function that returns a list of objects
     --[[function ObjectProxy.RegisterProxy(...)
@@ -58,8 +58,8 @@ return { new = function()
         ObjectProxy.Types[Name] = Type
     end
 
-    function ObjectProxy.SetHiperType(Name)
-        ObjectProxy.HiperType = Name
+    function ObjectProxy.SetCategory(Name)
+        ObjectProxy.Category = Name
     end
 
     function ObjectProxy.Icon(Icon)

@@ -6,17 +6,17 @@ Client = {}
 
 function Client.Init()
     local EnvironmentViewport = Things.Create("Viewport3D") {
-        Parent = Things.GetRootViewport(),
-        RenderContainer = Things.GetRoot("Environment"),
+        Parent = Things.Root.RootViewport,
+        RenderContainer = Things.Root:GetEnvironment(),
         Size = Pivot2D.FromScale(1,1),
     }
 
     local HudViewport = Things.Create("Viewport2D") {
-        RenderContainer = Things.GetRoot("HUD"),
+        RenderContainer = Things.Root:GetHUD(),
         Name = "HudViewport",
         Size = Pivot2D.FromScale(1,1),
         Layer = 2,
-        Parent = Things.GetRootViewport()
+        Parent = Things.Root.RootViewport
     }
 
     Things.Root.EnvironmentViewport = EnvironmentViewport
@@ -38,11 +38,11 @@ function Client.Init()
     --StudioCamera = require("Client.StudioCamera")
     --StudioCamera.Init()
 
-    print(Things.GetRoot("Environment"):GetDescendants())
+    print(Things.Root:GetEnvironment():GetDescendants())
 
     if (not FLAGS.Independent) then
         Runtime.Things.Create("TextButton") {
-            Parent = Runtime.Things.GetRootViewport(),
+            Parent = Runtime.Things.Root.RootViewport,
             Size = Pivot2D.FromScale(0.1,0.1),
             Layer = 1000,
             Text = "Go back to studio",

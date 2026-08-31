@@ -11,7 +11,7 @@ function MouseAhh:Init()
     MouseAhh.Target = nil
 
     Services.InputService.InputBegan:Connect(function(Key)
-        Environment = Things.GetRoot("Environment")
+        Environment = Things.Root:GetEnvironment()
         if Key == "R" then
            StartedThingWow = true
         end

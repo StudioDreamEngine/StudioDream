@@ -17,7 +17,7 @@ function Module:NewBlocking(EventName) return Module:New(EventName, true) end
 	Normal Async event
 ]]
 ---@return Signal
-function Module:New(EventName, Blocking) --I had no idea you could define module functions with : -- You can, and yeah i should probably start using self
+function Module:New(EventName, Debug) --I had no idea you could define module functions with : -- You can, and yeah i should probably start using self
 	---@class Signal
 	local EventObject = {}
 	local Events = {}
@@ -84,7 +84,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 		local EventId = NewEventID()
 		local SingleEventObject = ConnectEvent(func, listener, EventId)
 		
-		Events[EventId] = {func,listener,SingleEventObject}
+		Events[EventId] = {func,listener,SingleEventObject,false,false}
 		return SingleEventObject
 	end
 
@@ -105,7 +105,7 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 	end
 
 	function EventObject.Invoke(MatchingListener, ...)
-		--print("Call to invoke",EventName)
+		Utils.AssertType(Events, "table")
 		
 		--[[
 			v[1] - Callback function
@@ -114,42 +114,51 @@ function Module:New(EventName, Blocking) --I had no idea you could define module
 			v[4] - Call once
 			v[5] - Call deferred
 		]]
-		for EventID,v in pairs(Events) do 
-			
-			-- If the listener ID doesnt exist, automatically return true.
-			-- otherwise, only return true if the listener id is the same as the invoked listener id
-			local DoesMatch = false
-			
-			if (not v[2]) or (v[2] == MatchingListener) then -- No matching listener or id
-				DoesMatch = true
-			end
-			
-			if DoesMatch then
-				-- Pack our tuple, add the MatchingListener then Unpack it
-				-- I know {...} exists, however grabbing table length seems to fail, 
-				-- so to prevent more shitty code i have to use the n value
-				local Args = table.pack(...) 
+		local Success, Message = pcall(function(MatchingListener, ...)
+			local CurrentEvents = table.clone(Events) -- Certain events will break the pairs iterator if a new one is added during the call
 
-				table.insert(Args, MatchingListener)
+			for EventID,v in pairs(CurrentEvents) do 
 				
-				-- When the table is packed, it ignores any nil args, so for unpacking to
-				-- work we have to nil any indexes that arent nil. 
-				-- (persumably internally when you nil an index it isnt actually removed until the next collection round but idk)
-				for i = 1,Args.n do 
-					if (not Args[i]) and (type(Args[i]) ~= "boolean") then 
-						Args[i] = nil 
-					end 
-				end
-
-				-- Ok rant over
-				if v[5] then
-					Scheduler.QueueTask(v[1], unpack(Args))
-				else
-					Scheduler.NewTask(v[1], unpack(Args))
+				-- If the listener ID doesnt exist, automatically return true.
+				-- otherwise, only return true if the listener id is the same as the invoked listener id
+				local DoesMatch = false
+				
+				if (not v[2]) or (v[2] == MatchingListener) then -- No matching listener or id
+					DoesMatch = true
 				end
 				
-				if v[4] then v[3]:Disconnect() end
+				if DoesMatch then
+					-- Pack our tuple, add the MatchingListener then Unpack it
+					-- I know {...} exists, however grabbing table length seems to fail, 
+					-- so to prevent more shitty code i have to use the n value
+					local Args = table.pack(...)
+
+					table.insert(Args, MatchingListener)
+					
+					-- When the table is packed, it ignores any nil args, so for unpacking to
+					-- work we have to nil any indexes that arent nil. 
+					-- (persumably internally when you nil an index it isnt actually removed until the next collection round but idk)
+					for i = 1,Args.n do 
+						if (not Args[i]) and (type(Args[i]) ~= "boolean") then 
+							Args[i] = nil 
+						end 
+					end
+
+					-- Ok rant over
+					if v[5] then
+						Scheduler.QueueTask(v[1], unpack(Args))
+					else
+						Scheduler.NewTask(v[1], unpack(Args))
+					end
+					
+					if v[4] then v[3]:Disconnect() end
+				end
 			end
+		end, MatchingListener, ...)
+
+		if (not Success) then
+			print("Error while invoking "..EventName..", "..Message)
+			printVerbose(Events)
 		end
 	end
 

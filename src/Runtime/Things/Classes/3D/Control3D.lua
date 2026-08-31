@@ -103,7 +103,7 @@ end
 
 function Control3D:DefineAPI()
     Control3D.super.DefineAPI(self)
-    self.Proxy.SetHiperType("Controls")
+    self.Proxy.SetCategory("Controls")
     self.Proxy.Property("Thing Adornee")
 end
 

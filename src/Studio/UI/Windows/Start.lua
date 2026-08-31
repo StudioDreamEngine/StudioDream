@@ -26,17 +26,17 @@ end
 function CreateClose(Parent)
     if not AlreadyDidCloseButton then
         local Button = Studio.Components.CreateStyle("ImageButton",{
-        Size = Pivot2D.FromScale(0.1,0.1),
-        Parent = Parent,
-        CornerRadius = 5,
-        Pivot = Vector2.new(0,0),
-        Position = Pivot2D.FromScale(0,0),
-        BackgroundTransparency = 0,
-        BackgroundColor = Studio.CurrentTheme.Primary,
-        Layer = 5,
-        Resource = "Internal/Studio/Close.png",
-        ScaleType = Enum.ScaleType.LockAspect,
-        ForegroundColor = "Text",
+            Size = Pivot2D.FromScale(0.1,0.1),
+            Parent = Parent,
+            CornerRadius = 5,
+            Pivot = Vector2.new(0,0),
+            Position = Pivot2D.FromScale(0,0),
+            BackgroundTransparency = 0,
+            BackgroundColor = Studio.CurrentTheme.Primary,
+            Layer = 5,
+            Resource = "Internal/Studio/Close.png",
+            ScaleType = Enum.ScaleType.LockAspect,
+            ForegroundColor = "Text",
         })
         Button.Clicked:Connect(Start.Close)
     end
@@ -96,9 +96,10 @@ function Start.CreateProject(Scroll,Info,Path,FullContainer)
     })
 
     Base.Clicked:Connect(function()
+        Start.Close()
+        print("Loading project")
         Runtime.Project.Load(Path)
         CreateClose(Start.Container)
-        Start.Close()
         --Studio.Layout.CallHandle("Explorer", "Redraw")
     end)
 

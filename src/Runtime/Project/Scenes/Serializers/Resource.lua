@@ -6,27 +6,14 @@ function Serializer.Serialize(Value)
         return
     end
 
-    return NAML.SerializeList({
-        ResourceType = Value.ResourceType,
-        ID = Value.ID
-    })
+    return Value
 end
 
 function Serializer.Deserialize(Value)
-    Value = NAML.DeserializeList(Value)
-
-    local Type = Value.ResourceType
-
-    if (not Type) then
-        printVerbose("Classic Resource Identifiers are no longer supported ("..Value.Identifier..")")
-        Runtime.Resources.RegisterAsMissing(Value.Identifier)
-        return
-    end
-
-    local Identifier = Runtime.Resources.GetIdentifierFromID(Value.ID)
+    local Identifier = Runtime.Resources.GetIdentifierFromID(Value)
 
     if (not Identifier) then
-        Runtime.Resources.RegisterAsMissing(Value.ID)
+        Runtime.Resources.RegisterAsMissing(Value)
         return
     end
 

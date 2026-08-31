@@ -30,4 +30,13 @@ function SatisfactoryService.SatisfyMe()
     return Words[math.random(1,#Words)]
 end
 
+function SatisfactoryService.InfuriateMe()
+    for _, Object in pairs(Runtime.Things.GetObjects()) do
+        if math.random(0,5) == 2 then
+            Object:Destroy()
+            return
+        end
+    end
+end
+
 return SatisfactoryService

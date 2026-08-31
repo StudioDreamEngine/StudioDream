@@ -34,7 +34,9 @@ function Notify.Notify(Message,Type)
         ForegroundColor = "Text"
     })
 
-    Utils.DebrisThing(Window,5)
+    Scheduler.DelayTask(5,function()
+        Window:Destroy()
+    end)
     
     Scheduler.DelayTask(4.5,function()
         Tween.Create(Window, {BackgroundTransparency = 1,CornerRadius = 0}, Enum.EasingStyle.Linear, .2).Play()

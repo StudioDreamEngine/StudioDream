@@ -199,7 +199,7 @@ function Objects.ResolveReferences()
             local ObjectRef = Things.Get(UUID)
 
             if (not ObjectRef) then
-                print("No ref")
+                printVerbose("No ref")
             else
                 Things.SetProperty(Object, PropertyName, ObjectRef)
             end

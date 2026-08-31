@@ -10,7 +10,7 @@ end
 function Assets:DefineAPI()
     Assets.super.DefineAPI(self)
 
-    self.Proxy.SetHiperType("Containers")
+    self.Proxy.SetCategory("Containers")
 
     self.Proxy.Icon("Assets")
     self.Proxy.MakeNonDuplicatable()

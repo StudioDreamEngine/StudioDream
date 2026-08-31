@@ -12,7 +12,7 @@ function BaseFS.Mount(PathString, MountName, IsLocal)
     MountObject.QueueWrites = false
     MountObject.Writes = {}
 
-    print("Attempting to mount new project: "..Path.FilePath)
+    printVerbose("Attempting to mount new project: "..Path.FilePath)
     
     local WasMounted
 
@@ -24,7 +24,7 @@ function BaseFS.Mount(PathString, MountName, IsLocal)
         WasMounted = love.filesystem.mountFullPath(Path.FilePath, MountName or "ProjectMount")
     end
 
-    if (not WasMounted) then print("Failed to mount") return end
+    if (not WasMounted) then print("Failed to mount",Path.FilePath) return end
 
     local MountDir = (MountName or "ProjectMount").."/"
 

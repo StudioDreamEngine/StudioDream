@@ -8,7 +8,7 @@ InterfaceManager.Hovering = false
 
 function InterfaceManager.Init()
     InterfaceManager.OnMouseMove = Signal:New("MouseMove") 
-    InterfaceManager.OnClick = Signal:New("MouseClick") 
+    InterfaceManager.OnClick = Signal:New("MouseClick", true) 
     InterfaceManager.OnRelease = Signal:New("MouseClick") 
     InterfaceManager.OnRightClick = Signal:New("MouseClick2")
     InterfaceManager.OnClickGeneral = Signal:New("MouseClick3")

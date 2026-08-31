@@ -1,5 +1,6 @@
 -- Handles the opening and saving of a project
 local ProjectManager = {}
+local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
 Runtime.Project.NotificationCallback = function(Message, Type)
     Studio.Layout.GetHandle("Notification").Notify(Message,Type or "Info")
@@ -21,6 +22,10 @@ function ProjectManager.SaveProjectTo(Callback)
 
         Utils.Warn("Please note that resources currently do not transfer between")
     end)
+end
+
+function ProjectManager.RunStudioProject()
+    RuntimeService.StartActivity()
 end
 
 function ProjectManager.SaveProject()

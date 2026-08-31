@@ -300,7 +300,6 @@ local ValueFunction = function(PropertyList, Information, Style)
 
             -- Auto-translate value
             if Information.Translate then
-                print(Information.Translate)
                 Value = _G[Information.Translate].FromString(Value)
             end
 
