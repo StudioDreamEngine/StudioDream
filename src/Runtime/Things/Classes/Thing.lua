@@ -267,20 +267,13 @@ end
 
 function Thing:IsSerializable()
     local Serializable = true
-    local EncounteredRoot
 
     ---@param ParentThing Thing
     self:GetParentCallback(function(ParentThing)
-        if ParentThing:IsA("Root") then -- Prevent unparented objects from being considered serialized
-            EncounteredRoot = true
-        end
-
-        if not (ParentThing.Serializable) then
+        if (ParentThing.UUID == "RenderRoot") then
             Serializable = false
         end
     end)
-
-    if (not EncounteredRoot) then return end -- Prevent unparented objects from being considered serialized
 
     -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
     -- Return false if object itself isnt serializable

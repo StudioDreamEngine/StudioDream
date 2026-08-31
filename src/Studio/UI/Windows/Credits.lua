@@ -10,7 +10,7 @@ local CreditsDisplay = {
         Name = "StudioDream",
         Content = {
             "Bloctans - Basically made everything possible",
-            "Mikl - Studio Interface, Graphics, General Support, Mascot Desing and Modelling",
+            "Mikl - Studio Interface, Graphics, General Support, Mascots",
             "Sonickirb - General Support"
         }
     },
@@ -29,7 +29,7 @@ local CreditsDisplay = {
             "trusti - Physics engine support (bullet3)",
             "wyteroze - Suggesting I use binary search for TextScaled fitting",
             "Alecstey - NetworkService",
-            "Daisean - Start Jingle"
+            "Daisean - Start Jingle, SFX"
         }
     },
     { 

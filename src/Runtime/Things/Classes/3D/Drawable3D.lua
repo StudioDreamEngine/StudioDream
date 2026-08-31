@@ -17,6 +17,7 @@ function Drawable3D:new()
 
     self.Mass = 1
     self.Velocity = Vector3.zero
+    self.RotationalVelocity = Vector3.zero
 
     self.Material = Dream:newMaterial()
     printVerbose("Create reflection")
@@ -28,9 +29,9 @@ function Drawable3D:DefineAPI()
 
     self.Proxy.Property("Vector3 Scale")--, "boolean Outline")
     self.Proxy.Property("Thing Material")
-    self.Proxy.Property("Vector3 Velocity", "boolean Collidable")
+    self.Proxy.Property("Vector3 Velocity", "Vector3 RotationalVelocity", "boolean Collidable")
 
-    self.Proxy.Group("Physics", "Dynamic", "Velocity", "Collidable")
+    self.Proxy.Group("Physics", "Dynamic", "Velocity", "RotationalVelocity", "Collidable")
     self.Proxy.Group("Transform", "Scale")
     self.Proxy.Group("Visuals", "Material")
 end
@@ -71,6 +72,11 @@ end
 function Drawable3D:SetVelocity(NewVelocity)
     printVerbose(NewVelocity)
     self.PhysicsBody:setLinearVelocity(NewVelocity:ToBullet())
+    self.PhysicsBody:activate()
+end
+
+function Drawable3D:SetRotationalVelocity(NewVelocity)
+    self.PhysicsBody:setAngularVelocity(NewVelocity:ToBullet())
     self.PhysicsBody:activate()
 end
 

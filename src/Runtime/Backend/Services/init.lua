@@ -2,6 +2,11 @@ local Services = {}
 
 Services.Services = {}
 
+Shared.OnQuit:Connect(function()
+    printVerbose("Gracefully exiting services...")
+    Runtime.Services.OnQuit()
+end)
+
 function Services.Service(Service)
     if (not Services.Services[Service]) then
         print("Initalizing Service: "..Service)

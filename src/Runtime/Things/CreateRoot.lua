@@ -36,11 +36,13 @@ function CreateRoot.CreateEnviornment(Root)
 end
 
 function CreateRoot.CreateRoot()
+    -- Tree used for the project itself, this is what user scripts see
     ---@class Root
     local Root = Things.Create("Root", "Root") {
         Name = "Root"
     }
 
+    -- This is the internal tree used for the studio and client, blocked off from user scripts
     local RenderRoot = Things.Create("Root", "RenderRoot") { -- dumbass hack
         Name = "RenderRoot"
     }

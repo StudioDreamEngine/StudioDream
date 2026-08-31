@@ -7,5 +7,5 @@ return {
     Final = function()
         return love.graphics.newShader(ShaderFolder.."Final.glsl")
     end,
-    Hack = love.graphics.newShader(ShaderFolder.."Hack.glsl")
+    --Hack = love.graphics.newShader(ShaderFolder.."Hack.glsl")
 }
