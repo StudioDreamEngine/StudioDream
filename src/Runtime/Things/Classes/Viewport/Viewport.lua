@@ -88,8 +88,9 @@ function Viewport:SetRenderContainer(NewFolder)
         else
             print("Adornee of ViewportContainer was not automatically set, as it already has an adornee. \nSet it to nil before configuring a new one.")
         end
-        
+    
         self.RenderContainer = NewFolder
+        self:InvalidateRendering()
     else
         self.RenderContainer = nil
     end

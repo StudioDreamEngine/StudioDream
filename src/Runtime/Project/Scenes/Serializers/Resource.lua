@@ -10,6 +10,11 @@ function Serializer.Serialize(Value)
 end
 
 function Serializer.Deserialize(Value)
+    if string.find(Value, "[%{%}]") then
+        Runtime.Resources.RegisterAsMissing(Value, true)
+        return
+    end
+
     local Identifier = Runtime.Resources.GetIdentifierFromID(Value)
 
     if (not Identifier) then
