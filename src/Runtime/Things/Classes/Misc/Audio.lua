@@ -42,7 +42,7 @@ end
 function Audio:DefineAPI()
     Audio.super.DefineAPI(self)
 
-    self.Proxy.SetHiperType("Sound")
+    self.Proxy.SetCategory("Sound")
 
     self.Proxy.Property("Resource Resource")
     self.Proxy.Property("number Duration", "number TimePosition")

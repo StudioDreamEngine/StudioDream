@@ -55,7 +55,7 @@ end
 function ListLayout:DefineAPI()
     ListLayout.super.DefineAPI(self)
 
-    self.Proxy.SetHiperType("UI")
+    self.Proxy.SetCategory("UI")
 
     self.Proxy.Icon("ListLayout")
     self.Proxy.Property("Enum.LayoutDirection Direction", "number Padding", "Enum.Alignment Alignment", "Enum.SortMode SortMode")

@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
 return function ()
-    local Environment = Things.GetRoot("Environment")
+    local Environment = Things.Root:GetEnvironment()
     local Viewport = Things.Root.RootViewport
 
     -- 3d test

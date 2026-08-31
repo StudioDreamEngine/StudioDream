@@ -7,7 +7,7 @@ local DialogFade = Runtime.Things.Create("TextButton") {
     Size = Pivot2D.FromScale(1,1),
     Layer = 100,
     Text = "",
-    Parent = Runtime.Things.GetRootViewport(),
+    Parent = Runtime.Things.Root.RootViewport,
     BackgroundTransparency = 0.5,
     BackgroundColor = Color.new(0),
     Visible = false
@@ -75,7 +75,7 @@ function DialogWindows.CreateDialogWindow(Type, Options)
         BackgroundColor = Studio.CurrentTheme.Secondary,
         Name = "WindowContainer",
         Layer = 999,
-        Parent = Runtime.Things.GetRootViewport(),
+        Parent = Runtime.Things.Root.RootViewport,
         CornerRadius = 5,
         OutlineSize = 5,
         OutlineColor = Studio.CurrentTheme.Outline

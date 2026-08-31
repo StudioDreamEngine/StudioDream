@@ -129,11 +129,11 @@ function Thing:UnbindConstraints(Object)
 end
 
 function Thing:GetCategory()
-    return self.proxy.HiperType
+    return self.proxy.Category
 end
 
 function Thing:IsCategory(IsIt)
-    return self.proxy.HiperType == IsIt
+    return self.proxy.Category == IsIt
 end
 
 function Thing:GetPath()

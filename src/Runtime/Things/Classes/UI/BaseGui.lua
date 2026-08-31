@@ -279,7 +279,7 @@ end
 function BaseGui:DefineAPI()
     BaseGui.super.DefineAPI(self)
 
-    self.Proxy.SetHiperType("UI")
+    self.Proxy.SetCategory("UI")
 
     self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum.SquareAxis SquareAxis", "number ListOrder", "boolean Visible","number Rotation")
     self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency", "number ColorMultiplier")

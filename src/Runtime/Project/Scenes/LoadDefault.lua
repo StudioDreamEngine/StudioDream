@@ -1,5 +1,5 @@
 return function()
-    local Environment = Runtime.Things.GetRoot("Environment") ---@class Environment
+    local Environment = Runtime.Things.Root:GetEnvironment() ---@class Environment
 
     local Camera = Runtime.Things.Create("Camera") {
         Parent = Environment

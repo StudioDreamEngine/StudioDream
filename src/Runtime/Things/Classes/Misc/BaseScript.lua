@@ -19,7 +19,7 @@ end
 function BaseScript:DefineAPI()
     BaseScript.super.DefineAPI(self)
 
-    self.Proxy.SetHiperType("Script")
+    self.Proxy.SetCategory("Script")
 
     self.Proxy.Icon("Script")
     self.Proxy.Property("Resource Resource")

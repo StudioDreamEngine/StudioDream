@@ -52,16 +52,6 @@ function Things.CreateEnviornment()
     CreateRoot.CreateEnviornment(Things.Root)
 end
 
-function Things.GetRootViewport()
-    return Things.GetRoot("ViewportInternal")
-end
-
-function Things.GetRoot(Object)
-    assert(Things.Root, "Tree hasnt been created yet! are you trying to access it before creation?")
-
-    return Things.Root:FindFirstChild(Object)
-end
-
 function Things.ClearRoot()
     for _, Object in pairs(Things.Root:GetChildren()) do
         if Object.Serializable then
@@ -71,11 +61,8 @@ function Things.ClearRoot()
 end
 
 function Things.SetDebugObject(Object) Things.DebugObj = Object end
-
-function Things.RequestTreeChange(From)
-    Things.FireTreeChange = From
-end
-
+function Things.GetObjects() return Objects end
+function Things.RequestTreeChange(From) Things.FireTreeChange = From end
 
 function Things.Type(ThingType) 
     assert(Classes[ThingType], "Invalid type ("..ThingType..")")
@@ -184,22 +171,9 @@ function Things.New(ThingType, CustomUUID)
             return Thing.Name..": "..Thing.ClassName.." ("..Thing.UUID..")"
         end,
         __newindex = function (_, k, v)
-            --print("__newindex", _, k, v)
-
-            --Profiler.Start("Thing Property Changed")
-
             if Thing[k] ~= v then
                 Thing.PropertyChanged.Invoke(k,v)
-                --[[if CallSetPropertyOnDirect then
-                    if Thing["Set"..k] then
-                        Thing["Set"..k](v)
-                    end
-                end]]
             end
-            
-            --print("Thing "..Thing.Name..", Changed "..k.." To "..tostring(v).." Their old Value is: "..tostring(Thing[k]))
-
-        -- Profiler.End()
 
             Thing[k] = v
         end

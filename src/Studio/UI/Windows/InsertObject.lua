@@ -96,8 +96,8 @@ function InsertObject.Init()
     })
     for ClassName, Class in pairs(Runtime.Things.API) do
         if Class.Creatable then
-            --print(Class.HiperType)
-            local Hiper = InsertObject.CreateHiper(Class.HiperType)
+            --print(Class.Category)
+            local Hiper = InsertObject.CreateHiper(Class.Category)
             local ToParentWith = Hiper.ExpandableDropdown.Container
             local IconObject = Studio.Components.CreateIconObject(ClassName, Class.ExplorerIcon)
 

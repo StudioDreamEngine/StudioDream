@@ -34,7 +34,7 @@ end
 function Light:DefineAPI()
     Light.super.DefineAPI(self)
 
-    self.Proxy.SetHiperType("3D")
+    self.Proxy.SetCategory("3D")
 
     self.Proxy.Icon("Light")
     self.Proxy.Property("Transform3D Transform", "number Brightness","Enum.LightType LightType","Color Color","number Range")
