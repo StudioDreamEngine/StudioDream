@@ -77,12 +77,6 @@ function Utils.Boolean(Value)
     return Final
 end
 
-function Utils.DebugPrint(String, Pos)
-    love.graphics.setFont(DebugFont)
-    love.graphics.setColor(1,1,1)
-    love.graphics.print(String, Pos.X, Pos.Y)
-end
-
 function Utils.AssertType(Object, ExpectedType)
     local Type = Utils.TypeOf(Object)
 

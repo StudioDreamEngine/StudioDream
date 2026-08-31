@@ -7,17 +7,12 @@ function Template.Create(Info)
     PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
         Title = Info.Name,
         Type = "Input",
-        Translate = Info.Type,
-        Disabled = Info.Disabled,
+        Disabled = true,
         StyleSelect = true,
         UserChange = function(InfoGiven)
-            for _,Thing in pairs(Studio.Editor3D.Selecting) do
-                Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)
-            end
         end,
         ReturnDisplay = function()
-            local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            return IsAllSame and "WOW" or "~"
+            return "Unimplemented ("..Info.Type..")"
         end
     },{
         ValueContainer = "Outline",

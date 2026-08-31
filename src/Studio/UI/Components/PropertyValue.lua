@@ -300,11 +300,6 @@ local ValueFunction = function(PropertyList, Information, Style)
 
             -- Auto-translate value
             if Information.Translate then
-                if (not _G[Information.Translate]) then
-                    print("Cannot find type for "..Information.Translate)
-                    return
-                end
-
                 Value = _G[Information.Translate].FromString(Value)
             end
 
