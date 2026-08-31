@@ -49,7 +49,7 @@ function Audio:DefineAPI()
     self.Proxy.Property("number Volume","number Velocity")
     self.Proxy.Property("boolean DoesLoop","boolean IsSpaceRelative")
 
-    self.Proxy.Group("Audio","Resource","Duration","TimePosition","Volume","DoesLoop","PlayButton","Velocity","IsSpaceRelative")
+    self.Proxy.Group("Audio","Resource","Duration","TimePosition","Volume","DoesLoop","Velocity","IsSpaceRelative")
     self.Proxy.Icon("Audio")
 
     self.Proxy.Attribute("TimePosition", "RenderType","Timer")

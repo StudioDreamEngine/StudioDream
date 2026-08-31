@@ -44,6 +44,7 @@ function ScriptHandler.ValidateEditor(EditorPath)
         Studio.Components.SimpleDialog("EditorPath was invalid! Press ok to assign a new editor.", ScriptHandler.ConfigureEditor)
     else
         ConfiguredEditor = EditorPath.FilePath
+        return ConfiguredEditor
     end
 end 
 
@@ -113,6 +114,7 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
         local Data = ScriptObject.Resource.Data
 
         if ScriptObject.Resource.ResourceType == "Project" then
+            print("Executing...")
             Platform.Execute(ConfiguredEditor, "\""..Runtime.ProjectFS.GetFullPath(Data.FilePath).."\"")
         end
     else

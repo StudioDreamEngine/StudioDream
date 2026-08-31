@@ -5,6 +5,8 @@ Inspector.LoadedConfigs = Utils.LoadModules("Studio/UI/Windows/InspectorProperty
 
 Inspector.Container = nil ---@class Square
 
+Inspector.Cleared = Signal:New("InspectorCleared!")
+
 local ScrollContainer
 local SearchBar
 
@@ -16,7 +18,7 @@ function Inspector.CreateProperty(PropertyInfo)
         Size = Pivot2D.new(1,0,0,20),
         BackgroundTransparency = 1,
         Parent = PropertyInfo.Parent,
-        Name = PropertyInfo.Name
+        Name = PropertyInfo.Name.."_Inspector"
     })
     
     local GiveInfo = {
@@ -27,6 +29,10 @@ function Inspector.CreateProperty(PropertyInfo)
         Disabled = PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name] and (PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name].SeeOnlyInspect or false) or false,
         Attributes = PropertyInfo.Attributes
     }
+
+    Inspector.Cleared:ConnectOnce(function()
+        table.clear(GiveInfo)
+    end)
 
     if Inspector.LoadedConfigs[PropertyInfo.Type] then
         local Return = Inspector.LoadedConfigs[PropertyInfo.Type].Create(GiveInfo)
@@ -117,6 +123,7 @@ function Inspector.Clean()
 
     Inspector.UpdateList()
     table.clear(LoadedGroups)
+    Inspector.Cleared.Invoke()
 end
 
 function Inspector.UpdateList()

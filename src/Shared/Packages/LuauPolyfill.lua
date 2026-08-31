@@ -323,6 +323,7 @@ do
 	end
 
 	function math.dotround(number)
+		if not number then return 0 end
 		return math.round(number*1000)/1000
 	end
 

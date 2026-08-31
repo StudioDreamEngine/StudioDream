@@ -177,6 +177,11 @@ function Components.ExpandableDropdown(Header, List)
         ExpandableDropdown.VisibleChanged.Invoke(ExpandableDropdown.Visible) 
     end)
     
+    ExpandableDropdown.Container.OnDestroy:ConnectOnce(function()
+        table.clear(ExpandableDropdown.Button)
+        table.clear(ExpandableDropdown)
+    end)
+
     return ExpandableDropdown
 end
 

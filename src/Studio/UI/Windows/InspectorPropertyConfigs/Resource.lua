@@ -36,16 +36,21 @@ function Template.AudioExtra(Info,AddInfo)
             ForegroundTransparency = Info.Disabled and 0.5 or 0,
             Active = CanBeActive,
         })
-
+        
         Button.Clicked:Connect(function()
             if not Info.Disabled then
                 Info.OnChange(not Value)
             end
         end)
-            return function(InValue)
-                Value = Utils.Boolean(InValue)
+         return function(InValue)
+            Value = Utils.Boolean(InValue)
+            if Button.FirstTimePlaying then
                 Button:SetImageRect(Rect.new(LineUp[(type(InValue) == "string" and InValue or Value)],Vector2.new(64,64)))
+            else
+                Button:SetImageRect(Rect.new(Vector2.new(64,0),Vector2.new(64,64)))
+                Button.FirstTimePlaying = true
             end
+        end
         end,
         Disabled = Info.Disabled,
         StyleSelect = true,

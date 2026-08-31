@@ -122,6 +122,9 @@ local ValueTypes = {
         local Dropdown = Studio.Components.DropdownPlus.new(Choices, ValueObject)
         Dropdown.Toggle(false)
 
+        table.clear(Info.Choices)
+        table.clear(Choices)
+
         ValueObject.Clicked:Connect(function()
             if not Info.Disabled then
                 Dropdown.Toggle()

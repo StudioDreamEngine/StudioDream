@@ -49,7 +49,7 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
         Pivot = Vector2.new(0,0),
         BackgroundTransparency = 1,
         Layer = 3,
-        Name = Object.Name,
+        Name = Object.Name.."_Explorer",
         Parent = ScrollContainer,
         Serializable = false,
         CornerRadius = 5,
@@ -187,6 +187,7 @@ function Explorer.CreateTree(Object, Depth, BeforeNodeObj, IsLastChild)
 
     local NodeObj = Explorer.CreateNode(Object, Depth, IsLastChild)
     NodeObj.Node.ListOrder = Order
+    NodeObj.Node.Name = NodeObj.Node.Name.."_Explorer"
     NodeObj.Node:SetParent(ScrollContainer)
     --NodeObj.CreateParentLine(Depth+1)
     --printVerbose(NodeObj.NodeInner.BackgroundColor)

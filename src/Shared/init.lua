@@ -120,6 +120,8 @@ function Shared.RenderStats()
     love.graphics.setFont(DebugFont)
     local DebugString = ""
 
+    printVerbose(ThingStats.Orphans)
+
     for Index, Stat in pairs(DebugStats) do
         if Stat.Help and (not Tooltips[Index]) then
             Tooltips[Index] = {

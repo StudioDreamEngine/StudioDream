@@ -66,6 +66,22 @@ function StudioConfig.Init()
                 Choices = Studio.Theme.GetNames()
             },
             {
+                Title = "Code Editor",
+                Type = "Button",
+                UserRequest = function(Change)
+                    Platform.OpenWithCallback("Configure an Code Editor", Enum.OpenDialog.File,function(NewPath)
+                        local Editor = Studio.ScriptHandler.ValidateEditor(NewPath)
+                        Change(Editor)
+                    end)
+                end,
+                UserChange = function(InfoGiven)
+                    Runtime.SettingsManager.Set("CodeEditor", InfoGiven)
+                end,
+                ReturnDisplay = function()
+                    return Path.new(Runtime.SettingsManager.Get("CodeEditor")).FileName or "No code editor set."
+                end,
+            },
+            {
                 Title = "Mute VFX",
                 Type = "Checkbox",
                 UserChange = function(InfoGiven)

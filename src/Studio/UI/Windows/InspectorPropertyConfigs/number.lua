@@ -16,7 +16,7 @@ function Template.Create(Info)
         end,
         ReturnDisplay = function()
             local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "~"
+            return IsAllSame and (tostring(math.dotround(Studio.Editor3D.Selecting[1][Info.Name])) or "nil") or "~"
         end
     },{
         ValueContainer = "Outline",
