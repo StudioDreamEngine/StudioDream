@@ -169,12 +169,12 @@ function Audio:Update(dt)
     end
 end
 
-function Audio:Destroy()
-    Audio.super.Destroy()
+function Audio:OnRemove()
+    Audio.super.OnRemove(self)
 
     if self.SoundObject then
         self:Stop()
-        self.SoundObject:release()
+        self.SoundObject = nil
     end
 end
 
