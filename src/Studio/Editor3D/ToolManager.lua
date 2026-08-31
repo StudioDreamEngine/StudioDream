@@ -24,7 +24,7 @@ end
 
 -- Setup selection transform for multipile selections
 function ToolManager.SetupSelection()
-    Selecting = {}
+    table.clear(Selecting)
 
     for _, Select in pairs(Studio.Editor3D.Selecting) do
         if Select:IsA("Transformable3D") then
@@ -83,6 +83,8 @@ function ToolManager.ChangeTool(Tool)
 end
 
 function ToolManager.Deselect()
+    table.clear(Selecting)
+    
     if CurrentTool then 
         CurrentTool.Destroy()
         CurrentTool = nil

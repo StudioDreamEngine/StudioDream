@@ -19,7 +19,7 @@ end
 
 function Move.Init(Snap)
     MoveControl = Things.Create("MoveControl") {
-        Parent = Things.Root.RootViewport,
+        Parent = Things.RenderRoot,
         GridSnap = Studio.Editor3D.GridSnap
     }
 
@@ -53,7 +53,7 @@ function Move.Update()
 end
 
 function Move.Destroy()
-    Things.Remove(MoveControl)
+    MoveControl:Destroy()
 end
 
 return Move

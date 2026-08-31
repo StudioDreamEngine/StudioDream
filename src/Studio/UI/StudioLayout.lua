@@ -16,7 +16,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         BackgroundColor = "Outline",
         Name = "WindowContainer",
         Layer = Transform.Layer or 1,
-        Parent = Transform.TopLevel and Things.Root.RootViewport or StudioLayout.Windows,
+        Parent = Transform.TopLevel and Things.RenderRoot or StudioLayout.Windows,
         CornerRadius = Transform.CornerRadius or 5,
        -- OutlineSize = 2,
         OutlineColor = "Outline"
@@ -94,7 +94,7 @@ end
 
 function StudioLayout.GetMouseContext(Context)
     -- TODO: Choose pivot point of object based on where it is on the screen, pivot point is simply added to the final position, it doesnt change the object pivot (maybe)
-    return Pivot2D.FromOffset(Things.Root.RootViewport.MousePosition)
+    return Pivot2D.FromOffset(Things.RenderRoot.MousePosition)
 end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
@@ -157,7 +157,7 @@ end
 
 function StudioLayout.CreateTopbar()
     StudioLayout.TopBar = Studio.Components.CreateStyle("Square",{
-        Parent = Things.Root.RootViewport,
+        Parent = Things.RenderRoot,
         Name = "TopBar",
         Size = Pivot2D.FromScale(1,0.15),
         BackgroundColor = "Outline"
@@ -190,7 +190,7 @@ function StudioLayout.CreateLayout()
 
     StudioLayout.Windows = Studio.Components.CreateStyle("Square",{
         Name = "WindowContainer",
-        Parent = Things.Root.RootViewport,
+        Parent = Things.RenderRoot,
         Pivot = Vector2.new(0,1),
         Position = Pivot2D.FromScale(0,1),
         Size = Pivot2D.FromScale(1,0.85),

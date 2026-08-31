@@ -152,7 +152,7 @@ return function(Choices)
         end
     end
 
-    CurrentDropdown:SetParent(Things.Root.RootViewport)
+    CurrentDropdown:SetParent(Things.RenderRoot)
 
     function Dropdown.MoveToMouse()
         Position = Studio.Layout.GetMouseContext(CurrentDropdown.AbsoluteSize)

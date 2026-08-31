@@ -2,7 +2,7 @@ local Things = Runtime.Things
 
 return function ()
     local Environment = Things.Root:GetEnvironment()
-    local Viewport = Things.Root.RootViewport
+    local Viewport = Things.RenderRoot
 
     -- 3d test
     ---@class Mesh

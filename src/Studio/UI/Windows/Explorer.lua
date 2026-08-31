@@ -425,13 +425,12 @@ function Explorer.Init()
     InputService.KeyEvent:Connect(function(Began, Key)
         if (Key == "delete" and Editor3D.Selecting) then
             local toDelete = Editor3D.Selecting
-            Editor3D.SelectionManager.DeselectAll()
-            
+
             for _, thing in pairs(toDelete) do
                 thing:Destroy()
             end
 
-            toDelete = {}
+            Editor3D.SelectionManager.DeselectAll()
         end
     end)
 

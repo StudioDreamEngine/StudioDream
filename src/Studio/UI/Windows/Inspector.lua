@@ -18,6 +18,7 @@ function Inspector.CreateProperty(PropertyInfo)
         Parent = PropertyInfo.Parent,
         Name = PropertyInfo.Name
     })
+    
     local GiveInfo = {
         Parent = BaseSquare,
         UltraParent = PropertyInfo.Parent,
@@ -26,6 +27,7 @@ function Inspector.CreateProperty(PropertyInfo)
         Disabled = PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name] and (PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name].SeeOnlyInspect or false) or false,
         Attributes = PropertyInfo.Attributes
     }
+
     if Inspector.LoadedConfigs[PropertyInfo.Type] then
         local Return = Inspector.LoadedConfigs[PropertyInfo.Type].Create(GiveInfo)
         Return.PropertyVal.UI.Container.Name = PropertyInfo.Name
@@ -66,7 +68,7 @@ function Inspector.CreateGroup(GroupName)
 end
 
 function Inspector.RenderEverything()
-    ScrollContainer:ClearAllChildren({"ListLayout"})
+    Inspector.Clean()
 
     ScrollContainer.ScrollPosition = -200
     ScrollContainer:SetScroll(0)
@@ -109,9 +111,12 @@ end
 
 function Inspector.Clean()
     ScrollContainer:ClearAllChildren({"ListLayout"})
+
     SearchBar:SetText("")
     SearchText = ""
+
     Inspector.UpdateList()
+    table.clear(LoadedGroups)
 end
 
 function Inspector.UpdateList()

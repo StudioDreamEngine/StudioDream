@@ -12,7 +12,9 @@ local MouseService = Runtime.Services.Service("MouseService") ---@class MouseSer
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
-StudioCamera.Thing = nil
+function StudioCamera.GetTransform()
+    return CameraTransform
+end
 
 -- ass function :fire:
 function StudioCamera.SetTransform(Eye, Focus)
@@ -45,10 +47,6 @@ function StudioCamera.Update(dt)
 
     local sucess, error = pcall(function()
         local Camera = Runtime.Things.Root:GetCamera()   
-
-        if StudioCamera.Thing~=Camera then
-            StudioCamera.Thing = Camera
-        end
 
         local KeyDownNum = InputService.KeyDownNumber
 

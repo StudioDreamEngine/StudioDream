@@ -65,7 +65,7 @@ end
         CurrentDropdown:SetVisible(false)
     end
 
-    CurrentDropdown:SetParent(Things.Root.RootViewport) -- This makes them appear already loaded dont remove!
+    CurrentDropdown:SetParent(Things.RenderRoot) -- This makes them appear already loaded dont remove!
 
     return Dropdown
 end]]

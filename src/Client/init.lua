@@ -6,7 +6,7 @@ Client = {}
 
 function Client.Init()
     local EnvironmentViewport = Things.Create("Viewport3D") {
-        Parent = Things.Root.RootViewport,
+        Parent = Things.RenderRoot,
         RenderContainer = Things.Root:GetEnvironment(),
         Size = Pivot2D.FromScale(1,1),
     }
@@ -16,7 +16,7 @@ function Client.Init()
         Name = "HudViewport",
         Size = Pivot2D.FromScale(1,1),
         Layer = 2,
-        Parent = Things.Root.RootViewport
+        Parent = Things.RenderRoot
     }
 
     Things.Root.EnvironmentViewport = EnvironmentViewport
@@ -42,7 +42,7 @@ function Client.Init()
 
     if (not FLAGS.Independent) then
         Runtime.Things.Create("TextButton") {
-            Parent = Runtime.Things.Root.RootViewport,
+            Parent = Runtime.Things.RenderRoot,
             Size = Pivot2D.FromScale(0.1,0.1),
             Layer = 1000,
             Text = "Go back to studio",

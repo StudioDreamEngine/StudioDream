@@ -25,7 +25,7 @@ end
 
 function Scale.Init(Snap)
     ScaleControl = Things.Create("ScaleControl") {
-        Parent = Things.Root.RootViewport,
+        Parent = Things.RenderRoot,
         GridSnap = Studio.Editor3D.GridSnap
     }
 
@@ -60,7 +60,7 @@ function Scale.Update()
 end
 
 function Scale.Destroy()
-    Things.Remove(ScaleControl)
+    ScaleControl:Destroy()
 end
 
 return Scale

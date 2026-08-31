@@ -80,6 +80,12 @@ function Environment:HandlePhysicsHierachy(Child)
     end
 end
 
+function Environment:Clear()
+    self.DreamWorld.objects = {}
+    table.clear(self.Objects) -- This table is an optimization, as we need to be able to accerss
+    table.clear(self.Lights)
+end
+
 -- Manages how the world is displayed to external packages such as 3DreamEngine and Bullet
 function Environment:ManageWorldHierachy()
     self.DreamWorld.objects = {}
@@ -108,6 +114,12 @@ function Environment:PostStep(Descendants)
         Child.Transform = Runtime.Phys.FromBullet(Child:GetPhysicsTransform())
         Child.Velocity = Vector3.FromBullet(Child.PhysicsBody:getLinearVelocity())
     end
+end
+
+function Environment:OnRemove()
+    Environment.super.OnRemove(self)
+    self:Clear()
+    self.Camera = nil -- why????? what makes this in specific unreference the camera
 end
 
 function Environment:Update(dt)

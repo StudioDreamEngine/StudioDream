@@ -16,8 +16,15 @@ Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 Project.LoadingProject = false
 Project.LoadedProject = Signal:New("ProjectLoaded")
 
+function Project.Test()
+    table.clear(RootScenes.Registered)
+    Runtime.Things.Root:Clear()
+end
+
 -- Make sure a project path is a valid project
 function Project.ValidateAndMount(ProjectPath)
+    ProjectFS.UnmountProject() -- i dont like this
+
     if FLAGS.Independent then -- dumb way to do this perhaps, idk
         printVerbose("Independent flag set, Forcing load of project.sdp regardless of ProjectPath")
         local CouldMount = ProjectFS.MountProject("project.sdp", true)
@@ -124,11 +131,15 @@ end
 
 function Project.Reload()
     return pcall(function()
+        Project.LoadingProject = true
+
         Resources.Load()
         Project.Config.Load()
 
         RootScenes.Load(Runtime.Things)
         Runtime.LoadProjectCallback()
+
+        Project.LoadingProject = false
     end)
 end
 
@@ -136,13 +147,9 @@ function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
 
-    Project.LoadingProject = true
     local LoadProject = Profiler.Benchmark("Load Project")
-    
     local Success, Message = Project.Reload()
-    
     LoadProject.End()
-    Project.LoadingProject = false
 
     if (not Success) then
         print(Message)

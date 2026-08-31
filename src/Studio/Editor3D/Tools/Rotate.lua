@@ -21,7 +21,7 @@ end
 
 function Rotate.Init()
     RotateControl = Things.Create("RotateControl") {
-        Parent = Things.Root.RootViewport,
+        Parent = Things.RenderRoot,
     }
 
     RotateControl.Adornee = Rotate.Selection
@@ -46,7 +46,7 @@ function Rotate.Update()
 end
 
 function Rotate.Destroy()
-    Things.Remove(RotateControl)
+    RotateControl:Destroy()
 end
 
 return Rotate

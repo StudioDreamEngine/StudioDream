@@ -1,12 +1,30 @@
 local Things = Runtime.Things
 local CreateRoot = {}
 
-local HUD, Materials, Lighting
-
 function CreateRoot.CreateEnviornment(Root)
     ---@class Environment
     local Environment = Things.Create("Environment") {
         Name = "Environment",
+        Parent = Root
+    }
+
+    local HUD = Things.Create("HUD") {
+        Name = "HUD",
+        Parent = Root
+    }
+
+    local Materials = Things.Create("Materials") {
+        Name = "Materials",
+        Parent = Root
+    }
+
+    local Lighting = Things.Create("Lighting") {
+        Name = "Lighting",
+        Parent = Root
+    }
+
+    local Assets = Things.Create("Assets") {
+        Name = "Assets",
         Parent = Root
     }
 
@@ -23,37 +41,18 @@ function CreateRoot.CreateRoot()
         Name = "Root"
     }
 
-    HUD = Things.Create("HUD") {
-        Name = "HUD",
-        Parent = Root
-    }
-
-    Materials = Things.Create("Materials") {
-        Name = "Materials",
-        Parent = Root
-    }
-
-    Lighting = Things.Create("Lighting") {
-        Name = "Lighting",
-        Parent = Root
-    }
-
-    Assets = Things.Create("Assets") {
-        Name = "Assets",
-        Parent = Root
+    local RenderRoot = Things.Create("Root", "RenderRoot") { -- dumbass hack
+        Name = "RenderRoot"
     }
 
     ---@module 'Viewport2D'
     local Viewport = Things.Create("Viewport2D") {
         Name = "ViewportInternal",
-        Serializable = false,
-        Parent = Root
+        Parent = RenderRoot
     }
 
-    Root.RootViewport = Viewport
     Runtime.Renderer.ViewportManager.SetRootViewport(Viewport) -- Indexing kills me but whatever
-
-    return Root
+    return Root, Viewport
 end
 
 return CreateRoot

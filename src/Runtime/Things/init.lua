@@ -23,7 +23,7 @@ function Things.Init()
     Things.ObjectProxy = require("Runtime.Things.ObjectProxy")
 
     printVerbose("Creating root tree")
-    Things.Root = CreateRoot.CreateRoot()
+    Things.Root, Things.RenderRoot = CreateRoot.CreateRoot()
     Things.FireTreeChange = false
 
     printVerbose("Tree Created")
@@ -49,6 +49,7 @@ function Things.CreateApiDump()
 end
 
 function Things.CreateEnviornment()
+    Things.Root:Clear()
     CreateRoot.CreateEnviornment(Things.Root)
 end
 
@@ -131,9 +132,9 @@ function Things.CollectOrphans()
 
     for _, Object in pairs(Objects) do
         if (Object.Unreferenced) then
-            table.insert(Orphans, Object.OrphanedPath)
+            table.insert(Orphans, Object.OrphanedPath.." ("..Object.ClassName..")")
         elseif (not Object.Parent) then
-            table.insert(ScriptOrphans, Object.OrphanedPath)
+            table.insert(ScriptOrphans, Object.OrphanedPath.." ("..Object.ClassName..")")
         end
     end
 

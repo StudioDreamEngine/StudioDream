@@ -5,29 +5,9 @@ local Locks = {
 return {
     Hud = {
         Order = 2,
-        {
-            Component = "ToolbarButton",
-            Arguments = {
-                Name = "WIP!",
-                Icon = "InsertIcon",
-                OnClick = function()
-                    
-                end
-            }
-        },
     },
     Plugins = {
         Order = 3,
-        {
-            Component = "ToolbarButton",
-            Arguments = {
-                Name = "WIP!",
-                Icon = "RotIcon",
-                OnClick = function()
-                    
-                end
-            }
-        },
     },
     General = {
         Order = 1,
@@ -45,6 +25,22 @@ return {
         },
         {
             Component = "Seperator",
+        },
+        {
+            Component = "ToolbarButton",
+            Arguments = {
+                Name = "Test Project (Studio)",
+                Icon = "InsertIcon",
+                OnClick = Studio.ProjectManager.RunStudioProject
+            }
+        },
+        {
+            Component = "ToolbarButton",
+            Arguments = {
+                Name = "Stop Project",
+                Icon = "InsertIcon",
+                OnClick = Studio.ProjectManager.StopStudioProject
+            }
         },
     },
 }

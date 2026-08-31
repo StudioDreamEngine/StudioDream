@@ -80,8 +80,6 @@ end
 
 ---@param NewFolder Thing
 function Viewport:SetRenderContainer(NewFolder)
-    if (not NewFolder) then print("newfolder is nil") return end
-
     if NewFolder and NewFolder:IsA("ViewportContainer") then
         if (not NewFolder.Adornee) then
             NewFolder.Adornee = self

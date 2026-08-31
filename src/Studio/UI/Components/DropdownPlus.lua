@@ -147,7 +147,7 @@ function DropdownPlus.new(Choices,FakeParent)
         Components.UnregisterUpdator(Updator)
     end
 
-    DropdownObject.Container:SetParent(Things.Root.RootViewport)
+    DropdownObject.Container:SetParent(Things.RenderRoot)
 
     return DropdownObject
 end

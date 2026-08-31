@@ -93,6 +93,12 @@ function Control3D:OnRemove()
 
     table.clear(self.Adorns)
 
+    self.ControlChanged:DisconnectAll()
+    self.StartControl:DisconnectAll()
+    self.EndControl:DisconnectAll()
+
+    self.Adornee = nil
+
     Control3D.super.OnRemove(self)
 end
 
@@ -112,7 +118,8 @@ function Control3D:Update(dt)
 
     ---@class Camera
     local Camera = Things.Root:GetCamera()
-    if not (Camera or Camera.Position) then return end
+    if (not Camera) then return end
+    if (not Camera.Position) then return end -- should never happen!?!?!?
 
     local Transform = self.Adornee.Transform
 

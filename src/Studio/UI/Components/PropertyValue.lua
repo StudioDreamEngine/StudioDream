@@ -263,10 +263,16 @@ local ValueFunction = function(PropertyList, Information, Style)
 
     -- Called every time the PropertyValue should be updated
     Information.OnUpdate = function()
-        local UpdateResult = tostring(Information.ReturnDisplay())
-        printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
-        
-        Information.PropUpdator(UpdateResult)
+        local Success, Message = pcall(function()
+            local UpdateResult = tostring(Information.ReturnDisplay())
+            printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
+            
+            Information.PropUpdator(UpdateResult)
+        end)
+
+        if (not Success) then
+            printVerbose("Error ocurred during ReturnDisplay: "..Message) -- im not dealing with this shit right now
+        end
     end
 
     if Information.TrackObjects then

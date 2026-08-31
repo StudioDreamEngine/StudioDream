@@ -66,7 +66,7 @@ function Splash.Create()
     printVerbose("Create splash")
 
     SplashContainer = Things.Create("Square") {
-        Parent = Things.Root.RootViewport,
+        Parent = Things.RenderRoot,
         Layer = 999,
         Name = "RuntimeSplash",
         Size = Pivot2D.FromScale(1,1),

@@ -52,11 +52,12 @@ function ScriptUtil.StartScripts()
 
     ---@param Queued BaseScript
     for _, Queued in pairs(LoadQueued) do Queued:Load() end
-    LoadQueued = {}
+    table.clear(LoadQueued)
 end
 
 function ScriptUtil.Reset()
     StartedScripts = false
+    table.clear(LoadQueued)
 end
 
 function ScriptUtil.CreateGlobals(Script)

@@ -25,7 +25,15 @@ function ProjectManager.SaveProjectTo(Callback)
 end
 
 function ProjectManager.RunStudioProject()
+    Runtime.Project.Save()
     RuntimeService.StartActivity()
+end
+
+function ProjectManager.StopStudioProject()
+    Studio.Editor3D.SelectionManager.DeselectAll()
+    Studio.History.Clear()
+
+    RuntimeService.Stop()
 end
 
 function ProjectManager.SaveProject()

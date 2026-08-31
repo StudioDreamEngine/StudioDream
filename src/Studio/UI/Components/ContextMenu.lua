@@ -153,7 +153,7 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
         BackgroundTransparency = 0,
         BackgroundColor = "Outline",
         CornerRadius = 5,
-        Parent = Things.Root.RootViewport,
+        Parent = Things.RenderRoot,
     })
 
     --[[DropdownObject.ListSquare = Components.CreateStyle("Square", {
@@ -189,7 +189,7 @@ function ContextMenu.new(IsFirst,Choices,ParentThingy)
         LastParent = nil
     end
 
-    DropdownObject.MajorParent:SetParent(Things.Root.RootViewport)
+    DropdownObject.MajorParent:SetParent(Things.RenderRoot)
 
     if IsFirst then
         DropdownObject.MajorParent:SetPosition(Studio.Layout.GetMouseContext(DropdownObject.MajorParent))

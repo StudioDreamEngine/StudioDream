@@ -13,7 +13,25 @@ function Root:new()
     
     self.EnvironmentViewport = nil ---@class Viewport3D
     self.HudViewport = nil ---@class Viewport2D
-    self.RootViewport = nil ---@class Viewport2D
+end
+
+-- Clear and cleanup all objects
+function Root:Clear()
+    self:ClearAllChildren()
+
+    if self.EnvironmentViewport then
+        self.EnvironmentViewport:SetRenderContainer(nil)
+    end
+
+    if self.HudViewport then
+        self.HudViewport:SetRenderContainer(nil)
+    end
+
+    Runtime.Things.TreeChanged.Invoke()
+    Runtime.ScriptUtil.Reset()
+    Scheduler.Yield(); Scheduler.Yield() -- wait 2 frames
+
+    collectgarbage("collect")
 end
 
 function Root:DefineAPI()

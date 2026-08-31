@@ -2,7 +2,7 @@
 local EditorUI = {}
 
 function EditorUI.GetViewportInternal()
-    return Runtime.Things.Root.RootViewport
+    return Runtime.Things.RenderRoot
 end
 
 function EditorUI.RedrawEverything()

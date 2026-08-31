@@ -63,13 +63,12 @@ function Module:New(EventName, Debug) --I had no idea you could define module fu
 		SingleEventObject.AlreadyDisconnected = false
 
 		function SingleEventObject:Disconnect() 
-			assert(SingleEventObject.EventId, "Attempted to disconnect already-disconnected Signal.")
 			if SingleEventObject.AlreadyDisconnected then return end
-			
-			SingleEventObject.AlreadyDisconnected = true
 
 			Events[SingleEventObject.EventId] = nil
-			SingleEventObject = {}
+			SingleEventObject = {
+				AlreadyDisconnected = true
+			}
 		end
 
 		return SingleEventObject

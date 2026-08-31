@@ -14,6 +14,7 @@ function FlexItem:new()
 
     self.Connection = nil
     self.Connection2 = nil
+    self.Connection3 = nil
 end
 
 function FlexItem:GetListLayout()
@@ -55,6 +56,7 @@ end
 function FlexItem:UnbindFlexParent()
     if self.Connection then self.Connection:Disconnect() end
     if self.Connection2 then self.Connection2:Disconnect() end
+    if self.Connection3 then self.Connection3:Disconnect() end
 end
 
 function FlexItem:OnRemove()
@@ -68,7 +70,7 @@ function FlexItem:BindObject(Object)
     local Binded = FlexItem.super.BindObject(self, Object)
     if (not Binded) then return end
 
-    Object.ParentChanged:Connect(function()
+    self.Connection3 = Object.ParentChanged:Connect(function()
         self:UnbindFlexParent()
         self:BindFlexParent()
     end)

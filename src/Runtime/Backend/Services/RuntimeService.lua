@@ -16,9 +16,9 @@ function RuntimeService.StartActivity()
 end
 
 function RuntimeService.Stop()
-    Running = false
-    Runtime.ScriptUtil.Reset()
+    if Runtime.Project.LoadingProject then return end
 
+    Running = false
     Runtime.Project.Reload()
 end
 
