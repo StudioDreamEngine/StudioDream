@@ -180,7 +180,7 @@ function Things.New(ThingType, CustomUUID)
         end
     })
 
-    assert(not Objects[Proxy.UUID], "UUID Collision! Make sure the CustomUUID isnt colliding with another object in the scene. Otherwise, this isnt good!!")
+    assert(not Objects[Proxy.UUID], "UUID Collision ("..Proxy.UUID..")! Make sure the CustomUUID isnt colliding with another object in the scene. Otherwise, this isnt good!!")
 
     Objects[Proxy.UUID] = Proxy
 

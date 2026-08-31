@@ -27,6 +27,14 @@ function BaseScript:DefineAPI()
     self.Proxy.Group("Script", "Resource")
 end
 
+function BaseScript:OnRemove()
+    BaseScript.super.OnRemove(self)
+
+    if self.ScriptTask then
+        Scheduler.CancelTask(self.ScriptTask)
+    end
+end
+
 function BaseScript:Load()
     if (not self.ModuleFunction) then return end
 
