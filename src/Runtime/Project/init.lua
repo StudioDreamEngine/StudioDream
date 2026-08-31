@@ -122,6 +122,16 @@ function Project.EditName(NewName)
     end]]
 end
 
+function Project.Reload()
+    return pcall(function()
+        Resources.Load()
+        Project.Config.Load()
+
+        RootScenes.Load(Runtime.Things)
+        Runtime.LoadProjectCallback()
+    end)
+end
+
 function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
@@ -129,14 +139,8 @@ function Project.Load(ProjectPath)
     Project.LoadingProject = true
     local LoadProject = Profiler.Benchmark("Load Project")
     
-    local Success, Message = pcall(function()
-        Resources.Load()
-        Project.Config.Load()
-
-        RootScenes.Load(Runtime.Things)
-        Runtime.LoadProjectCallback()
-    end)
-
+    local Success, Message = Project.Reload()
+    
     LoadProject.End()
     Project.LoadingProject = false
 

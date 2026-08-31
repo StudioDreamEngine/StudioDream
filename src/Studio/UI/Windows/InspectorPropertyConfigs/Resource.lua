@@ -87,7 +87,7 @@ function Template.Create(Info)
                 local Identifier, _ = Runtime.Resources.LoadIdentifierIDFromPath(NewPath)
                 if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
 
-                Change(Identifier.ID)
+                Change(Identifier)
             end)
         end,
         UserChange = function(InfoGiven)

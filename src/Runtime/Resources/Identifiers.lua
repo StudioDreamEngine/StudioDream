@@ -17,12 +17,16 @@ function Identifiers.LoadIdentifierIDFromPath(FilePath)
 	end
 
 	if not string.find(FilePath, Mount) then
+		printVerbose("Loading from external")
+	
 		local FileName = string.split(FilePath, "/")
 		FileName = FileName[#FileName]
 
 		local Data = Runtime.BaseFS.ReadFile(FilePath)
 		return Identifiers.LoadOrCreateIdentifier(FileName, Data)
 	else
+		printVerbose("Loading from local")
+
 		local RelativePath = string.gsub(FilePath, Mount, "") -- This couldnt go wrong at all
 		print(RelativePath)
 
@@ -134,8 +138,10 @@ end
 
 ---@param Identifier string
 -- Register an IdentifierID as missing its identifier counterpart, used during project load
-function Identifiers.RegisterAsMissing(Identifier)
-	Shared.QueueAbort("ResourceID " .. Identifier .. " is missing, You can resolve missing resources in the Project tab (You actually cant right now but in the future you will).")
+function Identifiers.RegisterAsMissing(Identifier, Invalid)
+	local String = Invalid and "no longer supported" or "missing"
+
+	Shared.QueueAbort("ResourceID " .. Identifier .. " is "..String..", You can resolve missing resources in the Project tab.")
 	table.insert(Identifiers.Missing, Identifier)
 end
 
