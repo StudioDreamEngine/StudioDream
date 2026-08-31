@@ -28,7 +28,8 @@ local CreditsDisplay = {
             "Sasha + LOVE server members - Misc. Support",
             "trusti - Physics engine support (bullet3)",
             "wyteroze - Suggesting I use binary search for TextScaled fitting",
-            "Alecstey - NetworkService"
+            "Alecstey - NetworkService",
+            "Daisean - Start Jingle"
         }
     },
     { 
