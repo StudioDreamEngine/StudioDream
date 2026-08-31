@@ -449,6 +449,18 @@ function Thing:FindFirstChildOfClass(Class)
     end
 end
 
+function Thing:GetOnlyClassOfChildren(Class)
+    local ReturnChild = {}
+
+    for _,Child in pairs(self:GetChildren()) do
+        if Child.ClassName == Class then
+            table.insert(ReturnChild,Child)
+        end
+    end
+
+    return ReturnChild
+end
+
 function Thing:FindFirstChild(Name)
     for ChildUUID,_ in pairs(self.Children) do
         local Child = Things.Get(ChildUUID)

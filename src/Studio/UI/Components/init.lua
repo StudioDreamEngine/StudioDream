@@ -200,6 +200,9 @@ local Styles = {
         BackgroundColor = "Text",
         Font = "FontNormal"
     },
+    Scroll = {
+        BarColor = "Outline"
+    }
 }
 
 local TypeAssociations = {
@@ -208,7 +211,8 @@ local TypeAssociations = {
     TextInput = "Text",
     Square = "Container",
     Image2D = "Container",
-    ImageButton = "Container"
+    ImageButton = "Container",
+    ScrollContainer = "Scroll"
 }
 
 function Components.CreateDropshadow(Parent)
@@ -275,7 +279,6 @@ function Components.CreateStyle(Type, Properties, Style)
         for Name, Value in pairs(Properties) do
             local ApiDump = Runtime.Things.API[Type]
             local IntendedType = ApiDump.Types[Name]
-
             if (IntendedType == "Color" or Name == "Font") and table.find(Studio.Theme.GetPalette(), Value) then
                 table.insert(MatchedUpOnTheme,{ColorName = Value,PropertyName = Name})
 

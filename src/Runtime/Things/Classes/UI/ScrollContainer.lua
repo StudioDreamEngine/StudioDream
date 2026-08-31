@@ -17,6 +17,12 @@ function ScrollContainer:new()
 
     self.ForegroundColor = Color.new(1)
 
+    self.CornerRadius = 5
+    self.LimitCornerRadius = 0
+
+    self.BarColor = Color.new(1)
+    self.BarTransparency = 0
+    
     self.WheelMoved = LoveEvents.WheelMoved:Connect(function(_, y)
         if (not self.Hovering) then return end
 
@@ -29,8 +35,9 @@ end
 function ScrollContainer:DefineAPI()
     ScrollContainer.super.DefineAPI(self)
 
-    self.Proxy.Property("Pivot2D CanvasSize","number ScrollPosition")
+    self.Proxy.Property("Pivot2D CanvasSize","number ScrollPosition","Color BarColor","number BarTransparency")
     self.Proxy.Group("Scroll","CanvasSize","ScrollPosition")
+    self.Proxy.Group("Bar","BarColor","BarTransparency")
     self.Proxy.MakeCreatable()
 end
 
@@ -73,9 +80,21 @@ function ScrollContainer:Draw()
     local BarSize = self.AbsoluteSize.Y / CanvasScale2
     local BarPivot = BarSize * (BarPos / self.AbsoluteSize.Y)
     
-    Runtime.Backend2D.SetColor(self.ForegroundColor,1 - self.ForegroundTransparency)
-    
-    love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - BarPivot, 5, BarSize)
+    -- Just calc the radius
+
+    local ActualbarSize = Vector2.new(5,BarSize)
+
+    if self.LimitCornerRadius then
+        local Size = (ActualbarSize.X < ActualbarSize.Y) and ActualbarSize.X/2 or ActualbarSize.Y/2
+        self.TrueRadiusOfCorners = (self.CornerRadius > Size) and Size or self.CornerRadius
+    else 
+        self.TrueRadiusOfCorners = self.CornerRadius
+    end
+
+    --
+    Runtime.Backend2D.SetColor(self.BarColor,1 - self.BarTransparency)
+    love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - BarPivot, 5, BarSize,self.TrueRadiusOfCorners,self.TrueRadiusOfCorners)
+
 end
 
 function ScrollContainer:SetAbsoluteSize(New)

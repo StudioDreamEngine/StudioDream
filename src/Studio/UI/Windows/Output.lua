@@ -23,7 +23,8 @@ function Output.Init()
         CanvasSize = Pivot2D.FromScale(1,4),
         Size = Pivot2D.FromScale(1,1),
         Name = "OutputContainer",
-        Parent = Output.Container
+        Parent = Output.Container,
+        BarColor = "Primary",
     })
 
     local Context = Studio.Components.CreateStyle("Contextulizer",{

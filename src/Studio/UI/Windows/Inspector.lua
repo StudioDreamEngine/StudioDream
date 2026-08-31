@@ -173,7 +173,7 @@ function Inspector.Init()
         Pivot = Vector2.new(0.5,0),
         Position = Pivot2D.FromScale(0.5,0.06),
         Parent = Inspector.Container,
-        Serializable = false
+        Serializable = false,
     })
 
     Studio.Components.CreateStyle("ListLayout",{
