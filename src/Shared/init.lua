@@ -132,6 +132,18 @@ function Shared.RenderStats()
     end
 
     --Profiler.Render()
+    local Flexed = 0
+    local Total = 0
+    --print(Runtime.Things.CollectOrphans())
+    for i in string.gmatch(ThingStats.Orphans,"%S+") do
+        if string.find(i,"Flex") then
+            Flexed=Flexed+1
+        end
+        if not string.find(i,"%(") then
+            Total=Total+1
+        end
+    end
+    printVerbose("The Flex entities exploring aroud :"..Flexed.." Normal Orphans exploring around: "..Total.." The math shit:"..(Total-Flexed))
 
     love.graphics.setColor(0,0,0,0.5)
     love.graphics.rectangle("fill", 0, 0, 250,300)

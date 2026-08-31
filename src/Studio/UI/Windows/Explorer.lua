@@ -303,7 +303,7 @@ function Explorer.Init()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Parent = Explorer.Container,
-        Serializable = false
+        Serializable = false,
     })
 
     Studio.Components.CreateStyle("ListLayout",{

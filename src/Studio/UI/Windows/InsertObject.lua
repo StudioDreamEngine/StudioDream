@@ -39,7 +39,7 @@ function InsertObject.Init()
         Pivot = Vector2.new(0,1),
         CanvasSize = Pivot2D.FromScale(1,6),
         Parent = InsertObject.Container,
-        Layer = 100
+        Layer = 100,
     })
 
     --[[InsertObject.CloseButton = Runtime.Things.Create("ImageButton") {

@@ -220,7 +220,6 @@ function Start.Init()
     local Scroll = Studio.Components.CreateStyle("ScrollContainer",{
         Size = Pivot2D.FromScale(1,1),
         Parent = RecentProjects,
-        BackgroundColor = Studio.CurrentTheme.Outline,
     })
 
     Studio.Components.CreateStyle("ListLayout",{

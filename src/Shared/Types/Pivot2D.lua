@@ -1,8 +1,6 @@
 local Pivot2D = {}
 
 function Pivot2D.new(ScaleX, OffsetX, ScaleY, OffsetY)
-    printVerbose("Cooll!!!")
-    printVerbose(ScaleX, OffsetX, ScaleY, OffsetY)
     local Offset = Vector2.new(OffsetX, OffsetY)
     local Scale = Vector2.new(ScaleX, ScaleY) -- TODO: Rename to Pivot instead of scale
     
