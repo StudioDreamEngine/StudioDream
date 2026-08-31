@@ -55,6 +55,10 @@ function ScriptUtil.StartScripts()
     LoadQueued = {}
 end
 
+function ScriptUtil.Reset()
+    StartedScripts = false
+end
+
 function ScriptUtil.CreateGlobals(Script)
     return {
         Script = ScriptUtil.BridgeProxy(Script),

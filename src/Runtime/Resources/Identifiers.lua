@@ -17,12 +17,16 @@ function Identifiers.LoadIdentifierIDFromPath(FilePath)
 	end
 
 	if not string.find(FilePath, Mount) then
+		printVerbose("Loading from external")
+	
 		local FileName = string.split(FilePath, "/")
 		FileName = FileName[#FileName]
 
 		local Data = Runtime.BaseFS.ReadFile(FilePath)
 		return Identifiers.LoadOrCreateIdentifier(FileName, Data)
 	else
+		printVerbose("Loading from local")
+
 		local RelativePath = string.gsub(FilePath, Mount, "") -- This couldnt go wrong at all
 		print(RelativePath)
 

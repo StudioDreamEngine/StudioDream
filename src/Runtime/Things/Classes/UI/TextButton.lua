@@ -34,7 +34,7 @@ function TextButton:new()
         if (not self:IsActive()) then print("Inactive") return end --OPTIMIZATION: this isnt good!!!
 
         self.Clicked.Invoke()
-    end, nil)
+    end)
 
     Runtime.InterfaceManager.OnRelease:Connect(function()
         if not self.Hovering then return end

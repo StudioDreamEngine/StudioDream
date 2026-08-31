@@ -7,12 +7,19 @@ function RuntimeService.IsRunning() return Running end
 -- Starts any scripts within the project, and also sends an event that can be used by other stuff in the runtime
 -- This is called manually by the client
 function RuntimeService.StartActivity()
-    printVerbose("RuntimeService.StartActivity was called, note this is CANNOT be reversed unless the entire engine is restarted.")
+    printVerbose("RuntimeService.StartActivity was called, note this is CANNOT be reversed without re-loading the project.")
 
     Running = true
     Runtime.ScriptUtil.StartScripts()
 
     RuntimeService.OnRunning:Invoke()
+end
+
+function RuntimeService.Stop()
+    Running = false
+    Runtime.ScriptUtil.Reset()
+
+    Runtime.Project.Reload()
 end
 
 -- Returns the current time since the game has started, calculated based of DeltaTime
@@ -37,7 +44,9 @@ function RuntimeService.Init()
 end
 
 function RuntimeService.Update(dt)
-    RuntimeService.OnStep:Invoke(dt)
+    if Running then
+        RuntimeService.OnStep:Invoke(dt)
+    end
 end
 
 return RuntimeService

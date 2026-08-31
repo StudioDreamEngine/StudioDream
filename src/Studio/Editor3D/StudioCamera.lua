@@ -10,6 +10,7 @@ local MouseDelta = Vector2.zero
 
 local MouseService = Runtime.Services.Service("MouseService") ---@class MouseService
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
+local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
 StudioCamera.Thing = nil
 
@@ -40,6 +41,8 @@ function StudioCamera.Init()
 end
 
 function StudioCamera.Update(dt)
+    if RuntimeService.IsRunning() then return end
+
     local sucess, error = pcall(function()
         local Camera = Runtime.Things.Root:GetCamera()   
 
