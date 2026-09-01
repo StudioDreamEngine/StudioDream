@@ -57,10 +57,12 @@ function Template.AudioExtra(Info,AddInfo)
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 if Thing.Proxy.Attributes[Info.Name].RenderExtra == AddInfo.Name then
+                    BaseSquare.PlayedByInspector = true
                     BaseSquare:AddPlaceholderSignal(BaseSquare.OnDestroy:Connect(function()
-                        Thing:Stop()
+                        if BaseSquare.PlayedByInspector then
+                            Thing:Stop()
+                        end
                     end))
-                    print(Thing.Playing)
                     if Thing.Playing then
                         Thing:Pause()
                     else

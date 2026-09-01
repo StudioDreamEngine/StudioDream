@@ -1,6 +1,11 @@
 -- Handles the UI editor
 local EditorUI = {}
 
+function EditorUI.Init()
+    EditorUI.Playtest = require("Studio.EditorUI.Playtest")
+    EditorUI.Playtest.Init()
+end
+
 function EditorUI.GetViewportInternal()
     return Runtime.Things.RenderRoot
 end

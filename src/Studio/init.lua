@@ -24,7 +24,8 @@ function Studio.Init()
     Studio.Layout.CreateLayout()
 
     Studio.Editor3D.Init()
-
+    Studio.EditorUI.Init()
+    
     Runtime.SaveOnCrash = true
 
     --[[Scheduler.DelayTask(3, function()

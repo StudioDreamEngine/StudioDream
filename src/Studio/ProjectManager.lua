@@ -26,11 +26,13 @@ end
 
 function ProjectManager.RunStudioProject()
     Runtime.Project.Save()
+    Studio.EditorUI.Playtest.StartPlayline()
     RuntimeService.StartActivity()
 end
 
 function ProjectManager.StopStudioProject()
     Studio.Editor3D.SelectionManager.DeselectAll()
+    Studio.EditorUI.Playtest.EndPlayline()
     Studio.History.Clear()
 
     RuntimeService.Stop()
