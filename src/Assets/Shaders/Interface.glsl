@@ -22,6 +22,8 @@ uniform Gradient gradient;
 uniform lowp int gradient_length;
 uniform lowp int effect_bitmask;
 
+uniform float rotation;
+
 uniform Image MainTex;
 
 vec4 lerp(vec4 a, vec4 b, float alpha) {
@@ -32,16 +34,26 @@ void effect() {
     vec4 texturecolor = Texel(MainTex, VaryingTexCoord.xy);
     vec4 gradient_color = vec4(1,1,1,1);
 
-    float gradtime = VaryingTexCoord.x;
+    float gradtime;
+
+    if (rotation != 0.0) {
+        float _sin = sin(rotation);
+        float _cos = cos(rotation);
+
+        vec2 coord = VaryingTexCoord.xy;
+
+        gradtime = abs((coord.x * _cos) + (coord.y * _sin));
+    } else {
+        gradtime = VaryingTexCoord.x;
+    }
 
     for(int i = 0; i < int(gradient_length); i++) {
         // Setup time
         float current_time = gradient.time[i];
-        float next_time;
+        float next_time = gradient.time[i+1];
 
         // TODO: We could perhaps improve performance here if we add a dummy value at the end of the lists, preventing the need for this code
         bool can_sample = (i == gradient_length-1);
-        if (can_sample) { next_time = current_time; } else { next_time = gradient.time[i+1]; }
 
         // Check if we're in range
         if (!(current_time < gradtime && next_time > gradtime)) {
@@ -50,9 +62,7 @@ void effect() {
 
         // Setup color
         vec4 current_color = gradient.colors[i];
-        vec4 next_color;
-
-        if (can_sample) { next_color = current_color; } else { next_color = gradient.colors[i+1]; }
+        vec4 next_color = gradient.colors[i+1];
 
         // Find color
         gradient_color = lerp(current_color, next_color, (gradtime-current_time)/(next_time-current_time));

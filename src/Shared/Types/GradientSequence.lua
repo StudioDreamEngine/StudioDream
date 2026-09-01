@@ -13,12 +13,13 @@ function GradientSequence.NewKey(Time,Color)
     }
 end 
 
-function GradientSequence.NewSequence(TableOf)
+function GradientSequence.NewSequence(TableOf, Rotation)
     Utils.AssertType(TableOf, "table")
 
     ---@class GradientSequence
     local SequenceObject = {
-        Type = "GradientSequence"
+        Type = "GradientSequence",
+        Rotation = Rotation or 0
     }
 
     local Keys = {}
@@ -40,14 +41,26 @@ function GradientSequence.NewSequence(TableOf)
     function SequenceObject.GetColors() return unpack(Colors) end
     function SequenceObject.GetTimes() return unpack(Times) end
 
-    function SequenceObject.ProcessUniforms()
-        for Index, Value in pairs(SequenceObject.GetKeys()) do
-            local Time = Value[1] ---@class number
-            local Color = Value[2].ToShader()
+    local function ProcessUniform(Index, Value)
+        local Time = Value[1] ---@class number
+        local Color = Value[2].ToShader()
 
-            Colors[Index] = Color
-            Times[Index] = Time
+        Colors[Index] = Color
+        Times[Index] = Time
+    end
+
+    function SequenceObject.ProcessUniforms()
+        local Keys = SequenceObject.GetKeys()
+
+        for Index, Value in pairs(Keys) do
+            ProcessUniform(Index, Value)
         end
+
+        local LastKey = Keys[#Keys]
+        ProcessUniform(#Keys+1, {
+            LastKey[1]+1,
+            LastKey[2]
+        })
     end
 
     for _,v in ipairs(TableOf) do -- Organize table and kills equal sequencetime colors
