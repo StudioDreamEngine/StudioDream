@@ -19,7 +19,7 @@ function Template.Create(Info)
         Type = "Button",
         Disabled = Info.Disabled,
         StyleSelect = true,
-        TrackObjects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        Objects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserRequest = function(Change)
             if not SelectionManager.ObjectPicker then
                 SelectionManager.ObjectPicker = Studio.Editor3D.Selecting[1]
@@ -39,11 +39,10 @@ function Template.Create(Info)
                 Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)
             end
         end,
-        ReturnDisplay = function()
-            local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            local FirstObject = Studio.Editor3D.Selecting[1]
-            Image:SetResource(IsAllSame and (FirstObject[Info.Name] and "Internal/Studio/EditorIcons/"..FirstObject[Info.Name].Proxy.ExplorerIcon..".png" or "Internal/Studio/EditorIcons/Unkown.png") or "Internal/Studio/EditorIcons/Unkown.png")
-            return IsAllSame and tostring(FirstObject[Info.Name] and FirstObject[Info.Name].Name or "~") or "~"
+        ReturnDisplay = function(Object, Same)
+            local FirstObject = Object
+            Image:SetResource(Same and (FirstObject[Info.Name] and "Internal/Studio/EditorIcons/"..FirstObject[Info.Name].Proxy.ExplorerIcon..".png" or "Internal/Studio/EditorIcons/Unkown.png") or "Internal/Studio/EditorIcons/Unkown.png")
+            return FirstObject[Info.Name] and FirstObject[Info.Name].Name or "~"
         end
     },{
         ValueContainer = "Outline",

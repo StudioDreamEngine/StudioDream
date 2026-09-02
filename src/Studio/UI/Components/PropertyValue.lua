@@ -264,10 +264,22 @@ local ValueFunction = function(PropertyList, Information, Style)
         Information.PropUpdator,PropertyValue.Prop = Information.Type(PropertyValue.UI.ValueContainer, Information)
     end
 
+    local Objects = Information.Objects
+
     -- Called every time the PropertyValue should be updated
     Information.OnUpdate = function()
         local Success, Message = pcall(function()
-            local UpdateResult = tostring(Information.ReturnDisplay())
+            local UpdateResult
+
+            if Objects then
+                local AreSame = Utils.IsAllPropertiesTheSame(Objects.Things, Objects.Property)
+                local Display = Information.ReturnDisplay(Objects.Things[1], AreSame)
+
+                UpdateResult = AreSame and tostring(Display) or "~"
+            else
+                UpdateResult = tostring(Information.ReturnDisplay()) or "nil"
+            end
+
             printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
             
             Information.PropUpdator(UpdateResult)
@@ -278,10 +290,10 @@ local ValueFunction = function(PropertyList, Information, Style)
         end
     end
 
-    if Information.TrackObjects then
-        for _,Thing in pairs(Information.TrackObjects.Things) do
+    if Objects then
+        for _,Thing in pairs(Objects.Things) do
             Container:AddPlaceholderSignal(Thing.PropertyChanged:ConnectDeferred(function(Val,Property) -- Can be a memory leak so change this to something better later
-                if Property == Information.TrackObjects.Property then
+                if Property == Objects.Property then
                     Information.OnUpdate()
                 end
             end))
@@ -291,7 +303,7 @@ local ValueFunction = function(PropertyList, Information, Style)
     if Information.StyleSelect then
         local ToggleThing = false
 
-        local ContainerSignal = Container:AddPlaceholderSignal(Runtime.InterfaceManager.OnClick:Connect(function()
+        Container:AddPlaceholderSignal(Runtime.InterfaceManager.OnClick:Connect(function()
             if Container.Hovering then return end
             ToggleThing = false
         end))
