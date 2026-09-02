@@ -25,6 +25,11 @@ local Enums = {
         Linear = "linear",
         Pixelated = "nearest"
     },
+    FilterPass = {
+        LowPass = "lowpass",
+        HighPass = "highpass",
+        BandPass = "bandpass"
+    },
     OpenDialog = {
         Folder = "OpenFolderDialog",
         File = "OpenFileDialog",
@@ -79,6 +84,12 @@ local Enums = {
     AudioType = {
         Static = "static",
         Stream = "stream",
+    },
+    Waveform = {
+        Triangle = "triangle",
+        Sine = "sine",
+        Square = "square",
+        Sawtooth = "sawtooth"
     },
     EasingStyle = {
         Linear = "linear",

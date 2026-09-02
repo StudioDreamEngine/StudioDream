@@ -21,6 +21,11 @@ function Audio:new()
     self.TimePosition = 0
     self.IsSpaceRelative = false
     self.ChannelCount = 0
+    self.FilterPass = Enum.FilterPass.LowPass
+    self.Effects = {}
+
+    self._EffectsConnections = {}
+
     self.StoppedPlaying = Signal:New("AudioStopplaying")
 end
 
@@ -83,6 +88,13 @@ function Audio:Pause()
     end
 end
 
+function Audio:SetFilterPass(FilterEnum)
+    self.FilterPass = FilterEnum
+    if self.SoundObject then
+        self.SoundObject:setFilter({ type = FilterEnum})
+    end
+end
+
 function Audio:RefreshSource()
     if self.SoundObject then
         self.SoundObject:setVolume(self.Volume/100)
@@ -90,7 +102,45 @@ function Audio:RefreshSource()
         self:SetTimePosition(0)
         self:UpdateChannelCount()
         self:SetIsSpaceRelative(self.IsSpaceRelative)
+        self:SetFilterPass(self.FilterPass)
     end
+end
+
+function Audio:SetEffect(Effect)
+    assert(Utils.TypeOf(Effect)=="Effect","Effect expected, got: "..Utils.TypeOf(Effect))
+    self.Effects[Effect.Name] = Effect
+    
+    -- check if the effect is possible to be used
+
+    if self.SoundObject then
+        local ActualName = self.UUID..Effect.Name
+
+        print(ActualName)
+
+        love.audio.setEffect(ActualName,Effect.LOVE)
+        
+        self.SoundObject:setEffect(ActualName)
+        print(self.SoundObject:getEffect(ActualName))
+        self._EffectsConnections[ActualName] = Effect._UPDATED:Connect(function() -- Might cause some trouble, make old one get disconnected first if it causes
+            if self.SoundObject then
+                love.audio.setEffect(ActualName,Effect.LOVE)
+                self.SoundObject:setEffect(ActualName)
+            end
+        end)
+    end
+end
+
+function Audio:RemoveEffect(Effect)
+    local EffectToRemove = type(Effect)=="string" and self.Effects[Effect.Name] or Effect.Name
+    local ActualName = self.UUID..EffectToRemove.Name
+
+    if self.SoundObject then
+        self.SoundObject:setEffect(ActualName,false)
+    end
+
+    self._EffectsConnections[ActualName]:Disconnect()
+    self._EffectsConnections[ActualName] = nil
+    self.Effects[ActualName] = nil
 end
 
 function Audio:SetResource(Identifier)

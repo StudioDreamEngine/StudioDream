@@ -94,6 +94,8 @@ function ScriptUtil.CreateGlobals(Script)
         Enum = Enum,
         Rect = Rect,
         Color = Color,
+        Effect = Effect,
+        GradientSequence = GradientSequence,
         loadstring = loadstring,
 
         ---@param Object RequirableScript
