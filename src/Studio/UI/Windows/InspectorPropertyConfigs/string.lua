@@ -9,15 +9,14 @@ function Template.Create(Info)
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
-        TrackObjects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        Objects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)
             end
         end,
-        ReturnDisplay = function()
-            local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "~"
+        ReturnDisplay = function(Object)
+            return Object[Info.Name]
         end
     },{
         ValueContainer = "Outline",

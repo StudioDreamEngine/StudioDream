@@ -2,9 +2,11 @@
 local Things = Runtime.Things
 local StudioLayout = {}
 
-local Theme = Studio.CurrentTheme
-
 StudioLayout.Handles = {}
+
+function StudioLayout.ToggleMenu(Toggle)
+    StudioLayout.Windows:SetSize()
+end
 
 function StudioLayout.CreateWindowContainer(Transform, HaveName)
     local Windows = {}
@@ -156,26 +158,20 @@ end
 ]]
 
 function StudioLayout.CreateTopbar()
-    StudioLayout.TopBar = Studio.Components.CreateStyle("Square",{
-        Parent = Things.RenderRoot,
-        Name = "TopBar",
-        Size = Pivot2D.FromScale(1,0.15),
-        BackgroundColor = "Outline"
-    })
-
     local MenuBar = Studio.Components.CreateStyle("Square",{
-        Parent = StudioLayout.TopBar,
+        Parent = StudioLayout.HandleContainer,
         Name = "MenuBar",
-        Position = Pivot2D.FromScale(0,0.0),
-        Size = Pivot2D.FromScale(1,0.2),
-        BackgroundTransparency = 1
+        Size = Pivot2D.FromScale(1,0.03),
+        ListOrder = 1,
+        BackgroundColor = "Secondary",
+        BackgroundTransparency = 0
     })
 
     local TopbarInner = Studio.Components.CreateStyle("Square",{
-        Parent = StudioLayout.TopBar,
+        Parent = StudioLayout.HandleContainer,
         Name = "ToolBar",
-        Position = Pivot2D.FromScale(0,0.2),
-        Size = Pivot2D.FromScale(1,0.8),
+        ListOrder = 2,
+        Size = Pivot2D.FromScale(1,0.12),
         BackgroundColor = "Primary",
         BackgroundTransparency = 0
     })
@@ -185,16 +181,27 @@ function StudioLayout.CreateTopbar()
 end
 
 function StudioLayout.CreateLayout()
+    StudioLayout.HandleContainer = Studio.Components.CreateStyle("Square",{
+        Name = "HandleContainer",
+        Parent = Things.RenderRoot,
+        Size = Pivot2D.FromScale(1,1),
+        Layer = 1,
+        BackgroundTransparency = 1
+    })
+
+    Things.Create("ListLayout") {
+        Parent = StudioLayout.HandleContainer
+    }
+
     printVerbose("Creating studio layout")
     StudioLayout.CreateTopbar()
 
     StudioLayout.Windows = Studio.Components.CreateStyle("Square",{
         Name = "WindowContainer",
-        Parent = Things.RenderRoot,
-        Pivot = Vector2.new(0,1),
-        Position = Pivot2D.FromScale(0,1),
+        Parent = StudioLayout.HandleContainer,
         Size = Pivot2D.FromScale(1,0.85),
         Layer = 10,
+        ListOrder = 3,
         BackgroundTransparency = 1
     })
 

@@ -67,6 +67,7 @@ function Square:DrawExtended()
             Shader:sendColor("gradient.colors", self.Gradient.GetColors())
             Shader:send("gradient.time", self.Gradient.GetTimes())
             Shader:send("gradient_length", self.Gradient.GetKeyLength())
+            Shader:send("rotation", self.Gradient.Rotation)
         else
             Shader:send("gradient_length", 0)
         end

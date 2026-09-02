@@ -12,7 +12,7 @@ local function CreateSub(Info,AddInfo)
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
-        TrackObjects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        Objects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             local IsOffset = (AddInfo.Name == "Offset")
             local Vectorized = Vector2.FromString(InfoGiven)
@@ -27,18 +27,17 @@ local function CreateSub(Info,AddInfo)
                 Runtime.Things.SetProperty(Thing, Info.Name, FinalPivot)
             end
         end,
-        ReturnDisplay = function()
-            local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
+        ReturnDisplay = function(Object, Same)
             local IsOffset = (AddInfo.Name == "Offset")
             local ReturnTheSame
 
             if not IsOffset then
-                ReturnTheSame = Studio.Editor3D.Selecting[1][Info.Name].Scale
+                ReturnTheSame = Object[Info.Name].Scale
             else
-                ReturnTheSame = Studio.Editor3D.Selecting[1][Info.Name].Offset
+                ReturnTheSame = Object[Info.Name].Offset
             end
 
-            return IsAllSame and tostring(ReturnTheSame) or "~"
+            return ReturnTheSame
         end
     },{
         ValueContainer = "Secondary",
@@ -56,15 +55,14 @@ function Template.Create(Info)
         Translate = Info.Type,
         Disabled = Info.Disabled,
         StyleSelect = true,
-        TrackObjects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
+        Objects = {Things = Studio.Editor3D.Selecting,Property = Info.Name},
         UserChange = function(InfoGiven)
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 Runtime.Things.SetProperty(Thing, Info.Name, InfoGiven)
             end
         end,
-        ReturnDisplay = function()
-            local IsAllSame = Utils.IsAllPropertiesTheSame(Studio.Editor3D.Selecting,Info.Name)
-            return IsAllSame and tostring(Studio.Editor3D.Selecting[1][Info.Name]) or "~"
+        ReturnDisplay = function(Object)
+            return Object[Info.Name]
         end
     },{
         ValueContainer = "Outline",
