@@ -9,6 +9,7 @@ function Audio:new()
     Audio.super.new(self)
 
     self.Resource = nil
+    self.SoundData = nil ---@class love.sound
     self.SoundObject = nil ---@class love.Source
 
     self.KeepReference = true
@@ -23,6 +24,8 @@ function Audio:new()
     self.ChannelCount = 0
     self.FilterPass = Enum.FilterPass.LowPass
     self.Effects = {}
+
+    self.Loudness = 0
 
     self._EffectsConnections = {}
 
@@ -50,11 +53,11 @@ function Audio:DefineAPI()
     self.Proxy.SetCategory("Sound")
 
     self.Proxy.Property("Resource Resource")
-    self.Proxy.Property("number Duration", "number TimePosition")
+    self.Proxy.Property("number Duration", "number TimePosition", "number Loudness")
     self.Proxy.Property("number Volume","number Velocity")
     self.Proxy.Property("boolean DoesLoop","boolean IsSpaceRelative")
 
-    self.Proxy.Group("Audio","Resource","Duration","TimePosition","Volume","DoesLoop","Velocity","IsSpaceRelative")
+    self.Proxy.Group("Audio","Resource","Duration","TimePosition","Volume","DoesLoop","Velocity","IsSpaceRelative","Loudness")
     self.Proxy.Icon("Audio")
 
     self.Proxy.Attribute("TimePosition", "RenderType","Timer")
@@ -95,6 +98,12 @@ function Audio:SetFilterPass(FilterEnum)
     end
 end
 
+function Audio:RefreshEffects()
+    for i,v in pairs(self.Effects) do
+        Audio:SetEffect(v)
+    end
+end
+
 function Audio:RefreshSource()
     if self.SoundObject then
         self.SoundObject:setVolume(self.Volume/100)
@@ -103,7 +112,18 @@ function Audio:RefreshSource()
         self:UpdateChannelCount()
         self:SetIsSpaceRelative(self.IsSpaceRelative)
         self:SetFilterPass(self.FilterPass)
+        self:RefreshEffects()
     end
+end
+
+function Audio:CalculateLoudness()
+    if not self.Playing or self.SoundData then self.Loudness = 0 return end
+
+    local SampleIndex = math.floor(self.TimePosition*self.SoundData:getSampleRate())
+    SampleIndex = math.max(0,math.min(SampleIndex))
+    local SampleValue = self.SoundData:getSample(SampleIndex)
+
+    self.Loudness = math.abs(SampleValue)
 end
 
 function Audio:SetEffect(Effect)
@@ -120,7 +140,6 @@ function Audio:SetEffect(Effect)
         love.audio.setEffect(ActualName,Effect.LOVE)
         
         self.SoundObject:setEffect(ActualName)
-        print(self.SoundObject:getEffect(ActualName))
         self._EffectsConnections[ActualName] = Effect._UPDATED:Connect(function() -- Might cause some trouble, make old one get disconnected first if it causes
             if self.SoundObject then
                 love.audio.setEffect(ActualName,Effect.LOVE)
@@ -144,9 +163,8 @@ function Audio:RemoveEffect(Effect)
 end
 
 function Audio:SetResource(Identifier)
-    self.SoundObject, self.Resource = Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Sound")
+    self.SoundObject, self.Resource, self.SoundData = Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Sound")
     if (not self.SoundObject) then return end
-
     self:RefreshSource()
 end
 
@@ -216,6 +234,8 @@ function Audio:Update(dt)
         self:HandleRelative()
 
         self:SetTimePosition(self.SoundObject:tell())
+
+        self:CalculateLoudness()
     end
 end
 

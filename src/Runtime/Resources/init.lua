@@ -99,8 +99,8 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	elseif Identifier.ResourceType ~= "Internal" then
 		printVerbose("Cannot add", Identifier, "to ObjectReferences")
 	end
-
-	return Resources.GetResource(Identifier), Identifier.ID
+	local ResourceReturn, ResourceReturnSecond = Resources.GetResource(Identifier)
+	return ResourceReturn, Identifier.ID, ResourceReturnSecond
 end
 
 local function LoadWithContents(Identifier, Contents)
@@ -115,16 +115,16 @@ local function LoadWithContents(Identifier, Contents)
 		Contents,
 		"Cannot read resource (Identifier: " .. Identifier.ID .. ", Path: " .. Identifier.Data.FilePath .. ")"
 	)
-
-	return Resources.InitiateLoader(Format, Contents, Identifier), table.find(Clonable, Format)
+	local Loader, Loader2 = Resources.InitiateLoader(Format, Contents, Identifier)
+	return Loader, table.find(Clonable, Format), Loader2
 end
 
 -- Use a Resource Loader given the specified data and format
 function Resources.InitiateLoader(Format, Contents, Identifier)
 	local LoaderModule = require(LoaderModPath .. Format)
 
-	local Resource = LoaderModule(Contents, Identifier)
-	return Resource
+	local Resource, SecondResource = LoaderModule(Contents, Identifier)
+	return Resource, SecondResource
 end
 
 function Resources.LoadResource(Identifier)
@@ -132,9 +132,9 @@ function Resources.LoadResource(Identifier)
 	local Resource, Clonable
 
 	if ResourceType == "Internal" then
-		Resource, Clonable = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
+		Resource, Clonable, SecondResource = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
 	elseif ResourceType == "Project" then
-		Resource, Clonable = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
+		Resource, Clonable, SecondResource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
 	elseif ResourceType == "Buffer" then
 		Resource = Identifier.Data
 	else
@@ -155,7 +155,7 @@ function Resources.LoadResource(Identifier)
 		LoadedResources[Identifier.ID][1] = Resource
 	end]]
 
-	return Resource
+	return Resource, SecondResource
 end
 
 function Resources.SaveResource(IdentifierID)
@@ -187,12 +187,12 @@ function Resources.GetResource(Identifier, Reload)
 	if not Identifier then return end
 
 	local LoadedResource = LoadedResources[Identifier.ID]
-
+	local SecondLoadedResource
 	if (not LoadedResource) or Reload then -- If the resource isnt loaded yet, cache it
-		LoadedResource = Resources.LoadResource(Identifier)
+		LoadedResource, SecondLoadedResource = Resources.LoadResource(Identifier)
 	end
 
-	return LoadedResource
+	return LoadedResource, SecondLoadedResource
 end
 
 function Resources.UnloadResource(Identifier)
