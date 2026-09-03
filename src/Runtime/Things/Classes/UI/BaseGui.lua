@@ -369,11 +369,18 @@ function BaseGui:DrawStyle()
 
     self:SetColor("Background", "Color")
     
-    if self.DrawExtended then -- Draw an object with a special extension function created by a child class (eg. shaders)
-        self:DrawExtended()
-    else -- Draw an object 
+    Runtime.Backend2D.ShaderCall(function(Shader)
+        if self.Gradient then
+            Shader:sendColor("gradient.colors", self.Gradient.GetColors())
+            Shader:send("gradient.time", self.Gradient.GetTimes())
+            Shader:send("gradient_length", self.Gradient.GetKeyLength())
+            Shader:send("rotation", self.Gradient.Rotation)
+        else
+            Shader:send("gradient_length", 0)
+        end
+        
         self:Draw()
-    end
+    end, "Interface")
 
     if FLAGS.DebugDraw then
         love.graphics.setLineWidth(1)
@@ -388,7 +395,7 @@ function BaseGui:DrawStyle()
     --Runtime.Backend2D.SetColor(Color.new(1))
 end
 
-function BaseGui:UpdateTransforms()
+function BaseGui:UpdateTransforms(Elements)
     --Profiler.Start("BaseGui - Process UpdateTransforms")
     self.AbsoluteRotation = self:GetAbsoluteRotation()
 
@@ -435,7 +442,8 @@ end
 
 -- Process the invalidation for an object
 function BaseGui:ProcessInvalidation(Origin)
-    if (not self.Parent) then return end -- Hacky fix
+    --if (not self:InTree()) then return end -- Hacky fix
+    if (not self.Parent) then return end
 
     --print("Invalidating from "..Origin.Name)
     self:ProcessInvalidations()
@@ -454,8 +462,8 @@ function BaseGui:ProcessInvalidation(Origin)
 end
 
 -- TODO: Also be able to store causes of invalidation within a frame
-function BaseGui:InvalidateRendering(WasSame)
-    if WasSame and self.EverInvalidated then return end
+function BaseGui:InvalidateRendering()
+    if not self.EverInvalidated then return end
 
     self.WasInvalidated = true
 end
@@ -481,10 +489,10 @@ function BaseGui:SetActive(New)
 end
 
 function BaseGui:SetPosition(New)
-    local Same = self.Position:Is(New)
+    if self.Position:Is(New) then return end
 
     self.Position = New
-    self:InvalidateRendering(Same)
+    self:InvalidateRendering()
 end
 
 function BaseGui:SetPivot(New)
@@ -499,10 +507,10 @@ end
 
 ---@param New Pivot2D
 function BaseGui:SetSize(New)
-    local Same = self.Size:Is(New)
+    if self.Size:Is(New) then return end
 
     self.Size = New
-    self:InvalidateRendering(Same)
+    self:InvalidateRendering()
 end
 
 function BaseGui:SetAbsoluteSize(NewSize)

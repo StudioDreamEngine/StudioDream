@@ -54,9 +54,9 @@ end
 
 function Backend.NewCanvas(Size, Stencil)
     local StencilCanvas = Stencil and love.graphics.newCanvas(Size.X, Size.Y, { format = "stencil8" })
-    local MatCanvas = love.graphics.newCanvas(Size.X, Size.Y)
+    --local MatCanvas = love.graphics.newCanvas(Size.X, Size.Y)
 
-    return love.graphics.newCanvas(Size.X, Size.Y), StencilCanvas, MatCanvas
+    return love.graphics.newCanvas(Size.X, Size.Y), StencilCanvas--, MatCanvas
 end
 
 function Backend.NewQuad(Rect, ImageSize)

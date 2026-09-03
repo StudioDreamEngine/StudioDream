@@ -69,10 +69,11 @@ function Viewport:CreateNew()
     if self.ViewportCanvas then
         self.ViewportCanvas:release()
         self.StencilCanvas:release()
-        self.MatCanvas:release()
+        --self.MatCanvas:release()
     end
 
-    self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
+    --self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
+    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 
     --self.Shader:send("mat_canvas", self.MatCanvas)
@@ -102,7 +103,7 @@ function Viewport:SetAbsoluteSize(New)
     if New:Magnitude() < 10 then New = Vector2.new(10,10) end
     Viewport.super.SetAbsoluteSize(self, New)
 
-    printVerbose("Queued viewport update for: "..self.Name)
+    --printVerbose("Queued viewport update for: "..self.Name)
     self:CreateNew()
 end
 

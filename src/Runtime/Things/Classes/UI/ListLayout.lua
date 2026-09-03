@@ -95,6 +95,8 @@ function ListLayout:SortFunction(a,b,Index)
 end
 
 function ListLayout:UpdateLayout()
+    self.Parent:ProcessInvalidation()
+
     local Vertical = (self.Direction == Enum.LayoutDirection.Vertical)
 
     -- Define the axises we will be using in order to calculate stuff
@@ -155,9 +157,11 @@ function ListLayout:UpdateLayout()
 
             self:SetConstraint(Object, "Position", Pivot2D.FromOffset(
                 (Position * AxisVector) + Utils.GetAlignment(self.Alignment, ParentSize, BoundsSize)
-            ))
+            ), true)
         end
     end
+
+    self.Parent:ProcessInvalidation()
 
     Positions = nil
 

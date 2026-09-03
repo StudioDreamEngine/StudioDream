@@ -199,11 +199,14 @@ function StudioLayout.CreateLayout()
     StudioLayout.Windows = Studio.Components.CreateStyle("Square",{
         Name = "WindowContainer",
         Parent = StudioLayout.HandleContainer,
-        Size = Pivot2D.FromScale(1,0.85),
         Layer = 10,
         ListOrder = 3,
-        BackgroundTransparency = 1
+        BackgroundTransparency = 0
     })
+
+    Things.Create("Flex") {
+        Parent = StudioLayout.Windows
+    }
 
     StudioLayout.CreateWindow("Viewport", {
         Size = Pivot2D.FromScale(0.8,.8),

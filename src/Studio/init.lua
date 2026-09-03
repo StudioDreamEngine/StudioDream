@@ -25,8 +25,6 @@ function Studio.Init()
 
     Studio.Editor3D.Init()
     Studio.EditorUI.Init()
-    
-    Runtime.SaveOnCrash = true
 
     --[[Scheduler.DelayTask(3, function()
         Studio.Components.CreateDialog("Option", {

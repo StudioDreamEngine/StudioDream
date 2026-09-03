@@ -262,6 +262,18 @@ function Thing:Is(Thing2)
     return (Thing.UUID == Thing2.UUID)
 end
 
+function Thing:InTree()
+    local InTree = false
+
+    self:GetParentCallback(function(ParentThing)
+        if ParentThing:IsA("Root") then
+            InTree = true
+        end
+    end)
+
+    return InTree
+end
+
 function Thing:GetParentCallback(Callback)
 	local Parent = self
 	

@@ -118,6 +118,7 @@ function Shared.RenderStats()
     }
 
     love.graphics.setFont(DebugFont)
+    love.graphics.setCanvas()
     local DebugString = ""
 
     printVerbose(ThingStats.Orphans)

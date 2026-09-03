@@ -137,6 +137,8 @@ function Splash.Load()
         Scheduler.OnRecoverableError = nil
     end
 
+    Scheduler.Yield() -- Yield, otherwise intro animation lags for a frame
+
     if (not FLAGS.SecondRun) then
         Splash.Out()
     else

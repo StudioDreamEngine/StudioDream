@@ -78,6 +78,8 @@ function ScriptUtil.CreateGlobals(Script)
             return GlobalTick
         end,
 
+        setmetatable = setmetatable,
+
         Root = ScriptUtil.BridgeProxy(Things.Root),
         Environment = ScriptUtil.BridgeProxy(Things.Root:GetEnvironment()),
         Lighting = ScriptUtil.BridgeProxy(Things.Root:GetChild("Lighting")),
@@ -85,6 +87,9 @@ function ScriptUtil.CreateGlobals(Script)
 
         Service = Runtime.Services.Service,
         CreateThing = Runtime.Things.Create,
+
+        pcall = pcall,
+        xpcall = xpcall,
 
         Transform3D = Transform3D,
         Transform2D = Transform2D,
