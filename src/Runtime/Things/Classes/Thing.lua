@@ -59,6 +59,22 @@ function Thing:new()
     })]]
 end
 
+function Thing:GetByUUID(UUID)
+    for i,v in pairs(Thing:GetChildren()) do
+        if v.UUID == UUID then
+            return v
+        end
+    end
+end
+
+function Thing:GetChildByNumericalID(NumericalID)
+    for i,v in pairs(Thing:GetChildren()) do
+        if v.NumericalID == NumericalID then
+            return v
+        end
+    end
+end
+
 function Thing:AddPlaceholderSignal(Signal)
     table.insert(self.PlaceholderSignals,Signal)
     return Signal
