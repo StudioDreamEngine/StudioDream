@@ -58,8 +58,8 @@ function BaseConstraint:Unbind()
 end
 
 -- Shortcut function
-function BaseConstraint:SetConstraint(Object, Property, Value)
-    Object:SetConstraint(self, Property, Value)
+function BaseConstraint:SetConstraint(Object, Property, Value, DontUpdate)
+    Object:SetConstraint(self, Property, Value, DontUpdate)
 end
 
 -- Make sure we un-bind and re-bind all objects on parent change

@@ -6,11 +6,44 @@ local TweenService = {}
 -- c = change == ending - beginning
 -- d = duration == running time. How much time has passed *right now*
 
-local ActiveTweens = {}
-
 function TweenService.Init()
     
 end
+
+-- Create a tween group, these are used for pausing/unpausing a certain group of tweens
+function TweenService.CreateGroup()
+    local Group = {}
+    local ActiveTweens = {}
+
+    Group.Playing = true
+    Group.Tick = 0
+
+    function Group.Add(Tween)
+        ActiveTweens[Tween.UUID] = Tween
+        Tween.Group = Group
+    end
+
+    function Group.Remove(Tween)
+        ActiveTweens[Tween.UUID] = nil
+        Tween.Group = nil
+    end
+
+    function Group.Toggle(Paused)
+        Group.Playing = not Paused
+    end
+
+    function Group.Update(dt)
+        if Group.Playing then
+            for _, Tween in pairs(ActiveTweens) do
+                Tween.Update(dt)
+            end
+        end
+    end
+
+    return Group
+end
+
+local CurrentGroup = TweenService.CreateGroup()
 
 -- TODO: Pause & Stop functions?
 function TweenService.Create(Subject, Target, Style, Time)
@@ -18,10 +51,11 @@ function TweenService.Create(Subject, Target, Style, Time)
 
     Tween.UUID = CreateUUID()
     Tween.Type = "Tween"
+    Tween.Group = nil
+    Tween.Elapsed = 0
 
     local EasingFunction = TweenFunctions.easing[Style]
 
-    local StartTime = 0
     Tween.Playing = false
 
     Tween.Completed = Signal:New("Completed_Tween")
@@ -29,10 +63,7 @@ function TweenService.Create(Subject, Target, Style, Time)
     local InitalValues = {}
     
     function Tween.Play()
-        StartTime = GlobalTick
         Tween.Playing = true
-
-        ActiveTweens[Tween.UUID] = Tween
 
         for Name, _ in pairs(Target) do
             InitalValues[Name] = Subject[Name]
@@ -41,9 +72,16 @@ function TweenService.Create(Subject, Target, Style, Time)
         return Tween
     end
 
-    function Tween.LinkLocalTick(NewTick)
-        -- figure out something to keep updating the tick value!!!
+    function Tween.LinkToGroup(Group)
+        if Tween.Group then
+            Tween.Group.Remove(Tween)
+            Tween.Group = nil
+        end
+
+        Group.Add(Tween)
     end
+
+    Tween.LinkToGroup(CurrentGroup)
 
     --[[
         GotoTarget: If we should go to the target values once this is called
@@ -51,7 +89,6 @@ function TweenService.Create(Subject, Target, Style, Time)
     function Tween.Stop(GotoTarget)
         if GotoTarget then Tween.Set(1) end
 
-        ActiveTweens[Tween.UUID] = nil
         Tween.Playing = false
     end
 
@@ -71,9 +108,11 @@ function TweenService.Create(Subject, Target, Style, Time)
     end
 
     function Tween.Update(dt)
+        Tween.Elapsed =  Tween.Elapsed + dt
+
         if (not Tween.Playing) then return end
 
-        local Elapsed = (GlobalTick-StartTime)
+        local Elapsed = Tween.Elapsed
 
         if Elapsed/Time >= 1 then
             Tween.Completed.Invoke() 
@@ -88,10 +127,6 @@ function TweenService.Create(Subject, Target, Style, Time)
     return Tween
 end
 
-function TweenService.LinkTick(tick)
-    -- Doesnt exist now sorrey!
-end
-
 function TweenService.CreateAndPlay(Subject, Target, Style, Time, Wow)
     local Tween = TweenService.Create(Subject, Target, Style, Time).Play()
     if not Time then print("Not given Time! Please try again!") return end
@@ -102,9 +137,7 @@ end
 
 -- Internal function to step util tweens
 function TweenService.Update(dt)
-    for UUID, Tween in pairs(ActiveTweens) do
-        Tween.Update(dt)
-    end
+    CurrentGroup.Update(dt)
 end
 
 return TweenService

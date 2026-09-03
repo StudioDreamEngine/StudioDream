@@ -26,19 +26,21 @@ function FlexItem:UpdateFlex()
     ---@diagnostic disable-next-line: assign-type-mismatch
     local Target = self.Parent ---@type BaseGui
 
-    local ListLayout = self:GetListLayout()
-    if (not ListLayout) then return end
+    local ListLayout = self:GetListLayout() ---@class ListLayout
+    if (not ListLayout) then print("Invalid") return end
 
-    ListLayout:RequestUpdateLayout()
+    ListLayout:UpdateLayout()
     Target:SetConstraint(self, "Size", ListLayout.RemainingSize)
 end
 
 -- Handles receiving updates from the parent of the target, as we need to know those, not the targets updates
-function FlexItem:BindFlexParent()
+function FlexItem:BindFlexParent(Object)
     ---@class Thing
     local FlexParent = Object.Parent
 
     if FlexParent and FlexParent:IsA("BaseGui") then
+        self:UpdateFlex()
+
         self.Connection = FlexParent.PropagatedChange:Connect(function(Value, Key)
             self:UpdateFlex()
         end)
@@ -72,10 +74,10 @@ function FlexItem:BindObject(Object)
 
     self.Connection3 = Object.ParentChanged:Connect(function()
         self:UnbindFlexParent()
-        self:BindFlexParent()
+        self:BindFlexParent(Object)
     end)
 
-    self:BindFlexParent()
+    self:BindFlexParent(Object)
 end
 
 return FlexItem

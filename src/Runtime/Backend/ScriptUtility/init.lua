@@ -86,6 +86,9 @@ function ScriptUtil.CreateGlobals(Script)
         Service = Runtime.Services.Service,
         CreateThing = Runtime.Things.Create,
 
+        pcall = pcall,
+        xpcall = xpcall,
+
         Transform3D = Transform3D,
         Transform2D = Transform2D,
         Vector2 = Vector2,

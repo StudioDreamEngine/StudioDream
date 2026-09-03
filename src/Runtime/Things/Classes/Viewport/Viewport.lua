@@ -102,7 +102,7 @@ function Viewport:SetAbsoluteSize(New)
     if New:Magnitude() < 10 then New = Vector2.new(10,10) end
     Viewport.super.SetAbsoluteSize(self, New)
 
-    printVerbose("Queued viewport update for: "..self.Name)
+    --printVerbose("Queued viewport update for: "..self.Name)
     self:CreateNew()
 end
 

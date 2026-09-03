@@ -14,7 +14,7 @@ function ViewportManager.Init()
     Dream:init() ---@diagnostic disable-line: missing-parameter
 
     LoveEvents.Resize:Connect(function(w,h)
-        printVerbose("Resize detected, Updating Window decorations...")
+        --printVerbose("Resize detected, Updating Window decorations...")
         RootViewport:SetSize(Pivot2D.FromOffset(w,h))
     end)
 
