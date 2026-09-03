@@ -205,7 +205,7 @@ function Project.Export()
 end
 
 -- Save a project
-function Project.Save(Crash)
+function Project.Save()
     Project.NotificationCallback("Saving project...")
 
     if Project.LoadingProject then
@@ -221,12 +221,6 @@ function Project.Save(Crash)
     if (not ProjectFS.IsWritable()) then
         Project.NotificationCallback("Project is read-only", "Error")
         return
-    end
-
-    if Crash then
-        print("Attempting to save during crash")
-        print("Dump of root descendants saved to RootDump for debugging (before save itself)")
-        love.filesystem.write("RootDump", table.format(Runtime.Things.Root:GetDescendantTree()))
     end
 
     local Success, Message = pcall(function()

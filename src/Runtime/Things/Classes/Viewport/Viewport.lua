@@ -69,10 +69,11 @@ function Viewport:CreateNew()
     if self.ViewportCanvas then
         self.ViewportCanvas:release()
         self.StencilCanvas:release()
-        self.MatCanvas:release()
+        --self.MatCanvas:release()
     end
 
-    self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
+    --self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
+    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 
     --self.Shader:send("mat_canvas", self.MatCanvas)

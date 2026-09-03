@@ -60,24 +60,6 @@ function Square:SetOutlineSize(number)
     self.OutlineSize = number
 end
 
--- oh boy, MORE ABSTRACTION!!! LOVELY!!!$
-function Square:DrawExtended()
-    Runtime.Backend2D.ShaderCall(function(Shader)
-        if self.Gradient then
-            Shader:sendColor("gradient.colors", self.Gradient.GetColors())
-            Shader:send("gradient.time", self.Gradient.GetTimes())
-            Shader:send("gradient_length", self.Gradient.GetKeyLength())
-            Shader:send("rotation", self.Gradient.Rotation)
-        else
-            Shader:send("gradient_length", 0)
-        end
-
-        Shader:send("effect_bitmask", (self.Dropshadow and 1 or 0))
-
-        self:Draw()
-    end, "Interface")
-end
-
 function Square:Draw()
     local Size = self.AbsoluteSize 
 

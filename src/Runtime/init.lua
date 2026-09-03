@@ -4,8 +4,6 @@ Runtime.Things = require("Runtime.Things")
 Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
 
-Runtime.SaveOnCrash = false -- Temporary
-
 Runtime.LoadProjectCallback = function() end
 
 function Runtime.Init()
@@ -90,9 +88,10 @@ function Runtime.Update(dt)
 end
 
 function Runtime.OnCrash()
-    if Runtime.SaveOnCrash then
-        Runtime.Project.Save(true)
-    end
+    local Path = Platform.GetDocuments().."/Recovery"
+
+    NativeFS.createDirectory(Path)
+    Runtime.Project.SaveTo(Path)
 end
 
 return Runtime

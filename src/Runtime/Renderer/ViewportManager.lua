@@ -47,7 +47,7 @@ function ViewportManager.CreateViewport(Viewport, Size)
     local Canvas, Stencil, Mask = Runtime.Backend2D.NewCanvas(Size, true)
 
     ViewportManager.Viewports[Viewport.UUID] = Viewport
-    return Canvas, Stencil, Mask
+    return Canvas, Stencil--, Mask
 end
 
 -- Render the contents of a 2d viewport
