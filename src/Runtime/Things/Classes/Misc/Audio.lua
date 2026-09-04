@@ -117,7 +117,7 @@ function Audio:RefreshSource()
 end
 
 function Audio:CalculateLoudness()
-    if not self.Playing or self.SoundData then self.Loudness = 0 return end
+    if not self.Playing or not self.SoundData then self.Loudness = 0 return end
 
     local SampleIndex = math.floor(self.TimePosition*self.SoundData:getSampleRate())
     SampleIndex = math.max(0,math.min(SampleIndex))
@@ -130,7 +130,7 @@ function Audio:SetEffect(Effect)
     assert(Utils.TypeOf(Effect)=="Effect","Effect expected, got: "..Utils.TypeOf(Effect))
     self.Effects[Effect.Name] = Effect
     
-    -- check if the effect is possible to be used
+    
 
     if self.SoundObject then
         local ActualName = self.UUID..Effect.Name

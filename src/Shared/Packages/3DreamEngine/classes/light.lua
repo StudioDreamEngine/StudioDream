@@ -127,6 +127,10 @@ function class:addNewShadow(resolution)
 	return shadow
 end
 
+function class:removeShadow()
+	self.shadow = nil
+end
+
 ---@return DreamShadow
 function class:getShadow()
 	return self.shadow

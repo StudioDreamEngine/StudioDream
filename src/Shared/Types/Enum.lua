@@ -19,7 +19,7 @@ local Enums = {
     },
     LightType = {
         Point = "point",
-        Spot = "sun"
+        Sun = "sun"
     },
     FilterType = {
         Linear = "linear",

@@ -45,6 +45,10 @@ function Color.new(R,G,B,A)
         return {Object.R, Object.G, Object.B, Object.A}
     end
 
+    function Object.ToDream()
+        return Dream.vec3(Object.R,Object.G,Object.B)
+    end
+
     return Object
 end
 
