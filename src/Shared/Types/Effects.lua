@@ -65,10 +65,17 @@ local Types = {
         WaveForm = Enum.Waveform.Sine,
         Frequency = 400,
         HighCut = 800,
-    }
+    },
 }
 
-function Effects.new(Name,Type)
+local CloudCopy = {
+    Texture = nil,
+    Rotation = 0,
+    RotationDelta = 0,
+    Color = Color.new(1)
+}
+
+function Effects.NewAudio(Name,Type)
     local EffectObj = {}
 
     EffectObj.Type = "Effect"
@@ -91,6 +98,50 @@ function Effects.new(Name,Type)
         NewTable.type = string.lower(EffectObj.EffectType)
         for i,v in pairs(EffectObj.Settings) do
             NewTable[string.lower(i)] = v
+        end
+
+        EffectObj.LOVE = NewTable
+        return EffectObj.LOVE
+    end
+
+    EffectObj:ToLOVE()
+
+    return EffectObj
+end
+
+function Effects.NewClouds(Name,HowMuch)
+    local EffectObj = {}
+    
+    local CloudsTable = {}
+
+    for i = 1, HowMuch do
+        local CloudTable = table.clone(CloudCopy)
+        table.insert(CloudsTable,CloudTable)
+    end
+
+    EffectObj.Type = "Effect"
+    EffectObj.Settings = setmetatable({},{
+        __index = CloudsTable,
+        __newindex = function(_,Key,Value)
+            EffectObj._UPDATED.Invoke()
+            EffectObj:ToLOVE()
+            rawset(EffectObj.Settings,Key,Value)
+        end,
+    })
+
+    EffectObj.LOVE = nil
+    EffectObj._UPDATED = Signal:New("EffectObjUpdate") -- This will be used on Audio-SetEffect link
+
+    function EffectObj:ToLOVE()
+        local NewTable = {}
+        NewTable.type = string.lower(EffectObj.EffectType)
+        for i,Table in pairs(EffectObj.Settings) do
+            for Setting,v in pairs(Table) do
+                if Utils.TypeOf(v) == "Color" then
+                    v = v.ToShader()
+                end
+                NewTable[string.lower(Setting)] = v
+            end
         end
 
         EffectObj.LOVE = NewTable
