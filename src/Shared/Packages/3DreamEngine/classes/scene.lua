@@ -114,7 +114,7 @@ function class:addObject(object, parentTransform, dynamic)
 	
 	--meshes
 	for _, m in pairs(object.meshes) do
-		self:addMesh(m, transform, object.reflection or lib.defaultReflection, scale)
+		self:addMesh(m, transform, object.reflection or lib.defaultReflection, object.material, scale)
 	end
 end
 
@@ -123,14 +123,14 @@ end
 ---@param transform DreamMat4
 ---@param reflection DreamReflection @ optional
 ---@param scale number @ optional
-function class:addMesh(mesh, transform, reflection, scale)
+function class:addMesh(mesh, transform, reflection, material, scale)
 	if self.blacklist[mesh] then
 		return
 	end
 	
 	--not visible
 	if self.shadowPass then
-		if mesh.material.Alpha or not mesh.shadowVisibility or mesh.material.shadow == false then
+		if material.Alpha or not mesh.shadowVisibility or material.shadow == false then
 			return
 		end
 	else
@@ -140,7 +140,7 @@ function class:addMesh(mesh, transform, reflection, scale)
 	end
 	
 	--wrong alpha
-	if (self.alpha and true) ~= (mesh.material.Alpha and true) then
+	if (self.alpha and true) ~= (material.Alpha and true) then
 		return
 	end
 	
@@ -166,7 +166,7 @@ function class:addMesh(mesh, transform, reflection, scale)
 	
 	--todo here custom reflections (closest globe or default) and lights can be used
 	
-	local shader = lib:getRenderShader(mesh, reflection, self.settingsIdentifier, self.alpha, self.canvases, self.light, self.shadowPass, self.isSun)
+	local shader = lib:getRenderShader(mesh, material, reflection, self.settingsIdentifier, self.alpha, self.canvases, self.light, self.shadowPass, self.isSun)
 	
 	local dist = self.alpha and (pos - self.cam.position):lengthSquared() or 0
 	
@@ -177,11 +177,12 @@ function class:addMesh(mesh, transform, reflection, scale)
 		pos,
 		shader,
 		reflection,
-		dist
+		dist,
+		material
 	}, lib.meta.task)
 	
 	--add to list
-	self:addTo(task, shader, mesh.material)
+	self:addTo(task, shader, material)
 end
 
 function class:addTo(task, shader, material)

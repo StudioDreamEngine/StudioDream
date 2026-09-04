@@ -10,6 +10,10 @@ function class:getMesh()
 	return self[1]
 end
 
+function class:getMaterial()
+	return self[7]
+end
+
 ---@return DreamMat4
 function class:getTransform()
 	return self[2] or identityMatrix

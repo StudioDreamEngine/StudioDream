@@ -12,7 +12,6 @@ function lib:newMesh(material)
 	local mesh = { }
 	
 	mesh.name = "unnamed"
-	mesh.material = material
 
 	mesh.boundingSphere = self:newBoundingSphere()
 	
@@ -43,17 +42,6 @@ local class = {
 
 class.isMesh = true
 
----Sets the meshes material
----@param material DreamMaterial
-function class:setMaterial(material)
-	self.material = material
-end
-
----@return DreamMaterial
-function class:getMaterial()
-	return self.material
-end
-
 ---@param visibility boolean
 function class:setVisible(visibility)
 	self:setRenderVisibility(visibility)
@@ -82,10 +70,6 @@ function class:setSkeleton(skeleton)
 end
 function class:getSkeleton()
 	return self.skeleton
-end
-
-function class:getPixelShader()
-	return self.material.pixelShader or self.pixelShader or lib.defaultPixelShader
 end
 
 function class:getVertexShader()
@@ -400,7 +384,7 @@ end
 ---Returns the required mesh format set by the current pixel shader
 ---@return DreamMeshFormat
 function class:getMeshFormat()
-	return lib.meshFormats[self:getPixelShader().meshFormat]
+	return lib.meshFormats[lib.defaultPixelShader.meshFormat]
 end
 
 ---Makes this mesh render-able
@@ -417,7 +401,7 @@ function class:create()
 	self.mesh:setVertexMap(self:createVertexMap(), "uint32")
 	
 	--initialize pixel shader
-	local pixelShader = self:getPixelShader()
+	--[[local pixelShader = self:getPixelShader()
 	if pixelShader.initMesh then
 		pixelShader:initMesh(self)
 	end
@@ -432,7 +416,7 @@ function class:create()
 	local worldShader = self:getWorldShader()
 	if worldShader.initMesh then
 		worldShader:initMesh(self)
-	end
+	end]]
 end
 
 local function vertexHash(v)

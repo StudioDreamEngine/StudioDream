@@ -2,17 +2,9 @@ The issue with 3DreamEngine is that StudioDream currently has to communicate wit
 3DreamEngine maintains its own entire scene when StudioDream could do that instead
 
 We need to rewrite the 3d engine to be a part of StudioDream either way
-Idea: Do this in 3 steps
-
-1. Strip Down 3DE to the nescessities
-2. Slowly strip down classes and rewrite classes such as Drawable3D to be able to be replacements for those classes
-3. Rewrite the renderer
-
 Perhaps we can also approach it as a proper api, Why3D provides the renderer and some other stuff, its up to the engine to manage the heiherarchy
 
 API Idea Stub (Codename Why3D):
-    local Why3D = require("Engine")
-
     local World = Why3D.new("World")
     local Mesh = Why3D.new("Mesh")
     local Material = Why3D.new("Material")
@@ -33,7 +25,9 @@ API Idea Stub (Codename Why3D):
             
     ]]
 
-    Mesh:LoadFromFile("./Assets/Cube.obj") -- Load ONLY the mesh from a file, 
+    Mesh:Load(Table)
     Mesh:SetMaterial(Material)
+
+    World:AddObject()
 
     local Canvas = World:Present()

@@ -11,10 +11,16 @@ end
 
 function BillboardClass.CreateBillboard(Canvas)
     local Drawable = Dream:newObject()
-    local Mesh = Dream:newSprite(Canvas)
-    Mesh.material.Alpha = true
-    Mesh.material.Simple = true
 
+    local Material = Dream:newMaterial()
+    Material:SetAlbedoTexture(Canvas)
+	Material.Particle = true
+    Material.Alpha = true
+    Material.Simple = true
+
+    Drawable:setMaterial(Material)
+
+    local Mesh = Dream:newSprite()
     Drawable.meshes["Mesh"] = Mesh
 
     return Mesh, Drawable

@@ -226,7 +226,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 				end
 				
 				--set active material
-				local material = mesh.material
+				local material = task:getMaterial()
 				if lastMaterial ~= material then
 					lastMaterial = material
 					
