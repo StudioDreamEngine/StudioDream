@@ -227,8 +227,7 @@ end
 ---@param shadowPass boolean
 ---@param isSun boolean
 ---@private
-function lib:getRenderShader(mesh, reflection, globalIdentifier, alpha, canvases, light, shadowPass, isSun)
-	local mat = mesh.material
+function lib:getRenderShader(mesh, mat, reflection, globalIdentifier, alpha, canvases, light, shadowPass, isSun)
 	reflection = not shadowPass and reflection
 
 	local defaultWorldShader = mat.Simple and self.defaultWorldShader2 or self.defaultWorldShader

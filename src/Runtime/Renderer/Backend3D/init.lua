@@ -9,7 +9,7 @@ function Backend3D.Init()
 end
 
 function Backend3D.SetupDebug()
-    Backend3D.Debug = Dream.cubeObject:clone()
+    Backend3D.Debug = Dream:newObject()
     Backend3D.SetTransform(Transform3D.FromPosition(0,-200,0))
 end
 
@@ -62,7 +62,10 @@ function Backend3D.LoadObject(Identifier, Reference)
     local Resource, ResourceIdentifier = Runtime.Resources.LoadResourceFromIdentifier(Identifier, Reference, "Mesh")
     if (not Resource) then return end
 
-    local DreamObject = Dream:loadObjectBytes(Resource.Bytes, Resource.Type)
+    local DreamObject = Dream:newObject() ---@class DreamObject
+    DreamObject.meshes[1] = Resource
+    DreamObject:updateBoundingSphere()
+
     AssignClassReference(DreamObject, Reference)
 
     return DreamObject, ResourceIdentifier
