@@ -5,14 +5,12 @@ local Root = Things.Extend("Thing")
 
 function Root:new() 
     Root.super.new(self)
-
-    self.Explorer = {
-        Visible = true,
-        Icon = "Root",
-    }
     
     self.EnvironmentViewport = nil ---@class Viewport3D
     self.HudViewport = nil ---@class Viewport2D
+
+    self.LODDistance = 10
+    self.FrustumCheck = true
 end
 
 -- Clear and cleanup all objects
@@ -34,9 +32,21 @@ function Root:Clear()
     collectgarbage("collect")
 end
 
+function Root:SetLODDistance(Number)
+    self.LODDistance = Number
+    Dream:setLODDistance(Number)
+end
+
+function Root:SetFrustumCheck(Boolean)
+    self.FrustumCheck = Boolean
+    Dream:setFrustumCheck(Boolean)
+end
+
 function Root:DefineAPI()
     Root.super.DefineAPI(self)
     
+    self.Proxy.Property("boolean FrustumCheck","number LODDistance")
+    self.Proxy.Group("Render","FrustumCheck","LODDistance")
     self.Proxy.MakeNonDuplicatable()
     self.Proxy.Icon("Root")
 end
