@@ -226,23 +226,31 @@ end
     assert(Name.." hasnt been found as a "..self.Name.." child.")
 end]]
 
-function Thing:Clone(DontCloneChildren)
+function Thing:Clone()
     local NewThing = Things.New(self.ClassName)
+
+    local PropertyThings = {}
+
+    for _, Child in pairs(self:GetChildren()) do
+        local NewChild = Child:Clone()
+        NewChild:SetParent(NewThing)
+    end
 
     for Property,Val in pairs(self.Proxy.Accessible) do 
         if self.Proxy.Types[Property] then
             Type = self[Property]
-            Things.SetProperty(NewThing,Property,Type)
-        end
-    end
-
-    if not DontCloneChildren then
-        for _, Child in pairs(self:GetChildren()) do
-            local NewChild = Child:Clone()
-            NewChild:SetParent(NewThing)
+            if Utils.TypeOf(Type) == "Thing" then
+                PropertyThings[Property] = Type
+            else
+                Things.SetProperty(NewThing,Property,Type)
+            end
         end
     end
     
+    for Property,Value in pairs(PropertyThings) do
+        Things.SetProperty(NewThing,Property,Value)
+    end
+
     return NewThing
 end
 

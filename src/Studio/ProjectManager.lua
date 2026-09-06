@@ -2,6 +2,8 @@
 local ProjectManager = {}
 local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
+ProjectManager.AlreadyRunning = false
+
 Runtime.Project.NotificationCallback = function(Message, Type)
     Studio.Layout.GetHandle("Notification").Notify(Message,Type or "Info")
 end
@@ -25,17 +27,24 @@ function ProjectManager.SaveProjectTo(Callback)
 end
 
 function ProjectManager.RunStudioProject()
+    if ProjectManager.AlreadyRunning then return end
+
     Runtime.Project.Save()
     Studio.EditorUI.Playtest.StartPlayline()
     RuntimeService.StartActivity()
+
+    ProjectManager.AlreadyRunning = true
 end
 
 function ProjectManager.StopStudioProject()
+    if not ProjectManager.AlreadyRunning then return end
+
     Studio.Editor3D.SelectionManager.DeselectAll()
     Studio.EditorUI.Playtest.EndPlayline()
     Studio.History.Clear()
-
     RuntimeService.Stop()
+    
+    ProjectManager.AlreadyRunning = false
 end
 
 function ProjectManager.SaveProject()

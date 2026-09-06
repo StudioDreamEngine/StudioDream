@@ -17,15 +17,6 @@ Editor3D.RotationSnap = 10
 
 Editor3D.GridUpdated = Signal:New("GridUpdated")
 
-function Editor3D.OpenInsertWindow(Object)
-    local WindowHandle = Studio.Layout.GetHandle("InsertObject")
-
-    Studio.Layout.MoveWindow(WindowHandle, Studio.Layout.GetMouseContext(WindowHandle.Container))
-    Studio.Layout.ToggleWindow(WindowHandle, true)
-
-    WindowHandle.TargetObject = Object
-end
-
 function Editor3D.UpdateGrid(Name,ToWhat)
     Editor3D[Name.."Snap"] = ToWhat
     Editor3D.GridUpdated.Invoke()

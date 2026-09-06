@@ -154,7 +154,7 @@ function Inspector.Init()
         ClearWhenFocus = true,
         Placeholder = "Search a thing class name!"
     })
-
+    
     Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(0,0),

@@ -20,4 +20,16 @@ function EditorUI.RedrawEverything()
     end
 end
 
+function EditorUI.MoveWindow(Window,Pos)
+    Studio.Layout.MoveWindow(Studio.Layout.GetHandle(Window),Pos)    
+end
+
+function EditorUI.MoveWindowByMouse(Window)
+    EditorUI.MoveWindow(Window, Studio.Layout.GetMouseContext(Studio.Layout.GetHandle(Window).Container))
+end
+
+function EditorUI.ToggleWindow(Window,Visible)
+    Studio.Layout.ToggleWindow(Studio.Layout.GetHandle(Window), Visible or (not Studio.Layout.GetHandle(Window).FullContainer.Visible))
+end
+
 return EditorUI

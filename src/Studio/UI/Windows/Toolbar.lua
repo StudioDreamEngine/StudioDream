@@ -11,12 +11,8 @@ Toolbar.ButtonsToCreate = {
         Icon = "Insert",
         Name = "Insert thing",
         Clicked = function()
-            LockInsert = not LockInsert
-            if LockInsert then
-                Studio.Editor3D.OpenInsertWindow()
-            else
-                Studio.Editor3D.CloseInsertWindow()
-            end
+            Studio.EditorUI.ToggleWindow("InsertObject")
+            Studio.EditorUI.MoveWindowByMouse("InsertObject")
         end,
     },
     {

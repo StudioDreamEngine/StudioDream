@@ -141,9 +141,6 @@ function Transform3D.FromString(Text) -- also need to figure out a good way to i
     local FinalString
 
     if #StringsCreated > 0 then
-        print(Text)
-        print(RemoveWhiteSpace)
-        print(StringsCreated[1],StringsCreated[2])
         FinalString = (StringsCreated[1] or "0,0,0")..","..(StringsCreated[2] or "0,0,0")
     else
         FinalString = Text

@@ -27,6 +27,10 @@ function Primitive:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
+function Primitive:EnableParticle()
+    Dream:addParticleSystems(self.Drawable)
+end
+
 function Primitive:CheckShape()
     if self._LastShape ~= self.Shape or not self.Drawable then
         local PrimativeIdentifier = Utils.FileExists("Internal/DefaultMeshes/"..self.Shape..".obj") and Runtime.Resources.GetIdentifierFromID("Internal/DefaultMeshes/"..self.Shape..".obj") or "Internal/DefaultMeshes/cube.obj"

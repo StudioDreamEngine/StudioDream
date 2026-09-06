@@ -10,6 +10,10 @@ local InputsSaved = {
         First = Enum.InputCode.LeftCtrl,
         Second = Enum.InputCode.F,
     },]]
+    ["Save"] = {
+        First = Enum.InputCode.LeftCtrl,
+        Second = Enum.InputCode.S
+    },
     ["SnapToPart"] = {
         First = Enum.InputCode.LeftCtrl,
         Second = Enum.InputCode.F,
@@ -42,6 +46,13 @@ local InputsSaved = {
         First = Enum.InputCode.LeftCtrl,
         Second = Enum.InputCode.U,
     },
+    ["TestClient"] = {
+        First = Enum.InputCode.LeftShift,
+        Second = Enum.InputCode.F5,
+    },
+    ["TestInStudio"] = {
+        First = Enum.InputCode.F5,
+    },
     ["Delete"] = {
         First = Enum.InputCode.Delete,
     },
@@ -70,6 +81,14 @@ local HandleThis = {
         },
         Function = function()
             Studio.History.Undo()
+        end,
+    },
+    ["SaveProject"] = {
+        Settings = {
+            Inputs = {{Key = InputsSaved.Save.First, Mod = true},{Key = InputsSaved.Save.Second}}
+        },
+        Function = function()
+            Studio.ProjectManager.SaveProject()
         end,
     },
     ["Doit"] = {
@@ -119,6 +138,24 @@ local HandleThis = {
         },
         Function = function()
             Studio.Editor3D.SelectionManager.DeleteAll()
+            --Studio.Layout.CallHandle("Explorer", "Redraw")
+        end,
+    },
+    ["TestInStudio"] = {
+        Settings = {
+            Inputs = {{Key = InputsSaved.TestInStudio.First}}
+        },
+        Function = function()
+            Studio.ProjectManager.RunStudioProject()
+        end,
+    },
+    ["TestClient"] = {
+        Settings = {
+            Inputs = {{Key = InputsSaved.TestClient.First,Mod = true},{Key = InputsSaved.TestClient.Second}}
+        },
+        Function = function()
+            Runtime.Project.Save()
+            Runtime.RequestRestart("Client")
             --Studio.Layout.CallHandle("Explorer", "Redraw")
         end,
     },
