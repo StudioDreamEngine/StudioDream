@@ -113,8 +113,8 @@ function class:addObject(object, parentTransform, dynamic)
 	end
 	
 	--meshes
-	for _, m in pairs(object.meshes) do
-		self:addMesh(m, transform, object.reflection or lib.defaultReflection, object.material, scale)
+	if object.mesh then
+		self:addMesh(object.mesh, transform, object.reflection or lib.defaultReflection, object.material, scale)
 	end
 end
 

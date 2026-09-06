@@ -217,10 +217,10 @@ local function raytraceObject(object, localOrigin, localDirection, ignoreInfo)
 	
 	--for all meshes
 	local transforms
-	for _, mesh in pairs(object.meshes) do
-		if mesh.vertices and mesh.faces then
-			transforms = raytraceMesh(mesh, localOrigin, localDirection, object) or transforms
-		end
+	local mesh = object.mesh
+
+	if mesh and mesh.vertices and mesh.faces then
+		transforms = raytraceMesh(mesh, localOrigin, localDirection, object) or transforms
 	end
 	
 	--for all objects

@@ -17,8 +17,7 @@ end
 function lib:newObject()
 	return setmetatable({
 		objects = { },
-		meshes = { },
-		collisionMeshes = { },
+		mesh = nil,
 		raytraceMeshes = { },
 		positions = { },
 		lights = { },
@@ -118,13 +117,11 @@ function class:updateBoundingSphere()
 	local currentSphere = lib:newBoundingSphere()
 
 	--update bounding sphere of meshes
-	for _, s in pairs(self.meshes) do
-		if not s.boundingSphere:isInitialized() then
-			s:updateBoundingSphere()
-		end
-
-		currentSphere = s.boundingSphere:merge(currentSphere)
+	if not self.mesh.boundingSphere:isInitialized() then
+		self.mesh:updateBoundingSphere()
 	end
+
+	currentSphere = self.mesh.boundingSphere:merge(currentSphere)
 	
 	--update bounding spheres of objects
 	for _, s in pairs(self.objects) do
@@ -187,10 +184,10 @@ local function getAllMeshes(object, list, transform)
 		for _, o in pairs(object.objects) do
 			getAllMeshes(o, list, o:getTransform() * transform)
 		end
-		for _, mesh in pairs(object.meshes) do
-			if mesh.vertices then
-				table.insert(list, { mesh, transform })
-			end
+		local mesh = object.mesh
+
+		if mesh.vertices then
+			table.insert(list, { mesh, transform })
 		end
 	end
 end

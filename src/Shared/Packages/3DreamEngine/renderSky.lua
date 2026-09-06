@@ -18,7 +18,7 @@ function lib:renderSky(transformProj, camTransform, transformScale)
 	local shader = self:getBasicShader("sky_cube")
 	love.graphics.setShader(shader)
 	shader:send("transformProj", transformProj)
-	local mesh = self.cubeObject.meshes[1]:getMesh()
+	local mesh = self.cubeObject.mesh:getMesh()
 	mesh:setTexture(self.sky_texture)
 	love.graphics.draw(mesh)
 

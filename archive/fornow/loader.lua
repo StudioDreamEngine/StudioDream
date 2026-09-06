@@ -121,7 +121,7 @@ Loader Args
 ---Load an object
 ---@param path string @ Path to object without extension
 ---@param args table
-function lib:loadObject(path, args)
+--[[function lib:loadObject(path, args)
 	--set default args
 	args = prepareArgs(args)
 	
@@ -167,7 +167,7 @@ function lib:loadObject(path, args)
 	self.deltonLoad:stop()
 
 	return obj
-end
+end]]
 
 ---@param name string @ the full object or mesh identifier
 ---@return string, table @ the actual name and the extracted tags
@@ -199,7 +199,7 @@ end
 ---Process and populate the object
 ---@param obj DreamObject
 ---@private
-function lib:processObject(obj)
+--[[function lib:processObject(obj)
 	for id, object in pairs(obj.objects) do
 		--pase tags
 		local name, tags = self:parseTags(id)
@@ -369,7 +369,7 @@ function lib:processObject(obj)
 			end
 		end
 	end
-end
+end]]
 
 ---Finish object
 ---@param obj DreamObject

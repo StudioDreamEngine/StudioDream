@@ -63,7 +63,7 @@ function Backend3D.LoadObject(Identifier, Reference)
     if (not Resource) then return end
 
     local DreamObject = Dream:newObject() ---@class DreamObject
-    DreamObject.meshes[1] = Resource
+    DreamObject.mesh = Resource
     DreamObject:updateBoundingSphere()
 
     AssignClassReference(DreamObject, Reference)
