@@ -43,8 +43,6 @@ function RootScenes.Load()
             Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier)
 
             table.insert(RootRefs, Resource.References)
-        else
-            Identifier = Runtime.Resources.GetOrCreateIdentifierID(Name..".sds") -- Currently if a default is missing, it just makes its own identifier
         end
 
         Object = (Resource.Scene or Default):Clone()
@@ -52,7 +50,7 @@ function RootScenes.Load()
 
         RootScenes.Loaded[Name] = {
             Object = Object,
-            Identifier = Identifier
+            Identifier = nil
         }
     end
 
@@ -71,6 +69,10 @@ function RootScenes.Save()
     local ScenesConfig = {}
 
     for Name, Loaded in pairs(RootScenes.Loaded) do
+        if (not Loaded.Identifier) then
+            Loaded.Identifier = Runtime.Resources.GetOrCreateIdentifierID(Name..".sds") -- Currently if a default is missing, it just makes its own identifier
+        end
+
         Project.Scenes.SaveScene(Loaded.Identifier, Loaded.Object)
 
         ScenesConfig[Name] = Loaded.Identifier

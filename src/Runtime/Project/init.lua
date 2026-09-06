@@ -224,7 +224,7 @@ function Project.Save()
         return
     end
 
-    local Success, Message = pcall(function()
+    local Success, Message = xpcall(function()
         Project.Config.Save()
 
         -- Only save resources if they're going somewhere else (we can check via queued writes)
@@ -237,6 +237,8 @@ function Project.Save()
         RootScenes.Save()
 
         Project.History.Add(ProjectFS, Project.Config.Get("Name"))
+    end, function(Error)
+        return debug.traceback(Error)
     end)
 
     if (not Success) then
