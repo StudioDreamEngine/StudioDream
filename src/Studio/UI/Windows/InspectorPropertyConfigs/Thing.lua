@@ -42,7 +42,7 @@ function Template.Create(Info)
         ReturnDisplay = function(Object, Same)
             local FirstObject = Object
             Image:SetResource(Same and (FirstObject[Info.Name] and "Internal/Studio/EditorIcons/"..FirstObject[Info.Name].Proxy.ExplorerIcon..".png" or "Internal/Studio/EditorIcons/Unkown.png") or "Internal/Studio/EditorIcons/Unkown.png")
-            return FirstObject[Info.Name] and FirstObject[Info.Name].Name or "~"
+            return (FirstObject and FirstObject[Info.Name]) and FirstObject[Info.Name].Name or "~"
         end
     },{
         ValueContainer = "Outline",
