@@ -25,7 +25,7 @@ function BillboardClass.CreateBillboard(Canvas)
     Drawable:setMaterial(Material)
 
     local Mesh = Dream:newSprite()
-    Drawable.meshes["Mesh"] = Mesh
+    Drawable.mesh = Mesh
 
     return Mesh, Drawable, Buffer
 end
