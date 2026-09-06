@@ -7,7 +7,7 @@ local SurfaceViewport = Things.Extend("Viewport2D")
 function SurfaceViewport:new()
     SurfaceViewport.super.new(self)
 
-    self.Mesh, self.Drawable = Renderer.Billboard.CreateBillboard(self.ViewportCanvas)
+    self.Mesh, self.Drawable, self.CanvasIdentifier = Renderer.Billboard.CreateBillboard(self.ViewportCanvas)
 
     self.DisplaySide = Enum.Side.Front
     self.DisableDepth = false
@@ -49,7 +49,8 @@ function SurfaceViewport:CreateNew()
     SurfaceViewport.super.CreateNew(self)
 
     if self.Drawable then
-        self.Drawable.material:SetAlbedoTexture(self.ViewportCanvas)
+        Runtime.Resources.ChangeBuffer(self.CanvasIdentifier.ID, self.ViewportCanvas)        
+        self.Drawable.material:SetAlbedoTexture(self.CanvasIdentifier)
     end
 end
 

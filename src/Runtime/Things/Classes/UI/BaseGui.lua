@@ -330,7 +330,7 @@ function BaseGui:IsActive()
 end
 
 function BaseGui:SetMouseLocked(NewLocked)
-    local Display = self:GetDisplayUI() ---@class Viewport2D
+    local Display = self:GetDisplayUI(true) ---@class Viewport2D
     if (not Display) then return end
 
     if NewLocked then

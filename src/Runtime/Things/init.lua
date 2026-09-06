@@ -49,7 +49,6 @@ function Things.CreateApiDump()
 end
 
 function Things.CreateEnviornment()
-    Things.Root:Clear()
     CreateRoot.CreateEnviornment(Things.Root)
 end
 

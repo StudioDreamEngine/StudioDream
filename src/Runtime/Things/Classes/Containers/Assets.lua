@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
----@class Assets: Thing
-local Assets = Things.Extend("Thing")
+---@class Assets: Scene
+local Assets = Things.Extend("Scene")
 
 function Assets:new()
     Assets.super.new(self)

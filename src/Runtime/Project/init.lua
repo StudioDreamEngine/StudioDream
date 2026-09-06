@@ -9,16 +9,15 @@ Project.History = require("Runtime.Project.History")
 Project.Config = require("Runtime.Project.Configuration")
 
 Project.RegisterRootScene = RootScenes.Register
-Project.LoadDefault = Project.Scenes.LoadDefault
+Project.LoadDefault = RootScenes.LoadDefault
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
 Project.LoadingProject = false
 Project.LoadedProject = Signal:New("ProjectLoaded")
 
-function Project.Test()
-    table.clear(RootScenes.Registered)
-    Runtime.Things.Root:Clear()
+function Project.Clear()
+    table.clear(RootScenes.Loaded)
 end
 
 -- Make sure a project path is a valid project
@@ -107,7 +106,7 @@ function Project.GetSummary(ProjectPath)
 
     return {
         Config = Config,
-        ImageResource = Runtime.Resources.GetIdentifierFromID(Image)
+        ImageResource = Runtime.Resources.CreateBuffer(Image)
     }
 end
 
@@ -130,7 +129,7 @@ function Project.EditName(NewName)
 end
 
 function Project.Reload()
-    return pcall(function()
+    return xpcall(function()
         Project.LoadingProject = true
 
         Resources.Load()
@@ -140,6 +139,8 @@ function Project.Reload()
         Runtime.LoadProjectCallback()
 
         Project.LoadingProject = false
+    end, function(Error)
+        return debug.traceback(Error)
     end)
 end
 

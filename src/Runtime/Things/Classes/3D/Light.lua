@@ -19,15 +19,15 @@ function Light:new()
     self.Attenuation = 2.0
     self.Light = Dream:newLight(self.LightType, Dream.vec3(0, 0, 0), Dream.vec3(1.0, 1.0, 1.0), 1.0)
 
-    --local LightImage = Runtime.Resources.LoadResourceFromIdentifier("Internal/Light.png")
-    --self.Mesh, self.Drawable = Renderer.Billboard.CreateBillboard(LightImage)
+    local LightImage = Runtime.Resources.LoadResourceFromIdentifier("Internal/Light.png")
+    self.Mesh, self.Drawable, self.BufferID = Renderer.Billboard.CreateBillboard(LightImage)
 
     RuntimeService.OnRunning:ConnectOnce(function() Runtime.Backend3D.UnregisterObject(self.UUID) end)
 end
 
 function Light:OnReady()
     -- Register billboard as an adorn object for now, fucks w/ other viewports but yea
-    --Runtime.Backend3D.RegisterObject(self.Drawable, self.UUID)
+    Runtime.Backend3D.RegisterObject(self.Drawable, self.UUID)
 end
 
 function Light:SetShadowResolution(Number)
@@ -54,7 +54,7 @@ end
 
 function Light:OnRemove()
     Light.super.OnRemove(self)
-    --Runtime.Backend3D.UnregisterObject(self.UUID)
+    Runtime.Backend3D.UnregisterObject(self.UUID)
 end
 
 function Light:DefineAPI()
@@ -123,7 +123,7 @@ end
 function Light:Update(dt)
     Light.super.Update(self, dt)
 
-    --Renderer.Billboard.UpdateTransform(self, self.Transform.Position, self:GetWorld())
+    Renderer.Billboard.UpdateTransform(self, self.Transform.Position, self:GetWorld())
 end
 
 return Light

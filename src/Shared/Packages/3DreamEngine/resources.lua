@@ -110,7 +110,9 @@ end
 
 ---Get a texture, load it threaded if enabled and therefore may return nil first
 function lib:getImage(path)
-	return Runtime.Resources.GetResource(path)
+	if path then
+		return Runtime.Resources.LoadResourceFromIdentifier(path)
+	end
 end
 
 ---Lazily combine 3 textures to use only one texture

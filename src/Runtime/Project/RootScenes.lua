@@ -1,52 +1,82 @@
----@diagnostic disable: need-check-nil
+---@diagnostic disable: cast-local-type, need-check-nil
+local Root = Runtime.Things.Root
+
 local RootScenes = {}
-RootScenes.Registered = {}
+RootScenes.Default = {}
+RootScenes.Loaded = {}
 
-local ProjectFS = Runtime.ProjectFS
+function RootScenes.Register(SceneObject, SceneName) RootScenes.Default[SceneName] = SceneObject end
 
-function RootScenes.Register(SceneObject, SceneName) RootScenes.Registered[SceneObject] = SceneName end
+function RootScenes.LoadDefault()
+    Root:Clear()
 
----@param Things Things
-function RootScenes.Load(Things)
-    table.clear(RootScenes.Registered)
-    Runtime.Things.CreateEnviornment()
+    for Name, Default in pairs(RootScenes.Default) do
+        local Object = Default:Clone()
+        Object:SetParent(Root)
 
-    local Scenes = Runtime.Project.Scenes
-    local NewScenes = {}
-
-    for Object, Scene in pairs(RootScenes.Registered) do
-        if ProjectFS.FileExists(Scene..".sds") then
-            local Deserializer = NAML.Deserialize(ProjectFS.ReadFile(Scene..".sds"))
-
-            local Return = Scenes.LoadScene(Deserializer, Object, Scene)
-            Return:SetParent(Things.Root)
-
-            NewScenes[Return] = Scene
-        else
-            print("Scene "..Scene.." Doesnt exist! Not loading scene...")
-        end
+        RootScenes.Loaded[Name] = {
+            Object = Object,
+            Identifier = nil
+        }
     end
 
-    Scenes.ResolveReferences()
-    RootScenes.ConfigureTargets(Things)
+    Runtime.Project.Scenes.LoadDefault()
+    RootScenes.ConfigureTargets()
+end
 
-    RootScenes.Registered = table.clone(NewScenes) -- Hack to fix issue with RootScenes.Save Referencing root scenes initially created (which have nothing in them)
+function RootScenes.Load()
+    local Project = Runtime.Project
+    Root:Clear()
+
+    local ScenesConfig = Project.Config.Get("RootScenes")
+    local RootRefs = {}
+
+    for Name, Default in pairs(RootScenes.Default) do
+        local Identifier = ScenesConfig[Name]
+
+        local Resource = {
+            References = {},
+            Scene = nil
+        }
+
+        if Identifier then
+            Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier)
+
+            table.insert(RootRefs, Resource.References)
+        else
+            Identifier = Runtime.Resources.GetOrCreateIdentifierID(Name..".sds") -- Currently if a default is missing, it just makes its own identifier
+        end
+
+        Object = (Resource.Scene or Default):Clone()
+        Object:SetParent(Root)
+
+        RootScenes.Loaded[Name] = {
+            Object = Object,
+            Identifier = Identifier
+        }
+    end
+
+    Project.Scenes.ResolveReferences(unpack(RootRefs))
+    RootScenes.ConfigureTargets()
 end
 
 -- Configure Hud and Environment viewports for new root scenes
-function RootScenes.ConfigureTargets(Things)
-    local Root = Things.Root
-
+function RootScenes.ConfigureTargets()
     Root.EnvironmentViewport:SetRenderContainer(Root:GetEnvironment())
     Root.HudViewport:SetRenderContainer(Root:GetHUD())
 end
 
 function RootScenes.Save()
-    local Scenes = Runtime.Project.Scenes
+    local Project = Runtime.Project
+    local ScenesConfig = {}
 
-    for Object, Scene in pairs(RootScenes.Registered) do
-        Scenes.SaveScene(Scene..".sds", Object)
+    for Name, Loaded in pairs(RootScenes.Loaded) do
+        Project.Scenes.SaveScene(Loaded.Identifier, Loaded.Object)
+
+        ScenesConfig[Name] = Loaded.Identifier
     end
+
+    Project.Config.Set("RootScenes", ScenesConfig)
 end
 
 return RootScenes

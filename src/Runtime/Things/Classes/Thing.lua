@@ -369,13 +369,13 @@ function Thing:SetParent(NewParent)
     end
     
     local SerializeCheck = NewParent or OldParent
+    self.Parent = NewParent
 
     -- The "NewParent:IsA("Root")" check here is to make sure that root objects are always requested for tree change, THIS SHOULD BE CHANGED LATER
-    if (NewParent and NewParent:IsA("Root")) or (SerializeCheck and SerializeCheck:IsSerializable()) then
+    if (SerializeCheck and SerializeCheck:IsSerializable()) then
         Runtime.Things.RequestTreeChange(self)
     end
 
-    self.Parent = NewParent
     self.ParentChanged.Invoke()
     
     if (not self.WasParented) then self:OnInitalParent(NewParent) end

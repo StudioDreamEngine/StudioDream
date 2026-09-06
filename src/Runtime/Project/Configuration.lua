@@ -2,6 +2,7 @@ local Configuration = {}
 
 local DefaultConfig = {
     Name = "Untitled",
+    RootScenes = {}
 }
 
 function Configuration.Set(Key, Value)
@@ -46,6 +47,8 @@ function Configuration.Load(Mount)
         end
 
         return Config
+    elseif (not Mount) then
+        Shared.QueueAbort("Failed to load project configuration!")
     end
 end
 

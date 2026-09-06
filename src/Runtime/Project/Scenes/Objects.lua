@@ -171,15 +171,17 @@ function Objects.DeserializeObjects(Root, NamlObjects)
     end
     Deserialize.End()
 
+    local References = {}
+
     -- Part 2: Resolve local references, Add non-local refs to references table to be resolved
     local Deserialize = Profiler.Benchmark("Scene - Resolve References", true)
     for Object, RelocationQueue in pairs(RelocationQueues) do
         Objects.ResolveLocalReferences(Object, RelocationQueue, LocalReferences)
-        Objects.References[Object] = RelocationQueue
+        References[Object] = RelocationQueue
     end
     Deserialize.End()
 
-    return Root
+    return Root, References
 end
 
 function Objects.ResolveLocalReferences(Object, RelocationQueue, LocalReferences)
@@ -193,20 +195,22 @@ function Objects.ResolveLocalReferences(Object, RelocationQueue, LocalReferences
 end
 
 -- Resolve any non-local references
-function Objects.ResolveReferences()
-    for Object, RelocationQueue in pairs(Objects.References) do
-        for PropertyName, UUID in pairs(RelocationQueue) do
-            local ObjectRef = Things.Get(UUID)
+function Objects.ResolveReferences(...)
+    local AllRefs = {...}
 
-            if (not ObjectRef) then
-                printVerbose("No ref")
-            else
-                Things.SetProperty(Object, PropertyName, ObjectRef)
+    for _, References in pairs(AllRefs) do -- For all references
+        for Object, RelocationQueue in pairs(References) do -- For all relocationqueues
+            for PropertyName, UUID in pairs(RelocationQueue) do -- for all properties
+                local ObjectRef = Things.Get(UUID)
+
+                if (not ObjectRef) then
+                    printVerbose("No ref")
+                else
+                    Things.SetProperty(Object, PropertyName, ObjectRef)
+                end
             end
         end
     end
-
-    Objects.References = {}
 end
 
 return Objects

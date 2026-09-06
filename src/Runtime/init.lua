@@ -58,6 +58,8 @@ function Runtime.PostInit()
 
     Runtime.Project = require("Runtime.Project")
     Runtime.Things.CreateEnviornment()
+
+    print("Finished PostInit")
 end
 
 -- runs after the target is initalized

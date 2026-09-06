@@ -18,11 +18,14 @@ function Resources.Init()
 	end)
 
 	Resources.GetIdentifierFromID = Identifiers.GetIdentifierFromID
+	Resources.GetOrCreateIdentifierID = Identifiers.GetOrCreateIdentifierID
 	Resources.LoadOrCreateIdentifier = Identifiers.LoadOrCreateIdentifier
 	Resources.RegisterAsMissing = Identifiers.RegisterAsMissing
 	Resources.LoadIdentifierIDFromPath = Identifiers.LoadIdentifierIDFromPath
 	Resources.GetIdentifierIDFromPath = Identifiers.GetIdentifierIDFromPath
 	Resources.CreateIdentifier = Identifiers.CreateIdentifier
+	Resources.CreateBuffer = Identifiers.CreateBuffer
+	Resources.ChangeBuffer = Identifiers.ChangeBuffer
 end
 
 function Resources.Clear()
@@ -69,16 +72,10 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 		CustomProperty = ResourceInfo.Property
 	end
 
-	local Type = Utils.TypeOf(Identifier)
-
-	if Type == "string" then
-		--[[printVerbose(
-			"Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine."
-		)]]
-		Identifier = Identifiers.GetIdentifierFromID(Identifier)
-	elseif Type == "userdata" then -- TODO: Merge w/ Above
-		Identifier = IdentifierType.new(Identifier, "Buffer", "Buffer-" .. CreateUUID())
-	end
+	--[[printVerbose(
+		"Calling LoadResourceFromIdentifier with IdentifierID instead of Identifier, Try to use Identifier when possible, but IdentifierID is fine."
+	)]]
+	Identifier = Identifiers.GetIdentifierFromID(Identifier)
 
 	local ObjectUUID = (type(Object) == "table" and Object.UUID or Object)
 
@@ -99,6 +96,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	elseif Identifier.ResourceType ~= "Internal" then
 		printVerbose("Cannot add", Identifier, "to ObjectReferences")
 	end
+	
 	local ResourceReturn, ResourceReturnSecond = Resources.GetResource(Identifier)
 	return ResourceReturn, Identifier.ID, ResourceReturnSecond
 end
@@ -138,7 +136,7 @@ function Resources.LoadResource(Identifier)
 	elseif ResourceType == "Buffer" then
 		Resource = Identifier.Data
 	else
-		error("Invalid ResourceType "..ResourceType)
+		error("Invalid ResourceType "..(ResourceType or "Unknown"))
 	end
 
 	LoadedResources[Identifier.ID] = Resource
@@ -158,14 +156,14 @@ function Resources.LoadResource(Identifier)
 	return Resource, SecondResource
 end
 
-function Resources.SaveResource(IdentifierID)
+function Resources.WriteResource(IdentifierID, Data)
 	local Identifier = Identifiers.GetIdentifierFromID(IdentifierID)
 
 	if Identifier.ResourceType == "Project" then
 		local IdentifierData = Identifier.Data ---@class Path
 
 		Runtime.ProjectFS.QueueWrite(IdentifierData.FilePath..".uid", Identifier.ID)
-		Runtime.ProjectFS.QueueWrite(IdentifierData.FilePath, Runtime.ProjectFS.ReadFile(IdentifierData.FilePath)) -- Code reuse... too bad!
+		Runtime.ProjectFS.QueueWrite(IdentifierData.FilePath, Data or Runtime.ProjectFS.ReadFile(IdentifierData.FilePath)) -- Code reuse... too bad!
 	end
 end
 
@@ -173,7 +171,7 @@ end
 function Resources.SaveResources()
 	---@param Identifier Identifier
 	for ID, Identifier in pairs(Identifiers.GetAll()) do
-		Resources.SaveResource(ID)
+		Resources.WriteResource(ID)
 	end
 end
 
@@ -188,6 +186,7 @@ function Resources.GetResource(Identifier, Reload)
 
 	local LoadedResource = LoadedResources[Identifier.ID]
 	local SecondLoadedResource
+
 	if (not LoadedResource) or Reload then -- If the resource isnt loaded yet, cache it
 		LoadedResource, SecondLoadedResource = Resources.LoadResource(Identifier)
 	end
@@ -195,8 +194,8 @@ function Resources.GetResource(Identifier, Reload)
 	return LoadedResource, SecondLoadedResource
 end
 
-function Resources.UnloadResource(Identifier)
-	print("TODO")
+function Resources.UnloadResource(IdentifierID)
+	LoadedResources[IdentifierID] = nil
 end
 
 return Resources

@@ -50,7 +50,7 @@ end
 
 function ScriptHandler.CreateOrSelect(ScriptObject)
     if Runtime.SettingsManager.Get("AutomaticCreation") then
-        return Runtime.Resources.CreateIdentifier(ScriptObject.Name..".lua")
+        --return Runtime.Resources.CreateIdentifier(ScriptObject.Name..".lua")
     else
         local _, Path = Platform.OpenWithCallback("Open a script", Enum.OpenDialog.File, function() end)
         if (not Path) then return end

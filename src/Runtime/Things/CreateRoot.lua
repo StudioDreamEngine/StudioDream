@@ -5,27 +5,22 @@ function CreateRoot.CreateEnviornment(Root)
     ---@class Environment
     local Environment = Things.Create("Environment") {
         Name = "Environment",
-        Parent = Root
     }
 
     local HUD = Things.Create("HUD") {
         Name = "HUD",
-        Parent = Root
     }
 
     local Materials = Things.Create("Materials") {
         Name = "Materials",
-        Parent = Root
     }
 
     local Lighting = Things.Create("Lighting") {
         Name = "Lighting",
-        Parent = Root
     }
 
     local Assets = Things.Create("Assets") {
         Name = "Assets",
-        Parent = Root
     }
 
     Runtime.Project.RegisterRootScene(Environment, "MainScene")

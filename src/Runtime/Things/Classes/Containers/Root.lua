@@ -15,6 +15,7 @@ end
 
 -- Clear and cleanup all objects
 function Root:Clear()
+    print("Clearing root")
     self:ClearAllChildren()
 
     if self.EnvironmentViewport then
@@ -25,11 +26,14 @@ function Root:Clear()
         self.HudViewport:SetRenderContainer(nil)
     end
 
+    Runtime.Project.Clear()
     Runtime.Things.TreeChanged.Invoke()
     Runtime.ScriptUtil.Reset()
     Scheduler.Yield(); Scheduler.Yield() -- wait 2 frames
 
     collectgarbage("collect")
+
+    print("Finished clearing root")
 end
 
 function Root:SetLODDistance(Number)
@@ -57,7 +61,8 @@ function Root:GetService(Service)
 end
 
 function Root:OnRemove()
-    error("Attempted to remove root")
+    self:Clear()
+    print("Attempted to remove root, clearing root contents instead...")
 end
 
 ---@return Camera

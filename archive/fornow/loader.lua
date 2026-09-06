@@ -169,30 +169,6 @@ function lib:loadObject(path, args)
 	return obj
 end
 
----Load an object using the IO library
----@param bytes string
----@param args table
-function lib:loadObjectBytes(bytes, type, args)
-	--set default args
-	args = prepareArgs(args)
-
-	local obj = self:newObject()
-	obj.args = args
-	
-	self.deltonLoad:start("load " .. obj.name)
-	self.deltonLoad:start("parser")
-
-	self.loader[type](self, obj, bytes)
-	self.deltonLoad:stop()
-	
-	self:processObject(obj) --extract positions, physics, ...
-	self:finishObject(obj) --create meshes, link library entries, ...
-	
-	self.deltonLoad:stop()
-
-	return obj
-end
-
 ---@param name string @ the full object or mesh identifier
 ---@return string, table @ the actual name and the extracted tags
 ---@private

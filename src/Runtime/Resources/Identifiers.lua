@@ -54,33 +54,71 @@ function Identifiers.GetIdentifierIDFromPath(FilePath)
 	return Runtime.ProjectFS.ReadFile(FilePath .. ".uid")
 end
 
+---@param Identifier string
 ---@param FilePath string
--- Create an identifier based off FilePath, accounting for duplicates in the parent folder
-function Identifiers.CreateIdentifier(FilePath)
-	FilePath = Path.new(FilePath) ---@diagnostic disable-line: cast-local-type
+-- Configure (Register) an Identifier to be Associated with a File Path
+local function RegisterIdentifier(Identifier, FilePath)
+	local PathObj = Path.new(FilePath) ---@class Path
 
-	local ParentPath = FilePath.GetParent().FilePath
+	local NewIdentifier = IdentifierType.new(PathObj, "Project", Identifier)
+	RegisteredIdentifiers[Identifier] = NewIdentifier
 
-	local DirectoryItems = Runtime.ProjectFS.ListDirectory(ParentPath)
-	local TotalDuplicates = 0
-	local FileName
+	return NewIdentifier
+end
 
-	while true do
-		FileName = FilePath.FileName..((TotalDuplicates > 0) and TotalDuplicates or "").."."..FilePath.FileType
-		TotalDuplicates = TotalDuplicates + 1
+---@param FilePath string
+---@param CheckDuplicates boolean?
+--[[
+	Given a file path, create SOLELY the identifier id
+]]
+function Identifiers.GetOrCreateIdentifierID(FilePath, CheckDuplicates)
+	local ProjectFS = Runtime.ProjectFS
+	local FinalPath
+	
+	if CheckDuplicates then
+		FilePath = Path.new(FilePath) ---@diagnostic disable-line: cast-local-type
 
-		if (not table.find(DirectoryItems, FileName)) then
-			break
+		local ParentPath = FilePath.GetParent().FilePath
+		local FileName = FilePath.FileName
+
+		local DirectoryItems = Runtime.ProjectFS.ListDirectory(ParentPath)
+		local TotalDuplicates = 0
+
+		while true do
+			FileName = FilePath.FileName..((TotalDuplicates > 0) and TotalDuplicates or "").."."..FilePath.FileType
+			TotalDuplicates = TotalDuplicates + 1
+
+			if (not table.find(DirectoryItems, FileName)) then
+				break
+			end
 		end
+
+		FinalPath = ParentPath..FileName
+	else
+		FinalPath = FilePath
 	end
 
-	return Identifiers.LoadOrCreateIdentifier(ParentPath..FileName)
+	-- use the old identifier if it exists
+	local HasIdentifier = ProjectFS.FileExists(FinalPath .. ".uid")
+	local IdentifierID
+
+	if not HasIdentifier then -- Create a new identifier
+		IdentifierID = CreateUUID()
+		ProjectFS.QueueWrite(FinalPath .. ".uid", IdentifierID)
+	else
+		IdentifierID = ProjectFS.ReadFile(FinalPath .. ".uid")
+	end
+
+	RegisterIdentifier(IdentifierID, FinalPath)
+
+	return IdentifierID
 end
 
 ---@param FilePath string
 ---@param FileData? string
 --[[
 	Given a file path (relative to the project mount), create the file (if it doesnt exist) and register an identifier 
+	TODO: Replace this with a function that calls GetOrCreateIdentifierID followed by Resources.WriteResource
 	
 	(THIS DOES NOT HANDLE DUPLICATES IN THE CASE OF CREATION, USE Resources.CreateIdentifier for that)
 ]]
@@ -95,7 +133,6 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 	assert(FilePath, "FilePath not passed")
 	assert(type(FilePath) == "string", "FilePath can only be a string value.\nIf you want to find an IdentifierID from a path, use Resources.GetIdentifierIDFromPath")
 
-	local HasIdentifier = ProjectFS.FileExists(FilePath .. ".uid")
 	local HasFile = ProjectFS.FileExists(FilePath)
 
 	-- This file is a directory, pass that along to the function that called this, as it may be used to handle loading/reloading all resources
@@ -104,36 +141,30 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 		return nil, true
 	end
 
-	if not HasFile then
+	if (not HasFile) or FileData then
 		print("Writing new file @ path:",FilePath)
 
 		ProjectFS.QueueWrite(FilePath, FileData or "")
 	end
 
-	local Identifier
-
-	if not HasIdentifier then -- Create a new identifier
-		Identifier = CreateUUID()
-		ProjectFS.QueueWrite(FilePath .. ".uid", Identifier)
-	else
-		Identifier = ProjectFS.ReadFile(FilePath .. ".uid")
-	end
-
-	Identifiers.RegisterIdentifier(Identifier, FilePath)
-
-	return Identifier, false
+	local IdentifierID = Identifiers.GetOrCreateIdentifierID(FilePath)
+	return IdentifierID, false
 end
 
----@param Identifier string
----@param FilePath string
--- Configure (Register) an Identifier to be Associated with a File Path
-function Identifiers.RegisterIdentifier(Identifier, FilePath)
-	local PathObj = Path.new(FilePath) ---@class Path
+function Identifiers.CreateBuffer(Data)
+	local ID = "Buffer-"..CreateUUID()
+	local Identifier = IdentifierType.new(Data, "Buffer", ID)
 
-	local NewIdentifier = IdentifierType.new(PathObj, "Project", Identifier)
-	RegisteredIdentifiers[Identifier] = NewIdentifier
+	RegisteredIdentifiers[Identifier.ID] = Identifier
 
-	return NewIdentifier
+	return Identifier
+end
+
+function Identifiers.ChangeBuffer(IdentiferID, NewBuffer)
+	assert(RegisteredIdentifiers[IdentiferID], "You need to create the buffer before you can change its contents")
+
+	RegisteredIdentifiers[IdentiferID].Data = NewBuffer
+	Runtime.Resources.UnloadResource(IdentiferID) -- We need to re-load the identifier on next use
 end
 
 ---@param Identifier string
@@ -161,11 +192,11 @@ end
 -- Get an identifier from an IdentifierID
 ---@return Identifier
 function Identifiers.GetIdentifierFromID(IdentifierID)
-	if type(IdentifierID) ~= "string" then -- Buffer type, hate the fact this is done twice
-		return IdentifierType.new(IdentifierID, "Buffer", "Buffer-" .. CreateUUID())
-	else -- Internal and Project type
-		return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
+	if type(IdentifierID) == "table" then
+		return IdentifierID
 	end
+	
+	return Identifiers.GetStudioPath(IdentifierID) or RegisteredIdentifiers[IdentifierID]
 end
 
 function Identifiers.GetAll()

@@ -11,5 +11,5 @@ return function()
         Parent = Environment
     }
 
-    Environment.Camera = Camera
+    Environment.Camera = Camera 
 end
