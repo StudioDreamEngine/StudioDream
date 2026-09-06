@@ -21,6 +21,8 @@ function Lighting:new()
     self.ShadowIntensity = 1
     self.Gamma = 1
     self.GodRaysQuality = 0
+
+    self:SetSky("Internal/sky.png")
 end
 
 function Lighting:DefineAPI()
@@ -37,6 +39,13 @@ function Lighting:DefineAPI()
     self.Proxy.Group("Misc","ShadowIntensity","Gamma","GodRaysQuality")
     self.Proxy.Icon("Lighting")
     self.Proxy.MakeNonDuplicatable()
+end
+
+function Lighting:SetSky(NewSky)
+    local _
+    _, self.SkyResource, self.Sky = Runtime.Resources.LoadResourceFromIdentifier(NewSky)
+
+    Dream:setSky(love.graphics.newCubeImage(self.Sky))
 end
 
 function Lighting:UpdateFogDREAM()

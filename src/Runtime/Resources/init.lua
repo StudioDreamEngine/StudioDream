@@ -121,8 +121,8 @@ end
 function Resources.InitiateLoader(Format, Contents, Identifier)
 	local LoaderModule = require(LoaderModPath .. Format)
 
-	local Resource, SecondResource = LoaderModule(Contents, Identifier)
-	return Resource, SecondResource
+	local Resource, SourceResource = LoaderModule(Contents, Identifier)
+	return Resource, SourceResource
 end
 
 function Resources.LoadResource(Identifier)
@@ -130,16 +130,19 @@ function Resources.LoadResource(Identifier)
 	local Resource, Clonable
 
 	if ResourceType == "Internal" then
-		Resource, Clonable, SecondResource = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
+		Resource, Clonable, SourceResource = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
 	elseif ResourceType == "Project" then
-		Resource, Clonable, SecondResource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
+		Resource, Clonable, SourceResource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
 	elseif ResourceType == "Buffer" then
 		Resource = Identifier.Data
 	else
 		error("Invalid ResourceType "..(ResourceType or "Unknown"))
 	end
 
-	LoadedResources[Identifier.ID] = Resource
+	LoadedResources[Identifier.ID] = {
+		Resource = Resource,
+		Source = SourceResource
+	}
 
 	--[[if (not LoadedResources[Identifier.ID]) then
 		LoadedResources[Identifier.ID] = {
@@ -153,7 +156,7 @@ function Resources.LoadResource(Identifier)
 		LoadedResources[Identifier.ID][1] = Resource
 	end]]
 
-	return Resource, SecondResource
+	return Resource, SourceResource
 end
 
 function Resources.WriteResource(IdentifierID, Data)
@@ -185,13 +188,15 @@ function Resources.GetResource(Identifier, Reload)
 	if not Identifier then return end
 
 	local LoadedResource = LoadedResources[Identifier.ID]
-	local SecondLoadedResource
+	local Resource
 
 	if (not LoadedResource) or Reload then -- If the resource isnt loaded yet, cache it
-		LoadedResource, SecondLoadedResource = Resources.LoadResource(Identifier)
+		Resource, SourceResource = Resources.LoadResource(Identifier)
+	else
+		Resource, SourceResource = LoadedResource.Resource, LoadedResource.Source
 	end
 
-	return LoadedResource, SecondLoadedResource
+	return Resource, SourceResource
 end
 
 function Resources.UnloadResource(IdentifierID)

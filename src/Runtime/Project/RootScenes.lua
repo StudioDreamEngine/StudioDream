@@ -45,7 +45,9 @@ function RootScenes.Load()
             table.insert(RootRefs, Resource.References)
         end
 
-        Object = (Resource.Scene or Default):Clone()
+        Default:ClearAllChildren()
+
+        Object = (Resource.Scene or Default)
         Object:SetParent(Root)
 
         RootScenes.Loaded[Name] = {
@@ -54,7 +56,7 @@ function RootScenes.Load()
         }
     end
 
-    Project.Scenes.ResolveReferences(unpack(RootRefs))
+    --Project.Scenes.ResolveReferences(unpack(RootRefs))
     RootScenes.ConfigureTargets()
 end
 

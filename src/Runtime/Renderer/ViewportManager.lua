@@ -7,7 +7,6 @@ local light
 Rendered = 0
 
 function ViewportManager.Init()
-    Dream:setSky(love.graphics.newCubeImage("Assets/sky.png"))
     Dream:setDefaultReflection(false)
     Dream:setBloom(3)
 
