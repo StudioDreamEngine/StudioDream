@@ -135,7 +135,7 @@ function Project.Reload()
         Resources.Load()
         Project.Config.Load()
 
-        RootScenes.Load(Runtime.Things)
+        RootScenes.Load()
         Runtime.LoadProjectCallback()
 
         Project.LoadingProject = false

@@ -244,7 +244,7 @@ function lib:setSky(sky, exposure)
 		self.sky_texture = sky
 		
 		--also sets reflections
-		self:setDefaultReflection(sky)
+		--self:setDefaultReflection(sky)
 	elseif type(sky) == "userdata" and sky:getTextureType() == "2d" then
 		--HDRI
 		self.sky_texture = sky
