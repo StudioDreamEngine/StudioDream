@@ -24,7 +24,7 @@ return function(Args,SingleTab)
         Icon = "TabIcons/MoveIcon.png",
         Type = "Input",
         UserChange = function(Text)
-            Studio.Editor3D.UpdateGrid("Grid",tonumber(Text) or 0.5)
+            Studio.Editor3D.GridSnap = tonumber(Text)
         end,
         ReturnDisplay = function()
             return Studio.Editor3D.GridSnap
@@ -35,7 +35,7 @@ return function(Args,SingleTab)
         Icon = "TabIcons/RotIcon.png",
         Type = "Input",
         UserChange = function(Text)
-            Studio.Editor3D.UpdateGrid("Rotation",tonumber(Text) or 0.5)
+            Studio.Editor3D.RotationSnap = tonumber(Text)
         end,
         ReturnDisplay = function()
             return Studio.Editor3D.RotationSnap

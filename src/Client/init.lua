@@ -42,7 +42,7 @@ function Client.Init()
         Runtime.Things.Create("TextButton") {
             Parent = Runtime.Things.RenderRoot,
             Size = Pivot2D.FromScale(0.1,0.1),
-            Layer = 1000,
+            Layer = 999,
             Text = "Go back to studio",
             Clicked = function()
                 Runtime.RequestRestart("Studio")
@@ -52,6 +52,10 @@ function Client.Init()
 
     Runtime.Project.LoadedProject:Connect(function()
         RuntimeService.StartActivity()
+    end)
+
+    RuntimeService.Quitting:Connect(function()
+        Runtime.Things.RenderRoot:ClearAllChildren()
     end)
 end
 

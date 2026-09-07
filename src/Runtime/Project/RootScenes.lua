@@ -67,7 +67,7 @@ function RootScenes.Load()
         }
     end
 
-    --Project.Scenes.ResolveReferences(unpack(RootRefs))
+    Project.Scenes.ResolveReferences(unpack(RootRefs))
     RootScenes.ConfigureTargets()
 end
 

@@ -33,6 +33,8 @@ function Rotate.Init()
     RotateControl.StartControl:Connect(function()
         ToolManager.SetupSelection()
         StartDrag(Rotate.Selection)
+
+        RotateControl.RotationSnap = Studio.Editor3D.RotationSnap
     end)
 
     RotateControl.EndControl:Connect(function()

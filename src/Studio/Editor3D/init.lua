@@ -15,13 +15,6 @@ Editor3D.PropertyChanged = Signal:New("ChangedProperty")
 Editor3D.GridSnap = 10
 Editor3D.RotationSnap = 10
 
-Editor3D.GridUpdated = Signal:New("GridUpdated")
-
-function Editor3D.UpdateGrid(Name,ToWhat)
-    Editor3D[Name.."Snap"] = ToWhat
-    Editor3D.GridUpdated.Invoke()
-end
-
 function Editor3D.ToggleWindowOutside(Name,Visible)
     --Shared.QueueAbort("Mikl what the fuck is this function (Studio.Editor3D.ToggleWindowOutside) for")
 

@@ -19,6 +19,8 @@ function RuntimeService.Stop()
     if Runtime.Project.LoadingProject then return end
 
     Running = false
+    RuntimeService.Quitting:Invoke()
+
     Runtime.Things.Root:Clear()
     
     --Runtime.Project.Reload()
@@ -43,6 +45,7 @@ end
 function RuntimeService.Init()
     RuntimeService.OnStep = Signal:New("GameStep")
     RuntimeService.OnRunning = Signal:New("OnRunning")
+    RuntimeService.Quitting = Signal:New("OnQuitting")
 end
 
 function RuntimeService.Update(dt)

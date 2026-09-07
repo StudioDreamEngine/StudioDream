@@ -25,8 +25,7 @@ end
 
 function Scale.Init(Snap)
     ScaleControl = Things.Create("ScaleControl") {
-        Parent = Things.RenderRoot,
-        GridSnap = Studio.Editor3D.GridSnap
+        Parent = Things.RenderRoot
     }
 
     ScaleControl.GridSnap = Snap
@@ -42,12 +41,10 @@ function Scale.Init(Snap)
         Selecting:SetScale(Info.OgScale + ScaleOffset)
     end)
 
-    Studio.Editor3D.GridUpdated:Connect(function()
-        ScaleControl:UpdateGrid(Studio.Editor3D.GridSnap)
-    end)
-
     ScaleControl.StartControl:Connect(function()
         StartDrag(Selecting)
+
+        ScaleControl.GridSnap = Studio.Editor3D.GridSnap
     end)
 
     ScaleControl.EndControl:Connect(function()

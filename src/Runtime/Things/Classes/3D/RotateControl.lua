@@ -25,7 +25,7 @@ function RotateControl:OnStart()
 end
 
 function RotateControl:OnChange()
-    self.ControlChanged.Invoke(self:GetRotation() - self.InitialRotation, self.AxisNormal)
+    self.ControlChanged.Invoke(self:Snap(self:GetRotation() - self.InitialRotation, math.rad(self.RotationSnap)), self.AxisNormal)
 end
 
 function RotateControl:DefineAPI()
