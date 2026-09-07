@@ -16,5 +16,7 @@ function love.conf(t)
     t.window.title = "StudioDream "..VERSION_FULL.." - No Project"
     t.window.resizable = true
     
+    t.window.vsync = 0
+
     t.identity = "StudioDream"
 end

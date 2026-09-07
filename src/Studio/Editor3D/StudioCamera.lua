@@ -49,9 +49,10 @@ function StudioCamera.Update(dt)
         local Camera = Runtime.Things.Root:GetCamera()   
 
         local KeyDownNum = InputService.KeyDownNumber
-
+        --print(KeyDownNum(Enum.InputCode.LeftCtrl))
         if (not Camera) then return end
         if (not Camera.Transform) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") return end
+        if KeyDownNum(Enum.InputCode.LeftCtrl) == 1 or KeyDownNum(Enum.InputCode.LeftShift) == 1 then return end
 
         local Forward = CameraTransform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
         local Side = CameraTransform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
