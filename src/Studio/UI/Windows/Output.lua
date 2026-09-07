@@ -1,22 +1,7 @@
 local Output = {}
 
 local ScrollContainer
-
-function Output.CreateOutput(Text,Type)
-    local ColorToText = "Text"
-    
-    if Type and Type == "Error" then
-        ColorToText = Studio.CurrentTheme.Error
-    end
-
-    Studio.Components.CreateStyle("Text", {
-        Parent = ScrollContainer,
-        BackgroundTransparency = 1,
-        ForegroundColor = ColorToText,
-        Text = Text,
-        Size = Pivot2D.new(1,0,0,15)
-    })
-end
+local Log = {}
 
 function Output.Init()
     ScrollContainer = Studio.Components.CreateStyle("ScrollContainer",{
@@ -25,6 +10,7 @@ function Output.Init()
         Name = "OutputContainer",
         Parent = Output.Container,
         BarColor = "Primary",
+        UseCanvasSize = true
     })
 
     local Context = Studio.Components.CreateStyle("Contextulizer",{
@@ -37,25 +23,31 @@ function Output.Init()
         Serializable = false,
     })
 
+    local OutputText = Studio.Components.CreateStyle("Text", {
+        Parent = ScrollContainer,
+        BackgroundTransparency = 1,
+        TextScaled = false,
+        Text = "",
+        Alignment = Enum.Alignment.TopLeft,
+        ForegroundColor = "Text",
+        Size = Pivot2D.FromScale(1,1)
+    })
+
     Context:SetChoices({
         {
             Type = "Button",
             Text = "Clear Output",
             Image = "Internal/Studio/ContextMenu/Delete.png",
             Function = function(Menu)
-                ScrollContainer:ClearAllChildren({"ListLayout"})
+                table.clear(Log)
                 Menu.Remove()
             end,
         },
     })
 
     Studio.Components.RegisterToTheme(Output.Container, "BackgroundColor", "Outline")
-    Studio.Components.CreateStyle("ListLayout",{
-        Parent = ScrollContainer,
-        Reverse = true
-    })
 
-    if FLAGS.ExternalOutput then
+    --[[if FLAGS.ExternalOutput then
         Scheduler.OnRecoverableError = function(Text)
             local List = string.split(Text, "\n")
 
@@ -63,15 +55,15 @@ function Output.Init()
                 Output.CreateOutput(List[i],"Error")
             end
         end
-    end
+    end]]
 
     PrintCallback = function(Text)
-        local List = string.split(Text, "\n")
+        table.insert(Log, Text)
 
-        for i = #List,1,-1 do
-            Output.CreateOutput(List[i])
-        end
+        OutputText:SetText(table.concat(table.reverse(Log), "\n"))
     end
+
+    print("Output window ready")
 end
 
 return Output

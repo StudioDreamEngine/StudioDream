@@ -239,6 +239,16 @@ do
 		end
 	end
 
+	function table.reverse(list)
+		local newlist = {}
+
+		for i = 0, #list do
+			newlist[#list-i] = list[i+1]
+		end
+
+		return newlist
+	end
+
 	-- Find a value within a table, if you dont care about custom types (:Is), use findLite instead
 	-- TODO: This function should decide if to check for custom types depending on value
 	function table.find(table, value)

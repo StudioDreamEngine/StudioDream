@@ -95,8 +95,6 @@ function ListLayout:SortFunction(a,b,Index)
 end
 
 function ListLayout:UpdateLayout()
-    self.Parent:ProcessInvalidation()
-
     local Vertical = (self.Direction == Enum.LayoutDirection.Vertical)
 
     -- Define the axises we will be using in order to calculate stuff
@@ -104,7 +102,7 @@ function ListLayout:UpdateLayout()
     local AxisVector = Vector2[Vertical and "yAxis" or "xAxis"]
     local OpposingVector = Vector2[Vertical and "xAxis" or "yAxis"]
 
-    local ParentSize = self.Parent:GetChildRect().Size
+    local ParentSize = self.Parent:GetProperty("ChildRect").Size
 
     local TotalSpace = ParentSize[Axis]
 
@@ -126,10 +124,10 @@ function ListLayout:UpdateLayout()
         table.sort(self.Objects, function(a,b)
             return self:SortFunction(a,b,"Name")
         end)
-    --[[elseif self.SortMode == Enum.SortMode.Numerical then
+    elseif self.SortMode == Enum.SortMode.Numerical then
         table.sort(self.Objects, function(a,b)
             return self:SortFunction(a,b,"Name")
-        end)]]
+        end)
     end
 
     -- Pass 1: Handle the inital layout of the objects

@@ -61,10 +61,6 @@ function BaseGui:GetAbsolutePosition()
     return Position
 end
 
-function BaseGui:GetChildRect()
-    return self:GetProperty("ChildRect")
-end
-
 function BaseGui:IsAlwaysOnTop()
     return self.MouseLocked
 end
@@ -189,7 +185,7 @@ function BaseGui:GetParentRect(SameDisplay)
             return
         end
 
-        return ParentElement:GetChildRect()
+        return ParentElement:GetProperty("ChildRect")
     end
 end
 
@@ -426,16 +422,18 @@ end
 -- Same as ProcessInvalidation, Except it doesnt Update WasInvalidated, and doesnt propagate, used for handling AutomaticSize changes
 function BaseGui:ProcessInvalidations()
     --Profiler.Start("BaseGui - Process Invalidation")
-    self:UpdateTransforms() 
-
-    Runtime.Things.LogInvalidation()
-
     local NewVisible = self:IsVisible()
 
     if self.TruelyVisible ~= NewVisible then
         self.TruelyVisible = NewVisible
         self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
     end
+
+    if self.TruelyVisible then
+        self:UpdateTransforms() 
+    end
+
+    Runtime.Things.LogInvalidation()
 
     --Profiler.End()
 end

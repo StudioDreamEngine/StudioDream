@@ -7,6 +7,16 @@ RootScenes.Loaded = {}
 
 function RootScenes.Register(SceneObject, SceneName) RootScenes.Default[SceneName] = SceneObject end
 
+function RootScenes.Unload()
+    for Name, Data in pairs(RootScenes.Loaded) do
+        if Data.Identifier then
+            Runtime.Resources.UnloadResource(Data.Identifier)
+        end
+    end
+
+    table.clear(RootScenes.Loaded)
+end
+
 function RootScenes.LoadDefault()
     Root:Clear()
 
@@ -32,15 +42,16 @@ function RootScenes.Load()
     local RootRefs = {}
 
     for Name, Default in pairs(RootScenes.Default) do
-        local Identifier = ScenesConfig[Name]
+        local IdentifierID = ScenesConfig[Name]
 
         local Resource = {
             References = {},
             Scene = nil
         }
 
-        if Identifier then
-            Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier)
+        if IdentifierID then
+            local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
+            Resource = Runtime.Resources.GetResource(Identifier, true)
 
             table.insert(RootRefs, Resource.References)
         end
@@ -62,8 +73,10 @@ end
 
 -- Configure Hud and Environment viewports for new root scenes
 function RootScenes.ConfigureTargets()
-    Root.EnvironmentViewport:SetRenderContainer(Root:GetEnvironment())
-    Root.HudViewport:SetRenderContainer(Root:GetHUD())
+    if Root.EnvironmentViewport and Root.HudViewport then
+        Root.EnvironmentViewport:SetRenderContainer(Root:GetEnvironment())
+        Root.HudViewport:SetRenderContainer(Root:GetHUD())
+    end
 end
 
 function RootScenes.Save()

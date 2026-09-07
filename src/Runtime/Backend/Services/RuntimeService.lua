@@ -19,7 +19,9 @@ function RuntimeService.Stop()
     if Runtime.Project.LoadingProject then return end
 
     Running = false
-    Runtime.Project.Reload()
+    Runtime.Things.Root:Clear()
+    
+    --Runtime.Project.Reload()
 end
 
 -- Returns the current time since the game has started, calculated based of DeltaTime

@@ -29,6 +29,7 @@ end
 function ProjectManager.RunStudioProject()
     if ProjectManager.AlreadyRunning then return end
 
+    --Runtime.Project.SaveTo("")
     Runtime.Project.Save()
     Studio.EditorUI.Playtest.StartPlayline()
     RuntimeService.StartActivity()

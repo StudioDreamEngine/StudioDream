@@ -38,8 +38,6 @@ function Client.Init()
     --StudioCamera = require("Client.StudioCamera")
     --StudioCamera.Init()
 
-    print(Things.Root:GetEnvironment():GetDescendants())
-
     if (not FLAGS.Independent) then
         Runtime.Things.Create("TextButton") {
             Parent = Runtime.Things.RenderRoot,

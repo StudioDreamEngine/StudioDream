@@ -82,7 +82,7 @@ function InterfaceManager.Update(dt)
                 DisplayHovering = DisplayUI.Hovering
             end
         
-            if Button.TruelyVisible and Utils.IntersectPoint2D(Button:GetChildRect(), DisplayUI.MousePosition) and DisplayHovering and (not Button:IsAlwaysOnTop()) then
+            if Button.TruelyVisible and Utils.IntersectPoint2D(Button:GetProperty("ChildRect"), DisplayUI.MousePosition) and DisplayHovering and (not Button:IsAlwaysOnTop()) then
                 table.insert(CurrentlyHovering, Button)
             end
         end

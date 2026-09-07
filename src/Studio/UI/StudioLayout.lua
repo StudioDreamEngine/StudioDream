@@ -186,7 +186,8 @@ function StudioLayout.CreateLayout()
         Parent = Things.RenderRoot,
         Size = Pivot2D.FromScale(1,1),
         Layer = 1,
-        BackgroundTransparency = 1
+        BackgroundColor = "Primary",
+        BackgroundTransparency = 0
     })
 
     Things.Create("ListLayout") {
@@ -312,6 +313,11 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0,1),
         Name = "Macros"
     })
+    
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
 
     --[[StudioLayout.CreateWindow("Trollo",{
         Size = Pivot2D.FromScale(0.15,0.6),
@@ -321,11 +327,6 @@ function StudioLayout.CreateLayout()
         TopLevel = true,
         Shadows = true,
     })]]
-
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
 end
 
 function StudioLayout.Update(dt)

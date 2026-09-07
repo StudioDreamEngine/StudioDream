@@ -17,7 +17,7 @@ Project.LoadingProject = false
 Project.LoadedProject = Signal:New("ProjectLoaded")
 
 function Project.Clear()
-    table.clear(RootScenes.Loaded)
+    RootScenes.Unload()
 end
 
 -- Make sure a project path is a valid project

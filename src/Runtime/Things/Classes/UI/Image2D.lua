@@ -157,7 +157,7 @@ function Image2D:Draw()
     local Scale = ImageScale[self.ScaleType](Size/ImageSize)
     ImageSize = ImageSize * Scale
 
-    if self.CornerRadius > 0 then
+    if self.CornerRadius > 0 and (not FLAGS.DebugDraw) then
         love.graphics.setStencilMode("draw", 255)
         love.graphics.setColor(1,1,1)
         love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
