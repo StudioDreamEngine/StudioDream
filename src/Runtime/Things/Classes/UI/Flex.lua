@@ -23,15 +23,17 @@ end
 
 -- Update the actual target
 function FlexItem:UpdateFlex()
-    ---@diagnostic disable-next-line: assign-type-mismatch
+    local ListLayout = self:GetListLayout() ---@class ListLayout
+
+    if ListLayout then
+        ListLayout:UpdateLayout()
+    end
+end
+
+function FlexItem:UpdateFlexWithSize(RemainingSize)
     local Target = self.Parent ---@type BaseGui
 
-    local ListLayout = self:GetListLayout() ---@class ListLayout
-    if (not ListLayout) then print("Invalid") return end
-
-    ListLayout.Parent:ProcessInvalidation()
-    ListLayout:UpdateLayout()
-    Target:SetConstraint(self, "Size", ListLayout.RemainingSize)
+    Target:SetConstraint(self, "Size", RemainingSize)
 end
 
 -- Handles receiving updates from the parent of the target, as we need to know those, not the targets updates

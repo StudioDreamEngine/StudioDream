@@ -118,6 +118,37 @@ function Components.PropertyList(Size, Parent)
     }
 end
 
+function Components.ExpandButton(Parent)
+    local ExpandButton = {}
+
+    ExpandButton.Clicked = Signal:New("Clicked")
+
+    ExpandButton.Button = Studio.Components.CreateStyle("ImageButton",{
+        Resource = "Internal/Studio/OpenMenu.png",
+        Size = Pivot2D.FromScale(0.8,0.8),
+        SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
+        Position = Pivot2D.FromScale(1,0.5),
+        Pivot = Vector2.new(1,0.5),
+        Parent = Parent,
+        IgnoreConstraints = true,
+        ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
+        ForegroundColor = "Text",
+    })
+
+    function ExpandButton.Toggle(Visible)
+        ExpandButton.Button:SetImageRect(Rect.new(
+            Vector2.new(Visible and 64 or 0, 0),
+            Vector2.new(64,64)
+        ))
+    end
+
+    ExpandButton.Button.Clicked:Connect(function()
+        ExpandButton.Clicked.Invoke()
+    end)
+
+    return ExpandButton
+end
+
 ---@param List BaseGui
 function Components.ExpandableDropdown(Header, List)
     assert(List:FindFirstChildOfClass("ListLayout"), "Components.ExpandableDropdown is only intended for ListLayouts!")
@@ -126,23 +157,11 @@ function Components.ExpandableDropdown(Header, List)
     }
 
     ExpandableDropdown.VisibleChanged = Signal:New("Unexpand")
+    ExpandableDropdown.Button = Components.ExpandButton(Header)
 
     --[[ExpandableDropdown.OuterContainer = Runtime.Things.Create("Square") { 
 
     }]]
-
-    ExpandableDropdown.Button = Studio.Components.CreateStyle("ImageButton",{
-        Resource = "Internal/Studio/OpenMenu.png",
-        Size = Pivot2D.FromScale(0.8,0.8),
-        BackgroundColor = "Text",
-        SquareAxis = Enum.SquareAxis.Y, -- Would be much simplier if we had ScaleType or something but idk!@!
-        Position = Pivot2D.FromScale(1,0.5),
-        Pivot = Vector2.new(1,0.5),
-        Parent = Header,
-        IgnoreConstraints = true,
-        ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
-        ForegroundColor = "Text",
-    })
 
     ExpandableDropdown.Container = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.98,1),
@@ -165,11 +184,8 @@ function Components.ExpandableDropdown(Header, List)
 
     function ExpandableDropdown.Toggle(Visible)
         ExpandableDropdown.Visible = Visible
+        ExpandableDropdown.Button.Toggle(Visible)
         ExpandableDropdown.Container:SetVisible(Visible)
-        ExpandableDropdown.Button:SetImageRect(Rect.new(
-            Vector2.new(ExpandableDropdown.Visible and 64 or 0, 0),
-            Vector2.new(64,64)
-        ))
     end
 
     ExpandableDropdown.Button.Clicked:Connect(function()

@@ -165,6 +165,15 @@ function ListLayout:UpdateLayout()
 
     local Remaining = (TotalSpace - FlexSize)
     self.RemainingSize = Pivot2D.FromOffset((ParentSize * OpposingVector) + (Remaining * AxisVector))
+
+    ---@param Object Thing
+    for _, Object in pairs(self.Objects) do
+        local Constraint = Object:FindConstraintOfType("Flex")
+
+        if Constraint then
+            Constraint:UpdateFlexWithSize(self.RemainingSize)
+        end
+    end
 end
 
 return ListLayout

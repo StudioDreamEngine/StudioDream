@@ -22,6 +22,16 @@ function TopBar.Init()
         Parent = TopBar.Container
     })
 
+    local Visbility = Components.ExpandButton(TopBar.TopperBarContainer)
+    local MenuVisible = true
+
+    Visbility.Clicked:Connect(function()
+        MenuVisible = not MenuVisible
+
+        Visbility.Toggle(MenuVisible)
+        Studio.Layout.ToggleTopbar(MenuVisible)
+    end)
+
     Things.Create("ListLayout") {
         Alignment = Enum.Alignment.MiddleLeft,
         Direction = Enum.LayoutDirection.Horizontal,

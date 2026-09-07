@@ -3,9 +3,10 @@ local Things = Runtime.Things
 local StudioLayout = {}
 
 StudioLayout.Handles = {}
+local Topbar
 
-function StudioLayout.ToggleMenu(Toggle)
-    StudioLayout.Windows:SetSize()
+function StudioLayout.ToggleTopbar(Toggle)
+    Topbar:SetVisible(Toggle)
 end
 
 function StudioLayout.CreateWindowContainer(Transform, HaveName)
@@ -167,7 +168,7 @@ function StudioLayout.CreateTopbar()
         BackgroundTransparency = 0
     })
 
-    local TopbarInner = Studio.Components.CreateStyle("Square",{
+    Topbar = Studio.Components.CreateStyle("Square",{
         Parent = StudioLayout.HandleContainer,
         Name = "ToolBar",
         ListOrder = 2,
@@ -176,7 +177,7 @@ function StudioLayout.CreateTopbar()
         BackgroundTransparency = 0
     })
 
-    StudioLayout.CreateWindowHandler("TopBar", { Container = TopbarInner })
+    StudioLayout.CreateWindowHandler("TopBar", { Container = Topbar })
     StudioLayout.CreateWindowHandler("MenuBar", { Container = MenuBar })
 end
 
