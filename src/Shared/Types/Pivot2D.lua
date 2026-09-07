@@ -27,6 +27,10 @@ function Methods:Is(OtherPivot)
     return self.Scale:Is(OtherPivot.Scale) and self.Offset:Is(OtherPivot.Offset)
 end
 
+function Methods:HasScale()
+    return self.Scale:Axis() > 0
+end
+
 local Meta = {
     __index = Methods,
     __add = function (t1, t2)

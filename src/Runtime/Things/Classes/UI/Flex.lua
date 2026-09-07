@@ -29,6 +29,7 @@ function FlexItem:UpdateFlex()
     local ListLayout = self:GetListLayout() ---@class ListLayout
     if (not ListLayout) then print("Invalid") return end
 
+    ListLayout.Parent:ProcessInvalidation()
     ListLayout:UpdateLayout()
     Target:SetConstraint(self, "Size", ListLayout.RemainingSize)
 end

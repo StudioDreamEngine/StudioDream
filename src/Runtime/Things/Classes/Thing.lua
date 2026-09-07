@@ -309,11 +309,15 @@ function Thing:IsSerializable()
         if (ParentThing.UUID == "RenderRoot") then
             Serializable = false
         end
+
+        if (ParentThing.Parent == nil) and (ParentThing.UUID ~= "Root") then
+            Serializable = false
+        end
     end)
 
     -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
     -- Return false if object itself isnt serializable
-    if (not self.Serializable) then
+    if (not self.Serializable) or (not self.Parent) then
         return false
     end
 
@@ -376,11 +380,10 @@ function Thing:SetParent(NewParent)
         self.OrphanedPath = self:GetPath()
     end
     
-    local SerializeCheck = NewParent or OldParent
     self.Parent = NewParent
 
     -- The "NewParent:IsA("Root")" check here is to make sure that root objects are always requested for tree change, THIS SHOULD BE CHANGED LATER
-    if (SerializeCheck and SerializeCheck:IsSerializable()) then
+    if (self:IsSerializable()) then
         Runtime.Things.RequestTreeChange(self)
     end
 

@@ -395,7 +395,10 @@ function BaseGui:UpdateTransforms(Elements)
     --Profiler.Start("BaseGui - Process UpdateTransforms")
     self.AbsoluteRotation = self:GetAbsoluteRotation()
 
-    local NewSize = self:GetAbsoluteSize()
+    local Size = self:GetProperty("Size")
+    local ShouldScale = Size:HasScale() or self.AutomaticSize
+
+    local NewSize = ShouldScale and self:GetAbsoluteSize() or Size.Offset
 
     if (not NewSize:Is(self.AbsoluteSize)) then
         self:SetAbsoluteSize(NewSize)
