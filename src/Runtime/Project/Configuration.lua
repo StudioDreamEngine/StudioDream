@@ -2,6 +2,7 @@ local Configuration = {}
 
 local DefaultConfig = {
     Name = "Untitled",
+    Identifier = nil,
     RootScenes = {}
 }
 

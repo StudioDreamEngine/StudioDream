@@ -1,11 +1,11 @@
 local Things = Runtime.Things
 local Renderer = Runtime.Renderer
 
----@class Viewport2D: Viewport
-local Viewport2D = Things.Extend("Viewport")
+---@class ViewportLite: Viewport
+local ViewportLite = Things.Extend("Viewport")
 
-function Viewport2D:new()
-    Viewport2D.super.new(self)
+function ViewportLite:new()
+    ViewportLite.super.new(self)
 
     self.MousePosition = Vector2.zero
 
@@ -13,8 +13,8 @@ function Viewport2D:new()
     self.Hovering = nil
 end
 
-function Viewport2D:DefineAPI()
-    Viewport2D.super.DefineAPI(self)
+function ViewportLite:DefineAPI()
+    ViewportLite.super.DefineAPI(self)
 
     self.Proxy.Property("Thing RenderContainer")
     self.Proxy.Icon("Viewport_2D")
@@ -23,7 +23,7 @@ end
 
 local function SortFunc(a,b) return a.Layer < b.Layer end
 
-function Viewport2D:SubmitChild(Child)
+function ViewportLite:SubmitChild(Child)
     self.CurrentOrder = self.CurrentOrder + 1
     Child.AbsoluteLayer = self.CurrentOrder + self.AbsoluteLayer
     -- Check if the viewport has given a request to update the transforms
@@ -35,7 +35,7 @@ function Viewport2D:SubmitChild(Child)
 end
 
 -- Submit the children of an object/thing to the display list
-function Viewport2D:SubmitContainerChildren(Container)
+function ViewportLite:SubmitContainerChildren(Container)
     --[[
         We need to sort every child based on their layer before submitting anything
         This is not much of a HACK, but it's a clever way of doing z-indexing with the way rendering is setup
@@ -54,8 +54,8 @@ function Viewport2D:SubmitContainerChildren(Container)
     end
 end
 
-function Viewport2D:ProcessInvalidation(Origin)
-    Viewport2D.super.ProcessInvalidation(self, Origin)
+function ViewportLite:ProcessInvalidation(Origin)
+    ViewportLite.super.ProcessInvalidation(self, Origin)
 
     if self.RenderContainer then
         self.RenderContainer:ProcessInvalidation(Origin)
@@ -63,7 +63,7 @@ function Viewport2D:ProcessInvalidation(Origin)
 end
 
 -- Create the display list that will be used by the renderer
-function Viewport2D:CreateDisplayList()
+function ViewportLite:CreateDisplayList()
     self.CurrentOrder = 1
 
     table.clear(self.DisplayList)
@@ -77,12 +77,12 @@ function Viewport2D:CreateDisplayList()
     end
 end
 
-function Viewport2D:Update(dt)
-    Viewport2D.super.Update(self, dt)
+function ViewportLite:Update(dt)
+    ViewportLite.super.Update(self, dt)
 
-    Profiler.Start("Viewport2D - Create Display List")
+    Profiler.Start("ViewportLite - Create Display List")
     self:CreateDisplayList()
     Profiler.End()
 end
 
-return Viewport2D
+return ViewportLite

@@ -52,7 +52,6 @@ function StudioCamera.Update(dt)
         --print(KeyDownNum(Enum.InputCode.LeftCtrl))
         if (not Camera) then return end
         if (not Camera.Transform) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") return end
-        if KeyDownNum(Enum.InputCode.LeftCtrl) == 1 or KeyDownNum(Enum.InputCode.LeftShift) == 1 then return end
 
         local Forward = CameraTransform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
         local Side = CameraTransform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
@@ -62,7 +61,7 @@ function StudioCamera.Update(dt)
         -- Fuckass focus code
         if PanningCamera then
             local CDirection = (CameraFocus - CameraPosition):Unit()
-
+            
             local SideV = (CameraTransform.Side * MouseDelta.X/200)
             local UpV = (CameraTransform.Up * MouseDelta.Y/200)
 

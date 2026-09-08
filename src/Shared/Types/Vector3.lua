@@ -51,7 +51,8 @@ function Methods:Merge(OtherVector)
 end
 
 function Methods:Unit()
-    local Unit = Vector3.new(self.X/self:Magnitude(),self.Y/self:Magnitude(),self.Z/self:Magnitude())
+    local Magnitude = self:Magnitude()
+    local Unit = Vector3.new(self.X/Magnitude,self.Y/Magnitude,self.Z/Magnitude)
 
     return (self:Magnitude() > 0) and Unit or Vector3.zero
 end
@@ -96,7 +97,7 @@ function Methods:Is(SecondVector)
 end
 
 function Methods:Magnitude()
-    return (self.X*self.X + self.Y*self.Y + self.Z*self.Z) ^ 1/3
+    return (self.X*self.X + self.Y*self.Y + self.Z*self.Z) ^ (1/2)
 end
 
 -- Return the sum of all axises, useful for getting the value of one axis if all other axises should be zero

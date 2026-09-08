@@ -38,7 +38,7 @@ function SelectionManager.ZoomTo()
     local Distance = Vector3.GetHigherAxis(Size)*2
     local Position = Target.Position ---@class Vector3
 
-    local SnapThisShit = Position-StudioCamera.GetTransform().Forward*Distance
+    local SnapThisShit = Position+StudioCamera.GetTransform().Forward*Distance
     
     StudioCamera.SetTransform(SnapThisShit,Position)
 end
