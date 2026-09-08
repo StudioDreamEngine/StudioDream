@@ -30,7 +30,7 @@ return {
             Component = "ToolbarButton",
             Arguments = {
                 Name = "Test Project (Studio)",
-                Icon = "InsertIcon",
+                Icon = "Play",
                 OnClick = Studio.ProjectManager.RunStudioProject
             }
         },
@@ -38,7 +38,7 @@ return {
             Component = "ToolbarButton",
             Arguments = {
                 Name = "Stop Project",
-                Icon = "InsertIcon",
+                Icon = "Pause",
                 OnClick = Studio.ProjectManager.StopStudioProject
             }
         },
