@@ -2,17 +2,33 @@
 local ProjectManager = {}
 local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
+local History = require("Studio.ProjectManager.History")
+
 ProjectManager.AlreadyRunning = false
 
 Runtime.Project.NotificationCallback = function(Message, Type)
     Studio.Layout.GetHandle("Notification").Notify(Message,Type or "Info")
 end
 
+function ProjectManager.AddHistory()
+    History.Add(Runtime.ProjectFS, Runtime.Project.Config.Get("Name"))
+end
+
+function ProjectManager.RemoveHistory(Path)
+    History.Remove(Path)
+end
+
 -- Load a project
 function ProjectManager.LoadProject(Callback)
     Platform.OpenWithCallback("Load Project (sdc or sdp)", Enum.OpenDialog.File, function(ProjectPath)
-        Runtime.Project.Load(ProjectPath)
+        local Success = Runtime.Project.Load(ProjectPath)
         if Callback then Callback() end
+
+        if Success then
+            ProjectManager.AddHistory()
+        else
+            ProjectManager.RemoveHistory(ProjectPath)
+        end
     end)
 end
 
@@ -49,7 +65,11 @@ function ProjectManager.StopStudioProject()
 end
 
 function ProjectManager.SaveProject()
-    Runtime.Project.Save()
+    local Success = Runtime.Project.Save()
+
+    if Success then
+        ProjectManager.AddHistory()
+    end
 end
 
 function ProjectManager.PackageProject()

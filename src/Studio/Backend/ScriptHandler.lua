@@ -17,7 +17,7 @@ function ScriptHandler.ConfigureEditor()
 end
 
 function ScriptHandler.ConfigureOrValidateEditor()
-    ConfiguredEditor = Runtime.SettingsManager.Get("CodeEditor") -- Re-sync setting
+    ConfiguredEditor = Studio.SettingsManager.Get("CodeEditor") -- Re-sync setting
     print(ConfiguredEditor)
 
     if (not ConfiguredEditor) then -- If we do not find an editor at all, configure a new one
@@ -26,7 +26,7 @@ function ScriptHandler.ConfigureOrValidateEditor()
         ScriptHandler.ValidateEditor(ConfiguredEditor)
     end
 
-    Runtime.SettingsManager.Set("CodeEditor", ConfiguredEditor)
+    Studio.SettingsManager.Set("CodeEditor", ConfiguredEditor)
 end
 
 function ScriptHandler.ValidateEditor(EditorPath)
@@ -49,7 +49,7 @@ function ScriptHandler.ValidateEditor(EditorPath)
 end 
 
 function ScriptHandler.CreateOrSelect(ScriptObject)
-    if Runtime.SettingsManager.Get("AutomaticCreation") then
+    if Studio.SettingsManager.Get("AutomaticCreation") then
         --return Runtime.Resources.CreateIdentifier(ScriptObject.Name..".lua")
     else
         local _, Path = Platform.OpenWithCallback("Open a script", Enum.OpenDialog.File, function() end)
@@ -64,27 +64,27 @@ end
 
 ---@param ScriptObject BaseScript
 function ScriptHandler.HandleOpenScript(ScriptObject)
-    if (not Runtime.SettingsManager.Get("FlagCreation")) then
+    if (not Studio.SettingsManager.Get("FlagCreation")) then
         local Dialog = Studio.Components.CreateDialog(Enum.StudioDialog.Option, {
             Text = "Choose how you want to deal with opening scripts with no assigned resource",
             Choices = {
                 {
                     Text = "Select a resource",
                     OnClick = function()
-                        Runtime.SettingsManager.Set("AutomaticCreation", false)
+                        Studio.SettingsManager.Set("AutomaticCreation", false)
                     end
                 },
                 {
                     Text = "Create automatically",
                     OnClick = function()
-                        Runtime.SettingsManager.Set("AutomaticCreation", true)
+                        Studio.SettingsManager.Set("AutomaticCreation", true)
                     end
                 }
             }
         })
 
         Dialog.OnClose:Wait()
-        Runtime.SettingsManager.Set("FlagCreation", true)
+        Studio.SettingsManager.Set("FlagCreation", true)
     end
 
     -- Create new resource for object if none is found

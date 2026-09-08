@@ -141,7 +141,7 @@ function Splash.Load()
 
     if (not FLAGS.SecondRun) then
         Splash.Out()
-    else
+    elseif SplashContainer then
         SplashContainer:Destroy()
     end
 

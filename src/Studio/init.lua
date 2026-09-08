@@ -3,8 +3,12 @@
 Studio = {}
 
 function Studio.Init()
+    Studio.SettingsManager = require("Studio.SettingsManager")
+    Studio.SettingsManager.Init()
+
     Studio.Theme = require("Studio.Theme")
     Studio.EditorUI = require("Studio.EditorUI")
+
     Studio.Backend = require("Studio.Backend")
     Studio.Backend.Init()
     

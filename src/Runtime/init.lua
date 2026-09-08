@@ -48,9 +48,6 @@ function Runtime.PostInit()
     Runtime.Backend = require("Runtime.Backend")
     Runtime.Backend.Init()
 
-    Runtime.SettingsManager = require("Runtime.SettingsManager")
-    Runtime.SettingsManager.Init()
-
     Runtime.Things.CreateApiDump()
 
     Dream:prepareRuntime()

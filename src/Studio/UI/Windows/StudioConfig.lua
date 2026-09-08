@@ -75,10 +75,10 @@ function StudioConfig.Init()
                     end)
                 end,
                 UserChange = function(InfoGiven)
-                    Runtime.SettingsManager.Set("CodeEditor", InfoGiven)
+                    Studio.SettingsManager.Set("CodeEditor", InfoGiven)
                 end,
                 ReturnDisplay = function()
-                    return Path.new(Runtime.SettingsManager.Get("CodeEditor")).FileName or "No code editor set."
+                    return Path.new(Studio.SettingsManager.Get("CodeEditor")).FileName or "No code editor set."
                 end,
             },
             {
@@ -86,17 +86,17 @@ function StudioConfig.Init()
                 Type = "Checkbox",
                 UserChange = function(InfoGiven)
                     local Display
-                    if Runtime.SettingsManager.Get("SFXEnabled")~=nil then
-                        Display = Runtime.SettingsManager.Get("SFXEnabled")
+                    if Studio.SettingsManager.Get("SFXEnabled")~=nil then
+                        Display = Studio.SettingsManager.Get("SFXEnabled")
                     else
                         Display = true
                     end
-                    Runtime.SettingsManager.Set("SFXEnabled", (not Display))
+                    Studio.SettingsManager.Set("SFXEnabled", (not Display))
                 end,
                 ReturnDisplay = function()
                     local Display
-                    if Runtime.SettingsManager.Get("SFXEnabled")~=nil then
-                        Display = Runtime.SettingsManager.Get("SFXEnabled")
+                    if Studio.SettingsManager.Get("SFXEnabled")~=nil then
+                        Display = Studio.SettingsManager.Get("SFXEnabled")
                     else
                         Display = true
                     end

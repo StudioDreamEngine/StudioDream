@@ -5,7 +5,6 @@ local RootScenes = require("Runtime.Project.RootScenes")
 local ProjectFS = Runtime.ProjectFS
 
 Project.Scenes = require("Runtime.Project.Scenes")
-Project.History = require("Runtime.Project.History")
 Project.Config = require("Runtime.Project.Configuration")
 
 Project.RegisterRootScene = RootScenes.Register
@@ -39,7 +38,6 @@ function Project.ValidateAndMount(ProjectPath)
 
     -- Make sure project path is valid
     if (not ProjectPath) then
-        Project.History.Remove(ProjectPath)
         return Shared.QueueAbort("Project doesnt seem to exist!")
     end
 
@@ -51,7 +49,6 @@ function Project.ValidateAndMount(ProjectPath)
 
     -- Check if project exists
     if (not Info) then
-        Project.History.Remove(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
@@ -157,9 +154,10 @@ function Project.Load(ProjectPath)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
     else
         Runtime.ChangeTitle()
-        Project.History.Add(ProjectFS, Project.Config.Get("Name"))
     end
     Project.LoadedProject.Invoke()
+
+    return true
 end
 
 -- Remount to a new directory and save project
@@ -235,8 +233,6 @@ function Project.Save()
 
         ProjectFS.QueueWrite("Thumbnail.png", Dream:renderThumbnail())
         RootScenes.Save()
-
-        Project.History.Add(ProjectFS, Project.Config.Get("Name"))
     end, function(Error)
         return debug.traceback(Error)
     end)
@@ -244,9 +240,12 @@ function Project.Save()
     if (not Success) then
         print(Message)
         Shared.QueueAbort("Error while saving project")
+        return
     else
         Project.NotificationCallback("Project saved!")
     end
+
+    return true
 end
 
 return Project
