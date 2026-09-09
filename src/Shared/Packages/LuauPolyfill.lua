@@ -67,6 +67,18 @@ do
 		end
 	end
 
+	function string.close(string,closeStringOne,closeStringTwo)
+		closeStringOne = closeStringOne or ","
+		closeStringTwo = closeStringTwo or closeStringOne
+		local Pattern = "%" .. closeStringOne .. "(.-)%" .. closeStringTwo
+		local Separate = string.gmatch(string,Pattern)
+		local Table = {}
+		for StringGiven in Separate do
+			table.insert(Table,StringGiven)
+		end
+		return Table
+	end
+
 	-- Thx Emk530
 	if POLYFILL_FLAGS.utf8 then
 		function string.utfsub(s,i,j)

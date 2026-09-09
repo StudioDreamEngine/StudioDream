@@ -129,11 +129,11 @@ end
 
 function Transform3D.FromString(Text) -- also need to figure out a good way to improve this
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
-    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-%.]+}")
+    local FindBrack = string.close(RemoveWhiteSpace,"{","}")
     local DefaultNumber = 0
     local StringsCreated = {}
 
-    for String in FindBrack do
+    for _,String in pairs(FindBrack) do
         local RemoveKeys = string.gsub(String,"[%{%}]","")
         table.insert(StringsCreated,RemoveKeys)
     end

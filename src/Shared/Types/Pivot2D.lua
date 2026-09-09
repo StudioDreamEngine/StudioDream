@@ -103,13 +103,12 @@ function Pivot2D.FromOffset(Offset, OffsetY)
 end
 
 function Pivot2D.FromString(Text)
-
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
-    local FindBrack = string.gmatch(RemoveWhiteSpace,"{[%d,%-%.]+}")
+    local FindBrack = string.close(RemoveWhiteSpace,"{","}")
     local DefaultNumber = 0
     local StringsCreated = {}
 
-    for String in FindBrack do
+    for _,String in pairs(FindBrack) do
         local RemoveKeys = string.gsub(String,"[%{%}]","")
         table.insert(StringsCreated,RemoveKeys)
     end
