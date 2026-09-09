@@ -80,53 +80,53 @@ local Meta = { -- I have no idea how to organize this mess
 	end,
 
     __unm = function (t)
-        return Vector2.new(-t.X,-t.Y)
+        return Vector2.new(-t[1],-t[2])
     end,
     -- TODO: Remove?
     __eq = function (t1, t2)
-        return (t1.X == t2.X) and (t1.Y == t2.Y)
+        return (t1[1] == t2[1]) and (t1[2] == t2[2])
     end,
     __add = function (t1, t2)
         if type(t1) == "number" then
-            return Vector2.new(t1 + t2.X, t1 + t2.Y)
+            return Vector2.new(t1 + t2[1], t1 + t2[2])
         elseif type(t2) == "number" then
-            return Vector2.new(t1.X + t2, t1.Y + t2)
+            return Vector2.new(t1[1] + t2, t1[2] + t2)
         else
             Utils.AssertTypes({t1,t2}, "Vector2")
-            return Vector2.new(t1.X + t2.X, t1.Y + t2.Y)
+            return Vector2.new(t1[1] + t2[1], t1[2] + t2[2])
         end
     end,
     __sub = function (t1, t2)
         if type(t2) == "number" then
-            return Vector2.new(t1.X - t2, t1.Y - t2)
+            return Vector2.new(t1[1] - t2, t1[2] - t2)
         elseif type(t1) == "number" then
-            return Vector2.new(t1 - t2.X, t1 - t2.Y)
+            return Vector2.new(t1 - t2[1], t1 - t2[2])
         else
             Utils.AssertTypes({t1,t2}, "Vector2")
-            return Vector2.new(t1.X - t2.X, t1.Y - t2.Y)
+            return Vector2.new(t1[1] - t2[1], t1[2] - t2[2])
         end
     end,
     __tostring = function (t)
-        return math.dotround(t.X)..", "..math.dotround(t.Y)
+        return math.dotround(t[1])..", "..math.dotround(t[2])
     end,
     __mul = function (t1, t2)
         t2 = t2 or 1
 
         if type(t2) == "number" then
-            return Vector2.new(t1.X * t2, t1.Y * t2)
+            return Vector2.new(t1[1] * t2, t1[2] * t2)
         elseif type(t1) == "number" then
-            return Vector2.new(t2.X * t1, t2.Y * t1)
+            return Vector2.new(t2[1] * t1, t2[2] * t1)
         else
             Utils.AssertTypes({t1,t2}, "Vector2")
-            return Vector2.new(t1.X * t2.X, t1.Y * t2.Y)
+            return Vector2.new(t1[1] * t2[1], t1[2] * t2[2])
         end
     end,
     __div = function (t1, t2)
         if type(t2) == "number" then
-            return Vector2.new(t1.X / t2, t1.Y / t2)
+            return Vector2.new(t1[1] / t2, t1[2] / t2)
         else
             Utils.AssertTypes({t1,t2}, "Vector2")
-            return Vector2.new(t1.X / t2.X, t1.Y / t2.Y)
+            return Vector2.new(t1[1] / t2[1], t1[2] / t2[2])
         end
     end
 }

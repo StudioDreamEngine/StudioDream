@@ -51,7 +51,6 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
         Layer = 3,
         Name = Object.Name.."_Explorer",
         Parent = ScrollContainer,
-        Serializable = false,
         CornerRadius = 5,
     })
 
@@ -75,7 +74,6 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
             Layer = 1,
             Parent = NodeObj.NodeInner,
             Name = "ParentLine",
-            Serializable = false,
             CornerRadius = 0,
             LimitCornerRadius = true,
         })
@@ -89,7 +87,6 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
             BackgroundTransparency = 0,
             Layer = 1,
             Parent = ParentLine,
-            Serializable = false,
         })
 
         table.insert(NodeObj.ParentLines, ParentLine)
@@ -107,7 +104,6 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
             Name = "ParentLineLast",
             Layer = 1,
             Parent = NodeObj.NodeInner,
-            Serializable = false,
             CornerRadius = 0,
             LimitCornerRadius = true,
         })
@@ -120,7 +116,6 @@ function Explorer.CreateNode(Object, Depth, IsLastChild)
             BackgroundTransparency = 0,
             Layer = 1,
             Parent = ParentLine,
-            Serializable = false,
         })
 
         table.insert(NodeObj.ParentLines, ParentLine)
@@ -321,7 +316,6 @@ function Explorer.Init()
         Layer = 999,
         SinkHovering = false,
         Parent = Explorer.Container,
-        Serializable = false,
     })
 
     Context:SetChoices({

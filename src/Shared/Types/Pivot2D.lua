@@ -51,6 +51,24 @@ local Meta = {
             return Pivot2D.FromAxises(t1.Scale - t2.Scale, t1.Offset - t2.Offset)
         end
     end,
+    __mul = function (t1, t2)
+        if type(t1) == "number" then
+            return Pivot2D.FromAxises(t1 * t2.Scale, t1 * t2.Offset)
+        elseif type(t2) == "number" then
+            return Pivot2D.FromAxises(t1.Scale * t2, t1.Offset * t2)
+        else
+            return Pivot2D.FromAxises(t1.Scale * t2.Scale, t1.Offset * t2.Offset)
+        end
+    end,
+    __div = function (t1, t2)
+        if type(t1) == "number" then
+            return Pivot2D.FromAxises(t1 / t2.Scale, t1 / t2.Offset)
+        elseif type(t2) == "number" then
+            return Pivot2D.FromAxises(t1.Scale / t2, t1.Offset / t2)
+        else
+            return Pivot2D.FromAxises(t1.Scale / t2.Scale, t1.Offset / t2.Offset)
+        end
+    end,
     __tostring = function(self)
         return "{"..tostring(self.Scale).."},{"..tostring(self.Offset).."}"
     end

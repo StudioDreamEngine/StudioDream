@@ -34,7 +34,6 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Layer = 2,
         Parent = Windows.FullContainer,
         CornerRadius = Transform.CornerRadius or 2.5,
-        Serializable = false
     })
 
     if Transform.Shadows then

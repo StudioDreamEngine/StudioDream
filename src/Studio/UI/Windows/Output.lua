@@ -20,7 +20,6 @@ function Output.Init()
         --BackgroundTransparency = 1,
         Layer = 999,
         Parent = Output.Container,
-        Serializable = false,
     })
 
     local OutputText = Studio.Components.CreateStyle("Text", {

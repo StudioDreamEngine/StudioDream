@@ -52,7 +52,6 @@ function BaseGui:GetAbsolutePosition()
         end
 
         local YPos = Position.Y + self.AbsoluteSize.Y
-
         self.DontDraw = (Position.Y > Display.AbsoluteSize.Y) or (YPos < 0)
 
         self.ViewportPosition = Position + self.AbsolutePivot + Display.ViewportPosition
