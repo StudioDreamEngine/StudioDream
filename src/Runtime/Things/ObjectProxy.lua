@@ -84,6 +84,10 @@ return { new = function()
         ObjectProxy.Creatable = true
     end
 
+    function ObjectProxy.MakeNotCreatable()
+        ObjectProxy.Creatable = false
+    end
+
     function ObjectProxy.MakeNonDuplicatable()
         ObjectProxy.Duplicatable = false
     end

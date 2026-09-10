@@ -35,9 +35,14 @@ end
 function ScrollContainer:DefineAPI()
     ScrollContainer.super.DefineAPI(self)
 
+    self.Proxy.SetCategory("Containers")
+
     self.Proxy.Property("Pivot2D CanvasSize","number ScrollPosition","Color BarColor","number BarTransparency")
     self.Proxy.Group("Scroll","CanvasSize","ScrollPosition")
     self.Proxy.Group("Bar","BarColor","BarTransparency")
+
+    self.Proxy.Icon("ScrollContainer")
+
     self.Proxy.MakeCreatable()
 end
 

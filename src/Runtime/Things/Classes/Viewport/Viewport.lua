@@ -27,6 +27,8 @@ function Viewport:DefineAPI()
     
     self.Proxy.SetCategory("Viewport")
 
+    self.Proxy.Icon("Viewport")
+
     self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType")
     self.Proxy.Group("General", "RenderContainer", "FilterType")
 end

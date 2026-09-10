@@ -11,8 +11,15 @@ function Square:new()
     self.SinkHovering = true
 end
 
+function Square:DefineAPI()
+    Square.super.DefineAPI(self)
+    
+    self.Proxy.MakeNotCreatable()
+end
+
 function Square:OnInitalParent(NewParent)
     Square.super.OnInitalParent(self, NewParent)
+
     Runtime.InterfaceManager.RegisterButton(self.UUID)
 end
 

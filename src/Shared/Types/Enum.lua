@@ -21,6 +21,10 @@ local Enums = {
         Point = "point",
         Sun = "sun"
     },
+    Direction = {
+        Left = 1,
+        Right = -1,
+    },
     FilterType = {
         Linear = "linear",
         Pixelated = "nearest"

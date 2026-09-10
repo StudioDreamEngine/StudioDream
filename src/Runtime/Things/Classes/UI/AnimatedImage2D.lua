@@ -22,8 +22,11 @@ end
 function AnimatedImage2D:DefineAPI()
     AnimatedImage2D.super.DefineAPI(self)
 
-    self.Proxy.Property("boolean Reverse")
+    self.Proxy.Property("boolean Reverse","boolean DoesLoop","number FramesPerSecond","number FrameIn","Enum.Direction Direction")
 
+    self.Proxy.Group("Animation","Reverse","DoesLoop","FramesPerSecond","FrameIn","Direction")
+
+    self.Proxy.Icon("AnimatedImage2D")
     self.Proxy.MakeCreatable()
 end
 
@@ -78,7 +81,7 @@ function AnimatedImage2D:RenderCurrentAnimation(dt)
 			elseif self.DoesLoop then
 				self.FrameIn = 1
 			else
-				self.CurrentPlaying = nil
+                self:Stop()
 				self.OnEnd.Invoke()
 				return
 			end
@@ -89,7 +92,7 @@ function AnimatedImage2D:RenderCurrentAnimation(dt)
 end
 
 function AnimatedImage2D:Update(dt)
-    if self.CurrentPlaying ~= nil or self.Playing ~= false then 
+    if self.Playing ~= false and self.CurrentPlaying ~= nil then 
         self:RenderCurrentAnimation(dt)
     end
 end

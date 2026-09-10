@@ -36,22 +36,24 @@ function Slider:new()
     self.NumberPosChanged = Signal:New("Slide_NumberPos")
     self.StartHolding = Signal:New("Slide_Hold")
     self.EndHolding = Signal:New("End_Hold")
-
-    Runtime.InterfaceManager.OnClick:Connect(function(Vec)
-        if not self.Hovering then return end
-        self.Holding = true
-        self.StartHolding.Invoke()
-    end)
-
-    Runtime.InterfaceManager.OnRelease:Connect(function()
-        self.Holding = false
-        self.EndHolding.Invoke()
-    end)
 end
 
 function Slider:OnInitalParent(NewParent)
     Slider.super.OnInitalParent(self, NewParent)
     Runtime.InterfaceManager.RegisterButton(self.UUID)
+
+    Runtime.InterfaceManager.OnClickPress:Connect(function()
+        if not self.Hovering then return end
+        self.Holding = true
+        --print("coil!")
+        self.StartHolding.Invoke()
+    end)
+
+    Runtime.InterfaceManager.OnRelease:Connect(function()
+        self.Holding = false
+        --print("ouch!")
+        self.EndHolding.Invoke()
+    end)
 end
 
 function Slider:DefineAPI()
@@ -72,7 +74,6 @@ function Slider:SetSliderPosition(NewNumber)
     self.AbsoluteNumberPosition = Percentage*100
 
     self.NumberPosition = math.clamp(self.MaxiumNumber*Percentage,self.MinimumNumber,self.MaxiumNumber)
-
     if self.LastNumPos ~= self.NumberPosition then
         self.NumberPosChanged.Invoke(self.NumberPosition)
         self.LastNumPos = self.NumberPosition
@@ -84,9 +85,11 @@ function Slider:UpdateAbSize(Vec)
 end
 
 function Slider:SetNumberPosition(NewNumber)
-    NewNumber = math.clamp(NewNumber,0,100)
+    NewNumber = math.clamp(NewNumber, self.MinimumNumber, self.MaxiumNumber)
+    local Percentage = (NewNumber - self.MinimumNumber) / (self.MaxiumNumber - self.MinimumNumber)
+    local AbsolutePosition = self.AbsolutePosition[self.SlideAxis] + self.AbsoluteSize[self.SlideAxis] * Percentage
 
-    Slider:SetSliderPosition(self.SliderPosition/NewNumber)
+    self:SetSliderPosition(AbsolutePosition)
 end
 
 function Slider:CalculateRadius() -- this was kinda fun to do
@@ -117,18 +120,21 @@ function Slider:OnRemove()
     Runtime.InterfaceManager.UnregisterButton(self.UUID)
 end
 
-function Slider:Draw()
-    Slider.super.Draw(self)
-    local Size = self.AbsoluteSize
-
+function Slider:Update(dt)
+    Slider.super.Update(dt,self)
+   -- print(self.Holding)
     if self.Holding then
         self:SetSliderPosition(Runtime.Backend2D.GetMousePosition()[self.SlideAxis])
     end
-
-    self:CalculateRadius()
+    
     self:UpdateAbSize(self.SlideSize)
+    self:CalculateRadius()
+end
 
-    self:SetColor("AbsoluteForeground")
+function Slider:Draw()
+    Slider.super.Draw(self)
+
+    self:SetColor("Foreground")
 
     if self.SlideAxis == "X" then
         love.graphics.rectangle("fill", self.SliderPosition - self.SlidePivot.X, 0, self.SlideSizeAbsolute.X, self.SlideSizeAbsolute.Y,self.SlideTrueRadiusOfCorners,self.SlideTrueRadiusOfCorners)

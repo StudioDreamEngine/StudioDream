@@ -11,6 +11,7 @@ function InterfaceManager.Init()
     InterfaceManager.OnClick = Signal:New("MouseClick", true) 
     InterfaceManager.OnRelease = Signal:New("MouseClick") 
     InterfaceManager.OnRightClick = Signal:New("MouseClick2")
+    InterfaceManager.OnClickPress = Signal:New("MouseClick4")
     InterfaceManager.OnClickGeneral = Signal:New("MouseClick3")
 
     -- Keep it always enabled for now
@@ -20,6 +21,8 @@ function InterfaceManager.Init()
     LoveEvents.MousePressed:Connect(function(x,y,button)
         if button == Enum.MouseButton.RightClick then
             InterfaceManager.OnRightClick.Invoke(Vector2.new(x,y))
+        elseif button == Enum.MouseButton.LeftClick then
+            InterfaceManager.OnClickPress.Invoke()
         end
 
         InterfaceManager.OnClickGeneral.Invoke(Vector2.new(x,y))
