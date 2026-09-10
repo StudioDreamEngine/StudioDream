@@ -16,16 +16,19 @@ function AnimatedImage2D:new()
     self.Direction = 1
     self.StorageAnimations = {}
     self.OnEnd = Signal:New("AnimatedImage2DEndSignal")
+    self.Accumulator = 0
 end
 
 function AnimatedImage2D:DefineAPI()
     AnimatedImage2D.super.DefineAPI(self)
+
+    self.Proxy.Property("boolean Reverse")
+
     self.Proxy.MakeCreatable()
 end
 
 function AnimatedImage2D:StorageAnimation(Name,Animation)
     local AnimatedAnimation = {}
-    AnimatedAnimation.Accumulator = 0
     AnimatedAnimation.Frames = Animation
     self.StorageAnimations[Name] = AnimatedAnimation
 end
@@ -56,15 +59,16 @@ function AnimatedImage2D:SetFrameByFrameIn(FrameIn)
     local frame = self.CurrentPlaying.Frames[FrameIn]
     local NewSize = Vector2.new(self.ImageRect.Size.X*frame.X,self.ImageRect.Size.Y*frame.Y)
 	local NewRect = Rect.new(NewSize,self.ImageRect.Size)
+    print(NewRect)
 	self:SetImageRect(NewRect)
 end
 
 function AnimatedImage2D:RenderCurrentAnimation(dt)
 	local AnimationToRender = self.CurrentPlaying
-	AnimationToRender.Accumulator = AnimationToRender.Accumulator + dt * self.FramesPerSecond
+	self.Accumulator = self.Accumulator + dt * self.FramesPerSecond
 
-	if AnimationToRender.Accumulator >= 1 then
-		AnimationToRender.Accumulator = AnimationToRender.Accumulator - 1
+	if self.Accumulator >= 1 then
+		self.Accumulator = self.Accumulator - 1
 		self.FrameIn = self.FrameIn + self.Direction
         print(self.FrameIn)
 		if self.FrameIn > #AnimationToRender.Frames or self.FrameIn < 1 then

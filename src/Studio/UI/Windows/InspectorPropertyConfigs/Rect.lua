@@ -21,9 +21,9 @@ local function CreateSub(Info,AddInfo)
                 local FinalRect
 
                 if not IsSize then
-                    FinalRect = Rect.new(Thing[Info.Name].Origin,Vectorized)
-                else
                     FinalRect = Rect.new(Vectorized,Thing[Info.Name].Size)
+                else
+                    FinalRect = Rect.new(Thing[Info.Name].Origin,Vectorized)
                 end
 
                 Runtime.Things.SetProperty(Thing, Info.Name, FinalRect)
@@ -34,9 +34,9 @@ local function CreateSub(Info,AddInfo)
             local ReturnTheSame
 
             if not IsSize then
-                ReturnTheSame = Object[Info.Name].Size
-            else
                 ReturnTheSame = Object[Info.Name].Origin
+            else
+                ReturnTheSame = Object[Info.Name].Size
             end
 
             return ReturnTheSame
