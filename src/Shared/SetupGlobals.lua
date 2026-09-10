@@ -1,4 +1,4 @@
--- Seperate parts of the game (AHEM. AHEM. engine. -sonickirb) like the runtime will also have their own globals
+-- Seperate parts of the game (AHEM. AHEM. engine. -Konadi) like the runtime will also have their own globals
 -- in the future we could perhaps make an api for handling creation of globals, depends tho
 return function ()
     -- Polyfill and Dependencies

@@ -239,7 +239,7 @@ function Start.Init()
     local LoadProject = Start.CreateButton(Options,"Load a project","Internal/Studio/TabIcons/InsertIcon.png")
 
     Studio.Components.CreateStyle("Text", {
-        Text = "StudioDream by Mikl, Bloctans and Sonickirb, Full credits in the help tab",
+        Text = "StudioDream by Mikl, Bloctans and Konadi, Full credits in the help tab",
         ForegroundColor = "Text",
         Size = Pivot2D.FromScale(1,0.05),
         Parent = Options,

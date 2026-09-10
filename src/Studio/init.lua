@@ -59,7 +59,7 @@ function Studio.Update(dt)
     Studio.Layout.Update(dt)
     Studio.Components.Update(dt)
 
-    -- improve this some other time -sonickirb :3
+    -- improve this some other time -Konadi :3
     Studio.PresenceService.State    = "Editing"
     Studio.PresenceService.Details  = Runtime.Project.Config.Get("Name") or "fucked up :3"
 end

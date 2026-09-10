@@ -1,7 +1,7 @@
 Creators: 
     Bloctans
     Mikl
-    Sonickirb
+    Konadi
 
 Packages:
     bakpakin/binser (Github), Licensed under MIT

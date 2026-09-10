@@ -11,13 +11,13 @@ local CreditsDisplay = {
         Content = {
             "Bloctans - Basically made everything possible",
             "Mikl - Studio Interface, Graphics, General Support, Mascots",
-            "Sonickirb - General Support"
+            "Konadi - General Support"
         }
     },
     {
         Name = "Launcher",
         Content = {
-            "Sonickirb - Creator",
+            "Konadi - Creator",
             "Mikl - Windows zip export",
         }
     },
