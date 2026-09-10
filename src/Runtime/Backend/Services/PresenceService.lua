@@ -12,7 +12,7 @@ end
 function PresenceService.InitDiscord(applicationId)
     if (PresenceService._discordInitialized) then return end
 
-    -- mikls required essay from your loved one, sonickirb :3
+    -- mikls required essay from your loved one, konadi :3
     -- the application id is public information, so you dont need to keep it private unlike a Discord bot token
     -- by default we'll just use the StudioDream applicationId
     -- :3
