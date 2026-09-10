@@ -55,13 +55,15 @@ end
 
 function ProjectManager.StopStudioProject()
     if not ProjectManager.AlreadyRunning then return end
+    
+    Runtime.RequestRestart("Studio")
 
-    Studio.Editor3D.SelectionManager.DeselectAll()
+    --[[Studio.Editor3D.SelectionManager.DeselectAll()
     Studio.EditorUI.Playtest.EndPlayline()
     Studio.History.Clear()
     RuntimeService.Stop()
     
-    ProjectManager.AlreadyRunning = false
+    ProjectManager.AlreadyRunning = false]]
 end
 
 function ProjectManager.SaveProject()
