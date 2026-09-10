@@ -120,7 +120,6 @@ end
 -- Use a Resource Loader given the specified data and format
 function Resources.InitiateLoader(Format, Contents, Identifier)
 	local LoaderModule = require(LoaderModPath .. Format)
-
 	local Resource, SourceResource = LoaderModule(Contents, Identifier)
 	return Resource, SourceResource
 end

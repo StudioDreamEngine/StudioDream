@@ -8,6 +8,11 @@ function BillboardViewport:ViewportDefineAPI()
     self.Proxy.Icon("BillboardViewport")
 end
 
+function BillboardViewport:DefineAPI()
+    BillboardViewport.super.DefineAPI(self)
+    self.Proxy.Icon("BillboardViewport")
+end
+
 function BillboardViewport:UpdateDrawable(Parent)
     local ParentViewport = self:GetDisplayUI(true)
     if (not ParentViewport) then return end

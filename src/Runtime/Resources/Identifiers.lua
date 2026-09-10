@@ -77,7 +77,6 @@ function Identifiers.GetOrCreateIdentifierID(FilePath, CheckDuplicates)
 	
 	if CheckDuplicates then
 		FilePath = Path.new(FilePath) ---@diagnostic disable-line: cast-local-type
-
 		local ParentPath = FilePath.GetParent().FilePath
 		local FileName = FilePath.FileName
 
@@ -97,7 +96,6 @@ function Identifiers.GetOrCreateIdentifierID(FilePath, CheckDuplicates)
 	else
 		FinalPath = FilePath
 	end
-
 	-- use the old identifier if it exists
 	local HasIdentifier = ProjectFS.FileExists(FinalPath .. ".uid")
 	local IdentifierID
