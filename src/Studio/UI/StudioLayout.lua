@@ -104,6 +104,7 @@ end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     printVerbose("Creating new WindowHandler:",WindowType)
+    print(WindowType,WindowContainer)
     local Window = require("Studio.UI."..WindowType)(WindowContainer)
     Window.Init()
 
@@ -297,6 +298,17 @@ function StudioLayout.CreateLayout()
         Closable = true,
         Shadows = true,
         Name = "Credits",
+    })
+
+    StudioLayout.CreateWindow("GradientMaker", {
+        Size = Pivot2D.FromScale(0.5,0.3),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Layer = 500,
+        TopLevel = true,
+        Closable = true,
+        Shadows = true,
+        Name = "Gradient Maker",
     })
 
     StudioLayout.CreateWindow("Toolbar", {

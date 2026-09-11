@@ -9,6 +9,7 @@ local function CreateSub(Info,AddInfo)
     local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(1,1), BaseSquare)
     Studio.Components.PropertyValue(PropertyList, {
         Title = AddInfo.Name,
+        Name = Info.Name..AddInfo.Name,
         Type = "Input",
         Disabled = Info.Disabled,
         StyleSelect = true,
@@ -68,8 +69,7 @@ function Template.Create(Info)
         Container = "Secondary"
     })
 
-    PropertyObject.SubContainer = Studio.Components.ExpandableDropdown(PropertyObject.PropertyVal.UI.ValueContainer,Info.UltraParent)
-    PropertyObject.SubContainer.Container.Name = Info.Name.."1"
+    PropertyObject.SubContainer = Studio.Components.ExpandableDropdown(PropertyObject.PropertyVal.UI.ValueContainer,Info.UltraParent,Info.Name.."_Transform3D")
 
     CreateSub(Info,{
         Name = "Position",

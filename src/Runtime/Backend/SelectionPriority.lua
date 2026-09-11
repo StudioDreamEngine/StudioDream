@@ -16,9 +16,9 @@ end
 
 function SelectionPriorityService.Call(IsDown)
     if Runtime.InterfaceManager.Hovering then
-        if (not IsDown) then 
+        if (IsDown) then 
             printVerbose("Click Invoked")
-            SelectionPriorityService.GuiClick:Invoke() 
+            SelectionPriorityService.GuiClick.Invoke() 
         end
 
         return

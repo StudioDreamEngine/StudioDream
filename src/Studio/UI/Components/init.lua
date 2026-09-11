@@ -158,7 +158,7 @@ function Components.ExpandButton(Parent)
 end
 
 ---@param List BaseGui
-function Components.ExpandableDropdown(Header, List)
+function Components.ExpandableDropdown(Header, List, CustomName)
     assert(List:FindFirstChildOfClass("ListLayout"), "Components.ExpandableDropdown is only intended for ListLayouts!")
     local ExpandableDropdown = {
         Visible = true -- Shit's getting crowded...
@@ -173,7 +173,7 @@ function Components.ExpandableDropdown(Header, List)
 
     ExpandableDropdown.Container = Studio.Components.CreateStyle("Square",{
         Size = Pivot2D.FromScale(0.98,1),
-        Name = Header.Name.."1",
+        Name = CustomName or Header.Name.."1",
         AutomaticSize = Enum.AutomaticSize.Y,
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0.5,1),
@@ -191,6 +191,7 @@ function Components.ExpandableDropdown(Header, List)
     })
 
     function ExpandableDropdown.Toggle(Visible)
+        print("toggled")
         ExpandableDropdown.Visible = Visible
         ExpandableDropdown.Button.Toggle(Visible)
         ExpandableDropdown.Container:SetVisible(Visible)

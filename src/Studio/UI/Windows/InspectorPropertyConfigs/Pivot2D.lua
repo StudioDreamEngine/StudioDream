@@ -69,8 +69,7 @@ function Template.Create(Info)
         Container = "Secondary"
     })
 
-    PropertyObject.SubContainer = Studio.Components.ExpandableDropdown(PropertyObject.PropertyVal.UI.ValueContainer,Info.UltraParent)
-    PropertyObject.SubContainer.Container.Name = Info.Name.."1"
+    PropertyObject.SubContainer = Studio.Components.ExpandableDropdown(PropertyObject.PropertyVal.UI.ValueContainer,Info.UltraParent,Info.Name.."_Pivot2D")
 
     CreateSub(Info,{
         Name = "Scale",

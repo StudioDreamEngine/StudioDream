@@ -62,7 +62,6 @@ function AnimatedImage2D:SetFrameByFrameIn(FrameIn)
     local frame = self.CurrentPlaying.Frames[FrameIn]
     local NewSize = Vector2.new(self.ImageRect.Size.X*frame.X,self.ImageRect.Size.Y*frame.Y)
 	local NewRect = Rect.new(NewSize,self.ImageRect.Size)
-    print(NewRect)
 	self:SetImageRect(NewRect)
 end
 

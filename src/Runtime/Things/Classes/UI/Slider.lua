@@ -63,8 +63,8 @@ function Slider:DefineAPI()
     "number SlideCornerRadius","boolean LimitSlideCornerRadius")
     self.Proxy.Icon("Slider")
     self.Proxy.Group("Number", "MaxiumNumber", "MinimumNumber", "NumberPosition")
-    self.Proxy.Group("Transform", "SliderPosition","SlidePivot","SlideAxis","SlideCornerRadius","LimitSlideCornerRadius")
-    self.Proxy.MakeCreatable()
+    self.Proxy.Group("Slider", "SliderPosition","SlidePivot","SlideAxis","SlideCornerRadius","LimitSlideCornerRadius")
+    self.Proxy.MakeNotCreatable()
 end
 
 function Slider:SetSliderPosition(NewNumber)

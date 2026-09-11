@@ -204,6 +204,7 @@ local ValueFunction = function(PropertyList, Information, Style)
     local Container = Things.Create(Information.StyleSelect and "TextButton" or "Square") {
         BackgroundTransparency = 0,
         Text = "",
+        Name = PropertyList.Name or PropertyList.Title,
         Size = PropertyList.Size,
         Name = Information.Name or "Container",
         CornerRadius = 5,
