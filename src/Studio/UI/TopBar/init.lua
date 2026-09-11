@@ -1,102 +1,103 @@
 -- Oh god i feel like i havent touched this in years - bloctans, aug 2026
-local TopBar = {}
-local Components = Studio.Components
-local Things = Runtime.Things
+return function(TopBar)
+    local Components = Studio.Components
+    local Things = Runtime.Things
 
-local TabsList = require("Studio.UI.TopBar.Tabs") -- God this indexing is killing me
-local Tabs = {}
-local Buttons = {}
+    local TabsList = require("Studio.UI.TopBar.Tabs") -- God this indexing is killing me
+    local Tabs = {}
+    local Buttons = {}
 
-function TopBar.ChangeTab(TabName)
-    for _, Tab in pairs(Tabs) do
-        Tab:SetVisible(false)
-    end
-    for _, Button in pairs(Buttons) do
-        Button.BackgroundColor = Studio.CurrentTheme.Secondary
-    end
-    Buttons[TabName].BackgroundColor = Studio.CurrentTheme.Outline
-    Tabs[TabName]:SetVisible(true)
-end
-
-function TopBar.GetTool(Tool)
-    return require("Studio.UI.TopBar.Tools."..Tool)
-end
-
-function TopBar.CreateTab(TabName, Tab)
-    -- Adds to tab list - This is sorta temporary unless we plan to not allow for customization (Still deciding on this, probably not 🔥)
-    Buttons[TabName] = Studio.Components.CreateButton(TabName, {
-        Parent = TopBar.TabsMenu,
-        Size = Pivot2D.FromScale(0.1,0.8),
-        Clicked = function()
-            TopBar.ChangeTab(TabName)
+    function TopBar.ChangeTab(TabName)
+        for _, Tab in pairs(Tabs) do
+            Tab:SetVisible(false)
         end
-    })
-
-    local SingleTab = Things.Create("Square") {
-        Size = Pivot2D.new(1,-12,1,-12),
-        Pivot = Vector2.one * .5,
-        Position = Pivot2D.FromScale(.5,.5),
-        BackgroundTransparency = 1,
-        Name = "Tab",
-        Parent = TopBar.TabContainer
-    }
-
-    Things.Create("ListLayout") {
-        Direction = Enum.LayoutDirection.Horizontal,
-        Parent = SingleTab,
-        Padding = 5
-    }
-
-    for Order, Item in pairs(Tab) do
-        if type(Item) == "table" then
-            local Component = Item.Component
-            local Tool = TopBar.GetTool(Component)(Item.Arguments)
-
-            Tool.ListOrder = Order
-            Tool:SetParent(SingleTab)
+        for _, Button in pairs(Buttons) do
+            Button.BackgroundColor = Studio.CurrentTheme.Secondary
         end
+        Buttons[TabName].BackgroundColor = Studio.CurrentTheme.Outline
+        Tabs[TabName]:SetVisible(true)
     end
 
-    Tabs[TabName] = SingleTab
-end
+    function TopBar.GetTool(Tool)
+        return require("Studio.UI.TopBar.Tools."..Tool)
+    end
 
-function TopBar.Init()
-    TopBar.TabsMenu = Components.CreateStyle("Square", {
-        Position = Pivot2D.FromScale(0,0),
-        BackgroundTransparency = 1,
-        Size = Pivot2D.FromScale(1,0.3),
-        Parent = TopBar.Container,
-        Name = "TabMenu",
-        OutlineSize = 1,
-        OutlineColor = Studio.CurrentTheme.Outline
-    })
+    function TopBar.CreateTab(TabName, Tab)
+        -- Adds to tab list - This is sorta temporary unless we plan to not allow for customization (Still deciding on this, probably not 🔥)
+        Buttons[TabName] = Studio.Components.CreateButton(TabName, {
+            Parent = TopBar.TabsMenu,
+            Size = Pivot2D.FromScale(0.1,0.8),
+            Clicked = function()
+                TopBar.ChangeTab(TabName)
+            end
+        })
 
-    Things.Create("ListLayout") {
-        Alignment = Enum.Alignment.Center,
-        Direction = Enum.LayoutDirection.Horizontal,
-        Parent = TopBar.TabsMenu,
-        Padding = 5,
-    }
+        local SingleTab = Things.Create("Square") {
+            Size = Pivot2D.new(1,-12,1,-12),
+            Pivot = Vector2.one * .5,
+            Position = Pivot2D.FromScale(.5,.5),
+            BackgroundTransparency = 1,
+            Name = "Tab",
+            Parent = TopBar.TabContainer
+        }
 
-    TopBar.TabContainer = Components.CreateStyle("Square", {
-        Position = Pivot2D.FromScale(0,0.3),
-        Size = Pivot2D.FromScale(1,0.7),
-        Name = "TabTools",
-        BackgroundTransparency = 1,
-        Parent = TopBar.Container
-    })
-    
-    for i = 1, table.length(TabsList) do
-        for TabName, Tab in pairs(TabsList) do
-            if Tab.Order == i then
-                TopBar.CreateTab(TabName, Tab)
+        Things.Create("ListLayout") {
+            Direction = Enum.LayoutDirection.Horizontal,
+            Parent = SingleTab,
+            Padding = 5
+        }
+
+        for Order, Item in pairs(Tab) do
+            if type(Item) == "table" then
+                local Component = Item.Component
+                local Tool = TopBar.GetTool(Component)(Item.Arguments)
+
+                Tool.ListOrder = Order
+                Tool:SetParent(SingleTab)
             end
         end
-    end
-    for i, Tab in pairs(Tabs) do
-        if i ~= "General" then Tab:SetVisible(false) end
-    end
-    Buttons.General.BackgroundColor = Studio.CurrentTheme.Outline
-end
 
-return TopBar
+        Tabs[TabName] = SingleTab
+    end
+
+    function TopBar.Init()
+        TopBar.TabsMenu = Components.CreateStyle("Square", {
+            Position = Pivot2D.FromScale(0,0),
+            BackgroundTransparency = 1,
+            Size = Pivot2D.FromScale(1,0.3),
+            Parent = TopBar.Container,
+            Name = "TabMenu",
+            OutlineSize = 1,
+            OutlineColor = Studio.CurrentTheme.Outline
+        })
+
+        Things.Create("ListLayout") {
+            Alignment = Enum.Alignment.Center,
+            Direction = Enum.LayoutDirection.Horizontal,
+            Parent = TopBar.TabsMenu,
+            Padding = 5,
+        }
+
+        TopBar.TabContainer = Components.CreateStyle("Square", {
+            Position = Pivot2D.FromScale(0,0.3),
+            Size = Pivot2D.FromScale(1,0.7),
+            Name = "TabTools",
+            BackgroundTransparency = 1,
+            Parent = TopBar.Container
+        })
+        
+        for i = 1, table.length(TabsList) do
+            for TabName, Tab in pairs(TabsList) do
+                if Tab.Order == i then
+                    TopBar.CreateTab(TabName, Tab)
+                end
+            end
+        end
+        for i, Tab in pairs(Tabs) do
+            if i ~= "General" then Tab:SetVisible(false) end
+        end
+        Buttons.General.BackgroundColor = Studio.CurrentTheme.Outline
+    end
+
+    return TopBar
+end

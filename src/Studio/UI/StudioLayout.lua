@@ -11,6 +11,8 @@ end
 
 function StudioLayout.CreateWindowContainer(Transform, HaveName)
     local Windows = {}
+
+    Windows.Modal = Transform.Modal
     
     Windows.FullContainer = Studio.Components.CreateStyle("Square",{
         Size = Transform.Size,
@@ -19,7 +21,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         BackgroundColor = "Outline",
         Name = "WindowContainer",
         Layer = Transform.Layer or 1,
-        Parent = Transform.TopLevel and Things.RenderRoot or StudioLayout.Windows,
+        Parent = Transform.Modal and Things.RenderRoot or StudioLayout.Windows,
         CornerRadius = Transform.CornerRadius or 5,
        -- OutlineSize = 2,
         OutlineColor = "Outline"
@@ -44,7 +46,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     --print(HaveName)
     if (not HaveName) then return Windows end
     --print("BLEH")
-    Windows.ContainerNamer = Studio.Components.CreateStyle("Square", {
+    local ContainerNamer = Studio.Components.CreateStyle("Square", {
         Size = Pivot2D.FromScale(0.99,0.1),
         Position = Pivot2D.FromScale(0.5,0.01),
         Pivot = Vector2.new(0.5,0),
@@ -57,11 +59,12 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         BackgroundColor = "Outline",
         CornerRadius = 4,
     })
-    Windows.Namer = Studio.Components.CreateStyle("Text", {
+    
+    Studio.Components.CreateStyle("Text", {
         Size = Pivot2D.FromScale(0.99,0.5),
         Position = Pivot2D.FromScale(0.5,0),
         Pivot = Vector2.new(0.5,0),
-        Parent = Windows.ContainerNamer,
+        Parent = ContainerNamer,
         BackgroundTransparency = 1,
         Text = HaveName,
         ForegroundColor = "Text",
@@ -75,14 +78,14 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Studio.Components.CreateStyle("ImageButton", {
             Size = Pivot2D.FromScale(1.5,0.5),
             SquareAxis = Enum.SquareAxis.Y,
-            Parent = Windows.ContainerNamer,
+            Parent = ContainerNamer,
             CornerRadius = 5,
             Pivot = Vector2.new(0,0),
             Position = Pivot2D.FromScale(0,0),
             BackgroundTransparency = 0,
             Layer = 2,
             Clicked = function()
-                Windows.FullContainer:SetVisible(false)
+                Windows.Close()
             end,
             Resource = "Internal/Studio/Close.png",
             ScaleType = Enum.ScaleType.LockAspect,
@@ -101,9 +104,7 @@ end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     printVerbose("Creating new WindowHandler:",WindowType)
-    local Window = require("Studio.UI."..WindowType)
-    Window.FullContainer = WindowContainer.FullContainer
-    Window.Container = WindowContainer.Container
+    local Window = require("Studio.UI."..WindowType)(WindowContainer)
     Window.Init()
 
     if StudioLayout.Handles[WindowType] then
@@ -111,17 +112,29 @@ function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     end
 
     StudioLayout.Handles[WindowType] = Window
+
+    return Window
 end
 
 function StudioLayout.CreateWindow(WindowType, Transform)
     local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Transform.Name)
     WindowContainer.FullContainer.Name = "Windows."..WindowType
 
-    StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
+    local Window = StudioLayout.CreateWindowHandler("Windows."..WindowType, WindowContainer)
+
+    Window.Close = function()
+        StudioLayout.ToggleWindow(Window, false)
+    end
+
+    StudioLayout.ToggleWindow(Window, true)
 end
 
 -- Robuxxy worst nightmare
 function StudioLayout.ToggleWindow(Window, Toggle)
+    if Window.Modal then
+        Studio.Components.ToggleFade(Toggle)
+    end
+
     Window.FullContainer:SetVisible(Toggle)
 end
 
@@ -218,8 +231,7 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.25,.25),
         Position = Pivot2D.FromScale(.5,1),
         Pivot = Vector2.new(0,0),
-        Layer = 100,
-        TopLevel = true
+        Layer = 100
     })
 
     StudioLayout.CreateWindow("Inspector", {
@@ -259,7 +271,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
-        TopLevel = true,
+        Modal = true,
         Shadows = true,
         Closable = true,
         Name = "Project Configuration",
@@ -270,7 +282,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
-        TopLevel = true,
+        Modal = true,
         Closable = true,
         Shadows = true,
         Name = "Editor Configuration",
@@ -281,7 +293,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
-        TopLevel = true,
+        Modal = true,
         Closable = true,
         Shadows = true,
         Name = "Credits",
@@ -296,13 +308,12 @@ function StudioLayout.CreateLayout()
     })
 
     if (not FLAGS.SecondRun) then
-        Studio.Components.ShowFade()
         StudioLayout.CreateWindow("Start", {
             Size = Pivot2D.FromScale(0.5,0.6),
             Pivot = Vector2.new(0.5,0.5),
             Position = Pivot2D.FromScale(0.5,0.5),
             Layer = 300,
-            TopLevel = true,
+            Modal = true,
             Shadows = true,
         })
     end

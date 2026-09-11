@@ -3,7 +3,7 @@ return {
         Component = "Image",
         Arguments = {
             Function = function()
-                Studio.Editor3D.ToggleWindowOutside("Start",true)
+                Studio.EditorUI.ToggleWindow("Start",true)
             end,
         }
     },
@@ -44,7 +44,7 @@ return {
                     Type = "Button",
                     Text = "Project Settings",
                     Function = function()
-                        Studio.Editor3D.ToggleWindowOutside("ProjectConfig",true)
+                        Studio.EditorUI.ToggleWindow("ProjectConfig",true)
                     end
                 },
                 {
@@ -78,7 +78,7 @@ return {
                     Type = "Button",
                     Text = "Configuration",
                     Function = function()
-                        Studio.Editor3D.ToggleWindowOutside("StudioConfig",true)
+                        Studio.EditorUI.ToggleWindow("StudioConfig",true)
                     end
                 },
                 {
@@ -199,7 +199,7 @@ return {
                     Type = "Button",
                     Text = "Credits",
                     Function = function(T)
-                        Studio.Editor3D.ToggleWindowOutside("Credits",true)
+                        Studio.EditorUI.ToggleWindow("Credits",true)
                     end
                 },
             }

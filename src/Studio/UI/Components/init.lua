@@ -51,6 +51,14 @@ function Components.Init()
     Shared.AbortAPI = Components.SimpleDialog
 end
 
+function Components.ToggleFade(Toggle)
+    if Toggle then
+        Components.ShowFade()
+    else
+        Components.HideFade()
+    end
+end
+
 function Components.SimpleDialog(Text, Callback)
     return Studio.Components.CreateDialog("Option", {
         Text = Text,

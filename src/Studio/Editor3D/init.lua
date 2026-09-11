@@ -15,22 +15,6 @@ Editor3D.PropertyChanged = Signal:New("ChangedProperty")
 Editor3D.GridSnap = 10
 Editor3D.RotationSnap = 10
 
-function Editor3D.ToggleWindowOutside(Name,Visible)
-    --Shared.QueueAbort("Mikl what the fuck is this function (Studio.Editor3D.ToggleWindowOutside) for")
-
-    local WindowHandle = Studio.Layout.GetHandle(Name)
-    Studio.Layout.ToggleWindow(WindowHandle, Visible)
-end
-
-function Editor3D.CloseInsertWindow(Object)
-    local WindowHandle = Studio.Layout.GetHandle("InsertObject")
-
-    Studio.Layout.MoveWindow(WindowHandle, Studio.Layout.GetMouseContext(WindowHandle.Container))
-    Studio.Layout.ToggleWindow(WindowHandle, false)
-
-    WindowHandle.TargetObject = nil
-end
-
 function Editor3D.GetDefaultTarget()
     return Editor3D.Selecting[1] or Runtime.Things.Root:GetEnvironment()
 end

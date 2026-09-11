@@ -13,7 +13,6 @@
     ],
     "Lua.workspace.library": [
         "${3rd}/love2d/library",
-        "./defs"
     ],
     "Lua.completion.autoRequire": false
 }

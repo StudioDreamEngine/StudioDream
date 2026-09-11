@@ -1,47 +1,48 @@
-local TopBar = {}
-local Components = Studio.Components
-local Things = Runtime.Things
+return function(TopBar)
+    local Components = Studio.Components
+    local Things = Runtime.Things
 
-local ButtonList = require("Studio.UI.MenuBar.TopButtons")
-local RequiredButtons = {}
+    local ButtonList = require("Studio.UI.MenuBar.TopButtons")
+    local RequiredButtons = {}
 
-function TopBar.CreateButton(Table)
-    if not RequiredButtons[Table.Component] then
-        local ButtonsOnTopThing = require("Studio.UI.MenuBar.ButtonsOnTop."..Table.Component)
-        RequiredButtons[Table.Component] = ButtonsOnTopThing
+    function TopBar.CreateButton(Table)
+        if not RequiredButtons[Table.Component] then
+            local ButtonsOnTopThing = require("Studio.UI.MenuBar.ButtonsOnTop."..Table.Component)
+            RequiredButtons[Table.Component] = ButtonsOnTopThing
+        end
+        
+        local Button = RequiredButtons[Table.Component](Table.Arguments)
+        Button:SetParent(TopBar.TopperBarContainer)
     end
-    
-    local Button = RequiredButtons[Table.Component](Table.Arguments)
-    Button:SetParent(TopBar.TopperBarContainer)
-end
 
-function TopBar.Init()
-    TopBar.TopperBarContainer = Components.CreateStyle("Square", {
-        Size = Pivot2D.FromScale(1,1),
-        BackgroundTransparency = 1,
-        Parent = TopBar.Container
-    })
+    function TopBar.Init()
+        TopBar.TopperBarContainer = Components.CreateStyle("Square", {
+            Size = Pivot2D.FromScale(1,1),
+            BackgroundTransparency = 1,
+            Parent = TopBar.Container
+        })
 
-    local Visbility = Components.ExpandButton(TopBar.TopperBarContainer)
-    local MenuVisible = true
+        local Visbility = Components.ExpandButton(TopBar.TopperBarContainer)
+        local MenuVisible = true
 
-    Visbility.Clicked:Connect(function()
-        MenuVisible = not MenuVisible
+        Visbility.Clicked:Connect(function()
+            MenuVisible = not MenuVisible
 
-        Visbility.Toggle(MenuVisible)
-        Studio.Layout.ToggleTopbar(MenuVisible)
-    end)
+            Visbility.Toggle(MenuVisible)
+            Studio.Layout.ToggleTopbar(MenuVisible)
+        end)
 
-    Things.Create("ListLayout") {
-        Alignment = Enum.Alignment.MiddleLeft,
-        Direction = Enum.LayoutDirection.Horizontal,
-        Parent = TopBar.TopperBarContainer,
-        Padding = 2,
-    }
+        Things.Create("ListLayout") {
+            Alignment = Enum.Alignment.MiddleLeft,
+            Direction = Enum.LayoutDirection.Horizontal,
+            Parent = TopBar.TopperBarContainer,
+            Padding = 2,
+        }
 
-    for i,Tab in pairs(ButtonList) do
-        TopBar.CreateButton(Tab)
+        for i,Tab in pairs(ButtonList) do
+            TopBar.CreateButton(Tab)
+        end
     end
-end
 
-return TopBar
+    return TopBar 
+end

@@ -14,14 +14,20 @@ function ScrollContainer:new()
     self.UseCanvasSize = false -- If or if not to use the canvas size for the scale attribute of pivots
 
     self.Hovering = false
-
     self.ForegroundColor = Color.new(1)
 
     self.CornerRadius = 5
-    self.LimitCornerRadius = 0
 
     self.BarColor = Color.new(1)
     self.BarTransparency = 0
+
+    self.PresentOnVisible = false
+
+    self.VisibilityEvent = self.PropagatedChange:Connect(function(IsVisible)
+        if IsVisible and self.PresentOnVisible then
+            self:Present()
+        end
+    end, "Visible")
     
     self.WheelMoved = LoveEvents.WheelMoved:Connect(function(_, y)
         if (not self.Hovering) then return end
@@ -64,6 +70,23 @@ function ScrollContainer:UpdateConstraint()
     self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), (self.UseCanvasSize and self:GetCanvasSize() or self.AbsoluteSize)))
 end
 
+--[[
+    Helper function to provide a visual queue for when a scrolling container is "presented".
+
+    Can be called on visibility with ScrollContainer.PresentOnVisible
+]]
+function ScrollContainer:Present()
+    self.ScrollPosition = -200
+    self:SetScroll(0)
+end
+
+function ScrollContainer:OnRemove()
+    ScrollContainer.super.OnRemove(self)
+
+    self.WheelMoved:Disconnect()
+    self.VisibilityEvent:Disconnect()
+end
+
 function ScrollContainer:Draw()
     ScrollContainer.super.Draw(self)
     
@@ -85,8 +108,7 @@ function ScrollContainer:Draw()
     local BarSize = self.AbsoluteSize.Y / CanvasScale2
     local BarPivot = BarSize * (BarPos / self.AbsoluteSize.Y)
     
-    -- Just calc the radius
-
+    -- TODO: Move to function in square class, this shouldnt be here! (ScrollContainer extends Viewport2D extends Viewport extends Square)
     local ActualbarSize = Vector2.new(5,BarSize)
 
     if self.LimitCornerRadius then

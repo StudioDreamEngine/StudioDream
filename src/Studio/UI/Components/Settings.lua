@@ -9,6 +9,7 @@ return { new = function(Info, Window)
         local Scroll = Studio.Components.CreateStyle("ScrollContainer", {
             Size = Pivot2D.FromScale(1,1),
             Parent = Parent,
+            PresentOnVisible = true,
             BackgroundTransparency = 1,
         })
 

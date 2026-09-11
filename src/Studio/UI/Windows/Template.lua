@@ -1,16 +1,14 @@
 local Things = Runtime.Things
 local Components = Studio.Components
 
-local Template = {}
+return function(Template)
+    function Template.Init()
+        
+    end
 
-Template.Container = nil ---@class Square
+    function Template.Update(dt)
+        
+    end
 
-function Template.Init()
-    
+    return Template
 end
-
-function Template.Update(dt)
-    
-end
-
-return Template

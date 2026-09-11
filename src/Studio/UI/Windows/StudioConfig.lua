@@ -1,115 +1,114 @@
 local Components = Studio.Components
 local Input = Runtime.Services.Service("InputService") ---@class InputService
 
-local StudioConfig = {}
-StudioConfig.Container = nil ---@class Square
+return function(StudioConfig)
+    -- i dont like this
+    local function ReturnDisplay(Inputs)
+        local First = Enum.InputCode.NameFromValue(Inputs.First)
 
--- i dont like this
-local function ReturnDisplay(Inputs)
-    local First = Enum.InputCode.NameFromValue(Inputs.First)
+        if Inputs.Second then
+            local Second = Enum.InputCode.NameFromValue(Inputs.Second)
 
-    if Inputs.Second then
-        local Second = Enum.InputCode.NameFromValue(Inputs.Second)
-
-        return First.."+"..Second
-    else
-        return First
-    end
-end
-
--- Generate the options for the shortcut tab
-function StudioConfig.GenerateShortcuts()
-    local Options = {}
-
-    for BindName, _ in pairs(Studio.ShortcutsHandler.GetKeys()) do
-        local Inputs = Studio.ShortcutsHandler.GetInput(BindName)
-
-        table.insert(Options, {
-            Title = BindName,
-            Type = "Button",
-            ReturnDisplay = function() -- Called each time the updator is called, return a text-friendly version of `Value`
-                return ReturnDisplay(Inputs)
-            end,
-            UserChange = function(Text) -- Called every time the user changes the value, its your job to take `Text` and update the corresponding `Value`
-                -- DONE by UserRequest, ignore!!
-            end,
-            UserRequest = function(OnFinished)
-                Input.KeyEvent:ConnectOnce(function(_, Key)
-                    -- Which key to change
-                    local TargetKey = Inputs.Second and "Second" or "First"
-                    Studio.ShortcutsHandler.SetInput(BindName, TargetKey, Key)
-
-                    OnFinished()
-                end)
-
-                return "Waiting for input..."
-            end,
-            Choices = {}
-        })
+            return First.."+"..Second
+        else
+            return First
+        end
     end
 
-    return Options
-end
+    -- Generate the options for the shortcut tab
+    function StudioConfig.GenerateShortcuts()
+        local Options = {}
 
-function StudioConfig.Init()
-    Components.Settings.new({
-        General = {
-            {
-                Title = "Theme",
-                Type = "Dropdown",
+        for BindName, _ in pairs(Studio.ShortcutsHandler.GetKeys()) do
+            local Inputs = Studio.ShortcutsHandler.GetInput(BindName)
+
+            table.insert(Options, {
+                Title = BindName,
+                Type = "Button",
                 ReturnDisplay = function() -- Called each time the updator is called, return a text-friendly version of `Value`
-                    return Studio.Theme.CurrentName
+                    return ReturnDisplay(Inputs)
                 end,
                 UserChange = function(Text) -- Called every time the user changes the value, its your job to take `Text` and update the corresponding `Value`
-                    Studio.Theme.ChangeTheme(Text)
+                    -- DONE by UserRequest, ignore!!
                 end,
-                Choices = Studio.Theme.GetNames()
-            },
-            {
-                Title = "Code Editor",
-                Type = "Button",
-                UserRequest = function(Change)
-                    Platform.OpenWithCallback("Configure an Code Editor", Enum.OpenDialog.File,function(NewPath)
-                        local Editor = Studio.ScriptHandler.ValidateEditor(NewPath)
-                        Change(Editor)
+                UserRequest = function(OnFinished)
+                    Input.KeyEvent:ConnectOnce(function(_, Key)
+                        -- Which key to change
+                        local TargetKey = Inputs.Second and "Second" or "First"
+                        Studio.ShortcutsHandler.SetInput(BindName, TargetKey, Key)
+
+                        OnFinished()
                     end)
+
+                    return "Waiting for input..."
                 end,
-                UserChange = function(InfoGiven)
-                    Studio.SettingsManager.Set("CodeEditor", InfoGiven)
-                end,
-                ReturnDisplay = function()
-                    return Path.new(Studio.SettingsManager.Get("CodeEditor")).FileName or "No code editor set."
-                end,
+                Choices = {}
+            })
+        end
+
+        return Options
+    end
+
+    function StudioConfig.Init()
+        Components.Settings.new({
+            General = {
+                {
+                    Title = "Theme",
+                    Type = "Dropdown",
+                    ReturnDisplay = function() -- Called each time the updator is called, return a text-friendly version of `Value`
+                        return Studio.Theme.CurrentName
+                    end,
+                    UserChange = function(Text) -- Called every time the user changes the value, its your job to take `Text` and update the corresponding `Value`
+                        Studio.Theme.ChangeTheme(Text)
+                    end,
+                    Choices = Studio.Theme.GetNames()
+                },
+                {
+                    Title = "Code Editor",
+                    Type = "Button",
+                    UserRequest = function(Change)
+                        Platform.OpenWithCallback("Configure an Code Editor", Enum.OpenDialog.File,function(NewPath)
+                            local Editor = Studio.ScriptHandler.ValidateEditor(NewPath)
+                            Change(Editor)
+                        end)
+                    end,
+                    UserChange = function(InfoGiven)
+                        Studio.SettingsManager.Set("CodeEditor", InfoGiven)
+                    end,
+                    ReturnDisplay = function()
+                        return Path.new(Studio.SettingsManager.Get("CodeEditor")).FileName or "No code editor set."
+                    end,
+                },
+                {
+                    Title = "Mute VFX",
+                    Type = "Checkbox",
+                    UserChange = function(InfoGiven)
+                        local Display
+                        if Studio.SettingsManager.Get("SFXEnabled")~=nil then
+                            Display = Studio.SettingsManager.Get("SFXEnabled")
+                        else
+                            Display = true
+                        end
+                        Studio.SettingsManager.Set("SFXEnabled", (not Display))
+                    end,
+                    ReturnDisplay = function()
+                        local Display
+                        if Studio.SettingsManager.Get("SFXEnabled")~=nil then
+                            Display = Studio.SettingsManager.Get("SFXEnabled")
+                        else
+                            Display = true
+                        end
+                        return Display
+                    end
+                }
             },
-            {
-                Title = "Mute VFX",
-                Type = "Checkbox",
-                UserChange = function(InfoGiven)
-                    local Display
-                    if Studio.SettingsManager.Get("SFXEnabled")~=nil then
-                        Display = Studio.SettingsManager.Get("SFXEnabled")
-                    else
-                        Display = true
-                    end
-                    Studio.SettingsManager.Set("SFXEnabled", (not Display))
-                end,
-                ReturnDisplay = function()
-                    local Display
-                    if Studio.SettingsManager.Get("SFXEnabled")~=nil then
-                        Display = Studio.SettingsManager.Get("SFXEnabled")
-                    else
-                        Display = true
-                    end
-                    return Display
-                end
-            }
-        },
-        Shortcuts = StudioConfig.GenerateShortcuts()
-    }, StudioConfig)
-end
+            Shortcuts = StudioConfig.GenerateShortcuts()
+        }, StudioConfig)
+    end
 
-function StudioConfig.Update(dt)
-    
-end
+    function StudioConfig.Update(dt)
+        
+    end
 
-return StudioConfig
+    return StudioConfig   
+end
