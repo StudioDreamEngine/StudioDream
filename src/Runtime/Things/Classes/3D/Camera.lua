@@ -8,7 +8,11 @@ function Camera:new()
 
     self.FieldOfView = 70 -- FOV
     self.Viewport = nil -- This should be set by the viewport/environment, not by itself
-
+    self.Near = 0.01
+    self.Far = 1000
+    self.Size = 10
+    self.AspectRatio = 1.0
+    self.Orthographic = false
     self.Drawable = Dream:newCamera()
 end
 
@@ -17,7 +21,8 @@ function Camera:DefineAPI()
 
     self.Proxy.Icon("Camera")
 
-    self.Proxy.Property("number FieldOfView")
+    self.Proxy.Property("number FieldOfView","boolean Orthographic","number Near","number Far","number Size","number AspectRatio")
+    self.Proxy.Group("Camera","FieldOfView","Orthographic","Near","Far","Size","AspectRatio")
     self.Proxy.MakeCreatable()
 end
 
@@ -34,6 +39,36 @@ function Camera:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
     Final.W = Distance
 
     return Final
+end
+
+function Camera:SetOrthographic(Boolean)
+    self.Orthographic = Boolean
+    self.Drawable:setOrthographic(Boolean)
+end
+
+function Camera:SetFar(Number)
+    self.Far = Number
+    self.Drawable:setFar(Number)
+end
+
+function Camera:SetNear(Number)
+    self.Near = Number
+    self.Drawable:setNear(Number)
+end
+
+function Camera:SetSize(Number)
+    self.Size = Number
+    self.Drawable:setSize(Number)
+end
+
+function Camera:SetAspectRatio(Number)
+    self.AspectRatio = Number
+    self.Drawable:setAspect(Number)
+end
+
+function Camera:SetFieldOfView(Number)
+    self.FieldOfView = Number
+    self.Drawable:setFov(Number)
 end
 
 function Camera:LocalRayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)

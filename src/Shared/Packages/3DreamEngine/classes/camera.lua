@@ -94,6 +94,13 @@ function class:setOrthographic(orthographic)
 	self.orthographic = orthographic
 end
 
+---Sets projection transform to orthographic, does not work with sky-boxes
+---@param aspect number
+function class:setAspect(aspect)
+	self.aspect = aspect
+end
+
+
 ---@return boolean
 function class:isOrthographic()
 	return self.orthographic
