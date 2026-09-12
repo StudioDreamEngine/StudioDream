@@ -24,10 +24,15 @@ function GradientSequence.NewSequence(TableOf, Rotation)
 
     local Keys = {}
     local Colors, Times
+    local ID = 0
 
     function SequenceObject.AddKey(Key)
+        ID = ID + 1
+
         Utils.AssertType(Key, "ColorKey")
-        table.insert(Keys, {Key.SequenceTime, Key.Color})
+        table.insert(Keys, {Key.SequenceTime, Key.Color, ID})
+
+        return ID
     end
 
     function SequenceObject.GetKeys()
@@ -38,18 +43,18 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         return table.length(Keys)
     end
 
-    function SequenceObject.RemoveKey(Time)
+    function SequenceObject.RemoveKeyByID(ID)
         for i,Key in pairs(Keys) do
-            if Key[1] == Time then
-                Keys[i] = nil
+            if Key[3] == ID then
+                Keys[3] = nil
             end
         end
     end
 
-    function SequenceObject.GetKey(Time)
+    function SequenceObject.GetKeyByID(ID)
         for i,Key in pairs(Keys) do
-            if Key[1] == Time then
-                return i
+            if Key[3] == ID then
+                return Key
             end
         end
     end

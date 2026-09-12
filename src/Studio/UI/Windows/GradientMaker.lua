@@ -18,7 +18,7 @@ return function(GradientMaker)
             Active = true
         end
 
-        Sequence.AddKey(GradientSequence.NewKey(InicialTime,Color))
+        KeyObject.KeyID = Sequence.AddKey(GradientSequence.NewKey(InicialTime,Color))
 
         KeyObject.Slider = Studio.Components.CreateStyle("SlideBar",{
             Size = Pivot2D.FromScale(0.01,1),
@@ -34,10 +34,8 @@ return function(GradientMaker)
             --SlideAxis = Enum.SlideAxis.Y,
         })
 
-        KeyObject.KeyPosition = Sequence.GetKey(InicialTime)
-
         KeyObject.Slider.ChangedPercentage:Connect(function()
-            Sequence.GetKeys()[KeyObject.KeyPosition][1] = KeyObject.Slider.Percentage
+            Sequence.GetKeyByID(KeyObject.KeyID)[1] = KeyObject.Slider.Percentage
             Sequence.ProcessUniforms()
 
             GradientButton:SetGradient(Sequence)
