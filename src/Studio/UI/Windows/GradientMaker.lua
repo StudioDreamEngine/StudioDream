@@ -39,7 +39,7 @@ return function(GradientMaker)
         KeyObject.Slider.ChangedPercentage:Connect(function()
             Sequence.GetKeys()[KeyObject.KeyPosition][1] = KeyObject.Slider.Percentage
             Sequence.ProcessUniforms()
-            print(Sequence.GetKeys())
+
             GradientButton:SetGradient(Sequence)
         end)
 

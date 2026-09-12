@@ -15,7 +15,8 @@ function Viewport3D:new()
     self.Click = Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering then return end
 
-        SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*300, self.AdornObject)
+        local Camera = self:GetCamera()
+        SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*300, self:GetWorld())
     end)
 
     self.Canvases = Dream:newCanvases()
