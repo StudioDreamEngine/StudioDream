@@ -62,6 +62,9 @@ end
 
 function SlideBar:SetPercentage(NewNumber)
     local Percentage = math.clamp(NewNumber, 0, 1)
+    if self.Percentage~=Percentage then
+        self.ChangedPercentage.Invoke(Percentage)
+    end
     self.Percentage = Percentage
     if self.Parent and self.Parent:IsA("BaseGui") then
         local EdgePosition = self.Parent.AbsolutePosition - (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 0
@@ -78,6 +81,10 @@ function SlideBar:HandleDrag(Position) -- Omg this was stressing, sometimes i di
     local EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * self.Parent.Pivot[self.SlideAxis])
     local SidePosition = MousePos - EdgePosition
     local Percentage = math.clamp(SidePosition / self.Parent.AbsoluteSize[self.SlideAxis], 0, 1)
+
+    if self.Percentage~=Percentage then
+        self.ChangedPercentage.Invoke(Percentage)
+    end
 
     self.Percentage = Percentage
 

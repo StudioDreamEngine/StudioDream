@@ -5,12 +5,22 @@ local GradientButton
 local Sequence = GradientSequence.NewSequence({}, 0)
 
 return function(GradientMaker)
-    
-    GradientMaker.CurrentColor = Color.new(1,0,0)
 
-    function GradientMaker.AddKey(InicialTime,Color)
+    GradientMaker.CurrentColor = Color.new(1,0,0)
+    
+    GradientMaker.KeysAdded = {}
+
+    function GradientMaker.AddKey(InicialTime,Color,Active)
+        local KeyObject = {}
+
+        if Active == true or Active == false then
+        else
+            Active = true
+        end
+
         Sequence.AddKey(GradientSequence.NewKey(InicialTime,Color))
-        local Slider = Studio.Components.CreateStyle("SlideBar",{
+
+        KeyObject.Slider = Studio.Components.CreateStyle("SlideBar",{
             Size = Pivot2D.FromScale(0.01,1),
             Pivot = Vector2.new(0.5,0),
             Position = Pivot2D.FromScale(0,0),
@@ -19,19 +29,31 @@ return function(GradientMaker)
             BackgroundTransparency = 0,
             CornerRadius = 10,
             OutlineSize = 1,
-            Active = true,
-            SinkHovering = false,
+            Active = Active,
+            SinkHovering = true,
             --SlideAxis = Enum.SlideAxis.Y,
         })
-        print(Color)
-        print(InicialTime)
-        Slider:SetPercentage(InicialTime)
+
+        KeyObject.KeyPosition = Sequence.GetKey(InicialTime)
+
+        KeyObject.Slider.ChangedPercentage:Connect(function()
+            Sequence.GetKeys()[KeyObject.KeyPosition][1] = KeyObject.Slider.Percentage
+            Sequence.ProcessUniforms()
+            print(Sequence.GetKeys())
+            GradientButton:SetGradient(Sequence)
+        end)
+
+        KeyObject.Slider:SetPercentage(InicialTime)
         GradientButton:SetGradient(Sequence)
+
+        table.insert(GradientMaker.KeysAdded,KeyObject)
+
+        return KeyObject
     end
 
     function GradientMaker.StartGradientColorHandle()
-        GradientMaker.AddKey(1,Color.new(1))
-        GradientMaker.AddKey(0,Color.new(1))
+        GradientMaker.AddKey(1,Color.new(1),false)
+        GradientMaker.AddKey(0,Color.new(1),false)
 
         GradientButton.Clicked:Connect(function()
             local MousePos = Runtime.Backend2D.GetMousePosition().X

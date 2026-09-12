@@ -38,6 +38,22 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         return table.length(Keys)
     end
 
+    function SequenceObject.RemoveKey(Time)
+        for i,Key in pairs(Keys) do
+            if Key[1] == Time then
+                Keys[i] = nil
+            end
+        end
+    end
+
+    function SequenceObject.GetKey(Time)
+        for i,Key in pairs(Keys) do
+            if Key[1] == Time then
+                return i
+            end
+        end
+    end
+
     function SequenceObject.GetColors() return unpack(Colors) end
     function SequenceObject.GetTimes() return unpack(Times) end
 
