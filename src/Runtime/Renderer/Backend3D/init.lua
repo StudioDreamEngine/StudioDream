@@ -9,8 +9,9 @@ function Backend3D.Init()
 end
 
 function Backend3D.SetupDebug()
-    Backend3D.Debug = Dream:newObject()
-    Backend3D.SetTransform(Transform3D.FromPosition(0,-200,0))
+    Backend3D.Debug = Backend3D.LoadObject("Internal/DefaultMeshes/cube.obj", "Debug")
+
+    Backend3D.SetTransform(Transform3D.FromPosition(0,-100,0))
 end
 
 function Backend3D.SetTransform(Transform)

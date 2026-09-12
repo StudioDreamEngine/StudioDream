@@ -66,6 +66,12 @@ local function RegisterIdentifier(Identifier, FilePath)
 	return NewIdentifier
 end
 
+-- Unload the resource, and unregister the identifier, practically removing it from being visible by the runtime.
+function Identifiers.UnregisterIdentifier(IdentifierID)
+	Runtime.Resources.UnloadResource(IdentifierID)
+	RegisteredIdentifiers[IdentifierID] = nil
+end
+
 ---@param FilePath string
 ---@param CheckDuplicates boolean?
 --[[
@@ -184,6 +190,10 @@ function Identifiers.GetStudioPath(IdentifierID)
 		local Path = Path.new(PathString)
 
 		return IdentifierType.new(Path, "Internal", IdentifierID)
+	elseif PathSplit[1] == "Project" then
+		local PathString = table.concat(PathSplit, "/", 2)
+
+		return RegisteredIdentifiers[Identifiers.GetIdentifierIDFromPath(PathString)]
 	end
 end
 

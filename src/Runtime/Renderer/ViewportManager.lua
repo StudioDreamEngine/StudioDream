@@ -79,9 +79,9 @@ function ViewportManager.RenderViewport3D(Viewport)
             Dream:prepare()
 
             Dream:draw(Runtime.Backend3D.GetAdorns())
-            Dream:draw(Runtime.Backend3D.Debug)
             Dream:addLight(light)
             Dream:draw(Viewport:GetWorld())
+            Dream:draw(Runtime.Backend3D.Debug)
             for i,v in pairs(Viewport.RenderContainer.Lights) do
                 Dream:addLight(v)
             end

@@ -26,6 +26,7 @@ function Resources.Init()
 	Resources.CreateIdentifier = Identifiers.CreateIdentifier
 	Resources.CreateBuffer = Identifiers.CreateBuffer
 	Resources.ChangeBuffer = Identifiers.ChangeBuffer
+	Resources.UnregisterIdentifier = Identifiers.UnregisterIdentifier
 end
 
 function Resources.Clear()
@@ -62,6 +63,8 @@ end
 ]]
 function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
+
+	-- TODO: Should we deprecate using identifiers for LoadResourceFromIdentifier?
 
 	local IntendedType, CustomProperty = nil, "Resource"
 
@@ -199,6 +202,8 @@ function Resources.GetResource(Identifier, Reload)
 end
 
 function Resources.UnloadResource(IdentifierID)
+	-- TODO: Unload resource from any objects
+
 	LoadedResources[IdentifierID] = nil
 end
 

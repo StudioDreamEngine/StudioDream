@@ -126,7 +126,9 @@ function Control3D:Update(dt)
     local CameraDistance = (Transform.Position - Camera.Position):Magnitude()
     CameraDistance = math.sqrt(CameraDistance) / 8 -- Black magic, Literally black magic.
 
-    local Hovering = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*400, self.AdornObject)
+    Runtime.Backend3D.SetTransform(Transform3D.FromPosition(Camera.Position + Camera:GetMouseRay()*10))
+
+    local Hovering = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*300, self.AdornObject)
     self.Hovering = Hovering
 
     for Axis, Data in pairs(self.Adorns) do

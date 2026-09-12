@@ -78,7 +78,8 @@ function Camera:LocalRayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
 end
 
 function Camera:GetFocalLength()
-    local CamFov = self.Drawable.fov
+    local CamFov = math.rad(self.Drawable.fov)
+
     return math.tan(CamFov / 2)
 end
 
@@ -92,7 +93,7 @@ function Camera:ScreenToWorldSpace(vec2) -- Alot of reaserch :sob: i dont want a
     local ViewAspect = ViewWidth / ViewHeight
     local TanFov = self:GetFocalLength()
 
-    local DirCamera = Vector3.new(x * ViewAspect * TanFov,y * TanFov,-TanFov)
+    local DirCamera = Vector3.new(x * ViewAspect * TanFov,y * TanFov,-1)
     local m = self.Drawable.transform
 
     local dirWorld = Vector3.new(

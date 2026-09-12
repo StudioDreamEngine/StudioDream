@@ -52,6 +52,10 @@ function GradientSequence.NewSequence(TableOf, Rotation)
     function SequenceObject.ProcessUniforms()
         local Keys = SequenceObject.GetKeys()
 
+        table.sort(Keys, function (a, b)
+            return a[1] < b[1]
+        end)
+
         for Index, Value in pairs(Keys) do
             ProcessUniform(Index, Value)
         end
