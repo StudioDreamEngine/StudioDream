@@ -11,9 +11,9 @@ function CreateRoot.CreateEnviornment(Root)
         Name = "HUD",
     }
 
-    local Materials = Things.Create("Materials") {
+    --[[local Materials = Things.Create("Materials") {
         Name = "Materials",
-    }
+    }]]
 
     local Lighting = Things.Create("Lighting") {
         Name = "Lighting",
@@ -25,7 +25,7 @@ function CreateRoot.CreateEnviornment(Root)
 
     Runtime.Project.RegisterRootScene(Environment, "MainScene")
     Runtime.Project.RegisterRootScene(HUD, "Interface")
-    Runtime.Project.RegisterRootScene(Materials, "Materials")
+    --Runtime.Project.RegisterRootScene(Materials, "Materials")
     Runtime.Project.RegisterRootScene(Lighting, "Lighting")
     Runtime.Project.RegisterRootScene(Assets, "Assets")
 end
