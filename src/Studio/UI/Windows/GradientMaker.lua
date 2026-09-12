@@ -51,7 +51,7 @@ return function(GradientMaker)
             BackgroundColor = Color.new(1),
             CornerRadius = 10,
             Text = "",
-            SinkHovering = false,
+            SinkHovering = true,
             ClickingColorMultiplier = 1,
             HoverColorMultiplier = 1,
         })
