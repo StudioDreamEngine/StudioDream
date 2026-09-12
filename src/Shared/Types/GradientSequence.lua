@@ -52,8 +52,6 @@ function GradientSequence.NewSequence(TableOf, Rotation)
     function SequenceObject.ProcessUniforms()
         Colors, Times = table.create(16, {1,1,0,1}), table.create(16, 0)
 
-        local Keys = SequenceObject.GetKeys()
-
         table.sort(Keys, function (a, b)
             return a[1] < b[1]
         end)
