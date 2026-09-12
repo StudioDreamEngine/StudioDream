@@ -19,7 +19,7 @@ function Client.Init()
         Parent = Things.RenderRoot
     }
 
-    Things.Root.EnvironmentViewport = EnvironmentViewport
+    Things.Root:SetEnvironmentViewport(EnvironmentViewport)
     Things.Root.HudViewport = HudViewport
 
     -- Commenting out for now, breaks if no icon is set or someth

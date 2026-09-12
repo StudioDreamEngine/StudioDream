@@ -20,7 +20,7 @@ return function(Viewport)
             Parent = Viewport.Container
         }
         
-        Things.Root.EnvironmentViewport = EnvironmentViewport
+        Things.Root:SetEnvironmentViewport(EnvironmentViewport)
         Things.Root.HudViewport = HudViewport
     end
 

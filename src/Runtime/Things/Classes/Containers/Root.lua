@@ -36,6 +36,12 @@ function Root:Clear()
     print("Finished clearing root")
 end
 
+function Root:SetEnvironmentViewport(New)
+    self.EnvironmentViewport = New
+
+    --Runtime.SelectionPriority.BindEnviornment(New)
+end
+
 function Root:SetLODDistance(Number)
     self.LODDistance = Number
     Dream:setLODDistance(Number)

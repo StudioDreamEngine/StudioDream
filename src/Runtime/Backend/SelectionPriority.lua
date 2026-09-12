@@ -4,6 +4,7 @@
 local SelectionPriorityService = {}
 
 local Signals = {}
+local EnvironmentViewport
 
 SelectionPriorityService.GuiClick = Signal:New("GuiClick")
 SelectionPriorityService.InViewport = false
@@ -15,7 +16,7 @@ function SelectionPriorityService.Init()
 end
 
 function SelectionPriorityService.Call(IsDown)
-    if Runtime.InterfaceManager.Hovering then
+    if (not EnvironmentViewport.Hovering) then
         if (IsDown) then 
             printVerbose("Click Invoked")
             SelectionPriorityService.GuiClick.Invoke() 
@@ -67,10 +68,10 @@ function SelectionPriorityService.UnbindSignal(UUID)
 end
 
 function SelectionPriorityService.Update()
-    local EnvironmentViewport = Runtime.Things.Root.EnvironmentViewport
+    EnvironmentViewport = Runtime.Things.Root.EnvironmentViewport
     if (not EnvironmentViewport) then SelectionPriorityService.InViewport = false; return end
 
-    SelectionPriorityService.InViewport = Utils.IntersectPoint2D(Rect.new(Vector2.zero, EnvironmentViewport.AbsoluteSize), EnvironmentViewport.MousePosition)
+    SelectionPriorityService.InViewport = EnvironmentViewport.Hovering
 end
 
 return SelectionPriorityService

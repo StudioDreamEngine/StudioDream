@@ -1,10 +1,22 @@
 local Things = Runtime.Things
+local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
 
 ---@class Viewport3D: Viewport
 local Viewport3D = Things.Extend("Viewport")
 
 function Viewport3D:new()
     Viewport3D.super.new(self)
+
+    self.Hovering = false
+    self.SinkHovering = false
+
+    Runtime.InterfaceManager.RegisterButton(self.UUID)
+
+    self.Click = Runtime.InterfaceManager.OnClick:Connect(function()
+        if not self.Hovering then return end
+
+        SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*300, self.AdornObject)
+    end)
 
     self.Canvases = Dream:newCanvases()
     self.Canvases:init(10,10)
@@ -30,6 +42,12 @@ function Viewport3D:GetWorld()
     assert(self.RenderContainer, "RenderContainer not specified before rendering started!")
 
     return self.RenderContainer.DreamWorld
+end
+
+function Viewport3D:OnRemove()
+    Viewport3D.super.OnRemove(self)
+
+    Runtime.InterfaceManager.UnregisterButton(self.UUID)
 end
 
 -- Pain
