@@ -58,6 +58,17 @@ function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformatio
 		if WorldObject.IsEnv then
 			ThingClass = Runtime.Things.Get(ThingClass)
 		end
+		
+		-- Convert barycentric UV to uv coordinate on surface
+		-- https://stackoverflow.com/questions/75758776/how-to-get-texture-coordinate-from-ray-cast-hit
+		local UV1, UV2, UV3 = CastResult:getTexCoords()
+		local U, V = CastResult:getUV()
+		local Barycentric = Vector3.new(U, V, 1 - U - V)
+
+		local UV = Vector2.new(
+			Barycentric.Z * UV1.x + Barycentric.X * UV2.x + Barycentric.Y * UV3.x,
+            Barycentric.Z * UV1.y + Barycentric.X * UV2.y + Barycentric.Y * UV3.y
+		)
 
 		---@class CastResult
 		local FriendlyCastResult = {
@@ -65,7 +76,7 @@ function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformatio
 			UUID = Object.UUID,
 			Position = CastResult:getPosition(),
 			Normal = CastResult:getNormal(),
-			UV = Vector2.new(CastResult:getUV()),
+			UV = UV,
 			Type = "CastResult",
 		}
 

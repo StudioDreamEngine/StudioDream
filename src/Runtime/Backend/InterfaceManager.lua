@@ -5,6 +5,7 @@ InterfaceManager.Buttons = {}
 
 InterfaceManager.Clicking = false
 InterfaceManager.Hovering = false
+InterfaceManager.ClickSurface = nil
 
 function InterfaceManager.Init()
     InterfaceManager.OnMouseMove = Signal:New("MouseMove") 
@@ -50,14 +51,41 @@ function InterfaceManager.UnregisterButton(Button)
 end
 
 local CurrentlyHovering = {}
+local Huge = Vector2.one * 100000
+
+---@param Viewport SurfaceViewport
+local function HandleSurface(Viewport)
+    Viewport.MousePosition = Huge
+
+    local Display = Viewport:GetDisplayUI() ---@class Viewport3D
+    if (not Display) or (not Display:IsA("Viewport3D")) then return end
+
+    if Display.AdornRay then
+        local UV = Display.AdornRay.UV
+        local HoveringViewport = Display.AdornRay.Thing.UUID
+
+        if HoveringViewport == Viewport.UUID then
+            InterfaceManager.ClickSurface = Viewport
+
+            Viewport.MousePosition = UV * Viewport.AbsoluteSize
+        end
+    end
+end
 
 function InterfaceManager.Update(dt)
     local Backend2D = Runtime.Backend2D
     local ViewportManager = Runtime.Renderer.ViewportManager
 
+    InterfaceManager.ClickSurface = nil
+
+    ---@param Viewport Viewport
     for _, Viewport in pairs(ViewportManager.Viewports) do
         --print(Viewport.ViewportPosition)
-        Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport.ViewportPosition --- Viewport.AbsolutePivot
+        if Viewport:IsA("SurfaceViewport") then
+            HandleSurface(Viewport)
+        else
+            Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport.ViewportPosition --- Viewport.AbsolutePivot
+        end
 
         if Viewport.RenderContainer then
             Viewport.RenderContainer.MousePosition = Viewport.MousePosition

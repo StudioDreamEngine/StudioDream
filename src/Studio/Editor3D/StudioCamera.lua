@@ -67,7 +67,8 @@ function StudioCamera.Update(dt)
             local SideV = (CameraTransform.Side * MouseDelta.X/200)
             local UpV = (CameraTransform.Up * MouseDelta.Y/200)
 
-            CameraFocus = CameraPosition + (CDirection - UpV + SideV) + Direction
+            local FocusDir = (CDirection - UpV + SideV)
+            CameraFocus = CameraPosition + FocusDir + Direction
             MouseDelta = Vector2.zero
         else
             CameraFocus = CameraFocus + Direction

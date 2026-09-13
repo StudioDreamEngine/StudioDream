@@ -75,11 +75,17 @@ function ToolManager.Init()
 end
 
 function ToolManager.ChangeTool(Tool)
-    ChosenTool = ToolManager[Tool]
+    ChosenTool = Tool and ToolManager[Tool] or nil
+
+    Runtime.SelectionPriority.Use3DSelection = (ChosenTool == nil) -- Dumbassery at play 
 
     if CurrentTool then -- HACK
         ToolManager.Select()
     end
+end
+
+function ToolManager.GetTool()
+    return ChosenTool
 end
 
 function ToolManager.Deselect()

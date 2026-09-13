@@ -8,6 +8,7 @@ local EnvironmentViewport
 
 SelectionPriorityService.GuiClick = Signal:New("GuiClick")
 SelectionPriorityService.InViewport = false
+SelectionPriorityService.Use3DSelection = false
 
 function SelectionPriorityService.Init()
     local InputService = Runtime.Services.Service("InputService") ---@class InputService
@@ -16,7 +17,7 @@ function SelectionPriorityService.Init()
 end
 
 function SelectionPriorityService.Call(IsDown)
-    if (not EnvironmentViewport.Hovering) then
+    if (not EnvironmentViewport.Hovering) or Runtime.InterfaceManager.ClickSurface then
         if (IsDown) then 
             printVerbose("Click Invoked")
             SelectionPriorityService.GuiClick.Invoke() 

@@ -38,6 +38,7 @@ function Thing:new()
 
     self.Parent = nil ---@type Thing
     self.Unreferenced = false
+    self.Debug = false
 
     self.WasParented = false
 
@@ -89,8 +90,8 @@ function Thing:OnReady() end
 function Thing:DefineAPI()
     self.Proxy = Things.ObjectProxy.new()
 
-    self.Proxy.Property("Thing Parent", "string Name")
-    self.Proxy.Group("General", "Parent", "Name")
+    self.Proxy.Property("Thing Parent", "string Name", "boolean Debug")
+    self.Proxy.Group("General", "Parent", "Name", "Debug")
 
     --self.Proxy.RegisterProxy("GetChildren", "GetDescendants")
 

@@ -47,10 +47,16 @@ return function(Toolbar)
         if LastButtonUsed then
             LastButtonUsed.Main.BackgroundColor = Studio.CurrentTheme.Secondary
         end
-        Studio.Editor3D.ToolManager.ChangeTool(Name)
+
         local ButtonCurrent = Toolbar.ButtonsCreated[Name]
-        ButtonCurrent.Main.BackgroundColor = Studio.CurrentTheme.Selecting
-        LastButtonUsed = ButtonCurrent
+
+        if LastButtonUsed == ButtonCurrent then
+            Studio.Editor3D.ToolManager.ChangeTool()
+        else
+            Studio.Editor3D.ToolManager.ChangeTool(Name)
+            ButtonCurrent.Main.BackgroundColor = Studio.CurrentTheme.Selecting
+            LastButtonUsed = ButtonCurrent
+        end
     end
 
     function Toolbar.CreateToolButton(Obj)

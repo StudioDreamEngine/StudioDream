@@ -466,23 +466,6 @@ function class:print()
 	end
 end
 
----@private
-function class:tostring()
-	local tags = { }
-	
-	--lod
-	local min, max = self:getLOD()
-	if min then
-		table.insert(tags, math.floor(min) .. "-" .. math.floor(max))
-	end
-	
-	--tags
-	for tag, _ in pairs(self.tags) do
-		table.insert(tags, tostring(tag))
-	end
-	return string.format("%s: %d objects, %d meshes, %d physics, %d lights%s%s", self.name, count(self.objects), count(self.meshes), count(self.collisionMeshes or { }), count(self.lights), #tags > 0 and ", " or "", table.concat(tags, ", "))
-end
-
 ---Exports this object in the custom, compact and fast 3DO format
 ---@deprecated @ broken
 function class:export3do()

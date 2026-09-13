@@ -25,6 +25,8 @@ function Viewport3D:new()
 
     self.Canvases = Dream:newCanvases()
     self.Canvases:init(10,10)
+
+    self.AdornRay = nil ---@class CastResult
 end
 
 function Viewport3D:DefineAPI()
@@ -61,8 +63,16 @@ function Viewport3D:GetCamera()
     return self:GetTarget().Camera
 end
 
+local VecHuge = Vector2.one * 100000
+
 function Viewport3D:Update(dt)
     Viewport3D.super.Update(self,dt)
+
+    local Camera = self:GetCamera()
+    if (not Camera) then return end
+    
+    local SelectResult = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*50, Runtime.Backend3D.GetAdorns())
+    self.AdornRay = SelectResult
 end
 
 return Viewport3D

@@ -1,4 +1,5 @@
 local Things = Runtime.Things
+local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
 local Renderer = Runtime.Renderer
 
 ---@class SurfaceViewport: Viewport2D
@@ -8,6 +9,8 @@ function SurfaceViewport:new()
     SurfaceViewport.super.new(self)
 
     self.Mesh, self.Drawable, self.CanvasIdentifier = Renderer.Billboard.CreateBillboard(self.ViewportCanvas)
+
+    self.Drawable.ClassReference = self
 
     self.DisplaySide = Enum.Side.Front
     self.DisableDepth = false
@@ -76,7 +79,7 @@ end
 function SurfaceViewport:Update(dt)
     SurfaceViewport.super.Update(self, dt)
 
-    local Parent = self.Parent
+    local Parent = self.Parent ---@class Drawable3D
     if not Parent:IsA("Drawable3D") then return end
 
     Runtime.Renderer.ViewportManager.RenderViewport2D(self)

@@ -2,6 +2,8 @@ local SelectionManager = {}
 local Things = Runtime.Things
 local InputService = Runtime.Services.Service("InputService") ---@class InputService
 
+local Editor3D, ToolManager
+
 SelectionManager.ObjectPicker = false
 SelectionManager.ObjectPickerEvent = Signal:New("GetThingToPutOnAProperty")
 
@@ -105,9 +107,7 @@ function SelectionManager.UngroupAll()
 end
 
 local function PickEvent(_, Raycast)
-    print(Raycast)
-
-    if Raycast then -- IF STATEMENTS CHAOS!! AHHHH!!
+    if Raycast and ToolManager.GetTool() then -- IF STATEMENTS CHAOS!! AHHHH!!
         SelectionManager.SelectObject(Raycast.Thing)
     else
         SelectionManager.DeselectAll()

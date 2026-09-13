@@ -26,6 +26,7 @@ function BillboardClass.CreateBillboard(Canvas)
 
     local Mesh = Dream:newSprite()
     Drawable.mesh = Mesh
+    Drawable:updateBoundingSphere()
 
     return Mesh, Drawable, Buffer
 end

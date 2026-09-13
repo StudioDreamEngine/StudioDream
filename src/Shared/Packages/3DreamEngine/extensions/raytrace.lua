@@ -249,6 +249,14 @@ function raytraceResult:getDistance()
 	return self.t
 end
 
+function raytraceResult:getTexCoords()
+	local UV1 = self.mesh.texCoords:get(self.face.x)
+	local UV2 = self.mesh.texCoords:get(self.face.y)
+	local UV3 = self.mesh.texCoords:get(self.face.z)
+
+	return UV1, UV2, UV3
+end
+
 function raytraceResult:getUV()
 	return self.u, self.v
 end
