@@ -198,7 +198,7 @@ function Thing:GetChild(Name) -- THIS IS FOR INTERNAL!!
 end
 
 function Thing:SetName(Name)
-    if self:IsSerializable() then
+    if self.Name ~= Name and self:IsSerializable() then
         Runtime.Things.RequestTreeChange(self)
     end
     

@@ -59,6 +59,7 @@ local function HandleSurface(Viewport)
 
     local Display = Viewport:GetDisplayUI() ---@class Viewport3D
     if (not Display) or (not Display:IsA("Viewport3D")) then return end
+    if (not Runtime.SelectionPriority.Use3DSelection) then return end
 
     if Display.AdornRay then
         local UV = Display.AdornRay.UV

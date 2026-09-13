@@ -71,7 +71,7 @@ function SurfaceViewport:UpdateDrawable(Parent)
     self.Drawable:resetTransform()
     self.Drawable:translate(TransformPos)
     self.Drawable:lookTowards(DisplaySide)
-    self.Drawable:translate(0,0,0.02)
+    self.Drawable:translate(0,0,0.01)
     self.Drawable:scale(Parent.Size.X, Parent.Size.Y, Parent.Size.Z)
     self.Drawable:translate(0,0,1)
 end

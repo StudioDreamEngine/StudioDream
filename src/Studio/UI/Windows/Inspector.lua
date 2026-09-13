@@ -77,13 +77,18 @@ return function(Inspector)
                 end
             end
         end
+
+        local Start = os.clock()
         
         for GroupName,GroupData in pairs(LoadedGroups) do
             local GroupNode = Inspector.CreateGroup(GroupName)
             for Property, Thing in pairs(GroupData) do
                 --print(Utils.TypeOf(Thing[Property]),Property)
 
-                Scheduler.Yield()
+                if os.clock() - Start > 1/80 then
+                    Scheduler.Yield()
+                    Start = os.clock()
+                end
 
                 xpcall(function()
                     local PropertyInfo = {

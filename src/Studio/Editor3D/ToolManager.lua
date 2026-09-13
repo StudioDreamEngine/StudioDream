@@ -63,7 +63,7 @@ function ToolManager.Init()
     ToolManager.Scale = require("Studio.Editor3D.Tools.Scale")
     ToolManager.Rotate = require("Studio.Editor3D.Tools.Rotate")
 
-    ChosenTool = ToolManager.Move
+    ChosenTool = nil
 
     Studio.Editor3D.OnSelect:Connect(function(Thing)
         if Thing:IsA("Transformable3D") then
@@ -105,6 +105,7 @@ function ToolManager.Select(NewSelection)
     ToolManager.Deselect()
 
     CurrentTool = ChosenTool
+    if (not CurrentTool) then return end
 
     if CurrentTool.SingleSelect then
         CurrentTool.Selection = LatestSelection

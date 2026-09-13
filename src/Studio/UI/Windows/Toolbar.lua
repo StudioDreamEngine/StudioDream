@@ -52,6 +52,7 @@ return function(Toolbar)
 
         if LastButtonUsed == ButtonCurrent then
             Studio.Editor3D.ToolManager.ChangeTool()
+            LastButtonUsed = nil
         else
             Studio.Editor3D.ToolManager.ChangeTool(Name)
             ButtonCurrent.Main.BackgroundColor = Studio.CurrentTheme.Selecting
@@ -133,8 +134,6 @@ return function(Toolbar)
                 table.insert(Toolbar.ButtonsCreated,Toolbar.CreateSeparator())
             end
         end
-
-        Toolbar.SelectTool("Move")
     end
 
     function Toolbar.Update(dt)

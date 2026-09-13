@@ -5,7 +5,7 @@ return function(Macros)
             Runtime.Resources.ReloadResources()
         end,
         ["Redraw Explorer"] = function()
-            --Studio.Layout.CallHandle("Explorer", "Redraw")
+            Runtime.Things.RequestTreeChange()
         end,
         ["Export Project"] = function()
             Studio.Build.BuildProject()

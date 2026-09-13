@@ -8,7 +8,7 @@ local EnvironmentViewport
 
 SelectionPriorityService.GuiClick = Signal:New("GuiClick")
 SelectionPriorityService.InViewport = false
-SelectionPriorityService.Use3DSelection = false
+SelectionPriorityService.Use3DSelection = true
 
 function SelectionPriorityService.Init()
     local InputService = Runtime.Services.Service("InputService") ---@class InputService
