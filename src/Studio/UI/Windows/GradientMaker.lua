@@ -10,7 +10,20 @@ return function(GradientMaker)
     
     GradientMaker.KeysAdded = {}
 
-    function GradientMaker.AddKey(InicialTime,Color,Active)
+    function GradientMaker.ClearKeys()
+        table.clear(GradientMaker.KeysAdded)
+        Sequence = GradientSequence.NewSequence({}, 0)
+        GradientButton:SetGradient(Sequence)
+    end
+
+    function GradientMaker.LoadPreset(NewSequence)
+        GradientMaker.ClearKeys()
+        for i,v in pairs(NewSequence) do
+            GradientMaker.AddKey(v[1],v[2])
+        end
+    end
+
+    function GradientMaker.AddKey(InicialTime,ColorAdded,Active)
         local KeyObject = {}
 
         if Active == true or Active == false then
@@ -18,19 +31,28 @@ return function(GradientMaker)
             Active = true
         end
 
-        KeyObject.KeyID = Sequence.AddKey(GradientSequence.NewKey(InicialTime,Color))
+        KeyObject.KeyID = Sequence.AddKey(GradientSequence.NewKey(InicialTime,ColorAdded))
 
         KeyObject.Slider = Studio.Components.CreateStyle("SlideBar",{
-            Size = Pivot2D.FromScale(0.01,1),
+            Size = Pivot2D.FromScale(.03,.15),
             Pivot = Vector2.new(0.5,0),
-            Position = Pivot2D.FromScale(0,0),
+            Position = Pivot2D.FromScale(0,1),
             Parent = GradientButton,
-            BackgroundColor = Color,
-            BackgroundTransparency = 0,
-            CornerRadius = 10,
-            OutlineSize = 1,
+            BackgroundColor = Color.new(0),
+            BackgroundTransparency = 0.9,
             Active = Active,
             SinkHovering = true,
+            --SlideAxis = Enum.SlideAxis.Y,
+        })
+
+        Studio.Components.CreateStyle("Image2D",{
+            Size = Pivot2D.FromScale(1,1),
+            Pivot = Vector2.new(0.5,1),
+            Position = Pivot2D.FromScale(0.5,1),
+            Parent = KeyObject.Slider,
+            ForegroundColor = ColorAdded,
+            BackgroundTransparency = 1,
+            Resource = "Internal/Studio/GradientChooser.png",
             --SlideAxis = Enum.SlideAxis.Y,
         })
 
@@ -77,10 +99,10 @@ return function(GradientMaker)
         })
         local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(0.4,0.2), GradientMaker.Container)
         local PropertyVal = Studio.Components.PropertyValue(PropertyList, {
-            Title = "wow",
+            Title = "Color",
             Type = "Input",
             Translate = "Color",
-            StyleSelect = true,
+            --StyleSelect = true,
             UserChange = function(InfoGiven)
                 GradientMaker.CurrentColor = InfoGiven
             end,
@@ -93,7 +115,8 @@ return function(GradientMaker)
             ValueContainer = "Outline",
             Container = "Secondary"
         })
-
+        PropertyVal.UI.Container:SetPosition(Pivot2D.FromScale(0.5,1))
+        PropertyVal.UI.Container:SetPivot(Vector2.new(0.5,1))
         GradientMaker.StartGradientColorHandle()
     end
 

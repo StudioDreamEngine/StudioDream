@@ -203,22 +203,24 @@ local ValueFunction = function(PropertyList, Information, Style)
     Style = Style or {}
     PropertyValue.UI = {}
 
-    local Container = Things.Create(Information.StyleSelect and "TextButton" or "Square") {
+    local Container = Studio.Components.CreateStyle(Information.StyleSelect and "TextButton" or "Square", {
         BackgroundTransparency = 0,
-        Text = "",
+        Text = Information.Title,
         Name = PropertyList.Name or PropertyList.Title,
         Size = PropertyList.Size,
+        ForegroundColor = "Text",
         Name = Information.Name or "Container",
         CornerRadius = 5,
+        Alignment = Vector2.new(0.05,0.5),
         Parent = PropertyList.Parent
-    }
+    })
     local HasTitle = Information.Title
 
     PropertyValue.UI.Container = Container
 
     Studio.Components.RegisterToTheme(Container, "BackgroundColor", Style.Container or "Primary")
 
-    if HasTitle then
+    if not Information.StyleSelect and HasTitle then
         PropertyValue.UI.Title = Studio.Components.CreateStyle("Text", {
             Text = Information.Title,
             Pivot = Vector2.new(0,0.5),

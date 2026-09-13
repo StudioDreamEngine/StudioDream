@@ -9,6 +9,7 @@ function Template.Create(Info)
         Pivot = Vector2.new(0,0),
         Position = Pivot2D.FromScale(0,0),
         SquareAxis = Enum.SquareAxis.Y,
+        CornerRadius = 100,
     })
 
     PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {

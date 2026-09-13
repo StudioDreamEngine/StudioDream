@@ -12,15 +12,9 @@ return function(Inspector)
     local LoadedGroups = {}
 
     function Inspector.CreateProperty(PropertyInfo)
-        local BaseSquare = Studio.Components.CreateStyle("Square",{
-            Size = Pivot2D.new(1,0,0,20),
-            BackgroundTransparency = 1,
-            Parent = PropertyInfo.Parent,
-            Name = PropertyInfo.Name.."_Inspector"
-        })
         
         local GiveInfo = {
-            Parent = BaseSquare,
+            Parent = PropertyInfo.Parent,
             UltraParent = PropertyInfo.Parent,
             Name = PropertyInfo.Name,
             Type = PropertyInfo.Type,
@@ -35,9 +29,11 @@ return function(Inspector)
         if Inspector.LoadedConfigs[PropertyInfo.Type] then
             local Return = Inspector.LoadedConfigs[PropertyInfo.Type].Create(GiveInfo)
             Return.PropertyVal.UI.Container.Name = PropertyInfo.Name
+            Return.PropertyVal.UI.Container.Size = Pivot2D.new(1,0,0,20)
         else
             local Return = Inspector.LoadedConfigs.NotFound.Create(GiveInfo)
             Return.PropertyVal.UI.Container.Name = PropertyInfo.Name
+            Return.PropertyVal.UI.Container.Size = Pivot2D.new(1,0,0,20)
         end
     end
 
@@ -54,6 +50,7 @@ return function(Inspector)
             Parent = ScrollContainer,
             Name = GroupName,
             Text = GroupName,
+            Alignment = Vector2.new(0.03,0.5),
             CornerRadius = 2,
         })
 
@@ -86,6 +83,8 @@ return function(Inspector)
             for Property, Thing in pairs(GroupData) do
                 --print(Utils.TypeOf(Thing[Property]),Property)
 
+                Scheduler.Yield()
+
                 xpcall(function()
                     local PropertyInfo = {
                         Name = Property,
@@ -103,6 +102,7 @@ return function(Inspector)
         end
 
         Inspector.UpdateList()
+        print("Thing count: "..#ScrollContainer:GetDescendants())
     end
 
     function Inspector.Clean()
