@@ -339,7 +339,7 @@ local ValueFunction = function(PropertyList, Information, Style)
 
     Information.OnUpdate()
     PropertyValue.OnUpdate = Information.OnUpdate
-
+    PropertyValue.OnChange = Information.OnChange
     return PropertyValue
 end
 
