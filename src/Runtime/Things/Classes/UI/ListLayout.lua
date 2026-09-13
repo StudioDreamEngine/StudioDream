@@ -161,8 +161,6 @@ function ListLayout:UpdateLayout()
 
     self.Parent:ProcessInvalidation()
 
-    Positions = nil
-
     local Remaining = (TotalSpace - FlexSize)
     self.RemainingSize = Pivot2D.FromOffset((ParentSize * OpposingVector) + (Remaining * AxisVector))
 

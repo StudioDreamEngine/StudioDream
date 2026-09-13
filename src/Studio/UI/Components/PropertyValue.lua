@@ -30,9 +30,11 @@ local ValueTypes = {
             end
         end)
 
-        Things.Create("Flex") {
-            Parent = ValueObject
-        }
+        if Info.Icon then
+            Things.Create("Flex") {
+                Parent = ValueObject
+            }
+        end
 
         return function(Value)
             ValueObject:SetText(Value)
@@ -242,21 +244,23 @@ local ValueFunction = function(PropertyList, Information, Style)
         CornerRadius = 5
     })
 
-    Things.Create("ListLayout") {
-        Parent = PropertyValue.UI.ValueContainer,
-        Padding = 5,
-        Direction = Enum.LayoutDirection.Horizontal
-    }
-
     if Information.Icon then
-        PropertyValue.UI.Icon = Studio.Components.CreateStyle("Image2D", {
-            Size = Pivot2D.FromScale(1,1),
+        Things.Create("ListLayout") {
             Parent = PropertyValue.UI.ValueContainer,
-            SquareAxis = Enum.SquareAxis.Y,
-            Layer = 10,
-            BackgroundTransparency = 1,
-            Resource = "Internal/Studio/"..Information.Icon
-        })
+            Padding = 5,
+            Direction = Enum.LayoutDirection.Horizontal
+        }
+
+        if type(Information.Icon) ~= "boolean" then
+            PropertyValue.UI.Icon = Studio.Components.CreateStyle("Image2D", {
+                Size = Pivot2D.FromScale(1,1),
+                Parent = PropertyValue.UI.ValueContainer,
+                SquareAxis = Enum.SquareAxis.Y,
+                Layer = 10,
+                BackgroundTransparency = 1,
+                Resource = "Internal/Studio/"..Information.Icon
+            })
+        end
     end
 
     if type(Information.Type) ~= "function" then

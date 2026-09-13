@@ -14,6 +14,7 @@ function Template.Create(Info)
     PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
         Title = Info.Name,
         Type = "Input",
+        Icon = true,
         Translate = Info.Type,
         Disabled = Info.Disabled,
         StyleSelect = true,

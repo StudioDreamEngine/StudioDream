@@ -96,8 +96,8 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	if Identifier.ResourceType == "Project" and ObjectUUID then
 		printVerbose("Adding " .. ObjectUUID .. " to object references")
 		ObjectReferences[ObjectUUID.."_"..CustomProperty] = Identifier
-	elseif Identifier.ResourceType ~= "Internal" then
-		printVerbose("Cannot add", Identifier, "to ObjectReferences")
+	--elseif Identifier.ResourceType ~= "Internal" then
+	--	printVerbose("Cannot add", Identifier, "to ObjectReferences")
 	end
 	
 	local ResourceReturn, ResourceReturnSecond = Resources.GetResource(Identifier)

@@ -65,7 +65,7 @@ function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformatio
 			UUID = Object.UUID,
 			Position = CastResult:getPosition(),
 			Normal = CastResult:getNormal(),
-			UV = CastResult:getUV(),
+			UV = Vector2.new(CastResult:getUV()),
 			Type = "CastResult",
 		}
 

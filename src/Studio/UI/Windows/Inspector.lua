@@ -44,24 +44,17 @@ return function(Inspector)
     function Inspector.CreateGroup(GroupName)
         local Group = {}
 
-        Group.BaseGroup = Studio.Components.CreateStyle("Square",{
+        Group.BaseGroup = Studio.Components.CreateStyle("Text",{
             Size = Pivot2D.new(1,0,0,26),
-            BackgroundColor = Studio.CurrentTheme.Outline,
+            BackgroundColor = "Outline",
+            BackgroundTransparency = 0,
+            ForegroundColor = "Text",
+            Font = "FontBold",
             Layer = 3,
             Parent = ScrollContainer,
             Name = GroupName,
-            CornerRadius = 2,
-        })
-
-        Group.TextOfGroup = Studio.Components.CreateStyle("Text", {
-            Size =  Pivot2D.FromScale(0.5,0.8),
-            Position = Pivot2D.FromScale(0.02,0.5),
-            Pivot = Vector2.new(0,0.5),
             Text = GroupName,
-            Parent = Group.BaseGroup,
-            BackgroundTransparency = 1,
-            ForegroundColor = "Text",
-            Font = Studio.CurrentTheme.FontBold,
+            CornerRadius = 2,
         })
 
         ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, ScrollContainer)
