@@ -326,7 +326,7 @@ for Name, Enum in pairs(Enums) do
 end
 
 for i,v in pairs(Enums.EasingMode) do
-    print(i,v)
+    printVerbose(i,v)
 end
 
 return Enums

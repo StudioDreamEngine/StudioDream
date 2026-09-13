@@ -92,6 +92,12 @@ function TweenService.Create(Subject, Target, Style, Time)
         Tween.Playing = false
     end
 
+    -- Stop the tween, then set it back to zero
+    function Tween.Cancel()
+        Tween.Playing = false
+        Tween.Set(0)
+    end
+
     function Tween.Set(Alpha)
         for Name, Value in pairs(Target) do
             local SubjectVal = InitalValues[Name]

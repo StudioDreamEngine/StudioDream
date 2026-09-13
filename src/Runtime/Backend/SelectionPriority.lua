@@ -50,6 +50,13 @@ function SelectionPriorityService.Call(IsDown)
     end
 end
 
+--[[
+    Bind a function to be called on click
+
+    Function: Function to call
+    Priority: How important this function is, higher means it is more likely to be called
+    CheckFunction: Determines if this function should be called or not, even if it passes the priority check
+]]
 function SelectionPriorityService.BindSignal(Function, Priority, CheckFunction)
     local UUID = CreateUUID()
 
@@ -60,6 +67,7 @@ function SelectionPriorityService.BindSignal(Function, Priority, CheckFunction)
         end,
         Function = Function
     }
+    
     return UUID
 end
 

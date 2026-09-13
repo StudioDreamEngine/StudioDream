@@ -104,7 +104,8 @@ end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     printVerbose("Creating new WindowHandler:",WindowType)
-    print(WindowType,WindowContainer)
+    printVerbose(WindowType,WindowContainer)
+    
     local Window = require("Studio.UI."..WindowType)(WindowContainer)
     Window.Init()
 
@@ -175,7 +176,7 @@ function StudioLayout.CreateTopbar()
     local MenuBar = Studio.Components.CreateStyle("Square",{
         Parent = StudioLayout.HandleContainer,
         Name = "MenuBar",
-        Size = Pivot2D.FromScale(1,0.03),
+        Size = Pivot2D.new(1,0,0,25),
         ListOrder = 1,
         BackgroundColor = "Secondary",
         BackgroundTransparency = 0
@@ -185,7 +186,7 @@ function StudioLayout.CreateTopbar()
         Parent = StudioLayout.HandleContainer,
         Name = "ToolBar",
         ListOrder = 2,
-        Size = Pivot2D.FromScale(1,0.12),
+        Size = Pivot2D.new(1,0,0.1,0),
         BackgroundColor = "Primary",
         BackgroundTransparency = 0
     })
@@ -232,7 +233,10 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.25,.25),
         Position = Pivot2D.FromScale(.5,1),
         Pivot = Vector2.new(0,0),
-        Layer = 100
+        Layer = 101,
+        Modal = true,
+        Closable = true,
+        Name = "Insert Object"
     })
 
     StudioLayout.CreateWindow("Inspector", {
@@ -305,9 +309,9 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
-        TopLevel = true,
         Closable = true,
         Shadows = true,
+        Modal = true,
         Name = "Gradient Maker",
     })
 
@@ -315,9 +319,16 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.025,0.7),
         Pivot = Vector2.new(0,0.5),
         Position = Pivot2D.FromScale(0.005,0.4),
-        Layer = 300,
+        Layer = 50,
         CornerRadius = 100,
     })
+
+    -- TODO: Default visibility property
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("GradientMaker"), false)
 
     if (not FLAGS.SecondRun) then
         StudioLayout.CreateWindow("Start", {
@@ -336,11 +347,6 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0,1),
         Name = "Macros"
     })
-    
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
 
     --[[StudioLayout.CreateWindow("Trollo",{
         Size = Pivot2D.FromScale(0.15,0.6),

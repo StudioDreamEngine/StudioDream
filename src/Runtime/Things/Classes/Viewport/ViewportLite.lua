@@ -19,6 +19,8 @@ function ViewportLite:DefineAPI()
     self.Proxy.Property("Thing RenderContainer")
     self.Proxy.Icon("Viewport_2D")
     self.Proxy.MakeCreatable()
+
+    self.Proxy.Describe("Simillar to Viewport2D, but lacks negative layering")
 end
 
 local function SortFunc(a,b) return a.Layer < b.Layer end

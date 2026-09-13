@@ -12,11 +12,15 @@ function Viewport3D:new()
 
     Runtime.InterfaceManager.RegisterButton(self.UUID)
 
-    self.Click = Runtime.InterfaceManager.OnClick:Connect(function()
-        if not self.Hovering then return end
+    self.OnPick = Signal:New("OnPick")
 
+    self.Click = Runtime.SelectionPriority.BindSignal(function()
         local Camera = self:GetCamera()
-        SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*300, self:GetWorld())
+        local CastResult = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*300, self:GetWorld())
+
+        self.OnPick.Invoke(CastResult, self)
+    end, 1, function(IsDown)
+        return IsDown
     end)
 
     self.Canvases = Dream:newCanvases()
@@ -33,7 +37,7 @@ end
 function Viewport3D:SetAbsoluteSize(New)
     Viewport3D.super.SetAbsoluteSize(self, New)
 
-    if New.X > 0 then
+    if New.X > 0 and New.Y > 0 then
         self.Canvases:unloadCanvasSet()
         self.Canvases:init(New.X, New.Y)
     end
@@ -49,6 +53,7 @@ function Viewport3D:OnRemove()
     Viewport3D.super.OnRemove(self)
 
     Runtime.InterfaceManager.UnregisterButton(self.UUID)
+    Runtime.SelectionPriority.UnbindSignal(self.Click)
 end
 
 -- Pain

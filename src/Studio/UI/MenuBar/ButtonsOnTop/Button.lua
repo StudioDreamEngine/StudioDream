@@ -6,28 +6,36 @@ Runtime.InterfaceManager.OnClick:Connect(function()
     end
 end)
 
+local Dropdowns = {}
+
 return function(Args)
     local ButtonContainer = Studio.Components.CreateStyle("TextButton",{
-        Size = Pivot2D.FromScale(0.05,0.9),
+        Size = Pivot2D.new(0,90,0.9,0),
         Text = Args.Name,
         ForegroundColor = "Text",
-        BackgroundColor = Studio.CurrentTheme.Primary,
+        BackgroundColor = Studio.CurrentTheme.Secondary,
         Alignment = Vector2.new(0.5,0.5),
         HoverColorMultiplier = 5,
-        BackgroundTransparency = 0.7,
+        BackgroundTransparency = 0,
     })
+
     if Args.Function then
         ButtonContainer.Clicked:Connect(Args.Function)
     end
+
     if Args.Dropdown then
         local Dropdown = Studio.Components.DropdownPlus.new(Args.Dropdown,ButtonContainer)
         Dropdown.Toggle(false)
+
+        table.insert(Dropdowns, Dropdown)
         
         ButtonContainer.Clicked:Connect(function()
-            if OpendDropdown and OpendDropdown ~= Dropdown then
-                
-                OpendDropdown.Toggle(false)
+            for _, OtherDropdown in pairs(Dropdowns) do
+                if Dropdown ~= OtherDropdown then
+                    OtherDropdown.Toggle(false)
+                end
             end
+
             --Dropdown.Setup(ButtonContainer, Vector2.new(0,0.5))
             Dropdown.Toggle(not Dropdown.Visible)
 

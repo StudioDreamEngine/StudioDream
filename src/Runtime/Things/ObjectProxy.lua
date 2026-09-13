@@ -21,7 +21,7 @@ return { new = function()
     ObjectProxy.Overrides = {}
 
     ObjectProxy.Enums = {}
-
+    ObjectProxy.Description = "No Description"
     ObjectProxy.Category = "Nothin"
 
     -- Register a function that returns a list of objects
@@ -64,6 +64,10 @@ return { new = function()
 
     function ObjectProxy.Icon(Icon)
         ObjectProxy.ExplorerIcon = Icon
+    end
+
+    function ObjectProxy.Describe(Desc)
+        ObjectProxy.Description = Desc
     end
 
     -- Add a property that can be serialized and used by scripts

@@ -5,6 +5,8 @@ local Root = Things.Extend("Thing")
 
 function Root:new() 
     Root.super.new(self)
+
+    self.ViewportChanged = Signal:New("ViewportChanged")
     
     self.EnvironmentViewport = nil ---@class Viewport3D
     self.HudViewport = nil ---@class Viewport2D
@@ -38,6 +40,7 @@ end
 
 function Root:SetEnvironmentViewport(New)
     self.EnvironmentViewport = New
+    self.ViewportChanged.Invoke()
 
     --Runtime.SelectionPriority.BindEnviornment(New)
 end

@@ -104,8 +104,26 @@ function SelectionManager.UngroupAll()
     Editor3D.Selecting = ToSelect
 end
 
+local function PickEvent(_, Raycast)
+    print(Raycast)
+
+    if Raycast then -- IF STATEMENTS CHAOS!! AHHHH!!
+        SelectionManager.SelectObject(Raycast.Thing)
+    else
+        SelectionManager.DeselectAll()
+    end
+end
+
+function SelectionManager.BindPick()
+    printVerbose("Binded SelectionManager pick")
+    local Viewport = Things.Root.EnvironmentViewport
+
+    CurrentPick = Viewport.OnPick:Connect(PickEvent)
+end
+
+local CurrentPick
+
 function SelectionManager.Init()
-    local SelectionPriority = Runtime.SelectionPriority
     Editor3D = Studio.Editor3D
     ToolManager = Editor3D.ToolManager
 
@@ -115,24 +133,15 @@ function SelectionManager.Init()
         --Studio.Layout.CallHandle("Explorer", "Redraw")
     end
 
-    SelectionPriority.BindSignal(function()
-        local Environment = Things.Root:GetEnvironment() ---@class Environment
-        local Camera = Environment.Camera ---@class Camera
+    SelectionManager.BindPick()
 
-        if (not Camera) then 
-            print("Selection by mouse requires a camera") 
-            return
+    -- needed? idk
+    Things.Root.ViewportChanged:Connect(function()
+        if CurrentPick then
+            CurrentPick:Disconnect()
         end
 
-        local Raycast = Environment:Raycast(Camera.Position, Camera:GetMouseRay()*100)
-
-        if Raycast then -- IF STATEMENTS CHAOS!! AHHHH!!
-            SelectionManager.SelectObject(Raycast.Thing)
-        else
-            SelectionManager.DeselectAll()
-        end
-    end, 1, function(IsDown)
-        return IsDown
+        SelectionManager.BindPick()
     end)
 end
 

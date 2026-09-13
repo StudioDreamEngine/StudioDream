@@ -281,7 +281,7 @@ local ValueFunction = function(PropertyList, Information, Style)
                 UpdateResult = tostring(Information.ReturnDisplay()) or "nil"
             end
 
-            printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
+            --printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
             
             Information.PropUpdator(UpdateResult)
         end)
@@ -318,7 +318,7 @@ local ValueFunction = function(PropertyList, Information, Style)
 
     Information.OnChange = function(Value)
         if type(Value) ~= "nil" then 
-            printVerbose("PropertyValue OnChange w/ "..tostring(Value))
+            --printVerbose("PropertyValue OnChange w/ "..tostring(Value))
 
             -- Auto-translate value
             if Information.Translate then

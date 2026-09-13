@@ -52,9 +52,6 @@ void effect() {
         float current_time = gradient.time[i];
         float next_time = gradient.time[i+1];
 
-        // TODO: We could perhaps improve performance here if we add a dummy value at the end of the lists, preventing the need for this code
-        bool can_sample = (i == gradient_length-1);
-
         // Check if we're in range
         if (!(current_time < gradtime && next_time > gradtime)) {
             continue;

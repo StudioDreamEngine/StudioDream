@@ -3,7 +3,6 @@ local Tween = Runtime.Services.Service("TweenService")
 
 local PlayLine
 function Playtest.Init()
-    print("Cooooooooooooooooooooooooool")
     PlayLine = Studio.Components.CreateStyle("Square", {
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(0.5,0.5),

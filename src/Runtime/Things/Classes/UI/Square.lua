@@ -33,6 +33,8 @@ function Square:DefineAPI()
     self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor","LimitCornerRadius")
     self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor", "Gradient", "Dropshadow")
     self.Proxy.MakeCreatable()
+
+    self.Proxy.Describe("Basic 2D Square")
 end
 
 --[[function Square:SetShader(Identifier)
