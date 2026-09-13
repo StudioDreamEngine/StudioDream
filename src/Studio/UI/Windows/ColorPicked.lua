@@ -88,22 +88,21 @@ return function(ColorPicked)
         return CreateCorObj
     end
 
-    function ColorPicked.Toggle(Visible)
-        ColorPicked.Container:SetVisible(Visible)
-    end
-
-    function ColorPicked.RequestApply()
+    function ColorPicked.RequestApply(ColorPreset)
+        print("Requested")
         ColorPicked.ReturnForRequest = nil
-        ColorPicked.Toggle(true)
-
-        repeat Scheduler.Yield() until ColorPicked.ReturnForRequest or ColorPicked.ReturnForRequest == false
-
+        Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("ColorPicked"),true)
+        if ColorPreset then
+            ColorPicked.SetByColor(ColorPreset)
+        end
+        repeat Scheduler.Yield() until ColorPicked.ReturnForRequest
+        print("Proceed")
         -- False if the user cancels the request!
 
-        ColorPicked.Toggle(false)
+        Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("ColorPicked"),false)
 
-        if ColorPicked.ReturnForRequest == false then
-            ColorPicked.ReturnForRequest = nil
+        if ColorPicked.ReturnForRequest == "THERESNOTHINGHERE" then
+            ColorPicked.ReturnForRequest = "ItFaliedBtw"
         end
 
         return ColorPicked.ReturnForRequest
@@ -209,6 +208,10 @@ return function(ColorPicked)
 
         ColorPicked.ApplyButton.Clicked:Connect(function()
             ColorPicked.ReturnForRequest = ColorPicked.CurrentColor
+        end)
+
+        ColorPicked.CancelButton.Clicked:Connect(function()
+            ColorPicked.ReturnForRequest = "THERESNOTHINGHERE"
         end)
         
         ColorPicked.Rainbow.Clicked:Connect(function()

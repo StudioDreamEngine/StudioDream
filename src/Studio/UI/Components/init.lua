@@ -359,11 +359,11 @@ function Components.CreateButtonStyle(Info)
 
     ObjStyler.Button.Clicked:Connect(function()
         ObjStyler.Button:SetPosition(Pivot2D.FromScale(0.5,0.5))
-        ObjStyler.Clicked.Invoke()
     end)
 
     ObjStyler.Button.Released:Connect(function()
         ObjStyler.Button:SetPosition(Pivot2D.FromScale(0.5,0.2))
+        ObjStyler.Clicked.Invoke()
     end)
 
     return ObjStyler
