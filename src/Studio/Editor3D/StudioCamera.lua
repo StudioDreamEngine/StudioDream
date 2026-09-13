@@ -32,6 +32,7 @@ function StudioCamera.Init()
         end
 
         PanningCamera = IsDown and Runtime.SelectionPriority.InViewport
+        love.mouse.setRelativeMode((IsDown and Runtime.SelectionPriority.InViewport) and true or false)
     end, Enum.MouseButton.RightClick)
 
     InputService.MouseMoved:Connect(function(MouseObject)
@@ -67,6 +68,7 @@ function StudioCamera.Update(dt)
             local UpV = (CameraTransform.Up * MouseDelta.Y/200)
 
             CameraFocus = CameraPosition + (CDirection - UpV + SideV) + Direction
+            MouseDelta = Vector2.zero
         else
             CameraFocus = CameraFocus + Direction
         end
