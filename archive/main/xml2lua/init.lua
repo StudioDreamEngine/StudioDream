@@ -1,4 +1,4 @@
---- @module Module providing a non-validating XML stream parser in Lua. 
+---Module providing a non-validating XML stream parser in Lua. 
 --  
 --  Features:
 --  =========

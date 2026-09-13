@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global, param-type-mismatch
 local Things = Runtime.Things
 local Properties = {}
 

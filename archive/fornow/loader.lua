@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-doc-param
 --[[
 #part of the 3DreamEngine by Luke100000
 loader.lua - loads objects

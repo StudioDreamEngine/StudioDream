@@ -174,7 +174,6 @@ function Audio:SetVolume(NewVol)
 end
 
 function Audio:SetLoop(DoesIt)
-    if NewVol == nil then return end
     self.DoesLoop = DoesIt
     self:RefreshSource()
 end

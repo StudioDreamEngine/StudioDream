@@ -42,15 +42,23 @@ end
     if (not self.ShaderObject) then return end
 end]]
 
-function Square:SetAbsoluteSize(NewSize) -- this was kinda fun to do
-    Square.super.SetAbsoluteSize(self, NewSize)
-
+function Square:UpdateRadius()
     if self.LimitCornerRadius then
         local Size = (self.AbsoluteSize.X < self.AbsoluteSize.Y) and self.AbsoluteSize.X/2 or self.AbsoluteSize.Y/2
         self.TrueRadiusOfCorners = (self.CornerRadius > Size) and Size or self.CornerRadius
     else 
         self.TrueRadiusOfCorners = self.CornerRadius
     end
+end
+
+function Square:SetCornerRadius(New)
+    self.CornerRadius = New
+    self:UpdateRadius()
+end
+
+function Square:SetAbsoluteSize(NewSize) -- this was kinda fun to do
+    Square.super.SetAbsoluteSize(self, NewSize)
+    self:UpdateRadius()
 end
 
 function Square:SetGradient(NewGrad)

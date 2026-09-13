@@ -35,17 +35,37 @@ end
 
 function SurfaceViewport:ViewportDefineAPI()
     self.Proxy.Property("Enum.Side DisplaySide", "boolean DisableDepth")
-    self.Proxy.Group("General", "DisplaySide", "DisableDepth")
+    self.Proxy.Group("Viewport", "DisplaySide", "DisableDepth")
 end
 
+-- Fired only during API dump and after inital creation
+-- we define everything for this specific object as im too lazy to enable unregistering
 function SurfaceViewport:DefineAPI()
-    SurfaceViewport.super.DefineAPI(self)
+    self.Proxy = Things.ObjectProxy.new()
 
     self:ViewportDefineAPI()
-    
-    --[[self.Proxy.Property("Thing RenderContainer")
-    self.Proxy.Group("General", "RenderContainer")]]
+
+    self.Proxy.MakeCreatable()
+    self.Proxy.SetCategory("Viewport")
     self.Proxy.Icon("SurfaceViewport")
+
+    -- Thing
+    self.Proxy.Property("Thing Parent", "string Name")
+    self.Proxy.Group("General", "Parent", "Name")
+
+    self.Proxy.Group("Attributes")
+
+    -- BaseGui
+    self.Proxy.Property("Pivot2D Size", "boolean Visible")
+    self.Proxy.Property("Color BackgroundColor", "number ColorMultiplier")
+
+    self.Proxy.Group("Transform", "Size")
+    self.Proxy.Group("Layout", "Visible")
+    self.Proxy.Group("Color", "ColorMultiplier")
+
+    -- Viewport
+    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType")
+    self.Proxy.Group("Viewport", "RenderContainer", "FilterType")
 end
 
 function SurfaceViewport:CreateNew()

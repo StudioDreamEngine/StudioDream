@@ -4,8 +4,8 @@ local InputService = {}
 InputService.JoysticksConnected = {}
 
 function InputService.GetJoystickByPrimitive(Primitive)
-    for ID,Joysitck in pairs(InputService.JoysticksConnected) do
-        if Joysitck.Primitive == Primitive then
+    for ID,Joystick in pairs(InputService.JoysticksConnected) do
+        if Joystick.Primitive == Primitive then
             return Joystick
         end
     end
@@ -104,6 +104,8 @@ function InputService.Init()
 
     LoveEvents.JoystickAdded:Connect(function(Primitive) 
         local NewJoyObject = CreateJoystickObject(Primitive)
+        if (not NewJoyObject) then return end
+
         InputService.JoysticksConnected[NewJoyObject.ID] = NewJoyObject
         InputService.JoystickAdded.Invoke(NewJoyObject)
     end)
@@ -111,7 +113,7 @@ function InputService.Init()
     LoveEvents.JoystickRemoved:Connect(function(Primitive)
         local JoyObject = InputService.GetJoystickByPrimitive(Primitive)
         JoyObject:Destroy()
-        InputService.JoystickRemoved.Invoke(NewJoyObject)
+        --InputService.JoystickRemoved.Invoke(NewJoyObject)
         InputService.JoysticksConnected[JoyObject.ID] = nil
     end)
 

@@ -42,12 +42,6 @@ local function CheckSerializable(Object)
         end
     end)
 
-    -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
-    -- Return false if object itself isnt serializable
-    if (not Object.Serializable) then
-        return false
-    end
-
     return Serializable
 end
 
