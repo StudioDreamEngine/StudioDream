@@ -93,8 +93,8 @@ function DragPoint:HandleDrag(Position) -- Omg this was stressing, sometimes i d
 
     self.Percentage = Vector2.new(PercentageX,PercentageY)
 
-    if Old ~= Percentage then
-        self.ChangedPercentage.Invoke(Percentage)
+    if Old ~= self.Percentage then
+        self.ChangedPercentage.Invoke(self.Percentage)
     end
 
     

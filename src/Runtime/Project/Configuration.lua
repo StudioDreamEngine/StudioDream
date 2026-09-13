@@ -3,7 +3,8 @@ local Configuration = {}
 local DefaultConfig = {
     Name = "Untitled",
     Identifier = nil,
-    RootScenes = {}
+    RootScenes = {},
+    FormatVersion = 1, -- The version of the save format
 }
 
 function Configuration.Set(Key, Value)

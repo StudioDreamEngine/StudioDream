@@ -1,4 +1,5 @@
---- @module Class providing the actual XML parser.
+---@diagnostic disable: param-type-mismatch
+--- Class providing the actual XML parser.
 --  Available options are:
 --      * stripWS   
 --        Strip non-significant whitespace (leading/trailing) 
