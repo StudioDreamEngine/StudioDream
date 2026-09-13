@@ -76,6 +76,7 @@ function Splash.Create()
     SplashShadow = Things.Create("Text") {
         Parent = SplashContainer,
         Text = "Setting Up...",
+        Name = "SplashShadow",
         Size = Pivot2D.FromScale(1,.1),
         Alignment = Vector2.new(.5,0),
         ForegroundColor = Color.new(0,0,0),
@@ -87,6 +88,7 @@ function Splash.Create()
     SplashStatus = Things.Create("Text") {
         Parent = SplashContainer,
         Text = "Setting Up...",
+        Name = "SplashStatus",
         Size = Pivot2D.FromScale(1,.1),
         Alignment = Vector2.new(.5,0),
         ForegroundColor = Color.new(1,1,1),
@@ -98,6 +100,7 @@ function Splash.Create()
     SplashLogo = Things.Create("Image2D") {
         Size = Pivot2D.FromScale(.35,.35),
         Layer = 2,
+        Name = "SplashLogo",
         Pivot = Vector2.new(.5,.5),
         Resource = "Internal/Icons/"..FLAGS.Target..".png",
         Position = Pivot2D.FromScale(.5,.4),
@@ -109,6 +112,7 @@ function Splash.Create()
         Size = Pivot2D.FromScale(.25,.25),
         Pivot = Vector2.new(.5,.5),
         Position = Pivot2D.FromScale(.5,.4),
+        Name = "SplashLogoOutline",
         SquareAxis = Enum.SquareAxis.Y,
         Resource = "Internal/SplashOutline.png",
         Parent = SplashContainer

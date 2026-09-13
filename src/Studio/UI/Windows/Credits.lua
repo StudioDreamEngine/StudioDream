@@ -24,9 +24,15 @@ return function(Credits)
                 "Luawiz, Emk530 - Reused code (Improved object creation, utf8sub)",
                 "Sasha + LOVE server members - Misc. Support",
                 "trusti - Physics engine support (bullet3)",
-                "wyteroze - Suggesting I use binary search for TextScaled fitting",
-                "Alecstey - NetworkService",
                 "Daisean - Start Jingle, SFX"
+            }
+        },
+        {
+            -- Put your name here alongside what you do
+            Name = "Contributors",
+            Content = {
+                "Alecstey - NetworkService",
+                "Globerto - Camera rotation fix"
             }
         },
         { 
@@ -78,7 +84,7 @@ return function(Credits)
             Size = Pivot2D.FromScale(1,1),
             Parent = Credits.Container,
             Name = "Credits",
-            CanvasSize = Pivot2D.new(1,0,0,700),
+            CanvasSize = Pivot2D.new(1,0,0,900),
         }
 
         Studio.Components.CreateStyle("ListLayout", {
