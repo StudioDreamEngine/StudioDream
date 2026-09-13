@@ -58,26 +58,31 @@ function DragPoint:OnRemove()
     Runtime.InterfaceManager.UnregisterButton(self.UUID)
 end
 
-function DragPoint:SetPercentage(NewNumber)
-    local Percentage = math.clamp(NewNumber, 0, 1)
+function DragPoint:SetPercentage(NewVec)
+    local Percentage = NewVec
     local Old = self.Percentage
 
-    self.Percentage = Percentage
+    self.Percentage = NewVec
 
-    if Old ~= Percentage then
-        self.ChangedPercentage.Invoke(Percentage)
+    if Old ~= NewVec then
+        self.ChangedPercentage.Invoke(NewVec)
     end
 
     if self.Parent and self.Parent:IsA("BaseGui") then
-        local EdgePosition = self.Parent.AbsolutePosition - (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 0
-        local SidePosition = self.Parent.AbsolutePosition + (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 1
+        local EdgePositionX = self.Parent.AbsolutePosition.X - (self.Parent.AbsoluteSize.X * self.Parent.Pivot.X) -- 0
+        local SidePositionX = self.Parent.AbsolutePosition.X + (self.Parent.AbsoluteSize.X * self.Parent.Pivot.X) -- 1
+
+        local EdgePositionY = self.Parent.AbsolutePosition.Y - (self.Parent.AbsoluteSize.Y * self.Parent.Pivot.Y) -- 0
+        local SidePositionY = self.Parent.AbsolutePosition.Y + (self.Parent.AbsoluteSize.Y * self.Parent.Pivot.Y) -- 1
         
-        local PositionConverted = EdgePosition:Lerp(SidePosition, Percentage)
-        self:HandleDrag(PositionConverted)
+        local PositionConvertedX = math.lerp(EdgePositionX,SidePositionX, Percentage.X)
+        local PositionConvertedY = math.lerp(EdgePositionY,SidePositionY, Percentage.Y)
+        self:HandleDrag(Vector2.new(PositionConvertedX,PositionConvertedY))
     end
 end
 
 function DragPoint:HandleDrag(Position) -- Omg this was stressing, sometimes i didnt even know what i was doing, anyway, last thing im gonna do on release is make this only use absolute stuff
+    if not self.Holding then return end
     local MousePos = Position
 
     local EdgePosition = self.Parent.AbsolutePosition - (self.Parent.AbsoluteSize * self.Parent.Pivot)

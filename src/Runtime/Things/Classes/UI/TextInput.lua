@@ -71,7 +71,7 @@ function TextInput:new()
         
         if self.Hovering then
             self:StartFocus()
-        else
+        elseif not self.Hovering and self.RenderClass.Focused then
             self:StopFocus()
         end
     end)

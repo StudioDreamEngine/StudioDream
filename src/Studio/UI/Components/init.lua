@@ -23,6 +23,7 @@ function Components.RegisterUpdator(Updator)
     Updators[UUID] = Updator 
     return UUID
 end
+
 function Components.UnregisterUpdator(UUID) Updators[UUID] = nil end
 
 function Components.Init()
@@ -328,6 +329,44 @@ function Components.CreateStyle(Type, Properties, Style)
     end)
 
     return ThingCreated
+end
+
+function Components.CreateButtonStyle(Info)
+    local ObjStyler = {}
+
+    ObjStyler.Clicked = Signal:New("ButtonStyleClicked")
+
+    ObjStyler.Container = Components.CreateStyle("Square",{
+        Size = Info.Size,
+        BackgroundColor = "Outline",
+        Position = Info.Position,
+        Pivot = Info.Pivot or Vector2.new(0.5,0.5),
+        Parent = Info.Parent,
+        CornerRadius = Info.CornerRadius or 5,
+    })
+
+    ObjStyler.Button = Components.CreateStyle("TextButton",{
+        Size = Pivot2D.FromScale(1,1),
+        BackgroundColor = Info.BackgroundColor,
+        Position = Pivot2D.FromScale(0.5,0.2),
+        Pivot = Vector2.new(0.5,0.5),
+        Parent = ObjStyler.Container,
+        Text = Info.Text,
+        Font = "FontBold",
+        Alignment = Vector2.new(0.5,0.5),
+        CornerRadius = Info.CornerRadius or 5,
+    })
+
+    ObjStyler.Button.Clicked:Connect(function()
+        ObjStyler.Button:SetPosition(Pivot2D.FromScale(0.5,0.5))
+        ObjStyler.Clicked.Invoke()
+    end)
+
+    ObjStyler.Button.Released:Connect(function()
+        ObjStyler.Button:SetPosition(Pivot2D.FromScale(0.5,0.2))
+    end)
+
+    return ObjStyler
 end
 
 function Components.Update(dt)

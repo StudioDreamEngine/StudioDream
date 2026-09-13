@@ -25,6 +25,8 @@ function TextButton:new()
     self.Released = Signal:New("ButtonReleased")
 
     self.ChangeCursorWhileHovering = true
+
+    self.BeingClicked = false
     self.HoverEnter = Signal:New("ButtonHoverEnter")
     self.HoverExit  = Signal:New("ButtonHoverExit")
     self._WasHovering = false
@@ -32,13 +34,14 @@ function TextButton:new()
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Hovering then return end
         if (not self:IsActive()) then print("Inactive") return end --OPTIMIZATION: this isnt good!!!
-
+        self.BeingClicked = true
         self.Clicked.Invoke()
     end)
 
     Runtime.InterfaceManager.OnRelease:Connect(function()
-        if not self.Hovering then return end
+        if not self.BeingClicked then return end
         
+        self.BeingClicked = false
         self.Released.Invoke()
     end)
 end
