@@ -1,5 +1,6 @@
 local Rotate = {}
 local Things = Runtime.Things
+local ToolManager = Studio.Editor3D.ToolManager
 
 local RotateControl ---@class RotateControl
 

@@ -1,5 +1,6 @@
 local Move = {}
 local Things = Runtime.Things
+local ToolManager = Studio.Editor3D.ToolManager
 
 local MoveControl ---@class MoveControl
 
