@@ -390,7 +390,7 @@ function BaseGui:DrawStyle()
     --Runtime.Backend2D.SetColor(Color.new(1))
 end
 
-function BaseGui:UpdateTransforms(Elements)
+function BaseGui:UpdateTransforms()
     --Profiler.Start("BaseGui - Process UpdateTransforms")
     self.AbsoluteRotation = self:GetAbsoluteRotation()
 

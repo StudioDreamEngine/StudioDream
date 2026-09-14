@@ -85,8 +85,10 @@ function InterfaceManager.Update(dt)
         if Viewport:IsA("SurfaceViewport") then
             HandleSurface(Viewport)
         else
-            Viewport.MousePosition = Backend2D.GetMousePosition() - Viewport.ViewportPosition --- Viewport.AbsolutePivot
+            Viewport.MousePosition = (Backend2D.GetMousePosition() - Viewport.ViewportPosition) --- Viewport.AbsolutePivot
         end
+
+        Viewport.MousePosition = (Viewport.MousePosition / Viewport.Scale)
 
         if Viewport.RenderContainer then
             Viewport.RenderContainer.MousePosition = Viewport.MousePosition

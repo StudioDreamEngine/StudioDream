@@ -17,6 +17,7 @@ function Viewport:new()
     self:CreateNew()
 
     self.DisplayList = {}
+    self.Scale = 1
 
     self.BackgroundTransparency = 1
     self.ForegroundColor = Color.new(1,1,1)
@@ -30,8 +31,8 @@ function Viewport:DefineAPI()
     self.Proxy.SetCategory("Viewport")
     self.Proxy.Icon("Viewport")
 
-    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType")
-    self.Proxy.Group("Viewport", "RenderContainer", "FilterType")
+    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType", "number Scale")
+    self.Proxy.Group("Viewport", "RenderContainer", "FilterType", "Scale")
 
     self.Proxy.Describe("Renders its contents independently")
 end
@@ -44,6 +45,7 @@ function Viewport:Draw()
     Viewport.super.Draw(self)
 
     self:SetColor("Foreground", "Color")
+    love.graphics.scale(self.Scale)
     Renderer.ViewportManager.RenderCanvas(self)
 
     if FLAGS.DebugDraw then
@@ -82,6 +84,19 @@ function Viewport:CreateNew()
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 
     --self.Shader:send("mat_canvas", self.MatCanvas)
+end
+
+function Viewport:SetScale(New)
+    self.Scale = New
+
+    self:UpdateTransforms()
+end
+
+function Viewport:UpdateTransforms()
+    Viewport.super.UpdateTransforms(self)
+
+    self.AbsolutePivot = self.AbsolutePivot * self.Scale
+    self.AbsolutePosition = self:GetAbsolutePosition()
 end
 
 ---@param NewFolder Thing
