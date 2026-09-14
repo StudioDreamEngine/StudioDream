@@ -48,8 +48,8 @@ function Image2D:DefineAPI()
     Image2D.super.DefineAPI(self)
 
     self.Proxy.Icon("Image2D")
-    self.Proxy.Property("Rect ImageRect","Resource Resource","Enum.FilterType FilterType","Rect NineSlice","boolean Flipped")
-    self.Proxy.Group("Visuals","Resource","ImageRect","FilterType","NineSlice","Flipped")
+    self.Proxy.Property("Rect ImageRect","Resource Resource","Enum.FilterType FilterType","Rect NineSlice","boolean Flipped","Color ForegroundColor","number ForegroundTransparency")
+    self.Proxy.Group("Visuals","Resource","ImageRect","FilterType","NineSlice","Flipped","ForegroundTransparency","ForegroundColor")
     self.Proxy.MakeCreatable()
 end
 

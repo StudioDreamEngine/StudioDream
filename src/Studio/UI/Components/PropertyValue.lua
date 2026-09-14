@@ -156,8 +156,7 @@ local ValueTypes = {
         })
 
         ValueObject.Clicked:Connect(function()
-            local RequestText = Info.UserRequest(Info.OnChange) or tostring(Info.ReturnDisplay())
-
+            local RequestText = Info.UserRequest(Info.OnChange) or tostring(Info.ReturnDisplay() or nil)
             Info.PropUpdator(RequestText)
         end)
 
@@ -323,12 +322,21 @@ local ValueFunction = function(PropertyList, Information, Style)
     -- Called every time the user changes the value
 
     Information.OnChange = function(Value)
+        print("VALUE")
+        print(Value)
+        print(type(Value))
         if type(Value) ~= "nil" then 
             --printVerbose("PropertyValue OnChange w/ "..tostring(Value))
 
             -- Auto-translate value
             if Information.Translate then
-                Value = _G[Information.Translate].FromString(Value)
+                local ActualValue,WasInvalidated = _G[Information.Translate].FromString(Value)
+                print(WasInvalidated)
+                if not WasInvalidated then
+                    Value = ActualValue
+                else
+                    Value = nil 
+                end
             end
 
             Information.UserChange(Value)

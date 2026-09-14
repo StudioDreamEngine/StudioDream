@@ -14,7 +14,7 @@ function TextInput:new()
     self.Hovering = false
 
     self.InputActive = false
-    self.NewCursorPos = 0
+    self.CursorPos = 0
 
     self.Text = ""
     self.Placeholder = "Placeholder" -- TODO
@@ -36,10 +36,10 @@ function TextInput:new()
                 local CurrentPos = self.RenderClass:GetPosition()
                 if CurrentPos < 1 then CurrentPos = 1 end
 
-                local NewCursorPos = CurrentPos-1
+                local CursorPos = CurrentPos-1
                 local NewText = string.sub(self.Text, 0, CurrentPos-1)..string.sub(self.Text, self.RenderClass:GetPosition()+1, -1)
                 
-                self:SetText(NewText, NewCursorPos)
+                self:SetText(NewText, CursorPos)
                 
                 self.BackspaceDown = GlobalTick
             elseif (Key == Enum.InputCode.LeftArrow) then
@@ -80,6 +80,7 @@ end
 function TextInput:OnReady()
     self.RenderClass = Runtime.Renderer.Input() ---@class InputRender
     self.RenderClass:new()
+    self.EditPosition = self.RenderClass:GetPosition()
 end
 
 function TextInput:StartFocus()
@@ -88,6 +89,11 @@ function TextInput:StartFocus()
     self.InputActive = true
 
     self.RenderClass:ToggleFocus(self.InputActive)
+end
+
+function TextInput:SetCursorPos(Number)
+    self.CursorPos = Number
+    self.RenderClass:ChangePos(Number)
 end
 
 function TextInput:StopFocus()
@@ -102,8 +108,8 @@ function TextInput:DefineAPI()
     TextInput.super.DefineAPI(self)
 
     self.Proxy.Icon("TextInput")
-    self.Proxy.Property("boolean Active")
-    self.Proxy.Group("Transform","Active")
+    self.Proxy.Property("boolean Active","string Placeholder","number CursorPos")
+    self.Proxy.Group("Transform","Active","Placeholder","CursorPos")
     self.Proxy.MakeCreatable()
 end
 
@@ -126,7 +132,7 @@ end
 function TextInput:SetText(Text, NewPosition)
     TextInput.super.SetText(self, Text)
 
-    self.NewCursorPos = NewPosition
+    self.CursorPos = NewPosition
 
     self:HandlePlaceholderVisuals((self.Text == ""))
     self.Typed.Invoke(self.Text)
@@ -141,8 +147,8 @@ end
 function TextInput:ProcessInvalidations()
     TextInput.super.ProcessInvalidations(self)
 
-    self.RenderClass:ChangePos(self.NewCursorPos or #self.Text)
-    self.NewCursorPos = nil
+    self.RenderClass:ChangePos(self.CursorPos or #self.Text)
+    self.CursorPos = nil
 end
 
 function TextInput:OnInitalParent(NewParent)

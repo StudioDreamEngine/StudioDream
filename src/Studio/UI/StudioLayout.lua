@@ -161,7 +161,11 @@ function StudioLayout.CallHandle(WindowType, Function, ...)
     local Handle = StudioLayout.GetHandle(WindowType)
 
     if Handle then
-        Handle[Function](...)
+        local func = Handle[Function](...)
+
+        if func then
+            return func
+        end
 
         return Handle
     end
@@ -310,7 +314,7 @@ function StudioLayout.CreateLayout()
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
         Modal = true,
-        Closable = true,
+        --Closable = true,
         Shadows = true,
         Name = "Color Picker",
     })
