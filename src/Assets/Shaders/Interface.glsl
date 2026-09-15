@@ -69,7 +69,7 @@ void effect() {
 
     love_Canvases[0] = out_color;
 
-    if (effect_bitmask > 0 && out_color.a > 0f) {
+    if (effect_bitmask > 0 && out_color.a > 0.0f) {
         love_Canvases[1] = vec4(out_color.a,0,0,1);
     } else {
         love_Canvases[1] = vec4(0,0,0,1);
