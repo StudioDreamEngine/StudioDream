@@ -75,7 +75,7 @@ end
 function TextButton:Update(dt)
     TextButton.super.Update(self)
 
-    local DisplayUI = self:GetDisplayUI()
+    local DisplayUI = self.DisplayUI
     if (not DisplayUI) then return end
 
     local Delta = self.Transition and math.min(dt*20,1) or 1

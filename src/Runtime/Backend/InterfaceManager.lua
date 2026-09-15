@@ -57,7 +57,7 @@ local Huge = Vector2.one * 100000
 local function HandleSurface(Viewport)
     Viewport.MousePosition = Huge
 
-    local Display = Viewport:GetDisplayUI() ---@class Viewport3D
+    local Display = Viewport.DisplayUI ---@class Viewport3D
     if (not Display) or (not Display:IsA("Viewport3D")) then return end
     if (not Runtime.SelectionPriority.Use3DSelection) then return end
 
@@ -104,7 +104,7 @@ function InterfaceManager.Update(dt)
         local Button = Runtime.Things.Get(ButtonID)
         local DisplayUI
 
-        if Button then DisplayUI = Button:GetDisplayUI() end
+        if Button then DisplayUI = Button.DisplayUI end
         
         -- MousePosition check is a hack here for now
         if DisplayUI and DisplayUI.MousePosition then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p

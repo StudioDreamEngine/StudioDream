@@ -80,7 +80,7 @@ local ERROR_SEPERATE = "--------------------------------------------------------
 function love.errorhandler(msg)
     local traceback = debug.traceback(msg)
 
-    print(traceback)
+    InternalPrint(false, false, "31", traceback)
 
     local crash_extra = "Operating System: "..love.system.getOS()
 

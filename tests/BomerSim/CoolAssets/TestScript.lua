@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 local Environment = root:GetEnvironment()
 local HUD = root:FindFirstChild("HUD")
 

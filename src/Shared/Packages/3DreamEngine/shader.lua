@@ -49,7 +49,7 @@ lib.shaderRegister = { }
 ---@param name string
 function lib:registerShader(shader, name)
 	if type(shader) == "string" then
-		name = name or shader:match("[^%/]*$")
+		name = name or shader:match("[^%.]*$")
 		self.shaderRegister[name] = lib:newShader(shader)
 	else
 		self.shaderRegister[name] = shader
@@ -72,7 +72,7 @@ end
 --inbuilt shader
 for _, s in ipairs(love.filesystem.getDirectoryItems(lib.root .. "/shaders/inbuilt")) do
 	if s:sub(-4) == ".lua" then
-		lib:registerShader(lib.root .. "/shaders/inbuilt/" .. s:sub(1, #s - 4))
+		lib:registerShader(lib.reqroot .. ".shaders.inbuilt." .. s:sub(1, #s - 4))
 	end
 end
 
@@ -92,7 +92,7 @@ end
 lib.lightShaders = { }
 for _, s in ipairs(love.filesystem.getDirectoryItems(lib.root .. "/shaders/light")) do
 	local name = s:sub(1, #s - 4)
-	lib.lightShaders[name] = require(lib.root .. "/shaders/light/" .. name)
+	lib.lightShaders[name] = require(lib.reqroot .. ".shaders.light." .. name)
 end
 
 lib.shaders = { }

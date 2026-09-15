@@ -11,8 +11,6 @@ function Viewport:new()
 
     self.RenderContainer = nil -- idk what to name this
 
-    self.Shader = Runtime.Shaders.Final()
-
     self.FilterType = Enum.FilterType.Linear
     self:CreateNew()
 

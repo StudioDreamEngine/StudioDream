@@ -59,6 +59,10 @@ return function(Notify)
         })
         
         Notify.Notify("Studio Loaded, Open a project or make a new one!","Info")
+
+        if Runtime.Backend2D.UnsupportedHardware then
+            Notify.Notify("StudioDream is running on unsupported hardware, we've found workarounds, but things might be broken!", "Info")
+        end
     end
 
     return Notify 

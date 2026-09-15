@@ -58,7 +58,7 @@ end
 function Contextulizer:Update(dt)
     Contextulizer.super.Update(self)
 
-    local DisplayUI = self:GetDisplayUI()
+    local DisplayUI = self.DisplayUI
     if (not DisplayUI) then return end
     
 end

@@ -37,7 +37,7 @@ function BaseGui:GetAbsolutePosition()
     local ParentRect = self:GetParentRect(true)
 
     local Position = self:GetOffsetPosition()
-    local Display = self:GetDisplayUI() ---@class Viewport2D
+    local Display = self.DisplayUI ---@class Viewport2D
     
     if ParentRect then
         Position = Position + ParentRect.Origin
@@ -237,6 +237,8 @@ function BaseGui:new()
     self.ColorMultiplier = 1
     self.ClipsChildren = true
 
+    self.DisplayUI = nil ---@class Viewport2D
+
     self.BackgroundColor = Color.new(1)
     self.BackgroundTransparency = 0
     self.AbsoluteBackgroundColor = Color.new(0) -- Internal
@@ -310,6 +312,10 @@ function BaseGui:IsVisible()
     return self.Visible and Visible
 end
 
+function BaseGui:HasStencil()
+    return self.DisplayUI and self.DisplayUI.StencilCanvas
+end
+
 function BaseGui:IsActive()
     local Active = true
 
@@ -375,7 +381,7 @@ function BaseGui:DrawStyle()
         end
         
         self:Draw()
-    end, "Interface")
+    end, Runtime.Backend2D.InterfaceShader)
 
     if FLAGS.DebugDraw then
         love.graphics.setLineWidth(1)
@@ -518,6 +524,8 @@ function BaseGui:SetAbsoluteSize(NewSize)
 end
 
 function BaseGui:Invalidate(dt)
+    self.DisplayUI = self:GetDisplayUI()
+
     if self.WasInvalidated or self.MouseLocked then
         self:ProcessInvalidation(self)
         self:InvalidateAutomaticSize()

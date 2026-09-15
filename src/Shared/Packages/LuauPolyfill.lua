@@ -410,8 +410,10 @@ PrintOG = _G.print
 PrintCallback = nil
 PrintLogs = {}
 
+local esc = string.char(27, 91)
+
 -- Edit of the print function that supports printing tables
-local function InternalPrint(IsVerbose, External, ...)
+function InternalPrint(IsVerbose, External, Color, ...)
 	local PrintTable = {...}
 	local FormattedPrintTable = {}
 
@@ -433,18 +435,22 @@ local function InternalPrint(IsVerbose, External, ...)
 		end
 	end
 
+	local StartCol = esc..Color.."m"
+	local EndCol = esc.."0m"
+
 	local FinalString = "["..os.clock()..(IsVerbose and " - VERBOSE] " or "] ")..Path..":"..(LineNumber)..":"
+	local EndString = ""
 
 	for _, v in pairs(FormattedPrintTable) do
-		FinalString = FinalString.." "..v
+		EndString = EndString.." "..v
 	end
 
 	if External and PrintCallback and POLYFILL_FLAGS.ExternalOutput then
-		PrintCallback(FinalString)
+		PrintCallback(FinalString..EndString)
 	end
 
-	table.insert(PrintLogs, FinalString)
-	PrintOG(FinalString)
+	table.insert(PrintLogs, FinalString..EndString)
+	PrintOG(FinalString..StartCol..EndString..EndCol)
 end
 
 -- Print only if POLYFILL_FLAGS.Verbose is true
@@ -483,15 +489,19 @@ function _G.printVerbose(...)
 		return
 	end
 
-	InternalPrint(true, false, ...)
+	InternalPrint(true, false, "0", ...)
+end
+
+function _G.warn(...)
+	InternalPrint(false, true, "33", ...)
 end
 
 -- Print normally
 function _G.print(...)
-	InternalPrint(false, true, ...)
+	InternalPrint(false, true, "34", ...)
 end
 
 -- Print normally, but do not call PrintCallback
 function _G.printInternal(...)
-	InternalPrint(false, false, ...)
+	InternalPrint(false, false, "34", ...)
 end

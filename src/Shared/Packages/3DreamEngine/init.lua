@@ -18,6 +18,8 @@ if lib.root:sub(-4) == "init" then
 	lib.root = lib.root:sub(1, -6)
 end
 
+lib.reqroot = string.gsub(lib.root, "/", "%.")
+
 --supported canvas formats
 lib.canvasFormats = love.graphics.getTextureFormats and love.graphics.getTextureFormats({canvas=true}) or love.graphics.getCanvasFormats()
 
@@ -31,22 +33,22 @@ end
 
 --load libraries
 ---@type DreamMat2
-lib.mat2 = require(lib.root .. "/libs/luaMatrices/mat2")
+lib.mat2 = require(lib.reqroot .. ".libs.luaMatrices.mat2")
 ---@type DreamMat3
-lib.mat3 = require(lib.root .. "/libs/luaMatrices/mat3")
+lib.mat3 = require(lib.reqroot .. ".libs.luaMatrices.mat3")
 ---@type DreamMat4
-lib.mat4 = require(lib.root .. "/libs/luaMatrices/mat4")
-require(lib.root .. "/libs/luaMatrices/mat4Extended")(lib.mat4)
+lib.mat4 = require(lib.reqroot .. ".libs.luaMatrices.mat4")
+require(lib.reqroot .. ".libs.luaMatrices.mat4Extended")(lib.mat4)
 
 ---@type DreamVec2
-lib.vec2 = require(lib.root .. "/libs/luaVectors/vec2")
+lib.vec2 = require(lib.reqroot .. ".libs.luaVectors.vec2")
 ---@type DreamVec3
-lib.vec3 = require(lib.root .. "/libs/luaVectors/vec3")
+lib.vec3 = require(lib.reqroot .. ".libs.luaVectors.vec3")
 ---@type DreamVec4
-lib.vec4 = require(lib.root .. "/libs/luaVectors/vec4")
+lib.vec4 = require(lib.reqroot .. ".libs.luaVectors.vec4")
 
 ---@type DreamQuat
-lib.quat = require(lib.root .. "/libs/quat")
+lib.quat = require(lib.reqroot .. ".libs.quat")
 
 --provide access to other libs
 for _, v1 in ipairs({ "mat2", "mat3", "mat4", "vec2", "vec3", "vec4", "quat" }) do
@@ -55,27 +57,25 @@ for _, v1 in ipairs({ "mat2", "mat3", "mat4", "vec2", "vec3", "vec4", "quat" }) 
 	end
 end
 
-lib.utils = require(lib.root .. "/libs/utils")
-lib.cimg = require(lib.root .. "/libs/cimg")
-lib.packTable = require(lib.root .. "/libs/packTable")
---lib.xml2lua = require(lib.root .. "/libs/xml2lua/xml2lua")
---lib.xmlTreeHandler = require(lib.root .. "/libs/xml2lua/tree")
-lib.json = require(lib.root .. "/libs/json")
-lib.inspect = require(lib.root .. "/libs/inspect")
-lib.base64 = require(lib.root .. "/libs/base64")
-lib.cache = require(lib.root .. "/libs/cache")
-lib.packer = require(lib.root .. "/libs/packer")
+lib.utils = require(lib.reqroot .. ".libs.utils")
+lib.cimg = require(lib.reqroot .. ".libs.cimg")
+lib.packTable = require(lib.reqroot .. ".libs.packTable")
+lib.json = require(lib.reqroot .. ".libs.json")
+lib.inspect = require(lib.reqroot .. ".libs.inspect")
+lib.base64 = require(lib.reqroot .. ".libs.base64")
+lib.cache = require(lib.reqroot .. ".libs.cache")
+lib.packer = require(lib.reqroot .. ".libs.packer")
 table.unpack = table.unpack or unpack
 
 --delton, disabled when not in debug mode
-lib.delton = require(lib.root .. "/libs/delton"):new(32)
-lib.deltonLoad = require(lib.root .. "/libs/delton"):new(1)
+lib.delton = require(lib.reqroot .. ".libs.delton"):new(32)
+lib.deltonLoad = require(lib.reqroot .. ".libs.delton"):new(1)
 lib.deltonLoad.maxAge = 999999
 
 --load sub modules
 local function LoadSub(name)
 	printVerbose("Loading Submodule: "..name)
-	require(lib.root .. "/"..name)
+	require(lib.reqroot .. "."..name)
 end
 
 printVerbose("3DreamEngine: Loading SubModules")
@@ -150,9 +150,9 @@ lib.version_3DO = 6
 
 --default meshFormats
 lib.meshFormats = { }
-lib:registerMeshFormat(require(lib.root .. "/meshFormats/textured"), "textured")
-lib:registerMeshFormat(require(lib.root .. "/meshFormats/simple"), "simple")
-lib:registerMeshFormat(require(lib.root .. "/meshFormats/material"), "material")
+lib:registerMeshFormat(require(lib.reqroot .. ".meshFormats.textured"), "textured")
+lib:registerMeshFormat(require(lib.reqroot .. ".meshFormats.simple"), "simple")
+lib:registerMeshFormat(require(lib.reqroot .. ".meshFormats.material"), "material")
 
 --some functions require temporary canvases
 lib.canvasCache = { }
@@ -220,7 +220,7 @@ function lib:init(w, h)
 end
 
 function lib:prepareRuntime()
-	require(lib.root .. "/runtimeBridge")
+	require(lib.reqroot .. ".runtimeBridge")
 
 	--default objects
 	--lib.cubeObject = lib:loadObject(lib.root.."/objects/cube")

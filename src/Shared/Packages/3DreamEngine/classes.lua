@@ -9,7 +9,7 @@ local lib = _3DreamEngine
 lib.classes = { }
 for _, s in pairs(love.filesystem.getDirectoryItems(lib.root .. "/classes")) do
 	local name = s:sub(1, #s - 4)
-	lib.classes[name] = require(lib.root .. "/classes/" .. name)
+	lib.classes[name] = require(lib.reqroot .. ".classes." .. name)
 	lib.classes[name].class = name
 end
 

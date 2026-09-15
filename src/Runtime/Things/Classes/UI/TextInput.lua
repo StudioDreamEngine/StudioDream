@@ -8,9 +8,6 @@ local InputService = Runtime.Services.Service("InputService") ---@class InputSer
 function TextInput:new()
     TextInput.super.new(self)
 
-    self.BackspaceDown = nil
-    self.BackspaceDebounce = 0
-
     self.Hovering = false
 
     self.InputActive = false
@@ -33,22 +30,14 @@ function TextInput:new()
             if (Key == Enum.InputCode.Enter) then
                 self:StopFocus()
             elseif (Key == Enum.InputCode.Backspace) then
-                local CurrentPos = self.RenderClass:GetPosition()
-                if CurrentPos < 1 then CurrentPos = 1 end
-
-                local CursorPos = CurrentPos-1
-                local NewText = string.sub(self.Text, 0, CurrentPos-1)..string.sub(self.Text, self.RenderClass:GetPosition()+1, -1)
-                
-                self:SetText(NewText, CursorPos)
-                
-                self.BackspaceDown = GlobalTick
+                self.RenderClass:SetBackspace(true)
             elseif (Key == Enum.InputCode.LeftArrow) then
                 self.RenderClass:ChangePosBy(-1)
             elseif (Key == Enum.InputCode.RightArrow) then
                 self.RenderClass:ChangePosBy(1)
             end
-        elseif (Key == Enum.InputCode.Backspace) then
-            self.BackspaceDown = nil
+        else
+            self.RenderClass:SetBackspace(false)
         end
     end)
 
@@ -61,9 +50,7 @@ function TextInput:new()
     self.InputEvent = LoveEvents.TextInput:Connect(function(Key)
         if (not self.InputActive or not self:IsVisible()) then return end
 
-        local NewText = string.sub(self.Text, 0, self.RenderClass:GetPosition())..Key..string.sub(self.Text, self.RenderClass:GetPosition()+1, -1)
-
-        self:SetText(NewText, self.RenderClass:GetPosition()+1)
+        self.RenderClass:HandleKey(Key)
     end)
 
     Runtime.InterfaceManager.OnClick:Connect(function()
@@ -79,7 +66,8 @@ end
 
 function TextInput:OnReady()
     self.RenderClass = Runtime.Renderer.Input() ---@class InputRender
-    self.RenderClass:new()
+    self.RenderClass:new(self)
+
     self.EditPosition = self.RenderClass:GetPosition()
 end
 
@@ -166,20 +154,10 @@ function TextInput:OnRemove()
     TextInput.super.OnRemove(self)
 end
 
-function TextInput:HandleKeys()
-    -- Pain, good god this will be hell to script full support for
-    if self.BackspaceDown and (GlobalTick - self.BackspaceDown) > 0.5 then
-        if (GlobalTick - self.BackspaceDebounce) > 0.05 then
-            self.BackspaceDebounce = GlobalTick
-            self:SetText(string.sub(self.Text, 0, -2))
-        end
-    end
-end
-
 function TextInput:Update(dt)
     TextInput.super.Update(self, dt)
 
-    self:HandleKeys()
+    self.RenderClass:HandleHold()
 end
 
 return TextInput

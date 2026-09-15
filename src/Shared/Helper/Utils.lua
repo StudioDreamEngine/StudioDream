@@ -127,6 +127,8 @@ function Utils.LoadModules(Path, Require)
         local Path = string.split(v, "%/")
         local Name = Path[#Path]
 
+        v = string.gsub(v, "/", "%.")
+
         Classes[Name] = Require and require(v) or v
     end
 

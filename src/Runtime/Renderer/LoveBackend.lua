@@ -1,6 +1,37 @@
 -- Layer of abstraction on top of love2d in the case its needed
 local Backend = {}
 
+local ShaderFolder = "Assets/Shaders/"
+Backend.InterfaceShader = love.graphics.newShader(ShaderFolder.."Interface.glsl")
+
+local StencilCandidates = {
+    "stencil8",
+    "depth24stencil8",
+    "depth32fstencil8"
+}
+local StencilFormat
+
+Backend.UnsupportedHardware = false
+
+-- idk what to name this
+function Backend.ManageCompat()
+    local CanvasFormats = love.graphics.getTextureFormats({ canvas=true })
+
+    for _, Candidate in pairs(StencilCandidates) do
+        if CanvasFormats[Candidate] then
+            StencilFormat = Candidate
+            break
+        end
+    end
+
+    if StencilFormat then
+        print("Using stencil format "..StencilFormat)
+    else
+        warn("No supported stencil format found, Certain visual features will be missing")
+        Backend.UnsupportedHardware = true
+    end
+end
+
 function Backend.CanvasCall(Canvas, DrawFunction)
     local OldCanvas = love.graphics.getCanvas()
 
@@ -22,10 +53,6 @@ function Backend.CanvasCall(Canvas, DrawFunction)
 end
 
 function Backend.ShaderCall(DrawFunction, Shader)
-    if type(Shader) == "string" then
-        Shader = Runtime.Shaders[Shader]
-    end
-
     love.graphics.setShader(Shader)
     DrawFunction(Shader)
     love.graphics.setShader()
@@ -53,10 +80,9 @@ function Backend.SetColor(Color, Transparency)
 end
 
 function Backend.NewCanvas(Size, Stencil)
-    local StencilCanvas = Stencil and love.graphics.newCanvas(Size.X, Size.Y, { format = "stencil8" })
-    --local MatCanvas = love.graphics.newCanvas(Size.X, Size.Y)
+    local StencilCanvas = (Stencil and StencilFormat) and love.graphics.newCanvas(Size.X, Size.Y, { format = StencilFormat })
 
-    return love.graphics.newCanvas(Size.X, Size.Y), StencilCanvas--, MatCanvas
+    return love.graphics.newCanvas(Size.X, Size.Y), StencilCanvas
 end
 
 function Backend.NewQuad(Rect, ImageSize)

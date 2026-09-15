@@ -10,7 +10,7 @@ local lib = _3DreamEngine
 lib.jobs = { }
 for _, s in ipairs(love.filesystem.getDirectoryItems(lib.root .. "/jobs")) do
 	local name = s:sub(1, #s - 4)
-	lib.jobs[name] = require(lib.root .. "/jobs/" .. name)
+	lib.jobs[name] = require(lib.reqroot .. ".jobs." .. name)
 end
 
 local times

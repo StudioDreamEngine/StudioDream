@@ -1,7 +1,14 @@
 ---@class InputRender: TextRender
 local Input = Runtime.Renderer.Text:extend()
 
-function Input:new()
+--[[
+    My idea is that:
+        The InputRender object handles the rendering and other general stuff for the text input,
+        while TextInput handles the maintaining of the state and input events
+]]
+
+-- TODO: Make placeholder text a part of this class
+function Input:new(TextInput)
     Input.super.new(self)
 
     self.Cursor = {
@@ -10,13 +17,30 @@ function Input:new()
         CharPosition = 0
     }
 
+    self.TextInput = TextInput ---@class TextInput
+
     self.BlinkTick, self.BlinkOn = 0, false
+    self.BackHeld, self.BackTime, self.BackRepeat = nil, 0, 0
 
     self.Focused = false
 end
 
 function Input:GetPosition()
     return self.Cursor.CharPosition
+end
+
+-- Returns the new text and cursor position depending on the character
+function Input:GetNew(Character)
+    local CurrentPos = self:GetPosition()
+    if CurrentPos < 1 then CurrentPos = 1 end
+
+    local PostText = string.sub(self.TextInput.Text, CurrentPos+1, -1)
+
+    if string.byte(Character) == 0x08 then
+        return string.sub(self.TextInput.Text, 0, CurrentPos-1)..PostText, CurrentPos - 1
+    else
+        return string.sub(self.TextInput.Text, 0, CurrentPos)..Character..PostText, CurrentPos + 1
+    end
 end
 
 function Input:ChangePosBy(By)
@@ -42,6 +66,29 @@ end
 
 function Input:OnClick()
     
+end
+
+function Input:SetBackspace(Backspace)
+    self.BackHeld = Backspace
+
+    if Backspace then
+        self.BackTime = GlobalTick
+        self:HandleKey(string.char(8))
+    end
+end
+
+function Input:HandleKey(Key)
+    self.TextInput:SetText(self:GetNew(Key))
+end
+
+function Input:HandleHold()
+    if (not self.BackHeld) or (GlobalTick - self.BackTime < 0.5) then return end
+
+    if (GlobalTick - self.BackRepeat) > 0.04 then
+        self.BackRepeat = GlobalTick
+
+        self:HandleKey(string.char(8))
+    end
 end
 
 -- Get the current line based off a position in the text

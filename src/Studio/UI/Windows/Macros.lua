@@ -9,6 +9,9 @@ return function(Macros)
         end,
         ["Export Project"] = function()
             Studio.Build.BuildProject()
+        end,
+        ["Error"] = function()
+            love.errorhandler("Test error")
         end
     }
 

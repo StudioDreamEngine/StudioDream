@@ -1,6 +1,6 @@
 -- https://github.com/pfirsich/jprof
 
-_prefix = (...):match("(.+%.)[^%.]+$") or ""
+local _prefix = (...):match("(.+%.)[^%.]+$") or ""
 -- we need to make sure we have our own instance, so we can adjust settings
 local msgpack = require("Shared.Packages.MessagePack")
 
