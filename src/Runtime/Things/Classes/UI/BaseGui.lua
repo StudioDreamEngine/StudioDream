@@ -4,11 +4,12 @@ local Things = Runtime.Things
 ---@class BaseGui: Thing
 local BaseGui = Things.Extend("Thing")
 
-function BaseGui:GetOffsetPosition()
+---@param ParentIn BaseGui
+function BaseGui:GetOffsetPosition(ParentIn)
     local PositionProp = self:GetProperty("Position")
     local Position = PositionProp.Offset
 
-    local ParentRect = self:GetParentRect()
+    local ParentRect = ParentIn and ParentIn:GetParentRect() or self:GetParentRect()
 
     if ParentRect then
         Position = Position + (PositionProp.Scale * ParentRect.Size)
