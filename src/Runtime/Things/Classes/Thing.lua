@@ -384,7 +384,7 @@ function Thing:SetParent(NewParent)
     self.Parent = NewParent
 
     -- The "NewParent:IsA("Root")" check here is to make sure that root objects are always requested for tree change, THIS SHOULD BE CHANGED LATER
-    if (self:IsSerializable()) then
+    if (self:IsSerializable()) or (NewParent == nil) then
         Runtime.Things.RequestTreeChange(self)
     end
 

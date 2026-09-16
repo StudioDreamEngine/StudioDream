@@ -67,7 +67,6 @@ end
 
 function Viewport:OnRemove()
     Viewport.super.OnRemove(self)
-    self.Shader:release()
 end
 
 function Viewport:CreateNew()

@@ -38,7 +38,7 @@ function BaseGui:GetAbsolutePosition()
     local ParentRect = self:GetParentRect(true)
 
     local Position = self:GetOffsetPosition()
-    local Display = self.DisplayUI ---@class Viewport2D
+    local Display = self:GetDisplayUI() ---@class Viewport2D
     
     if ParentRect then
         Position = Position + ParentRect.Origin
@@ -253,7 +253,7 @@ function BaseGui:new()
 
     self.Transparency = 0
 
-    self.ViewportPosition = Vector2.zero
+    self.ViewportPosition = Vector2.one
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteRotation = 0
     self.AbsolutePivot = Vector2.zero
