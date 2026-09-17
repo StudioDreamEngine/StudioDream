@@ -16,7 +16,13 @@ function Text:new()
 
     self.OffsetPosition = Vector2.zero
 
-    self.Text = "Placeholder"
+    self.Text = ""
+    self.Placeholder = ""
+
+    self.ContentText = self.Text
+
+    self.PlaceholderActive = false
+
     self.Lines = {
         Width = 0,
         Lines = {},
@@ -53,7 +59,7 @@ end
 function Text:PerformWrap(CurrentSize, WrapLength)
     local Scale = 32 / CurrentSize
 
-    local Width, Lines = self.RenderFont:getWrap(self.Text, WrapLength * Scale)
+    local Width, Lines = self.RenderFont:getWrap(self.ContentText, WrapLength * Scale)
     local Height = self.RenderFont:getHeight()/Scale
 
     Width = Width/Scale
@@ -74,7 +80,7 @@ function Text:SearchScaled(ContainerSize)
     local TextBounds, Lines
 
     Profiler.Start("Text - Perform Scaled Wrap")
-    if self.Text == "" or ContainerSize.Y < 1 then -- Default to size 1
+    if self.ContentText == "" or ContainerSize.Y < 1 then -- Default to size 1
         Profiler.End()
         return self:PerformWrap(1, ContainerSize.X)
     end
@@ -110,6 +116,9 @@ function Text:SearchScaled(ContainerSize)
 end
 
 function Text:AttemptWrap(NewSize, TextScaled, TextSize)
+    self.PlaceholderActive = not (#self.Text > 0)
+    self.ContentText = self.PlaceholderActive and self.Placeholder or self.Text
+
     local ContainerSize = NewSize
     local Lines
 

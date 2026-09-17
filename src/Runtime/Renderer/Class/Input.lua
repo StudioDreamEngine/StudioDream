@@ -34,12 +34,12 @@ function Input:GetNew(Character)
     local CurrentPos = self:GetPosition()
     if CurrentPos < 1 then CurrentPos = 1 end
 
-    local PostText = string.sub(self.TextInput.Text, CurrentPos+1, -1)
+    local PostText = string.sub(self.Text, CurrentPos+1, -1)
 
     if string.byte(Character) == 0x08 then
-        return string.sub(self.TextInput.Text, 0, CurrentPos-1)..PostText, CurrentPos - 1
+        return string.sub(self.Text, 0, CurrentPos-1)..PostText, CurrentPos - 1
     else
-        return string.sub(self.TextInput.Text, 0, CurrentPos)..Character..PostText, CurrentPos + 1
+        return string.sub(self.Text, 0, CurrentPos)..Character..PostText, CurrentPos + 1
     end
 end
 
@@ -56,7 +56,7 @@ function Input:ToggleFocus(Focus)
     self.Focused = Focus
 
     if Focus then
-        self:ChangePos(#self.Text)
+        self:ChangePos(#self.ContentText)
     end
 end
 
@@ -119,7 +119,7 @@ function Input:UpdateCursor()
     
     local CursorBench = Profiler.Benchmark("Update Cursor")
 
-    self.Cursor.CharPosition = math.clamp(self.Cursor.CharPosition, 0, #self.Text)
+    self.Cursor.CharPosition = math.clamp(self.Cursor.CharPosition, 0, #self.ContentText)
 
     local Line, Character = self:GetLineFromPosition(self.Cursor.CharPosition)
 

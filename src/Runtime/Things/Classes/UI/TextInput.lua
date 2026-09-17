@@ -71,6 +71,12 @@ function TextInput:OnReady()
     self.EditPosition = self.RenderClass:GetPosition()
 end
 
+function TextInput:Draw()
+    self.TextColorMultiplier = self.RenderClass.PlaceholderActive and 0.5 or 1
+
+    TextInput.super.Draw(self)
+end
+
 function TextInput:StartFocus()
     if not self.Active then return end
     self.FocusStart.Invoke()
@@ -101,35 +107,16 @@ function TextInput:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
--- For now we can do it this way, but later on we really shouldnt
-function TextInput:HandlePlaceholderVisuals(IsPlaceholder)
-    if IsPlaceholder then
-        self:SetAbsoluteText(self.Placeholder)
-    else
-        self:SetAbsoluteText(self.Text)
-    end
-
-    self.PlaceholderActive = IsPlaceholder
-end
-
 function TextInput:SetPlaceholder(NewPlaceholder)
     self.Placeholder = NewPlaceholder
-    self:HandlePlaceholderVisuals((self.Text == ""))
+    self.RenderClass.Placeholder = NewPlaceholder
 end
 
 function TextInput:SetText(Text, NewPosition)
     TextInput.super.SetText(self, Text)
 
     self.CursorPos = NewPosition
-
-    self:HandlePlaceholderVisuals((self.Text == ""))
     self.Typed.Invoke(self.Text)
-end
-
-function TextInput:Draw()
-    self.TextColorMultiplier = self.PlaceholderActive and 0.5 or 1
-    
-    TextInput.super.Draw(self)
 end
 
 function TextInput:ProcessInvalidations()
