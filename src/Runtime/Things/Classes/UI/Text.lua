@@ -60,7 +60,7 @@ end
 
 function Text:SetText(Text)
     self.Text = Text or ""
-    self.RenderClass.Text = self.Text
+    self.RenderClass:UpdateText(self.Text)
 
     self:InvalidateRendering()
 end

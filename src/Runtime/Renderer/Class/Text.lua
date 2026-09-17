@@ -115,10 +115,14 @@ function Text:SearchScaled(ContainerSize)
     return TextBounds, Lines
 end
 
-function Text:AttemptWrap(NewSize, TextScaled, TextSize)
+function Text:UpdateText(NewText)
+    self.Text = NewText
+
     self.PlaceholderActive = not (#self.Text > 0)
     self.ContentText = self.PlaceholderActive and self.Placeholder or self.Text
+end
 
+function Text:AttemptWrap(NewSize, TextScaled, TextSize)
     local ContainerSize = NewSize
     local Lines
 

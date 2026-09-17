@@ -11,7 +11,6 @@ function TextInput:new()
     self.Hovering = false
 
     self.InputActive = false
-    self.CursorPos = 0
 
     self.Text = ""
     self.Placeholder = "Placeholder" -- TODO
@@ -67,8 +66,6 @@ end
 function TextInput:OnReady()
     self.RenderClass = Runtime.Renderer.Input() ---@class InputRender
     self.RenderClass:new(self)
-
-    self.EditPosition = self.RenderClass:GetPosition()
 end
 
 function TextInput:Draw()
@@ -83,11 +80,6 @@ function TextInput:StartFocus()
     self.InputActive = true
 
     self.RenderClass:ToggleFocus(self.InputActive)
-end
-
-function TextInput:SetCursorPos(Number)
-    self.CursorPos = Number
-    self.RenderClass:ChangePos(Number)
 end
 
 function TextInput:StopFocus()
@@ -112,18 +104,14 @@ function TextInput:SetPlaceholder(NewPlaceholder)
     self.RenderClass.Placeholder = NewPlaceholder
 end
 
-function TextInput:SetText(Text, NewPosition)
+function TextInput:SetText(Text)
     TextInput.super.SetText(self, Text)
 
-    self.CursorPos = NewPosition
     self.Typed.Invoke(self.Text)
 end
 
 function TextInput:ProcessInvalidations()
     TextInput.super.ProcessInvalidations(self)
-
-    self.RenderClass:ChangePos(self.CursorPos or #self.Text)
-    self.CursorPos = nil
 end
 
 function TextInput:OnInitalParent(NewParent)

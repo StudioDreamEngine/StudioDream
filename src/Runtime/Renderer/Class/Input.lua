@@ -32,11 +32,12 @@ end
 -- Returns the new text and cursor position depending on the character
 function Input:GetNew(Character)
     local CurrentPos = self:GetPosition()
-    if CurrentPos < 1 then CurrentPos = 1 end
 
     local PostText = string.sub(self.Text, CurrentPos+1, -1)
 
     if string.byte(Character) == 0x08 then
+        if CurrentPos < 1 then CurrentPos = 1 end
+
         return string.sub(self.Text, 0, CurrentPos-1)..PostText, CurrentPos - 1
     else
         return string.sub(self.Text, 0, CurrentPos)..Character..PostText, CurrentPos + 1
@@ -48,8 +49,7 @@ function Input:ChangePosBy(By)
 end
 
 function Input:ChangePos(To)
-    self.Cursor.CharPosition = To
-    self:UpdateCursor()
+    self.Cursor.QueuedPosition = To
 end
 
 function Input:ToggleFocus(Focus)
@@ -57,11 +57,8 @@ function Input:ToggleFocus(Focus)
 
     if Focus then
         self:ChangePos(#self.ContentText)
+        self:UpdateCursor()
     end
-end
-
-function Input:AttemptWrap(...)
-    Input.super.AttemptWrap(self, ...)
 end
 
 function Input:OnClick()
@@ -78,7 +75,10 @@ function Input:SetBackspace(Backspace)
 end
 
 function Input:HandleKey(Key)
-    self.TextInput:SetText(self:GetNew(Key))
+    local Text, Pos = self:GetNew(Key)
+
+    self.TextInput:SetText(Text)
+    self:ChangePos(Pos)
 end
 
 function Input:HandleHold()
@@ -106,6 +106,7 @@ function Input:GetLineFromPosition(Position)
             if Total >= Position then
                 Line = LineI
                 Character = string.sub(SingleLine, 1, CharacterI)
+
                 break
             end
         end
@@ -134,6 +135,12 @@ function Input:GetWidth(Text, Sub)
 end
 
 function Input:Render()
+    if self.Cursor.QueuedPosition then
+        self.Cursor.CharPosition = self.Cursor.QueuedPosition
+        self.Cursor.QueuedPosition = nil
+        self:UpdateCursor()
+    end
+
     Input.super.Render(self)
 
     if (GlobalTick - self.BlinkTick) > 0.5 then
