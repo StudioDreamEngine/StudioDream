@@ -11,6 +11,8 @@ function lib:renderSky(transformProj, camTransform, transformScale)
 	if transformScale then
 		transformProj = transformProj * lib.mat4.getScale(transformScale)
 	end
+
+	if (not self.sky_texture) then return end
 	
 	love.graphics.push("all")
 

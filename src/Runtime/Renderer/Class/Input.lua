@@ -29,6 +29,40 @@ function Input:GetPosition()
     return self.Cursor.CharPosition
 end
 
+function Input:CharacterAtRenderPos(Position)
+    local CurrentLine, Line = 0, ""
+    local CurrentPosition = 0
+
+    for LineIndex, LineString in pairs(self.Lines.Lines) do
+        local LineY = (LineIndex-1)*self.Lines.Height
+
+        if LineY+self.Lines.Height > Position.Y then
+            CurrentLine, Line = LineIndex, LineString
+
+            break
+        end
+
+        CurrentPosition = CurrentPosition + #LineString
+    end
+
+    for CharacterIndex = 1, #Line do
+        local Character = string.sub(Line, 0, CharacterIndex)
+        local Width = self:GetWidth(Character)
+
+        if Position.X <= Width then
+            self.Cursor.Line = CurrentLine
+            self.Cursor.PixelPosition = Width
+
+            CurrentPosition = CurrentPosition + CharacterIndex
+
+            break
+        end
+    end
+
+    print(CurrentPosition)
+    self.Cursor.CharPosition = CurrentPosition
+end
+
 -- Returns the new text and cursor position depending on the character
 function Input:GetNew(Character)
     local CurrentPos = self:GetPosition()
@@ -44,25 +78,21 @@ function Input:GetNew(Character)
     end
 end
 
-function Input:ChangePosBy(By)
-    self:ChangePos(self.Cursor.CharPosition + By)
+function Input:ChangePositionBy(By)
+    self:ChangePosition(self.Cursor.CharPosition + By)
 end
 
-function Input:ChangePos(To)
+function Input:ChangePosition(To)
     self.Cursor.QueuedPosition = To
 end
 
-function Input:ToggleFocus(Focus)
+function Input:ToggleFocus(Focus, MousePosition)
     self.Focused = Focus
 
     if Focus then
-        self:ChangePos(#self.ContentText)
-        self:UpdateCursor()
+        local Offset = MousePosition * self.Lines.Scale - self.OffsetPosition
+        self:ChangePosition(self:CharacterAtRenderPos(Offset))
     end
-end
-
-function Input:OnClick()
-    
 end
 
 function Input:SetBackspace(Backspace)
@@ -78,7 +108,7 @@ function Input:HandleKey(Key)
     local Text, Pos = self:GetNew(Key)
 
     self.TextInput:SetText(Text)
-    self:ChangePos(Pos)
+    self:ChangePosition(Pos)
 end
 
 function Input:HandleHold()
@@ -98,18 +128,23 @@ function Input:GetLineFromPosition(Position)
     local Total = 0
     local Line, Character = 0, ""
 
+    local GotLine = false
+
     -- idk if this is optimized
     for LineI, SingleLine in pairs(self.Lines.Lines) do
-        for CharacterI, _ in pairs(string.split(SingleLine, ".")) do
+        for CharacterI = 1, #SingleLine do
             Total = Total + 1
-
+            
             if Total >= Position then
                 Line = LineI
-                Character = string.sub(SingleLine, 1, CharacterI)
+                Character = string.sub(SingleLine, 0, CharacterI)
+                GotLine = true
 
                 break
             end
         end
+
+        if GotLine then break end
     end
 
     return Line, Character
@@ -117,7 +152,7 @@ end
 
 function Input:UpdateCursor()
     if (not self.Focused) then return end
-    
+
     local CursorBench = Profiler.Benchmark("Update Cursor")
 
     self.Cursor.CharPosition = math.clamp(self.Cursor.CharPosition, 0, #self.ContentText)
@@ -134,18 +169,24 @@ function Input:GetWidth(Text, Sub)
     return self.RenderFont:getWidth(Sub and string.sub(Text, 1, Sub) or Text)
 end
 
+function Input:RefreshBlinkCursor(Toggle)
+    self.BlinkTick = GlobalTick
+    self.BlinkOn = Toggle
+end
+
 function Input:Render()
     if self.Cursor.QueuedPosition then
         self.Cursor.CharPosition = self.Cursor.QueuedPosition
         self.Cursor.QueuedPosition = nil
+
         self:UpdateCursor()
+        self:RefreshBlinkCursor(true)
     end
 
     Input.super.Render(self)
 
     if (GlobalTick - self.BlinkTick) > 0.5 then
-        self.BlinkTick = GlobalTick
-        self.BlinkOn = not self.BlinkOn
+        self:RefreshBlinkCursor(not self.BlinkOn)
     end
 end
 

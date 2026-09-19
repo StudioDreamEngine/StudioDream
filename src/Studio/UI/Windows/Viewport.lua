@@ -17,7 +17,7 @@ return function(Viewport)
             Name = "HudViewport",
             Layer = 10,
             Size = Pivot2D.FromScale(1,1),
-            Parent = Viewport.Container
+            Parent = Viewport.Container,
         }
         
         Things.Root:SetEnvironmentViewport(EnvironmentViewport)

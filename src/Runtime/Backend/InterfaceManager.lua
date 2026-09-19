@@ -126,10 +126,12 @@ function InterfaceManager.Update(dt)
 
     if #CurrentlyHovering > 0 then
         table.sort(CurrentlyHovering, function (a, b) return a.AbsoluteLayer > b.AbsoluteLayer end)
-        
+
+        -- dumbass hack
+        InterfaceManager.Hovering = CurrentlyHovering[1]
+
         for _, Hovering in pairs(CurrentlyHovering) do
             Hovering.Hovering = true
-            InterfaceManager.Hovering = true
 
             if Hovering.SinkHovering then
                 break

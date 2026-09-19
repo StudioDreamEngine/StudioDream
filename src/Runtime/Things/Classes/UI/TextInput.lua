@@ -31,9 +31,9 @@ function TextInput:new()
             elseif (Key == Enum.InputCode.Backspace) then
                 self.RenderClass:SetBackspace(true)
             elseif (Key == Enum.InputCode.LeftArrow) then
-                self.RenderClass:ChangePosBy(-1)
+                self.RenderClass:ChangePositionBy(-1)
             elseif (Key == Enum.InputCode.RightArrow) then
-                self.RenderClass:ChangePosBy(1)
+                self.RenderClass:ChangePositionBy(1)
             end
         else
             self.RenderClass:SetBackspace(false)
@@ -79,7 +79,7 @@ function TextInput:StartFocus()
     self.FocusStart.Invoke()
     self.InputActive = true
 
-    self.RenderClass:ToggleFocus(self.InputActive)
+    self.RenderClass:ToggleFocus(self.InputActive, self.DisplayUI.MousePosition - self.AbsolutePosition)
 end
 
 function TextInput:StopFocus()

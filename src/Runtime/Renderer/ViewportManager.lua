@@ -53,6 +53,10 @@ end
 function ViewportManager.RenderViewport2D(Viewport)
     --Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
     Runtime.Backend2D.CanvasCall(Viewport:GetCanvas(), function()
+        if Viewport:IsA("SurfaceViewport") then
+            Runtime.Backend2D.DebugLabel(Viewport.MousePosition, "Position hit")
+        end
+
         for _, Element in pairs(Viewport.DisplayList) do
             love.graphics.push()
             love.graphics.translate(Element.AbsolutePosition.X,Element.AbsolutePosition.Y)

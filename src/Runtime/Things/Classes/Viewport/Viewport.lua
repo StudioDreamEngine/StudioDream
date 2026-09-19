@@ -47,9 +47,7 @@ function Viewport:Draw()
     Renderer.ViewportManager.RenderCanvas(self)
 
     if FLAGS.DebugDraw then
-        love.graphics.circle("fill", self.MousePosition.X, self.MousePosition.Y, 5)
-        love.graphics.setFont(DebugFont)
-        love.graphics.print(self:GetPath(), self.MousePosition.X, self.MousePosition.Y)
+        Runtime.Backend2D.DebugLabel(self.MousePosition, self:GetPath())
     end
 end
 

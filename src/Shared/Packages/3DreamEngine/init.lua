@@ -123,7 +123,7 @@ lib:setMipmaps(true)
 
 --sky
 lib:setDefaultReflection("sky")
-lib:setSky({ 0.5, 0.5, 0.5 })
+--lib:setSky({ 0.5, 0.5, 0.5 })
 lib:setSkyReflectionFormat(256, "rgba16f", false)
 
 --auto exposure

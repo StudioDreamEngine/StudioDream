@@ -66,6 +66,18 @@ function Backend.SetMousePosition(Position)
     love.mouse.setPosition(Position.X, Position.Y)
 end
 
+function Backend.DebugLabel(Position, String)
+    if FLAGS.DebugDraw then
+        love.graphics.push("all")
+
+        love.graphics.circle("fill", Position.X, Position.Y, 5)
+        love.graphics.setFont(DebugFont)
+        love.graphics.print(String, Position.X, Position.Y)
+
+        love.graphics.pop()
+    end
+end
+
 function Backend.GetWindowSize()
     return Vector2.new(love.graphics.getWidth(), love.graphics.getHeight())
 end

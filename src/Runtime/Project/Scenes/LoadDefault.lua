@@ -5,6 +5,10 @@ return function()
         Parent = Environment
     }
 
+    Runtime.Things.Create("Sky") {
+        Parent = Runtime.Things.Root:FindFirstChild("Lighting")
+    }
+
     Runtime.Things.Create("Primitive") {
         Scale = Vector3.new(40,2,40),
         Position = Vector3.new(0,-10,0),

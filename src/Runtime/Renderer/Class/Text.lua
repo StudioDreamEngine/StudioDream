@@ -23,6 +23,8 @@ function Text:new()
 
     self.PlaceholderActive = false
 
+    self.DebugPos = Vector2.zero
+
     self.Lines = {
         Width = 0,
         Lines = {},
@@ -150,9 +152,12 @@ function Text:Render()
     love.graphics.push()
     love.graphics.scale(1/self.Lines.Scale)
 
+    love.graphics.translate(self.OffsetPosition.X, self.OffsetPosition.Y)
+    Runtime.Backend2D.DebugLabel(self.DebugPos, "Text Hit")
+
     for LineIndex, Line in pairs(self.Lines.Lines) do
         love.graphics.push()
-        love.graphics.translate(self.OffsetPosition.X, self.OffsetPosition.Y+((LineIndex-1)*self.Lines.Height))
+        love.graphics.translate(0, (LineIndex-1)*self.Lines.Height)
         self:RenderLine(LineIndex-1, Line)
         love.graphics.pop()
     end

@@ -1,5 +1,4 @@
 local Things = Runtime.Things
-local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
 local Renderer = Runtime.Renderer
 
 ---@class SurfaceViewport: Viewport2D

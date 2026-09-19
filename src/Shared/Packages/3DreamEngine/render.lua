@@ -559,6 +559,8 @@ function lib:present(camera, canvases, lite)
 			end
 		end
 
+		if (not love.graphics.getCanvas()) then return end
+
 		for d, s in pairs(canvasesDebug) do
 			if type(s) == "userdata" and s:isReadable() then
 				local b = brightness[d] or 1
