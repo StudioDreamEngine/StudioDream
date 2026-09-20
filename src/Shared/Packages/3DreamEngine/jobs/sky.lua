@@ -35,7 +35,7 @@ end
 function job:execute()
 	self.lastImage = tostring(lib.sky_texture)
 	
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	love.graphics.reset()
 	love.graphics.setDepthMode()
 	love.graphics.setBlendMode("replace", "premultiplied")

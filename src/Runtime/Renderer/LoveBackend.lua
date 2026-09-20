@@ -68,7 +68,7 @@ end
 
 function Backend.DebugLabel(Position, String)
     if FLAGS.DebugDraw then
-        love.graphics.push("all")
+        love.graphics.pushAll()
 
         love.graphics.circle("fill", Position.X, Position.Y, 5)
         love.graphics.setFont(DebugFont)

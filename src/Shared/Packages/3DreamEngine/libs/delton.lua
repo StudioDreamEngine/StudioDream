@@ -51,7 +51,7 @@ end
 
 --draw a graph and textual data
 function delton:present()
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	love.graphics.reset()
 	love.graphics.setLineJoin("bevel")
 	

@@ -29,6 +29,18 @@ function Input:GetPosition()
     return self.Cursor.CharPosition
 end
 
+-- Find a the nearest cursor point in the current line
+function Input:CharacterAtPixelPos(PixelPosition, Line)
+    for CharacterIndex = 1, #Line do
+        local Character = string.sub(Line, 0, CharacterIndex)
+        local Width = self:GetWidth(Character)
+
+        if PixelPosition <= Width then
+            return CharacterIndex, Width
+        end
+    end
+end
+
 function Input:CharacterAtRenderPos(Position)
     local CurrentLine, Line = 0, ""
     local CurrentPosition = 0
@@ -38,6 +50,8 @@ function Input:CharacterAtRenderPos(Position)
 
         if LineY+self.Lines.Height > Position.Y then
             CurrentLine, Line = LineIndex, LineString
+            self.Cursor.Line = CurrentLine
+            self.Cursor.PixelPosition = self:GetWidth(LineString)
 
             break
         end
@@ -45,22 +59,15 @@ function Input:CharacterAtRenderPos(Position)
         CurrentPosition = CurrentPosition + #LineString
     end
 
-    for CharacterIndex = 1, #Line do
-        local Character = string.sub(Line, 0, CharacterIndex)
-        local Width = self:GetWidth(Character)
+    local Length, PixelPosition = self:CharacterAtPixelPos(Position.X, Line)
 
-        if Position.X <= Width then
-            self.Cursor.Line = CurrentLine
-            self.Cursor.PixelPosition = Width
-
-            CurrentPosition = CurrentPosition + CharacterIndex
-
-            break
-        end
+    if Length then
+        CurrentPosition = CurrentPosition + Length
+        self.Cursor.PixelPosition = PixelPosition
     end
 
-    print(CurrentPosition)
     self.Cursor.CharPosition = CurrentPosition
+    self:RefreshBlinkCursor(true)
 end
 
 -- Returns the new text and cursor position depending on the character
@@ -193,11 +200,15 @@ end
 function Input:RenderLine(Index, Line)
     Input.super.RenderLine(self, Index, Line)
 
-    local r,g,b = love.graphics.getColor()
-    love.graphics.setColor(r,g,b,0.5)
-
     if (Index+1 == self.Cursor.Line) and self.Focused and self.BlinkOn then
+        love.graphics.pushAll()
+
+        local r,g,b = love.graphics.getColor()
+        love.graphics.setColor(r,g,b,0.5)
+
         love.graphics.rectangle("fill", self.Cursor.PixelPosition, 0, 2, self.Lines.Height)
+
+        love.graphics.pop()
     end
 end
 

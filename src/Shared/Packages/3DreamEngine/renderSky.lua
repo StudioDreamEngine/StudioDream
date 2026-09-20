@@ -14,7 +14,7 @@ function lib:renderSky(transformProj, camTransform, transformScale)
 
 	if (not self.sky_texture) then return end
 	
-	love.graphics.push("all")
+	love.graphics.pushAll()
 
 	--cubemap
 	local shader = self:getBasicShader("sky_cube")

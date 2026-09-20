@@ -384,6 +384,10 @@ do
 				love.graphics.translate(Translation.X, Translation.Y)
 			end
 		}
+
+		love.graphics.pushAll = function()
+			love.graphics.push("all")
+		end
 	end
 end
 

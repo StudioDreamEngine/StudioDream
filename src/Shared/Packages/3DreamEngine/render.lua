@@ -102,7 +102,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 	local light
 	
 	if isShadow then
-		love.graphics.push("all")
+		love.graphics.pushAll()
 		love.graphics.reset()
 		love.graphics.setMeshCullMode("none")
 		love.graphics.setDepthMode("less", true)
@@ -111,7 +111,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 		love.graphics.clear(255, 255, 255, 255)
 	else
 		--and set canvases
-		love.graphics.push("all")
+		love.graphics.pushAll()
 		if canvases.mode ~= "direct" then
 			love.graphics.reset()
 			love.graphics.setCanvas({ canvases.color, canvases.depth, canvases.stencil, depthstencil = canvases.depthBuffer })
@@ -336,7 +336,7 @@ end
 function lib:renderFull(cam, canvases, dynamic)
 	--self.delton:start("renderFull")
 
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	if canvases.mode ~= "direct" then
 		love.graphics.reset()
 	end
@@ -488,7 +488,7 @@ function lib:renderThumbnail(cam)
 	local ThumbnailCanvas = love.graphics.newCanvas(thumbSize,thumbSize)
 	thumbnailCanvases:init(thumbSize,thumbSize)
 
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	love.graphics.setCanvas(ThumbnailCanvas)
 	self.delton:stop()
 

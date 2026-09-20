@@ -100,8 +100,8 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	--	printVerbose("Cannot add", Identifier, "to ObjectReferences")
 	end
 	
-	local ResourceReturn, ResourceReturnSecond = Resources.GetResource(Identifier)
-	return ResourceReturn, Identifier.ID, ResourceReturnSecond
+	local ResourceReturn, ResourceSource = Resources.GetResource(Identifier)
+	return ResourceReturn, Identifier.ID, ResourceSource
 end
 
 local function LoadWithContents(Identifier, Contents)
@@ -117,7 +117,7 @@ local function LoadWithContents(Identifier, Contents)
 		"Cannot read resource (Identifier: " .. Identifier.ID .. ", Path: " .. Identifier.Data.FilePath .. ")"
 	)
 	local Loader, Loader2 = Resources.InitiateLoader(Format, Contents, Identifier)
-	return Loader, table.find(Clonable, Format), Loader2
+	return Loader, Loader2
 end
 
 -- Use a Resource Loader given the specified data and format
@@ -129,12 +129,12 @@ end
 
 function Resources.LoadResource(Identifier)
 	local ResourceType = Identifier.ResourceType
-	local Resource, Clonable
+	local Resource
 
 	if ResourceType == "Internal" then
-		Resource, Clonable, SourceResource = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
+		Resource, SourceResource = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
 	elseif ResourceType == "Project" then
-		Resource, Clonable, SourceResource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
+		Resource, SourceResource = LoadWithContents(Identifier, Runtime.ProjectFS.ReadFile(Identifier.Data.FilePath))
 	elseif ResourceType == "Buffer" then
 		Resource = Identifier.Data
 	else
@@ -145,18 +145,6 @@ function Resources.LoadResource(Identifier)
 		Resource = Resource,
 		Source = SourceResource
 	}
-
-	--[[if (not LoadedResources[Identifier.ID]) then
-		LoadedResources[Identifier.ID] = {
-			Clonable = Clonable
-		}
-	end
-
-	if Clonable then
-		table.insert(LoadedResources[Identifier.ID], Resource)
-	else
-		LoadedResources[Identifier.ID][1] = Resource
-	end]]
 
 	return Resource, SourceResource
 end

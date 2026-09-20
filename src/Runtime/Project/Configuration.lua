@@ -3,7 +3,7 @@ local Configuration = {}
 local DefaultConfig = {
     Name = "Untitled",
     Identifier = nil,
-    RootScenes = {},
+    RootScene = nil,
     FormatVersion = 1, -- The version of the save format
 }
 

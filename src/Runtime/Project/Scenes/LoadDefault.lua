@@ -1,4 +1,6 @@
 return function()
+    Runtime.Things.CreateEnviornment()
+
     local Environment = Runtime.Things.Root:GetEnvironment() ---@class Environment
 
     local Camera = Runtime.Things.Create("Camera") {

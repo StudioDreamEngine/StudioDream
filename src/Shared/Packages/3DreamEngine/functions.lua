@@ -318,7 +318,7 @@ end
 function lib:blurCanvas(canvas, strength, iterations, mask)
 	local temp = self:getTemporaryCanvas(canvas)
 	local sh = lib:getBasicShader("blur")
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	love.graphics.reset()
 	if mask then
 		love.graphics.setColorMask(unpack(mask))
@@ -411,7 +411,7 @@ local useMulti = love.graphics and love.graphics.getSystemLimits().multicanvas >
 ---@param mask table @ optional
 ---@param blurFirst boolean already blur the first layer, as usually used for ambient lighting maps
 function lib:blurCubeMap(cube, layers, strength, mask, blurFirst)
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	love.graphics.reset()
 	
 	if mask then
@@ -507,7 +507,7 @@ function lib:take3DScreenshot(pos, resolution, path)
 	
 	--render all faces
 	for face = 1, 6 do
-		love.graphics.push("all")
+		love.graphics.pushAll()
 		love.graphics.reset()
 		love.graphics.setCanvas({ { results, face = face } })
 		love.graphics.clear()
@@ -539,7 +539,7 @@ function lib:HDRItoCubemap(hdri, resolution)
 	
 	hdri:setWrap("repeat", "mirroredrepeat")
 	
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	love.graphics.setShader(shader)
 	love.graphics.setCanvas(canvas)
 	love.graphics.draw(hdri, 0, 0, 0, canvas:getWidth() / hdri:getWidth(), canvas:getHeight() / hdri:getHeight())

@@ -31,7 +31,7 @@ function job:execute(reflection, pos)
 	local transformations = lib:getCubemapFaceTransforms(pos)
 	
 	--prepare
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	love.graphics.reset()
 	
 	local canvas = reflection.canvas

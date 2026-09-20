@@ -55,7 +55,6 @@ function Runtime.PostInit()
     Runtime.Backend3D.SetupDebug()
 
     Runtime.Project = require("Runtime.Project")
-    Runtime.Things.CreateEnviornment()
 
     print("Finished PostInit")
 end

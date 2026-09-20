@@ -3,6 +3,8 @@ local Things = Runtime.Things
 ---@class Root: Thing
 local Root = Things.Extend("Thing")
 
+local AllowedIDs = {"Root", "RenderRoot"}
+
 function Root:new() 
     Root.super.new(self)
 
@@ -13,6 +15,10 @@ function Root:new()
 
     self.LODDistance = 10
     self.FrustumCheck = true
+end
+
+function Root:OnReady()
+    assert(table.find(AllowedIDs, self.UUID), "Root needs to be either of UUID Root or RenderRoot")
 end
 
 -- Clear and cleanup all objects
@@ -70,8 +76,7 @@ function Root:GetService(Service)
 end
 
 function Root:OnRemove()
-    self:Clear()
-    print("Attempted to remove root, clearing root contents instead...")
+    error("Attempted to remove root")
 end
 
 ---@return Camera

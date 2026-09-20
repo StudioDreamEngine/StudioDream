@@ -118,10 +118,8 @@ function ScrollContainer:Draw()
         self.TrueRadiusOfCorners = self.CornerRadius
     end
 
-    --
     Runtime.Backend2D.SetColor(self.BarColor,1 - self.BarTransparency)
     love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - BarPivot, 5, BarSize,self.TrueRadiusOfCorners,self.TrueRadiusOfCorners)
-
 end
 
 function ScrollContainer:SetAbsoluteSize(New)

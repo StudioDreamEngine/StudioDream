@@ -94,7 +94,7 @@ end
 
 -- Render the canvas itself to the screen
 function ViewportManager.RenderCanvas(Viewport)
-    love.graphics.push("all")
+    love.graphics.pushAll()
 
     if Viewport:IsA("Viewport2D") then
         ViewportManager.RenderViewport2D(Viewport)

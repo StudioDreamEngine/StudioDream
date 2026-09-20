@@ -18,7 +18,7 @@ function job:queue()
 end
 
 function job:execute()
-	love.graphics.push("all")
+	love.graphics.pushAll()
 	love.graphics.reset()
 	
 	--vignette and downscale

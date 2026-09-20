@@ -70,6 +70,15 @@ function Objects.SerializeObject(Object, Root)
 
     printVerbose("Serializing Properties for "..Object.Name)
 
+    if Object:IsA("Root") then
+        return {
+            Type = Object.ClassName,
+            UUID = Object.UUID,
+            Properties = {}, -- Properties of root objects are not saved
+            IsRoot = true
+        }
+    end
+
     for PropertyName, _ in pairs(SerializedProperties) do
         local Property = Object[PropertyName]
         local Type = Object.Proxy.Types[PropertyName]
@@ -102,6 +111,12 @@ end
 
 ---@param ObjectData NAMLDeserializedEntity
 function Objects.DeserializeObject(ObjectData)
+    -- Nasty hack, but we do NOT create the root object or apply properties to it, just return the root itself
+    -- TODO: Objects that parent to an object with the UUID of root should be parented to things.root, instead of this maybe?? idk..
+    if (ObjectData.Type == "Root") then
+        return Things.Root, {}
+    end
+
     local Properties = {}
     local RelocationQueue = {}
 

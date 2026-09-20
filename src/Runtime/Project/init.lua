@@ -1,14 +1,13 @@
 local Project = {}
 local Resources = require("Runtime.Project.Resources")
-local RootScenes = require("Runtime.Project.RootScenes")
+local RootScene = require("Runtime.Project.RootScene")
 
 local ProjectFS = Runtime.ProjectFS
 
 Project.Scenes = require("Runtime.Project.Scenes")
 Project.Config = require("Runtime.Project.Configuration")
 
-Project.RegisterRootScene = RootScenes.Register
-Project.LoadDefault = RootScenes.LoadDefault
+Project.LoadDefault = RootScene.LoadDefault
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
@@ -16,7 +15,7 @@ Project.LoadingProject = false
 Project.LoadedProject = Signal:New("ProjectLoaded")
 
 function Project.Clear()
-    RootScenes.Unload()
+    RootScene.Unload()
 end
 
 -- Make sure a project path is a valid project
@@ -83,14 +82,14 @@ function Project.GetSummary(ProjectPath)
     local Mount = BaseFS.Mount(ProjectPath, "Summary")
 
     if (not Mount) then
-        Project.History.Remove(ProjectPath)
+        --Project.History.Remove(ProjectPath)
         return
     end
 
     if (not Mount.FileExists("Project.sdc")) then
         print("Project.sdc doesnt exist")
         Mount.Unmount()
-        Project.History.Remove(ProjectPath)
+        --Project.History.Remove(ProjectPath)
         return
     end
 
@@ -132,7 +131,7 @@ function Project.Reload()
         Resources.Load()
         Project.Config.Load()
 
-        RootScenes.Load()
+        RootScene.Load()
         Runtime.LoadProjectCallback()
 
         Project.LoadingProject = false
@@ -232,7 +231,7 @@ function Project.Save()
         end
 
         ProjectFS.QueueWrite("Thumbnail.png", Dream:renderThumbnail())
-        RootScenes.Save()
+        RootScene.Save()
     end, function(Error)
         return debug.traceback(Error)
     end)
