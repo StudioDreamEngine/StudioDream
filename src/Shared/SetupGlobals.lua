@@ -4,6 +4,13 @@ return function ()
     -- Polyfill and Dependencies
     utf8 = require("Shared.Packages.utf8")
     require("Shared.Packages.LuauPolyfill")
+
+    -- Define base flags
+    POLYFILL_FLAGS = {
+        Verbose = FLAGS.Verbose, -- If verbose printing is enabled
+        ExternalOutput = FLAGS.ExternalOutput,
+        utf8 = true -- If you do not have a utf8 library, set this to false
+    }
     print("Polyfill Ready, Loading shared components")
 
     -- Packages
