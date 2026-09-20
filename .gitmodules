@@ -4,3 +4,6 @@
 [submodule "src/Shared/Packages/LuauPolyfill"]
 	path = src/Shared/Packages/LuauPolyfill
 	url = https://github.com/StudioDreamEngine/LuauPolyfill.git
+[submodule "src/Shared/Packages/nativefs"]
+	path = src/Shared/Packages/nativefs
+	url = https://github.com/StudioDreamEngine/nativefs.git
