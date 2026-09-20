@@ -3,4 +3,4 @@
 	url = https://github.com/StudioDreamEngine/Platform.git
 [submodule "src/Shared/Packages/LuauPolyfill"]
 	path = src/Shared/Packages/LuauPolyfill
-	url = https://github.com/StudioDreamEngine/LuauPolyfill
+	url = https://github.com/StudioDreamEngine/LuauPolyfill.git
