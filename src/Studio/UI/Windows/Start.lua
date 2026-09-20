@@ -157,7 +157,7 @@ return function(Start)
             Size = Pivot2D.FromScale(1,0.5),
             Position = Pivot2D.FromScale(.5,.005),
             --SquareAxis = Enum.SquareAxis.X,
-            Resource = "Internal/Studio/Update_Thumbs/Early_Riser.png",
+            Resource = "Internal/Thumbnails/Latest.png",
             Parent = Start.Container,
             Pivot = Vector2.new(.5,0),
             CornerRadius = 5,

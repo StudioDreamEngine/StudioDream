@@ -10,7 +10,7 @@ StudioDream is an engine that is intended to take the accessibility of Roblox, a
 [latest_img]:  https://img.shields.io/badge/release-latest-blue?logo=github
 [latest]:      https://github.com/StudioDreamEngine/StudioDream/releases/latest
 
-![image](https://github.com/StudioDreamEngine/StudioDream/blob/main/src/Assets/Studio/Update_Thumbs/Early_Riser.png)
+![image](https://github.com/StudioDreamEngine/StudioDream/blob/main/src/Assets/Thumbnails/Latest.png)
 
 # Overview
 The documentation repo is located [Here](https://github.com/StudioDreamEngine/StudioDream-Docs), there is currently no hosted website for them.

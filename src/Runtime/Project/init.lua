@@ -75,7 +75,7 @@ function Project.ValidateAndMount(ProjectPath)
     end
 end
 
-local DefaultImage = "Internal/Studio/Update_Thumbs/Early_Riser.png"
+local DefaultImage = "Internal/Thumbnails/Latest.png"
 
 function Project.GetSummary(ProjectPath)
     local BaseFS = Runtime.BaseFS
