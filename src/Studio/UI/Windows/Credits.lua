@@ -16,6 +16,7 @@ return function(Credits)
             Content = {
                 "Konadi - Creator",
                 "Mikl - Windows zip export",
+                "Bloctans - General Improvements"
             }
         },
         {

@@ -18,7 +18,7 @@ end
 
 function ScriptHandler.ConfigureOrValidateEditor()
     ConfiguredEditor = Studio.SettingsManager.Get("CodeEditor") -- Re-sync setting
-    print(ConfiguredEditor)
+    printVerbose("Configured Editor: "..ConfiguredEditor)
 
     if (not ConfiguredEditor) then -- If we do not find an editor at all, configure a new one
         ScriptHandler.ConfigureEditor()
@@ -34,7 +34,6 @@ function ScriptHandler.ValidateEditor(EditorPath)
 
     if type(EditorPath) == "string" then
         EditorPath = Path.new(EditorPath)
-        print(EditorPath)
 
         InvalidFileType = EditorPath.FileType and (not table.find(AllowedExecutableTypes, EditorPath.FileType)) or false
     end
@@ -105,17 +104,14 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
 
     -- Open the script
     if ConfiguredEditor then
-        printVerbose(ConfiguredEditor)
+        local Resource = Runtime.Resources.GetIdentifierFromID(ScriptObject.Resource)
+        local Data = Resource.Data
 
-        if string.find(ConfiguredEditor, " ") then
-            ConfiguredEditor = "\""..ConfiguredEditor.."\""
-        end
-
-        local Data = ScriptObject.Resource.Data
-
-        if ScriptObject.Resource.ResourceType == "Project" then
-            print("Executing...")
-            Platform.Execute(ConfiguredEditor, "\""..Runtime.ProjectFS.GetFullPath(Data.FilePath).."\"")
+        if Resource.ResourceType == "Project" then
+            print("Starting script editor")
+            Platform.Execute(Platform.ParsePath(ConfiguredEditor), Runtime.ProjectFS.GetFullPath(Data.FilePath))
+        else
+            print("Cannot edit")
         end
     else
         print("Did not configure editor")
