@@ -24,6 +24,7 @@ return { new = function()
     ObjectProxy.Description = "No Description"
     ObjectProxy.Category = "Nothin"
 
+    ObjectProxy.IconTint = Color.new(1)
     -- Register a function that returns a list of objects
     --[[function ObjectProxy.RegisterProxy(...)
         for i, v in pairs({...}) do
@@ -60,6 +61,10 @@ return { new = function()
 
     function ObjectProxy.SetCategory(Name)
         ObjectProxy.Category = Name
+    end
+
+    function ObjectProxy.SetIconColor(NewColor)
+        ObjectProxy.IconTint = NewColor
     end
 
     function ObjectProxy.Icon(Icon)

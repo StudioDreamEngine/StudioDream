@@ -97,7 +97,7 @@ function Components.CreateIconObject(Name, Icon)
     local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/File_Not_Found.png")
     local Icon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
     
-    local NodeIcon = Studio.Components.CreateStyle("Image2D",{
+    NodeInner.NodeIcon = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Pivot = Vector2.new(-0.1,0.5),
