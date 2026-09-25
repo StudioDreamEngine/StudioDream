@@ -60,6 +60,14 @@ return function(Explorer)
         NodeObj.NodeInner:SetSize(Pivot2D.new(1,-Depth*20,1,0))
         NodeObj.NodeInner:SetParent(NodeObj.Node)
         
+        NodeObj.NodeInner.NodeIcon.ForegroundColor = Object.Proxy.IconTint
+
+        if Object.IconColorChanged then
+            Object.IconColorChanged:ConnectOnce(function()
+                Explorer.Redraw()
+            end)
+        end
+        
         NodeObj.ParentLines = {}
 
         function NodeObj.CreateParentLine(LineDepth)

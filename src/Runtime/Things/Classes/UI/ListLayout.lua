@@ -16,6 +16,8 @@ function ListLayout:new()
     self.Reverse = false
     self.Padding = 0
 
+    self.Wraps = false -- TODO!
+
     self.SortMode = Enum.SortMode.Alphabetical
 
     self.RemainingSize = Pivot2D.FromOffset(0,0)
