@@ -119,4 +119,10 @@ function Camera:GetMouseRay()
     end
 end
 
+function Camera:Update(dt)
+    Camera.super.Update(self, dt)
+
+    self.Drawable:setTransform(self.Transform.GetMatrix())
+end
+
 return Camera

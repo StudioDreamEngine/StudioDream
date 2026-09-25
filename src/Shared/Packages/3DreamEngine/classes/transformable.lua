@@ -1,9 +1,23 @@
 local I = _3DreamEngine.mat4.getIdentity()
+local lib = _3DreamEngine
 
 local vec3, mat4 = _3DreamEngine.vec3, _3DreamEngine.mat4
 
 ---@class DreamTransformable
-local class = { }
+local class = {
+	links = { "transformable" },
+}
+
+function lib:newTransformable()
+	print("New transformable")
+	print(self.meta)
+
+	local transformable = setmetatable({
+		transform = false
+	}, self.meta.transformable)
+	
+	return transformable
+end
 
 ---Resets the transform to the identify matrix
 ---@return DreamTransformable

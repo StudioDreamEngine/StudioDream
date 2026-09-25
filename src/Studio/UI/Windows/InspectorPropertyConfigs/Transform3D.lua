@@ -24,7 +24,7 @@ local function CreateSub(Info,AddInfo)
 
             for _,Thing in pairs(Studio.Editor3D.Selecting) do
                 if IsRotation then
-                    local Transform1 = Thing[Info.Name].PositionMatrix()
+                    local Transform1 = Thing[Info.Name].PositionMatrix
                     local Transform2 = Transform3D.FromAngle(Vectorized)
 
                     Runtime.Things.SetProperty(Thing, Info.Name, Transform1 * Transform2) 

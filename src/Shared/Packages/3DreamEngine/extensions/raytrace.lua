@@ -179,7 +179,7 @@ local function nearestPointToLine(a, b, p)
 	return a + t * ab
 end
 
-local function raytraceMesh(mesh, localOrigin, localDirection, object)
+local function raytraceMesh(mesh, localOrigin, localDirection)
 	--bounding sphere check
 	local center = mesh.boundingSphere.center
 	local nearest = nearestPointToLine(localOrigin, localOrigin + localDirection, center)
@@ -198,47 +198,63 @@ local function raytraceMesh(mesh, localOrigin, localDirection, object)
 	raytraceTree(localOrigin, localDirection, mesh.raytraceTree)
 	if oldT ~= nearestT or oldF ~= nearestFace then
 		nearestMesh = mesh
-		nearestObject = object
-		return { }
 	end
 end
 
-local function raytraceObject(object, localOrigin, localDirection, ignoreInfo)
-	--object transform
-	if object.transform then
-		local m = object:getInvertedTransform()
-		localOrigin = m * localOrigin
-		localDirection = vec3({
-			m[1] * localDirection[1] + m[2] * localDirection[2] + m[3] * localDirection[3],
-			m[5] * localDirection[1] + m[6] * localDirection[2] + m[7] * localDirection[3],
-			m[9] * localDirection[1] + m[10] * localDirection[2] + m[11] * localDirection[3],
-		})
-	end
-	
-	--for all meshes
-	local transforms
-	local mesh = object.mesh
-
-	if mesh and mesh.vertices and mesh.faces then
-		transforms = raytraceMesh(mesh, localOrigin, localDirection, object) or transforms
-	end
-	
-	--for all objects
-	for _, o in pairs(object.objects) do
+local function raytraceObject(objects, origin, direction, ignoreInfo)
+	for _, o in pairs(objects) do
 		local shouldTrace = table.find(ignoreInfo.List, o)
 		if (not ignoreInfo.Whitelist) then shouldTrace = (not shouldTrace) end
 
-		if shouldTrace then
-			transforms = raytraceObject(o, localOrigin, localDirection, ignoreInfo) or transforms
+		local localOrigin, localDirection = origin, direction
+
+		--object transform
+		local Matrix = o.Matrix
+
+		if Matrix then
+			local m = Matrix:invert()
+			localOrigin = m * origin
+			localDirection = vec3({
+				m[1] * direction[1] + m[2] * direction[2] + m[3] * direction[3],
+				m[5] * direction[1] + m[6] * direction[2] + m[7] * direction[3],
+				m[9] * direction[1] + m[10] * direction[2] + m[11] * direction[3],
+			})
+		end
+
+		if shouldTrace and o.Drawable then
+			raytraceMesh(o.Drawable, localOrigin, localDirection)
 		end
 	end
-	
-	--on the way back, store transformation matrices
-	if transforms and object.transform then
-		table.insert(transforms, object.transform)
+end
+
+local function raytraceAdorn(object, origin, direction, ignoreInfo)
+	local shouldTrace = table.find(ignoreInfo.List, object)
+	if (not ignoreInfo.Whitelist) then shouldTrace = (not shouldTrace) end
+
+	local localOrigin, localDirection = origin, direction
+
+	--object transform
+	local Matrix = object.transform
+
+	if Matrix then
+		local m = Matrix:invert()
+		localOrigin = m * origin
+		localDirection = vec3({
+			m[1] * direction[1] + m[2] * direction[2] + m[3] * direction[3],
+			m[5] * direction[1] + m[6] * direction[2] + m[7] * direction[3],
+			m[9] * direction[1] + m[10] * direction[2] + m[11] * direction[3],
+		})
 	end
-	
-	return transforms
+
+	if object.objects then
+		for _, o in pairs(object.objects) do
+			raytraceAdorn(o, localOrigin, localDirection, ignoreInfo)
+		end
+	end
+
+	if shouldTrace and object.boundingSphere then
+		raytraceMesh(object, localOrigin, localDirection)
+	end
 end
 
 ---@class DreamRaytraceResult
@@ -316,7 +332,13 @@ function raytracer:cast(object, origin, direction, ignoreInfo)
 	nearestT, nearestU, nearestV, nearestFace, nearestMesh = 1, false, false, false, false
 	
 	--search
-	local transforms = raytraceObject(object, origin, direction, ignoreInfo)
+	local Adorn = object.isAdorn
+
+	if Adorn then
+		raytraceAdorn(object, origin, direction, ignoreInfo)
+	else
+		raytraceObject(object, origin, direction, ignoreInfo)
+	end
 	
 	--pack
 	---@diagnostic disable-next-line: return-type-mismatch
@@ -327,7 +349,7 @@ function raytracer:cast(object, origin, direction, ignoreInfo)
 		face = nearestFace,
 		mesh = nearestMesh,
 		object = nearestObject,
-		transforms = transforms,
+		--transforms = transforms,
 		position = origin + nearestT * direction
 	}, meta) or false
 end

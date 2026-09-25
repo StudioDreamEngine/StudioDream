@@ -24,11 +24,7 @@ function Environment:new()
     self.StepPhysics = false
     self.Gravity = Vector3.new(0,-10,0)
 
-    self.DreamWorld = Backend3D:CreateWorld()
-    self.DreamWorld.IsEnv = true
-
     self.Objects = {}
-
     self.Lights = {}
 
     self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
@@ -63,7 +59,7 @@ function Environment:SetGravity(NewGravity)
 end
 
 function Environment:Raycast(origin, direction, FilterInformation)
-    return SpatialService.Raycast(origin, direction, self.DreamWorld, FilterInformation)
+    return SpatialService.Raycast(origin, direction, self.Objects, FilterInformation)
 end
 
 function Environment:RemoveBody(Child)
@@ -81,26 +77,22 @@ function Environment:HandlePhysicsHierachy(Child)
 end
 
 function Environment:Clear()
-    self.DreamWorld.objects = {}
     table.clear(self.Objects) -- This table is an optimization, as we need to be able to accerss
     table.clear(self.Lights)
 end
 
 -- Manages how the world is displayed to external packages such as 3DreamEngine and Bullet
 function Environment:ManageWorldHierachy()
-    self.DreamWorld.objects = {}
     table.clear(self.Objects) -- This table is an optimization, as we need to be able to accerss
     table.clear(self.Lights)
 
     for _, Child in pairs(self:GetDescendants()) do
         if Child:IsA("Drawable3D") then
-            self.DreamWorld.objects[Child.UUID] = Child.Drawable
+            self.Objects[Child.UUID] = Child
 
             if Child.PhysicsBody then
                 self:HandlePhysicsHierachy(Child)
             end
-
-            table.insert(self.Objects, Child)
         elseif Child:IsA("Light") then
             table.insert(self.Lights, Child.Light)
         end
@@ -120,6 +112,12 @@ function Environment:OnRemove()
     Environment.super.OnRemove(self)
     self:Clear()
     self.Camera = nil -- why????? what makes this in specific unreference the camera
+end
+
+function Environment:Present()
+    for _, Object in pairs(self.Objects) do
+        Object:AddTask()
+    end
 end
 
 function Environment:Update(dt)

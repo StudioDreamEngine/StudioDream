@@ -1,7 +1,7 @@
 local Transform3D = {}
 
 ---@param Matrix DreamMat4
-local function NewTransform(Matrix, Rotated)
+function Transform3D.FromMatrix(Matrix, Rotated)
     ---@class Transform3D
     local Object = {}
 
@@ -11,13 +11,22 @@ local function NewTransform(Matrix, Rotated)
     Object.Up = Vector3.new(Matrix[2], Matrix[6], Matrix[10]) 
     Object.Forward = Vector3.new(Matrix[3], Matrix[7], Matrix[11])
     Object.Position = Vector3.new(Matrix[4], Matrix[8], Matrix[12])
+    
+    Object.Nested = Rotated
 
     -- Extract basis
     if not Rotated then
-        Object.Rotation = NewTransform(Dream.mat4(
+        Object.Rotation = Transform3D.FromMatrix(Dream.mat4(
             Matrix[1], Matrix[2], Matrix[3], 0,
             Matrix[5], Matrix[6], Matrix[7], 0,
             Matrix[9], Matrix[10], Matrix[11], 0,
+            0, 0, 0, 1
+        ), true) -- I dont like doing this... too bad!
+
+        Object.PositionMatrix = Transform3D.FromMatrix(Dream.mat4(
+            1, 0, 0, Matrix[4],
+            0, 1, 0, Matrix[8],
+            0, 0, 1, Matrix[12],
             0, 0, 0, 1
         ), true) -- I dont like doing this... too bad!
     end
@@ -27,15 +36,6 @@ local function NewTransform(Matrix, Rotated)
 
     function Object.AsAngle()
         return Vector3.FromDream(Matrix:toEuler())
-    end
-
-    function Object.PositionMatrix()
-        return NewTransform(Dream.mat4(
-            1, 0, 0, Matrix[4],
-            0, 1, 0, Matrix[8],
-            0, 0, 1, Matrix[12],
-            0, 0, 0, 1
-        ), true) -- I dont like doing this... too bad!
     end
 
     function Object:Copy()
@@ -52,14 +52,14 @@ local function NewTransform(Matrix, Rotated)
     return setmetatable(Object, {
         __mul = function (t1, t2)
             if t1.Type == "Transform3D" and t2.Type == "Transform3D" then
-                return NewTransform(t1.GetMatrix() * t2.GetMatrix())
+                return Transform3D.FromMatrix(t1.GetMatrix() * t2.GetMatrix())
             else
                 assert("Transform3D expected, got ("..Utils.TypeOf(t2)..")")
             end
         end,
         __add = function (t1, t2)
             if t1.Type == "Transform3D" and t2.Type == "Vector3" then
-                return NewTransform(t1.GetMatrix() + Dream.mat4(
+                return Transform3D.FromMatrix(t1.GetMatrix() + Dream.mat4(
                     0, 0, 0, t2.X,
                     0, 0, 0, t2.Y,
                     0, 0, 0, t2.Z,
@@ -76,8 +76,9 @@ local function NewTransform(Matrix, Rotated)
     })
 end
 
-function Transform3D.LookAt(Eye, Target)
-    local direction = (Target - Eye):Unit():ToDream()
+function Transform3D.LookTowards(Eye, direction)
+    direction = direction:ToDream()
+
     local up = Dream.vec3(0.0, 1.0, 0.0)
 
 	local zaxis = direction:normalize()
@@ -97,6 +98,10 @@ function Transform3D.LookAt(Eye, Target)
     return Transform3D.FromPosition(Eye) * Transform3D.FromMatrix(rotate)
 end
 
+function Transform3D.LookAt(Eye, Target)
+    return Transform3D.LookTowards(Eye, (Target - Eye):Unit())
+end
+
 function Transform3D.FromAngle(X,Y,Z)
     if (not Y) then
         local Pos = X
@@ -104,15 +109,11 @@ function Transform3D.FromAngle(X,Y,Z)
     end
 
     local Matrix = Dream.mat4.getIdentity()
-    Matrix = Matrix:rotateX(X)
-    Matrix = Matrix:rotateY(Y)
-    Matrix = Matrix:rotateZ(Z)
+    if X ~= 0 then Matrix = Matrix:rotateX(X) end
+    if Y ~= 0 then Matrix = Matrix:rotateY(Y) end
+    if Z ~= 0 then Matrix = Matrix:rotateZ(Z) end
     
-    return NewTransform(Matrix)
-end
-
-function Transform3D.FromMatrix(Matrix)
-    return NewTransform(Matrix)
+    return Transform3D.FromMatrix(Matrix)
 end
 
 function Transform3D.FromPosition(X,Y,Z)
@@ -124,7 +125,7 @@ function Transform3D.FromPosition(X,Y,Z)
     local Matrix = Dream.mat4.getIdentity()
     Matrix = Matrix:translate(X,Y,Z)
 
-    return NewTransform(Matrix)
+    return Transform3D.FromMatrix(Matrix)
 end
 
 function Transform3D.FromString(Text) -- also need to figure out a good way to improve this

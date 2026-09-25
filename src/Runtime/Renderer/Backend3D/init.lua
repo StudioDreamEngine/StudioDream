@@ -1,30 +1,23 @@
 ---@diagnostic disable: inject-field
 local Backend3D = {}
-local DreamAdorns
+local DreamAdorns = {}
 
-function Backend3D.Init()
-    -- Stores Objects that are not nesscessarily part of the enviornment itself, instead intended to be visible only to the object using them and 3dreamengine
-    DreamAdorns = Dream:newObject()
-    DreamAdorns.name = "DreamAdorns"
-end
+--[[
+    ADORNS VS OBJECTS:
+        Adorns imitate regular 3DE objects, when one is used in for example a raycast, a special version of the code is used for said object
+
+        Objects however are simply just drawable3d objects
+]]
 
 function Backend3D.SetupDebug()
-    Backend3D.Debug = Backend3D.LoadObject("Internal/DefaultMeshes/cube.obj", "Debug")
-
-    Backend3D.SetTransform(Transform3D.FromPosition(0,-100,0))
+    Backend3D.Debug = Runtime.Things.Create("Drawable3D") {
+        Transform = Transform3D.FromPosition(0,-100,0),
+        Resource = "Internal/DefaultMeshes/cube.obj"
+    }
 end
 
 function Backend3D.SetTransform(Transform)
-    Backend3D.Debug:resetTransform()
-    Backend3D.Debug:setTransform(Transform.GetMatrix())
-end
-
----@return DreamObject
-function Backend3D.CreateWorld()
-    local DreamWorld = Dream:newObject()
-    DreamWorld.name = "DreamWorld"
-
-    return DreamWorld
+    Backend3D.Debug:SetTransform(Transform)
 end
 
 function Backend3D.GetAdorns() return DreamAdorns end
@@ -34,56 +27,78 @@ function Backend3D.GetAdorns() return DreamAdorns end
 --- @param ClassReference Drawable3D
 local function AssignClassReference(Object, ClassReference)
     Object.ClassReference = ClassReference
-
-    for _, ChildObject in pairs(Object.objects) do
-        AssignClassReference(ChildObject, ClassReference)
-    end
 end
 
 -- Object stuff --
 
 function Backend3D.RegisterObject(Object, UUID)
-    DreamAdorns.objects[UUID] = Object
+    DreamAdorns[UUID] = Object
 end
 
 function Backend3D.UnregisterObject(UUID)
-    DreamAdorns.objects[UUID] = nil
+    DreamAdorns[UUID] = nil
 end
 
+-- Adorns will use a watered down version of a 3de object, but not literally one
 function Backend3D.CreateAdorn(Name)
-    local Object = Dream:newObject()
+    local Object = Dream:newTransformable()
     Object.name = Name
+    Object.isAdorn = true
+    Object.material = Runtime.Things.New("Material")
+    Object.objects = {}
+
     Object.UUID = CreateUUID()
 
-    DreamAdorns.objects[Object.UUID] = Object
+    DreamAdorns[Object.UUID] = Object
     return Object
 end
 
-function Backend3D.LoadObject(Identifier, Reference)
+function Backend3D.LoadMesh(Identifier, Reference)
     local Resource, ResourceIdentifier = Runtime.Resources.LoadResourceFromIdentifier(Identifier, Reference, "Mesh")
     if (not Resource) then return end
 
-    local DreamObject = Dream:newObject() ---@class DreamObject
-    DreamObject.mesh = Resource
-    DreamObject:updateBoundingSphere()
+    Resource:updateBoundingSphere()
 
-    AssignClassReference(DreamObject, Reference)
+    AssignClassReference(Resource, Reference)
 
-    return DreamObject, ResourceIdentifier
+    return Resource, ResourceIdentifier
 end
 
 function Backend3D.LoadAdorn(Identifier, Parent, Reference)
-    local DreamObject = Backend3D.LoadObject(Identifier, Reference)
+    local Adorn = Backend3D.CreateAdorn(Reference)
+
+    local DreamMesh = Backend3D.LoadMesh(Identifier, Reference)
     local UUID = CreateUUID()
 
-    DreamObject.UUID = UUID
+    DreamMesh.isAdorn = true
+    DreamMesh.UUID = UUID
 
-    Parent.objects[UUID] = DreamObject
-    return DreamObject
+    Adorn.mesh = DreamMesh
+
+    Parent.objects[UUID] = Adorn
+    return Adorn
+end
+
+function Backend3D.PresentAdornChild(Objects, Transform)
+    for _, Object in pairs(Objects) do
+        local Transform = Object.transform and (Object.transform * Transform) or Transform
+
+        if Object.mesh then
+            Dream:addMesh(Object.mesh, Transform, Object.material)
+        end
+
+        if Object.objects then
+            Backend3D.PresentAdornChild(Object.objects, Object.transform or Transform)
+        end
+    end
+end
+
+function Backend3D.PresentAdorns()
+    Backend3D.PresentAdornChild(DreamAdorns, Dream.mat4.getIdentity())
 end
 
 function Backend3D.RemoveAdorn(Object)
-    DreamAdorns.objects[Object] = nil
+    DreamAdorns[Object] = nil
 end
 
 return Backend3D

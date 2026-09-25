@@ -23,13 +23,7 @@ function lib:buildScene(shadowPass, dynamic, alpha, cam, blacklist, frustumCheck
 	local scene = self:newScene(shadowPass, dynamic, alpha, cam, blacklist, frustumCheck, canvases, light, isSun)
 	
 	for _, pair in ipairs(self.renderTasks) do
-		if pair[1].isMesh then
-			scene:addMesh(pair[1], pair[2], lib.defaultReflection)
-		elseif pair[2] then
-			scene:addObject(pair[1], pair[2], true)
-		else
-			scene:add(pair[1])
-		end
+		scene:addMesh(pair[1], pair[2] or pair[1].transform, lib.defaultReflection, pair[3])
 	end
 	
 	local tasks = scene:getIterator()

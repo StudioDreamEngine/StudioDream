@@ -66,64 +66,11 @@ local class = {
 	links = { "scene" },
 }
 
----Adds an object to the scene
----@param object DreamObject
-function class:add(object)
-	self:addObject(object, false, false)
-end
-
----Adds an object to the scene
----@param object DreamObject
----@param parentTransform DreamMat4
----@param dynamic boolean
-function class:addObject(object, parentTransform, dynamic)
-	if self.blacklist[object] then
-		return
-	end
-	
-	if object.dynamic ~= nil then
-		dynamic = object.dynamic
-	end
-	
-	--wrong dynamic layer
-	if self.dynamic ~= nil and self.dynamic ~= dynamic then
-		return
-	end
-	
-	--apply transformation
-	local transform
-	if parentTransform then
-		if object.transform then
-			transform = parentTransform * object.transform
-		else
-			transform = parentTransform
-		end
-	else
-		transform = object.transform
-	end
-	
-	--store final world transform for potential later use cases
-	object.globalTransform = transform
-	
-	local scale = transform and transform:getLossySize() or 1
-	
-	--children
-	for _, o in pairs(object.objects) do
-		self:addObject(o, transform, dynamic)
-	end
-	
-	--meshes
-	if object.mesh then
-		self:addMesh(object.mesh, transform, object.reflection or lib.defaultReflection, object.material, scale)
-	end
-end
-
 ---Add a mesh to the scene
 ---@param mesh DreamMesh
 ---@param transform DreamMat4
 ---@param reflection DreamReflection @ optional
----@param scale number @ optional
-function class:addMesh(mesh, transform, reflection, material, scale)
+function class:addMesh(mesh, transform, reflection, material)
 	if self.blacklist[mesh] then
 		return
 	end
@@ -147,17 +94,9 @@ function class:addMesh(mesh, transform, reflection, material, scale)
 	--todo cache
 	local pos = getPosition(mesh, transform)
 	
-	--too small to be worth rendering
-	--todo
-	--[[
-	if self.cam:getMinObjectSize() < size / dist then
-		return
-	end
-	--]]
-	
 	--not visible from current perspective
 	if self.frustumCheck and mesh.boundingSphere.size > 0 then
-		local size = mesh.boundingSphere.size * (scale or transform and transform:getLossySize() or 1)
+		local size = mesh.boundingSphere.size * (transform and transform:getLossySize() or 1)
 		mesh.rID = mesh.rID or math.random()
 		if not self.cam:inFrustum(pos, size, mesh.rID) then
 			return false

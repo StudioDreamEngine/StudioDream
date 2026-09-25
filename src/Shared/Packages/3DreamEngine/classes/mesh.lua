@@ -12,6 +12,7 @@ function lib:newMesh(material)
 	local mesh = { }
 	
 	mesh.name = "unnamed"
+	mesh.Type = "DreamMesh"
 
 	mesh.boundingSphere = self:newBoundingSphere()
 	
@@ -80,6 +81,10 @@ function class:getWorldShader()
 	return self.material.worldShader or self.worldShader or lib.defaultWorldShader
 end
 
+function class:getBoundingBox()
+	return self:getMeshSize()
+end
+
 ---@private
 function class:tostring()
 	local tags = { }
@@ -140,7 +145,7 @@ function class:getMeshSize()
 end
 
 ---Updates the bounding sphere based on mesh data
-function class:updateBoundingSphere()
+function class:updateBoundingSphere(scale)
 	if not self.vertices then
 		return
 	end
@@ -173,7 +178,7 @@ function class:updateBoundingSphere()
 		end
 	end
 	
-	self.boundingSphere = lib:newBoundingSphere(center, size)
+	self.boundingSphere = lib:newBoundingSphere(center, size * (scale or 1))
 end
 
 --Clean most primary buffers

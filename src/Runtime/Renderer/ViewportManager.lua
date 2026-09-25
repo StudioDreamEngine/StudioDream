@@ -77,10 +77,12 @@ function ViewportManager.RenderViewport3D(Viewport)
         Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
             Dream:prepare()
 
-            Dream:draw(Runtime.Backend3D.GetAdorns())
+            --Dream:draw(Runtime.Backend3D.GetAdorns())
             Dream:addLight(light)
-            Dream:draw(Viewport:GetWorld())
-            Dream:draw(Runtime.Backend3D.Debug)
+            Viewport:Present()
+            Runtime.Backend3D.PresentAdorns()
+            Runtime.Backend3D.Debug:AddTask() -- TODO: Add to adorns
+
             for i,v in pairs(Viewport.RenderContainer.Lights) do
                 Dream:addLight(v)
             end

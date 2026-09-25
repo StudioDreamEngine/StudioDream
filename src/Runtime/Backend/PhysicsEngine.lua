@@ -1,12 +1,8 @@
 local PhysicsEngine = {}
 
 -- Shape from mesh code, thanks to trusti for providing this
-function PhysicsEngine.ShapeFromMesh(obj, size)
+function PhysicsEngine.ShapeFromMesh(m, size)
     local tm = Bullet.btTriangleMesh()
-    local m = nil
-    for i,v in pairs(obj) do
-        m = v[1]
-    end
 
     local vs = m.vertices:getSize()
     local nvs = {}

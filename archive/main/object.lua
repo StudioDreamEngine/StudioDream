@@ -1,3 +1,4 @@
+---@diagnostic disable
 ---@type Dream
 local lib = _3DreamEngine
 

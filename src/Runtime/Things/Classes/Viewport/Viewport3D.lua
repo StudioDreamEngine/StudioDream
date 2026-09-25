@@ -16,7 +16,7 @@ function Viewport3D:new()
 
     self.Click = Runtime.SelectionPriority.BindSignal(function()
         local Camera = self:GetCamera()
-        local CastResult = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*300, self:GetWorld())
+        local CastResult = self.RenderContainer:Raycast(Camera.Position, Camera:GetMouseRay()*300)
 
         self.OnPick.Invoke(CastResult, self)
     end, 1, function(IsDown)
@@ -45,10 +45,10 @@ function Viewport3D:SetAbsoluteSize(New)
     end
 end
 
-function Viewport3D:GetWorld()
+function Viewport3D:Present()
     assert(self.RenderContainer, "RenderContainer not specified before rendering started!")
 
-    return self.RenderContainer.DreamWorld
+    return self.RenderContainer:Present()
 end
 
 function Viewport3D:OnRemove()

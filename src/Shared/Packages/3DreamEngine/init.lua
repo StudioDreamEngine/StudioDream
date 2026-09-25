@@ -227,7 +227,7 @@ function lib:prepareRuntime()
 	--lib.skyObject = lib:loadObject(lib.root .. "/objects/sky", { ignoreMissingMaterials = true })
 	printVerbose("Loaded Objects")
 
-	lib.cubeObject = Runtime.Backend3D.LoadObject("Internal/DefaultMeshes/sky.obj", "sky")
+	lib.cubeObject = Runtime.Backend3D.LoadMesh("Internal/DefaultMeshes/sky.obj", "sky")
 	lib.defaultMaterial = Dream:newMaterial()
 	
 	--default textures
@@ -274,30 +274,14 @@ end
 
 ---draw
 ---@param object DreamObject | DreamMesh
----@param x number
----@param y number
----@param z number
----@param sx number
----@param sy number
----@param sz number
 ---@overload fun(object: DreamObject)
-function lib:draw(object, x, y, z, sx, sy, sz)
-	--prepare transform matrix
-	local transform
-	if type(x) == "table" then
-		transform = x
-	elseif x then
-		--simple transform with arguments, ignores object transformation matrix
-		transform = self.mat4({
-			sx or 1, 0, 0, x,
-			0, sy or sx or 1, 0, y,
-			0, 0, sz or sx or 1, z,
-			0, 0, 0, 1
-		})
-	end
-	
+function lib:addMesh(object, transform, material)
+	assert(object, "Missing Object")
+	assert(transform, "Missing Transform")
+	assert(material, "Missing Material")
+
 	--add to scene
-	table.insert(self.renderTasks, { object, transform })
+	table.insert(self.renderTasks, { object, transform, material })
 end
 
 ---Add a light
