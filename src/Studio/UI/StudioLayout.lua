@@ -319,6 +319,17 @@ function StudioLayout.CreateLayout()
         Name = "Color Picker",
     })
 
+    StudioLayout.CreateWindow("Dialogs", {
+        Size = Pivot2D.FromScale(0.4,0.5),
+        Pivot = Vector2.new(0.5,0.5),
+        Position = Pivot2D.FromScale(0.5,0.5),
+        Layer = 500,
+        Modal = true,
+        --Closable = true,
+        Shadows = true,
+    })
+
+
     StudioLayout.CreateWindow("GradientMaker", {
         Size = Pivot2D.FromScale(0.5,0.3),
         Pivot = Vector2.new(0.5,0.5),

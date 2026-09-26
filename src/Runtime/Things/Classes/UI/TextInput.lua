@@ -27,7 +27,7 @@ function TextInput:new()
             if (not self.InputActive) then return end
 
             if (Key == Enum.InputCode.Enter) then
-                self:StopFocus()
+                self:StopFocus(IsEnter)
             elseif (Key == Enum.InputCode.Backspace) then
                 self.RenderClass:SetBackspace(true)
             elseif (Key == Enum.InputCode.LeftArrow) then
@@ -82,9 +82,9 @@ function TextInput:StartFocus()
     self.RenderClass:ToggleFocus(self.InputActive, self.DisplayUI.MousePosition - self.AbsolutePosition)
 end
 
-function TextInput:StopFocus()
+function TextInput:StopFocus(IsEnter)
     if not self.Active then return end
-    self.FocusEnd.Invoke()
+    self.FocusEnd.Invoke(IsEnter)
     self.InputActive = false
 
     self.RenderClass:ToggleFocus(self.InputActive)

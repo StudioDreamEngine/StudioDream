@@ -250,8 +250,8 @@ return function(Start)
                 Text = "Input a name for your new project",
                 Placeholder = "Name your new creation!",
             })
-            CreateClose(Start.Container)
             Start.Close()
+            CreateClose(Start.Container)
             
             Cool.FinalProject:Connect(function(ProjectName)
                 Studio.ProjectManager.NewProject(ProjectName)
@@ -260,8 +260,8 @@ return function(Start)
         end)
 
         LoadProject.Clicked:Connect(function()
-            CreateClose(Start.Container)
             Studio.ProjectManager.LoadProject(Start.Close)
+            CreateClose(Start.Container)
             --Studio.Layout.CallHandle("Explorer", "Redraw")
         end)
 

@@ -433,7 +433,7 @@ function Thing:OnRemove()
     self.OnDestroy.Invoke(self)
     for _,Signal in pairs(self.PlaceholderSignals) do
         if not Signal.AlreadyDisconnected then
-            Signal:Disconnect()
+            Signal:DisconnectAll()
         end
     end
     table.clear(self.PlaceholderSignals)
