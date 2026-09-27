@@ -71,7 +71,7 @@ end
 function DropdownPlus.new(Choices,FakeParent)
     local DropdownObject = {}
 
-    DropdownObject.Container = Things.Create("Viewport2D") {
+    DropdownObject.Container = Things.Create("ViewportLite") {
         AutomaticSize = Enum.AutomaticSize.Y,
         Size = Pivot2D.FromOffset(100,800),
         Layer = 999,

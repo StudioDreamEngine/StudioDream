@@ -35,6 +35,10 @@ function Viewport:DefineAPI()
     self.Proxy.Describe("Renders its contents independently")
 end
 
+function Viewport:IsViewport()
+    return true
+end
+
 function Viewport:GetCanvas()
     return {self.ViewportCanvas, self.MatCanvas, depthstencil=self.StencilCanvas}
 end
@@ -52,10 +56,8 @@ function Viewport:Draw()
 end
 
 -- Send a child to the display list
-function Viewport:SendChild(Child, Order)
-    Order = Order or #self.DisplayList+1
-
-    self.DisplayList[Order] = Child
+function Viewport:SendChild(Child)
+    table.insert(self.DisplayList, Child)
 end
 
 function Viewport:SetFilterType(New)

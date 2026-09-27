@@ -16,7 +16,7 @@ local vec3 = _3DreamEngine.vec3
 local threshold = 50
 
 --search result
-local nearestT, nearestU, nearestV, nearestFace, nearestMesh, nearestObject
+local nearestT, nearestU, nearestV, nearestFace, nearestMesh, nearestAdorn
 
 --build the transformation matrices for each triangle
 local function buildMatrices(mesh)
@@ -179,7 +179,7 @@ local function nearestPointToLine(a, b, p)
 	return a + t * ab
 end
 
-local function raytraceMesh(mesh, localOrigin, localDirection)
+local function raytraceMesh(mesh, localOrigin, localDirection, adorn)
 	--bounding sphere check
 	local center = mesh.boundingSphere.center
 	local nearest = nearestPointToLine(localOrigin, localOrigin + localDirection, center)
@@ -198,6 +198,7 @@ local function raytraceMesh(mesh, localOrigin, localDirection)
 	raytraceTree(localOrigin, localDirection, mesh.raytraceTree)
 	if oldT ~= nearestT or oldF ~= nearestFace then
 		nearestMesh = mesh
+		nearestAdorn = adorn
 	end
 end
 
@@ -246,14 +247,12 @@ local function raytraceAdorn(object, origin, direction, ignoreInfo)
 		})
 	end
 
-	if object.objects then
-		for _, o in pairs(object.objects) do
-			raytraceAdorn(o, localOrigin, localDirection, ignoreInfo)
-		end
+	for _, o in pairs(object.objects) do
+		raytraceAdorn(o, localOrigin, localDirection, ignoreInfo)
 	end
 
-	if shouldTrace and object.boundingSphere then
-		raytraceMesh(object, localOrigin, localDirection)
+	if shouldTrace and object.mesh then
+		raytraceMesh(object.mesh, localOrigin, localDirection, object)
 	end
 end
 
@@ -286,7 +285,7 @@ function raytraceResult:getMesh()
 end
 
 function raytraceResult:getObject()
-	return self.object
+	return self.adorn
 end
 
 function raytraceResult:getPosition()
@@ -348,7 +347,7 @@ function raytracer:cast(object, origin, direction, ignoreInfo)
 		v = nearestV,
 		face = nearestFace,
 		mesh = nearestMesh,
-		object = nearestObject,
+		adorn = nearestAdorn,
 		--transforms = transforms,
 		position = origin + nearestT * direction
 	}, meta) or false

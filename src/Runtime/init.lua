@@ -23,8 +23,6 @@ function Runtime.Init()
     -- init WindowManager here, as doing it in PostInit can fuck up the splash screen and resizing routines (for some reason)
     --Runtime.WindowManager = require("Runtime.Backend.WindowManager")
     --Runtime.WindowManager.Init()
-
-    printVerbose("Runtime Initalized")
 end
 
 function Runtime.ChangeTitle()
@@ -72,7 +70,6 @@ end
 
 function Runtime.Render()
     Runtime.Renderer.Render()
-    Dream:presentDebug()
 end
 
 function Runtime.Update(dt)

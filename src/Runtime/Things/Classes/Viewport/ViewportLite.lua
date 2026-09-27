@@ -1,8 +1,8 @@
 local Things = Runtime.Things
 local Renderer = Runtime.Renderer
 
----@class ViewportLite: Viewport
-local ViewportLite = Things.Extend("Viewport")
+---@class ViewportLite: Viewport2D
+local ViewportLite = Things.Extend("Viewport2D")
 
 function ViewportLite:new()
     ViewportLite.super.new(self)
@@ -23,15 +23,13 @@ function ViewportLite:DefineAPI()
     self.Proxy.Describe("Simillar to Viewport2D, but lacks negative layering")
 end
 
-local function SortFunc(a,b) return a.Layer < b.Layer end
-
 function ViewportLite:SubmitChild(Child)
     self.CurrentOrder = self.CurrentOrder + 1
     Child.AbsoluteLayer = self.CurrentOrder + self.AbsoluteLayer
     -- Check if the viewport has given a request to update the transforms
-    self:SendChild(Child, self.CurrentOrder)
+    self:SendChild(Child)
 
-    if (not Child:IsA("Viewport")) then
+    if (not Child:IsViewport()) then
         self:SubmitContainerChildren(Child)
     end
 end
@@ -45,7 +43,6 @@ function ViewportLite:SubmitContainerChildren(Container)
         - Bloctans
     ]]
     local InterfaceChildren = Container:GetInterfaceChildren()
-    table.sort(InterfaceChildren, SortFunc)
 
     for _, Child in pairs(InterfaceChildren) do
         if Child:IsAlwaysOnTop() then
@@ -81,10 +78,6 @@ end
 
 function ViewportLite:Update(dt)
     ViewportLite.super.Update(self, dt)
-
-    Profiler.Start("ViewportLite - Create Display List")
-    self:CreateDisplayList()
-    Profiler.End()
 end
 
 return ViewportLite

@@ -22,12 +22,12 @@ function Light:new()
     local LightImage = Runtime.Resources.LoadResourceFromIdentifier("Internal/Light.png")
     self.Mesh, self.Drawable, self.BufferID = Renderer.Billboard.CreateBillboard(LightImage)
 
-    RuntimeService.OnRunning:ConnectOnce(function() Runtime.Backend3D.UnregisterObject(self.UUID) end)
+    RuntimeService.OnRunning:ConnectOnce(function() Runtime.Backend3D.UnregisterAdorn(self.UUID) end)
 end
 
 function Light:OnReady()
     -- Register billboard as an adorn object for now, fucks w/ other viewports but yea
-    Runtime.Backend3D.RegisterObject(self.Drawable, self.UUID)
+    Runtime.Backend3D.RegisterAdorn(self.Drawable, self.UUID)
 end
 
 function Light:SetShadowResolution(Number)
@@ -54,7 +54,7 @@ end
 
 function Light:OnRemove()
     Light.super.OnRemove(self)
-    Runtime.Backend3D.UnregisterObject(self.UUID)
+    Runtime.Backend3D.UnregisterAdorn(self.UUID)
 end
 
 function Light:DefineAPI()

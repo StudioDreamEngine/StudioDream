@@ -9,9 +9,6 @@ local class = {
 }
 
 function lib:newTransformable()
-	print("New transformable")
-	print(self.meta)
-
 	local transformable = setmetatable({
 		transform = false
 	}, self.meta.transformable)

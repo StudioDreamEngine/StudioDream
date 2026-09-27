@@ -35,8 +35,8 @@ function CreateRoot.CreateRoot()
         Name = "RenderRoot"
     }
 
-    ---@module 'Viewport2D'
-    local Viewport = Things.Create("Viewport2D") {
+    ---@module 'ViewportLite'
+    local Viewport = Things.Create("ViewportLite") {
         Name = "ViewportInternal",
         Parent = RenderRoot
     }

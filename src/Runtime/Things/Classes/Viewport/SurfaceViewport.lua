@@ -19,9 +19,9 @@ function SurfaceViewport:SetParent(NewParent)
     local CouldParent, Reason = SurfaceViewport.super.SetParent(self, NewParent)
 
     if self.Parent and self.Parent:IsA("Drawable3D") then
-        Runtime.Backend3D.RegisterObject(self.Drawable, self.UUID)
+        Runtime.Backend3D.RegisterAdorn(self.Drawable, self.UUID)
     else
-        Runtime.Backend3D.UnregisterObject(self.UUID)
+        Runtime.Backend3D.UnregisterAdorn(self.UUID)
     end
 
     return CouldParent, Reason
@@ -29,7 +29,7 @@ end
 
 function SurfaceViewport:OnRemove()
     SurfaceViewport.super.OnRemove(self)
-    Runtime.Backend3D.UnregisterObject(self.UUID)
+    Runtime.Backend3D.UnregisterAdorn(self.UUID)
 end
 
 function SurfaceViewport:ViewportDefineAPI()

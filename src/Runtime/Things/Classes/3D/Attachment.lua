@@ -13,17 +13,17 @@ function Attachment:new()
     local AttachImage = Runtime.Resources.LoadResourceFromIdentifier("Internal/Attachment.png")
     self.Mesh, self.Drawable = Renderer.Billboard.CreateBillboard(AttachImage)
 
-    RuntimeService.OnRunning:ConnectOnce(function() Runtime.Backend3D.UnregisterObject(self.UUID) end)
+    RuntimeService.OnRunning:ConnectOnce(function() Runtime.Backend3D.UnregisterAdorn(self.UUID) end)
 end
 
 function Attachment:OnReady()
     -- Register billboard as an adorn object for now, fucks w/ other viewports but yea
-    Runtime.Backend3D.RegisterObject(self.Drawable, self.UUID)
+    Runtime.Backend3D.RegisterAdorn(self.Drawable, self.UUID)
 end
 
 function Attachment:OnRemove()
     Attachment.super.OnRemove(self)
-    Runtime.Backend3D.UnregisterObject(self.UUID)
+    Runtime.Backend3D.UnregisterAdorn(self.UUID)
 end
 
 function Attachment:SetTransform(Transform)

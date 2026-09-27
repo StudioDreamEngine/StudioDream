@@ -25,11 +25,10 @@ function Things.Init()
     printVerbose("Creating root tree")
     Things.Root, Things.RenderRoot = CreateRoot.CreateRoot()
     Things.FireTreeChange = false
-
-    printVerbose("Tree Created")
 end
 
 function Things.CreateApiDump()
+    printVerbose("Creating API Dump...")
     for Class, _ in pairs(Classes) do
         local Success, Message = pcall(function()
             local ClassObject = Things.Type(Class) ---@class Thing
@@ -216,15 +215,11 @@ function Things.UpdatePass(Name, dt, Function)
             but this works too - Bloctans
         ]]
         if Thing.Parent then
-            --Profiler.Start("Update Class ("..Name..") - "..Thing.ClassName)
-
             if Function then
                 Function(Thing)
             else
                 Thing[Name](Thing, dt)
             end
-
-            --Profiler.End()
         end
     end
 

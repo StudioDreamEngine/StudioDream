@@ -1,8 +1,8 @@
 local Things = Runtime.Things
 
 -- My idea for this is someth like the list layouts, using the constraint system
----@class ScrollContainer: Viewport2D
-local ScrollContainer = Things.Extend("Viewport2D") -- Also make this get extended form Square!! we need the background stuff sorry
+---@class ScrollContainer: ViewportLite
+local ScrollContainer = Things.Extend("ViewportLite") -- Also make this get extended form Square!! we need the background stuff sorry
 
 function ScrollContainer:new()
     ScrollContainer.super.new(self)

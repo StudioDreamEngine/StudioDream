@@ -61,6 +61,10 @@ function BaseGui:GetAbsolutePosition()
     return Position
 end
 
+function BaseGui:IsViewport()
+    return false
+end
+
 function BaseGui:IsAlwaysOnTop()
     return self.MouseLocked
 end
@@ -181,7 +185,7 @@ function BaseGui:GetParentRect(SameDisplay)
 
         -- Instead of going up the heierarchy and checking for the display, 
         -- we just check if the parent element is a Viewport. Because if it is, then its 100% displaying to something else
-        if SameDisplay and ParentElement:IsA("Viewport") then
+        if SameDisplay and ParentElement:IsViewport() then
             return
         end
 
@@ -311,6 +315,14 @@ function BaseGui:IsVisible()
     --Profiler.End()
 
     return self.Visible and Visible
+end
+
+function BaseGui:SetLayer(Layer)
+    self.Layer = Layer
+
+    if self.Parent then
+        self.Parent:UpdateInterfaceChildren()
+    end
 end
 
 function BaseGui:HasStencil()
@@ -452,6 +464,8 @@ function BaseGui:ProcessInvalidation(Origin)
     --if (not self:InTree()) then return end -- Hacky fix
     if (not self.Parent) then return end
 
+    self.DisplayUI = self:GetDisplayUI()
+
     --print("Invalidating from "..Origin.Name)
     self:ProcessInvalidations()
     
@@ -525,8 +539,6 @@ function BaseGui:SetAbsoluteSize(NewSize)
 end
 
 function BaseGui:Invalidate(dt)
-    self.DisplayUI = self:GetDisplayUI()
-
     if self.WasInvalidated or self.MouseLocked then
         self:ProcessInvalidation(self)
         self:InvalidateAutomaticSize()

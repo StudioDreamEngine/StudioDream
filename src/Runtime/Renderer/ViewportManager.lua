@@ -51,7 +51,7 @@ end
 
 -- Render the contents of a 2d viewport
 function ViewportManager.RenderViewport2D(Viewport)
-    --Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
+    Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
     Runtime.Backend2D.CanvasCall(Viewport:GetCanvas(), function()
         if Viewport:IsA("SurfaceViewport") then
             Runtime.Backend2D.DebugLabel(Viewport.MousePosition, "Position hit")
@@ -61,13 +61,13 @@ function ViewportManager.RenderViewport2D(Viewport)
             love.graphics.push()
             love.graphics.translate(Element.AbsolutePosition.X,Element.AbsolutePosition.Y)
             Rendered = Rendered + 1
-            --Profiler.Start("Draw "..Element.ClassName)
+            Profiler.Start("Draw "..Element.ClassName)
             Element:DrawStyle()
-            --Profiler.End()
+            Profiler.End()
             love.graphics.pop()
         end
     end)
-    --Profiler.End()
+    Profiler.End()
 end
 
 -- Render the contents of a 3d viewport
@@ -98,7 +98,7 @@ end
 function ViewportManager.RenderCanvas(Viewport)
     love.graphics.pushAll()
 
-    if Viewport:IsA("Viewport2D") then
+    if Viewport:IsA("Viewport2D") or Viewport:IsA("ViewportLite") then
         ViewportManager.RenderViewport2D(Viewport)
     else
         ViewportManager.RenderViewport3D(Viewport)

@@ -380,8 +380,12 @@ function Thing:SetParent(NewParent)
     else
         self.OrphanedPath = self:GetPath()
     end
-    
+
     self.Parent = NewParent
+
+    if self.Parent then
+        self.Parent:UpdateInterfaceChildren()
+    end
 
     -- ?????
     local Serializable = self:IsSerializable()
@@ -425,6 +429,12 @@ end
 
 function Thing:GetInterfaceChildren()
     return self.InterfaceChildren
+end
+
+local function SortFunc(a,b) return a.Layer < b.Layer end
+
+function Thing:UpdateInterfaceChildren()
+    table.sort(self.InterfaceChildren, SortFunc)
 end
 
 function Thing:OnRemove()

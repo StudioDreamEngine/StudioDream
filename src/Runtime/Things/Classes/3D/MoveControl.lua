@@ -26,6 +26,8 @@ function MoveControl:OnStart()
 end
 
 function MoveControl:OnChange()
+    if (not self.Down) then return end
+
     local MoveAxis = self.Down.Thing:Abs()
     local Value = (self:GetPlane() - self.InitalOffset) * MoveAxis
 

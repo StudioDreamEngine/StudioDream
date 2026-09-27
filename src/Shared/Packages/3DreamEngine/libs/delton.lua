@@ -57,7 +57,7 @@ function delton:present()
 	
 	--center result to a 200x100 canvas
 	local w, h = love.graphics.getDimensions()
-	scale = math.min(w / 200, h / 100)
+	scale = math.min(w / 200, h / 100)/2
 	love.graphics.translate((w - 200*scale)/2, (h - 100*scale)/2)
 	love.graphics.scale(scale)
 	love.graphics.translate(50, 50)

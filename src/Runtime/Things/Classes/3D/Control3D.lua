@@ -24,6 +24,7 @@ function Control3D:new()
     self.RotationSnap = 10 -- TODO
     
     self.AdornObject = Runtime.Backend3D.CreateAdorn("ControlAdorn")
+
     self.Adorns = {}
 
     self.Materials = {}
@@ -87,8 +88,14 @@ function Control3D:ConnectEvents()
     end)
 end
 
+function Control3D:OnReady()
+    Control3D.super.OnReady(self)
+
+    Runtime.Backend3D.RegisterAdorn(self.AdornObject, self.UUID)
+end
+
 function Control3D:OnRemove()
-    Runtime.Backend3D.RemoveAdorn(self.AdornObject.UUID)
+    Runtime.Backend3D.UnregisterAdorn(self.UUID)
     self:DisconnectEvents()
 
     table.clear(self.Adorns)

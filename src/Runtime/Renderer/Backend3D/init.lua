@@ -31,12 +31,8 @@ end
 
 -- Object stuff --
 
-function Backend3D.RegisterObject(Object, UUID)
+function Backend3D.RegisterAdorn(Object, UUID)
     DreamAdorns[UUID] = Object
-end
-
-function Backend3D.UnregisterObject(UUID)
-    DreamAdorns[UUID] = nil
 end
 
 -- Adorns will use a watered down version of a 3de object, but not literally one
@@ -49,7 +45,6 @@ function Backend3D.CreateAdorn(Name)
 
     Object.UUID = CreateUUID()
 
-    DreamAdorns[Object.UUID] = Object
     return Object
 end
 
@@ -59,7 +54,7 @@ function Backend3D.LoadMesh(Identifier, Reference)
 
     Resource:updateBoundingSphere()
 
-    AssignClassReference(Resource, Reference)
+    AssignClassReference(Resource, Reference) -- TODO/FIXME: DONT DO THIS!!!! IT FUCKS WITH RAYCAST
 
     return Resource, ResourceIdentifier
 end
@@ -67,15 +62,14 @@ end
 function Backend3D.LoadAdorn(Identifier, Parent, Reference)
     local Adorn = Backend3D.CreateAdorn(Reference)
 
-    local DreamMesh = Backend3D.LoadMesh(Identifier, Reference)
-    local UUID = CreateUUID()
-
+    local DreamMesh = Backend3D.LoadMesh(Identifier, Adorn)
     DreamMesh.isAdorn = true
-    DreamMesh.UUID = UUID
 
     Adorn.mesh = DreamMesh
 
-    Parent.objects[UUID] = Adorn
+    AssignClassReference(Adorn, Reference)
+
+    Parent.objects[Adorn.UUID] = Adorn
     return Adorn
 end
 
@@ -97,7 +91,7 @@ function Backend3D.PresentAdorns()
     Backend3D.PresentAdornChild(DreamAdorns, Dream.mat4.getIdentity())
 end
 
-function Backend3D.RemoveAdorn(Object)
+function Backend3D.UnregisterAdorn(Object)
     DreamAdorns[Object] = nil
 end
 

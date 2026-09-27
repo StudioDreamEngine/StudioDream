@@ -63,7 +63,6 @@ end
 
 function Splash.Create()
     if FLAGS.Independent then return end
-    printVerbose("Create splash")
 
     SplashContainer = Things.Create("Square") {
         Parent = Things.RenderRoot,
@@ -120,7 +119,7 @@ function Splash.Create()
 end
 
 function Splash.Load()
-    printVerbose("Start load")
+    printVerbose("Starting Initalization flow")
     local SplashError = function(FullMsg) error(FullMsg.."\n\nSplash Stack (IGNORE)") end
     Scheduler.OnRecoverableError = SplashError
 
@@ -136,12 +135,12 @@ function Splash.Load()
     Splash.ChangeStatus("Loading Project")
     Runtime.PostTarget(FLAGS.TargetProject)
 
-    printVerbose("Sucessfully Finished Initalization")
     if (Scheduler.OnRecoverableError == SplashError) then
         Scheduler.OnRecoverableError = nil
     end
 
     Scheduler.Yield() -- Yield, otherwise intro animation lags for a frame
+    printVerbose("Finished Initalization, Playing Splash out")
 
     if (not FLAGS.SecondRun) then
         Splash.Out()

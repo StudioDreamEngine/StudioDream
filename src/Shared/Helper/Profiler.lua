@@ -23,12 +23,17 @@ function Profiler.Benchmark(Name, AlertStart)
 end
 
 function Profiler.Start(Name)
+    Dream.delton:start(Name)
+
     if Profiler.Frame then
         Jprof.push(Name)
     end
 end
 
 function Profiler.EndStart(Name)
+    Dream.delton:stop(Name)
+    Dream.delton:start(Name)
+
     if Profiler.Frame then
         Jprof.pop()
         Jprof.push(Name)
@@ -36,9 +41,15 @@ function Profiler.EndStart(Name)
 end
 
 function Profiler.End(Name)
+    Dream.delton:stop(Name)
+
     if Profiler.Frame then
         Jprof.pop(Name)
     end
+end
+
+function Profiler.Step()
+    Dream.delton:step()
 end
 
 function Profiler.Render()

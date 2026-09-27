@@ -67,28 +67,25 @@ function Shared.Init(Args)
     Runtime = require("Runtime")
     Runtime.Init()
 
-    printVerbose("Runtime ready, creating splash")
-
     -- TODO: Move to runtime
     local Thing = love.image.newImageData("/Assets/Icons/"..FLAGS.Target..".png")
     love.window.setIcon(Thing)
 
     Shared.OnQuit = Signal:New("IQUITIT!")
 
+    printVerbose("Runtime ready, Starting Splash")
+
     Shared.Splash = require("Shared.Splash")
     Shared.Splash.Create()
 
     Scheduler.NewTask(Shared.Splash.Load)
 
+    printVerbose("Shared Initialization completed")
     SharedInit.End()
 end
 
 function Shared.Render()
     Runtime.Render()
-
-    if love.keyboard.isDown(".") then
-        Shared.RenderStats()
-    end
 end
 
 local Tooltips = {}

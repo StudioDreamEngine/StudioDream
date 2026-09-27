@@ -582,7 +582,3 @@ function lib:present(camera, canvases, lite)
 		end
 	end
 end
-
-function lib:presentDebug()
-	self.delton:step()
-end

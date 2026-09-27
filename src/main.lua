@@ -1,4 +1,4 @@
-print("Please Wait...")
+print("Please Wait (Started love project @ "..os.clock().."s)")
 require("Shared")
 
 DebugFont = love.graphics.newFont(12)
@@ -78,59 +78,65 @@ end
 local ERROR_SEPERATE = "---------------------------------------------------------------------------------------"
 
 function love.errorhandler(msg)
-    local traceback = debug.traceback(msg)
+    local success, errormsg = pcall(function()
+        local traceback = debug.traceback(msg)
 
-    InternalPrint(false, false, "31", traceback)
+        InternalPrint(false, false, "31", traceback)
 
-    local crash_extra = "Operating System: "..love.system.getOS()
+        local crash_extra = "Operating System: "..love.system.getOS()
 
-    local success, msg = pcall(Runtime.OnCrash)
-    
+        local success, msg = pcall(Runtime.OnCrash)
+        
+        if (not success) then
+            crash_extra = crash_extra.."\nCouldnt save project: "..msg.."\n(ABOVE ONLY APPEARS WHEN THE CRASH CALLBACK FAILS, IT IS NOT THE ERROR!)"
+        else
+            crash_extra = crash_extra.."\nProject was successfully saved"
+        end
+
+        local full_trace = crash_extra.."\n"..ERROR_SEPERATE.."\n"..traceback
+
+        -- I'd make this a little better, but eh its fine enough for now
+        love.graphics.setCanvas()
+        love.graphics.reset()
+
+        love.system.setClipboardText(full_trace)
+
+        love.graphics.origin()
+        love.graphics.setColor(0,0,0,0.7)
+        love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
+
+        love.graphics.setColor(1,0.2,0.2)
+
+        love.graphics.setFont(DebugFont)
+
+        DebugLog("")
+        DebugLog("Something happened! (Non-Recoverable Error)")
+        DebugLog("The error has been copied to your clipboard, Press ESC to exit.")
+        DebugLog("")
+        for i,v in pairs(string.split(full_trace, "\n")) do
+            DebugLog(v)
+        end
+
+        return function()
+            love.event.pump()
+
+            for e, a, b, c in love.event.poll() do
+                if e == "quit" then
+                    return 1
+                elseif e == "keypressed" and a == "escape" then
+                    return 1
+                end
+            end
+
+            if love.timer then
+                love.timer.sleep(0.1)
+            end
+        end
+    end)
+
     if (not success) then
-        crash_extra = crash_extra.."\nCouldnt save project: "..msg.."\n(ABOVE ONLY APPEARS WHEN THE CRASH CALLBACK FAILS, IT IS NOT THE ERROR!)"
-    else
-        crash_extra = crash_extra.."\nProject was successfully saved"
+        print("Error in error handling: "..errormsg.."\nOriginal error: "..msg)
     end
-
-    local full_trace = crash_extra.."\n"..ERROR_SEPERATE.."\n"..traceback
-
-    -- I'd make this a little better, but eh its fine enough for now
-    love.graphics.setCanvas()
-    love.graphics.reset()
-
-    love.system.setClipboardText(full_trace)
-
-    love.graphics.origin()
-    love.graphics.setColor(0,0,0,0.7)
-    love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
-
-    love.graphics.setColor(1,0.2,0.2)
-
-    love.graphics.setFont(DebugFont)
-
-    DebugLog("")
-    DebugLog("Something happened! (Non-Recoverable Error)")
-    DebugLog("The error has been copied to your clipboard, Press ESC to exit.")
-    DebugLog("")
-    for i,v in pairs(string.split(full_trace, "\n")) do
-        DebugLog(v)
-    end
-
-    return function()
-		love.event.pump()
-
-		for e, a, b, c in love.event.poll() do
-			if e == "quit" then
-				return 1
-            elseif e == "keypressed" and a == "escape" then
-				return 1
-			end
-		end
-
-		if love.timer then
-			love.timer.sleep(0.1)
-		end
-	end
 end
 
 function love.draw()
@@ -138,6 +144,13 @@ function love.draw()
 
     Profiler.End("frame")
     Profiler.Frame = false
+
+    Profiler.Step()
+
+    if love.keyboard.isDown(".") then
+        Shared.RenderStats()
+        Profiler.Render()
+    end
 
     local MYFPSINATOR = love.timer.getTime()
     if MYFPSCAPPER9001 <= MYFPSINATOR then

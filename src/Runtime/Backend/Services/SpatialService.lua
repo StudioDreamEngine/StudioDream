@@ -48,11 +48,10 @@ function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformatio
 	local CastResult = Raycast:cast(WorldObject, Origin:ToDream(), Direction:ToDream(), FilterInformation or DefaultFilter)
 
 	if CastResult then
-		local Object = CastResult:getMesh()
+		local Object = CastResult:getObject() or CastResult:getMesh()
 		assert(Object.ClassReference, "Raycast returned object with no ClassReference!")
 
 		local ThingClass = Runtime.Things.Get(Object.ClassReference) or Object.ClassReference
-		--print(ThingClass)
 		
 		-- Convert barycentric UV to uv coordinate on surface
 		-- https://stackoverflow.com/questions/75758776/how-to-get-texture-coordinate-from-ray-cast-hit
