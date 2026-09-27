@@ -366,6 +366,12 @@ function Components.CreateButtonStyle(Info)
         ObjStyler.Clicked.Invoke()
     end)
 
+    ObjStyler.Button:AddPlaceholderSignal(ObjStyler.Clicked)
+
+    function ObjStyler:Destroy()
+        ObjStyler.Button:Destroy()
+    end
+
     return ObjStyler
 end
 
