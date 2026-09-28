@@ -131,7 +131,7 @@ function Drawable3D:CreateBody()
 end
 
 function Drawable3D:AddTask()
-    Dream:addMesh(self.Drawable, self.Matrix, self.Material)
+    Dream:addMesh(self.Drawable, self.GlobalTransform, self.Material)
 end
 
 function Drawable3D:CheckAABB(Min, Max)
@@ -158,9 +158,7 @@ function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
     if (not self.Drawable) then return end
 
-    self.Matrix = self.Transform.GetMatrix():scale(self.Scale:ToDream())
-    self.Mass = 1
-    
+    self.Mass = 1    
     self.Drawable.reflection = self.Material and (self.Material.Reflective and self._Reflection or false) or false
 end
 

@@ -111,7 +111,10 @@ return function(Inspector)
     end
 
     function Inspector.Clean()
+        print("Clear")
         ScrollContainer:ClearAllChildren({"ListLayout"})
+
+        print(ScrollContainer:GetChildren())
 
         SearchBar:SetText("")
         SearchText = ""

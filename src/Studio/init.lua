@@ -19,7 +19,6 @@ function Studio.Init()
     Studio.Components = require("Studio.UI.Components")
 
     Studio.Build = require("Studio.Build")
-
     Studio.ProjectManager = require("Studio.ProjectManager")
     
     Studio.EditorServices = Studio.Backend -- Mikl api backwards compat, remove later!

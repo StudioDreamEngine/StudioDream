@@ -103,7 +103,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
-    ["Code-Mode"] = {
+    ["Code Mode"] = {
         Outline = Color.FromHex("#000000"),
         SecondaryOutline = Color.FromHex("#0e0e0e"),
 
@@ -120,7 +120,7 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/SpaceGrotesk/SpaceGrotesk-Bold.ttf"
     },
 
-     ["OldSchool-Mode"] = {
+    ["OldSchool Mode"] = {
         Outline = Color.FromHex("#000000"),
         SecondaryOutline = Color.FromHex("#0e0e0e"),
 
@@ -138,6 +138,23 @@ local ThemesIn = {
         FontNormal = "Internal/Fonts/Code/Code.ttf",
         FontBold = "Internal/Fonts/Code/Code.ttf",
         FontTalic = "Internal/Fonts/Code/Code.ttf"
+    },
+
+    ["Inter For A Certain Someone"] = {
+        Outline = Color.FromHex("#001055"),
+        SecondaryOutline = Color.FromHex("#0e0e0e"),
+
+        Secondary = Color.FromHex("#201E39"), -- This color is meant to either be for less important stuff or to constrast the primary
+        Primary = Color.FromHex("#0A2EB1"), -- This color is for the main parts, containers and such
+    
+        Selecting = Color.FromHex("#000000"),
+
+        Text = Color.FromHex("#FFFFFF"),
+        Error =  Color.FromHex("#FF0000"),
+
+        FontNormal = "Internal/Fonts/Inter/Inter.ttf",
+        FontBold = "Internal/Fonts/Inter/Inter-Bold.ttf",
+        FontTalic = "Internal/Fonts/Inter/Inter.ttf"
     },
     --[[local DarkSky = {
     NodeColor = Color.new(0.314, 0.294, 0.502),

@@ -65,10 +65,6 @@ function Viewport:SetFilterType(New)
     self:CreateNew()
 end
 
-function Viewport:OnRemove()
-    Viewport.super.OnRemove(self)
-end
-
 function Viewport:CreateNew()
     if self.ViewportCanvas then
         self.ViewportCanvas:release()

@@ -441,11 +441,13 @@ function Thing:OnRemove()
     self.Unreferenced = true
 
     self.OnDestroy.Invoke(self)
+    
     for _,Signal in pairs(self.PlaceholderSignals) do
         if not Signal.AlreadyDisconnected then
-            Signal:DisconnectAll()
+            Signal:Disconnect()
         end
     end
+
     table.clear(self.PlaceholderSignals)
 
     self:SetParent()

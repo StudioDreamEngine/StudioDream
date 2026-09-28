@@ -356,6 +356,7 @@ function StudioLayout.CreateLayout()
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("GradientMaker"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("ColorPicked"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Dialogs"), false)
 
     if (not FLAGS.SecondRun) then
         StudioLayout.CreateWindow("Start", {

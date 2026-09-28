@@ -57,6 +57,8 @@ function Splash.Out()
         BackgroundTransparency = 1
     }, Enum.EasingStyle.Linear, 1)
 
+    Scheduler.Yield(.5)
+
     SplashContainer:Destroy()
     Splash.Cleanup()
 end

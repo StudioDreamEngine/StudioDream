@@ -21,17 +21,6 @@ local function ToggleAnim()
     local IsTrue = false
     if CurrentDropdown then
         CurrentDropdown = CurrentDropdown.Window
-        --[[for i,v in pairs(CurrentDropdown:GetDescendants()) do
-            if v.ClassName ~= "ListLayout" then 
-                
-            end
-        end
-        for i,v in pairs(CurrentDropdown:GetDescendants()) do
-            if v.ClassName ~= "ListLayout" then 
-                
-            end
-        end
-        Scheduler.Yield(.1)]]
         CurrentDropdown:SetVisible(IsTrue)    
             
     end

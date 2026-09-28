@@ -81,22 +81,34 @@ function Environment:Clear()
     table.clear(self.Lights)
 end
 
+function Environment:ManageWorldChildren(Children, Transform)
+    for _, Child in pairs(Children) do
+        if Child:IsA("Drawable3D") then
+            self.Objects[Child.UUID] = Child
+
+            if Child:IsTopLevel() then
+                Child.GlobalTransform = Child.Matrix
+            else
+                Child.GlobalTransform = Child.Matrix * Transform
+            end
+
+            if Child.PhysicsBody then
+                self:HandlePhysicsHierachy(Child)
+            end
+
+            self:ManageWorldChildren(Child:GetChildren(), Child.GlobalTransform)
+        elseif Child:IsA("Light") then
+            table.insert(self.Lights, Child.Light)
+        end
+    end
+end
+
 -- Manages how the world is displayed to external packages such as 3DreamEngine and Bullet
 function Environment:ManageWorldHierachy()
     table.clear(self.Objects) -- This table is an optimization, as we need to be able to accerss
     table.clear(self.Lights)
 
-    for _, Child in pairs(self:GetDescendants()) do
-        if Child:IsA("Drawable3D") then
-            self.Objects[Child.UUID] = Child
-
-            if Child.PhysicsBody then
-                self:HandlePhysicsHierachy(Child)
-            end
-        elseif Child:IsA("Light") then
-            table.insert(self.Lights, Child.Light)
-        end
-    end
+    self:ManageWorldChildren(self:GetChildren(), Dream.mat4.getIdentity())
 
     return self.Objects
 end
