@@ -46,7 +46,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     --print(HaveName)
     if (not HaveName) then return Windows end
     --print("BLEH")
-    local ContainerNamer = Studio.Components.CreateStyle("Square", {
+    Windows.TopContainer = Studio.Components.CreateStyle("Square", {
         Size = Pivot2D.FromScale(0.99,0.1),
         Position = Pivot2D.FromScale(0.5,0.01),
         Pivot = Vector2.new(0.5,0),
@@ -64,7 +64,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Size = Pivot2D.FromScale(0.99,0.5),
         Position = Pivot2D.FromScale(0.5,0),
         Pivot = Vector2.new(0.5,0),
-        Parent = ContainerNamer,
+        Parent = Windows.TopContainer,
         BackgroundTransparency = 1,
         Text = HaveName,
         ForegroundColor = "Text",
@@ -78,7 +78,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         Studio.Components.CreateStyle("ImageButton", {
             Size = Pivot2D.FromScale(1.5,0.5),
             SquareAxis = Enum.SquareAxis.Y,
-            Parent = ContainerNamer,
+            Parent = Windows.TopContainer,
             CornerRadius = 5,
             Pivot = Vector2.new(0,0),
             Position = Pivot2D.FromScale(0,0),
@@ -229,6 +229,7 @@ function StudioLayout.CreateLayout()
     }
 
     StudioLayout.CreateWindow("Viewport", {
+        Name = "",
         Size = Pivot2D.FromScale(0.8,.8),
         CornerRadius = 0,
     })
