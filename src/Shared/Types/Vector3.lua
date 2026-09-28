@@ -57,6 +57,14 @@ function Methods:Unit()
     return (self:Magnitude() > 0) and Unit or Vector3.zero
 end
 
+function Methods:Limit(Vector,Limit)
+    if (self-Vector).Magnitude > Limit then
+        return self:Unit()*Limit
+    end
+    
+    return self
+end
+
 function Methods:Cross(SecondVector)
     return Vector3.new(self.Y * SecondVector.Z - self.Z * SecondVector.Y, self.Z * SecondVector.X - self.X * SecondVector.Z, self.X * SecondVector.Y - self.Y * SecondVector.X)
 end
