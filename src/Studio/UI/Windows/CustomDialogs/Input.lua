@@ -1,6 +1,6 @@
 local Input = {}
 
-function Input.Init(Parented,Info)
+function Input.Init(Parented,Info,Window)
     local DialogObject = {}
 
     function DialogObject:Create()
@@ -38,14 +38,17 @@ function Input.Init(Parented,Info)
                 Position = Pivot2D.FromScale(0.5,1)
             })
             self.Objects.ApplyButton.Clicked:Connect(function()
-                Info.OnEnd(self)
+                Info.OnEnd(self,self.Objects.Input.Text)
+                Window:SetVisible(false)
             end)
         else
             self.Objects.Input.FocusEnd:Connect(function(IsEnter)
                 if Info.FilterEnter and IsEnter then
-                    Info.OnEnd(self)
+                    Info.OnEnd(self,self.Objects.Input.Text)
+                    Window:SetVisible(false)
                 else
-                    Info.OnEnd(self)
+                    Info.OnEnd(self,self.Objects.Input.Text)
+                    Window:SetVisible(false)
                 end
             end)
         end
