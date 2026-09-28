@@ -13,8 +13,6 @@ function lib:newMesh(material)
 	
 	mesh.name = "unnamed"
 	mesh.Type = "DreamMesh"
-
-	mesh.boundingSphere = self:newBoundingSphere()
 	
 	---@type MeshDrawMode
 	mesh.meshDrawMode = "triangles"
@@ -178,7 +176,7 @@ function class:updateBoundingSphere(scale)
 		end
 	end
 	
-	self.boundingSphere = lib:newBoundingSphere(center, size * (scale or 1))
+	return center, size * (scale or 1)
 end
 
 --Clean most primary buffers

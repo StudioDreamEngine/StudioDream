@@ -181,9 +181,9 @@ end
 
 local function raytraceMesh(mesh, localOrigin, localDirection, adorn)
 	--bounding sphere check
-	local center = mesh.boundingSphere.center
+	local center = adorn.BoundingSphere.center
 	local nearest = nearestPointToLine(localOrigin, localOrigin + localDirection, center)
-	if (nearest - center):lengthSquared() > mesh.boundingSphere.size ^ 2 then
+	if (nearest - center):lengthSquared() > adorn.BoundingSphere.size ^ 2 then
 		return false
 	end
 	
@@ -223,7 +223,7 @@ local function raytraceObject(objects, origin, direction, ignoreInfo)
 		end
 
 		if shouldTrace and o.Drawable then
-			raytraceMesh(o.Drawable, localOrigin, localDirection)
+			raytraceMesh(o.Drawable, localOrigin, localDirection, o)
 		end
 	end
 end
