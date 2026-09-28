@@ -37,7 +37,7 @@ function ToolManager.SetupSelection()
     for _, Select in pairs(Selecting) do
         Select.Difference = Select.Object.Position - Center
         Select.OriginalTransform = Select.Object.Transform
-        Select.Rotation = Select.Object.Transform.Rotation
+        Select.Rotation = Select.OriginalTransform.Rotation
     end
 
     Origin = Center

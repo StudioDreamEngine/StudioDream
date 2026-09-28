@@ -98,7 +98,8 @@ function Drawable3D:UpdateBounds()
 end
 
 function Drawable3D:SetScale(NewScale)
-    self.Scale = NewScale
+    Drawable3D.super.SetScale(self, NewScale)
+
     self.Size = self.Scale * self.Drawable:getBoundingBox()
 
     self.PhysicsShape = Runtime.Phys.ShapeFromMesh(self.Drawable, self.Scale)
@@ -131,7 +132,7 @@ function Drawable3D:CreateBody()
 end
 
 function Drawable3D:AddTask()
-    Dream:addMesh(self.Drawable, self.GlobalTransform, self.Material)
+    Dream:addMesh(self.Drawable, self.Matrix, self.Material)
 end
 
 function Drawable3D:CheckAABB(Min, Max)
