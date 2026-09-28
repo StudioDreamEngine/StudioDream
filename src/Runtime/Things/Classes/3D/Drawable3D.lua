@@ -11,6 +11,7 @@ function Drawable3D:new()
     self.Resource = nil
 
     self.Matrix = Dream.mat4.getIdentity()
+    self.BoundingSphere = Dream:newBoundingSphere()
 
     self.Collidable = true
 
@@ -94,7 +95,7 @@ function Drawable3D:SetTransform(NewTransform)
 end
 
 function Drawable3D:UpdateBounds()
-    self.Drawable:updateBoundingSphere(self.Scale:Magnitude())
+    self.BoundingSphere = Dream:newBoundingSphere(self.Drawable:updateBoundingSphere(self.Scale:Magnitude()))
 end
 
 function Drawable3D:SetScale(NewScale)

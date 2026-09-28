@@ -35,10 +35,15 @@ function Backend3D.RegisterAdorn(Object, UUID)
     DreamAdorns[UUID] = Object
 end
 
+function Backend3D.UpdateBounds(Mesh, Scale)
+    return Dream:newBoundingSphere(Mesh:updateBoundingSphere(Scale:Magnitude()))
+end
+
 -- Adorns will use a watered down version of a 3de object, but not literally one
 function Backend3D.CreateAdorn(Name)
     local Object = Dream:newTransformable()
     Object.name = Name
+    Object.BoundingSphere = Dream:newBoundingSphere()
     Object.isAdorn = true
     Object.material = Runtime.Things.New("Material")
     Object.objects = {}
@@ -52,8 +57,6 @@ function Backend3D.LoadMesh(Identifier, Reference)
     local Resource, ResourceIdentifier = Runtime.Resources.LoadResourceFromIdentifier(Identifier, Reference, "Mesh")
     if (not Resource) then return end
 
-    Resource:updateBoundingSphere()
-
     AssignClassReference(Resource, Reference) -- TODO/FIXME: DONT DO THIS!!!! IT FUCKS WITH RAYCAST
 
     return Resource, ResourceIdentifier
@@ -65,6 +68,7 @@ function Backend3D.LoadAdorn(Identifier, Parent, Reference)
     local DreamMesh = Backend3D.LoadMesh(Identifier, Adorn)
     DreamMesh.isAdorn = true
 
+    Adorn.BoundingSphere = Backend3D.UpdateBounds(DreamMesh, Vector2.one * 5)
     Adorn.mesh = DreamMesh
 
     AssignClassReference(Adorn, Reference)

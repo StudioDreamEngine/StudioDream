@@ -92,16 +92,16 @@ function class:addMesh(mesh, transform, reflection, material)
 	end
 	
 	--todo cache
-	local pos = getPosition(mesh, transform)
+	local pos = transform:getTranslation()
 	
 	--not visible from current perspective
-	if self.frustumCheck and mesh.boundingSphere.size > 0 then
+	--[[if self.frustumCheck and mesh.boundingSphere.size > 0 then
 		local size = mesh.boundingSphere.size * (transform and transform:getLossySize() or 1)
 		mesh.rID = mesh.rID or math.random()
 		if not self.cam:inFrustum(pos, size, mesh.rID) then
 			return false
 		end
-	end
+	end]]
 	
 	--todo here custom reflections (closest globe or default) and lights can be used
 	
