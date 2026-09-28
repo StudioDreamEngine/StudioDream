@@ -245,18 +245,17 @@ return function(Start)
         })
 
         NewProject.Clicked:Connect(function()
-            --Studio.ProjectManager.NewProject("Demo Project")
-            local Cool = Studio.Components.CreateDialog("Input",{
-                Text = "Input a name for your new project",
-                Placeholder = "Name your new creation!",
-            })
             Start.Close()
             CreateClose(Start.Container)
-            
-            Cool.FinalProject:Connect(function(ProjectName)
-                Studio.ProjectManager.NewProject(ProjectName)
-                --Studio.Layout.CallHandle("Explorer", "Redraw")
-            end)
+            --Studio.ProjectManager.NewProject("Demo Project")
+            Studio.Layout.GetHandle("Dialogs").CreateDialog("Input",{
+                Topic = "Input a name for your new project",
+                Placeholder = "Name your new creation!",
+                ApplyButton = "Create project",
+                OnEnd = function(Dialog,Text)
+                    Studio.ProjectManager.NewProject(Text)
+                end,
+            })
         end)
 
         LoadProject.Clicked:Connect(function()

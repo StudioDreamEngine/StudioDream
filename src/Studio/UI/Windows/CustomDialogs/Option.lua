@@ -1,6 +1,6 @@
 local Option = {}
 
-function Option.Init(Parented,Info)
+function Option.Init(Parented,Info,Window)
     local DialogObject = {}
 
     function DialogObject:Create()
@@ -14,6 +14,7 @@ function Option.Init(Parented,Info)
             })
             self.Objects[Name].Clicked:Connect(function()
                 Function(self)
+                Window:SetVisible(false)
             end)
         end
 

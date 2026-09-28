@@ -1,6 +1,6 @@
 local Template = {}
 
-function Template.Init(Parented,Info)
+function Template.Init(Parented,Info,Window)
     local DialogObject = {}
 
     function DialogObject:Create()

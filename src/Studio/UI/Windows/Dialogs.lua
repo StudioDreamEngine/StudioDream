@@ -5,23 +5,16 @@ return function(Dialogs)
     function Dialogs.Init()
         Dialogs.CurrentlyUsing = nil
         Dialogs.Types = Utils.LoadModules("Studio/UI/Windows/CustomDialogs/", true)
-
-        Dialogs.CreateDialog("Input",{
-            Topic = "Brother!",
-            Placeholder = "Weird!",
-            ApplyButton = "Apply",
-            OnEnd = function()
-                print("Coil!")
-            end,
-        })
+        
     end
 
     function Dialogs.CreateDialog(Name,Info)
+        Dialogs.FullContainer:SetVisible(true)
         if Dialogs.CurrentlyUsing then
             Dialogs.CurrentlyUsing:Destroy()
         end
         local Dialog = Dialogs.Types[Name]
-        local DialogObject = Dialog.Init(Dialogs.Container,Info)
+        local DialogObject = Dialog.Init(Dialogs.Container,Info,Dialogs.FullContainer)
 
         DialogObject:Init()
 
