@@ -16,7 +16,7 @@ function Video:DefineAPI()
     self.Proxy.Property("Resource Resource")
     self.Proxy.Group("Video","Resource")
 
-    --self.Proxy.MakeCreatable()
+    self.Proxy.MakeNotCreatable()
 end
 
 function Video:SetResource(Identifier)

@@ -124,8 +124,7 @@ end
 
 function Thing:SetConstraint(Object, Property, Value, DontUpdate)
     local Current = self.Overrides[Property]
-
-    if Current.Object == Object then
+    if Current and Current.Object == Object then
         Current.Value = Value
 
         if not DontUpdate then
@@ -133,7 +132,13 @@ function Thing:SetConstraint(Object, Property, Value, DontUpdate)
             self.Proxy.ConstraintUpdator(self)
         end
     else
-        print("Couldnt set constraint")
+        if not Current then
+            print(Current)
+            print(self)
+            print("Object has not being binded!")
+        else
+            print("Couldnt set constraint")
+        end
     end
 end
 
@@ -502,10 +507,24 @@ function Thing:FindFirstChildOfClass(Class)
 end
 
 function Thing:GetOnlyClassOfChildren(Class)
-    local ReturnChild = {}
+    --[[local ReturnChild = {}
 
     for _,Child in pairs(self:GetChildren()) do
         if Child.ClassName == Class then
+            table.insert(ReturnChild,Child)
+        end
+    end
+
+    return ReturnChild]]
+
+    assert("Deprecated function, try using GetChildrenByIsA!")
+end
+
+function Thing:GetChildrenByIsA(Class)
+    local ReturnChild = {}
+
+    for _,Child in pairs(self:GetChildren()) do
+        if Child:IsA(Class) then
             table.insert(ReturnChild,Child)
         end
     end
