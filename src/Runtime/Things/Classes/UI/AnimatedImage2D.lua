@@ -36,6 +36,12 @@ function AnimatedImage2D:StorageAnimation(Name,Animation)
     self.StorageAnimations[Name] = AnimatedAnimation
 end
 
+function AnimatedImage2D:OnRemove()
+    AnimatedImage2D.super.OnRemove(self)
+
+    self.OnEnd:DisconnectAll()
+end
+
 function AnimatedImage2D:GetStoragedAnimationByName(Name)
     return self.StorageAnimations[Name]
 end
