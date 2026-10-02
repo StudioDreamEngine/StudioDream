@@ -5,7 +5,7 @@ local DefaultConfig = {
     Identifier = nil,
     RootScene = nil, -- The root scene itself that holds the root tree
     MainScene = nil, -- The initial scene to load
-    FormatVersion = 1, -- The version of the save format
+    FormatVersion = 2, -- The version of the save format
 }
 
 function Configuration.Set(Key, Value)
@@ -46,6 +46,11 @@ function Configuration.Load(Mount)
 
         -- Set config to hydrated config only if this isnt being called to grab a config of a non-loaded project
         if (not Mount) then
+            if Deserialized.FormatVersion ~= DefaultConfig.FormatVersion then
+                Shared.QueueAbort("Project is too old!")
+                return
+            end
+
             Configuration.Config = Config
         end
 

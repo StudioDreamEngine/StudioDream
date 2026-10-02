@@ -130,7 +130,8 @@ function Project.Reload()
         Project.LoadingProject = true
 
         Resources.Load()
-        Project.Config.Load()
+        local Config = Project.Config.Load()
+        if (not Config) then return end
 
         RootScene.Load()
         Runtime.LoadProjectCallback()
