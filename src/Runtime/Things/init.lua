@@ -41,14 +41,18 @@ function Things.CreateApiDump()
         end)
 
         if (not Success) then
-            error("Failed to create API dump for "..Class..", make sure the class is properly formatted and created")
             print(Message)
+            error("Failed to create API dump for "..Class..", make sure the class is properly formatted and created")
         end
     end
 end
 
-function Things.CreateEnviornment()
-    CreateRoot.CreateEnviornment(Things.Root)
+function Things.CreateTemplate(TemplateType)
+    if TemplateType == "Root" then
+        return CreateRoot.CreateRootTemplate(Things.Root)
+    else
+        return CreateRoot.CreateEnvTemplate()
+    end
 end
 
 function Things.ClearRoot()

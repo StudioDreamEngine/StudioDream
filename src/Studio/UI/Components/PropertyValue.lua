@@ -156,7 +156,9 @@ local ValueTypes = {
         })
 
         ValueObject.Clicked:Connect(function()
-            local RequestText = Info.UserRequest(Info.OnChange) or tostring(Info.ReturnDisplay() or nil)
+            if Info.Disabled then return end
+
+            local RequestText = Info.UserRequest(Info.OnChange) or tostring(Info.ReturnDisplay())
             Info.PropUpdator(RequestText)
         end)
 
@@ -205,7 +207,6 @@ local ValueFunction = function(PropertyList, Information, Style)
     local Container = Studio.Components.CreateStyle(Information.StyleSelect and "TextButton" or "Square", {
         BackgroundTransparency = 0,
         Text = Information.Title,
-        Name = PropertyList.Name or PropertyList.Title,
         Size = PropertyList.Size,
         ForegroundColor = "Text",
         Name = Information.Name or "Container",

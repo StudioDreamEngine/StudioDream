@@ -3,15 +3,14 @@
 local Scenes = {}
 
 Scenes.Objects = require("Runtime.Project.Scenes.Objects")
-Scenes.LoadDefault = require("Runtime.Project.Scenes.LoadDefault")
 
-function Scenes.SaveScene(IdentifierID, Target)
+function Scenes.SaveScene(Target)
     local Serializer = NAML.Serialize()
     
     Scenes.Objects.SetSerializers(Serializer)
     Scenes.Objects.SerializeObjects(Target)
-
-    Runtime.Resources.WriteResource(IdentifierID, Serializer.GenerateNAML())
+    
+    Runtime.Resources.WriteResource(Target.Scene, Serializer.GenerateNAML())
 end
 
 function Scenes.ResolveReferences(...)

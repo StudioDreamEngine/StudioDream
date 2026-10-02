@@ -13,13 +13,17 @@ return function(Viewport)
 
     function Viewport.SelectTab(ID)
         local Tab = Viewport.FindTabByVal("SceneID",ID)
-        if Viewport.CurrentlySelected and Viewport.CurrentlySelected~=Tab then
-            Tween.Create(Viewport.CurrentlySelected.Object, {Pivot = Vector2.new(0,-.15),ForegroundTransparency = 0.5}, Enum.EasingStyle.Linear, .1).Play()
+
+        if Viewport.CurrentlySelected and Viewport.CurrentlySelected ~= Tab then
+            Tween.Create(Viewport.CurrentlySelected.Object, { Pivot = Vector2.new(0,-.15),ForegroundTransparency = 0.5 }, Enum.EasingStyle.Linear, .1).Play()
         end
-        Tween.Create(Tab.Object, {Pivot = Vector2.new(0,.05),ForegroundTransparency = 0}, Enum.EasingStyle.Linear, .1).Play()
+
+        Tween.Create(Tab.Object, { Pivot = Vector2.new(0,.05),ForegroundTransparency = 0 }, Enum.EasingStyle.Linear, .1).Play()
+
         if Tab.OnSelect then
             Tab.OnSelect()
         end
+
         Viewport.CurrentlySelected = Tab
     end
 
@@ -39,9 +43,11 @@ return function(Viewport)
             Alignment = Vector2.new(0.5,0.05),
             Font = "FontBold"
         })}
+
         Tab.Object.Clicked:Connect(function()
             Viewport.SelectTab(SceneID)
         end)
+
         table.insert(Viewport.Tabs,Tab)
     end
 

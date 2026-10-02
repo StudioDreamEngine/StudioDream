@@ -5,6 +5,10 @@ ResourceService.UnloadIdentifier = Runtime.Resources.UnregisterIdentifier
 
 ResourceService.LoadScene = Runtime.Project.Scenes.LoadScene
 
+function ResourceService.ChangeEnviornmentScene(SceneID)
+    
+end
+
 -- Buffers
 function ResourceService.CreateBuffer(Data)
     return Runtime.Resources.CreateBuffer(Data).ID

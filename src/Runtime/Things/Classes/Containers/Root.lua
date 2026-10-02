@@ -21,6 +21,15 @@ function Root:OnReady()
     assert(table.find(AllowedIDs, self.UUID), "Root needs to be either of UUID Root or RenderRoot")
 end
 
+function Root:Collect()
+    Scheduler.Yield()
+    collectgarbage("collect")
+
+    local ThingStats = Runtime.Things.GetCount()
+
+    print("Root Collection cycle, current orphaned children: "..ThingStats.Orphans)
+end
+
 -- Clear and cleanup all objects
 function Root:Clear()
     print("Clearing root")
@@ -37,11 +46,8 @@ function Root:Clear()
     Runtime.Project.Clear()
     Runtime.Things.TreeChanged.Invoke()
     Runtime.ScriptUtil.Reset()
-    Scheduler.Yield(); Scheduler.Yield() -- wait 2 frames
-
-    collectgarbage("collect")
-
-    print("Finished clearing root")
+    Scheduler.Yield()
+    self:Collect()
 end
 
 function Root:SetEnvironmentViewport(New)

@@ -1,14 +1,13 @@
 return function()
-    Runtime.Things.CreateEnviornment()
+    local Assets = Things.Create("Environment") {
+        Name = "Environment",
+        Parent = Root
+    }
 
     local Environment = Runtime.Things.Root:GetEnvironment() ---@class Environment
 
     local Camera = Runtime.Things.Create("Camera") {
         Parent = Environment
-    }
-
-    Runtime.Things.Create("Sky") {
-        Parent = Runtime.Things.Root:FindFirstChild("Lighting")
     }
 
     Runtime.Things.Create("Primitive") {

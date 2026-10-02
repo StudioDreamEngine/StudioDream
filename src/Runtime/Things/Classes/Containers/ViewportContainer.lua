@@ -18,18 +18,4 @@ function ViewportContainer:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function ViewportContainer:SetAdornee(NewAdornee)
-    if NewAdornee and NewAdornee:IsA("Viewport") then
-        self.Adornee = NewAdornee
-
-        if (not NewAdornee.RenderContainer) then
-            NewAdornee.RenderContainer = self
-        else
-            print("RenderContainer of Viewport was not automatically set, as it already has a RenderContainer. \nSet it to nil before configuring a new one.")
-        end
-    else
-        self.Adornee = nil
-    end
-end
-
 return ViewportContainer

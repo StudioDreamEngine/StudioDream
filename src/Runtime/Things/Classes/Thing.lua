@@ -37,8 +37,12 @@ function Thing:new()
     self.InterfaceChildren = {}
 
     self.Parent = nil ---@type Thing
+    self.Parents = {}
+
     self.Unreferenced = false
     self.Debug = false
+
+    self.Scene = nil
 
     self.WasParented = false
 
@@ -48,37 +52,9 @@ function Thing:new()
     self.NumericalID = ObjectsCreated
 
     self.Overrides = {}
-
     self.Attributes = {}
 
     self.PlaceholderSignals = {}
-    --[[self.Proxy.Info({
-        Groups = {
-            -- TODO
-        },
-        ConstraintUpdator = nil -- Function that constraints use on update for an object
-    })]]
-end
-
-function Thing:GetByUUID(UUID)
-    for i,v in pairs(Thing:GetChildren()) do
-        if v.UUID == UUID then
-            return v
-        end
-    end
-end
-
-function Thing:GetChildByNumericalID(NumericalID)
-    for i,v in pairs(Thing:GetChildren()) do
-        if v.NumericalID == NumericalID then
-            return v
-        end
-    end
-end
-
-function Thing:AddPlaceholderSignal(Signal)
-    table.insert(self.PlaceholderSignals,Signal)
-    return Signal
 end
 
 --[[
@@ -91,11 +67,18 @@ function Thing:DefineAPI()
     self.Proxy = Things.ObjectProxy.new()
 
     self.Proxy.Property("Thing Parent", "string Name", "boolean Debug")
-    self.Proxy.Group("General", "Parent", "Name", "Debug")
+    self.Proxy.PropertyAccess("Resource Scene")
+    
+    self.Proxy.Group("General", "Parent", "Name", "Debug", "Scene")
 
     --self.Proxy.RegisterProxy("GetChildren", "GetDescendants")
 
     self.Proxy.Group("Attributes")
+end
+
+function Thing:AddPlaceholderSignal(Signal)
+    table.insert(self.PlaceholderSignals,Signal)
+    return Signal
 end
 
 --[[
@@ -150,14 +133,6 @@ function Thing:UnbindConstraints(Object)
     end
 end
 
-function Thing:GetCategory()
-    return self.proxy.Category
-end
-
-function Thing:IsCategory(IsIt)
-    return self.proxy.Category == IsIt
-end
-
 function Thing:GetPath()
     local String = self.Name
 
@@ -192,14 +167,6 @@ end
 
 function Thing:RemoveAttribute(Name)
     self.Attributes[Name] = nil
-end
-
-function Thing:GetChild(Name) -- THIS IS FOR INTERNAL!!
-    for i,v in pairs(self.Children) do
-        if v.Name == Name then
-            return self.Children[i]
-        end
-    end
 end
 
 function Thing:SetName(Name)
@@ -260,7 +227,7 @@ function Thing:Clone()
     return NewThing
 end
 
-function Thing:FindFirstAncestorWithClass(Class)
+function Thing:FindFirstAncestorOfClass(Class)
     return self:GetParentCallback(function(Object)
         return Object:IsA(Class)
     end)
@@ -343,6 +310,23 @@ end
 -- Fired on inital parenting, might move to event later, called after ParentChanged and ChildrenChanged events are invoked
 function Thing:OnInitalParent(NewParent) end
 
+-- Remove child from object
+function Thing:RemoveChild(Object)
+    if self.Children[Object.UUID] then
+        self.ChildrenChanged.Invoke(Enum.Hierachy.Removed, Object)
+        self.Children[Object.UUID] = nil
+    end
+
+    table.removeValue(self.InterfaceChildren, Object)
+
+    Object.Parent = nil
+end
+
+function Thing:RemoveParent(Parent)
+    table.removeValue(self.Parents, Parent)
+    Parent:RemoveChild(self)
+end
+
 --[[
     EXTENDING FROM THIS FUNCTION REQUIRES YOU TO HANDLE THIS SUPERFUNCTION IN A SPECIAL MANNER:
     Example:
@@ -367,14 +351,17 @@ function Thing:SetParent(NewParent)
         return false, CouldRecurse
     end
 
-    local OldParent = self.Parent
+    self.OrphanedPath = self:GetPath()
 
+    local OldParent
+
+    -- Remove from old parent
+    OldParent = self.Parent
     if OldParent then
-        OldParent.ChildrenChanged.Invoke(Enum.Hierachy.Removed, self)
-        OldParent.Children[self.UUID] = nil
-        table.removeValue(OldParent.InterfaceChildren, self)
+        OldParent:RemoveChild(self)
     end
 
+    -- Add to new parent
     if NewParent then
         NewParent.ChildrenChanged.Invoke(Enum.Hierachy.Added, self)
         NewParent.Children[self.UUID] = self
@@ -382,26 +369,29 @@ function Thing:SetParent(NewParent)
         if self:IsA("BaseGui") then
             table.insert(NewParent.InterfaceChildren, self)
         end
+    end
+
+    if (not self.Scene) then
+        self.Parent = NewParent
+
+        -- Currently we'll only handle tree changes if the object isnt a scene, TODO: Fix this 
+        local Serializable = self:IsSerializable()
+
+        if (NewParent == nil) and OldParent then
+            Serializable = OldParent:IsSerializable()
+        end
+
+        -- The "NewParent:IsA("Root")" check here is to make sure that root objects are always requested for tree change, THIS SHOULD BE CHANGED LATER
+        if Serializable then
+            Runtime.Things.RequestTreeChange(self)
+        end
+
+        if self.Parent then
+            self.Parent:UpdateInterfaceChildren()
+        end
     else
-        self.OrphanedPath = self:GetPath()
-    end
-
-    self.Parent = NewParent
-
-    if self.Parent then
-        self.Parent:UpdateInterfaceChildren()
-    end
-
-    -- ?????
-    local Serializable = self:IsSerializable()
-
-    if (NewParent == nil) and OldParent then
-        Serializable = OldParent:IsSerializable()
-    end
-
-    -- The "NewParent:IsA("Root")" check here is to make sure that root objects are always requested for tree change, THIS SHOULD BE CHANGED LATER
-    if Serializable then
-        Runtime.Things.RequestTreeChange(self)
+        table.insert(self.Parents, NewParent)
+        self.Parent = nil -- Set parent to nil
     end
 
     self.ParentChanged.Invoke()
@@ -425,7 +415,6 @@ function Thing:IsA(ObjectType)
     Type = nil
 
     return Result
-    --return self:is(Things.ClassDump[ObjectType])
 end
 
 function Thing:GetChildren()
@@ -469,9 +458,7 @@ end
 
 function Thing:GetDescendants()
     local ReturnedDescendants = {}
-    
     GetDescendantsImpl(self, ReturnedDescendants)
-
     return ReturnedDescendants
 end
 
@@ -485,9 +472,7 @@ end
 
 function Thing:GetDescendantTree()
     local ReturnedDescendants = {}
-
     GetDescendantsTreeImpl(self, ReturnedDescendants)
-
     return ReturnedDescendants
 end
 
@@ -504,20 +489,6 @@ function Thing:FindFirstChildOfClass(Class)
             return Child
         end
     end
-end
-
-function Thing:GetOnlyClassOfChildren(Class)
-    --[[local ReturnChild = {}
-
-    for _,Child in pairs(self:GetChildren()) do
-        if Child.ClassName == Class then
-            table.insert(ReturnChild,Child)
-        end
-    end
-
-    return ReturnChild]]
-
-    assert("Deprecated function, try using GetChildrenByIsA!")
 end
 
 function Thing:GetChildrenByIsA(Class)
@@ -552,10 +523,6 @@ function Thing:ClearAllChildren(NameFilter)
         if Child and (not table.find(NameFilter, Child.Name)) then
             Child:Destroy()
         end
-
-        -- Certain objects are stubborn for some reason
-        --self.Children[ChildUUID] = nil
-        --table.removeValue(self.InterfaceChildren, Child)
     end 
 end
 

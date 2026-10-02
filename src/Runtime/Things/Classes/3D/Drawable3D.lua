@@ -102,7 +102,6 @@ function Drawable3D:SetScale(NewScale)
     Drawable3D.super.SetScale(self, NewScale)
 
     self.Size = self.Scale * self.Drawable:getBoundingBox()
-
     self.PhysicsShape = Runtime.Phys.ShapeFromMesh(self.Drawable, self.Scale)
 
     self:UpdateBounds()

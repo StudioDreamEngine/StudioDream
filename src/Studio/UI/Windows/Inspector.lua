@@ -12,13 +12,15 @@ return function(Inspector)
     local LoadedGroups = {}
 
     function Inspector.CreateProperty(PropertyInfo)
+        ---@class ObjectProxy
+        local Proxy = PropertyInfo.Thing.Proxy
         
         local GiveInfo = {
             Parent = PropertyInfo.Parent,
             UltraParent = PropertyInfo.Parent,
             Name = PropertyInfo.Name,
             Type = PropertyInfo.Type,
-            Disabled = PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name] and (PropertyInfo.Thing.Proxy.Attributes[PropertyInfo.Name].SeeOnlyInspect or false) or false,
+            Disabled = not Proxy.Serializable[PropertyInfo.Name],
             Attributes = PropertyInfo.Attributes
         }
 
@@ -111,10 +113,7 @@ return function(Inspector)
     end
 
     function Inspector.Clean()
-        print("Clear")
         ScrollContainer:ClearAllChildren({"ListLayout"})
-
-        print(ScrollContainer:GetChildren())
 
         SearchBar:SetText("")
         SearchText = ""

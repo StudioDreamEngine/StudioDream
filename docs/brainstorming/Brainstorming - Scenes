@@ -1,0 +1,12 @@
+Alright
+    full idea
+
+    when a scene is loaded, we make the root of the scene be considered a scene, either through mixins or just a flag
+    flag for now, mixin later
+
+    this allows for a scene to:
+    1. not be saved
+    2. be able to be parented to several objects
+
+    my only real worry is not making this hacky
+

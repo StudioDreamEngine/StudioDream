@@ -8,6 +8,7 @@ Project.Scenes = require("Runtime.Project.Scenes")
 Project.Config = require("Runtime.Project.Configuration")
 
 Project.LoadDefault = RootScene.LoadDefault
+Project.LoadEnviornment = RootScene.LoadEnviornment
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
@@ -170,7 +171,19 @@ end
 -- Create a new project
 function Project.CreateProject(ProjectPath)
     NativeFS.createDirectory(ProjectPath)
+
     ProjectFS.Remount(ProjectPath)
+    Project.Config.Save() -- Dumb hack as we need the config within the project before we load it
+
+    -- Load the project itself
+    local Success, Message = Project.Reload()
+
+    if (not Success) then
+        print(Message)
+        Shared.QueueAbort("Error while creating project")
+    end
+
+    -- Now do our initial project save, saving all template resources & the root scene
     Project.Save()
     Project.LoadedProject.Invoke()
 end

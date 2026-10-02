@@ -37,7 +37,7 @@ local function CheckSerializable(Object)
 
     ---@param ParentThing Thing
     Object:GetParentCallback(function(ParentThing)
-        if not (ParentThing.Serializable) and not (ParentThing:IsA("Root")) then
+        if not (ParentThing.Serializable) and not (ParentThing.Scene) then
             Serializable = false
         end
     end)
@@ -70,12 +70,14 @@ function Objects.SerializeObject(Object, Root)
 
     printVerbose("Serializing Properties for "..Object.Name)
 
-    if Object:IsA("Root") then
+    if Object.Scene and (Object.UUID ~= Root.UUID) then
         return {
-            Type = Object.ClassName,
+            Type = "Scene",
             UUID = Object.UUID,
-            Properties = {}, -- Properties of root objects are not saved
-            IsRoot = true
+            Properties = {
+                Serializer.CreateData("Identifier", "string", Object.Scene)
+            },
+            IsRoot = false
         }
     end
 
@@ -112,9 +114,14 @@ end
 ---@param ObjectData NAMLDeserializedEntity
 function Objects.DeserializeObject(ObjectData)
     -- Nasty hack, but we do NOT create the root object or apply properties to it, just return the root itself
-    -- TODO: Objects that parent to an object with the UUID of root should be parented to things.root, instead of this maybe?? idk..
+    -- TODO: Why are we doing this again?
     if (ObjectData.Type == "Root") then
         return Things.Root, {}
+    end
+
+    if ObjectData.Type == "Scene" then
+        print("Scene object")
+        return
     end
 
     local Properties = {}

@@ -12,7 +12,7 @@ Template.CustomName = "Preview Sound"
 local button
 
 function Template.Start(FrameOption,Thing,Property,BaseProperty) -- Scrapped for now
-   -- BaseProperty:GetChild("PropertyName")
+   -- BaseProperty:FindFirstChild("PropertyName")
     button = Runtime.Things.Create("ImageButton") {
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,

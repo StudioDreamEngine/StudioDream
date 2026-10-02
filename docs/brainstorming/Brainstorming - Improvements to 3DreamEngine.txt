@@ -1,33 +1,10 @@
 The issue with 3DreamEngine is that StudioDream currently has to communicate with it, 
 3DreamEngine maintains its own entire scene when StudioDream could do that instead
 
-We need to rewrite the 3d engine to be a part of StudioDream either way
-Perhaps we can also approach it as a proper api, Why3D provides the renderer and some other stuff, its up to the engine to manage the heiherarchy
-
-API Idea Stub (Codename Why3D):
-    local World = Why3D.new("World")
-    local Mesh = Why3D.new("Mesh")
-    local Material = Why3D.new("Material")
-
-    --[[
-        The world has deferred shaders, which are applied to the image itself.
-
-        deferred shaders can be applied based off a material mask or to the whole image
-        the world configures passes, which the material pixel shader can use during 
-    ]]
-
-    --[[
-        Materials have 3 shader types, Texture (Frag), Pixel (Frag), and Model (Vert)
-    
-        Texture: TODO
-        Model: TODO
-        Pixel:
-            
-    ]]
-
-    Mesh:Load(Table)
-    Mesh:SetMaterial(Material)
-
-    World:AddObject()
-
-    local Canvas = World:Present()
+Rendering Pipeline rewrite:
+    Currently to implement:
+        - Point Lights
+        - Sun Lights
+        - Diffuse Lighting
+        - Shadows
+        - SSAO

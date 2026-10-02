@@ -2,8 +2,8 @@ local Things = Runtime.Things
 local Renderer = Runtime.Renderer
 local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
----@class Light: LocalTransformable3D
-local Light = Things.Extend("LocalTransformable3D")
+---@class Light: Transformable3D
+local Light = Things.Extend("Transformable3D")
 
 function Light:new()
     Light.super.new(self)

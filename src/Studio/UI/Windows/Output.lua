@@ -56,6 +56,10 @@ return function (Output)
         end]]
 
         PrintCallback = function(Text)
+            if #Log > 25 then
+                table.remove(Log, 1)
+            end
+
             table.insert(Log, Text)
 
             OutputText:SetText(table.concat(table.reverse(Log), "\n"))

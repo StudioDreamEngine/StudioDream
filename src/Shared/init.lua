@@ -110,7 +110,7 @@ function Shared.RenderStats()
         { Name = "(Runtime) Is Profiling",                                                                                                                      Value = FLAGS.ProfileCapture },
         { Name = "(Runtime) Scheduler Tasks",                                                                                                                   Value = Scheduler.GetTasks() },
         { Name = "(Runtime) Orphaned - Destroyed",      Help = "Objects that have been destroyed, but still have a reference and thus are still in memory.",    Value = ThingStats.Orphans },
-        { Name = "(Runtime) Orphaned - Unparented",     Help = "Objects that are not parented, but havent been destroyed, and thus are still in memory.",       Value = ThingStats.ScriptOrphans },
+        { Name = "(Runtime) Orphaned - Unparented",     Help = "Objects that have been created by scripts but are not parented that are still in memory.",      Value = ThingStats.ScriptOrphans },
         { Name = "(Lua) Heap Size",                     Help = "How much memory StudioDream itself is taking up in the lua vm",                                 Value = math.round(collectgarbage("count")).."kb" }
     }
 

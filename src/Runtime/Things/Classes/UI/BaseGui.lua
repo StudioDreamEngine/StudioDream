@@ -107,7 +107,7 @@ function BaseGui:GetAbsoluteSize()
     local AbsoluteSize = Size.Offset
     local ParentRect = self:GetParentRect()
 
-    if ParentRect then -- Only do this if we found a parent element
+    if ParentRect and Size:HasScale() then -- Only do this if we found a parent element
         local Scale = (ParentRect.Size * Size.Scale)
 
         Profiler.Start("Calculate SquareAxis")
@@ -231,9 +231,16 @@ function BaseGui:new()
     self.AbsoluteLayer = 0
     self.ListOrder = 0
 
-    self.ChildRect = Rect.new(Vector2.zero, Vector2.zero) -- Rect used 
+    --[[
+        ChildRect is the rect object used when calculating a child objects position or size, 
+        when its not being used in the normal way, its meant to allow an object (like a scrolling container) to
+        change the behavior of how objects are positioned or sized
 
-    -- Utility boolean for implementing draggable ui objects
+        a bit of a HACK, but it works
+    ]]
+    self.ChildRect = Rect.new(Vector2.zero, Vector2.zero)
+
+    -- Utility variables for implementing draggable ui objects
     self.MouseLocked = false -- I didnt wanna implement this as a thing in explorer
     self.LockOrigin = Vector2.zero
 
@@ -246,14 +253,10 @@ function BaseGui:new()
 
     self.BackgroundColor = Color.new(1)
     self.BackgroundTransparency = 0
-    self.AbsoluteBackgroundColor = Color.new(0) -- Internal
-    self.AbsoluteBackgroundTransparency = 0
 
     -- Used for stuff like text
     self.ForegroundTransparency = 0
     self.ForegroundColor = Color.new(0)
-    self.AbsoluteForegroundColor = Color.new(0) -- Internal
-    self.AbsoluteForegroundTransparency = 0
 
     self.Transparency = 0
 
@@ -286,9 +289,6 @@ function BaseGui:DefineAPI()
     self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum.SquareAxis SquareAxis", "number ListOrder", "boolean Visible","number Rotation")
     self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency", "number ColorMultiplier")
     self.Proxy.Property("Enum.AutomaticSize AutomaticSize","boolean IgnoreConstraints")
-    self.Proxy.Property("Vector2 AbsolutePosition","Vector2 AbsoluteSize")
-    self.Proxy.Attribute("AbsolutePosition","SeeOnlyInspect",true)
-    self.Proxy.Attribute("AbsoluteSize","SeeOnlyInspect",true)
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
     self.Proxy.Group("Transform", "Size", "Position", "Pivot", "SquareAxis",  "AutomaticSize", "Rotation","AbsolutePosition","AbsoluteSize")

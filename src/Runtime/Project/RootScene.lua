@@ -2,19 +2,44 @@
 local Root = Runtime.Things.Root
 
 local RootScene = {}
-local Loaded = {}
+local CurrentEnv
 
 function RootScene.Unload()
-    if Loaded.Identifier then
-        Runtime.Resources.UnloadResource(Loaded.Identifier)
-    end
+    print("Unload")
 end
 
 function RootScene.LoadDefault()
     Root:Clear()
-    Runtime.Project.Scenes.LoadDefault()
+    Runtime.Things.CreateTemplate("Root")
 
     RootScene.ConfigureTargets()
+end
+
+-- Load an enviornment from an IdentifierID
+function RootScene.LoadEnviornment(IdentifierID)
+    if CurrentEnv then
+        CurrentEnv:Destroy()
+        CurrentEnv = nil
+
+        Root:Collect()
+    end
+
+    local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
+    local Scene, _ = Runtime.Resources.GetResource(Identifier, true)
+
+    Scene.Scene:SetParent(Root)
+    RootScene.ConfigureTargets()
+end
+
+-- Save the current enviornment
+function RootScene.SaveEnviornment()
+    local Project = Runtime.Project
+
+    if CurrentEnv then
+        Project.Scenes.SaveScene(CurrentEnv)
+    else
+        printVerbose("No enviornment scene is currently open")
+    end
 end
 
 function RootScene.Load()
@@ -24,23 +49,17 @@ function RootScene.Load()
     -- Get the identifier id for the root scene
     local IdentifierID = Project.Config.Get("RootScene")
 
-    local Resource = {
-        References = {},
-        Scene = nil
-    }
-
     -- if there is one, load the resource thats there
     if IdentifierID then
         local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
-        Resource = Runtime.Resources.GetResource(Identifier, true)
-    end
-
-    if Resource.Scene then
-        Loaded = {
-            Identifier = IdentifierID
-        }
+        Runtime.Resources.GetResource(Identifier, true)
     else
-        Project.Scenes.LoadDefault() -- Load default project if we cannot find root scene
+        printVerbose("No root scene found, is this a new project?")
+
+        IdentifierID = Runtime.Resources.GetOrCreateIdentifierID("RootScene.sds")
+        Root.Scene = IdentifierID
+
+        RootScene.LoadDefault()
     end
 
     RootScene.ConfigureTargets()
@@ -48,8 +67,6 @@ end
 
 -- Configure Hud and Environment viewports for new root scenes
 function RootScene.ConfigureTargets()
-    Loaded.Object = Runtime.Things.Root
-
     if Root.EnvironmentViewport and Root.HudViewport then
         Root.EnvironmentViewport:SetRenderContainer(Root:GetEnvironment())
         Root.HudViewport:SetRenderContainer(Root:GetHUD())
@@ -59,13 +76,8 @@ end
 function RootScene.Save()
     local Project = Runtime.Project
 
-    -- Create the identifier if we dont have one yet
-    if (not Loaded.Identifier) then
-        Loaded.Identifier = Runtime.Resources.GetOrCreateIdentifierID("RootScene.sds")
-    end
-
-    Project.Scenes.SaveScene(Loaded.Identifier, Loaded.Object)
-    Project.Config.Set("RootScene", Loaded.Identifier)
+    Project.Scenes.SaveScene(Root)
+    Project.Config.Set("RootScene", Root.Scene)
 end
 
 return RootScene

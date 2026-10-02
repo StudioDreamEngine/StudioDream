@@ -3,7 +3,8 @@ local Configuration = {}
 local DefaultConfig = {
     Name = "Untitled",
     Identifier = nil,
-    RootScene = nil,
+    RootScene = nil, -- The root scene itself that holds the root tree
+    MainScene = nil, -- The initial scene to load
     FormatVersion = 1, -- The version of the save format
 }
 
