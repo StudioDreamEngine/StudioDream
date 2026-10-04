@@ -65,7 +65,7 @@ return function(Explorer)
         NodeObj.NodeInner.NodeIcon.ForegroundColor = Object.Proxy.IconTint
 
         Explorer.CleaningUp:ConnectOnce(function()
-            NodeObj.NodeInner = nil
+            NodeObj.NodeInner:UnReference()
             NodeObj.Node = nil
         end)
 

@@ -116,7 +116,13 @@ function Components.CreateIconObject(Name, Icon)
         Parent = NodeInner
     })
     
-    
+    function NodeInner:UnReference()
+        NodeInner.NodeIcon = nil
+        Icon = nil
+        NotFoundIcon = nil
+        NodeText = nil
+        NodeInner = nil
+    end
 
     return NodeInner
 end
