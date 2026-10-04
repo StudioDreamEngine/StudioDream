@@ -5,6 +5,7 @@ return function(Viewport)
     function Viewport.SelectScene(ID)
         local Tab = Viewport.Tabs[ID]
 
+        Runtime.Project.LoadEnviornment(ID)
         Viewport.CurrentlySelected = ID
     end
 
@@ -13,8 +14,6 @@ return function(Viewport)
     end
 
     function Viewport.CreateTab(Name,SceneID)
-        if Viewport.GetScene(ID) then return end
-
         local Tab = {}
 
         Tab.Name = Name
@@ -37,8 +36,6 @@ return function(Viewport)
         })
 
         Tab.Object.Clicked:Connect(function()
-            print(Runtime.Project.GetAllProjectScenes())
-            Runtime.Project.LoadEnviornment(SceneID)
             Viewport.SelectScene(SceneID)
         end)
 
@@ -81,10 +78,13 @@ return function(Viewport)
                 Type = "Button",
                 Text = "Load Scene",
                 Function = function()
-                    Studio.Components.OpenResourcePicker(function(Identifier)
-                        local Identifier = Runtime.Project.LoadEnviornment(Identifier)
-                        Viewport.CreateTab(Identifier.Data.FileName,Identifier)
-                        Viewport.SelectScene(Identifier)
+                    Studio.Components.OpenResourcePicker(function(IdentifierID)
+                        print(IdentifierID)
+
+                        local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
+
+                        Viewport.CreateTab(Identifier.Data.FileName,Identifier.ID)
+                        Viewport.SelectScene(Identifier.ID)
                     end)
                 end
             },
@@ -103,7 +103,6 @@ return function(Viewport)
                             Scene.Scene = IdentifierID
 
                             Runtime.Project.Scenes.SaveScene(Scene)
-                            Viewport.CreateTab(Text,IdentifierID)
                             Scene:Destroy()
                         end,
                     })
@@ -140,8 +139,6 @@ return function(Viewport)
         
         Things.Root:SetEnvironmentViewport(EnvironmentViewport)
         Things.Root.HudViewport = HudViewport
-
-        Viewport.SelectScene(1)
     end
 
     function Viewport.Update(dt)

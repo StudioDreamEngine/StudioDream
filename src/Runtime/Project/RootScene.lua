@@ -18,37 +18,23 @@ end
 -- Load an enviornment from an IdentifierID
 function RootScene.LoadEnviornment(IdentifierID)
     if CurrentEnv then
-        CurrentEnv:Destroy()
+        CurrentEnv:RemoveParent(Root)
         CurrentEnv = nil
 
         Root:Collect()
     end
 
     local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
-    local Scene, _ = Runtime.Resources.GetResource(Identifier, true)
-    Scene.Scene:SetParent(Root)
+    local Resource, _ = Runtime.Resources.GetResource(Identifier)
+    Resource.Scene:SetParent(Root)
+
+    CurrentEnv = Resource.Scene
+
     RootScene.ConfigureTargets()
 
     return Identifier
 end
 
-function RootScene.GetAllProjectScenes()
-    local Classes = {}
-    local ClassesList = Utils.GetFolderDescendants(Runtime.ProjectFS.GetMount(), false, false)
-    print(Runtime.ProjectFS.GetMount())
-    print(ClassesList)
-    for _, v in pairs(ClassesList) do
-        print(v)
-        local Path = string.split(v, "%/")
-        local Name = Path[#Path]
-
-        v = string.gsub(v, "/", "%.")
-
-        print(v)
-    end
-
-    return Classes
-end
 -- Save the current enviornment
 function RootScene.SaveEnviornment()
     local Project = Runtime.Project
@@ -92,6 +78,8 @@ end
 
 function RootScene.Save()
     local Project = Runtime.Project
+
+    RootScene.SaveEnviornment()
 
     Project.Scenes.SaveScene(Root)
     Project.Config.Set("RootScene", Root.Scene)

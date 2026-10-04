@@ -5,8 +5,7 @@ AudioInternal.Volumes = {
 }
 
 function AudioInternal.PlayAudio(Path,Configs)
-    print(Studio.SettingsManager.Get("SFXEnabled"))
-    if Studio.SettingsManager.Get("SFXEnabled")~=nil and Studio.SettingsManager.Get("SFXEnabled")==false then 
+    if not Studio.SettingsManager.Get("SFXEnabled") then 
         return 
     end
         

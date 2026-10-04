@@ -283,8 +283,8 @@ function Thing:IsSerializable()
             Serializable = false
         end
 
-        if (ParentThing.Parent == nil) and (ParentThing.UUID ~= "Root") then
-            Serializable = false
+        if (ParentThing.Scene) then
+            Serializable = true
         end
     end)
 
@@ -315,6 +315,8 @@ function Thing:RemoveChild(Object)
     if self.Children[Object.UUID] then
         self.ChildrenChanged.Invoke(Enum.Hierachy.Removed, Object)
         self.Children[Object.UUID] = nil
+    else
+        print("Attempted to remove child from parent that was not in parent, "..Object.UUID)
     end
 
     table.removeValue(self.InterfaceChildren, Object)
@@ -447,6 +449,13 @@ function Thing:OnRemove()
     table.clear(self.PlaceholderSignals)
 
     self:SetParent()
+
+    for _, Parent in pairs(self.Parents) do
+        Parent:RemoveChild(self)
+    end
+
+    self.Parents = {}
+
     self:ClearAllChildren()
 end
 

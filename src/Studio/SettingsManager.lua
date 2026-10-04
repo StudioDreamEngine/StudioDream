@@ -5,6 +5,7 @@ local DefaultSettings = {
     CodeEditor = nil,
     Projects = {},
     Version = 2,
+    SFXEnabled = true,
     UsingTheme = "Blue Night",
     AutomaticCreation = true,
     FlagCreation = false -- If or if not we've shown the automatic creation dialog

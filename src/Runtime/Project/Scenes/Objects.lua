@@ -32,12 +32,14 @@ function Objects.HandleType(Property, Type, Deserialize, Identifier)
 end
 
 -- Used for updating Thing.TruelySerializable
-local function CheckSerializable(Object)
+local function CheckSerializable(Object, Root)
     local Serializable = true
 
     ---@param ParentThing Thing
     Object:GetParentCallback(function(ParentThing)
-        if not (ParentThing.Serializable) and not (ParentThing.Scene) then
+        if not (ParentThing.Serializable) then -- basic serialization check
+            Serializable = false
+        elseif ParentThing.Scene and (ParentThing.UUID ~= Root.UUID) then -- If the parent is a scene but not the root scene, dont serialize this object
             Serializable = false
         end
     end)
@@ -54,7 +56,7 @@ function Objects.SerializeObjects(Root)
 
     ---@param DescendantObject Thing
     for _, DescendantObject in pairs(ToSerialize) do
-        if CheckSerializable(DescendantObject) then -- Only serialize if we can
+        if CheckSerializable(DescendantObject, Root) then -- Only serialize if we can
             local Data = Objects.SerializeObject(DescendantObject, Root)
 
             Serializer.SetCategory(Data.IsRoot and "Root" or "Objects")
@@ -120,7 +122,7 @@ function Objects.DeserializeObject(ObjectData)
     end
 
     if ObjectData.Type == "Scene" then
-        print("Scene object")
+        print("Scene object, skipping load for now")
         return
     end
 
