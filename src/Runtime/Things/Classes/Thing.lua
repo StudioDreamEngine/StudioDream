@@ -390,6 +390,8 @@ function Thing:SetParent(NewParent)
             self.Parent:UpdateInterfaceChildren()
         end
     else
+        Runtime.Things.RequestTreeChange(self)
+
         table.insert(self.Parents, NewParent)
         self.Parent = nil -- Set parent to nil
     end

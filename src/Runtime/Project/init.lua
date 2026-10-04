@@ -129,10 +129,10 @@ function Project.Reload()
     return xpcall(function()
         Project.LoadingProject = true
 
-        Resources.Load()
         local Config = Project.Config.Load()
         if (not Config) then return end
 
+        Resources.Load()
         RootScene.Load()
         Runtime.LoadProjectCallback()
 

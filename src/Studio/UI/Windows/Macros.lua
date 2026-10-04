@@ -10,22 +10,6 @@ return function(Macros)
         ["Export Project"] = function()
             Studio.Build.BuildProject()
         end,
-        ["Load Scene"] = function()
-            Platform.OpenWithCallback("Open Scene", Enum.OpenDialog.File, function(NewPath) -- Make this check attributes before actually setting thing resource (aka to limit stuff like an Audio thiing resource being set as a image ect ect@!!)
-                local Identifier, _ = Runtime.Resources.LoadIdentifierIDFromPath(NewPath)
-                if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
-
-                Runtime.Project.LoadEnviornment(Identifier)
-            end)
-        end,
-        ["New Scene"] = function()
-            local IdentifierID = Runtime.Resources.GetOrCreateIdentifierID("NewScene.sds")
-
-            local Scene = Runtime.Things.CreateTemplate("Environment")
-            Scene.Scene = IdentifierID
-
-            Runtime.Project.Scenes.SaveScene(Scene)
-        end
     }
 
     function Macros.Init()

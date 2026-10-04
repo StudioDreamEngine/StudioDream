@@ -32,7 +32,7 @@ return function(Start)
                 Pivot = Vector2.new(0,0),
                 Position = Pivot2D.FromScale(0,0),
                 BackgroundTransparency = 0,
-                BackgroundColor = Studio.CurrentTheme.Primary,
+                BackgroundColor = "Primary",
                 Layer = 5,
                 Resource = "Internal/Studio/Close.png",
                 ScaleType = Enum.ScaleType.LockAspect,
@@ -230,8 +230,9 @@ return function(Start)
             Padding = 5
         })
 
-        local NewProject = Start.CreateButton(Options,"Create new project.","Internal/Studio/AddThing.png")
-        local LoadProject = Start.CreateButton(Options,"Load a project","Internal/Studio/TabIcons/InsertIcon.png")
+        local NewProject = Start.CreateButton(Options,"New project","Internal/Studio/AddThing.png")
+        local LoadProject = Start.CreateButton(Options,"Load project","Internal/Studio/TabIcons/InsertIcon.png")
+        local StudioSettings = Start.CreateButton(Options,"Studio Settings","Internal/Studio/TabIcons/ScaleIcon.png")
 
         Studio.Components.CreateStyle("Text", {
             Text = "StudioDream by Mikl, Bloctans and Konadi, Full credits in the help tab",
@@ -256,6 +257,10 @@ return function(Start)
                     Studio.ProjectManager.NewProject(Text)
                 end,
             })
+        end)
+
+        StudioSettings.Clicked:Connect(function()
+            Studio.EditorUI.ToggleWindow("StudioConfig",true)
         end)
 
         LoadProject.Clicked:Connect(function()

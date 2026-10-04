@@ -21,12 +21,7 @@ return function(ProjectConfig)
                     Title = "Project Icon",
                     Type = "Button",
                     UserRequest = function(Change)
-                        Platform.OpenWithCallback("Select the resource for this property.", Enum.OpenDialog.File, function(NewPath) -- Make this check attributes before actually setting thing resource (aka to limit stuff like an Audio thiing resource being set as a image ect ect@!!)
-                            local Identifier, _ = Runtime.Resources.LoadIdentifierIDFromPath(NewPath)
-                            if (not Identifier) then Utils.SendNotification("Couldnt find identifier, not supported yet perhaps...?","Error") return end
-
-                            Change(Identifier)
-                        end)
+                        Studio.Components.OpenResourcePicker(Change)
                     end,
                     UserChange = function(InfoGiven)
                         Runtime.Project.Config.Set("Icon",Identifier)

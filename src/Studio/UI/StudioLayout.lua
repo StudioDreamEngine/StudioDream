@@ -13,7 +13,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     local Windows = {}
 
     Windows.Modal = Transform.Modal
-    
+
     Windows.FullContainer = Studio.Components.CreateStyle("Square",{
         Size = Transform.Size,
         Position = Transform.Position,
@@ -118,6 +118,8 @@ function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     return Window
 end
 
+local WindowStack = {}
+
 function StudioLayout.CreateWindow(WindowType, Transform)
     local WindowContainer = StudioLayout.CreateWindowContainer(Transform, Transform.Name)
     WindowContainer.FullContainer.Name = "Windows."..WindowType
@@ -127,6 +129,8 @@ function StudioLayout.CreateWindow(WindowType, Transform)
     Window.Close = function()
         StudioLayout.ToggleWindow(Window, false)
     end
+    
+    Window.Namespace = "Windows."..WindowType
 
     StudioLayout.ToggleWindow(Window, true)
 end
@@ -134,7 +138,9 @@ end
 -- Robuxxy worst nightmare
 function StudioLayout.ToggleWindow(Window, Toggle)
     if Window.Modal then
-        Studio.Components.ToggleFade(Toggle)
+        WindowStack[Window.Namespace] = Toggle or nil
+
+        Studio.Components.ToggleFade(table.length(WindowStack) > 0)
     end
 
     Window.FullContainer:SetVisible(Toggle)

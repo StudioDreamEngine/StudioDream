@@ -46,7 +46,7 @@ function Configuration.Load(Mount)
 
         -- Set config to hydrated config only if this isnt being called to grab a config of a non-loaded project
         if (not Mount) then
-            if Deserialized.FormatVersion ~= DefaultConfig.FormatVersion then
+            if Config.FormatVersion ~= DefaultConfig.FormatVersion then
                 Shared.QueueAbort("Project is too old!")
                 return
             end

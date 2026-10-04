@@ -60,6 +60,15 @@ function Components.ToggleFade(Toggle)
     end
 end
 
+function Components.OpenResourcePicker(Callback, Title)
+    Platform.OpenWithCallback(Title or "Select Resource", Enum.OpenDialog.File, function(NewPath) -- Make this check attributes before actually setting thing resource (aka to limit stuff like an Audio thiing resource being set as a image ect ect@!!)
+        local Identifier, _ = Runtime.Resources.LoadIdentifierIDFromPath(NewPath)
+        if (not Identifier) then return end
+
+        Callback(Identifier)
+    end, Runtime.ProjectFS.GetMount())
+end
+
 function Components.SimpleDialog(Text, Callback)
     return Studio.Components.CreateDialog("Option", {
         Text = Text,

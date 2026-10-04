@@ -67,7 +67,7 @@ return function(StudioConfig)
                     Title = "Code Editor",
                     Type = "Button",
                     UserRequest = function(Change)
-                        Platform.OpenWithCallback("Configure an Code Editor", Enum.OpenDialog.File,function(NewPath)
+                        Platform.OpenWithCallback("Configure a Code Editor", Enum.OpenDialog.File,function(NewPath)
                             local Editor = Studio.ScriptHandler.ValidateEditor(NewPath)
                             Change(Editor)
                         end)

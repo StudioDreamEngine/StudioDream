@@ -54,9 +54,9 @@ function DropdownPlus.CreateButton(Choice,Object)
     return Button
 end
 
-function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
+function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent, Size)
     return Components.RegisterUpdator(function()
-        local UsingSize = FakeParent.AbsoluteSize
+        local UsingSize = Size or FakeParent.AbsoluteSize
         local UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Vector2.yAxis)
 
         MajorComponent.Container:SetSize(Pivot2D.FromOffset(UsingSize.X or 200,0))
@@ -68,7 +68,7 @@ function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent)
     end)
 end
 
-function DropdownPlus.new(Choices,FakeParent)
+function DropdownPlus.new(Choices,FakeParent, Size)
     local DropdownObject = {}
 
     DropdownObject.Container = Things.Create("ViewportLite") {
@@ -99,7 +99,7 @@ function DropdownPlus.new(Choices,FakeParent)
         table.insert(DropdownObject.Choices, DropdownPlus.CreateButton(Choice,DropdownObject))
     end
 
-    local Updator = DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent)
+    local Updator = DropdownPlus.HandleNotParentSize(DropdownObject,FakeParent, Size)
 
     FakeParent.OnDestroy:ConnectOnce(function()
         DropdownObject.Remove()

@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 return function()
     local Assets = Things.Create("Environment") {
         Name = "Environment",
