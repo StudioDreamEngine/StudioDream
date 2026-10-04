@@ -23,7 +23,7 @@ function LocalTransformable3D:DefineAPI()
     self.Proxy.SetCategory("3D")
     
     self.Proxy.Property("Transform3D LocalTransform")
-    self.Proxy.Group("Transform","LocalTransform")
+    self.Proxy.Group("General","LocalTransform")
 end
 
 function LocalTransformable3D:UpdateParentSituation()

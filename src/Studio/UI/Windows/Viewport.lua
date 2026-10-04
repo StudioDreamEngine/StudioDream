@@ -8,7 +8,13 @@ return function(Viewport)
         Viewport.CurrentlySelected = ID
     end
 
+    function Viewport.GetScene(ID)
+        return Viewport.Tabs[ID]
+    end
+
     function Viewport.CreateTab(Name,SceneID)
+        if Viewport.GetScene(ID) then return end
+
         local Tab = {}
 
         Tab.Name = Name
@@ -31,6 +37,8 @@ return function(Viewport)
         })
 
         Tab.Object.Clicked:Connect(function()
+            print(Runtime.Project.GetAllProjectScenes())
+            Runtime.Project.LoadEnviornment(SceneID)
             Viewport.SelectScene(SceneID)
         end)
 
@@ -74,7 +82,9 @@ return function(Viewport)
                 Text = "Load Scene",
                 Function = function()
                     Studio.Components.OpenResourcePicker(function(Identifier)
-                        Runtime.Project.LoadEnviornment(Identifier)
+                        local Identifier = Runtime.Project.LoadEnviornment(Identifier)
+                        Viewport.CreateTab(Identifier.Data.FileName,Identifier)
+                        Viewport.SelectScene(Identifier)
                     end)
                 end
             },
@@ -88,11 +98,12 @@ return function(Viewport)
                         ApplyButton = "Create scene",
                         OnEnd = function(_,Text)
                             local IdentifierID = Runtime.Resources.GetOrCreateIdentifierID(Text..".sds")
-
+                            
                             local Scene = Runtime.Things.CreateTemplate("Environment")
                             Scene.Scene = IdentifierID
 
                             Runtime.Project.Scenes.SaveScene(Scene)
+                            Viewport.CreateTab(Text,IdentifierID)
                             Scene:Destroy()
                         end,
                     })
@@ -140,7 +151,7 @@ return function(Viewport)
             --Tab.Object:SetPivot(Tab.Object.Pivot:Lerp(Vector2.new(0, IsSelected and .05 or -.15), dt*16))
             Tab.Object:SetPivot(Vector2.new(0, IsSelected and .05 or -.15))
 
-            Tab.Object.ForegroundTransparency = IsSelected and 0.25 or 0.5
+            Tab.Object.ForegroundTransparency = IsSelected and 0 or 0.5
             Tab.Object.BackgroundTransparency = IsSelected and 0 or 0.5
         end
     end

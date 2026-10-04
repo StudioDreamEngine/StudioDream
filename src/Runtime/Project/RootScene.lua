@@ -26,11 +26,29 @@ function RootScene.LoadEnviornment(IdentifierID)
 
     local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
     local Scene, _ = Runtime.Resources.GetResource(Identifier, true)
-
     Scene.Scene:SetParent(Root)
     RootScene.ConfigureTargets()
+
+    return Identifier
 end
 
+function RootScene.GetAllProjectScenes()
+    local Classes = {}
+    local ClassesList = Utils.GetFolderDescendants(Runtime.ProjectFS.GetMount(), false, false)
+    print(Runtime.ProjectFS.GetMount())
+    print(ClassesList)
+    for _, v in pairs(ClassesList) do
+        print(v)
+        local Path = string.split(v, "%/")
+        local Name = Path[#Path]
+
+        v = string.gsub(v, "/", "%.")
+
+        print(v)
+    end
+
+    return Classes
+end
 -- Save the current enviornment
 function RootScene.SaveEnviornment()
     local Project = Runtime.Project
@@ -64,7 +82,6 @@ function RootScene.Load()
 
     RootScene.ConfigureTargets()
 end
-
 -- Configure Hud and Environment viewports for new root scenes
 function RootScene.ConfigureTargets()
     if Root.EnvironmentViewport and Root.HudViewport then

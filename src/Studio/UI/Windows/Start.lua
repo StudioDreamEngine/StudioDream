@@ -232,7 +232,7 @@ return function(Start)
 
         local NewProject = Start.CreateButton(Options,"New project","Internal/Studio/AddThing.png")
         local LoadProject = Start.CreateButton(Options,"Load project","Internal/Studio/TabIcons/InsertIcon.png")
-        local StudioSettings = Start.CreateButton(Options,"Studio Settings","Internal/Studio/TabIcons/ScaleIcon.png")
+        local StudioSettings = Start.CreateButton(Options,"Studio Settings","Internal/Studio/TabIcons/Config.png")
 
         Studio.Components.CreateStyle("Text", {
             Text = "StudioDream by Mikl, Bloctans and Konadi, Full credits in the help tab",

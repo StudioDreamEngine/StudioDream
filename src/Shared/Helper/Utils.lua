@@ -138,7 +138,6 @@ end
 -- Returns a table of all the files in a folder, regardless of if a file was nested or not
 function Utils.GetFolderDescendants(Folder, NoPath, NoExtension)
     local FolderData = {}
-
     for _, FileName in pairs(love.filesystem.getDirectoryItems(Folder)) do
         local Info = love.filesystem.getInfo(Folder..FileName)
 

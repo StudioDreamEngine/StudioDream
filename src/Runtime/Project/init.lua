@@ -9,6 +9,7 @@ Project.Config = require("Runtime.Project.Configuration")
 
 Project.LoadDefault = RootScene.LoadDefault
 Project.LoadEnviornment = RootScene.LoadEnviornment
+Project.GetAllProjectScenes = RootScene.GetAllProjectScenes
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
