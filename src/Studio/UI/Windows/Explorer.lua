@@ -66,6 +66,7 @@ return function(Explorer)
 
         Explorer.CleaningUp:ConnectOnce(function()
             NodeObj.NodeInner:UnReference()
+            NodeObj.NodeInner = nil
             NodeObj.Node = nil
         end)
 
