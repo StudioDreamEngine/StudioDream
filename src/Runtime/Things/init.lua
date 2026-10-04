@@ -218,7 +218,7 @@ function Things.UpdatePass(Name, dt, Function)
             Presumably we'd fix this by figuring out what causes that in the first place, 
             but this works too - Bloctans
         ]]
-        if Thing.Parent then
+        if Thing.ShouldProcess then
             if Function then
                 Function(Thing)
             else

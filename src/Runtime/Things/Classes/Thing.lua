@@ -40,6 +40,7 @@ function Thing:new()
     self.Parents = {}
 
     self.Unreferenced = false
+    self.ShouldProcess = false
     self.Debug = false
 
     self.Scene = nil
@@ -327,6 +328,10 @@ end
 function Thing:RemoveParent(Parent)
     table.removeValue(self.Parents, Parent)
     Parent:RemoveChild(self)
+
+    if self.Scene then
+        self.ShouldProcess = #self.Parents > 0
+    end
 end
 
 --[[
@@ -374,6 +379,7 @@ function Thing:SetParent(NewParent)
     end
 
     if (not self.Scene) then
+        self.ShouldProcess = NewParent and true or false
         self.Parent = NewParent
 
         -- Currently we'll only handle tree changes if the object isnt a scene, TODO: Fix this 
@@ -393,6 +399,7 @@ function Thing:SetParent(NewParent)
         end
     else
         Runtime.Things.RequestTreeChange(self)
+        self.ShouldProcess = true
 
         table.insert(self.Parents, NewParent)
         self.Parent = nil -- Set parent to nil
