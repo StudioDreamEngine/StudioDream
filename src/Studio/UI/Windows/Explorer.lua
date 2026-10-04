@@ -5,6 +5,8 @@ return function(Explorer)
     Explorer.Tree = {}
     Explorer.Nodes = {}
 
+    Explorer.CleaningUp = Signal:New("ExplorerCleanUpSignal")
+
     local AddButtonObject = Studio.Components.CreateStyle("ImageButton",{
         Resource = "Internal/Studio/AddThing.png",
         Size = Pivot2D.FromScale(1,1),
@@ -61,6 +63,11 @@ return function(Explorer)
         NodeObj.NodeInner:SetParent(NodeObj.Node)
         
         NodeObj.NodeInner.NodeIcon.ForegroundColor = Object.Proxy.IconTint
+
+        Explorer.CleaningUp:ConnectOnce(function()
+            NodeObj.NodeInner = nil
+            NodeObj.Node = nil
+        end)
 
         if Object.IconColorChanged then
             Object.IconColorChanged:ConnectOnce(function()
@@ -443,6 +450,7 @@ return function(Explorer)
     end
 
     function Explorer.Redraw()
+        Explorer.CleaningUp.Invoke()
         ScrollContainer:ClearAllChildren({"ListLayout"})
 
         table.clear(Explorer.Tree)

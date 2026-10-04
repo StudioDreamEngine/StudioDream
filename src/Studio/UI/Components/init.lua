@@ -116,6 +116,8 @@ function Components.CreateIconObject(Name, Icon)
         Parent = NodeInner
     })
     
+    
+
     return NodeInner
 end
 
