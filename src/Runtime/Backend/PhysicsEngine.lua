@@ -62,7 +62,9 @@ function PhysicsEngine.FromBullet(BulletTransform)
 
     local Transform = Transform3D.FromPosition(Origin:x(), Origin:y(), Origin:z())
 
-    local Rotation = BulletTransform:getRotation()
+    local Rotation = BulletTransform:getBasis()
+
+    print(Rotation)
 
     ---@class DreamQuat
     local Quat = Dream.quat.new(Rotation:x(),Rotation:y(),Rotation:z(),Rotation:w())

@@ -19,6 +19,11 @@ end
 
 -- Load an enviornment from an IdentifierID
 function RootScene.LoadEnviornment(IdentifierID)
+    if (IdentifierID == Root.Scene) then
+        print("Cannot load root scene as environment")
+        return
+    end
+
     if CurrentEnv then
         CurrentEnv:RemoveParent(Root)
         CurrentEnv = nil

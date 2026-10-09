@@ -123,6 +123,12 @@ return function(Viewport)
                 Text = "Load Scene",
                 Function = function()
                     Studio.Components.OpenResourcePicker(function(IdentifierID)
+                        -- Two checks, one in LoadEnviornment and one here, as if we use the check in the LoadEnviornment function the tabs will break
+                        if (IdentifierID == Things.Root.Scene) then
+                            Shared.QueueAbort("Cannot load scene - Scene is the same ID as the root scene")
+                            return
+                        end
+
                         Viewport.CreateTab(IdentifierID)
                         Viewport.SelectScene(IdentifierID)
                     end)
