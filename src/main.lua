@@ -172,14 +172,16 @@ function love.update(dt)
 end
 
 function love.quit()
-    printVerbose("Gracefully shutting down StudioDream...")
+    print("Gracefully shutting down StudioDream...")
+    print("(IF YOU DO NOT SEE THE ABOVE DURING AN ABRUPT EXIT, SOMETHING WENT REALLY WRONG!)")
 
     Profiler.Frame = true
     Profiler.Start("frame")
+
     Shared.OnQuit.Invoke()
     love.filesystem.write("Latest.log", table.concat(PrintLogs, "\n"))
     print("Saved logs, You can find Latest.log at "..love.filesystem.getAppdataDirectory())
-    Profiler.End("frame")
 
+    Profiler.End("frame")
     Profiler.Quit()
 end

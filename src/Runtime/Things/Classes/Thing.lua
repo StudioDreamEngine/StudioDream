@@ -349,6 +349,9 @@ end
 ]]
 -- Sets the current parent of a thing
 function Thing:SetParent(NewParent)
+    local ParentType = Utils.TypeOf(NewParent)
+    assert(ParentType == "Thing" or ParentType == "nil", "Invalid parent "..ParentType)
+
     local CouldRecurse = self:CheckRecursion(NewParent)
 
     if CouldRecurse then

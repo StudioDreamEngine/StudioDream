@@ -3,8 +3,6 @@ local Tween = Runtime.Services.Service("TweenService")
 
 return function(Viewport)
     function Viewport.SelectScene(ID)
-        local Tab = Viewport.Tabs[ID]
-
         Runtime.Project.LoadEnviornment(ID)
         Viewport.CurrentlySelected = ID
     end
@@ -13,17 +11,20 @@ return function(Viewport)
         return Viewport.Tabs[ID]
     end
 
-    function Viewport.CreateTab(Name,SceneID)
+    function Viewport.CreateTab(SceneID)
         local Tab = {}
 
-        Tab.Name = Name
+        local Identifier = Runtime.Resources.GetIdentifierFromID(SceneID)
+        printVerbose(Identifier, SceneID)
+
+        Tab.Name = Identifier.Data.FileName
         Tab.SceneID = SceneID
 
         Tab.Object = Studio.Components.CreateStyle("TextButton",{
             Size = Pivot2D.new(0,200,1,0),
             Pivot = Vector2.new(0,-.15),
             ForegroundColor = "Text",
-            Text = Name,
+            Text = Tab.Name,
             TextScaled = false,
             TextSize = 16,
             Layer = 3,
@@ -40,6 +41,26 @@ return function(Viewport)
         end)
 
         Viewport.Tabs[SceneID] = Tab
+    end
+
+    function Viewport.CreateDefaultScene()
+        local DefaultScene = Runtime.Project.Config.Get("MainScene")
+
+        if DefaultScene and (not Viewport.Tabs[DefaultScene]) then
+            Viewport.CreateTab(DefaultScene)
+            Viewport.SelectScene(DefaultScene)
+        end
+    end
+
+    function Viewport.RemoveTab(ID)
+        local Tab = Viewport.Tabs[ID]
+        Tab:Destroy()
+
+        Viewport.Tabs[ID] = nil
+
+        if Viewport.CurrentlySelected == ID then
+            Viewport.CurrentlySelected = nil
+        end
     end
 
     function Viewport.Init()
@@ -73,18 +94,37 @@ return function(Viewport)
             Clicked = function() Dropdown.Toggle() end
         })
 
+        Runtime.Project.LoadedProject:Connect(function()
+            for SceneID, _ in pairs(Viewport.Tabs) do Viewport.RemoveTab(SceneID) end -- Remove old tabs
+            Viewport.Tabs = {}
+
+            local Tabs = Studio.SettingsManager.GetProject("Tabs")
+
+            for _, SceneID in pairs(Tabs) do
+                Viewport.CreateTab(SceneID)
+            end
+
+            Viewport.CreateDefaultScene()
+        end)
+
+        Runtime.Project.SavingProject:Connect(function()
+            local Tabs = {}
+
+            for SceneID, _ in pairs(Viewport.Tabs) do
+                table.insert(Tabs, SceneID)
+            end
+
+            Studio.SettingsManager.SetProject("Tabs", Tabs)
+        end)
+
         Dropdown = Studio.Components.DropdownPlus.new({
             {
                 Type = "Button",
                 Text = "Load Scene",
                 Function = function()
                     Studio.Components.OpenResourcePicker(function(IdentifierID)
-                        print(IdentifierID)
-
-                        local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
-
-                        Viewport.CreateTab(Identifier.Data.FileName,Identifier.ID)
-                        Viewport.SelectScene(Identifier.ID)
+                        Viewport.CreateTab(IdentifierID)
+                        Viewport.SelectScene(IdentifierID)
                     end)
                 end
             },

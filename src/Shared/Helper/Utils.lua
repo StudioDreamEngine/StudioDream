@@ -101,8 +101,8 @@ function Utils.FileExists(Directory)
 end
 
 -- Shouldnt be a util but whatever ig
-function Utils.Warn(Message)
-    Utils.SendNotification(Message, "Warn")
+function Utils.Warning(Message)
+    warn(Message)
 end
 
 function Utils.TextureToImageData(Text)
@@ -112,11 +112,7 @@ function Utils.TextureToImageData(Text)
 end
 
 function Utils.SendNotification(Message,Type)
-    if Type ~= "Warn" then
-        print("Usage of Utils.SendNotification outside of Utils.Warn is highly discouraged and will be deprecated in the future")
-    end
-
-    Studio.Layout.GetHandle("Notification").Notify(Message,Type)
+    warn("Usage of Utils.SendNotification has been replaced by Studio.Notify, this warning will be removed in the future.")
 end
 
 function Utils.LoadModules(Path, Require)

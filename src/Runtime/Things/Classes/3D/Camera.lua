@@ -31,8 +31,7 @@ end
 function Camera:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
     local RayOrigin = self.Position -- RayOrigin is always assumed to be where the camera is for now
 
-    local Denom = PlaneAxis:Dot(RayDirection)
-
+    local Denom = RayDirection:Dot(PlaneAxis)
     local Distance = (PlaneOrigin - RayOrigin):Dot(PlaneAxis) / Denom
 
     local Final = RayOrigin + Distance * RayDirection
@@ -40,6 +39,23 @@ function Camera:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
 
     return Final
 end
+
+-- TODO: make this work
+--[[function Camera:RayDirectionToLine(LineOrigin, LineAxis, RayDirection)
+    local RayOrigin = self.Position
+    local Inverse = LineAxis
+
+    local Dist = RayDirection:Dot(Inverse)
+
+    print(LineOrigin - RayOrigin)
+    print(Dist)
+
+    local Distance = (LineOrigin - RayOrigin) / Dist
+
+    Runtime.Backend3D.SetTransform(Transform3D.FromPosition(0,Distance.Y,0))
+
+    return LineAxis * Distance
+end]]
 
 function Camera:SetOrthographic(Boolean)
     self.Orthographic = Boolean
@@ -75,6 +91,12 @@ function Camera:LocalRayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
     local Plane = self:RayDirectionToPlane(PlaneOrigin, PlaneAxis, RayDirection)
 
     return Plane - PlaneOrigin
+end
+
+function Camera:LocalRayDirectionToLine(LineOrigin, PlaneAxis, RayDirection)
+    local Plane = self:RayDirectionToLine(LineOrigin, PlaneAxis, RayDirection)
+
+    return Plane - LineOrigin
 end
 
 function Camera:GetFocalLength()

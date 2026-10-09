@@ -1,6 +1,6 @@
 local History = {}
 
-local RecentProjects = Studio.SettingsManager.Get("Projects")
+local RecentProjects = Studio.SettingsManager.Get("ProjectHistory")
 
 function History.Clear()
     RecentProjects = {}
@@ -10,7 +10,7 @@ function History.Remove(Path)
     print("Removing "..Path.." from project history")
     RecentProjects[Path] = nil
 
-    Studio.SettingsManager.Set("Projects", RecentProjects)
+    Studio.SettingsManager.Set("ProjectHistory", RecentProjects)
     printVerbose(RecentProjects)
 end
 
@@ -19,10 +19,13 @@ function History.Add(Path, Name)
     if Path.IsWritable() then
         RecentProjects[Path.GetMount()] = {
             Name = Name,
-            Time = os.time()
+            Time = os.time(),
+            StudioData = {
+
+            }
         }
 
-        Studio.SettingsManager.Set("Projects", RecentProjects)
+        Studio.SettingsManager.Set("ProjectHistory", RecentProjects)
         printVerbose(RecentProjects)
     end
 end

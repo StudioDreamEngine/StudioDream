@@ -96,11 +96,11 @@ return function(InsertObject)
                 local ToParentWith = Hiper.ExpandableDropdown.Container
                 local IconObject = Studio.Components.CreateIconObject(ClassName, Class.ExplorerIcon)
 
-                IconObject:SetPivot(Vector2.zero)
-                IconObject:SetSize(Pivot2D.new(1,-20,0,20))
-                IconObject.Name = ClassName
-                IconObject:SetParent(ToParentWith)
-                IconObject.Clicked:Connect(function()
+                IconObject.Button:SetPivot(Vector2.zero)
+                IconObject.Button:SetSize(Pivot2D.new(1,-20,0,20))
+                IconObject.Button.Name = ClassName
+                IconObject.Button:SetParent(ToParentWith)
+                IconObject.Button.Clicked:Connect(function()
                     InsertObject.Close()
 
                     print("Inserting new object: "..ClassName)

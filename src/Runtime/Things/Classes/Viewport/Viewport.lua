@@ -44,10 +44,10 @@ function Viewport:GetCanvas()
 end
 
 function Viewport:Draw()
+    love.graphics.scale(self.Scale)
     Viewport.super.Draw(self)
 
     self:SetColor("Foreground", "Color")
-    love.graphics.scale(self.Scale)
     Renderer.ViewportManager.RenderCanvas(self)
 
     if FLAGS.DebugDraw then

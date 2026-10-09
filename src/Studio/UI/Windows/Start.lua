@@ -274,7 +274,7 @@ return function(Start)
 
         Version.Size = Pivot2D.FromScale(1,0.05)
 
-        for i,v in pairs(Studio.SettingsManager.Get("Projects")) do
+        for i,v in pairs(Studio.SettingsManager.Get("ProjectHistory")) do
             Start.CreateProject(Scroll,v,i,Start.FullContainer)
         end
 

@@ -38,7 +38,7 @@ function ProjectManager.SaveProjectTo(Callback)
         Runtime.Project.SaveTo(ProjectPath)
         if Callback then Callback() end
 
-        Utils.Warn("Please note that resources currently do not transfer between")
+        Utils.Warning("Please note that resources currently do not transfer between project") -- TODO: I think this is wrong now
     end)
 end
 

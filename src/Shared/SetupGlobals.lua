@@ -16,7 +16,7 @@ return function ()
     -- Packages
     printVerbose("Setting up LUA packages")
     Dream = require("Shared.Packages.3DreamEngine")
-    Binser = require("Shared.Packages.Binser")
+    JSON = require("Shared.Packages.json")
     TweenFunctions = require("Shared.Packages.Tweener")
     require("Shared.Packages.lovezip")
     DiscordRPC = require("Shared.Packages.discordRPC")

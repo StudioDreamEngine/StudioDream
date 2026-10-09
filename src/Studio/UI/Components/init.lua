@@ -77,7 +77,9 @@ function Components.SimpleDialog(Text, Callback)
 end
 
 function Components.CreateIconObject(Name, Icon)
-    local NodeInner = Studio.Components.CreateStyle("TextButton", {
+    local NodeInner = {}
+
+    NodeInner.Button = Studio.Components.CreateStyle("TextButton", {
         Position = Pivot2D.FromScale(1,0),
         Pivot = Vector2.new(1,0),
         Size = Pivot2D.new(1,0,0,20),
@@ -92,13 +94,13 @@ function Components.CreateIconObject(Name, Icon)
         CornerRadius = 5,
     })
     
-    local NodeText = Studio.Components.CreateStyle("Text", {
+    Studio.Components.CreateStyle("Text", {
         Size =  Pivot2D.FromScale(0.95,1),
         Position = Pivot2D.FromScale(0.55,0.5),
         Pivot = Vector2.new(0.5,0.5),
         Text = Name,
         Name = "NodeText",
-        Parent = NodeInner,
+        Parent = NodeInner.Button,
         BackgroundTransparency = 1,
         ForegroundColor = "Text"
     })
@@ -106,22 +108,18 @@ function Components.CreateIconObject(Name, Icon)
     local NotFoundIcon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/File_Not_Found.png")
     local Icon = Runtime.Resources.GetIdentifierFromID("Internal/Studio/EditorIcons/" .. Icon .. ".png") or NotFoundIcon
     
-    NodeInner.NodeIcon = Studio.Components.CreateStyle("Image2D",{
+    NodeInner.Icon = Studio.Components.CreateStyle("Image2D",{
         Size = Pivot2D.FromScale(1,1),
         SquareAxis = Enum.SquareAxis.Y,
         Pivot = Vector2.new(-0.1,0.5),
         Position = Pivot2D.FromScale(0,0.5),
         Name = "NodeIcon",
         Resource = Icon,
-        Parent = NodeInner
+        Parent = NodeInner.Button
     })
     
-    function NodeInner:UnReference()
-        NodeInner.NodeIcon = nil
-        Icon = nil
-        NotFoundIcon = nil
-        NodeText = nil
-        NodeInner = nil
+    function NodeInner.Destroy()
+        NodeInner = {}
     end
 
     return NodeInner

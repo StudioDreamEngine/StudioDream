@@ -104,7 +104,6 @@ end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
     printVerbose("Creating new WindowHandler:",WindowType)
-    printVerbose(WindowType,WindowContainer)
     
     local Window = require("Studio.UI."..WindowType)(WindowContainer)
     Window.Init()
@@ -268,7 +267,7 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("Notification", {
-        Size = Pivot2D.FromScale(0.2,1),
+        Size = Pivot2D.FromScale(0.1,1),
         Pivot = Vector2.new(0,0.5),
         Position = Pivot2D.FromScale(0,0.5),
         Layer = 999,

@@ -15,6 +15,8 @@ function Viewport3D:new()
     self.OnPick = Signal:New("OnPick")
 
     self.Click = Runtime.SelectionPriority.BindSignal(function()
+        if (not self.RenderContainer) then printVerbose("Discarding pick as no RenderContainer is set") return end
+
         local Camera = self:GetCamera()
         local CastResult = self.RenderContainer:Raycast(Camera.Position, Camera:GetMouseRay()*300)
 

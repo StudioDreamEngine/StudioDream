@@ -13,6 +13,8 @@ Project.LoadEnviornment = RootScene.LoadEnviornment
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
 Project.LoadingProject = false
+
+Project.SavingProject = Signal:New("ProjectSaved")
 Project.LoadedProject = Signal:New("ProjectLoaded")
 
 function Project.Clear()
@@ -130,7 +132,7 @@ function Project.Reload()
         Project.LoadingProject = true
 
         local Config = Project.Config.Load()
-        if (not Config) then return end
+        if (not Config) then print("Configuration returned nil, refusing to load project further.") return end
 
         Resources.Load()
         RootScene.Load()
@@ -246,6 +248,8 @@ function Project.Save()
 
         ProjectFS.QueueWrite("Thumbnail.png", Dream:renderThumbnail())
         RootScene.Save()
+
+        Project.SavingProject.Invoke()
     end, function(Error)
         return debug.traceback(Error)
     end)

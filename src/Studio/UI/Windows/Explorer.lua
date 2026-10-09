@@ -59,16 +59,10 @@ return function(Explorer)
         NodeObj.AlreadyCreatedChilButton = false
 
         NodeObj.NodeInner = Studio.Components.CreateIconObject(Object.Name, Object.Proxy.ExplorerIcon) -- Actually creates the visual part of the node
-        NodeObj.NodeInner:SetSize(Pivot2D.new(1,-Depth*20,1,0))
-        NodeObj.NodeInner:SetParent(NodeObj.Node)
+        NodeObj.NodeInner.Button:SetSize(Pivot2D.new(1,-Depth*20,1,0))
+        NodeObj.NodeInner.Button:SetParent(NodeObj.Node)
         
-        NodeObj.NodeInner.NodeIcon.ForegroundColor = Object.Proxy.IconTint
-
-        Explorer.CleaningUp:ConnectOnce(function()
-            NodeObj.NodeInner:UnReference()
-            NodeObj.NodeInner = nil
-            NodeObj.Node = nil
-        end)
+        NodeObj.NodeInner.Icon.ForegroundColor = Object.Proxy.IconTint
 
         if Object.IconColorChanged then
             Object.IconColorChanged:ConnectOnce(function()
@@ -88,7 +82,7 @@ return function(Explorer)
                 BackgroundColor = "Outline",
                 BackgroundTransparency = 0,
                 Layer = 1,
-                Parent = NodeObj.NodeInner,
+                Parent = NodeObj.NodeInner.Button,
                 Name = "ParentLine",
                 CornerRadius = 0,
                 LimitCornerRadius = true,
@@ -119,7 +113,7 @@ return function(Explorer)
                 BackgroundTransparency = 0,
                 Name = "ParentLineLast",
                 Layer = 1,
-                Parent = NodeObj.NodeInner,
+                Parent = NodeObj.NodeInner.Button,
                 CornerRadius = 0,
                 LimitCornerRadius = true,
             })
@@ -163,7 +157,7 @@ return function(Explorer)
                 SquareAxis = Enum.SquareAxis.Y, 
                 Position = Pivot2D.FromScale(0,0.5),
                 Pivot = Vector2.new(1,0.5),
-                Parent = NodeObj.NodeInner,
+                Parent = NodeObj.NodeInner.Button,
                 Layer = 4,
                 ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
                 ForegroundColor = "Text",
@@ -202,7 +196,7 @@ return function(Explorer)
         NodeObj.Node:SetParent(ScrollContainer)
         --NodeObj.CreateParentLine(Depth+1)
         --printVerbose(NodeObj.NodeInner.BackgroundColor)
-        Explorer.Tree[Object] = NodeObj.NodeInner
+        Explorer.Tree[Object] = NodeObj.NodeInner.Button
         Explorer.Nodes[Object] = NodeObj
 
         -- ??

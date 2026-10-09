@@ -4,8 +4,10 @@ local Root = Runtime.Things.Root
 local RootScene = {}
 local CurrentEnv
 
+local LoadedScenes = {}
+
 function RootScene.Unload()
-    print("Unload")
+    print("Unload (TODO)")
 end
 
 function RootScene.LoadDefault()
@@ -29,6 +31,7 @@ function RootScene.LoadEnviornment(IdentifierID)
     Resource.Scene:SetParent(Root)
 
     CurrentEnv = Resource.Scene
+    LoadedScenes[IdentifierID] = Resource.Scene
 
     RootScene.ConfigureTargets()
 
@@ -49,6 +52,8 @@ end
 function RootScene.Load()
     local Project = Runtime.Project
     Root:Clear()
+
+    LoadedScenes = {}
 
     -- Get the identifier id for the root scene
     local IdentifierID = Project.Config.Get("RootScene")
@@ -80,6 +85,10 @@ function RootScene.Save()
     local Project = Runtime.Project
 
     RootScene.SaveEnviornment()
+
+    for _, Scene in pairs(LoadedScenes) do
+        Project.Scenes.SaveScene(Scene)
+    end
 
     Project.Scenes.SaveScene(Root)
     Project.Config.Set("RootScene", Root.Scene)

@@ -49,8 +49,16 @@ function Studio.Init()
         })
     end)]]
 
+    Utils.Warning = function(Message)
+        Studio.Notify(Message, "Warn")
+    end
+
     printVerbose("Finished Initalizing studio")
     Shared.ProcessQueue()
+end
+
+function Studio.Notify(Message, Type)
+    Studio.Layout.GetHandle("Notification").Notify(Message, Type or "Info")
 end
 
 function Studio.Update(dt)

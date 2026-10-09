@@ -1,48 +1,52 @@
 return function(Notify)
-    local Things = Runtime.Things
-    local ToTransparency = {
-        ["Text"] = {ForegroundTransparency = 1},
-        ["Image2D"] = {ForegroundTransparency = 1},
+    local Times = {
+        Warn = 8,
+        Error = 12,
+        Info = 5
     }
+
     local Tween = Runtime.Services.Service("TweenService")
+    
     function Notify.Notify(Message,Type)
-        local Window = Studio.Components.CreateStyle("Square",{
+
+        local Window = Studio.Components.CreateStyle("Viewport2D",{
             Size = Pivot2D.FromScale(1,0.07),
-            Pivot = Vector2.new(0.5,0.5),
+            Pivot = Vector2.new(0,0.5),
             Position = Pivot2D.FromScale(0.5,0.5),
-            BackgroundColor = Studio.CurrentTheme.Outline,
-            --Parent = Notify.Container,
+            BackgroundColor = "Outline",
+            BackgroundTransparency = 0,
             CornerRadius = 5,
         })
-        local NotifyImage = Studio.Components.CreateStyle("Image2D",{
-            Size = Pivot2D.FromScale(.35,.35),
+
+        Tween.Create(Window, {}, Enum.EasingStyle.QuintOut, .5).Play()
+
+        Studio.Components.CreateStyle("Image2D",{
+            Size = Pivot2D.FromScale(.2,.2),
             Layer = 2,
             Pivot = Vector2.new(0,.5),
             Resource = "Internal/Studio/Notify/"..Type..".png",
-            Position = Pivot2D.FromScale(.5,.5),
-            SquareAxis = Enum.SquareAxis.Y,
+            Position = Pivot2D.FromScale(.05,.5),
+            SquareAxis = Enum.SquareAxis.X,
             Parent = Window
         })
-        local Text = Studio.Components.CreateStyle("Text",{
-            Size = Pivot2D.FromScale(0.3,0.5),
+
+        Studio.Components.CreateStyle("Text",{
+            Size = Pivot2D.FromScale(0.65,0.5),
             Layer = 2,
-            Pivot = Vector2.new(0,.5),
-            Position = Pivot2D.FromScale(.6,.5),
+            Pivot = Vector2.new(1,.5),
+            Position = Pivot2D.FromScale(.95,.5),
             Text = Message,
             Parent = Window,
             BackgroundTransparency = 1,
             ForegroundColor = "Text"
         })
 
-        Scheduler.DelayTask(5,function()
+        local Time = Times[Type]
+
+        Scheduler.DelayTask(Time - .5,function()
+            Tween.Create(Window, {ForegroundTransparency = 1, BackgroundTransparency = 1, Scale = 0.75}, Enum.EasingStyle.QuintOut, .5).Play()
+            Scheduler.Yield(.5)
             Window:Destroy()
-        end)
-        
-        Scheduler.DelayTask(4.5,function()
-            Tween.Create(Window, {BackgroundTransparency = 1,CornerRadius = 0}, Enum.EasingStyle.Linear, .2).Play()
-            for i,v in pairs(Window:GetChildren()) do
-                Tween.Create(v, ToTransparency[v.ClassName], Enum.EasingStyle.Linear, .2).Play()
-            end
         end)
 
         Window:SetParent(Notify.Container)

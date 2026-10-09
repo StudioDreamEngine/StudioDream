@@ -12,7 +12,7 @@ function Identifiers.LoadIdentifierIDFromPath(FilePath)
 	print(Mount, ", ", FilePath)
 
 	if not Mount then
-		Utils.Warn("A project needs to be loaded first before you can load resources")
+		Utils.Warning("A project needs to be loaded first before you can load resources")
 		return
 	end
 
@@ -130,7 +130,7 @@ function Identifiers.LoadOrCreateIdentifier(FilePath, FileData)
 	local ProjectFS = Runtime.ProjectFS
 
 	if not ProjectFS.GetMount() then
-		Utils.Warn("A project needs to be loaded first before a resource can be created")
+		Utils.Warning("A project needs to be loaded first before a resource can be created")
 		return
 	end
 	

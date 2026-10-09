@@ -7,12 +7,9 @@ local function escape(Str)
     return tostring(Str):gsub(":", "\\:"):gsub(";", "\\;")
 end
 
--- When im better at this, i'll make the kv system good, for now tho im using json
-local Json = require("Shared.Packages.NAML.json")
-
 ---@param List table
 function Util.SerializeList(List)
-    return Json.encode(List)
+    return JSON.encode(List)
 
     --[[local Final = ""
 
@@ -25,7 +22,7 @@ end
 
 ---@param List string
 function Util.DeserializeList(List)
-    return Json.decode(List)
+    return JSON.decode(List)
 
     --[[local ByElement = string.split(List, esequence..":")
     local Final = {}

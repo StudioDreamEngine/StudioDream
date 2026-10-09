@@ -3,6 +3,7 @@ The issue with 3DreamEngine is that StudioDream currently has to communicate wit
 
 Rendering Pipeline rewrite:
     Currently to implement:
+        - Deferred rendering
         - Point Lights
         - Sun Lights
         - Diffuse Lighting
