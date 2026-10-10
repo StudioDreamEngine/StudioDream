@@ -84,7 +84,8 @@ function ProjectManager.NewProject(Name)
     Runtime.Project.CreateProject(Directory)
     Runtime.Project.Config.Set("Name",Name)
     Runtime.Project.Config.Set("WindowResize",true)
-    --Runtime.Project.Config.Set("Icon","Internal/Icons/Client.png")
+
+    ProjectManager.AddHistory()
 end
 
 return ProjectManager

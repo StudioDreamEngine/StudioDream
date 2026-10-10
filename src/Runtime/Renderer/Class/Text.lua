@@ -17,7 +17,7 @@ function Text:new()
     self.OffsetPosition = Vector2.zero
 
     self.Text = ""
-    self.Placeholder = ""
+    self.Placeholder = " "
 
     self.ContentText = self.Text
 

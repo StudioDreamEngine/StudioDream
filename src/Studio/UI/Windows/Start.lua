@@ -45,9 +45,7 @@ return function(Start)
 
     function Start.CreateProject(Scroll,Info,Path,FullContainer)
         local Summary = Runtime.Project.GetSummary(Path)
-        if (not Summary) then print(Path.." Returned no summary, assuming project is non-existant") return end
-
-        local ImageToUse = Summary.ImageResource
+        local ImageToUse = Summary and Summary.ImageResource or "Internal/Studio/Notify/Error.png"
 
         local Base = Studio.Components.CreateStyle("TextButton",{
             Text = "",
@@ -96,11 +94,14 @@ return function(Start)
         })
 
         Base.Clicked:Connect(function()
-            Start.Close()
-            print("Loading project")
-            Runtime.Project.Load(Path)
-            CreateClose(Start.Container)
-            --Studio.Layout.CallHandle("Explorer", "Redraw")
+            if Summary then
+                Start.Close()
+                print("Loading project")
+                Runtime.Project.Load(Path)
+                CreateClose(Start.Container)
+            else
+                Studio.Notify("Project no longer exists.", "Error")
+            end
         end)
 
         DoneLoad:Connect(function(LastNumber)

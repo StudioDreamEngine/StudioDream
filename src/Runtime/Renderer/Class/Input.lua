@@ -52,6 +52,7 @@ function Input:CharacterAtRenderPos(Position)
             CurrentLine, Line = LineIndex, LineString
             self.Cursor.Line = CurrentLine
             self.Cursor.PixelPosition = self:GetWidth(LineString)
+            self.Cursor.CharPosition = #LineString
 
             break
         end
@@ -64,9 +65,9 @@ function Input:CharacterAtRenderPos(Position)
     if Length then
         CurrentPosition = CurrentPosition + Length
         self.Cursor.PixelPosition = PixelPosition
+        self.Cursor.CharPosition = CurrentPosition
     end
-
-    self.Cursor.CharPosition = CurrentPosition
+    
     self:RefreshBlinkCursor(true)
 end
 
@@ -188,6 +189,10 @@ function Input:Render()
 
         self:UpdateCursor()
         self:RefreshBlinkCursor(true)
+    end
+
+    if self.Focused then
+        --print(self.Cursor)
     end
 
     Input.super.Render(self)

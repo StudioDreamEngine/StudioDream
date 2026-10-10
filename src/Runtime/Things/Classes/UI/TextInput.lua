@@ -102,6 +102,8 @@ end
 function TextInput:SetPlaceholder(NewPlaceholder)
     self.Placeholder = NewPlaceholder
     self.RenderClass.Placeholder = NewPlaceholder
+
+    self.RenderClass:UpdateText(self.Text)
 end
 
 function TextInput:SetText(Text)
