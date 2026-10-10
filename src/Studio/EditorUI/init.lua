@@ -10,8 +10,9 @@ function EditorUI.GetViewportInternal()
     return Runtime.Things.RenderRoot
 end
 
-function EditorUI.MoveWindow(Window,Pos)
-    Studio.Layout.MoveWindow(Studio.Layout.GetHandle(Window),Pos)    
+-- TODO: Move to layout???
+function EditorUI.MoveWindow(Window, Pos, Ctx)
+    Studio.Layout.MoveWindow(Studio.Layout.GetHandle(Window), Pos, Ctx)   
 end
 
 function EditorUI.MoveWindowToMouse(Window)

@@ -15,6 +15,8 @@ local DefaultConfig = {
     FormatVersion = 2, -- The version of the save format
 }
 
+Configuration.OnChange = Signal:New("ConfigurationChanged")
+
 function Configuration.Set(Key, Value)
     Configuration.Config[Key] = Value
     Configuration.Save()
@@ -62,6 +64,8 @@ function Configuration.Load(Mount)
                 Configuration.Config = Config
             end
 
+            Configuration.OnChange.Invoke()
+
             return Config
         elseif (not Mount) then
             Shared.QueueAbort("Project configuration doesnt exist!")
@@ -81,6 +85,8 @@ end
 function Configuration.Save()
     local Serialized = JSON.encode(Configuration.Config)
     Runtime.ProjectFS.QueueWrite("Project.sdc", Serialized)
+
+    Configuration.OnChange.Invoke()
 end
 
 return Configuration

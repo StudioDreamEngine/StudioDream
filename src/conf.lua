@@ -13,7 +13,7 @@ function love.conf(t)
     t.console = true
 
     t.version = "12.0"
-    t.window.title = "StudioDream "..VERSION_FULL.." - No Project"
+    t.window.title = "StudioDream "..VERSION_FULL
     t.window.resizable = true
     
     t.window.vsync = 0

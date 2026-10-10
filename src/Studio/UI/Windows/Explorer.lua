@@ -29,7 +29,9 @@ return function(Explorer)
             printVerbose("Insert open")
 
             AddButtonWow.IsInsertOpen = true
-            Studio.Editor3D.OpenInsertWindow(AddButtonWow.Object)
+            
+            Studio.EditorUI.ToggleWindow("InsertObject", true)
+            Studio.EditorUI.MoveWindowToMouse("InsertObject")
         end),
         IsInsertOpen = false
     }
@@ -410,7 +412,7 @@ return function(Explorer)
         Studio.Editor3D.OnSelect:Connect(function()
             if AddButtonWow.IsInsertOpen then
                 AddButtonWow.IsInsertOpen = false
-                Studio.Editor3D.CloseInsertWindow()
+                Studio.EditorUI.ToggleWindow("InsertObject", false)
             end
 
             for _, Object in pairs(Studio.Editor3D.Selecting) do

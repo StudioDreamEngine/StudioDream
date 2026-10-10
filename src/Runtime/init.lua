@@ -25,10 +25,6 @@ function Runtime.Init()
     --Runtime.WindowManager.Init()
 end
 
-function Runtime.ChangeTitle()
-    love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.Config.Get("Name"), Shared.Target))
-end
-
 function Runtime.RequestRestart(NextTarget)
     local Benchmark = Profiler.Benchmark("Restart StudioDream", true)
 
@@ -53,6 +49,7 @@ function Runtime.PostInit()
     Runtime.Backend3D.SetupDebug()
 
     Runtime.Project = require("Runtime.Project")
+    Runtime.Project.SetupSignals()
 
     print("Finished PostInit")
 end

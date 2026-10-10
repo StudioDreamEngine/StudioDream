@@ -75,7 +75,7 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     })
 
     if Transform.Closable then
-        Studio.Components.CreateStyle("ImageButton", {
+        Windows.CloseButton = Studio.Components.CreateStyle("ImageButton", {
             Size = Pivot2D.FromScale(1.5,0.5),
             SquareAxis = Enum.SquareAxis.Y,
             Parent = Windows.TopContainer,
@@ -98,8 +98,19 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
 end
 
 function StudioLayout.GetMouseContext(Context)
+    local MousePosition = Things.RenderRoot.MousePosition
+    local ContextSize = Context.AbsoluteSize
+    local ViewportSize = Things.RenderRoot.AbsoluteSize
+    
+    local Align = "Left"
+
+    if (MousePosition.X + ContextSize.X) > ViewportSize.X then
+        MousePosition = MousePosition - (Vector2.xAxis * ContextSize.X)
+        Align = "Right"
+    end
+
     -- TODO: Choose pivot point of object based on where it is on the screen, pivot point is simply added to the final position, it doesnt change the object pivot (maybe)
-    return Pivot2D.FromOffset(Things.RenderRoot.MousePosition)
+    return Pivot2D.FromOffset(MousePosition), Align
 end
 
 function StudioLayout.CreateWindowHandler(WindowType, WindowContainer)
@@ -146,7 +157,14 @@ function StudioLayout.ToggleWindow(Window, Toggle)
 end
 
 ---@param To Pivot2D
-function StudioLayout.MoveWindow(Window, To)
+function StudioLayout.MoveWindow(Window, To, Context)
+    if Window.CloseButton then
+        local IsLeft = (Context == "Left")
+
+        Window.CloseButton:SetPosition(Pivot2D.FromScale(IsLeft and 0 or 1,0))
+        Window.CloseButton:SetPivot(Vector2.new(IsLeft and 0 or 1,0))
+    end
+
     Window.FullContainer:SetPosition(To)
 end
 

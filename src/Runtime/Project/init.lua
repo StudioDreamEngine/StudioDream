@@ -17,6 +17,12 @@ Project.LoadingProject = false
 Project.SavingProject = Signal:New("ProjectSaved")
 Project.LoadedProject = Signal:New("ProjectLoaded")
 
+function Project.SetupSignals()
+    Project.Config.OnChange:Connect(function()
+        love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.Config.Get("Name"), FLAGS.Target))
+    end)
+end
+
 function Project.Clear()
     RootScene.Unload()
 end
@@ -155,9 +161,8 @@ function Project.Load(ProjectPath)
     if (not Success) then
         print(Message)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
-    else
-        Runtime.ChangeTitle()
     end
+
     Project.LoadedProject.Invoke()
 
     return true
