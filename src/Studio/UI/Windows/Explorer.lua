@@ -12,6 +12,8 @@ return function(Explorer)
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(0.5,0),
         Pivot = Vector2.new(1,0.0001),
+        BackgroundTransparency = 0,
+        CornerRadius = 10,
         SquareAxis = Enum.SquareAxis.Y,
     })
 

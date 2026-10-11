@@ -115,6 +115,10 @@ function InterfaceManager.Update(dt)
             if DisplayUI:IsA("ScrollContainer") then 
                 DisplayHovering = DisplayUI.Hovering
             end
+
+            --[[if (not CurrentlyHovering[DisplayUI.UUID]) then
+                CurrentlyHovering[DisplayUI.UUID] = {}
+            end]]
         
             if Button.TruelyVisible and Utils.IntersectPoint2D(Button:GetProperty("ChildRect"), DisplayUI.MousePosition) and DisplayHovering and (not Button:IsAlwaysOnTop()) then
                 table.insert(CurrentlyHovering, Button)
@@ -125,9 +129,17 @@ function InterfaceManager.Update(dt)
     Runtime.Cursor.ChangeCursorInternal((#CurrentlyHovering > 0) and "Hovering" or "Main", true)
 
     if #CurrentlyHovering > 0 then
-        table.sort(CurrentlyHovering, function (a, b) return a.AbsoluteLayer > b.AbsoluteLayer end)
+        --[[
+            So we need to be able to tell exactly where the viewport is layered
 
-        -- dumbass hack
+            currently if an object has a higher absolute layer but isnt in the same viewport, its considered the highest
+            
+        ]]
+        
+        table.sort(CurrentlyHovering, function(a, b)
+            return (a.AbsoluteLayer > b.AbsoluteLayer)
+        end)
+        
         InterfaceManager.Hovering = CurrentlyHovering[1]
 
         for _, Hovering in pairs(CurrentlyHovering) do

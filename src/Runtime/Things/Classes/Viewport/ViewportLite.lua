@@ -24,8 +24,6 @@ function ViewportLite:DefineAPI()
 end
 
 function ViewportLite:SubmitChild(Child)
-    self.CurrentOrder = self.CurrentOrder + 1
-    Child.AbsoluteLayer = self.CurrentOrder + self.AbsoluteLayer
     -- Check if the viewport has given a request to update the transforms
     self:SendChild(Child)
 
@@ -74,6 +72,8 @@ function ViewportLite:CreateDisplayList()
     for _, Child in pairs(self.TopLayer) do
         self:SubmitChild(Child)
     end
+
+    self.TotalLayers = self.CurrentOrder
 end
 
 function ViewportLite:Update(dt)

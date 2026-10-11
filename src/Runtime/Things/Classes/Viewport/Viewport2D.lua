@@ -1,5 +1,6 @@
 local Things = Runtime.Things
 local Renderer = Runtime.Renderer
+local ViewportManager = Renderer.ViewportManager
 
 ---@class Viewport2D: Viewport
 local Viewport2D = Things.Extend("Viewport")
@@ -11,6 +12,8 @@ function Viewport2D:new()
 
     self.TopLayer = {}
     self.Hovering = nil
+
+    self.CurrentOrder = 0
 end
 
 function Viewport2D:DefineAPI()
@@ -25,10 +28,14 @@ local function SortFunc(a,b) return a.Layer < b.Layer end
 
 function Viewport2D:SendChild(Child)
     self.CurrentOrder = self.CurrentOrder + 1
-    Child.AbsoluteLayer = self.CurrentOrder + self.AbsoluteLayer
+    Child.AbsoluteLayer = self.AbsoluteLayer + self.CurrentOrder
+
+    if Child:IsA("Viewport") then
+        self.CurrentOrder = self.CurrentOrder + Child.TotalLayers
+    end
 
     -- Check if the viewport has given a request to update the transforms
-    Viewport2D.super.SendChild(self, Child, self.CurrentOrder)
+    Viewport2D.super.SendChild(self, Child)
 end
 
 -- Submit the children of an thing and the thing itself to the display list
@@ -100,6 +107,8 @@ function Viewport2D:CreateDisplayList()
     for _, Child in pairs(self.TopLayer) do
         self:SubmitContainerChildren(Child)
     end
+
+    self.TotalLayers = self.CurrentOrder
 end
 
 function Viewport2D:Update(dt)

@@ -167,6 +167,25 @@ function BaseGui:GetUIObject(Object, Viewport, DontResolve)
     end
 end
 
+function BaseGui:GetDisplays()
+    local Displays = {}
+    local Current = self
+
+    while true do
+        local Display = Current:GetDisplayUI()
+
+        if Display then
+            table.insert(Displays, Display)
+
+            Current = Display
+        else
+            break
+        end
+    end
+
+    return
+end
+
 -- Find the parent element rendering this object, not really needed
 function BaseGui:GetParentElement()
     if (not self.Parent) then return end

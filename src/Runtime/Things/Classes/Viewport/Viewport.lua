@@ -15,6 +15,7 @@ function Viewport:new()
     self:CreateNew()
 
     self.DisplayList = {}
+    self.TotalLayers = 0
     self.Scale = 1
 
     self.BackgroundTransparency = 1
