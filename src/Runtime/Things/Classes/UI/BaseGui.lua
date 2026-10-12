@@ -4,7 +4,7 @@ local Things = Runtime.Things
 ---@class BaseGui: Thing
 local BaseGui = Things.Extend("Thing")
 
----@param ParentIn BaseGui
+---@param ParentIn? BaseGui
 function BaseGui:GetOffsetPosition(ParentIn)
     local PositionProp = self:GetProperty("Position")
     local Position = PositionProp.Offset

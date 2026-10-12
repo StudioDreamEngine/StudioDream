@@ -25,7 +25,7 @@ function BaseConstraint:BindObject(Object)
     end
 
     for _, Property in pairs(self.ConstraintProperties) do
-        Object:BindConstraint(self, Property) 
+        Object:BindOverride(self, Property) 
     end
 
     table.insert(self.Objects, Object)
@@ -47,7 +47,7 @@ end
 
 function BaseConstraint:UnbindObject(Object)
     table.removeValue(self.Objects, Object)
-    Object:UnbindConstraints(self)
+    Object:UnBindOverrides(self)
 end
 
 -- Unbind all objects
@@ -58,8 +58,8 @@ function BaseConstraint:Unbind()
 end
 
 -- Shortcut function
-function BaseConstraint:SetConstraint(Object, Property, Value, DontUpdate)
-    Object:SetConstraint(self, Property, Value, DontUpdate)
+function BaseConstraint:SetOverride(Object, Property, Value, DontUpdate)
+    Object:SetOverride(self, Property, Value, DontUpdate)
 end
 
 -- Make sure we un-bind and re-bind all objects on parent change

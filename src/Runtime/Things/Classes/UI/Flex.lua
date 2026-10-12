@@ -18,7 +18,7 @@ function FlexItem:new()
 end
 
 function FlexItem:GetListLayout()
-    return self.Parent:FindConstraintOfType("ListLayout")
+    return self.Parent:FindOverrideOfType("ListLayout")
 end
 
 -- Update the actual target
@@ -33,7 +33,7 @@ end
 function FlexItem:UpdateFlexWithSize(RemainingSize)
     local Target = self.Parent ---@type BaseGui
 
-    Target:SetConstraint(self, "Size", RemainingSize)
+    Target:SetOverride(self, "Size", RemainingSize)
 end
 
 -- Handles receiving updates from the parent of the target, as we need to know those, not the targets updates

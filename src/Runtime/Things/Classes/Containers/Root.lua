@@ -82,7 +82,7 @@ function Root:GetService(Service)
 end
 
 function Root:OnRemove()
-    error("Attempted to remove root")
+    warn("Attempted to remove root, Please use Root:Clear() Instead.")
 end
 
 ---@return Camera

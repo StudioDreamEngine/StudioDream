@@ -202,7 +202,9 @@ function Resources.GetResource(Identifier, Reload)
 end
 
 function Resources.UnloadResource(IdentifierID)
-	if LoadedResources[IdentifierID] then
+	local Resource = LoadedResources[IdentifierID]
+
+	if Resource then
 		local Identifier = Identifiers.GetIdentifierFromID(IdentifierID)
 
 		if Identifier.ResourceType == "Project" then
@@ -219,7 +221,7 @@ function Resources.UnloadResource(IdentifierID)
 			end)
 
 			local UnloaderFunction = require(LoaderModPath .. Format).Unload
-			UnloaderFunction(LoadedResources[IdentifierID])
+			UnloaderFunction(Resource.Resource)
 		end
 	end
 

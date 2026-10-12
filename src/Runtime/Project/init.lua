@@ -184,7 +184,7 @@ function Project.CreateProject(ProjectPath)
 
     ProjectFS.Remount(ProjectPath)
 
-    local SceneID = Project.CreateScene("MainScene.sds")
+    local SceneID = Project.CreateScene("MainScene")
     Project.Config.Set("MainScene", SceneID) -- Also saves the config, so we dont need to worry about that before calling reload!!
 
     -- Load the project itself

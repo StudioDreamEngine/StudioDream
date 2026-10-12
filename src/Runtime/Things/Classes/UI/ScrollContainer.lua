@@ -35,7 +35,7 @@ function ScrollContainer:new()
         self.ScrollTarget = self.ScrollTarget + y*40
     end)
 
-    self:BindConstraint("Scroll", "ChildRect")
+    self:BindOverride("Scroll", "ChildRect")
 end
 
 function ScrollContainer:DefineAPI()
@@ -67,7 +67,7 @@ function ScrollContainer:SetUseCanvasSize(new)
 end
 
 function ScrollContainer:UpdateConstraint()
-    self:SetConstraint("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), (self.UseCanvasSize and self:GetCanvasSize() or self.AbsoluteSize)))
+    self:SetOverride("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), (self.UseCanvasSize and self:GetCanvasSize() or self.AbsoluteSize)))
 end
 
 --[[

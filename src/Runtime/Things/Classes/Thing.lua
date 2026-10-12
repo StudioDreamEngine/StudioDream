@@ -84,50 +84,42 @@ function Thing:AddPlaceholderSignal(Signal)
 end
 
 --[[
-    CONSTRAINTS
-    A constraint is basically a system for overriding a certain property with the values given by something else
+    OVERRIDES
+    A override is basically a system for overriding a certain property with the values given by something else
     
-    You can bind a constraint, which sets up a property to be used as a constraint
-    Only one object is allowed to use a constraint at once
+    You can bind a override, which sets up a property to be used as a override
+    Only one object is allowed to use a override at once
 
-    Then you can set a constraint, which will allow you to change the property value, without changing the real one
+    Then you can set a override, which will allow you to change the property value, without changing the real one
     (ASSUMING you were the last object that binded to that property)
 
-    if you want to use the constraint, OR the regular version (depending on if a constaint exists for the property), 
+    if you want to use the override, OR the regular version (depending on if a constaint exists for the property), 
     you can do Thing:GetProperty(Property)
 
     the idea is that theres 2 behaviors for this on the class side:
         - Children: Binds contraints to the children of the objects parent
-        - Parent: Binds constraints to the parent only
+        - Parent: Binds overrides to the parent only
 ]]
-function Thing:BindConstraint(Object, Property)
+function Thing:BindOverride(Object, Property)
     self.Overrides[Property] = {
         Object = Object,
         Value = nil
     }
 end
 
-function Thing:SetConstraint(Object, Property, Value, DontUpdate)
+function Thing:SetOverride(Object, Property, Value, DontUpdate)
     local Current = self.Overrides[Property]
+
     if Current and Current.Object == Object then
         Current.Value = Value
-
-        if not DontUpdate then
-            ---@diagnostic disable-next-line: redundant-parameter
-            self.Proxy.ConstraintUpdator(self)
-        end
-    else
-        if not Current then
-            print(Current)
-            print(self)
-            print("Object has not being binded!")
-        else
-            print("Couldnt set constraint")
-        end
+    elseif (not Current) then
+        printVerbose("No binded override for "..Property.." override!")
+    elseif Current.Object ~= Object then
+        printVerbose("Object "..Object:GetFullPath().." Is attempting to override "..Property..", which is currently overridden by "..Current.Object:GetFullPath())
     end
 end
 
-function Thing:UnbindConstraints(Object)
+function Thing:UnBindOverrides(Object)
     for Property, Data in pairs(self.Overrides) do
         if Data.Object.UUID == Object.UUID then
             self.Overrides[Property] = nil
@@ -149,7 +141,7 @@ function Thing:__tostring()
     return "\""..self.Name.."\": "..self.ClassName.." ("..self.UUID..")"
 end
 
-function Thing:FindConstraintOfType(Type)
+function Thing:FindOverrideOfType(Type)
     for _, Data in pairs(self.Overrides) do
         if Data.Object:IsA(Type) then
             return Data.Object

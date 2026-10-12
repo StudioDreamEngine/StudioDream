@@ -365,7 +365,7 @@ function StudioLayout.CreateLayout()
     })
 
     -- TODO: Default visibility property
-    --StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
@@ -391,8 +391,7 @@ function StudioLayout.CreateLayout()
         Name = "Macros"
     })
 
-    local VPI = Runtime.Things.RenderRoot
-    print(VPI:GetDescendantTree())
+    --print(Runtime.Things.RenderRoot:GetDescendantTree())
     
     --[[StudioLayout.CreateWindow("Trollo",{
         Size = Pivot2D.FromScale(0.15,0.6),

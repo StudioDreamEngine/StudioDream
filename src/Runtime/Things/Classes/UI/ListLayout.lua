@@ -155,7 +155,7 @@ function ListLayout:UpdateLayout()
 
             local BoundsSize = (Object.AbsoluteSize * OpposingVector) + (ContentSize * AxisVector)
 
-            self:SetConstraint(Object, "Position", Pivot2D.FromOffset(
+            self:SetOverride(Object, "Position", Pivot2D.FromOffset(
                 (Position * AxisVector) + Utils.GetAlignment(self.Alignment, ParentSize, BoundsSize)
             ), true)
         end
@@ -168,7 +168,7 @@ function ListLayout:UpdateLayout()
 
     ---@param Object Thing
     for _, Object in pairs(self.Objects) do
-        local Constraint = Object:FindConstraintOfType("Flex")
+        local Constraint = Object:FindOverrideOfType("Flex")
 
         if Constraint then
             Constraint:UpdateFlexWithSize(self.RemainingSize)
