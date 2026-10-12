@@ -27,11 +27,11 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         OutlineColor = "Outline"
     })
     
-    Windows.Padding = Studio.Components.CreateStyle("Padding",{
+    --[[Windows.Padding = Studio.Components.CreateStyle("Padding",{
         Parent = Windows.FullContainer,
         PaddingX = 5,
         PaddingY = 5,
-    })
+    })]]
 
     Windows.Container = Studio.Components.CreateStyle("Square",{
         Size = (not HaveName) and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.99,0.93),
@@ -207,7 +207,7 @@ end
 
 function StudioLayout.CreateTopbar()
     local MenuBar = Studio.Components.CreateStyle("Square",{
-        Parent = StudioLayout.HandleContainer,
+        Parent = Things.RenderRoot,
         Name = "MenuBar",
         Size = Pivot2D.new(1,0,0,25),
         ListOrder = 1,
@@ -216,10 +216,11 @@ function StudioLayout.CreateTopbar()
     })
 
     Topbar = Studio.Components.CreateStyle("Square",{
-        Parent = StudioLayout.HandleContainer,
+        Parent = Things.RenderRoot,
         Name = "ToolBar",
         ListOrder = 2,
         Size = Pivot2D.new(1,0,0.1,0),
+        Position = Pivot2D.FromOffset(0,25),
         BackgroundColor = "Primary",
         BackgroundTransparency = 0
     })
@@ -229,33 +230,17 @@ function StudioLayout.CreateTopbar()
 end
 
 function StudioLayout.CreateLayout()
-    StudioLayout.HandleContainer = Studio.Components.CreateStyle("Square",{
-        Name = "HandleContainer",
-        Parent = Things.RenderRoot,
-        Size = Pivot2D.FromScale(1,1),
-        Layer = 1,
-        BackgroundColor = "Primary",
-        BackgroundTransparency = 0
-    })
-
-    Things.Create("ListLayout") {
-        Parent = StudioLayout.HandleContainer
-    }
-
     printVerbose("Creating studio layout")
     StudioLayout.CreateTopbar()
 
     StudioLayout.Windows = Studio.Components.CreateStyle("Square",{
         Name = "WindowContainer",
-        Parent = StudioLayout.HandleContainer,
+        Parent = Things.RenderRoot,
         Layer = 10,
-        ListOrder = 3,
+        Position = Pivot2D.new(0,0,0.1,25),
+        Size = Pivot2D.new(1,0,0.9,-25),
         BackgroundTransparency = 0
     })
-
-    Things.Create("Flex") {
-        Parent = StudioLayout.Windows
-    }
 
     StudioLayout.CreateWindow("Viewport", {
         Name = "",
