@@ -390,6 +390,9 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0,1),
         Name = "Macros"
     })
+
+    local VPI = Runtime.Things.RenderRoot
+    print(VPI:GetDescendantTree())
     
     --[[StudioLayout.CreateWindow("Trollo",{
         Size = Pivot2D.FromScale(0.15,0.6),

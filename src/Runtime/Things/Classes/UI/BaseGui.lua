@@ -437,15 +437,14 @@ function BaseGui:UpdateTransforms()
 
     local NewSize = ShouldScale and self:GetAbsoluteSize() or Size.Offset
 
-    self.AbsolutePosition = self:GetAbsolutePosition()
-
     if (not NewSize:Is(self.AbsoluteSize)) then
         self:SetAbsoluteSize(NewSize)
-        self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
 
         self.PropagatedChange.Invoke("AbsoluteSize", NewSize)
     end
 
+    self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
+    self.AbsolutePosition = self:GetAbsolutePosition()
     self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 
     --Profiler.End()
