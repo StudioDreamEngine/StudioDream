@@ -26,6 +26,10 @@ end
 function Render.Render()
     Profiler.Start("StudioDream - Render Viewports")
         Render.ViewportManager.Render()
+
+        if FLAGS.DebugDraw and Runtime.InterfaceManager then  
+            Runtime.InterfaceManager.DebugDraw()
+        end
     Profiler.End()
 end
 

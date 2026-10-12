@@ -27,8 +27,6 @@ function RootScene.LoadEnviornment(IdentifierID)
     if CurrentEnv then
         CurrentEnv:RemoveParent(Root)
         CurrentEnv = nil
-
-        Root:Collect()
     end
 
     local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
@@ -52,6 +50,23 @@ function RootScene.SaveEnviornment()
     else
         printVerbose("No enviornment scene is currently open")
     end
+end
+
+function RootScene.CreateScene(Name)
+    local Project = Runtime.Project
+    local IdentifierID = Runtime.Resources.GetOrCreateIdentifierID(Name..".sds")
+                            
+    local Scene = Runtime.Things.CreateTemplate("Environment")
+    Scene.Scene = IdentifierID
+    
+    Project.Scenes.SaveScene(Scene)
+
+    Scene:Destroy()
+    Scene = nil
+
+    Root:Collect() -- Destroying a scene object requires us to immediately collect
+
+    return IdentifierID
 end
 
 function RootScene.Load()
@@ -78,6 +93,7 @@ function RootScene.Load()
 
     RootScene.ConfigureTargets()
 end
+
 -- Configure Hud and Environment viewports for new root scenes
 function RootScene.ConfigureTargets()
     if Root.EnvironmentViewport and Root.HudViewport then

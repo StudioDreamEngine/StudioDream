@@ -54,6 +54,14 @@ function Identifiers.GetIdentifierIDFromPath(FilePath)
 	return Runtime.ProjectFS.ReadFile(FilePath .. ".uid")
 end
 
+function Identifiers.Unload()
+	for IdentifierID, _ in pairs(RegisteredIdentifiers) do
+		Runtime.Resources.UnloadResource(IdentifierID)
+	end
+
+	Identifiers.Clear()
+end
+
 ---@param Identifier string
 ---@param FilePath string
 -- Configure (Register) an Identifier to be Associated with a File Path

@@ -9,6 +9,7 @@ Project.Config = require("Runtime.Project.Configuration")
 
 Project.LoadDefault = RootScene.LoadDefault
 Project.LoadEnviornment = RootScene.LoadEnviornment
+Project.CreateScene = RootScene.CreateScene
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
@@ -140,6 +141,7 @@ function Project.Reload()
         local Config = Project.Config.Load()
         if (not Config) then print("Configuration returned nil, refusing to load project further.") return end
 
+        Runtime.Resources.Unload()
         Resources.Load()
         RootScene.Load()
         Runtime.LoadProjectCallback()
@@ -181,7 +183,9 @@ function Project.CreateProject(ProjectPath)
     NativeFS.createDirectory(ProjectPath)
 
     ProjectFS.Remount(ProjectPath)
-    Project.Config.Save() -- Dumb hack as we need the config within the project before we load it
+
+    local SceneID = Project.CreateScene("MainScene.sds")
+    Project.Config.Set("MainScene", SceneID) -- Also saves the config, so we dont need to worry about that before calling reload!!
 
     -- Load the project itself
     local Success, Message = Project.Reload()

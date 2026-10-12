@@ -143,13 +143,8 @@ return function(Viewport)
                         Placeholder = "Scene Name",
                         ApplyButton = "Create scene",
                         OnEnd = function(_,Text)
-                            local IdentifierID = Runtime.Resources.GetOrCreateIdentifierID(Text..".sds")
-                            
-                            local Scene = Runtime.Things.CreateTemplate("Environment")
-                            Scene.Scene = IdentifierID
-
-                            Runtime.Project.Scenes.SaveScene(Scene)
-                            Scene:Destroy()
+                            local SceneID, _ = Runtime.Project.CreateScene(Text)
+                            Viewport.CreateTab(SceneID)
                         end,
                     })
                 end

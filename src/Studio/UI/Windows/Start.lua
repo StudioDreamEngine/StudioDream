@@ -101,6 +101,7 @@ return function(Start)
                 CreateClose(Start.Container)
             else
                 Studio.Notify("Project no longer exists.", "Error")
+                Studio.ProjectManager.RemoveHistory(Path)
             end
         end)
 

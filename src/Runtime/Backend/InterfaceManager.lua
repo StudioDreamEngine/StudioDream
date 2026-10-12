@@ -73,6 +73,16 @@ local function HandleSurface(Viewport)
     end
 end
 
+function InterfaceManager.DebugDraw()
+    local Text = ""
+
+    for _, Hovering in pairs(CurrentlyHovering) do
+        Text = Text..tostring(Hovering)..": "..Hovering.AbsoluteLayer.."\n"
+    end
+
+    Runtime.Backend2D.DebugPrint(Vector2.yAxis, Text)
+end
+
 function InterfaceManager.Update(dt)
     local Backend2D = Runtime.Backend2D
     local ViewportManager = Runtime.Renderer.ViewportManager
@@ -129,13 +139,6 @@ function InterfaceManager.Update(dt)
     Runtime.Cursor.ChangeCursorInternal((#CurrentlyHovering > 0) and "Hovering" or "Main", true)
 
     if #CurrentlyHovering > 0 then
-        --[[
-            So we need to be able to tell exactly where the viewport is layered
-
-            currently if an object has a higher absolute layer but isnt in the same viewport, its considered the highest
-            
-        ]]
-        
         table.sort(CurrentlyHovering, function(a, b)
             return (a.AbsoluteLayer > b.AbsoluteLayer)
         end)

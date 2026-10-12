@@ -1,3 +1,8 @@
-return function(ShaderBytes)
-    return love.graphics.newShader(ShaderBytes)
-end
+return {
+    Load = function(ShaderBytes)
+        return love.graphics.newShader(ShaderBytes)
+    end,
+    Unload = function(Resource)
+        Resource:dispose()
+    end
+}

@@ -46,18 +46,16 @@ end
 function Padding:PadOn(Object)
     local Clamp = Object.AbsoluteSize-Vector2.new(self.PaddingY,self.PaddingX)
     local Clamped = Vector2.new(math.max(0,Clamp.X),math.max(0,Clamp.Y))
-    Object:SetConstraint(self,"ChildRect", Rect.new(Object.AbsolutePosition + Object.AbsolutePivot + Vector2.new(math.max(0,self.PaddingY/2),math.max(0,self.PaddingX/2)), Clamped))
-    --Object.AbsoluteSize = Object.AbsoluteSize - Vector2.new(self.PaddingLeft + self.PaddingRight,self.PaddingTop + self.PaddingBottom)
+
+    Object:SetConstraint(self, "ChildRect", Rect.new(Object.AbsolutePosition + Object.AbsolutePivot + Vector2.new(math.max(0,self.PaddingY/2),math.max(0,self.PaddingX/2)), Clamped))
 end
 
 function Padding:LinkObject(Object)
     Object:BindConstraint(self,"ChildRect")
 
-    self.ChangeConnect[Object] = Object.PropagatedChange:Connect(function(Value, Key)
-        if Key == "AbsoluteSize" then
-            self:PadOn(Object)
-        end
-    end)
+    self.ChangeConnect[Object] = Object.PropagatedChange:Connect(function(a,b)
+        self:PadOn(Object)
+    end, "AbsoluteSize")
 
     self:PadOn(Object)
 end

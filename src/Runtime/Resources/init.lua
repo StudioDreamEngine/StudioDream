@@ -18,6 +18,7 @@ function Resources.Init()
 	end)
 
 	Resources.GetIdentifierFromID = Identifiers.GetIdentifierFromID
+	Resources.Unload = Identifiers.Unload
 	Resources.GetOrCreateIdentifierID = Identifiers.GetOrCreateIdentifierID
 	Resources.LoadOrCreateIdentifier = Identifiers.LoadOrCreateIdentifier
 	Resources.RegisterAsMissing = Identifiers.RegisterAsMissing
@@ -37,20 +38,26 @@ end
 
 Resources.Clear()
 
+function Resources.ForEachReference(Callback)
+	for ObjectUUID, Properties in pairs(ObjectReferences) do
+		for Property, Identifier in pairs(Properties) do
+			Callback(Identifier, ObjectUUID, Property)
+		end
+	end
+end
+
 function Resources.ReloadResources()
 	print("Reloading resources")
 
 	-- It'd be nice if we could know WHICH were changed without checking them all but whatever
 	-- TODO: Also reload
-	for ObjectProp, Identifier in pairs(ObjectReferences) do
-		local Split = string.split(ObjectProp, "_")
-		local ObjectUUID, Property = Split[1], Split[2]
+	Resources.ForEachReference(function(Identifier, ObjectUUID, Property)
 		local Object = Runtime.Things.Get(ObjectUUID)
 		--print(Identifier, Property)
 
 		Resources.LoadResource(Identifier)
 		Object["Set"..Property](Object, Identifier)
-	end
+	end)
 
 	print("Done")
 end
@@ -94,10 +101,12 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	end
 
 	if Identifier.ResourceType == "Project" and ObjectUUID then
+		if (not ObjectReferences[ObjectUUID]) then
+			ObjectReferences[ObjectUUID] = {}
+		end
+
 		printVerbose("Adding " .. ObjectUUID .. " to object references")
-		ObjectReferences[ObjectUUID.."_"..CustomProperty] = Identifier
-	--elseif Identifier.ResourceType ~= "Internal" then
-	--	printVerbose("Cannot add", Identifier, "to ObjectReferences")
+		ObjectReferences[ObjectUUID][CustomProperty] = Identifier
 	end
 	
 	local ResourceReturn, ResourceSource = Resources.GetResource(Identifier)
@@ -122,14 +131,17 @@ end
 
 -- Use a Resource Loader given the specified data and format
 function Resources.InitiateLoader(Format, Contents, Identifier)
-	local LoaderModule = require(LoaderModPath .. Format)
-	local Resource, SourceResource = LoaderModule(Contents, Identifier)
+	local LoaderFunction = require(LoaderModPath .. Format).Load
+
+	local Resource, SourceResource = LoaderFunction(Contents, Identifier)
 	return Resource, SourceResource
 end
 
 function Resources.LoadResource(Identifier)
 	local ResourceType = Identifier.ResourceType
 	local Resource
+
+	Resources.UnloadResource(Identifier.ID)
 
 	if ResourceType == "Internal" then
 		Resource, SourceResource = LoadWithContents(Identifier, love.filesystem.read("Assets/" .. Identifier.Data.FilePath))
@@ -190,7 +202,26 @@ function Resources.GetResource(Identifier, Reload)
 end
 
 function Resources.UnloadResource(IdentifierID)
-	-- TODO: Unload resource from any objects
+	if LoadedResources[IdentifierID] then
+		local Identifier = Identifiers.GetIdentifierFromID(IdentifierID)
+
+		if Identifier.ResourceType == "Project" then
+			local Format = FormatLookup[Identifier.Data.FileType]
+
+			if (not Format) then
+				error("Invalid resource format, this error SHOULD NOT OCCUR if you used LoadResourceFromIdentifier to load this.")
+				return
+			end
+
+			Resources.ForEachReference(function(_, ObjectUUID, Property)
+				local Object = Runtime.Things.Get(ObjectUUID)
+				Runtime.Things.SetProperty(Object, Property, nil)
+			end)
+
+			local UnloaderFunction = require(LoaderModPath .. Format).Unload
+			UnloaderFunction(LoadedResources[IdentifierID])
+		end
+	end
 
 	LoadedResources[IdentifierID] = nil
 end

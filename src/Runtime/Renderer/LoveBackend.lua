@@ -78,6 +78,25 @@ function Backend.DebugLabel(Position, String)
     end
 end
 
+function Backend.DebugPrint(Anchor, String)
+    local Width, Height = love.graphics.getDimensions()
+
+    if FLAGS.DebugDraw then
+        love.graphics.pushAll()
+        love.graphics.setFont(DebugFont)
+
+        local NDC = (Anchor * 2) - Vector2.one
+        local Pixel = Vector2.new(Width, Height) * Anchor
+
+        -- TODO: Dont do this
+        for LineIndex, Line in pairs(string.split(String, "\n")) do
+            love.graphics.print(Line, Pixel.X - (Anchor.X * 200), Pixel.Y - (LineIndex * NDC.Y * 12))
+        end
+
+        love.graphics.pop()
+    end
+end
+
 function Backend.GetWindowSize()
     return Vector2.new(love.graphics.getWidth(), love.graphics.getHeight())
 end

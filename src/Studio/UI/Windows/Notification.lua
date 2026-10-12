@@ -8,10 +8,10 @@ return function(Notify)
     local Tween = Runtime.Services.Service("TweenService")
     
     function Notify.Notify(Message,Type)
-
         local Window = Studio.Components.CreateStyle("Viewport2D",{
             Size = Pivot2D.FromScale(1,0.07),
             Pivot = Vector2.new(0,0.5),
+            Name = "Notification",
             Position = Pivot2D.FromScale(0.5,0.5),
             BackgroundColor = "Outline",
             BackgroundTransparency = 0,
@@ -23,6 +23,7 @@ return function(Notify)
         Studio.Components.CreateStyle("Image2D",{
             Size = Pivot2D.FromScale(.2,.2),
             Layer = 2,
+            Name = "NotificationIcon",
             Pivot = Vector2.new(0,.5),
             Resource = "Internal/Studio/Notify/"..Type..".png",
             Position = Pivot2D.FromScale(.05,.5),
@@ -36,6 +37,7 @@ return function(Notify)
             Pivot = Vector2.new(1,.5),
             Position = Pivot2D.FromScale(.95,.5),
             Text = Message,
+            Name = "NotificationText",
             Parent = Window,
             BackgroundTransparency = 1,
             ForegroundColor = "Text"
@@ -56,6 +58,7 @@ return function(Notify)
         Notify.FullContainer.BackgroundTransparency = 1
         Notify.FullContainer.OutlineSize = 0
         Notify.Container.BackgroundTransparency = 1
+        
         Studio.Components.CreateStyle("ListLayout",{
             Parent = Notify.Container,
             Alignment = Vector2.new(0,1),

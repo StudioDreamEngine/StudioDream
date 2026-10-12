@@ -380,7 +380,7 @@ function StudioLayout.CreateLayout()
     })
 
     -- TODO: Default visibility property
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
+    --StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
@@ -405,7 +405,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0,1),
         Name = "Macros"
     })
-
+    
     --[[StudioLayout.CreateWindow("Trollo",{
         Size = Pivot2D.FromScale(0.15,0.6),
         Pivot = Vector2.new(0.5,0.5),
