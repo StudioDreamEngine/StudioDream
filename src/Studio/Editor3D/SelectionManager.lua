@@ -62,8 +62,10 @@ function SelectionManager.DuplicateAll()
     local ClonedObjects = {}
 
     for i,Object in pairs(Editor3D.Selecting) do
+        print(Object.Proxy.Duplicatable)
         if not Object.Proxy.Duplicatable then return end
-        Object:Clone().Parent = Object.Parent
+        print("!!!")
+        Object:Clone():SetParent(Object.Parent)
         table.insert(ClonedObjects,Object)
     end
     

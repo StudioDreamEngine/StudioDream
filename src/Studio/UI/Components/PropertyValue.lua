@@ -158,7 +158,8 @@ local ValueTypes = {
         ValueObject.Clicked:Connect(function()
             if Info.Disabled then return end
 
-            local RequestText = Info.UserRequest(Info.OnChange) or tostring(Info.ReturnDisplay())
+            
+            local RequestText = Info.UserRequest(Info.OnChange) or (Info.ReturnDisplay() and tostring(Info.ReturnDisplay()) or "")
             Info.PropUpdator(RequestText)
         end)
 

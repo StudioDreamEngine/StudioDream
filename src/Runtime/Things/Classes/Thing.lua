@@ -69,8 +69,9 @@ function Thing:DefineAPI()
 
     self.Proxy.Property("Thing Parent", "string Name", "boolean Debug")
     self.Proxy.PropertyAccess("Resource Scene")
+    self.Proxy.PropertyAccess("string ClassName")
     
-    self.Proxy.Group("General", "Parent", "Name", "Debug", "Scene")
+    self.Proxy.Group("General", "Parent", "Name", "Debug", "Scene", "ClassName")
 
     --self.Proxy.RegisterProxy("GetChildren", "GetDescendants")
 

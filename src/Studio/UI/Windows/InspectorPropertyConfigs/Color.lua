@@ -34,9 +34,10 @@ function Template.Create(Info)
             end
         end,
         ReturnDisplay = function(Object, Same)
-            SquareColor.BackgroundColor = Object[Info.Name] and (Same and Object[Info.Name] or Color.new(1)) or SquareColor.BackgroundColor
-            
-            return Object[Info.Name]
+            if Object then
+                SquareColor.BackgroundColor = Object[Info.Name] and (Same and Object[Info.Name] or Color.new(1)) or SquareColor.BackgroundColor
+                return Object[Info.Name]
+            end
         end
     },{
         ValueContainer = "Outline",

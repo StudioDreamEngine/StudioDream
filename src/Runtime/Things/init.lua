@@ -106,7 +106,11 @@ function Things.SetProperty(Object, Index, Value)
     end]]
 
     if HasSetter then
-        HasSetter(Object, Value)
+        xpcall(function()
+           HasSetter(Object, Value)
+        end, function(Error)
+            print(debug.traceback("Failed set property "..Index.." for: "..Object.."! "..Error))
+        end)
     else
         Object[Index] = Value
     end

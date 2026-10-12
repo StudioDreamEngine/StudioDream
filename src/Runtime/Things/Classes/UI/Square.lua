@@ -63,7 +63,9 @@ end
 
 function Square:SetGradient(NewGrad)
     self.Gradient = NewGrad
-    self.Gradient:ProcessUniforms()
+    if self.Gradient then
+        self.Gradient:ProcessUniforms()
+    end
 end
 
 function Square:SetOutlineSize(number)

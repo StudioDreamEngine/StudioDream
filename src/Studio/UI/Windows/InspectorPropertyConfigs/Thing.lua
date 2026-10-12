@@ -14,6 +14,14 @@ function Template.Create(Info)
         Resource = "Internal/Studio/EditorIcons/Drawable3D.png",
     })
 
+    --[[local Image = Studio.Components.CreateStyle("Image2D",{
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0,0),
+        SquareAxis = Enum.SquareAxis.Y,
+        Resource = "Internal/Studio/EditorIcons/Drawable3D.png",
+    })]]
+
     PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
         Title = Info.Name,
         Type = "Button",

@@ -27,14 +27,14 @@ function Padding:DefineAPI()
     self.Proxy.Property("number PaddingY","number PaddingX")
     self.Proxy.Group("Padding","PaddingY","PaddingX")
 
-    self.Proxy.Icon("Unkown")
+    self.Proxy.Icon("Padding")
 
     self.Proxy.MakeCreatable()
 end
 
 function Padding:UnLinkObject(Obj)
-    self.ChangeConnect[Object]:DisconnectAll()
-    self.ChangeConnect[Object] = nil
+    self.ChangeConnect[Obj]:Disconnect()
+    self.ChangeConnect[Obj] = nil
 end
 
 function Padding:UnLinkAll()
@@ -44,7 +44,9 @@ function Padding:UnLinkAll()
 end
 
 function Padding:PadOn(Object)
-    Object:SetConstraint(self,"ChildRect", Rect.new(Object.AbsolutePosition + Object.AbsolutePivot + Vector2.new(self.PaddingY/2,self.PaddingX/2), Object.AbsoluteSize-Vector2.new(self.PaddingY,self.PaddingX)))
+    local Clamp = Object.AbsoluteSize-Vector2.new(self.PaddingY,self.PaddingX)
+    local Clamped = Vector2.new(math.max(0,Clamp.X),math.max(0,Clamp.Y))
+    Object:SetConstraint(self,"ChildRect", Rect.new(Object.AbsolutePosition + Object.AbsolutePivot + Vector2.new(math.max(0,self.PaddingY/2),math.max(0,self.PaddingX/2)), Clamped))
     --Object.AbsoluteSize = Object.AbsoluteSize - Vector2.new(self.PaddingLeft + self.PaddingRight,self.PaddingTop + self.PaddingBottom)
 end
 
@@ -58,6 +60,33 @@ function Padding:LinkObject(Object)
     end)
 
     self:PadOn(Object)
+end
+
+--[[function Padding:SetPaddingSpecific(Object)
+    self.PaddingSpecific = Object
+    self:UnLinkAll()
+
+    if not Object then
+        if self.PaddingSpecific then
+            self:UnLinkObject(self.PaddingSpecific)
+        end
+        return
+    end
+    Object.ParentChanged:Connect(function()
+        self:UnLinkObject(Object)
+    end)
+
+    if Object:IsA("BaseGui") then
+        self:LinkObject(Object)
+    end
+end]]
+
+function Padding:UnbindObject(_child)
+    Padding.super.UnbindObject(self, _child)
+    
+    if self.OnChangedEvents[_child] ~= nil then
+       self:UnLinkObject(Object)
+    end
 end
 
 function Padding:BindObject(Object)

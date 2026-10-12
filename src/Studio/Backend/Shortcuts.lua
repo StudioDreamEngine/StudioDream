@@ -128,6 +128,7 @@ local HandleThis = {
             Inputs = {{Key = InputsSaved.Duplicate.First, Mod = true},{Key = InputsSaved.Duplicate.Second}}
         },
         Function = function()
+            print("printin!")
             Studio.Editor3D.SelectionManager.DuplicateAll()
             --Studio.Layout.CallHandle("Explorer", "Redraw")
         end,
