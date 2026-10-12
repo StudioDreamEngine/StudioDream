@@ -475,7 +475,7 @@ return function(Explorer)
             if table.find(Studio.Editor3D.Selecting, Thing) then
                 NodeInner.BackgroundColor = Studio.CurrentTheme.Selecting
 
-                AddButtonWow.Object:SetParent(NodeInner)
+                --AddButtonWow.Object:SetParent(NodeInner)
             else
                 NodeInner.BackgroundColor = Studio.CurrentTheme.Primary -- CHANGE IT HERE!
             end
