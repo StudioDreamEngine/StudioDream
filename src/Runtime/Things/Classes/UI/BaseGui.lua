@@ -315,7 +315,7 @@ function BaseGui:DefineAPI()
     self.Proxy.Group("Color", "ColorMultiplier")
 
     self.Proxy.Info({
-        ConstraintUpdator = function()
+        OverrideUpdator = function()
             self:ProcessInvalidation(self)
             self:InvalidateAutomaticSize()
         end

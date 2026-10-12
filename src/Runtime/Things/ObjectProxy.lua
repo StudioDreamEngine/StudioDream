@@ -33,7 +33,7 @@ return { new = function()
     end]]
     
     -- Virtuals for Info functions
-    function ObjectProxy.ConstraintUpdator() end
+    function ObjectProxy.OverrideUpdator() end
 
     -- Code reuse.... 
     -- Fucking hell cant do shit in this codebase

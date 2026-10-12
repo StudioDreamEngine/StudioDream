@@ -112,6 +112,10 @@ function Thing:SetOverride(Object, Property, Value, DontUpdate)
 
     if Current and Current.Object == Object then
         Current.Value = Value
+
+        if (not DontUpdate) then
+            self.Proxy:OverrideUpdator()
+        end
     elseif (not Current) then
         printVerbose("No binded override for "..Property.." override!")
     elseif Current.Object ~= Object then
