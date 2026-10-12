@@ -21,6 +21,18 @@ function InputService.InputChanged()
     InputService.EventsConnected.Changed[UUID] = SignalCool
     return SignalCool
 end
+--[[local Flexed = 0
+    local Total = 0
+    --print(Runtime.Things.CollectOrphans())
+    for i in string.gmatch(ThingStats.Orphans,"%S+") do
+        if string.find(i,"Flex") then
+            Flexed=Flexed+1
+        end
+        if not string.find(i,"%(") then
+            Total=Total+1
+        end
+    end
+    printVerbose("The Flex entities exploring aroud :"..Flexed.." Normal Orphans exploring around: "..Total.." The math shit:"..(Total-Flexed))]]
 
 --[[function Components.SimpleDropdown(Position, Choices, Size)
     if (not Size) then Size = {} end

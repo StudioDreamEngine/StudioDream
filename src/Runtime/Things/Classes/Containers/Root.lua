@@ -32,7 +32,7 @@ end
 
 -- Clear and cleanup all objects
 function Root:Clear()
-    print("Clearing root")
+    printVerbose("Clearing root")
     self:ClearAllChildren()
 
     if self.EnvironmentViewport then

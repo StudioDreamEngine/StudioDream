@@ -119,7 +119,7 @@ function Thing:SetOverride(Object, Property, Value, DontUpdate)
     elseif (not Current) then
         printVerbose("No binded override for "..Property.." override!")
     elseif Current.Object ~= Object then
-        printVerbose("Object "..Object:GetFullPath().." Is attempting to override "..Property..", which is currently overridden by "..Current.Object:GetFullPath())
+        printVerbose("Object "..Object:GetPath().." Is attempting to override "..Property..", which is currently overridden by "..Current.Object:GetPath())
     end
 end
 

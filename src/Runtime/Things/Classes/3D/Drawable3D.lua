@@ -129,6 +129,8 @@ end
 
 function Drawable3D:CreateBody()
     self:RemoveBody()
+
+    self.PhysicsBody = Runtime.Phys.CreateBody(self.PhysicsShape, Runtime.Phys:ToBullet(self.Transform), self.Dynamic)
 end
 
 function Drawable3D:AddTask()

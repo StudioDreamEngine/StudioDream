@@ -59,19 +59,28 @@ end
 -- bullet to dream
 function PhysicsEngine.FromBullet(BulletTransform)
     local Origin = BulletTransform:getOrigin()
+    local Basis = BulletTransform:getBasis()
+    local Row1 = Basis:getRow(0)
+    local Row2 = Basis:getRow(1)
+    local Row3 = Basis:getRow(2)
 
-    local Transform = Transform3D.FromPosition(Origin:x(), Origin:y(), Origin:z())
+    --[[local Matrix = Dream.mat4({
+		Row1:x(), Row1:y(), Row1:z(), Origin:x(),
+		Row2:x(), Row2:y(), Row2:z(), Origin:y(),
+		Row3:x(), Row3:y(), Row3:z(), Origin:z(),
+		0, 0, 0, 1
+	})]]
 
-    local Rotation = BulletTransform:getBasis()
+    local Matrix = Dream.mat4({
+		1, 0, Row1:z(), Origin:x(),
+		0, 1, 0, Origin:y(),
+		0, 0, 1, Origin:z(),
+		0, 0, 0, 1
+	})
 
-    print(Rotation)
+    print(Matrix)
 
-    ---@class DreamQuat
-    local Quat = Dream.quat.new(Rotation:x(),Rotation:y(),Rotation:z(),Rotation:w())
-
-    Transform = Transform * Transform3D.FromMatrix(Quat:toMatrix())
-
-    return Transform
+    return Transform3D.FromMatrix(Matrix)
 end
 
 function PhysicsEngine.CreateBody(Shape, Transform, IsDynamic)

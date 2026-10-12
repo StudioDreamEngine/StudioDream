@@ -9,7 +9,7 @@ end)
 
 function Services.Service(Service)
     if (not Services.Services[Service]) then
-        print("Initalizing Service: "..Service)
+        printVerbose("Initalizing Service: "..Service)
 
         Services.Services[Service] = require("Runtime.Backend.Services."..Service)
         Services.Services[Service].Init()

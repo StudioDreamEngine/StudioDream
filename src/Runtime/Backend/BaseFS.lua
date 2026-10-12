@@ -101,7 +101,7 @@ function BaseFS.Mount(PathString, MountName, IsLocal)
 
     -- Unmount this mountobject and KILL it
     function MountObject.Unmount()
-        print("Unmounting "..Path.FilePath)
+        printVerbose("Unmounting "..Path.FilePath)
 
         -- man
         if (not IsLocal) then
