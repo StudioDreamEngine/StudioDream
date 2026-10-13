@@ -82,8 +82,8 @@ end]]
 function Padding:UnbindObject(_child)
     Padding.super.UnbindObject(self, _child)
     
-    if self.OnChangedEvents[_child] ~= nil then
-       self:UnLinkObject(Object)
+    if self.ChangeConnect[_child] ~= nil then
+       self:UnLinkObject(_child)
     end
 end
 

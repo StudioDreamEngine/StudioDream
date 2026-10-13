@@ -27,6 +27,7 @@ return function(TopBar)
         Buttons[TabName] = Studio.Components.CreateButton(TabName, {
             Parent = TopBar.TabsMenu,
             Size = Pivot2D.FromScale(0.1,0.8),
+            Name = TabName,
             Clicked = function()
                 TopBar.ChangeTab(TabName)
             end
@@ -47,12 +48,13 @@ return function(TopBar)
             Padding = 5
         }
 
-        for Order, Item in pairs(Tab) do
+        for Order, Item in ipairs(Tab) do
             if type(Item) == "table" then
                 local Component = Item.Component
                 local Tool = TopBar.GetTool(Component)(Item.Arguments)
 
                 Tool.ListOrder = Order
+                Tool.Name = Order..Component
                 Tool:SetParent(SingleTab)
             end
         end
@@ -75,6 +77,7 @@ return function(TopBar)
             Alignment = Enum.Alignment.Center,
             Direction = Enum.LayoutDirection.Horizontal,
             Parent = TopBar.TabsMenu,
+
             Padding = 5,
         }
 
