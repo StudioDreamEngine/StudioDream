@@ -1,12 +1,12 @@
 local Things = Runtime.Things
 
----@class Padding: ChildConstraint
-local Padding = Things.Extend("ChildConstraint")
+---@class Padding: ChildOverride
+local Padding = Things.Extend("ChildOverride")
 
 function Padding:new()
     Padding.super.new(self)
 
-    self.ConstraintProperties = {"Size"}
+    self.OverrideProperties = {"Size"}
     self.ObjectFilter = "BaseGui"
 
     self.PaddingSpecific = nil -- to do later

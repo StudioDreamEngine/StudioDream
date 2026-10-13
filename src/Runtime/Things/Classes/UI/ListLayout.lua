@@ -1,12 +1,12 @@
 local Things = Runtime.Things
 
----@class ListLayout: ParentConstraint
-local ListLayout = Things.Extend("ParentConstraint")
+---@class ListLayout: ParentOverride
+local ListLayout = Things.Extend("ParentOverride")
 
 function ListLayout:new()
     ListLayout.super.new(self)
 
-    self.ConstraintProperties = {"Position"} -- These are the properties that will be controled by the object
+    self.OverrideProperties = {"Position"} -- These are the properties that will be controled by the object
     self.ObjectFilter = "BaseGui" -- These are the objects that can be binded, if an object that isnt this is passed into BindObject, its ignored
     self.ParentFilter = "BaseGui"
 
@@ -168,10 +168,10 @@ function ListLayout:UpdateLayout()
 
     ---@param Object Thing
     for _, Object in pairs(self.Objects) do
-        local Constraint = Object:FindOverrideOfType("Flex")
+        local Override = Object:FindOverrideOfType("Flex")
 
-        if Constraint then
-            Constraint:UpdateFlexWithSize(self.RemainingSize)
+        if Override then
+            Override:UpdateFlexWithSize(self.RemainingSize)
         end
     end
 end

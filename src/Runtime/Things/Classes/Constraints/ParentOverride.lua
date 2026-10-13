@@ -1,17 +1,17 @@
 local Things = Runtime.Things
 
----@class ParentConstraint: BaseConstraint
-local ParentConstraint = Things.Extend("BaseConstraint")
+---@class ParentOverride: BaseOverride
+local ParentOverride = Things.Extend("BaseOverride")
 
-function ParentConstraint:new()
-    ParentConstraint.super.new(self)
+function ParentOverride:new()
+    ParentOverride.super.new(self)
 
     self.ChildrenEvent = nil
 end
 
 ---@param NewParent Thing
-function ParentConstraint:SetParent(NewParent)
-    local CouldParent, Reason = ParentConstraint.super.SetParent(self, NewParent)
+function ParentOverride:SetParent(NewParent)
+    local CouldParent, Reason = ParentOverride.super.SetParent(self, NewParent)
 
     if self.ChildrenEvent then self.ChildrenEvent:Disconnect(); self.ChildrenEvent = nil end -- Cleanup
 
@@ -36,11 +36,11 @@ function ParentConstraint:SetParent(NewParent)
     return CouldParent, Reason
 end
 
--- Adds all the children of the parent object to the constraint
-function ParentConstraint:Bind()
+-- Adds all the children of the parent object to the Override
+function ParentOverride:Bind()
     for _, Object in pairs(self.Parent:GetChildren()) do
         self:BindObject(Object)
     end
 end
 
-return ParentConstraint
+return ParentOverride

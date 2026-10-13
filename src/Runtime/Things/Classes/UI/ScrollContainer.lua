@@ -1,6 +1,6 @@
 local Things = Runtime.Things
 
--- My idea for this is someth like the list layouts, using the constraint system
+-- My idea for this is someth like the list layouts, using the Override system
 ---@class ScrollContainer: ViewportLite
 local ScrollContainer = Things.Extend("ViewportLite") -- Also make this get extended form Square!! we need the background stuff sorry
 
@@ -63,10 +63,10 @@ end
 
 function ScrollContainer:SetUseCanvasSize(new)
     self.UseCanvasSize = new
-    self:UpdateConstraint()
+    self:UpdateOverride()
 end
 
-function ScrollContainer:UpdateConstraint()
+function ScrollContainer:UpdateOverride()
     self:SetOverride("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), (self.UseCanvasSize and self:GetCanvasSize() or self.AbsoluteSize)))
 end
 
@@ -124,7 +124,7 @@ end
 
 function ScrollContainer:SetAbsoluteSize(New)
     ScrollContainer.super.SetAbsoluteSize(self, New)
-    self:UpdateConstraint()
+    self:UpdateOverride()
 end
 
 function ScrollContainer:Update(dt)
@@ -147,8 +147,8 @@ function ScrollContainer:Update(dt)
 
     -- Temporary optimization
     if self.TruelyVisible and math.abs(self.LastScroll - self.ScrollPosition) > 0.1 then
-        Profiler.Start("ScrollContainer - Update Constraint")
-        self:UpdateConstraint()
+        Profiler.Start("ScrollContainer - Update Override")
+        self:UpdateOverride()
         Profiler.End()
     end
 

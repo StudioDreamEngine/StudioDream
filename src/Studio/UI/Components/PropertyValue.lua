@@ -85,7 +85,7 @@ local ValueTypes = {
         ---@class TextButton
         local ValueObject = Studio.Components.CreateStyle("TextButton", {
             Position = Pivot2D.FromScale(0,0.5),
-            IgnoreConstraints = true, -- HACK
+            IgnoreOverrides = true, -- HACK
             Pivot = Vector2.new(0,0.5),
             Alignment = Enum.Alignment.Center,
             Size = Pivot2D.FromScale(1,0.9),
@@ -103,7 +103,7 @@ local ValueTypes = {
             Position = Pivot2D.FromScale(1,0.5),
             Pivot = Vector2.new(1,0.5),
             Parent = ValueObject,
-            IgnoreConstraints = true,
+            IgnoreOverrides = true,
             ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
             ForegroundColor = "Text",
         })
@@ -145,7 +145,7 @@ local ValueTypes = {
         ---@class TextButton
         local ValueObject = Studio.Components.CreateStyle("TextButton", {
             Position = Pivot2D.FromScale(0,0.5),
-            IgnoreConstraints = true, -- HACK
+            IgnoreOverrides = true, -- HACK
             Pivot = Vector2.new(0,0.5),
             Alignment = Enum.Alignment.Center,
             Size = Pivot2D.FromScale(1,0.9),

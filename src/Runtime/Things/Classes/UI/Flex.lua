@@ -3,13 +3,13 @@ local Things = Runtime.Things
 -- Someth simillar to css flex ig
 -- For now, a flex object simply inherits the rest of the list layouts size
 
----@class FlexItem: ChildConstraint
-local FlexItem = Things.Extend("ChildConstraint")
+---@class FlexItem: ChildOverride
+local FlexItem = Things.Extend("ChildOverride")
 
 function FlexItem:new()
     FlexItem.super.new(self)
 
-    self.ConstraintProperties = {"Size"}
+    self.OverrideProperties = {"Size"}
     self.ObjectFilter = "BaseGui"
 
     self.Connection = nil
@@ -69,7 +69,7 @@ function FlexItem:OnRemove()
     self:UnbindFlexParent()
 end
 
--- BindObject is called when a object is added to the constraint
+-- BindObject is called when a object is added to the Override
 ---@param Object Thing
 function FlexItem:BindObject(Object)
     local Binded = FlexItem.super.BindObject(self, Object)

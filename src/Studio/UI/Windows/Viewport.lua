@@ -102,7 +102,7 @@ return function(Viewport)
             Pivot = Vector2.new(1,0.5),
             Position = Pivot2D.new(1,-2,0.25,0),
             SquareAxis = Enum.SquareAxis.Y,
-            IgnoreConstraints = true,
+            IgnoreOverrides = true,
             CornerRadius = 10,
             Parent = Viewport.TopContainer,
             BackgroundTransparency = 0,

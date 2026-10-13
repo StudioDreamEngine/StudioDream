@@ -154,7 +154,7 @@ function Components.ExpandButton(Parent)
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
         Parent = Parent,
-        IgnoreConstraints = true,
+        IgnoreOverrides = true,
         ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
         ForegroundColor = "Text",
     })
@@ -274,7 +274,7 @@ function Components.CreateDropshadow(Parent)
         NineSlice = Rect.new(Vector2.new(25,25), Vector2.new(25,25)),
         FilterType = Enum.FilterType.Default,
         Layer = -1,
-        IgnoreConstraints = true
+        IgnoreOverrides = true
     })
 end
 

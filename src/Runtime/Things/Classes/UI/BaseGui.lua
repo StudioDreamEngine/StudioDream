@@ -74,7 +74,7 @@ function BaseGui:GetContentSize()
 
     for _, v in pairs(self:GetInterfaceChildren()) do
         -- the negative layer check is an ABSOLUTELY nasty hack and really shouldnt be here, but im too lazy - bloctans
-        if (not v.IgnoreConstraints) and v.Visible then
+        if (not v.IgnoreOverrides) and v.Visible then
             local PositionProp = v:GetProperty("Position")
             local AbsoluteEnd = PositionProp.Offset + v.AbsoluteSize
 
@@ -92,7 +92,7 @@ end
     print(#self:GetChildren())
 
     for _,v in pairs(self:GetChildren()) do
-        if v.AbsoluteSize~=nil and (v.IgnoreConstraints ~= true) then
+        if v.AbsoluteSize~=nil and (v.IgnoreOverrides ~= true) then
             --print(v.AbsoluteSize)
             ResultSize = ResultSize + v.AbsoluteSize
         end
@@ -297,7 +297,7 @@ function BaseGui:new()
 
    -- self.AlreadyCompletedAutoSize = false
 
-   self.IgnoreConstraints = false
+   self.IgnoreOverrides = false
 end
 
 function BaseGui:DefineAPI()
@@ -307,11 +307,11 @@ function BaseGui:DefineAPI()
 
     self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum.SquareAxis SquareAxis", "number ListOrder", "boolean Visible","number Rotation")
     self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency", "number ColorMultiplier")
-    self.Proxy.Property("Enum.AutomaticSize AutomaticSize","boolean IgnoreConstraints")
+    self.Proxy.Property("Enum.AutomaticSize AutomaticSize","boolean IgnoreOverrides")
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
     self.Proxy.Group("Transform", "Size", "Position", "Pivot", "SquareAxis",  "AutomaticSize", "Rotation","AbsolutePosition","AbsoluteSize")
-    self.Proxy.Group("Layout", "Visible",  "Layer", "ListOrder", "IgnoreConstraints")
+    self.Proxy.Group("Layout", "Visible",  "Layer", "ListOrder", "IgnoreOverrides")
     self.Proxy.Group("Color", "ColorMultiplier")
 
     self.Proxy.Info({

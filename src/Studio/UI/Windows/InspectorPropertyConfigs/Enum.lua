@@ -46,7 +46,7 @@ function Template.Create(Info)
         Position = Pivot2D.FromScale(1,0.5),
         Pivot = Vector2.new(1,0.5),
         Parent = PropertyObject.PropertyVal.UI.ValueContainer,
-        IgnoreConstraints = true,
+        IgnoreOverrides = true,
         --ImageRect = Rect.new(Vector2.new(64,0),Vector2.new(64,64)),
         ForegroundColor = "Text",
     })]]

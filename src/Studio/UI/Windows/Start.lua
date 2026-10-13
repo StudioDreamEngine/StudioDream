@@ -241,7 +241,7 @@ return function(Start)
             ForegroundColor = "Text",
             Size = Pivot2D.FromScale(1,0.05),
             Parent = Options,
-            IgnoreConstraints = true,
+            IgnoreOverrides = true,
             Position = Pivot2D.FromScale(0,1),
             Pivot = Vector2.new(0,1),
             Alignment = Vector2.new(0.5,0.5)
