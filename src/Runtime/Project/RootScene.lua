@@ -29,15 +29,18 @@ function RootScene.LoadEnviornment(IdentifierID)
         CurrentEnv = nil
     end
 
-    local Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
-    local Resource, _ = Runtime.Resources.GetResource(Identifier)
-    Resource.Scene:SetParent(Root)
+    local Identifier
 
-    CurrentEnv = Resource.Scene
-    LoadedScenes[IdentifierID] = Resource.Scene
+    if IdentifierID then
+        Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
+        local Resource, _ = Runtime.Resources.GetResource(Identifier)
+        Resource.Scene:SetParent(Root)
+
+        CurrentEnv = Resource.Scene
+        LoadedScenes[IdentifierID] = Resource.Scene
+    end
 
     RootScene.ConfigureTargets()
-
     return Identifier
 end
 

@@ -60,25 +60,23 @@ end
 function PhysicsEngine.FromBullet(BulletTransform)
     local Origin = BulletTransform:getOrigin()
     local Basis = BulletTransform:getBasis()
-    local Row1 = Basis:getRow(0)
-    local Row2 = Basis:getRow(1)
-    local Row3 = Basis:getRow(2)
 
-    --[[local Matrix = Dream.mat4({
-		Row1:x(), Row1:y(), Row1:z(), Origin:x(),
-		Row2:x(), Row2:y(), Row2:z(), Origin:y(),
-		Row3:x(), Row3:y(), Row3:z(), Origin:z(),
-		0, 0, 0, 1
-	})]]
+    -- idiotic hack to get around weird cache issues
+    local Row1 = Basis:getRow(0)
+    Row1 = {Row1:x(), Row1:y(), Row1:z()}
+
+    local Row2 = Basis:getRow(1)
+    Row2 = {Row2:x(), Row2:y(), Row2:z()}
+
+    local Row3 = Basis:getRow(2)
+    Row3 = {Row3:x(), Row3:y(), Row3:z()}
 
     local Matrix = Dream.mat4({
-		1, 0, Row1:z(), Origin:x(),
-		0, 1, 0, Origin:y(),
-		0, 0, 1, Origin:z(),
+		Row1[1], Row1[2], Row1[3], Origin:x(),
+		Row2[1], Row2[2], Row2[3], Origin:y(),
+		Row3[1], Row3[2], Row3[3], Origin:z(),
 		0, 0, 0, 1
 	})
-
-    print(Matrix)
 
     return Transform3D.FromMatrix(Matrix)
 end

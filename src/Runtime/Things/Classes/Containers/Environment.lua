@@ -114,9 +114,11 @@ function Environment:ManageWorldHierachy()
 end
 
 function Environment:PostStep(Descendants)
+    ---@param Child Drawable3D
     for _, Child in pairs(Descendants) do
         Child.Transform = Runtime.Phys.FromBullet(Child:GetPhysicsTransform())
         Child.Velocity = Vector3.FromBullet(Child.PhysicsBody:getLinearVelocity())
+        Child:UpdateMatrix()
     end
 end
 

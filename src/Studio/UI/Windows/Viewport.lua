@@ -36,8 +36,25 @@ return function(Viewport)
             Font = "FontBold"
         })
 
+        Tab.Close = Studio.Components.CreateStyle("ImageButton", {
+            Parent = Tab.Object,
+            Resource = "Internal/Studio/Close.png",
+            Size = Pivot2D.FromScale(0.5,0.5),
+            SquareAxis = Enum.SquareAxis.Y,
+            Position = Pivot2D.FromScale(0.98,0.35),
+            Pivot = Vector2.new(1,.5),
+            BackgroundTransparency = 0,
+            CornerRadius = 10
+        })
+
         Tab.Object.Clicked:Connect(function()
             Viewport.SelectScene(SceneID)
+        end)
+
+        Tab.Close.Clicked:Connect(function()
+            if Viewport.CurrentlySelected == SceneID then
+                Viewport.RemoveTab(SceneID)
+            end
         end)
 
         Viewport.Tabs[SceneID] = Tab
@@ -54,12 +71,12 @@ return function(Viewport)
 
     function Viewport.RemoveTab(ID)
         local Tab = Viewport.Tabs[ID]
-        Tab:Destroy()
+        Tab.Object:Destroy()
 
         Viewport.Tabs[ID] = nil
 
         if Viewport.CurrentlySelected == ID then
-            Viewport.CurrentlySelected = nil
+            Viewport.SelectScene(nil)
         end
     end
 
