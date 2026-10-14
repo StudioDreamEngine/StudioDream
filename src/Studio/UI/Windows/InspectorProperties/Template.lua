@@ -1,9 +1,6 @@
 local Template = Object:extend()
 
 function Template.new(Data)
-    local self = {}
-    setmetatable(self,Template)
-
     self.Asset = self:CreateProperty()
 end
 

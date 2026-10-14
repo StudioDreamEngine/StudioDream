@@ -1,45 +1,30 @@
 local Things = Runtime.Things
+local Components = Studio.Components
 
 return function(Inspector)
-    Inspector.LoadedConfigs = Utils.LoadModules("Studio/UI/Windows/InspectorPropertyConfigs/", true)
+    function Inspector.CreateTreeObject(Obj,Group)
+        local Obj = {}
 
-    Inspector.Cleared = Signal:New("InspectorCleared!")
+        Obj.Asset = Obj
+        Obj.Parenting = {}
 
-    local ScrollContainer
-    local SearchBar
-
-    local SearchText = ""
-    local LoadedGroups = {}
-
-    function Inspector.CreateProperty(PropertyInfo)
-        ---@class ObjectProxy
-        local Proxy = PropertyInfo.Thing.Proxy
-        
-        local GiveInfo = {
-            Parent = PropertyInfo.Parent,
-            UltraParent = PropertyInfo.Parent,
-            Name = PropertyInfo.Name,
-            Type = PropertyInfo.Type,
-            Disabled = not Proxy.Serializable[PropertyInfo.Name],
-            Attributes = PropertyInfo.Attributes
-        }
-
-        Inspector.Cleared:ConnectOnce(function()
-            table.clear(GiveInfo)
-        end)
-
-        if Inspector.LoadedConfigs[PropertyInfo.Type] then
-            local Return = Inspector.LoadedConfigs[PropertyInfo.Type].Create(GiveInfo)
-            Return.PropertyVal.UI.Container.Name = PropertyInfo.Name
-            Return.PropertyVal.UI.Container.Size = Pivot2D.new(1,0,0,20)
-        else
-            local Return = Inspector.LoadedConfigs.NotFound.Create(GiveInfo)
-            Return.PropertyVal.UI.Container.Name = PropertyInfo.Name
-            Return.PropertyVal.UI.Container.Size = Pivot2D.new(1,0,0,20)
+        if Group then
+            Obj.Parenting = nil
+            Group.Parenting[Obj.Asset.Name] = Obj
         end
+
+        return Obj
     end
 
-    function Inspector.CreateGroup(GroupName)
+    function Inspector.RenderProperty(PropertyGiven)
+        local Property = {}
+
+        
+
+        return Property
+    end
+
+    function Inspector.RenderGroup(GroupName)
         local Group = {}
 
         Group.BaseGroup = Studio.Components.CreateStyle("Text",{
@@ -56,121 +41,44 @@ return function(Inspector)
             CornerRadius = 2,
         })
 
-        ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, ScrollContainer)
-        
-        Group.BaseGroup.Dropdown = ExpandableDropdown.Container
+        Group.ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, ScrollContainer)
 
-        return ExpandableDropdown.Container
+        function Group:RemoveProperty(Name)
+
+        end
+
+        Group.TreeObject = Inspector.CreateTreeObject(Group.BaseGroup)
+
+        Inspector.RenderingTree[GroupName] = Group.TreeObject
+
+        return Group
     end
 
-    function Inspector.RenderEverything()
-        Inspector.Clean()
+    function Inspector.Render()
+        local CleanTable = {}
+        local HandlingThings = Studio.Editor3D.Selecting
 
-        ScrollContainer:Present()
-        LoadedGroups = {}
-
-        for _,Thing in pairs(Studio.Editor3D.Selecting) do
+        for _,Thing in pairs(HandlingThings) do
             for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
-                if not LoadedGroups[GroupName] then
-                    LoadedGroups[GroupName] = {}
+                if not CleanTable[GroupName] then
+                    CleanTable[GroupName] = {}
                 end
-                for _,ProToAdd in pairs(GroupData) do
-                    LoadedGroups[GroupName][ProToAdd] = Thing
+                for Property, Thing in pairs(GroupData) do
+                    CleanTable[GroupName][Property] = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property]
                 end
             end
         end
 
-        local Start = os.clock()
-        
-        for GroupName,GroupData in pairs(LoadedGroups) do
-            local GroupNode = Inspector.CreateGroup(GroupName)
-            for Property, Thing in pairs(GroupData) do
-                --print(Utils.TypeOf(Thing[Property]),Property)
+        for GroupName,Properties in pairs(CleanTable) then
 
-                if os.clock() - Start > 1/80 then
-                    Scheduler.Yield()
-                    Start = os.clock()
-                end
-
-                xpcall(function()
-                    local PropertyInfo = {
-                        Name = Property,
-                        Type = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property],
-                        Parent = GroupNode,
-                        Thing = Thing,
-                        Attributes = Thing.Proxy.Attributes[Property]
-                    }
-                    Inspector.CreateProperty(PropertyInfo)
-                end, function(Error)
-                    -- mikl istg
-                    print(debug.traceback("Failed to create property node for "..Property..", "..Error))
-                end)
-            end
-        end
-
-        Inspector.UpdateList()
-        print("Thing count: "..#ScrollContainer:GetDescendants())
-    end
-
-    function Inspector.Clean()
-        ScrollContainer:ClearAllChildren({"ListLayout"})
-
-        SearchBar:SetText("")
-        SearchText = ""
-
-        Inspector.UpdateList()
-        table.clear(LoadedGroups)
-        Inspector.Cleared.Invoke()
-    end
-
-    function Inspector.UpdateList()
-        for _,GroupNode in pairs(ScrollContainer:GetChildren()) do
-            if GroupNode.Dropdown then
-                for i,v in pairs(GroupNode.Dropdown:GetChildren()) do
-                    if (v:IsA("Square")) then
-                        v:SetVisible((SearchText=='') and true or string.find(v.Name:lower(), SearchText:lower()))
-                    end
-                end
+            for PropertyName,Type in pairs(Properties) do
+                
             end
         end
     end
 
-    function Inspector.Init()
-
-        SearchBar = Studio.Components.CreateStyle("TextInput",{
-            Size = Pivot2D.FromScale(0.95,0.05),
-            Position = Pivot2D.FromScale(0.5,0.005),
-            Pivot = Vector2.new(0.5,0),
-            ForegroundColor = "Text",
-            BackgroundTransparency = 0,
-            CornerRadius = 8,
-            Layer = 2,
-            BackgroundColor = "Outline",
-            Alignment = Enum.Alignment.Center,
-            Parent = Inspector.Container,
-            ClearWhenFocus = true,
-            Placeholder = "Search a thing class name!"
-        })
-        
-        Studio.Components.CreateStyle("Image2D",{
-            Size = Pivot2D.FromScale(1,1),
-            Pivot = Vector2.new(0,0),
-            Position = Pivot2D.FromScale(0,0),
-            SquareAxis = Enum.SquareAxis.Y,
-            Resource = "Internal/Studio/Search.png",
-            Parent = SearchBar
-        })
-
-        SearchBar.Typed:Connect(function(NewText)
-            SearchText = NewText
-            Inspector.UpdateList()
-        end)
-
-        SearchBar.FocusEnd:Connect(function()
-            Inspector.UpdateList()
-        end)
-
-        ScrollContainer = Studio.Components.CreateStyle("ScrollContainer",{
+    function Inspector.Setup()
+        Inspector.Scroll = Studio.Components.CreateStyle("ScrollContainer",{
             Size = Pivot2D.FromScale(1,0.94),
             CanvasSize = Pivot2D.FromScale(1,4),
             BackgroundTransparency = 1,
@@ -179,14 +87,19 @@ return function(Inspector)
             Parent = Inspector.Container,
         })
 
-        Studio.Components.CreateStyle("ListLayout",{
+        Inspector.List = Studio.Components.CreateStyle("ListLayout",{
             Parent = ScrollContainer,
             Alignment = Enum.Alignment.TopCenter,
             Padding = 2
         })
+    end
 
-        Studio.Editor3D.OnSelect:Connect(Inspector.RenderEverything)
-        Studio.Editor3D.OnDeselect:Connect(Inspector.Clean)
+    function Inspector.Init()
+        Inspector.PropertyTypes = Utils.LoadModules("Studio/UI/Windows/InspectorProperties/", true)
+
+        Inspector.RenderingTree = {}
+
+        Inspector.Setup()
     end
 
     function Inspector.Update(dt)
