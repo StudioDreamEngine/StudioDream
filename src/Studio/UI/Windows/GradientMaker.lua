@@ -98,7 +98,7 @@ return function(GradientMaker)
             HoverColorMultiplier = 1,
         })
         local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(0.4,0.2), GradientMaker.Container)
-        local PropertyVal = Studio.Components.PropertyValue(PropertyList, {
+        local PropertyVal = Studio.Components.PropertyValue.New(PropertyList, {
             Title = "Color",
             Type = "Input",
             Translate = "Color",

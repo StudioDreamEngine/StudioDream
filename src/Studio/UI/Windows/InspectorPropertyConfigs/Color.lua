@@ -12,7 +12,7 @@ function Template.Create(Info)
         CornerRadius = 100,
     })
 
-    PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
+    PropertyObject.PropertyVal = Studio.Components.PropertyValue.New(PropertyList, {
         Title = Info.Name,
         Type = "Button",
         Icon = true,

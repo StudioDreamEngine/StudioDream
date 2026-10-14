@@ -4,7 +4,7 @@ function Template.Create(Info)
     local PropertyObject = {}
     local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(1,1), Info.Parent)
 
-    PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
+    PropertyObject.PropertyVal = Studio.Components.PropertyValue.New(PropertyList, {
         Title = Info.Name,
         Type = "Input",
         Disabled = true,

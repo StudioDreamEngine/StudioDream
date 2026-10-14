@@ -429,7 +429,7 @@ function BaseGui:DrawStyle()
 end
 
 function BaseGui:UpdateTransforms()
-    --Profiler.Start("BaseGui - Process UpdateTransforms")
+    Profiler.Start("BaseGui - Process UpdateTransforms")
     self.AbsoluteRotation = self:GetAbsoluteRotation()
 
     local Size = self:GetProperty("Size")
@@ -447,7 +447,7 @@ function BaseGui:UpdateTransforms()
     self.AbsolutePosition = self:GetAbsolutePosition()
     self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 
-    --Profiler.End()
+    Profiler.End()
 end
 
 function BaseGui:InvalidateAutomaticSize()

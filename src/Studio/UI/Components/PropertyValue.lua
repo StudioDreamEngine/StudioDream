@@ -79,7 +79,7 @@ local ValueTypes = {
             Value = Utils.Boolean(InValue)
 
             Button:SetImageRect(Rect.new(LineUp[(type(InValue) == "string" and InValue or Value)],Vector2.new(64,64)))
-        end
+        end, Button
     end,
     Dropdown = function(Parent, Info)
         ---@class TextButton
@@ -139,7 +139,7 @@ local ValueTypes = {
 
         return function(Value)
             ValueObject:SetText(Value)
-        end
+        end, ValueObject
     end,
     Button = function(Parent, Info)
         ---@class TextButton
@@ -165,7 +165,7 @@ local ValueTypes = {
 
         return function(Value)
             ValueObject:SetText(Value)
-        end
+        end, ValueObject
     end,
     Slider = function() -- TODO
         
@@ -200,10 +200,12 @@ local ValueTypes = {
         Square = "Outline"
 ]]
 
-local ValueFunction = function(PropertyList, Information, Style)
-    local PropertyValue = {}
+local PropertyValue = {}
+
+function PropertyValue.New(PropertyList, Information, Style)
+    local Object = {}
     Style = Style or {}
-    PropertyValue.UI = {}
+    Object.UI = {}
 
     local Container = Studio.Components.CreateStyle(Information.StyleSelect and "TextButton" or "Square", {
         BackgroundTransparency = 0,
@@ -215,14 +217,15 @@ local ValueFunction = function(PropertyList, Information, Style)
         Alignment = Vector2.new(0.05,0.5),
         Parent = PropertyList.Parent
     })
+
     local HasTitle = Information.Title
 
-    PropertyValue.UI.Container = Container
+    Object.UI.Container = Container
 
     Studio.Components.RegisterToTheme(Container, "BackgroundColor", Style.Container or "Primary")
 
     if not Information.StyleSelect and HasTitle then
-        PropertyValue.UI.Title = Studio.Components.CreateStyle("Text", {
+        Object.UI.Title = Studio.Components.CreateStyle("Text", {
             Text = Information.Title,
             Pivot = Vector2.new(0,0.5),
             Position = Pivot2D.FromScale(0.05,0.5),
@@ -236,7 +239,7 @@ local ValueFunction = function(PropertyList, Information, Style)
         })
     end
 
-    PropertyValue.UI.ValueContainer = Studio.Components.CreateStyle("Square", {
+    Object.UI.ValueContainer = Studio.Components.CreateStyle("Square", {
         Size = Pivot2D.FromScale(HasTitle and 0.48 or 1,0.85),
         Pivot = Vector2.new(0,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
@@ -249,15 +252,15 @@ local ValueFunction = function(PropertyList, Information, Style)
 
     if Information.Icon then
         Things.Create("ListLayout") {
-            Parent = PropertyValue.UI.ValueContainer,
+            Parent = Object.UI.ValueContainer,
             Padding = 5,
             Direction = Enum.LayoutDirection.Horizontal
         }
 
         if type(Information.Icon) ~= "boolean" then
-            PropertyValue.UI.Icon = Studio.Components.CreateStyle("Image2D", {
+            Object.UI.Icon = Studio.Components.CreateStyle("Image2D", {
                 Size = Pivot2D.FromScale(1,1),
-                Parent = PropertyValue.UI.ValueContainer,
+                Parent = Object.UI.ValueContainer,
                 SquareAxis = Enum.SquareAxis.Y,
                 Layer = 10,
                 BackgroundTransparency = 1,
@@ -266,29 +269,14 @@ local ValueFunction = function(PropertyList, Information, Style)
         end
     end
 
-    if type(Information.Type) ~= "function" then
-        Information.PropUpdator,PropertyValue.Prop = ValueTypes[Information.Type](PropertyValue.UI.ValueContainer, Information)
-    else
-        Information.PropUpdator,PropertyValue.Prop = Information.Type(PropertyValue.UI.ValueContainer, Information)
-    end
+    Information.PropUpdator, Object.Prop = PropertyValue.CreateValue(Information.Type, Object.UI.ValueContainer, Information)
 
-    local Objects = Information.Objects
-
-    -- Called every time the PropertyValue should be updated
+    -- Called every time the Object should be updated
     Information.OnUpdate = function()
         local Success, Message = pcall(function()
-            local UpdateResult
+            local UpdateResult = tostring(Information.ReturnDisplay()) or "nil"
 
-            if Objects then
-                local AreSame = Utils.IsAllPropertiesTheSame(Objects.Things, Objects.Property)
-                local Display = Information.ReturnDisplay(Objects.Things[1], AreSame)
-
-                UpdateResult = AreSame and tostring(Display) or "~"
-            else
-                UpdateResult = tostring(Information.ReturnDisplay()) or "nil"
-            end
-
-            --printVerbose("PropertyValue OnUpdate Result w/ "..UpdateResult)
+            --printVerbose("Object OnUpdate Result w/ "..UpdateResult)
             
             Information.PropUpdator(UpdateResult)
         end)
@@ -298,59 +286,22 @@ local ValueFunction = function(PropertyList, Information, Style)
         end
     end
 
-    if Objects then
-        for _,Thing in pairs(Objects.Things) do
-            Container:AddPlaceholderSignal(Thing.PropertyChanged:ConnectDeferred(function(Val,Property) -- Can be a memory leak so change this to something better later
-                if Property == Objects.Property then
-                    Information.OnUpdate()
-                end
-            end))
-        end
-    end
-
-    if Information.StyleSelect then
-        local ToggleThing = false
-
-        Container:AddPlaceholderSignal(Runtime.InterfaceManager.OnClick:Connect(function()
-            if Container.Hovering then return end
-            ToggleThing = false
-        end))
-
-        Container.Clicked:Connect(function()
-            ToggleThing = not ToggleThing
-        end)
-    end
-
     -- Called every time the user changes the value
 
     Information.OnChange = function(Value)
-        print("VALUE")
-        print(Value)
-        print(type(Value))
-        if type(Value) ~= "nil" then 
-            --printVerbose("PropertyValue OnChange w/ "..tostring(Value))
-
-            -- Auto-translate value
-            if Information.Translate then
-                local ActualValue,WasInvalidated = _G[Information.Translate].FromString(Value)
-                print(WasInvalidated)
-                if not WasInvalidated then
-                    Value = ActualValue
-                else
-                    Value = nil 
-                end
-            end
-
-            Information.UserChange(Value)
-        end
-        
+        Information.UserChange(Value)
         Information.OnUpdate()
     end
 
     Information.OnUpdate()
-    PropertyValue.OnUpdate = Information.OnUpdate
-    PropertyValue.OnChange = Information.OnChange
-    return PropertyValue
+    Object.OnUpdate = Information.OnUpdate
+    Object.OnChange = Information.OnChange
+
+    return Object
 end
 
-return ValueFunction
+function PropertyValue.CreateValue(Type, Parent, Info)
+    return ValueTypes[Type](Parent, Info)
+end
+
+return PropertyValue

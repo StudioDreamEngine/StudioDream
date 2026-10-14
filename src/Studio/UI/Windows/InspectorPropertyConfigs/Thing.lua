@@ -22,7 +22,7 @@ function Template.Create(Info)
         Resource = "Internal/Studio/EditorIcons/Drawable3D.png",
     })]]
 
-    PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
+    PropertyObject.PropertyVal = Studio.Components.PropertyValue.New(PropertyList, {
         Title = Info.Name,
         Type = "Button",
         Disabled = Info.Disabled,

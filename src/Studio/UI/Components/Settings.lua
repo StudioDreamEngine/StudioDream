@@ -20,7 +20,7 @@ return { new = function(Info, Window)
         local PropertyList = Studio.Components.PropertyList(Pivot2D.new(1,0,0,30), Scroll)
 
         for _, Choice in pairs(Choices) do
-            Studio.Components.PropertyValue(PropertyList, Choice)
+            Studio.Components.PropertyValue.New(PropertyList, Choice)
         end
 
         return Scroll

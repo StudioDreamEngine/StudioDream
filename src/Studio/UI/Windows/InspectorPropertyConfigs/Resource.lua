@@ -7,7 +7,7 @@ function Template.AudioExtra(Info,AddInfo)
         Parent = AddInfo.Parent,
     })
     local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(1,1), BaseSquare)
-    Studio.Components.PropertyValue(PropertyList, {
+    Studio.Components.PropertyValue.New(PropertyList, {
         Title = "Play Audio",
         Type = function(Parent, Info)
         local CanBeActive
@@ -84,7 +84,7 @@ function Template.Create(Info)
     local PropertyObject = {}
     local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(1,1), Info.Parent)
 
-    PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
+    PropertyObject.PropertyVal = Studio.Components.PropertyValue.New(PropertyList, {
         Title = Info.Name,
         Type = "Button",
         Disabled = Info.Disabled,

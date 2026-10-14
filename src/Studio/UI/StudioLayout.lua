@@ -258,14 +258,14 @@ function StudioLayout.CreateLayout()
         Name = "Insert Object"
     })
 
-    StudioLayout.CreateWindow("Inspector", {
+    --[[StudioLayout.CreateWindow("Inspector", {
         Name = "Inspector",
         Size = Pivot2D.FromScale(0.2,.5),
         Position = Pivot2D.FromScale(1,1),
         Pivot = Vector2.new(1,1),
         Layer = 3,
         CornerRadius = 0,
-    })
+    })]]
 
     StudioLayout.CreateWindow("Explorer", {
         Name = "Tree",

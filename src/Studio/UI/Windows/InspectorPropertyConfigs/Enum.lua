@@ -17,7 +17,7 @@ function Template.Create(Info)
     local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(1,1), Info.Parent)
     local EnumList = table.clone(Studio.Editor3D.Selecting[1].Proxy.Enums[Info.Name])
     local TableBuilded = BuildChoices(Studio.Editor3D.Selecting[1].Proxy.Enums[Info.Name])
-    PropertyObject.PropertyVal = Studio.Components.PropertyValue(PropertyList, {
+    PropertyObject.PropertyVal = Studio.Components.PropertyValue.New(PropertyList, {
         Title = Info.Name,
         Type = "Dropdown",
         Disabled = Info.Disabled,

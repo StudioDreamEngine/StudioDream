@@ -5,6 +5,7 @@ Client = {}
 --local StudioCamera
 
 function Client.Init()
+    -- Setup the client UI
     local EnvironmentViewport = Things.Create("Viewport3D") {
         Parent = Things.RenderRoot,
         RenderContainer = Things.Root:GetEnvironment(),
@@ -50,10 +51,12 @@ function Client.Init()
         }
     end
 
+    -- 
     Runtime.Project.LoadedProject:Connect(function()
         RuntimeService.StartActivity()
     end)
 
+    -- No idea why i do this
     RuntimeService.Quitting:Connect(function()
         Runtime.Things.RenderRoot:ClearAllChildren()
     end)

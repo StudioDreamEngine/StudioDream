@@ -20,7 +20,7 @@ return function(Args,SingleTab)
     local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(1,0.5), ButtonContainer)
 
     -- In the configs, we should have a function that still creates the container itself
-    local PropertyOne = Studio.Components.PropertyValue(PropertyList, {
+    local PropertyOne = Studio.Components.PropertyValue.New(PropertyList, {
         Icon = "TabIcons/MoveIcon.png",
         Type = "Input",
         UserChange = function(Text)
@@ -31,7 +31,7 @@ return function(Args,SingleTab)
         end,
     })
 
-   local PropertyTwo = Studio.Components.PropertyValue(PropertyList, {
+   local PropertyTwo = Studio.Components.PropertyValue.New(PropertyList, {
         Icon = "TabIcons/RotIcon.png",
         Type = "Input",
         UserChange = function(Text)
