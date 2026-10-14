@@ -72,6 +72,12 @@ function Things.Type(ThingType)
     return require(Classes[ThingType])
 end
 
+function Things.ExtendPlus(SuperType,HyperType)
+    local Class = Things.Type(SuperType):extend(HyperType and Things.Type(HyperType):extend() or nil)
+    --print(Class)
+    return Class
+end
+
 function Things.Extend(SuperType, HyperType)
     local Class = Things.Type(SuperType):extend()
     

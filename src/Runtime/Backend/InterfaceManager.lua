@@ -136,6 +136,12 @@ function InterfaceManager.Update(dt)
         end
     end
 
+    --[[for i,v in pairs(CurrentlyHovering) do
+        if v.Hovering == false then
+            print("coil")
+        end
+    end]]
+
     Runtime.Cursor.ChangeCursorInternal((#CurrentlyHovering > 0) and "Hovering" or "Main", true)
 
     if #CurrentlyHovering > 0 then
@@ -147,7 +153,6 @@ function InterfaceManager.Update(dt)
 
         for _, Hovering in pairs(CurrentlyHovering) do
             Hovering.Hovering = true
-
             if Hovering.SinkHovering then
                 break
             end
