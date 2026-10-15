@@ -35,7 +35,7 @@ return function(Args)
         Name = "Titled",
     })
     Object.Text:SetFont(Studio.CurrentTheme.FontBold)
-
+    print(Object.ButtonContainer.SinkHovering)
     Object.ButtonContainer.Clicked:Connect(function()
         Args.OnClick(Object)
     end)
