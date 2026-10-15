@@ -186,7 +186,7 @@ local function raytraceMesh(mesh, localOrigin, localDirection, adorn)
 	if (nearest - center):lengthSquared() > adorn.BoundingSphere.size ^ 2 then
 		return false
 	end
-	
+
 	--build acceleration structures
 	if not mesh.raytraceTree then
 		mesh.raytraceTree = buildTree(mesh.vertices, buildMatrices(mesh), 1)

@@ -154,6 +154,7 @@ function Drawable3D:SetResource(NewResource)
     self.Size = self.Scale * self.Drawable:getBoundingBox()
     self.PhysicsShape = Runtime.Phys.ShapeFromMesh(self.Drawable, self.Scale)
 
+    self:UpdateBounds()
     self:CreateBody()
 end
 
