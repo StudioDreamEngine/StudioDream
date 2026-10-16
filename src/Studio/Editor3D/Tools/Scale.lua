@@ -58,6 +58,7 @@ end
 
 function Scale.Destroy()
     ScaleControl:Destroy()
+    ScaleControl = nil
 end
 
 return Scale

@@ -24,8 +24,8 @@ function Project.SetupSignals()
     end)
 end
 
-function Project.Clear()
-    RootScene.Unload()
+function Project.Unload()
+    Runtime.Resources.Unload()
 end
 
 -- Make sure a project path is a valid project
@@ -141,7 +141,7 @@ function Project.Reload()
         local Config = Project.Config.Load()
         if (not Config) then print("Configuration returned nil, refusing to load project further.") return end
 
-        Runtime.Resources.Unload()
+        Project.Unload()
         Resources.Load()
         RootScene.Load()
         Runtime.LoadProjectCallback()

@@ -50,6 +50,7 @@ end
 
 function Rotate.Destroy()
     RotateControl:Destroy()
+    RotateControl = nil
 end
 
 return Rotate

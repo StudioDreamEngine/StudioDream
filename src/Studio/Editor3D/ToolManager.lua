@@ -5,8 +5,7 @@ local CurrentTool, ChosenTool
 local SelectionProxy = Runtime.Things.New("Transformable3D") ---@class Transformable3D
 local Origin = Vector3.zero
 
-local LatestSelection -- Used for scale currently
-
+local LatestSelection
 local GridSnap, RotationSnap = 0.1, 10
 
 local Selecting = {}
@@ -88,13 +87,19 @@ function ToolManager.GetTool()
     return ChosenTool
 end
 
+function ToolManager.CleanupCurrentTool()
+    if CurrentTool then 
+        CurrentTool.Destroy()
+        CurrentTool.Selection = nil
+        CurrentTool = nil
+    end
+end
+
 function ToolManager.Deselect()
     table.clear(Selecting)
     
-    if CurrentTool then 
-        CurrentTool.Destroy()
-        CurrentTool = nil
-    end
+    ToolManager.CleanupCurrentTool()
+    LatestSelection = nil
 end
 
 function ToolManager.Select(NewSelection)
@@ -102,7 +107,7 @@ function ToolManager.Select(NewSelection)
         LatestSelection = NewSelection
     end
 
-    ToolManager.Deselect()
+    ToolManager.CleanupCurrentTool()
 
     CurrentTool = ChosenTool
     if (not CurrentTool) then return end

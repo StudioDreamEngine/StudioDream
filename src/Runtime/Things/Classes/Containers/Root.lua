@@ -28,6 +28,8 @@ function Root:Collect()
     local ThingStats = Runtime.Things.GetCount()
 
     print("Root Collection cycle, current orphaned children: "..ThingStats.Orphans)
+
+    return ThingStats.Orphans
 end
 
 -- Clear and cleanup all objects
@@ -43,11 +45,21 @@ function Root:Clear()
         self.HudViewport:SetRenderContainer(nil)
     end
 
-    Runtime.Project.Clear()
-    Runtime.Things.TreeChanged.Invoke()
+    Runtime.Project.LoadEnviornment(nil)
     Runtime.ScriptUtil.Reset()
+
+    local Services = Runtime.Services
+
+    if Services then
+        local SpatialService = Services.Service("SpatialService") ---@class SpatialService
+        SpatialService.ClearCasts()
+    else
+        printVerbose("Not clearing casts as services not initialized")
+    end
+    
+    Runtime.Things.TreeChanged.Invoke()
     Scheduler.Yield()
-    self:Collect()
+    return self:Collect()
 end
 
 function Root:SetEnvironmentViewport(New)
@@ -82,6 +94,7 @@ function Root:GetService(Service)
 end
 
 function Root:OnRemove()
+    printVerbose(debug.traceback("Removal Traceback"))
     warn("Attempted to remove root, Please use Root:Clear() Instead.")
 end
 

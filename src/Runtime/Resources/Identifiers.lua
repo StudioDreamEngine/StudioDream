@@ -54,6 +54,9 @@ function Identifiers.GetIdentifierIDFromPath(FilePath)
 	return Runtime.ProjectFS.ReadFile(FilePath .. ".uid")
 end
 
+--[[
+	Unload every current resource attached to the project (Most likely in the registered identifiers, so we target all of them)
+]]
 function Identifiers.Unload()
 	for IdentifierID, _ in pairs(RegisteredIdentifiers) do
 		Runtime.Resources.UnloadResource(IdentifierID)

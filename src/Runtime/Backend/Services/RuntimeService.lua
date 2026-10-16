@@ -21,8 +21,13 @@ function RuntimeService.Stop()
     Running = false
     RuntimeService.Quitting:Invoke()
 
-    Runtime.Things.Root:Clear()
-    
+    Runtime.Project.Unload()
+    local Orphans = Runtime.Things.Root:Clear()
+
+    if #Orphans > 0 then
+        warn("There are still orphaned objects, project reload may be unsuccessful.")
+    end
+
     --Runtime.Project.Reload()
 end
 

@@ -42,6 +42,10 @@ local DefaultFilter = SpatialService.FilterInformation({}, Enum.SpatialFilterTyp
 
 local Raycast = Dream:getExtension("raytrace")
 
+function SpatialService.ClearCasts()
+	Raycast:clear()
+end
+
 function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformation)
 	assert(WorldObject, "Internal raycast function requires a WorldObject!")
 

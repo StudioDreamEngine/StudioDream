@@ -328,7 +328,7 @@ local raytracer = { }
 ---@return DreamRaytraceResult | "false"
 function raytracer:cast(object, origin, direction, ignoreInfo)
 	--clear search
-	nearestT, nearestU, nearestV, nearestFace, nearestMesh = 1, false, false, false, false
+	nearestT, nearestU, nearestV, nearestFace, nearestMesh, nearestAdorn = 1, false, false, false, false, false
 	
 	--search
 	local Adorn = object.isAdorn
@@ -351,6 +351,10 @@ function raytracer:cast(object, origin, direction, ignoreInfo)
 		--transforms = transforms,
 		position = origin + nearestT * direction
 	}, meta) or false
+end
+
+function raytracer:clear()
+	nearestT, nearestU, nearestV, nearestFace, nearestMesh, nearestAdorn = 1, false, false, false, false, false
 end
 
 return raytracer

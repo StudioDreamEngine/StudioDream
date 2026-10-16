@@ -6,10 +6,6 @@ local CurrentEnv
 
 local LoadedScenes = {}
 
-function RootScene.Unload()
-    print("Unload (TODO)")
-end
-
 function RootScene.LoadDefault()
     Root:Clear()
     Runtime.Things.CreateTemplate("Root")

@@ -50,6 +50,7 @@ end
 
 function Move.Destroy()
     MoveControl:Destroy()
+    MoveControl = nil
 end
 
 return Move

@@ -18,7 +18,10 @@ return {
         }
     end,
     Unload = function(Resource)
-        Resource.Scene:Destroy()
+        if not Resource.Scene:IsA("Root") then -- TODO: Dont do this
+            Resource.Scene:Destroy()
+        end
+
         table.clear(Resource.References)
     end
 }
