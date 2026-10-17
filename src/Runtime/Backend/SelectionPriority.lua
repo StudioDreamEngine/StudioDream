@@ -17,10 +17,11 @@ function SelectionPriorityService.Init()
 end
 
 function SelectionPriorityService.Call(IsDown)
+    -- If we are hovering over a ui object, those will always take first priority over anything else.
     if (Runtime.InterfaceManager.Hovering ~= EnvironmentViewport) or Runtime.InterfaceManager.ClickSurface then
         if (IsDown) then 
             printVerbose("Click Invoked")
-            SelectionPriorityService.GuiClick.Invoke() 
+            SelectionPriorityService.GuiClick.Invoke() -- Goes over to InterfaceManager
         end
 
         return

@@ -1,4 +1,5 @@
 -- Welcome to resource hell
+-- The general manager of all things resource related.
 local Resources = {}
 
 local Identifiers = require("Runtime.Resources.Identifiers")
@@ -38,6 +39,7 @@ end
 
 Resources.Clear()
 
+-- Helper function to go through every object reference property with a callback
 function Resources.ForEachReference(Callback)
 	for ObjectUUID, Properties in pairs(ObjectReferences) do
 		for Property, Identifier in pairs(Properties) do
@@ -65,8 +67,6 @@ end
 --[[
 	Get or Load a resource from an IdentifierID or Identifier
 	Intended to be a way to simplify loading resources from Identifiers or IDs
-
-	
 ]]
 function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
@@ -113,6 +113,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 	return ResourceReturn, Identifier.ID, ResourceSource
 end
 
+-- Loads an identifier as a resource using the contents of the identifier read from the filesystem
 local function LoadWithContents(Identifier, Contents)
 	local Format = FormatLookup[Identifier.Data.FileType]
 
@@ -137,6 +138,7 @@ function Resources.InitiateLoader(Format, Contents, Identifier)
 	return Resource, SourceResource
 end
 
+-- Load a single resource, unloading what was previously there.
 function Resources.LoadResource(Identifier)
 	local ResourceType = Identifier.ResourceType
 	local Resource
@@ -161,6 +163,7 @@ function Resources.LoadResource(Identifier)
 	return Resource, SourceResource
 end
 
+-- Write a resource to disk, using its identifier id and the data to go along with it
 function Resources.WriteResource(IdentifierID, Data)
 	local Identifier = Identifiers.GetIdentifierFromID(IdentifierID)
 
@@ -201,6 +204,7 @@ function Resources.GetResource(Identifier, Reload)
 	return Resource, SourceResource
 end
 
+-- Unload a resource from memory, calling its unloader function on the way
 function Resources.UnloadResource(IdentifierID)
 	local Resource = LoadedResources[IdentifierID]
 

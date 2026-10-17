@@ -1,3 +1,4 @@
+-- Manages the project configuration
 local Configuration = {}
 
 local DefaultConfig = {

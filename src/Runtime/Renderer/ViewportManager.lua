@@ -1,7 +1,7 @@
+-- Manages the rendering and creation of viewports and canvases
 local ViewportManager = {}
 
 local RootViewport ---@class ViewportContainer
-local DecorationViewport ---@class Viewport2D
 local light
 
 Rendered = 0
@@ -23,6 +23,7 @@ function ViewportManager.Init()
     ViewportManager.Viewports = {}
 end
 
+-- Set the viewport that will be automatically presented to the main screen each frame
 function ViewportManager.SetRootViewport(InRoot)
     RootViewport = InRoot
 end
@@ -31,13 +32,7 @@ function ViewportManager.GetRendered()
     return Rendered
 end
 
----@param RootDisplay Viewport2D
-function ViewportManager.SetDecorationViewport(InDecoration, RootDisplay)
-    DecorationViewport = InDecoration
-
-    RootDisplay:SetRenderContainer(RootViewport)
-end
-
+-- Create a canvas object
 function ViewportManager.CreateViewport(Viewport, Size)
     if Size.X < 10 or Size.Y < 10 then
         Size = Vector2.one * 2

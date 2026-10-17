@@ -1,4 +1,5 @@
 ---@diagnostic disable: cast-local-type
+-- Wrappers around the Projects BaseFS object (when there is one)
 local ProjectFS = {}
 local BaseFS = Runtime.BaseFS
 

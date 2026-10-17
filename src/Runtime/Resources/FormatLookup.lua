@@ -1,3 +1,4 @@
+-- Associations to loaders for each file type
 return {
     png = "Image",
     mp3 = "Sound",

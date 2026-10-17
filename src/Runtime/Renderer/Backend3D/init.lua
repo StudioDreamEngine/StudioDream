@@ -1,4 +1,15 @@
 ---@diagnostic disable: inject-field
+-- Many utility functions related to the 3d engine, also handles adorns
+
+--[[
+    ADORNS:
+        An adorn is an object that is unlike regular thing objects
+
+        these are directly rendered to the screen and are meant to be used for gizmos
+        that should not be treated as regular objects
+
+
+]]
 local Backend3D = {}
 local DreamAdorns = {}
 
@@ -16,6 +27,7 @@ function Backend3D.SetupDebug()
     }
 end
 
+-- Set the transform of the debug object
 function Backend3D.SetTransform(Transform)
     Backend3D.Debug:SetTransform(Transform)
 end
@@ -31,6 +43,8 @@ end
 
 -- Object stuff --
 
+-- Register an adorn, making it renderable
+-- if an adorn is parented to another adorn, you do not need to register it.
 function Backend3D.RegisterAdorn(Object, UUID)
     DreamAdorns[UUID] = Object
 end
@@ -39,7 +53,7 @@ function Backend3D.UpdateBounds(Mesh, Scale)
     return Dream:newBoundingSphere(Mesh:updateBoundingSphere(Scale:Magnitude()))
 end
 
--- Adorns will use a watered down version of a 3de object, but not literally one
+-- Create an adorn object
 function Backend3D.CreateAdorn(Name)
     local Object = Dream:newTransformable()
     Object.name = Name
@@ -53,6 +67,7 @@ function Backend3D.CreateAdorn(Name)
     return Object
 end
 
+-- Load a mesh into a 3dreamengine mesh object from an identifier
 function Backend3D.LoadMesh(Identifier, Reference)
     local Resource, ResourceIdentifier = Runtime.Resources.LoadResourceFromIdentifier(Identifier, Reference, "Mesh")
     if (not Resource) then return end
@@ -62,6 +77,7 @@ function Backend3D.LoadMesh(Identifier, Reference)
     return Resource, ResourceIdentifier
 end
 
+-- Create an adorn object and load a mesh into it.
 function Backend3D.LoadAdorn(Identifier, Parent, Reference)
     local Adorn = Backend3D.CreateAdorn(Reference)
 
@@ -77,6 +93,7 @@ function Backend3D.LoadAdorn(Identifier, Parent, Reference)
     return Adorn
 end
 
+-- Present all adorns specified within the objects table
 function Backend3D.PresentAdornChild(Objects, Transform)
     for _, Object in pairs(Objects) do
         local Transform = Object.transform and (Object.transform * Transform) or Transform
@@ -91,6 +108,7 @@ function Backend3D.PresentAdornChild(Objects, Transform)
     end
 end
 
+-- Present all registered adorn objects
 function Backend3D.PresentAdorns()
     Backend3D.PresentAdornChild(DreamAdorns, Dream.mat4.getIdentity())
 end

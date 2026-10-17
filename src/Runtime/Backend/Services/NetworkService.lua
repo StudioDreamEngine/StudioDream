@@ -1,3 +1,5 @@
+-- General service used for client-server communication and fetching web resources, created by Alecstey.
+-- TODO: Document
 local NetworkService = {}
 
 local enet = require("enet")

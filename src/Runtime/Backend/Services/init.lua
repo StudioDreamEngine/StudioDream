@@ -1,3 +1,4 @@
+-- Manages loading, updating and cleanup of services
 local Services = {}
 
 Services.Services = {}
@@ -7,6 +8,7 @@ Shared.OnQuit:Connect(function()
     Runtime.Services.OnQuit()
 end)
 
+-- Gets a service by name
 function Services.Service(Service)
     if (not Services.Services[Service]) then
         printVerbose("Initalizing Service: "..Service)

@@ -1,4 +1,4 @@
--- Layer of abstraction on top of love2d in the case its needed
+-- General utility functions that wrap around Love2D
 local Backend = {}
 
 local ShaderFolder = "Assets/Shaders/"

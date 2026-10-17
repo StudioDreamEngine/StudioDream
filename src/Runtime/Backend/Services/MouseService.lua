@@ -13,6 +13,7 @@ end
 
 local CurrentCursorPack = {}
 
+-- Load a folder containing the cursors to use
 function MouseService.LoadCursorPack(Pack)
     for _, Name in pairs(love.filesystem.getDirectoryItems(Pack)) do
         CurrentCursorPack[string.sub(Name, 0,-5)] = love.mouse.newCursor(Pack..Name,0,0)
@@ -21,6 +22,13 @@ end
 
 MouseService.ClientUsingCursor = false
 
+--[[
+    Internal function used for changing the cursor itself
+    
+    this is a really bad way to do this, however it allows for the InterfaceManager 
+    to override if the mouse is hovering ONLY if the current cursor being used is 
+    the main cursor
+]]
 function MouseService.ChangeCursorInternal(ChangeTo, InternalCall)
     if MouseService.ClientUsingCursor and InternalCall then return end -- ass way to do this but whatever bro
 
@@ -28,6 +36,12 @@ function MouseService.ChangeCursorInternal(ChangeTo, InternalCall)
     --print("Cursor Changed to: "..ChangeTo)
 end
 
+--[[
+    Change the current cursor being used
+    
+    if the cursor is anything but the main one, this will also override the hovering cursor when hovering over a button, 
+    as explained above.
+]]
 function MouseService.ChangeCursor(ChangeTo)
     MouseService.ClientUsingCursor = (ChangeTo ~= "Main")
 
@@ -35,10 +49,12 @@ function MouseService.ChangeCursor(ChangeTo)
     MouseService.ChangeCursorInternal(ChangeTo)
 end
 
+-- Get the current mouse position on screen
 function MouseService.GetPosition()
     return Backend2D.GetMousePosition()
 end
 
+-- Change if the mouse is locked or free to move around
 function MouseService.SetMouseMode(MouseMode)
     MouseService.LockPosition = Backend2D.GetMousePosition()
     MouseService.MouseMode = MouseMode

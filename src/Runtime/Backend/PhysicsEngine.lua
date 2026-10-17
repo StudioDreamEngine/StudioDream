@@ -1,3 +1,4 @@
+-- General utility functions for the physics engine
 local PhysicsEngine = {}
 
 -- Shape from mesh code, thanks to trusti for providing this
@@ -81,6 +82,7 @@ function PhysicsEngine.FromBullet(BulletTransform)
     return Transform3D.FromMatrix(Matrix)
 end
 
+-- Create the actual rigidbody used for a drawable
 function PhysicsEngine.CreateBody(Shape, Transform, IsDynamic)
     local LocalInertia = Bullet.btVector3(0, 0, 0)
     Shape:calculateLocalInertia(IsDynamic and 1 or 0, LocalInertia);

@@ -1,4 +1,5 @@
 -- Handle the serialization of scene objects/things
+-- Serialization Definition: Both deserialization and serialization
 local Things = Runtime.Things
 local Objects = {}
 
@@ -9,11 +10,13 @@ local Deserializer = nil ---@class NAMLDeserializer
 
 local TypeSerializers = Utils.LoadModules("Runtime/Project/Scenes/Serializers/")
 
+-- Set the NAML serializer objects we will be using
 function Objects.SetSerializers(InSerializer, InDeserializer)
     Serializer = InSerializer
     Deserializer = InDeserializer
 end
 
+-- Serialize a property given its type, the identifier is passed for debugging
 function Objects.HandleType(Property, Type, Deserialize, Identifier)
     if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier.Name or "Unknown"..")") end
 
@@ -65,6 +68,7 @@ function Objects.SerializeObjects(Root)
     end
 end
 
+-- Serialize a single thing into a table that can then be used by the NAML serializer
 ---@param Object Thing
 function Objects.SerializeObject(Object, Root)
     local SerializedProperties = Object.Proxy.Serializable
@@ -112,7 +116,7 @@ end
 
 
 
-
+-- Deserialize an object from the NAML entity
 ---@param ObjectData NAMLDeserializedEntity
 function Objects.DeserializeObject(ObjectData)
     -- Nasty hack, but we do NOT create the root object or apply properties to it, just return the root itself
@@ -160,9 +164,10 @@ function Objects.DeserializeObject(ObjectData)
     return Thing, RelocationQueue
 end
 
--- Deserialize the contents of the object given above
 --[[
-    Objects: The list of objects being deserialized
+    Deserialize the contents of the given NamlObjects
+
+    NamlObjects: The list of objects being deserialized
     Root: The target, or where the objects will be deserialized to
 ]]
 function Objects.DeserializeObjects(Root, NamlObjects)
@@ -202,6 +207,7 @@ function Objects.DeserializeObjects(Root, NamlObjects)
     return Root, References
 end
 
+-- Resolve all references of an object within the scene
 function Objects.ResolveLocalReferences(Object, RelocationQueue, LocalReferences)
     for PropertyName, UUID in pairs(table.clone(RelocationQueue)) do
         if table.findLite(LocalReferences, UUID) then
@@ -212,7 +218,7 @@ function Objects.ResolveLocalReferences(Object, RelocationQueue, LocalReferences
     end
 end
 
--- Resolve any non-local references
+-- Resolve any non-local references, read more about this in Runtime/Project/Scenes/init.lua
 function Objects.ResolveReferences(...)
     local AllRefs = {...}
 

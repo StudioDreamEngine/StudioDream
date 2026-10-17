@@ -1,10 +1,9 @@
+-- Takes custom scripting features (such as self-assignment operators) and translates them into something that lua itself can use
 local Preprocessor = {}
---[[
-    Enable usage of self-assignment operators
-]]
 
 local Keywords = {"local", "function", "if", "for", "return", "while"}
 
+-- Process a single script using the preprocessor
 ---@param ScriptContents string
 function Preprocessor.ProcessScript(ScriptContents)
     local Replacements = {}

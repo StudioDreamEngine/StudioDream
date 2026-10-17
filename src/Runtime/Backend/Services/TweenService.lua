@@ -145,6 +145,7 @@ function TweenService.Create(Subject, Target, Style, Time)
     return Tween
 end
 
+-- Creates a tween object and then plays it
 function TweenService.CreateAndPlay(Subject, Target, Style, Time, Wow)
     local Tween = TweenService.Create(Subject, Target, Style, Time).Play()
     if not Time then print("Not given Time! Please try again!") return end

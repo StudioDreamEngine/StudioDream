@@ -87,7 +87,7 @@ function ToolManager.GetTool()
     return ChosenTool
 end
 
-function ToolManager.CleanupCurrentTool()
+function ToolManager.CleanupTool()
     if CurrentTool then 
         CurrentTool.Destroy()
         CurrentTool.Selection = nil
@@ -98,7 +98,7 @@ end
 function ToolManager.Deselect()
     table.clear(Selecting)
     
-    ToolManager.CleanupCurrentTool()
+    ToolManager.CleanupTool()
     LatestSelection = nil
 end
 
@@ -107,7 +107,7 @@ function ToolManager.Select(NewSelection)
         LatestSelection = NewSelection
     end
 
-    ToolManager.CleanupCurrentTool()
+    ToolManager.CleanupTool()
 
     CurrentTool = ChosenTool
     if (not CurrentTool) then return end

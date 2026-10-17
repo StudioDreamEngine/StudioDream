@@ -20,6 +20,14 @@ function SpatialService.FindObjectsInArea(AreaRect, World)
 	return InArea
 end
 
+--[[
+	Returns a filter information object which can be used to control what objects a raycast ignores or doesnt ignore
+
+	FilterTable: List of objects to filter
+	FilterType: Enum.SpatialFilterType
+		Whitelist - the Raycast will ignore any object NOT listed in FilterTable
+		Blacklist - the Raycast will ignore the objects listed in FilterTable
+]]
 function SpatialService.FilterInformation(FilterTable, FilterType)
 	if (not FilterTable) then error("no filtertable specified") end
 	local ObjList = {}
@@ -42,10 +50,17 @@ local DefaultFilter = SpatialService.FilterInformation({}, Enum.SpatialFilterTyp
 
 local Raycast = Dream:getExtension("raytrace")
 
+-- Internal function to clear variables that may be leftover
 function SpatialService.ClearCasts()
 	Raycast:clear()
 end
 
+--[[
+	Shoots a ray from an origin point in a direction
+
+	WorldObject: List of 3DreamEngine meshes to cast
+	FilterInformation: what objects the ray ignores or does not ignore, created with SpatialService.FilterInformation
+]]
 function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformation)
 	assert(WorldObject, "Internal raycast function requires a WorldObject!")
 

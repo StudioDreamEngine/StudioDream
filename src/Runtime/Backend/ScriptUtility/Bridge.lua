@@ -1,5 +1,9 @@
--- Welcome to the sixth layer of metatable hell
--- Black magic brought to you by bloctans :3
+--[[
+    Welcome to the sixth layer of metatable hell
+    Black magic brought to you by bloctans :3
+
+    Makes a metatable wrapper around an object that allows for a more user-friendly experience (such as directly accessing children)
+]]
 local Bridge = {}
 
 local function CheckProxied(Instance)
@@ -75,6 +79,7 @@ function BridgeIndexer(Table, k)
     end
 end
 
+-- Apply the functionality of the bridge to an object (TODO: Document this hell)
 function Bridge.Proxy(Table, Script)
     if type(Table) == "table" then
         return setmetatable({

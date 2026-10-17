@@ -1,3 +1,4 @@
+-- Handles the splash screen animation alongside the loading order
 local Splash = {}
 local Things = Runtime.Things
 

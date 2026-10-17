@@ -1,4 +1,4 @@
--- General script utils for studio and runtime
+-- General script utilities for the runtime
 local ScriptUtil = {}
 local Things = Runtime.Things
 
@@ -11,6 +11,7 @@ local PreProcessor = require("Runtime.Backend.ScriptUtility.Preprocessor")
 ScriptUtil.BridgeProxy = Bridge.Proxy
 ScriptUtil.Shared = {}
 
+-- Run the script contents through the preprocessor, then loads the processed script into a function for use with script objects
 function ScriptUtil.PreProcess(ScriptContent, ID)
     local ScriptContents = PreProcessor.ProcessScript(ScriptContent)
 
@@ -45,6 +46,11 @@ function ScriptUtil.RequestLoad(Script)
     table.insert(LoadQueued, Script) 
 end
 
+--[[
+    Start every currently queued script.
+    
+    once this is called, all future scripts will be started immediately after RequestLoad is called
+]]
 function ScriptUtil.StartScripts()
     StartedScripts = true
 
@@ -60,6 +66,7 @@ function ScriptUtil.Reset()
     table.clear(LoadQueued)
 end
 
+-- Returns a table of the global variables that a script will have on initialization, used as the env
 function ScriptUtil.CreateGlobals(Script)
     return {
         Script = ScriptUtil.BridgeProxy(Script),

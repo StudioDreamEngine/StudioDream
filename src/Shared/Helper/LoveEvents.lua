@@ -1,3 +1,4 @@
+-- Wrapper around all love event functions to turn them into signals
 local LoveEvents = {}
 
 LoveEvents.KeyPressed = Signal:New("KeyPress")

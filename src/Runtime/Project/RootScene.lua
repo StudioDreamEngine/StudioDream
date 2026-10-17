@@ -51,6 +51,7 @@ function RootScene.SaveEnviornment()
     end
 end
 
+-- Create a scene file alongside the template enviornment
 function RootScene.CreateScene(Name)
     local Project = Runtime.Project
     local IdentifierID = Runtime.Resources.GetOrCreateIdentifierID(Name..".sds")
@@ -68,6 +69,7 @@ function RootScene.CreateScene(Name)
     return IdentifierID
 end
 
+-- Load the root scene into the project
 function RootScene.Load()
     local Project = Runtime.Project
     Root:Clear()
@@ -101,6 +103,7 @@ function RootScene.ConfigureTargets()
     end
 end
 
+-- Save the root scene alongside all loaded scenes to the project folder
 function RootScene.Save()
     local Project = Runtime.Project
 

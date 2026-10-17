@@ -1,5 +1,11 @@
+-- Provides general utility functions to help with filesystem operations
 local BaseFS = {}
 
+--[[
+    Mounts the Folder specified in PathString to MountName
+
+    Returns a MountFS object which provides general functions for interacting with said mounted folder
+]]
 ---@return MountFS|nil
 function BaseFS.Mount(PathString, MountName, IsLocal)
     ---@class MountFS
@@ -51,7 +57,7 @@ function BaseFS.Mount(PathString, MountName, IsLocal)
         MountObject.QueueWrites = Toggle
     end
 
-    -- Write a file or queue a file to be written
+    -- Write a file or queue a file to be written, depending on if QueueWrites is on or off.
     function MountObject.QueueWrite(WritePath, Data)
         if MountObject.ReadOnly then print("MountFS.QueueWrite - Mount object is read only (zip)") end
 
@@ -124,6 +130,7 @@ function BaseFS.OpenFile(Path, Mode)
     return love.filesystem.openNativeFile(Path, Mode)
 end
 
+-- Read the contents of a file only if it exists
 function BaseFS.ReadFile(Path)
     if BaseFS.FileExists(Path) then
         local File = BaseFS.OpenFile(Path, "r")

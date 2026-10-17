@@ -9,6 +9,11 @@ function PresenceService.Init()
     PresenceService.Details = ""
 end
 
+--[[
+    Start the discord RPC using an optional applicationId
+
+    You can change the state and details by changing the PresenceService.State and PresenceService.Details variables
+]]
 function PresenceService.InitDiscord(applicationId)
     if (PresenceService._discordInitialized) then return end
 

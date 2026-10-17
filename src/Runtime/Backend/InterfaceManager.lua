@@ -1,5 +1,5 @@
 ---@diagnostic disable: param-type-mismatch, need-check-nil
--- Handles general background tasks related to the currently rendering viewports
+-- Handles general background tasks related to the currently rendering viewports, alongside management of hovering
 local InterfaceManager = {}
 InterfaceManager.Buttons = {}
 
@@ -42,10 +42,12 @@ function InterfaceManager.Init()
     end)
 end
 
+-- Register a button to be handled by the hovering system
 function InterfaceManager.RegisterButton(Button)
     table.insert(InterfaceManager.Buttons, Button)
 end
 
+-- Remove a button from the InterfaceManager.
 function InterfaceManager.UnregisterButton(Button)
     table.removeValue(InterfaceManager.Buttons, Button)
 end
@@ -53,6 +55,7 @@ end
 local CurrentlyHovering = {}
 local Huge = Vector2.one * 100000
 
+-- Handles the position of the mouse for a Viewport that is a part of a 3d space
 ---@param Viewport SurfaceViewport
 local function HandleSurface(Viewport)
     Viewport.MousePosition = Huge
@@ -89,10 +92,11 @@ function InterfaceManager.Update(dt)
 
     InterfaceManager.ClickSurface = nil
 
+    -- Go through all viewports and update their mouse-positions for all objects
     ---@param Viewport Viewport
     for _, Viewport in pairs(ViewportManager.Viewports) do
         --print(Viewport.ViewportPosition)
-        if Viewport:IsA("SurfaceViewport") then
+        if Viewport:IsA("SurfaceViewport") then -- Surface viewports are treated differently then regular ones
             HandleSurface(Viewport)
         else
             Viewport.MousePosition = (Backend2D.GetMousePosition() - Viewport.ViewportPosition) --- Viewport.AbsolutePivot
@@ -110,6 +114,7 @@ function InterfaceManager.Update(dt)
     table.clear(CurrentlyHovering)
     InterfaceManager.Hovering = false
 
+    -- Hovering pass 1: Go through all buttons and determine which are being hovered
     for _, ButtonID in pairs(InterfaceManager.Buttons) do
         local Button = Runtime.Things.Get(ButtonID)
         local DisplayUI
@@ -120,6 +125,7 @@ function InterfaceManager.Update(dt)
         if DisplayUI and DisplayUI.MousePosition then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
             Button.Hovering = false
 
+            -- DisplayHovering makes sure that an object is only considered hovering in a ScrollContainer if the ScrollContainer itself is also being hovered over.
             local DisplayHovering = true
 
             if DisplayUI:IsA("ScrollContainer") then 
@@ -144,13 +150,16 @@ function InterfaceManager.Update(dt)
 
     Runtime.Cursor.ChangeCursorInternal((#CurrentlyHovering > 0) and "Hovering" or "Main", true)
 
+    -- Hovering pass 2: Sort and determine the currently hovering objects
     if #CurrentlyHovering > 0 then
         table.sort(CurrentlyHovering, function(a, b)
             return (a.AbsoluteLayer > b.AbsoluteLayer)
         end)
         
+        -- Frontmost hovering object is set as the interfacemanagers hovering object
         InterfaceManager.Hovering = CurrentlyHovering[1]
 
+        -- Handle updating hovering for all objects
         for _, Hovering in pairs(CurrentlyHovering) do
             Hovering.Hovering = true
             if Hovering.SinkHovering then

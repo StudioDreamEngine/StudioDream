@@ -1,3 +1,4 @@
+-- Handles all things project-related
 local Project = {}
 local Resources = require("Runtime.Project.Resources")
 local RootScene = require("Runtime.Project.RootScene")
@@ -24,6 +25,7 @@ function Project.SetupSignals()
     end)
 end
 
+-- Shortcut to Runtime.Resources.Unload
 function Project.Unload()
     Runtime.Resources.Unload()
 end
@@ -87,6 +89,7 @@ end
 
 local DefaultImage = "Internal/Thumbnails/Latest.png"
 
+-- Get some useful information about the project, including its thumbnail and config.
 function Project.GetSummary(ProjectPath)
     local BaseFS = Runtime.BaseFS
     local Mount = BaseFS.Mount(ProjectPath, "Summary")
@@ -134,6 +137,7 @@ function Project.EditName(NewName)
     end]]
 end
 
+-- Reload a project.
 function Project.Reload()
     return xpcall(function()
         Project.LoadingProject = true
@@ -152,6 +156,7 @@ function Project.Reload()
     end)
 end
 
+-- Mount and then load a new project based off ProjectPath
 function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
