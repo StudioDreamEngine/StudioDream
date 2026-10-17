@@ -5,6 +5,11 @@
 
 StudioDream is an engine that is intended to take the accessibility of ROBLOX, along with the awesome features engines such as Godot provide (Like Resources), and package them together
 
+# NOTICE
+Despite StudioDream being under the EPL-2.0 License, We are strongly against the usage of AI or LMMs in any way, shape or form either contributing to this project, or being trained off of this project.
+
+Any pull requests where LMMs have been used will be immediately closed.
+
 [discord]:     https://discord.gg/aaw7TesFxN
 [discord_img]: https://img.shields.io/badge/discord-server-blue?logo=discord
 [latest_img]:  https://img.shields.io/badge/release-latest-blue?logo=github
