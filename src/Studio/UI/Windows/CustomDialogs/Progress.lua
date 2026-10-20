@@ -11,7 +11,7 @@ function Progess.Init(Parented,Info,Window)
             BackgroundColor = "Text",
             OutlineSize = 3,
             Layer = 4,
-            Parent = Object.Container,
+            Parent = Parented,
         })
 
         self.Objects.ProgressBar = Studio.Components.CreateStyle("Square",{
@@ -22,9 +22,9 @@ function Progess.Init(Parented,Info,Window)
         })
 
         self.Objects.Title = Studio.Components.CreateStyle("Text", {
-            Size =  Pivot2D.FromScale(1,0.35),
-            Position = Pivot2D.FromScale(0.5,0),
-            Pivot = Vector2.new(0.5,0),
+            Size = Pivot2D.FromScale(0.8,0.2),
+            Position = Pivot2D.FromScale(0.5,0.45),
+            Pivot = Vector2.new(0.5,1),
             Text = self.Title,
             Parent = Parented,
             ForegroundColor = "Text",
@@ -34,7 +34,7 @@ function Progess.Init(Parented,Info,Window)
     
     function DialogObject:UpdateText()
         local Percentage = (self.Stage/self.MaxStages) + (self.SubStage/self.MaxSubStages/self.MaxStages)
-        self.Objects.ProgressBar:SetSize(Pivot2D.FromScale(self.Percentage, 1))
+        self.Objects.ProgressBar:SetSize(Pivot2D.FromScale(Percentage, 1))
 
         self.Objects.Title:SetText(self.Title.." ("..self.SubStage.."/"..self.MaxSubStages..")")
         Scheduler.Yield()
@@ -84,7 +84,6 @@ function Progess.Init(Parented,Info,Window)
         end
 
         table.clear(self.Objects)
-        table.clear(DialogObject)
     end
 
     return DialogObject

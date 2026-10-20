@@ -335,7 +335,7 @@ function StudioLayout.CreateLayout()
     })
 
     StudioLayout.CreateWindow("Dialogs", {
-        Size = Pivot2D.FromScale(0.4,0.5),
+        Size = Pivot2D.FromScale(0.4,0.3),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,

@@ -12,7 +12,8 @@ return function(Options)
 
     function Object.CreateDialog()
         TitleContainer = Studio.Components.CreateStyle("Text", {
-            Size = Pivot2D.FromScale(1,0.5),
+            Size = Pivot2D.FromScale(0.6,0.4),
+            Position = Pivot2D.FromScale(0,0.2),
             Alignment = Enum.Alignment.Center,
             BackgroundTransparency = 1,
             ForegroundColor = "Text",
@@ -27,6 +28,7 @@ return function(Options)
             BackgroundColor = "Text",
             OutlineSize = 3,
             Layer = 4,
+            Name = "ProgressContainer",
             Parent = Object.Container,
         })
 
@@ -34,6 +36,7 @@ return function(Options)
             Size = Pivot2D.FromScale(1,1),
             Position = Pivot2D.FromScale(0,0),
             BackgroundColor = "Secondary",
+            Name = "ProgressBar",
             Parent = ProgressContainer,
         })
 

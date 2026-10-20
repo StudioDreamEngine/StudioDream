@@ -29,6 +29,8 @@ function Studio.Init()
     Studio.Editor3D.Init()
     Studio.EditorUI.Init()
 
+    Studio.ProjectManager.SetupSignals()
+
     --[[Scheduler.DelayTask(3, function()
         Studio.Components.CreateDialog("Option", {
             Text = "Your free trial of STUDIODREAM has expired.",

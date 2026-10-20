@@ -40,6 +40,11 @@ function RootScene.LoadEnviornment(IdentifierID)
     return Identifier
 end
 
+function RootScene.Unload()
+    LoadedScenes = {}
+    CurrentEnv = nil
+end
+
 -- Save the current enviornment
 function RootScene.SaveEnviornment()
     local Project = Runtime.Project

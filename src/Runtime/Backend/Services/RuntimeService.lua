@@ -28,7 +28,7 @@ function RuntimeService.Stop()
         warn("There are still orphaned objects, project reload may be unsuccessful.")
     end
 
-    --Runtime.Project.Reload()
+    Runtime.Project.Reload()
 end
 
 -- Returns the current time since the game has started, calculated based of DeltaTime

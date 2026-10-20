@@ -14,10 +14,11 @@ Project.CreateScene = RootScene.CreateScene
 
 Project.NotificationCallback = function(Message, Type) print(Message, Type) end
 
-Project.LoadingProject = false
+Project.IsLoadingProject = false
 
-Project.SavingProject = Signal:New("ProjectSaved")
-Project.LoadedProject = Signal:New("ProjectLoaded")
+Project.SavingProject = Signal:New("ProjectSaved") -- Called when project as finished saving
+Project.LoadedProject = Signal:New("ProjectLoaded") -- Called when project loading has ended
+Project.LoadingProject = Signal:New("ProjectLoading") -- Called when project loading has started
 
 function Project.SetupSignals()
     Project.Config.OnChange:Connect(function()
@@ -25,12 +26,13 @@ function Project.SetupSignals()
     end)
 end
 
--- Shortcut to Runtime.Resources.Unload
+-- Unload the project and any resources
 function Project.Unload()
     Runtime.Resources.Unload()
+    RootScene.Unload()
 end
 
--- Make sure a project path is a valid project
+-- Check if ProjectPath is valid, if so, Mount ProjectPath into ProjectFS
 function Project.ValidateAndMount(ProjectPath)
     ProjectFS.UnmountProject() -- i dont like this
 
@@ -63,6 +65,7 @@ function Project.ValidateAndMount(ProjectPath)
         return Shared.QueueAbort("Failed to load Project: "..ProjectPath)
     end
 
+    -- Convert to a path object
     print("ProjectPath: "..ProjectPath)
     local ProjectPath = Path.new(ProjectPath)
     local RealPath
@@ -74,7 +77,7 @@ function Project.ValidateAndMount(ProjectPath)
         RealPath = ProjectPath.ParentPath
     elseif ProjectPath.FileType == "sdp" then -- Packaged project
         RealPath = ProjectPath.FilePath
-    else
+    else -- Unsupported/Invalid
         return Shared.QueueAbort("Invalid file type for project")
     end
 
@@ -82,8 +85,8 @@ function Project.ValidateAndMount(ProjectPath)
 
     -- Final check that should never fail, may fail if it attempts to mount a path already mounted, but idk
     if not CouldMount then
-        error("Failed to mount (CRITICAL), Past checks should've caught this!")
-        return Shared.QueueAbort("Critical mount error, check logs")
+        error("Failed to mount (CRITICAL), Its very possible this folder has already been mounted, or acts weirdly")
+        return Shared.QueueAbort("Critical mount error")
     end
 end
 
@@ -140,17 +143,16 @@ end
 -- Reload a project.
 function Project.Reload()
     return xpcall(function()
-        Project.LoadingProject = true
+        Project.IsLoadingProject = true
+        Project.Unload()
 
         local Config = Project.Config.Load()
         if (not Config) then print("Configuration returned nil, refusing to load project further.") return end
 
-        Project.Unload()
         Resources.Load()
         RootScene.Load()
-        Runtime.LoadProjectCallback()
 
-        Project.LoadingProject = false
+        Project.IsLoadingProject = false
     end, function(Error)
         return debug.traceback(Error)
     end)
@@ -160,6 +162,9 @@ end
 function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
+
+    Project.LoadingProject.Invoke()
+    Scheduler.Yield()
 
     local LoadProject = Profiler.Benchmark("Load Project")
     local Success, Message = Project.Reload()

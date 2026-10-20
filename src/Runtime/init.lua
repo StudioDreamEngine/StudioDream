@@ -4,8 +4,6 @@ Runtime.Things = require("Runtime.Things")
 Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
 
-Runtime.LoadProjectCallback = function() end
-
 function Runtime.Init()
     Profiler.Init()
     Platform.Init("StudioDream")

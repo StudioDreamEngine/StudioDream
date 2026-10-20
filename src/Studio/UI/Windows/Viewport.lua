@@ -15,7 +15,6 @@ return function(Viewport)
         local Tab = {}
 
         local Identifier = Runtime.Resources.GetIdentifierFromID(SceneID)
-        printVerbose(Identifier, SceneID)
 
         Tab.Name = Identifier.Data.FileName
         Tab.SceneID = SceneID
@@ -65,8 +64,9 @@ return function(Viewport)
 
         if DefaultScene and (not Viewport.Tabs[DefaultScene]) then
             Viewport.CreateTab(DefaultScene)
-            Viewport.SelectScene(DefaultScene)
         end
+
+        return DefaultScene
     end
 
     function Viewport.RemoveTab(ID)
@@ -121,7 +121,11 @@ return function(Viewport)
                 Viewport.CreateTab(SceneID)
             end
 
-            Viewport.CreateDefaultScene()
+            local DefaultSceneID = Viewport.CreateDefaultScene()
+            
+            if DefaultSceneID then
+                Viewport.SelectScene(DefaultSceneID)
+            end
         end)
 
         Runtime.Project.SavingProject:Connect(function()

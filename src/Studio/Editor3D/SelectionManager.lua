@@ -130,10 +130,9 @@ function SelectionManager.Init()
     ToolManager = Editor3D.ToolManager
 
     ---@diagnostic disable-next-line: duplicate-set-field
-    Runtime.LoadProjectCallback = function()
+    Runtime.Project.LoadingProject:Connect(function()
         SelectionManager.DeselectAll()
-        --Studio.Layout.CallHandle("Explorer", "Redraw")
-    end
+    end)
 
     SelectionManager.BindPick()
 
