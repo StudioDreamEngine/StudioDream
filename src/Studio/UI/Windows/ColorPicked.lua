@@ -91,7 +91,7 @@ return function(ColorPicked)
     function ColorPicked.RequestApply(ColorPreset)
         print("Requested")
         ColorPicked.ReturnForRequest = nil
-        Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("ColorPicked"),true)
+        Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.ColorPicked"),true)
         if ColorPreset then
             ColorPicked.SetByColor(ColorPreset)
         end
@@ -99,7 +99,7 @@ return function(ColorPicked)
         print("Proceed")
         -- False if the user cancels the request!
 
-        Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("ColorPicked"),false)
+        Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.ColorPicked"),false)
 
         if ColorPicked.ReturnForRequest == "THERESNOTHINGHERE" then
             ColorPicked.ReturnForRequest = "ItFaliedBtw"

@@ -4,7 +4,7 @@ local Input = Runtime.Services.Service("InputService") ---@class InputService
 local Config = Runtime.Project.Config
 
 return function(ProjectConfig)
-    local ViewportWindow = Studio.Layout.GetHandle("Viewport")
+    local ViewportWindow = Studio.Layout.GetWindowHandle("Viewport")
 
     function ProjectConfig.Init()
         Components.Settings.new({

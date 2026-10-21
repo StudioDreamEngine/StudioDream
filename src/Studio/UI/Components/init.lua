@@ -52,9 +52,9 @@ function Components.Init()
     Shared.AbortAPI = Components.SimpleDialog
 end
 
-function Components.ToggleFade(Toggle)
+function Components.ToggleFade(Toggle, OnClose)
     if Toggle then
-        Components.ShowFade()
+        Components.ShowFade(OnClose)
     else
         Components.HideFade()
     end

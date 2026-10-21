@@ -60,7 +60,7 @@ function Studio.Init()
 end
 
 function Studio.Notify(Message, Type)
-    Studio.Layout.GetHandle("Notification").Notify(Message, Type or "Info")
+    Studio.Layout.GetHandle("Windows.Notification").Notify(Message, Type or "Info")
 end
 
 function Studio.Update(dt)

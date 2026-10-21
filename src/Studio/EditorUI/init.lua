@@ -12,15 +12,15 @@ end
 
 -- TODO: Move to layout???
 function EditorUI.MoveWindow(Window, Pos, Ctx)
-    Studio.Layout.MoveWindow(Studio.Layout.GetHandle(Window), Pos, Ctx)   
+    Studio.Layout.MoveWindow(Studio.Layout.GetWindowHandle(Window), Pos, Ctx)   
 end
 
 function EditorUI.MoveWindowToMouse(Window)
-    EditorUI.MoveWindow(Window, Studio.Layout.GetMouseContext(Studio.Layout.GetHandle(Window).Container))
+    EditorUI.MoveWindow(Window, Studio.Layout.GetMouseContext(Studio.Layout.GetWindowHandle(Window).Container))
 end
 
 function EditorUI.ToggleWindow(Window,Visible)
-    Studio.Layout.ToggleWindow(Studio.Layout.GetHandle(Window), Visible or (not Studio.Layout.GetHandle(Window).FullContainer.Visible))
+    Studio.Layout.ToggleWindow(Studio.Layout.GetWindowHandle(Window), Visible or (not Studio.Layout.GetWindowHandle(Window).FullContainer.Visible))
 end
 
 return EditorUI

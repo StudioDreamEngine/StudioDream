@@ -18,7 +18,7 @@ return {
                     Button.Text:SetText(Button.ClickBool and "UnHide Toolbar" or "Hide Toolbar")
                     Button.Image:SetResource("Internal/Studio/TabIcons/".. (Button.ClickBool and "EyeClose" or "EyeOpen") ..".png")
 
-                    Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Toolbar"),not Button.ClickBool)
+                    Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.Toolbar"),not Button.ClickBool)
                 end,
             }
         },
