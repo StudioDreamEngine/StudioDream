@@ -34,7 +34,7 @@ To run the StudioDream app, open the ``src`` folder in Command Prompt and run ``
 Use ``test-love12.sh`` to run StudioDream
 
 # Building
-Building should be pretty simple on both platforms
+Building should be pretty simple on both platforms.
 
 Simply just run the corresponding batch or bash files in the ``build`` directory
 (``linux.sh`` for Linux, ``win.bat`` for Windows)
