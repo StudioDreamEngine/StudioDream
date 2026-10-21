@@ -43,6 +43,7 @@ function Components.Init()
     Components.PropertyValue = require("Studio.UI.Components.PropertyValue")
     Components.DropdownPlus = require("Studio.UI.Components.DropdownPlus")
     Components.Settings = require("Studio.UI.Components.Settings")
+    Components.StockVisuals = require("Studio.UI.Components.StockVisuals")
 
     Components.CreateDialog = DialogWindows.CreateDialogWindow
     Components.ShowFade = DialogWindows.ShowFade
@@ -166,6 +167,11 @@ function Components.ExpandButton(Parent)
         ))
     end
 
+    function ExpandButton:Destroy()
+        ExpandButton.Clicked:DisconnectAll()
+        ExpandButton.Button:Destroy()
+    end
+
     ExpandButton.Button.Clicked:Connect(function()
         ExpandButton.Clicked.Invoke()
     end)
@@ -213,13 +219,19 @@ function Components.ExpandableDropdown(Header, List, CustomName)
         ExpandableDropdown.Container:SetVisible(Visible)
     end
 
+    function ExpandableDropdown:Destroy()
+        ExpandableDropdown.VisibleChanged:DisconnectAll()
+        ExpandableDropdown.Button:Destroy()
+        ExpandableDropdown.Button = nil
+        ExpandableDropdown.Container:Destroy()
+    end
+
     ExpandableDropdown.Button.Clicked:Connect(function()
         ExpandableDropdown.Toggle(not ExpandableDropdown.Visible)  
         ExpandableDropdown.VisibleChanged.Invoke(ExpandableDropdown.Visible) 
     end)
     
     ExpandableDropdown.Container.OnDestroy:ConnectOnce(function()
-        table.clear(ExpandableDropdown.Button)
         table.clear(ExpandableDropdown)
     end)
 

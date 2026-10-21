@@ -9,7 +9,7 @@ function Padding:new()
     self.OverrideProperties = {"Size"}
     self.ObjectFilter = "BaseGui"
 
-    self.PaddingSpecific = nil -- to do later
+    self.PaddingSpecific = nil
 
     self.PaddingY = 0
     self.PaddingX = 0
