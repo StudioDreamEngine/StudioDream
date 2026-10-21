@@ -100,6 +100,8 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         })
     end
 
+    Windows.Closable = Transform.Closable
+
     return Windows
 end
 
@@ -151,12 +153,27 @@ function StudioLayout.CreateWindow(WindowType, Transform)
     StudioLayout.ToggleWindow(Window, true)
 end
 
+function StudioLayout.ModalClick()
+    local LastModal = WindowStack[#WindowStack]
+
+    if LastModal then
+        local WindowHandle = StudioLayout.GetHandle(LastModal)
+        if (not WindowHandle.Closable) then return end
+
+        StudioLayout.ToggleWindow(WindowHandle, false)
+    end
+end
+
 -- Robuxxy worst nightmare
 function StudioLayout.ToggleWindow(Window, Toggle)
     if Window.Modal then
-        WindowStack[Window.Namespace] = Toggle or nil
+        if Toggle then
+            table.insert(WindowStack, Window.Namespace)
+        else
+            table.removeValue(WindowStack, Window.Namespace)
+        end
 
-        Studio.Components.ToggleFade(table.length(WindowStack) > 0)
+        Studio.Components.ToggleFade(table.length(WindowStack) > 0, StudioLayout.ModalClick)
     end
 
     Window.FullContainer:SetVisible(Toggle)
@@ -176,14 +193,18 @@ end
 
 -- Remove any window handle that starts with "Window.", as other handles are used for the topbar, which is immutable
 function StudioLayout.RemoveWindow(WindowType)
-    local Handle = StudioLayout.CallHandle(WindowType, "Destroy")
+    local Handle = StudioLayout.CallHandle("Windows."..WindowType, "Destroy")
     Handle.Container:Destroy()
 end
 
 function StudioLayout.GetHandle(WindowType)
-    local HasHandle = StudioLayout.Handles["Windows."..WindowType] -- For now, we can only get handles of windows, not the topbar
+    local HasHandle = StudioLayout.Handles[WindowType] -- For now, we can only get handles of windows, not the topbar
 
     if HasHandle then return HasHandle end
+end
+
+function StudioLayout.GetWindowHandle(WindowType)
+    return StudioLayout.GetHandle("Windows."..WindowType)
 end
 
 function StudioLayout.CallHandle(WindowType, Function, ...)
@@ -365,13 +386,13 @@ function StudioLayout.CreateLayout()
     })
 
     -- TODO: Default visibility property
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("InsertObject"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("ProjectConfig"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("StudioConfig"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Credits"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("GradientMaker"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("ColorPicked"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Dialogs"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.InsertObject"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.ProjectConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.StudioConfig"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.Credits"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.GradientMaker"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.ColorPicked"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.Dialogs"), false)
 
     if (not FLAGS.SecondRun) then
         StudioLayout.CreateWindow("Start", {

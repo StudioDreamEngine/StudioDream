@@ -41,6 +41,8 @@ return function(Start)
             Button.Clicked:Connect(Start.Close)
         end
         AlreadyDidCloseButton = true
+
+        Start.Closable = true
     end
 
     function Start.CreateProject(Scroll,Info,Path,FullContainer)
@@ -251,7 +253,7 @@ return function(Start)
             Start.Close()
             CreateClose(Start.Container)
             --Studio.ProjectManager.NewProject("Demo Project")
-            Studio.Layout.GetHandle("Dialogs").CreateDialog("Input",{
+            Studio.Layout.GetWindowHandle("Dialogs").CreateDialog("Input",{
                 Topic = "Input a name for your new project",
                 Placeholder = "Name your new creation!",
                 ApplyButton = "Create project",

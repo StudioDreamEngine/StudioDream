@@ -104,7 +104,7 @@ local HandleThis = {
             Inputs = {{Key = InputsSaved.Move.First, Mod = true},{Key = InputsSaved.Move.Second}}
         },
         Function = function()
-            Studio.Layout.CallHandle("Toolbar", "SelectTool", "Move")
+            Studio.Layout.CallHandle("Windows.Toolbar", "SelectTool", "Move")
         end
     },
     ["Scale"] = {
@@ -112,7 +112,7 @@ local HandleThis = {
             Inputs = {{Key = InputsSaved.Scale.First, Mod = true},{Key = InputsSaved.Scale.Second}}
         },
         Function = function()
-            Studio.Layout.CallHandle("Toolbar", "SelectTool", "Scale")
+            Studio.Layout.CallHandle("Windows.Toolbar", "SelectTool", "Scale")
         end
     },
     ["Rotate"] = {
@@ -120,7 +120,7 @@ local HandleThis = {
             Inputs = {{Key = InputsSaved.Rotate.First, Mod = true},{Key = InputsSaved.Undo.Second}}
         },
         Function = function()
-            Studio.Layout.CallHandle("Toolbar", "SelectTool", "Rotate")
+            Studio.Layout.CallHandle("Windows.Toolbar", "SelectTool", "Rotate")
         end
     },
     ["Duplicate"] = {

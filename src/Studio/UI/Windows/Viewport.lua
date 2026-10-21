@@ -159,7 +159,7 @@ return function(Viewport)
                 Type = "Button",
                 Text = "Create Scene",
                 Function = function()
-                    Studio.Layout.GetHandle("Dialogs").CreateDialog("Input",{
+                    Studio.Layout.GetWindowHandle("Dialogs").CreateDialog("Input",{
                         Topic = "Give the scene name",
                         Placeholder = "Scene Name",
                         ApplyButton = "Create scene",
