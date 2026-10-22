@@ -85,7 +85,7 @@ function ViewportManager.RenderViewport3D(Viewport)
             local Camera = Viewport:GetCamera()
             Dream:present(Camera and Camera.Drawable, Viewport.Canvases)
         else
-            love.graphics.printf("Runtime: No render target specified (If you see this in the main studio viewport, open a scene!)",0,Viewport.AbsoluteSize.Y/2,Viewport.AbsoluteSize.X,"center")
+            love.graphics.printf("Runtime: No render target/container specified",0,Viewport.AbsoluteSize.Y/2,Viewport.AbsoluteSize.X,"center")
         end
     end)
     --Profiler.End()

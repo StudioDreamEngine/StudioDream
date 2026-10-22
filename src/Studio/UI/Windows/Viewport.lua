@@ -3,6 +3,8 @@ local Tween = Runtime.Services.Service("TweenService")
 
 return function(Viewport)
     function Viewport.SelectScene(ID)
+        Viewport.LoadText:SetVisible(ID == nil)
+
         Runtime.Project.LoadEnviornment(ID)
         Viewport.CurrentlySelected = ID
     end
@@ -183,13 +185,29 @@ return function(Viewport)
         })
 
         ---@type Viewport3D
-        local EnvironmentViewport = Things.Create("Viewport3D") {
+        Viewport.EnvironmentViewport = Things.Create("Viewport3D") {
             RenderContainer = Environment,
             Name = "MainViewport",
             Layer = 7,
             Size = Pivot2D.FromScale(1,1),
             Parent = Viewport.Container
         }
+
+        Viewport.LoadText = Studio.Components.CreateStyle("Text", {
+            Parent = Viewport.Container,
+            Text = "You have no scene tabs open, load or create a new scene",
+            Alignment = Enum.Alignment.Center,
+            Size = Pivot2D.FromScale(1,1),
+            Layer = 8,
+            BackgroundTransparency = 0,
+            BackgroundColor = "Primary",
+            ForegroundColor = "Text",
+            TextSize = 28,
+            TextScaled = false,
+            Visible = false
+        })
+
+        Viewport.SelectScene(nil)
 
         local HudViewport = Things.Create("Viewport2D") {
             RenderContainer = Things.Root:GetHUD(),
@@ -199,7 +217,7 @@ return function(Viewport)
             Parent = Viewport.Container,
         }
         
-        Things.Root:SetEnvironmentViewport(EnvironmentViewport)
+        Things.Root:SetEnvironmentViewport(Viewport.EnvironmentViewport)
         Things.Root.HudViewport = HudViewport
     end
 

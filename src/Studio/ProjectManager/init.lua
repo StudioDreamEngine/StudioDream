@@ -7,7 +7,7 @@ local History = require("Studio.ProjectManager.History")
 ProjectManager.AlreadyRunning = false
 
 Runtime.Project.NotificationCallback = function(Message, Type)
-    Studio.Layout.GetHandle("Notification").Notify(Message,Type or "Info")
+    Studio.Layout.GetWindowHandle("Notification").Notify(Message,Type or "Info")
 end
 
 local CurrentProgress
@@ -15,7 +15,7 @@ local CurrentProgress
 -- Setup the loading dialog
 function ProjectManager.SetupSignals()
     Runtime.Project.LoadingProject:Connect(function()
-        local DialogWindow = Studio.Layout.GetHandle("Dialogs")
+        local DialogWindow = Studio.Layout.GetWindowHandle("Dialogs")
         CurrentProgress = DialogWindow.CreateDialog("Progress")
 
         CurrentProgress:NextStage("Loading Project...")
@@ -26,7 +26,7 @@ function ProjectManager.SetupSignals()
             CurrentProgress:Destroy()
             CurrentProgress = nil
 
-            Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Dialogs"), false)
+            Studio.Layout.ToggleWindow(Studio.Layout.GetWindowHandle("Dialogs"), false)
         end
     end)
 end

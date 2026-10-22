@@ -241,7 +241,7 @@ end
 function Project.Save()
     Project.NotificationCallback("Saving project...")
 
-    if Project.LoadingProject then
+    if Project.IsLoadingProject then
         error("Cannot save project while another or the same project is being loaded")
         return
     end
