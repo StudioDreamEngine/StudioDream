@@ -122,6 +122,14 @@ function Things.SetProperty(Object, Index, Value)
     end
 end
 
+function Things.SetPropertyMassive(Objects,Index,Value)
+    for _,Object in pairs(Objects) do
+        if Object[Index] then
+            Things.SetProperty(Object,Index,Value)
+        end
+    end
+end
+
 -- Luawiz create instance code
 function Things.Create(Object, UUID)
     Object = (type(Object) == "string" and Things.New(Object, UUID) or Object)

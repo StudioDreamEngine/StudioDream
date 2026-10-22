@@ -2,24 +2,70 @@ local Things = Runtime.Things
 local Components = Studio.Components
 
 return function(Inspector)
-    function Inspector.CreateTreeObject(Obj,Group)
+    function Inspector.CreateTreeObject(ObjGiven,Group)
         local Obj = {}
 
-        Obj.Asset = Obj
+        Obj.Info = ObjGiven
         Obj.Parenting = {}
 
         if Group then
             Obj.Parenting = nil
-            Group.Parenting[Obj.Asset.Name] = Obj
+            Group.Parenting[Obj.Info.Name] = Obj
+        end
+
+        function Obj:Destroy()
+            if Obj.Parenting then
+                for i,v in pairs(Obj.Parenting) do
+                    v:Destroy()
+                end
+            else
+                Group.Parenting[Obj.Info.Name] = nil
+            end
+        end
+
+        function Obj:FindChild(Name)
+            assert(Obj.Parenting, "This Inspector TreeObject is a property type one, it doesnt have parenting.")
+            for i,v in pairs(Obj.Parenting) do
+                if i == Name then
+                    return v
+                end
+            end
         end
 
         return Obj
     end
 
-    function Inspector.RenderProperty(PropertyGiven)
+    function Inspector.FindProperty(Type)
+        if Inspector.PropertyTypes[Type] then
+            return Inspector.PropertyTypes[Type]()
+        else
+            return Inspector.PropertyTypes.Placeholder()
+        end
+    end
+
+    function Inspector.RenderProperty(Data,Group)
         local Property = {}
 
-        
+        Property.Name = Data.Name
+        Property.Type = Data.Type
+
+        Property.Visual = Studio.Components.StockVisuals:CreateProperty(Group:ReturnToParent(),{
+            Title = Data.Name,
+            Size = Pivot2D.new(1,0,0,20)
+        })
+
+        Property.TreeObject = Inspector.CreateTreeObject(Property,Group.TreeObject)
+
+        Property.Functionality = Inspector.FindProperty(Property.Name)
+        Property.Functionality:new(Property)
+        Property.Functionality:CreateVisual(Property)
+
+        function Property:Destroy()
+            Property.Visual:Destroy()
+            Property.Visual = nil
+            Property.TreeObject:Destroy()
+            Property.TreeObject = nil
+        end
 
         return Property
     end
@@ -27,31 +73,55 @@ return function(Inspector)
     function Inspector.RenderGroup(GroupName)
         local Group = {}
 
-        Group.BaseGroup = Studio.Components.CreateStyle("Text",{
-            Size = Pivot2D.new(1,0,0,26),
-            BackgroundColor = "Outline",
-            BackgroundTransparency = 0,
-            ForegroundColor = "Text",
-            Font = "FontBold",
-            Layer = 3,
-            Parent = ScrollContainer,
-            Name = GroupName,
-            Text = GroupName,
-            Alignment = Vector2.new(0.03,0.5),
-            CornerRadius = 2,
-        })
-
-        Group.ExpandableDropdown = Studio.Components.ExpandableDropdown(Group.BaseGroup, ScrollContainer)
-
         function Group:RemoveProperty(Name)
-
+            local TreeFound = Group.TreeObject:FindChild(Name)
+            if TreeFound then
+                TreeFound.Info:Destroy()
+                Group.TreeObject.Parenting[Name] = nil
+            end
         end
 
-        Group.TreeObject = Inspector.CreateTreeObject(Group.BaseGroup)
+        function Group:ReturnToParent()
+            return Group.Visual.ExpandableDropdown.Container
+        end
 
+        Group.Name = GroupName
+        Group.Visual = Studio.Components.StockVisuals:CreateGroup(Inspector.Scroll,{
+            Name = GroupName,
+        })
+
+        Group.TreeObject = Inspector.CreateTreeObject(Group)
         Inspector.RenderingTree[GroupName] = Group.TreeObject
 
+        function Group:Destroy()
+            local Children = {}
+            for _, Child in pairs(Group.TreeObject.Parenting) do
+                table.insert(Children, Child)
+            end
+            for _, Child in ipairs(Children) do
+                Child.Info:Destroy()
+            end
+
+            Group.Visual:Destroy()
+            Group.TreeObject:Destroy()
+            Inspector.RenderingTree[Group.Name] = nil
+
+            Group.TreeObject = nil
+            Group.Visual = nil
+        end
+
         return Group
+    end
+
+    function Inspector.Clean()
+        local Groups = {}
+        for _, TreeObject in pairs(Inspector.RenderingTree) do
+            table.insert(Groups, TreeObject.Info)
+        end
+        for _, Group in ipairs(Groups) do
+            Group:Destroy()
+        end
+        table.clear(Inspector.RenderingTree)
     end
 
     function Inspector.Render()
@@ -63,18 +133,20 @@ return function(Inspector)
                 if not CleanTable[GroupName] then
                     CleanTable[GroupName] = {}
                 end
-                for Property, Thing in pairs(GroupData) do
+                for _, Property in pairs(GroupData) do
                     CleanTable[GroupName][Property] = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property]
                 end
             end
         end
 
-        for GroupName,Properties in pairs(CleanTable) then
-
+        for GroupName,Properties in pairs(CleanTable) do
+            local Group = Inspector.RenderGroup(GroupName)
             for PropertyName,Type in pairs(Properties) do
-                
+                local Property = Inspector.RenderProperty({Name = PropertyName, Type = Type}, Group)
             end
         end
+
+        table.clear(CleanTable)
     end
 
     function Inspector.Setup()
@@ -88,10 +160,13 @@ return function(Inspector)
         })
 
         Inspector.List = Studio.Components.CreateStyle("ListLayout",{
-            Parent = ScrollContainer,
+            Parent = Inspector.Scroll,
             Alignment = Enum.Alignment.TopCenter,
             Padding = 2
         })
+
+        Studio.Editor3D.OnSelect:Connect(Inspector.Render)
+        Studio.Editor3D.OnDeselect:Connect(Inspector.Clean)
     end
 
     function Inspector.Init()

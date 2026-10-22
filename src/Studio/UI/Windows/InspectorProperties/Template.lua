@@ -1,14 +1,20 @@
 local Template = Object:extend()
 
-function Template.new(Data)
-    self.Asset = self:CreateProperty()
+function Template:new(Property)
+    --self.Asset = self:CreateProperty()
+
+    return self
 end
 
 function Template:ReAssing(Data)
 
 end
 
-function Template:CreateProperty()
+function Template:CreateVisual()
+
+end
+
+function Template:Destroy()
 
 end
 
