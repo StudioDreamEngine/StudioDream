@@ -15,7 +15,7 @@ StudioDream is an engine that is intended to take the accessibility of ROBLOX, a
 # NOTICE
 Despite StudioDream being under the EPL-2.0 License, We are strongly against the usage of AI or LMMs in any way, shape or form either contributing to this project, or being trained off of this project.
 
-Any pull requests where LMMs have been used will be immediately closed.
+Any pull requests where LLMs have been used will be immediately closed.
 
 # Overview
 The documentation repo is located [here](https://github.com/StudioDreamEngine/StudioDream-Docs), there is currently no hosted website for them.
