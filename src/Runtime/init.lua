@@ -1,5 +1,6 @@
 local Runtime = {}
 
+Runtime.Mixins = require("Runtime.Mixins")
 Runtime.Things = require("Runtime.Things")
 Runtime.Resources = require("Runtime.Resources")
 Runtime.Renderer = require("Runtime.Renderer")
@@ -16,6 +17,8 @@ function Runtime.Init()
     Runtime.Resources.Init()
 
     Runtime.Renderer.Init()
+    Runtime.Mixins.Init()
+
     Runtime.Things.Init()
 
     -- init WindowManager here, as doing it in PostInit can fuck up the splash screen and resizing routines (for some reason)

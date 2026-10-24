@@ -122,12 +122,26 @@ function Things.SetProperty(Object, Index, Value)
     end
 end
 
-function Things.SetPropertyMassive(Objects,Index,Value)
-    for _,Object in pairs(Objects) do
-        if Object[Index] then
-            Things.SetProperty(Object,Index,Value)
+function Things.SetPropertyMassive(Objects, Index, Value)
+    xpcall(function()
+        for _, Object in pairs(Objects) do
+            if Object[Index] ~= nil then
+                Things.SetProperty(Object, Index, Value)
+            end
+        end
+    end, function(Error)
+        print(debug.traceback("Failed set massive property " .. Index .. ": " .. Error))
+    end)
+end
+
+function Things.IsPropertiesTheSame(Things, CheckProperty)
+    local FirstVal = Things[1] and Things[1][CheckProperty]
+    for _, Thing in pairs(Things) do
+        if Thing[CheckProperty] ~= FirstVal then
+            return nil
         end
     end
+    return FirstVal
 end
 
 -- Luawiz create instance code

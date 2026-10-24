@@ -51,6 +51,10 @@ function Module:New(EventName, Debug) --I had no idea you could define module fu
 		table.clear(Events)
 	end
 	
+	function EventObject:__tostring()
+		return "[Signal: "..EventName.."]"
+	end
+
 	---@return SignalConnection
 	local function ConnectEvent(func, listener, EventId)
 		-- I bet theres a faster way but whatever
@@ -69,6 +73,10 @@ function Module:New(EventName, Debug) --I had no idea you could define module fu
 			SingleEventObject = {
 				AlreadyDisconnected = true
 			}
+		end
+
+		function SingleEventObject:__tostring()
+			return "[Signal Connection: "..SingleEventObject.EventName.."]"
 		end
 
 		return SingleEventObject

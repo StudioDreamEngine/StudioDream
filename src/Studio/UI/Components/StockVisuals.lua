@@ -38,6 +38,17 @@ function StockVisuals:CreateProperty(Parent,MoreInfo)
     return Object
 end
 
+function StockVisuals:CreateBoolean(Parent)
+    return Studio.Components.CreateStyle("ImageButton",{
+        Resource = "Internal/Studio/Boolean.png",
+        Size = Pivot2D.FromScale(1,1),
+        SquareAxis = Enum.SquareAxis.Y,
+        Parent = Parent,
+        ForegroundColor = "Text",
+        SinkHovering = true,
+    })
+end
+
 function StockVisuals:CreateGroup(Parent,MoreInfo)
     local Object = {}
 

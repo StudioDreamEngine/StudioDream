@@ -54,9 +54,11 @@ return function(Inspector)
             Size = Pivot2D.new(1,0,0,20)
         })
 
+        Property.IsActive = false
+
         Property.TreeObject = Inspector.CreateTreeObject(Property,Group.TreeObject)
 
-        Property.Functionality = Inspector.FindProperty(Property.Name)
+        Property.Functionality = Inspector.FindProperty(Property.Type)
         Property.Functionality:new(Property)
         Property.Functionality:CreateVisual(Property)
 
@@ -127,6 +129,7 @@ return function(Inspector)
     function Inspector.Render()
         local CleanTable = {}
         local HandlingThings = Studio.Editor3D.Selecting
+        Inspector.Clean()
 
         for _,Thing in pairs(HandlingThings) do
             for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
@@ -171,7 +174,6 @@ return function(Inspector)
 
     function Inspector.Init()
         Inspector.PropertyTypes = Utils.LoadModules("Studio/UI/Windows/InspectorProperties/", true)
-
         Inspector.RenderingTree = {}
 
         Inspector.Setup()

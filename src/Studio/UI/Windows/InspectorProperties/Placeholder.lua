@@ -4,6 +4,7 @@ function Placeholder:new(Property)
     --self.Asset = self:CreateProperty()
 
     self.Property = Property
+    self.IsActive = Property.IsActive
 
     return self
 end
@@ -18,6 +19,7 @@ function Placeholder:CreateVisual()
     Visual.Text = Studio.Components.CreateStyle("Text",{
         BackgroundTransparency = 0,
         BackgroundColor = "Secondary",
+        ForegroundTransparency = (self.Property.IsActive and 0 or 0.5),
         Text = "This is a placeholder for "..self.Property.Type.." property!!!",
         Size = Pivot2D.FromScale(1,1),
         ForegroundColor = "Text",
