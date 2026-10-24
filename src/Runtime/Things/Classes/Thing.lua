@@ -326,6 +326,8 @@ function Thing:RemoveParent(Parent)
     table.removeValue(self.Parents, Parent)
     Parent:RemoveChild(self)
 
+    Runtime.Things.RequestTreeChange(self)
+
     if self.Scene then
         self.ShouldProcess = #self.Parents > 0
     end
