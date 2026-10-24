@@ -1,11 +1,10 @@
 local Mixels = {}
 
 function Mixels.Init()
-    Mixels.TypesString = Utils.LoadModules("Runtime/Mixins/Mixels/",true)
 end
 
 function Mixels.Type(Name)
-    return Mixels.TypesString[Name]
+    return require("Runtime.Things.Mixins."..Name)
 end
 
 function Mixels.Create(Object,Type)    

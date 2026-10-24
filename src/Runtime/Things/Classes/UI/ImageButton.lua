@@ -7,7 +7,7 @@ local ImageButton = Things.Extend("Image2D")
 function ImageButton:new()
     ImageButton.super.new(self)
 
-    self.Mixin = Runtime.Mixins.Create(self,"Button")
+    self.Mixin = Runtime.Things.Mixins.Create(self,"Button")
 end
 
 function ImageButton:Update(dt)

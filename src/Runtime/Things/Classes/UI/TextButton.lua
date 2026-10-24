@@ -7,7 +7,7 @@ local TextButton = Things.Extend("Text")
 function TextButton:new()
     TextButton.super.new(self)
 
-    self.Mixin = Runtime.Mixins.Create(self,"Button")
+    self.Mixin = Runtime.Things.Mixins.Create(self,"Button")
 end
 
 function TextButton:Update(dt)

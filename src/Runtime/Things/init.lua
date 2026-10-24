@@ -21,6 +21,7 @@ function Things.Init()
     CreateRoot = require("Runtime.Things.CreateRoot")
 
     Things.ObjectProxy = require("Runtime.Things.ObjectProxy")
+    Things.Mixins = require("Runtime.Things.Mixins")
 
     printVerbose("Creating root tree")
     Things.Root, Things.RenderRoot = CreateRoot.CreateRoot()
