@@ -65,22 +65,23 @@ function Button:Update(dt)
 
     local DisplayUI = TheLinkedThing.DisplayUI
     if (not DisplayUI) then return end
-
-    local Delta = TheLinkedThing.Transition and math.min(dt*20,1) or 1
     
-    if TheLinkedThing.HoveringStyle == "colorM" then
-        local Clicking = TheLinkedThing.Hovering and Runtime.InterfaceManager.Clicking
-        local Multiplier = (Clicking and TheLinkedThing.ClickingColorMultiplier) or (TheLinkedThing.Hovering and TheLinkedThing.HoverColorMultiplier) or 1
+    if TheLinkedThing:IsActive() then
+        local Delta = TheLinkedThing.Transition and math.min(dt*20,1) or 1
 
-        TheLinkedThing.ColorMultiplier = math.lerp(TheLinkedThing.ColorMultiplier, Multiplier, Delta)
-    elseif TheLinkedThing.HoveringStyle == "colorC" then
-        --local ColorToChange = 
+        if TheLinkedThing.HoveringStyle == "colorM" then
+            local Clicking = TheLinkedThing.Hovering and Runtime.InterfaceManager.Clicking
+            local Multiplier = (Clicking and TheLinkedThing.ClickingColorMultiplier) or (TheLinkedThing.Hovering and TheLinkedThing.HoverColorMultiplier) or 1
+            TheLinkedThing.ColorMultiplier = math.lerp(TheLinkedThing.ColorMultiplier, Multiplier, Delta)
+        elseif TheLinkedThing.HoveringStyle == "colorC" then
+            
+        end
+
+        if ((not TheLinkedThing._WasHovering) and TheLinkedThing.Hovering) then TheLinkedThing.HoverEnter.Invoke() end
+        if (TheLinkedThing._WasHovering and (not TheLinkedThing.Hovering)) then TheLinkedThing.HoverExit.Invoke() end
+
+        TheLinkedThing._WasHovering = TheLinkedThing.Hovering
     end
-
-    if ((not TheLinkedThing._WasHovering) and TheLinkedThing.Hovering) then TheLinkedThing.HoverEnter.Invoke() end
-    if (TheLinkedThing._WasHovering and (not TheLinkedThing.Hovering)) then TheLinkedThing.HoverExit.Invoke() end
-
-    TheLinkedThing._WasHovering = TheLinkedThing.Hovering
 end
 
 return Button

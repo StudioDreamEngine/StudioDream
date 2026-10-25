@@ -7,7 +7,7 @@ function Template:new(Property)
     return self
 end
 
-function Template:ReAssing(Data)
+function Template:Update(Data)
 
 end
 

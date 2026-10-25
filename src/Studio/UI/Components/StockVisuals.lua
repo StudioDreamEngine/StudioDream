@@ -1,5 +1,43 @@
 local StockVisuals = {}
 
+function StockVisuals:CreateSubProperty(Parent,MoreInfo)
+    local Object = {}
+
+    Object.Container = Studio.Components.CreateStyle("Text",{
+        BackgroundTransparency = 0,
+        BackgroundColor = "Outline",
+        Text = MoreInfo.Title,
+        Size = MoreInfo.Size,
+        ForegroundColor = "Text",
+        Name = MoreInfo.Name or "Container",
+        CornerRadius = 5,
+        Alignment = Vector2.new(0.05,0.5),
+        Parent = Parent
+    })
+
+    Object.Value = Studio.Components.CreateStyle("Square",{
+        BackgroundTransparency = 0,
+        BackgroundColor = "Secondary",
+        Size = Pivot2D.FromScale(0.4,0.95),
+        Position = Pivot2D.FromScale(1,0.5),
+        Name = "Value",
+        CornerRadius = 5,
+        Pivot = Vector2.new(1,0.5),
+        Parent = Object.Container
+    })
+
+    function Object:Destroy()
+        for i,v in pairs(Object) do
+            if Utils.TypeOf(v) == "Thing" then
+                v:Destroy()
+            end
+        end
+        table.clear(Object)
+    end
+
+    return Object
+end
+
 function StockVisuals:CreateProperty(Parent,MoreInfo)
     local Object = {}
 
@@ -26,11 +64,34 @@ function StockVisuals:CreateProperty(Parent,MoreInfo)
         Parent = Object.Container
     })
 
+    if MoreInfo.HasSub then
+        print("HasSub!")
+        Object.ExpandableDropdown = Studio.Components.ExpandableDropdown(Object.Value, Parent)
+        Object.ExpandableDropdown.Container.Name = Object.Container.Name.."1"
+        Object.Subs = {}
+        for i=1,MoreInfo.HasSub do
+            Object.Subs[i] = StockVisuals:CreateSubProperty(Object.ExpandableDropdown.Container,{
+                Name = MoreInfo.Name..tostring(i),
+                Title = MoreInfo.Title,
+                Size = MoreInfo.SizeSub,
+            })
+        end
+    end
+
     function Object:Destroy()
         for i,v in pairs(Object) do
             if Utils.TypeOf(v) == "Thing" then
                 v:Destroy()
             end
+        end
+        if Object.ExpandableDropdown then
+            Object.ExpandableDropdown:Destroy()
+            for i,v in pairs(Object.Subs) do
+                v:Destroy()
+            end
+        end
+        if Object.Subs then
+            table.clear(Object.Subs)
         end
         table.clear(Object)
     end

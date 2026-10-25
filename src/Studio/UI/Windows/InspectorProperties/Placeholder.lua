@@ -9,7 +9,7 @@ function Placeholder:new(Property)
     return self
 end
 
-function Placeholder:ReAssing(Data)
+function Placeholder:Update(Data)
 
 end
 
