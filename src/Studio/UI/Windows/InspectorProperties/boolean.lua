@@ -15,7 +15,7 @@ function boolean:new(Property)
     return self
 end
 
-function boolean:ReAssing(Data)
+function boolean:Update(Data)
 
 end
 
@@ -36,7 +36,6 @@ function boolean:CreateVisual()
         SinkHovering = true,
         ForegroundTransparency = self.IsActive and 0 or 0.5
     })
-    print(self.IsActive)
     Visual.Button.Active = self.IsActive
 
     Visual.UpdateButton(Runtime.Things.IsPropertiesTheSame(Studio.Editor3D.Selecting,self.Property.Name))

@@ -88,24 +88,19 @@ return function(ColorPicked)
         return CreateCorObj
     end
 
-    function ColorPicked.RequestApply(ColorPreset)
-        print("Requested")
+    function ColorPicked.Hide()
+        Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.ColorPicked"),false)
+    end
+
+    function ColorPicked.RequestApply(ColorPreset,SelectedColorFunc)
         ColorPicked.ReturnForRequest = nil
+        print("hello")
         Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.ColorPicked"),true)
         if ColorPreset then
             ColorPicked.SetByColor(ColorPreset)
         end
-        repeat Scheduler.Yield() until ColorPicked.ReturnForRequest
-        print("Proceed")
-        -- False if the user cancels the request!
 
-        Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.ColorPicked"),false)
-
-        if ColorPicked.ReturnForRequest == "THERESNOTHINGHERE" then
-            ColorPicked.ReturnForRequest = "ItFaliedBtw"
-        end
-
-        return ColorPicked.ReturnForRequest
+        ColorPicked.ReturnForRequest = SelectedColorFunc
     end
 
     function ColorPicked.Init()
@@ -207,11 +202,13 @@ return function(ColorPicked)
         end)
 
         ColorPicked.ApplyButton.Clicked:Connect(function()
-            ColorPicked.ReturnForRequest = ColorPicked.CurrentColor
+            ColorPicked.Hide()
+            ColorPicked.ReturnForRequest(ColorPicked.CurrentColor)
         end)
 
         ColorPicked.CancelButton.Clicked:Connect(function()
-            ColorPicked.ReturnForRequest = "THERESNOTHINGHERE"
+            ColorPicked.Hide()
+            ColorPicked.ReturnForRequest = nil
         end)
         
         ColorPicked.Rainbow.Clicked:Connect(function()

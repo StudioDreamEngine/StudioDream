@@ -218,6 +218,8 @@ function StudioLayout.CallHandle(WindowType, Function, ...)
         end
 
         return Handle
+    else
+        print(WindowType.." Has not been found!")
     end
 end
 

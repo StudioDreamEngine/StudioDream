@@ -154,9 +154,8 @@ end
 function Vector2.FromString(String)
     local ToFilter = string.gsub(String,"%s","") -- Strip Whitespace
     local SplitText = string.split(ToFilter,",") -- Split by ,
-
-    -- Theres 100% a better way to do this
-    return Vector2.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0)
+    local Result = Vector2.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0)
+    return Result
 end
 
 ---@return Vector2

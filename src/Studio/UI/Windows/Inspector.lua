@@ -1,6 +1,12 @@
 local Things = Runtime.Things
 local Components = Studio.Components
 
+local SubProperties = {
+    ["Transform"] = true,
+    ["Rect"] = true,
+    ["Pivot2D"] = true,
+}
+
 return function(Inspector)
     function Inspector.CreateTreeObject(ObjGiven,Group)
         local Obj = {}
@@ -48,13 +54,15 @@ return function(Inspector)
 
         Property.Name = Data.Name
         Property.Type = Data.Type
-
         Property.Visual = Studio.Components.StockVisuals:CreateProperty(Group:ReturnToParent(),{
             Title = Data.Name,
-            Size = Pivot2D.new(1,0,0,20)
+            Name = Data.Name,
+            Size = Pivot2D.new(1,0,0,20),
+            HasSub = SubProperties[Data.Type] and 2 or nil,
+            SizeSub = SubProperties[Data.Type] and Pivot2D.new(0.95,0,0,18) or nil
         })
 
-        Property.IsActive = false
+        Property.IsActive = Data.Active
 
         Property.TreeObject = Inspector.CreateTreeObject(Property,Group.TreeObject)
 
@@ -91,7 +99,7 @@ return function(Inspector)
         Group.Visual = Studio.Components.StockVisuals:CreateGroup(Inspector.Scroll,{
             Name = GroupName,
         })
-
+        
         Group.TreeObject = Inspector.CreateTreeObject(Group)
         Inspector.RenderingTree[GroupName] = Group.TreeObject
 
@@ -137,15 +145,18 @@ return function(Inspector)
                     CleanTable[GroupName] = {}
                 end
                 for _, Property in pairs(GroupData) do
-                    CleanTable[GroupName][Property] = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property]
+                    CleanTable[GroupName][Property] = {
+                        Type = Thing.Proxy.Enums[Property] and "Enum" or Thing.Proxy.Types[Property],
+                        Active = Thing.Proxy.Serializable[Property]
+                    }
                 end
             end
         end
 
         for GroupName,Properties in pairs(CleanTable) do
             local Group = Inspector.RenderGroup(GroupName)
-            for PropertyName,Type in pairs(Properties) do
-                local Property = Inspector.RenderProperty({Name = PropertyName, Type = Type}, Group)
+            for PropertyName,Info in pairs(Properties) do
+                local Property = Inspector.RenderProperty({Name = PropertyName, Type = Info.Type,Active = Info.Active}, Group)
             end
         end
 
