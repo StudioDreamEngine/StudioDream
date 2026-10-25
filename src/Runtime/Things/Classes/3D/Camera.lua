@@ -144,7 +144,7 @@ end
 function Camera:Update(dt)
     Camera.super.Update(self, dt)
 
-    self.Drawable:setTransform(self.Transform.GetMatrix())
+    self.Drawable:setTransform(self.Transform:GetMatrix())
 end
 
 return Camera

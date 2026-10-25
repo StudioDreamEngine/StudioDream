@@ -12,6 +12,7 @@ function Viewport2D:new()
 
     self.TopLayer = {}
     self.Hovering = nil
+    self.RenderClient = nil
 
     self.CurrentOrder = 0
 end
@@ -36,6 +37,10 @@ function Viewport2D:SendChild(Child)
 
     -- Check if the viewport has given a request to update the transforms
     Viewport2D.super.SendChild(self, Child)
+end
+
+function Viewport2D:SetupImmediateMode(ImmediateFunction)
+    self.RenderClient = Renderer.Server.CreateClient(self, ImmediateFunction)
 end
 
 -- Submit the children of an thing and the thing itself to the display list

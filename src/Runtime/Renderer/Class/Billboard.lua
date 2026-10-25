@@ -3,9 +3,9 @@ local BillboardClass = {}
 function BillboardClass.UpdateTransform(Object, Position, ParentViewport)
     if ParentViewport:IsA("Environment") and ParentViewport.Camera then
         local Camera = ParentViewport.Camera ---@class Camera
-        local Rotation = Camera.Transform.Rotation ---@class Transform3D
+        local Rotation = Camera.Transform:GetBasis() ---@class Transform3D
 
-        Object.Drawable:setTransform((Transform3D.FromPosition(Position) * Rotation).GetMatrix())
+        Object.Drawable:setTransform((Transform3D.FromPosition(Position) * Rotation):GetMatrix())
     end
 end
 

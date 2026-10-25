@@ -22,9 +22,9 @@ function Drawable3D:new()
     self.Velocity = Vector3.zero
     self.RotationalVelocity = Vector3.zero
 
+    self.MaterialOverrides = {}
     self.Material = Dream:newMaterial()
     printVerbose("Create reflection")
-    self._Reflection = Dream:newReflection(love.graphics.newCubeImage("Assets/sky.png"))
 end
 
 function Drawable3D:DefineAPI()

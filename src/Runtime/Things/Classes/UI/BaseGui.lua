@@ -280,10 +280,14 @@ function BaseGui:new()
     self.Transparency = 0
 
     self.ViewportPosition = Vector2.one
+
     self.AbsolutePosition = Vector2.zero
     self.AbsoluteRotation = 0
     self.AbsolutePivot = Vector2.zero
     self.AbsoluteSize = Vector2.one
+
+    self.RotationPivot = Vector2.zero
+    self.CenterRotation = false
 
     self.Dropshadow = false
 
@@ -399,6 +403,7 @@ function BaseGui:DrawStyle()
 
     love.graphics.rotate(-self.AbsoluteRotation)
     love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
+    --love.graphics.translate(self.RotationPivot.X,self.RotationPivot.Y)
 
     self:SetColor("Background", "Color")
     
@@ -445,7 +450,14 @@ function BaseGui:UpdateTransforms()
         end
 
         self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
-        self.AbsolutePosition = self:GetAbsolutePosition()
+
+        --[[if self.CenterRotation then
+            self.RotationPivot = -(self.AbsoluteSize/2)
+        else
+            self.RotationPivot = self.AbsolutePivot
+        end]]
+
+        self.AbsolutePosition = self:GetAbsolutePosition() --+ (self.AbsolutePivot - self.RotationPivot)
         self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 
         Profiler.End()
@@ -526,6 +538,12 @@ end
 
 function BaseGui:SetVisible(NewVisiblity)
     self.Visible = NewVisiblity
+    self:InvalidateRendering()
+end
+
+-- Because mikl i guess
+function BaseGui:SetCenterRotation(Toggle)
+    self.CenterRotation = Toggle
     self:InvalidateRendering()
 end
 

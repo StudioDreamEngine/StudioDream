@@ -37,7 +37,7 @@ function Transformable3D:IsTopLevel()
 end
 
 function Transformable3D:UpdateMatrix()
-    self.Matrix = self.Transform.GetMatrix():scale(self.Scale:ToDream()) * self.LocalTransform.GetMatrix()
+    self.Matrix = self.Transform:GetMatrix():scale(self.Scale:ToDream()) * self.LocalTransform:GetMatrix()
 end
 
 function Transformable3D:SetLocalTransform(NewTransform)
@@ -56,7 +56,7 @@ end
 
 function Transformable3D:SetPosition(NewPosition)
     self.Position = NewPosition
-    self.Transform = Transform3D.FromPosition(NewPosition) * self.Transform.Rotation
+    self.Transform = Transform3D.FromPosition(NewPosition) * self.Transform:GetBasis()
 
     self:UpdateMatrix()
 end

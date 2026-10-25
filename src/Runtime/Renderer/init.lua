@@ -25,6 +25,8 @@ function Render.Init()
     Render.Image = require("Runtime.Renderer.Class.Image")
     Render.Billboard = require("Runtime.Renderer.Class.Billboard")
     Render.Input = require("Runtime.Renderer.Class.Input")
+
+    Render.Server = require("Runtime.Renderer.RenderServer")
 end
 
 function Render.Render()

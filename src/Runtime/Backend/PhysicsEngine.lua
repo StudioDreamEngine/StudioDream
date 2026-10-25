@@ -44,7 +44,7 @@ end
 
 -- dream to bullet
 function PhysicsEngine:ToBullet(DreamTransform)
-    local Matrix = DreamTransform.GetMatrix()
+    local Matrix = DreamTransform:GetMatrix()
 
     local Transform = Bullet.btTransform()
     Transform:setFromOpenGLMatrix({

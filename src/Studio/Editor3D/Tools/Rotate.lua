@@ -12,7 +12,7 @@ local Info = {
 Rotate.IsRotate = true
 
 local function StartDrag(Obj)
-    Info.StartPosObj = Obj.Transform.Rotation
+    Info.StartPosObj = Obj.Transform:GetBasis()
 end
 
 local function EndDrag()

@@ -265,6 +265,19 @@ function StudioLayout.CreateLayout()
         BackgroundTransparency = 0
     })
 
+    ---@param RenderClient RenderClient
+    Things.RenderRoot:SetupImmediateMode(function(RenderClient)
+        local Size = RenderClient:GetSize()
+
+        RenderClient:Draw("Square", {
+            Position = Vector2.new(Size.X/2, Size.Y/2), 
+            Size = Vector2.new(100,100), 
+            Pivot = Vector2.one * .5,
+            CornerRadius = 10,
+            Color = Color.new(0,0,0)
+        })
+    end)
+
     StudioLayout.CreateWindow("Viewport", {
         Name = "",
         Size = Pivot2D.FromScale(0.8,.8),

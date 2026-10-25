@@ -107,7 +107,7 @@ function Backend.GetMousePosition()
 end
 
 function Backend.SetColor(Color, Transparency)
-    love.graphics.setColor(Color.R, Color.G, Color.B, Transparency)
+    love.graphics.setColor(Color.R, Color.G, Color.B, Transparency or Color.A)
 end
 
 function Backend.NewCanvas(Size, Stencil)

@@ -61,6 +61,10 @@ function ViewportManager.RenderViewport2D(Viewport)
             Profiler.End()
             love.graphics.pop()
         end
+
+        if Viewport.RenderClient then
+            Viewport.RenderClient:Present()
+        end
     end)
     Profiler.End()
 end

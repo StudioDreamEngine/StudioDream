@@ -1,79 +1,91 @@
 local Transform3D = {}
 
+local Methods = {
+    Type = "Transform3D"
+}
+
+function Methods:GetMatrix()
+    return self.Matrix
+end
+
+function Methods:AsAngle()
+    return Vector3.FromDream(self.Matrix:toEuler())
+end
+
+function Methods:Copy()
+    return Transform3D.FromMatrix(self.Matrix)
+end
+
+function Methods:GetBasis()
+    return Transform3D.FromMatrix(self.Basis)
+end
+
+function Methods:GetOrigin()
+    return Transform3D.FromMatrix(self.Origin)
+end
+
+function Methods:Lerp(OtherTransform, Alpha)
+    local Matrix1 = self.Matrix ---@class DreamMat4
+    local Matrix2 = OtherTransform:GetMatrix() ---@class DreamMat4
+
+    return Transform3D.FromMatrix(Matrix1 + (Matrix2 - Matrix1) * Alpha)
+end
+
+local Meta = {
+    __index = Methods,
+    __mul = function (t1, t2)
+        if t1.Type == "Transform3D" and t2.Type == "Transform3D" then
+            return Transform3D.FromMatrix(t1:GetMatrix() * t2:GetMatrix())
+        else
+            assert("Transform3D expected, got ("..Utils.TypeOf(t2)..")")
+        end
+    end,
+    __add = function (t1, t2)
+        if t1.Type == "Transform3D" and t2.Type == "Vector3" then
+            return Transform3D.FromMatrix(t1:GetMatrix() + Dream.mat4(
+                0, 0, 0, t2.X,
+                0, 0, 0, t2.Y,
+                0, 0, 0, t2.Z,
+                0, 0, 0, 0
+            ))
+        else
+            assert("Transform3D expected, got ("..Utils.TypeOf(t2)..")")
+        end
+    end,
+    __tostring = function(self)
+        local Degree = self:AsAngle():Deg()
+        return "{"..tostring(Vector3.new(self.Position.X,self.Position.Y,self.Position.Z)).."} , {"..tostring(Vector3.new(Degree.X,Degree.Y,Degree.Z)).."}" -- bullshit
+    end
+}
+
 ---@param Matrix DreamMat4
-function Transform3D.FromMatrix(Matrix, Rotated)
+function Transform3D.FromMatrix(Matrix)
     ---@class Transform3D
-    local Object = {}
+    local Object = {
+        Matrix = Matrix,
 
-    Object.Type = "Transform3D"
-
-    Object.Side = Vector3.new(Matrix[1], Matrix[5], Matrix[9])
-    Object.Up = Vector3.new(Matrix[2], Matrix[6], Matrix[10]) 
-    Object.Forward = Vector3.new(Matrix[3], Matrix[7], Matrix[11])
-    Object.Position = Vector3.new(Matrix[4], Matrix[8], Matrix[12])
-    
-    Object.Nested = Rotated
-
-    -- Extract basis
-    if not Rotated then
-        Object.Rotation = Transform3D.FromMatrix(Dream.mat4(
+        -- Matricies
+        Basis = Dream.mat4(
             Matrix[1], Matrix[2], Matrix[3], 0,
             Matrix[5], Matrix[6], Matrix[7], 0,
             Matrix[9], Matrix[10], Matrix[11], 0,
             0, 0, 0, 1
-        ), true) -- I dont like doing this... too bad!
-
-        Object.PositionMatrix = Transform3D.FromMatrix(Dream.mat4(
+        ),
+        Origin = Dream.mat4(
             1, 0, 0, Matrix[4],
             0, 1, 0, Matrix[8],
             0, 0, 1, Matrix[12],
             0, 0, 0, 1
-        ), true) -- I dont like doing this... too bad!
-    end
+        ),
 
-    ---@return DreamMat4
-    function Object.GetMatrix() return Matrix end
-
-    function Object.AsAngle()
-        return Vector3.FromDream(Matrix:toEuler())
-    end
-
-    function Object:Copy()
-        return Transform3D.FromMatrix(Object.GetMatrix())
-    end
-
-    function Object:Lerp(OtherTransform, Alpha)
-        local Matrix1 = Matrix ---@class DreamMat4
-        local Matrix2 = OtherTransform.GetMatrix() ---@class DreamMat4
-
-        return Transform3D.FromMatrix(Matrix1 + (Matrix2 - Matrix1) * Alpha)
-    end
-
-    return setmetatable(Object, {
-        __mul = function (t1, t2)
-            if t1.Type == "Transform3D" and t2.Type == "Transform3D" then
-                return Transform3D.FromMatrix(t1.GetMatrix() * t2.GetMatrix())
-            else
-                assert("Transform3D expected, got ("..Utils.TypeOf(t2)..")")
-            end
-        end,
-        __add = function (t1, t2)
-            if t1.Type == "Transform3D" and t2.Type == "Vector3" then
-                return Transform3D.FromMatrix(t1.GetMatrix() + Dream.mat4(
-                    0, 0, 0, t2.X,
-                    0, 0, 0, t2.Y,
-                    0, 0, 0, t2.Z,
-                    0, 0, 0, 0
-                ))
-            else
-                assert("Transform3D expected, got ("..Utils.TypeOf(t2)..")")
-            end
-        end,
-        __tostring = function(self)
-            local Degree = self.AsAngle():Deg()
-            return "{"..tostring(Vector3.new(self.Position.X,self.Position.Y,self.Position.Z)).."} , {"..tostring(Vector3.new(Degree.X,Degree.Y,Degree.Z)).."}" -- bullshit
-        end
-    })
+        -- Vectors
+        Side = Vector3.new(Matrix[1], Matrix[5], Matrix[9]),
+        Up = Vector3.new(Matrix[2], Matrix[6], Matrix[10]),
+        Forward = Vector3.new(Matrix[3], Matrix[7], Matrix[11]),
+        Position = Vector3.new(Matrix[4], Matrix[8], Matrix[12])
+    }
+    
+    return setmetatable(Object, Meta)
 end
 
 function Transform3D.LookTowards(Eye, direction)
