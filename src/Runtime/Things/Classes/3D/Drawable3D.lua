@@ -22,8 +22,12 @@ function Drawable3D:new()
     self.Velocity = Vector3.zero
     self.RotationalVelocity = Vector3.zero
 
+    self.MaterialDirty = 0 -- Previous dirty number for the material
+
     self.MaterialOverrides = {}
-    self.Material = Dream:newMaterial()
+    self.Material = Runtime.Things.CreateTemplate("Material") ---@class Material
+
+    self.MaterialList = self.Material.MaterialList
     printVerbose("Create reflection")
 end
 
@@ -56,8 +60,17 @@ function Drawable3D:OnRemove()
     Drawable3D.super.OnRemove(self)
 end
 
+function Drawable3D:SetMaterialOverride(Name, Value)
+    self.MaterialOverrides[Name] = Value
+    self:UpdateMaterial()
+end
+
+function Drawable3D:RemoveMaterialOverride(Name)
+    self.MaterialOverrides[Name] = nil
+    self:UpdateMaterial()
+end
+
 function Drawable3D:SetMaterial(NewMaterial)
-    printVerbose(NewMaterial)
     self.Material = NewMaterial
 end
 
@@ -65,7 +78,6 @@ end
 function Drawable3D:SetVelocity(NewVelocity)
     if (not self.PhysicsBody) then return end
 
-    printVerbose(NewVelocity)
     self.PhysicsBody:setLinearVelocity(NewVelocity:ToBullet())
     self.PhysicsBody:activate()
 end
@@ -134,7 +146,7 @@ function Drawable3D:CreateBody()
 end
 
 function Drawable3D:AddTask()
-    Dream:addMesh(self.Drawable, self.Matrix, self.Material)
+    Dream:addMesh(self.Drawable, self.Matrix, self.MaterialList)
 end
 
 function Drawable3D:CheckAABB(Min, Max)
@@ -160,6 +172,14 @@ end
 
 function Drawable3D:Update(dt)
     Drawable3D.super.Update(self, dt)
+
+    if self.Material and self.Material.Dirty ~= self.MaterialDirty then
+        printVerbose("Material dirty, updating local material list")
+
+        self.MaterialDirty = self.Material.Dirty
+        self.MaterialList = self.Material:CreateList(self.MaterialOverrides)
+    end
+
     if (not self.Drawable) then return end
 
     self.Mass = 1    

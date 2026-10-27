@@ -266,7 +266,7 @@ function StudioLayout.CreateLayout()
     })
 
     ---@param RenderClient RenderClient
-    Things.RenderRoot:SetupImmediateMode(function(RenderClient)
+    --[[Things.RenderRoot:SetupImmediateMode(function(RenderClient)
         local Size = RenderClient:GetSize()
 
         RenderClient:Draw("Square", {
@@ -276,7 +276,7 @@ function StudioLayout.CreateLayout()
             CornerRadius = 10,
             Color = Color.new(0,0,0)
         })
-    end)
+    end)]]
 
     StudioLayout.CreateWindow("Viewport", {
         Name = "",

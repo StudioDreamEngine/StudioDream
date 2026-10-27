@@ -13,18 +13,20 @@ Things.ClassDump = {} -- Copy of classes for stuff such as IsA
 
 Things.TreeChanged = Signal:New("HierachyChanged")
 
-local CreateRoot
+local Templates
 local Invalidated = 0
 
 function Things.Init()
     Classes = Utils.LoadModules("Runtime/Things/Classes/")
-    CreateRoot = require("Runtime.Things.CreateRoot")
+    Templates = require("Runtime.Things.Templates")
 
     Things.ObjectProxy = require("Runtime.Things.ObjectProxy")
     Things.Mixins = require("Runtime.Things.Mixins")
 
+    Templates.DefaultMaterial = Things.New("Material")
+
     printVerbose("Creating root tree")
-    Things.Root, Things.RenderRoot = CreateRoot.CreateRoot()
+    Things.Root, Things.RenderRoot = Templates.CreateRoot()
     Things.FireTreeChange = false
 end
 
@@ -48,13 +50,7 @@ function Things.CreateApiDump()
     end
 end
 
-function Things.CreateTemplate(TemplateType)
-    if TemplateType == "Root" then
-        return CreateRoot.CreateRootTemplate(Things.Root)
-    else
-        return CreateRoot.CreateEnvTemplate()
-    end
-end
+function Things.CreateTemplate(TemplateType) return Templates.GetTemplate(TemplateType) end
 
 function Things.ClearRoot()
     for _, Object in pairs(Things.Root:GetChildren()) do
@@ -120,6 +116,11 @@ function Things.SetProperty(Object, Index, Value)
         end)
     else
         Object[Index] = Value
+    end
+
+    -- on the update of ANY property
+    if Object.OnPropertyUpdate then
+        Object:OnPropertyUpdate()
     end
 end
 

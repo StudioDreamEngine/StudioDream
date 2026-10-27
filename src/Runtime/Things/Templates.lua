@@ -1,7 +1,21 @@
 local Things = Runtime.Things
-local CreateRoot = {}
+local Templates = {}
 
-function CreateRoot.CreateRootTemplate(Root)
+Templates.Entries = {
+    Root = function()
+        Templates.RootTemplate(Things.Root)
+    end,
+    Enviornment = Templates.EnvTemplate,
+    Material = function()
+        return Templates.DefaultMaterial
+    end
+}
+
+function Templates.GetTemplate(TemplateType)
+    return Templates.Entries[TemplateType]()
+end
+
+function Templates.RootTemplate(Root)
     local HUD = Things.Create("HUD") {
         Name = "HUD",
         Parent = Root
@@ -22,7 +36,7 @@ function CreateRoot.CreateRootTemplate(Root)
     }
 end
 
-function CreateRoot.CreateEnvTemplate()
+function Templates.EnvTemplate()
     local Environment = Things.Create("Environment") {
         Name = "Environment"
     }
@@ -41,7 +55,7 @@ function CreateRoot.CreateEnvTemplate()
     return Environment
 end
 
-function CreateRoot.CreateRoot()
+function Templates.CreateRoot()
     -- Tree used for the project itself, this is what user scripts see
     ---@class Root
     local Root = Things.Create("Root", "Root") {
@@ -63,4 +77,4 @@ function CreateRoot.CreateRoot()
     return Root, Viewport
 end
 
-return CreateRoot
+return Templates

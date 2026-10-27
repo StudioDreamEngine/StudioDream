@@ -75,7 +75,6 @@ function Runtime.Update(dt)
         Runtime.Backend.Update(dt)
     end
 
-    Runtime.Renderer.ViewportManager.Update(dt) -- temporary
     Runtime.Things.Update(dt)
 end
 

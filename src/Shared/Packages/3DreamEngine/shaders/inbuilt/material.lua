@@ -44,7 +44,7 @@ end
 
 function sh:perMaterial(shaderObject, material)
 	local shader = shaderObject.shader
-	shader:send("lookupTexture", lib:getImage(material.lookupTexture) or lib.textures.default)
+	shader:send("lookupTexture", material.lookupTexture or lib.textures.default)
 end
 
 return sh

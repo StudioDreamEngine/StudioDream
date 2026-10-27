@@ -33,6 +33,13 @@ function Material:new()
     -- Mutli texture
     self.MultiTextureBlendScale = 3.7
     self.BlendTexture = nil
+
+    self.Dirty = 0 -- Dirty number for the material, updated every time the material properties are changed
+    self.MaterialList = {} -- Processed table
+end
+
+function Material:OnReady()
+    self:OnPropertyUpdate()
 end
 
 function Material:DefineAPI()
@@ -52,8 +59,35 @@ function Material:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
+-- Create a list with overrides for drawables
+function Material:CreateList(Overrides)
+    local MaterialList = table.clone(self.MaterialList)
+
+    for Name, Value in pairs(Overrides) do
+        MaterialList[Name] = Value
+    end
+
+    return MaterialList
+end
+
+function Material:OnPropertyUpdate()
+    local Proxy = self.Proxy
+
+    for Name, _ in pairs(Proxy.Serializable) do
+        local Value = self[Name]
+
+        if Value and Proxy.Types[Name] == "Resource" then
+            self.MaterialList[Name] = Runtime.Resources.LoadResourceFromIdentifier(Value)
+        else
+            self.MaterialList[Name] = Value
+        end
+    end
+
+    self.Dirty = self.Dirty + 1 -- I'd add a modulo but theres no way someones making those many (like what, 2^256?)
+end
+
 function Material:SetAlbedoTexture(Value)
-    local ImageFile, Identifier = Runtime.Resources.LoadResourceFromIdentifier(Value, self.UUID, {
+    local _, Identifier = Runtime.Resources.LoadResourceFromIdentifier(Value, self.UUID, {
         Type = "Image",
         Property = "AlbedoTexture"
     })

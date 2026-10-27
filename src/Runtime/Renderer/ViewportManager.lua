@@ -110,11 +110,6 @@ function ViewportManager.RenderCanvas(Viewport)
     Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
 end
 
-function ViewportManager.Update(dt)
-    --TestCamera:update(dt,75)
-    Dream:update(dt)
-end
-
 function ViewportManager.Render()
     Rendered = 0
 

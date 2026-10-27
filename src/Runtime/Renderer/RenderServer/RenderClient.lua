@@ -22,7 +22,7 @@ end
 function RenderClient:Draw(RendererName, Info)
     love.graphics.push("all")
     if Info.Pivot then
-        Info.Position = Info.Position + (Info.Size * Info.Pivot)
+        Info.Position = Info.Position - (Info.Size * Info.Pivot)
     end
 
     love.graphics.translate(Info.Position.X, Info.Position.Y)

@@ -84,7 +84,6 @@ LoadSub("settings")
 LoadSub("classes")
 LoadSub("shader")
 --LoadSub("loader")
-LoadSub("resources")
 LoadSub("render")
 LoadSub("renderLight")
 LoadSub("renderGodrays")
@@ -220,15 +219,12 @@ function lib:init(w, h)
 end
 
 function lib:prepareRuntime()
-	require(lib.reqroot .. ".runtimeBridge")
-
 	--default objects
 	--lib.cubeObject = lib:loadObject(lib.root.."/objects/cube")
 	--lib.skyObject = lib:loadObject(lib.root .. "/objects/sky", { ignoreMissingMaterials = true })
 	printVerbose("Loaded Objects")
 
 	lib.cubeObject = Runtime.Backend3D.LoadMesh("Internal/DefaultMeshes/sky.obj", "sky")
-	lib.defaultMaterial = Dream:newMaterial()
 	
 	--default textures
 	local pix = love.image.newImageData(2, 2)

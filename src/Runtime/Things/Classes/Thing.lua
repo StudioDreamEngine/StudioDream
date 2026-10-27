@@ -78,6 +78,10 @@ function Thing:DefineAPI()
     self.Proxy.Group("Attributes")
 end
 
+-- Called when ANY property updates
+-- for mikl: i'd use the signal, but i specifically wanna listen for property changes from SetProperty!!!
+function Thing:OnPropertyUpdate() end
+
 function Thing:AddPlaceholderSignal(Signal)
     table.insert(self.PlaceholderSignals,Signal)
     return Signal

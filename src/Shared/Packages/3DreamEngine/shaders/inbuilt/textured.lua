@@ -86,20 +86,20 @@ function sh:perMaterial(shaderObject, material)
 	
 	local tex = dream.textures
 
-	shader:send("albedoTexture", dream:getImage(material.AlbedoTexture) or tex.default)
+	shader:send("albedoTexture", material.AlbedoTexture or tex.default)
 	shader:send("albedoColor", material.Color.ToShader())
 	
 	if shader:hasUniform("materialTexture") then
-		shader:send("materialTexture", dream:getImage(material.MaterialTexture) or tex.default)
+		shader:send("materialTexture", material.MaterialTexture or tex.default)
 	end
 	shader:send("materialColor", { material.Metallic, material.Roughness })
 	
 	if shader:hasUniform("normalTexture") then
-		shader:send("normalTexture", dream:getImage(material.NormalTexture) or tex.defaultNormal)
+		shader:send("normalTexture", material.NormalTexture or tex.defaultNormal)
 	end
 	
 	if shader:hasUniform("emissionTexture") then
-		shader:send("emissionTexture", dream:getImage(material.EmissionTexture) or tex.default)
+		shader:send("emissionTexture", material.EmissionTexture or tex.default)
 	end
 	
 	shader:send("emissionColor", material.Emission.ToShader())
