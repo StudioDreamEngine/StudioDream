@@ -9,3 +9,5 @@ Rendering Pipeline rewrite:
         - Diffuse Lighting
         - Shadows
         - SSAO
+
+    With material overrides, we can probably get away with moving shaders to the 

@@ -72,39 +72,4 @@ function class.getQuadMesh(sx, sy, u1, v1, u2, v2)
 	return mesh
 end
 
----Returns a transform to place the quad camera facing at given position with given scale and rotation
----@param x number
----@param y number
----@param z number
----@param rotation number @ rotation at the Z axis, default 0
----@param sx number @ default 1
----@param sy number @ default sx
----@param camera DreamCamera @ defaults to the default camera
-function class:getSpriteTransform(x, y, z, rotation, sx, sy, camera)
-	local eye = (camera or lib.camera):getPosition()
-	local at = lib.vec3(x, y, z)
-	local direction = at - eye
-	
-	local up = lib.vec3(0.0, 1.0, 0.0)
-	
-	local zaxis = direction:normalize()
-	local xaxis = zaxis:cross(up):normalize()
-	local yaxis = xaxis:cross(zaxis)
-	
-	local c = math.cos(rotation or 0)
-	local s = math.sin(rotation or 0)
-	
-	sx = sx or 1
-	sy = sy or sx
-	
-	--This is a translate * lookTowards * zRotate * scale multiplication
-	local sxc, syc, sxs, sys = sx * c, sy * c, sx * s, sy * s
-	return lib.mat4(
-			sxc * xaxis.x - sxs * yaxis.x, syc * yaxis.x + sys * xaxis.x, -zaxis.x, x,
-			sxc * xaxis.y - sxs * yaxis.y, syc * yaxis.y + sys * xaxis.y, -zaxis.y, y,
-			sxc * xaxis.z - sxs * yaxis.z, syc * yaxis.z + sys * xaxis.z, -zaxis.z, z,
-			0, 0, 0, 1
-	)
-end
-
 return class

@@ -10,6 +10,10 @@ SelectionPriorityService.GuiClick = Signal:New("GuiClick")
 SelectionPriorityService.InViewport = false
 SelectionPriorityService.Use3DSelection = true
 
+function SelectionPriorityService.GetSelected() -- For selection stencil
+    printVerbose("GetSelected not overridden")
+end
+
 function SelectionPriorityService.Init()
     local InputService = Runtime.Services.Service("InputService") ---@class InputService
 

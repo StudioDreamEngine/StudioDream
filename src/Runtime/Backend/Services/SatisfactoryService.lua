@@ -23,7 +23,8 @@ local Words = { -- Who types this shit is Luz im not jokin
     "BlehBlehBelh",
     "Limbombom",
     "I bet someone makes a project and exports to an ###",
-    "This releases on Winter 2014!"
+    "This releases on Winter 2014!",
+    "This will be studiodream in 2017- oh my god its almost been 10 years"
 }
 
 function SatisfactoryService.SatisfyMe()

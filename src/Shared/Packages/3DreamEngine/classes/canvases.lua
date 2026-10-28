@@ -129,7 +129,6 @@ function class:init(w, h)
 		--stencil/outlines
 		self.stencil = love.graphics.newCanvas(w, h, { format = "r16f", readable = true, msaa = self.msaa })
 		Profiler.End()
-		--self.outline_2 = love.graphics.newCanvas(w, h, { format = "normal", readable = true, msaa = self.msaa })
 	end
 	
 	--screen space ambient occlusion blurring canvases

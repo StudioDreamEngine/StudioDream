@@ -146,6 +146,10 @@ function Drawable3D:CreateBody()
 end
 
 function Drawable3D:AddTask()
+    local Selected = Runtime.SelectionPriority.GetSelected()
+    
+    self.MaterialList.Stencil = table.find(Selected, self)
+
     Dream:addMesh(self.Drawable, self.Matrix, self.MaterialList)
 end
 

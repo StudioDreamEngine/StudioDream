@@ -136,6 +136,10 @@ function SelectionManager.Init()
 
     SelectionManager.BindPick()
 
+    Runtime.SelectionPriority.GetSelected = function()
+        return Editor3D.Selecting
+    end
+
     -- needed? idk
     Things.Root.ViewportChanged:Connect(function()
         if CurrentPick then
