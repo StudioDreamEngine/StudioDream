@@ -167,9 +167,11 @@ end
 -- Robuxxy worst nightmare
 function StudioLayout.ToggleWindow(Window, Toggle)
     if Window.Modal then
-        if Toggle then
+        local Exists = table.find(WindowStack, Window.Namespace)
+
+        if Toggle and (not Exists) then
             table.insert(WindowStack, Window.Namespace)
-        else
+        elseif Exists then
             table.removeValue(WindowStack, Window.Namespace)
         end
 

@@ -45,6 +45,20 @@ return function(Start)
         Start.Closable = true
     end
 
+    function Start.LoadProject(Path, Summary)
+        local Summary = Summary or Runtime.Project.GetSummary(Path)
+
+        if Summary then
+            Start.Close()
+            print("Loading project")
+            Runtime.Project.Load(Path)
+            CreateClose(Start.Container)
+        else
+            Studio.Notify("Project no longer exists.", "Error")
+            Studio.ProjectManager.RemoveHistory(Path)
+        end
+    end
+
     function Start.CreateProject(Scroll,Info,Path,FullContainer)
         local Summary = Runtime.Project.GetSummary(Path)
         local ImageToUse = Summary and Summary.ImageResource or "Internal/Studio/Notify/Error.png"
@@ -96,15 +110,7 @@ return function(Start)
         })
 
         Base.Clicked:Connect(function()
-            if Summary then
-                Start.Close()
-                print("Loading project")
-                Runtime.Project.Load(Path)
-                CreateClose(Start.Container)
-            else
-                Studio.Notify("Project no longer exists.", "Error")
-                Studio.ProjectManager.RemoveHistory(Path)
-            end
+            Start.LoadProject(Path, Summary)
         end)
 
         DoneLoad:Connect(function(LastNumber)
@@ -266,6 +272,21 @@ return function(Start)
         StudioSettings.Clicked:Connect(function()
             Studio.EditorUI.ToggleWindow("StudioConfig",true)
         end)
+
+        local RecoveryProject = Studio.ProjectManager.FindRecoveryProject()
+
+        if RecoveryProject then
+            Studio.Layout.GetWindowHandle("Dialogs").CreateDialog("Option",{
+                Topic = "A project recovery was found, do you want to open it?",
+                Choices = {
+                    Yes = function()
+                        Start.LoadProject(RecoveryProject)
+                    end,
+                    No = function()
+                    end
+                }
+            })
+        end
 
         LoadProject.Clicked:Connect(function()
             Studio.ProjectManager.LoadProject(Start.Close)

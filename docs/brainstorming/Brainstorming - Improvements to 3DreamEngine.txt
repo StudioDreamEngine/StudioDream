@@ -10,4 +10,5 @@ Rendering Pipeline rewrite:
         - Shadows
         - SSAO
 
-    With material overrides, we can probably get away with moving shaders to the 
+    With material overrides, we can probably get away with moving shaders to the material
+    

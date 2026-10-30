@@ -70,6 +70,11 @@ function Material:CreateList(Overrides)
     return MaterialList
 end
 
+function Material:UpdateMaterial()
+    self:OnPropertyUpdate()
+end
+
+-- blah blah blah bad way to do it OH well only we need to deal with this because users will use setproperty, MIKL!!!
 function Material:OnPropertyUpdate()
     local Proxy = self.Proxy
 

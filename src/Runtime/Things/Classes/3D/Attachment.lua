@@ -11,7 +11,7 @@ function Attachment:new()
     self.LocalTransform = Transform3D.FromPosition(0,0,0)
 
     local AttachImage = Runtime.Resources.LoadResourceFromIdentifier("Internal/Attachment.png")
-    self.Mesh, self.Drawable = Renderer.Billboard.CreateBillboard(AttachImage)
+    self.Drawable = Renderer.Billboard.CreateBillboard(AttachImage)
 
     RuntimeService.OnRunning:ConnectOnce(function() Runtime.Backend3D.UnregisterAdorn(self.UUID) end)
 end

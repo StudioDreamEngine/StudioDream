@@ -21,7 +21,7 @@ end
 function Transformable3D:DefineAPI()
     Transformable3D.super.DefineAPI(self)
 
-    self.Proxy.Property("Transform3D LocalTransform")
+    self.Proxy.Property("Transform3D LocalTransform", "Transform3D Transform")
     self.Proxy.Group("Transform","LocalTransform")
 end
 

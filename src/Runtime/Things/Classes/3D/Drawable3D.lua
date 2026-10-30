@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
----@class Drawable3D: Base3D
-local Drawable3D = Things.Extend("Base3D")
+---@class Drawable3D: Transformable3D
+local Drawable3D = Things.Extend("Transformable3D")
 
 function Drawable3D:new()
     Drawable3D.super.new(self)
@@ -14,6 +14,7 @@ function Drawable3D:new()
     self.BoundingSphere = Dream:newBoundingSphere()
 
     self.Collidable = true
+    self.Dynamic = false
 
     self.PhysicsBody = nil
     self.PhysicsShape = nil
@@ -36,7 +37,7 @@ function Drawable3D:DefineAPI()
 
     self.Proxy.Property("Vector3 Scale")--, "boolean Outline")
     self.Proxy.Property("Thing Material")
-    self.Proxy.Property("Vector3 Velocity", "Vector3 RotationalVelocity", "boolean Collidable")
+    self.Proxy.Property("Vector3 Velocity", "Vector3 RotationalVelocity", "boolean Collidable", "boolean Dynamic")
 
     self.Proxy.Group("Physics", "Dynamic", "Velocity", "RotationalVelocity", "Collidable")
     self.Proxy.Group("Transform", "Scale")

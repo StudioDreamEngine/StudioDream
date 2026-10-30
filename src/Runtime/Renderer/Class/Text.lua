@@ -144,9 +144,7 @@ function Text:AttemptWrap(NewSize, TextScaled, TextSize)
 end
 
 function Text:RenderLine(Index, Line)
-    Profiler.Start("Render line")
     love.graphics.print(Line,0,0)
-    Profiler.End()
 end
 
 function Text:Render()

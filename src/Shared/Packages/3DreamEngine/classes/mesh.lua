@@ -34,9 +34,9 @@ end
 
 ---@alias MeshDrawMode "fan"|"strip"|"triangles"|"points"
 
----@class DreamMesh : DreamClonable, DreamHasShaders, DreamIsNamed
+---@class DreamMesh : DreamClonable, DreamIsNamed
 local class = {
-	links = { "clonable", "hasShaders", "named", "mesh" },
+	links = { "clonable", "named", "mesh" },
 }
 
 class.isMesh = true
@@ -388,6 +388,32 @@ end
 ---@return DreamMeshFormat
 function class:getMeshFormat()
 	return lib.meshFormats[lib.defaultPixelShader.meshFormat]
+end
+
+function class:setPixelShader(shader)
+	shader = lib:getShader(shader)
+	assert(shader.type == "pixel", "Invalid shader type")
+	self.pixelShader = shader
+	
+	self:clearMesh()
+end
+
+---@param shader DreamShader
+function class:setVertexShader(shader)
+	shader = lib:getShader(shader)
+	assert(shader.type == "vertex", "Invalid shader type")
+	self.vertexShader = shader
+	
+	self:clearMesh()
+end
+
+---@param shader DreamShader
+function class:setWorldShader(shader)
+	shader = lib:getShader(shader)
+	assert(shader.type == "world", "Invalid shader type")
+	self.worldShader = shader
+	
+	self:clearMesh()
 end
 
 ---Makes this mesh render-able

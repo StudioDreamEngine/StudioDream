@@ -31,6 +31,15 @@ function ProjectManager.SetupSignals()
     end)
 end
 
+function ProjectManager.FindRecoveryProject()
+    local Path = Platform.GetDocuments().."/Recovery"
+    local Info = NativeFS.getInfo(Path)
+
+    if Info and Info.type == "directory" then
+        return Path
+    end
+end
+
 function ProjectManager.AddHistory()
     History.Add(Runtime.ProjectFS, Runtime.Project.Config.Get("Name"))
 end

@@ -5,8 +5,8 @@ local SpatialService = Runtime.Services.Service("SpatialService") ---@class Spat
 
 local SelectionPriority = Runtime.SelectionPriority
 
----@class Control3D: Base3D
-local Control3D = Things.Extend("Base3D")
+---@class Control3D: Transformable3D
+local Control3D = Things.Extend("Transformable3D")
 
 function Control3D:new()
     Control3D.super.new(self)
@@ -151,7 +151,8 @@ function Control3D:Update(dt)
         else Alpha = 0.4 end
 
         Data.Material.Color = Color.new(OldColor.R, OldColor.G, OldColor.B, Alpha)
-
+        Data.Material:OnPropertyUpdate()
+        
         self:UpdateAdorn(Axis, Adorn, Transform, CameraDistance)
     end
 end

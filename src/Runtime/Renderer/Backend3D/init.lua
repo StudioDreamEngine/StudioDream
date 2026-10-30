@@ -59,7 +59,7 @@ function Backend3D.CreateAdorn(Name)
     Object.name = Name
     Object.BoundingSphere = Dream:newBoundingSphere()
     Object.isAdorn = true
-    Object.material = Runtime.Things.New("Material")
+    Object.material = Runtime.Things.CreateTemplate("Material")
     Object.objects = {}
 
     Object.UUID = CreateUUID()
@@ -99,7 +99,7 @@ function Backend3D.PresentAdornChild(Objects, Transform)
         local Transform = Object.transform and (Object.transform * Transform) or Transform
 
         if Object.mesh then
-            Dream:addMesh(Object.mesh, Transform, Object.material)
+            Dream:addMesh(Object.mesh, Transform, Object.material.MaterialList)
         end
 
         if Object.objects then

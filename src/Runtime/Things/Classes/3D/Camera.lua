@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
----@class Camera: Base3D
-local Camera = Things.Extend("Base3D")
+---@class Camera: Transformable3D
+local Camera = Things.Extend("Transformable3D")
 
 function Camera:new()
     Camera.super.new(self)
