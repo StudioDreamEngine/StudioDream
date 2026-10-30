@@ -13,6 +13,8 @@
 local Backend3D = {}
 local DreamAdorns = {}
 
+Dream.skyRenderer = require("Runtime.Renderer.Backend3D.RenderSky")
+
 --[[
     ADORNS VS OBJECTS:
         Adorns imitate regular 3DE objects, when one is used in for example a raycast, a special version of the code is used for said object

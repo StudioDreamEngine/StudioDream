@@ -15,6 +15,8 @@ lib.stats = {
 	draws = 0,
 }
 
+lib.skyRenderer = function(transform, scale) end
+
 ---@private
 function lib:buildScene(shadowPass, dynamic, alpha, cam, blacklist, frustumCheck, canvases, light, isSun)
 	--self.delton:start("scene")
@@ -62,6 +64,13 @@ local function hasUniform(shaderObject, name)
 	return uniforms[name]
 end
 
+-- like checkAndSend, except with a shader object instead
+local function checkAndSendObject(shaderObject, Name, Value)
+	if hasUniform(shaderObject, Name) then
+		shaderObject.shader:send(Name, Value)
+	end
+end
+
 --checks if this uniform exists and sends
 local function checkAndSend(shader, name, value)
 	if shader:hasUniform(name) then
@@ -85,8 +94,6 @@ end
 ---@param blacklist table<string, boolean>
 ---@private
 function lib:render(cam, canvases, dynamic, isShadow, blacklist)
-	--self.delton:start("prepare")
-	
 	--update required acceleration data
 	local frustumCheck = self.frustumCheck and not cam.noFrustumCheck
 	if frustumCheck then
@@ -115,13 +122,14 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 		end
 		
 		--render sky
-		self:renderSky(cam.transformProjOrigin, cam:getInvertedTransform(), (cam.near + cam.far) / 4)
+		love.graphics.pushAll()
+		local skyProj = cam.transformProjOrigin * lib.mat4.getScale((cam.near + cam.far) / 4)
+		lib.skyRenderer(skyProj)
+		love.graphics.pop()
 		
 		--get light setup
 		light = self:getLightOverview(cam)
 	end
-	
-	--self.delton:stop()
 	
 	--start both passes
 	for pass = 1, canvases.alphaPass and 2 or 1 do
@@ -196,9 +204,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 							end
 							
 							--framebuffer
-							if hasUniform(shaderObject, "depthTexture") then
-								shader:send("depthTexture", canvases.depth)
-							end
+							checkAndSendObject(shaderObject, "depthTexture", canvases.depth)
 							
 							checkAndSendCached(shaderObject, "exposure", self.exposure)
 							checkAndSendCached(shaderObject, "ambient", self.sun_ambient)
@@ -206,6 +212,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 						
 						--camera
 						shader:send("transformProj", cam.transformProj)
+
 						if hasUniform(shaderObject, "viewPos") then
 							checkAndSendCached(shaderObject, "viewPos", cam.viewPosition)
 						end
@@ -229,9 +236,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 					checkAndSendCached(shaderObject, "stencil", material.Stencil and 1 or 0)
 					
 					if isShadow then
-						if hasUniform(shaderObject, "alphaTexture") then
-							shaderObject.shader:send("alphaTexture", self:getImage(material.AlbedoTexture) or self.textures.default)
-						end
+						checkAndSendObject(shaderObject, "alphaTexture", material.AlbedoTexture or self.textures.default)
 					else
 						checkAndSendCached(shaderObject, "translucency", material.Translucency)
 						

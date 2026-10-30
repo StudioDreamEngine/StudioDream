@@ -12,8 +12,8 @@ Editor3D.OnDeselect = Signal:New("UnSelectionSignal")
 
 Editor3D.PropertyChanged = Signal:New("ChangedProperty")
 
-Editor3D.GridSnap = 10
-Editor3D.RotationSnap = 10
+Editor3D.GridSnap = 1
+Editor3D.RotationSnap = 45/2
 
 function Editor3D.GetDefaultTarget()
     return Editor3D.Selecting[1] or Runtime.Things.Root:GetEnvironment()

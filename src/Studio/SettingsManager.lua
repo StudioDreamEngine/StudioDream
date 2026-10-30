@@ -6,6 +6,7 @@ local DefaultSettings = {
     ProjectHistory = {},
     Version = 2,
     SFXEnabled = true,
+    RecoveryDontAsk = false,
     UsingTheme = "Blue Night",
     AutomaticCreation = true,
     FlagCreation = false -- If or if not we've shown the automatic creation dialog

@@ -275,7 +275,7 @@ return function(Start)
 
         local RecoveryProject = Studio.ProjectManager.FindRecoveryProject()
 
-        if RecoveryProject then
+        if RecoveryProject and (not Studio.SettingsManager.Get("RecoveryDontAsk")) then
             Studio.Layout.GetWindowHandle("Dialogs").CreateDialog("Option",{
                 Topic = "A project recovery was found, do you want to open it?",
                 Choices = {
@@ -283,6 +283,9 @@ return function(Start)
                         Start.LoadProject(RecoveryProject)
                     end,
                     No = function()
+                    end,
+                    ["No, Dont ask again"] = function()
+                        Studio.SettingsManager.Set("RecoveryDontAsk", true)
                     end
                 }
             })

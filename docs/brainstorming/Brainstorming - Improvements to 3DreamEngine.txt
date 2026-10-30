@@ -1,7 +1,7 @@
-The issue with 3DreamEngine is that StudioDream currently has to communicate with it, 
-3DreamEngine maintains its own entire scene when StudioDream could do that instead
-
 Rendering Pipeline rewrite:
+    
+    
+Lighting Rewrite:
     Currently to implement:
         - Deferred rendering
         - Point Lights
@@ -9,6 +9,3 @@ Rendering Pipeline rewrite:
         - Diffuse Lighting
         - Shadows
         - SSAO
-
-    With material overrides, we can probably get away with moving shaders to the material
-    

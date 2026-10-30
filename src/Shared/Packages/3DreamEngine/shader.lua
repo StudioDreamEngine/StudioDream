@@ -232,9 +232,9 @@ function lib:getRenderShader(mesh, mat, reflection, globalIdentifier, alpha, can
 
 	local defaultWorldShader = mat.Simple and self.defaultWorldShader2 or self.defaultWorldShader
 	
-	local pixelShader = mat.pixelShader or mesh.pixelShader or self.defaultPixelShader
-	local vertexShader = mat.vertexShader or mesh.vertexShader or self.defaultVertexShader
-	local worldShader = mat.worldShader or mesh.worldShader or defaultWorldShader
+	local pixelShader = mat.pixelShader or self.defaultPixelShader
+	local vertexShader = mat.vertexShader or self.defaultVertexShader
+	local worldShader = mat.worldShader or defaultWorldShader
 	
 	--construct full ID
 	local shaderID = string.char(
@@ -262,9 +262,9 @@ function lib:getRenderShader(mesh, mat, reflection, globalIdentifier, alpha, can
 			shadows = shadowPass,
 			uniforms = { },
 			
-			pixelShader = mat.pixelShader or mesh.pixelShader or self.defaultPixelShader,
-			vertexShader = mat.vertexShader or mesh.vertexShader or self.defaultVertexShader,
-			worldShader = mat.worldShader or mesh.worldShader or defaultWorldShader,
+			pixelShader = mat.pixelShader or self.defaultPixelShader,
+			vertexShader = mat.vertexShader or self.defaultVertexShader,
+			worldShader = mat.worldShader or defaultWorldShader,
 		}
 		self.mainShaders[shaderID] = info
 		

@@ -7,7 +7,7 @@ local lib = _3DreamEngine
 
 ---Renders the sky box
 ---@private
-function lib:renderSky(transformProj, camTransform, transformScale)
+function lib:renderSky(transformProj, transformScale)
 	if transformScale then
 		transformProj = transformProj * lib.mat4.getScale(transformScale)
 	end
