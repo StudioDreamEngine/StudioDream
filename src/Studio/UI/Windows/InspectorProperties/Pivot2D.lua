@@ -88,8 +88,8 @@ function Pivot2DS:CreateVisual()
     })
 
     Visual.Button.FocusEnd:Connect(function(IsEnter)
-        self:Update()
         Runtime.Things.SetPropertyMassive(Selecting, PropertyName, Pivot2D.FromString(Visual.Button.Text))
+        self:Update()
     end)
 
     Visual.Scale = self:CreateSubVisual("Scale")

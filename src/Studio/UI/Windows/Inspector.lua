@@ -2,7 +2,7 @@ local Things = Runtime.Things
 local Components = Studio.Components
 
 local SubProperties = {
-    ["Transform"] = true,
+    ["Transform3D"] = true,
     ["Rect"] = true,
     ["Pivot2D"] = true,
 }
@@ -70,7 +70,14 @@ return function(Inspector)
         Property.Functionality:new(Property)
         Property.Functionality:CreateVisual(Property)
 
+        Property.Changed = Studio.Editor3D.Selecting[1].PropertyChanged:Connect(function(_,PropertyGiven)
+            if Property.Name == PropertyGiven then
+                Property.Functionality:Update()
+            end
+        end)
+
         function Property:Destroy()
+            Property.Changed:Disconnect()
             Property.Visual:Destroy()
             Property.Visual = nil
             Property.TreeObject:Destroy()
@@ -109,7 +116,9 @@ return function(Inspector)
                 table.insert(Children, Child)
             end
             for _, Child in ipairs(Children) do
-                Child.Info:Destroy()
+                if Child.Info and Child.Info.Destroy then
+                    Child.Info:Destroy()
+                end
             end
 
             Group.Visual:Destroy()
@@ -163,7 +172,37 @@ return function(Inspector)
         table.clear(CleanTable)
     end
 
+    function Inspector.AllInvisible(GroupDropdown)
+        local HasStuff = false
+
+        for _, v in pairs(GroupDropdown:GetChildren()) do
+            if v:IsA("Square") then
+                HasStuff = true
+                if v.Visible then
+                    return false
+                end
+            end
+        end
+        
+        return HasStuff
+    end
+
+    function Inspector.UpdateList()
+        for _,GroupNode in pairs(Inspector.Scroll:GetChildren()) do
+            if GroupNode.Dropdown then
+                for i,v in pairs(GroupNode.Dropdown:GetChildren()) do
+                    if (v:IsA("Square")) then
+                        v:SetVisible((Inspector.SearchText=='') and true or string.find(v.Name:lower(), Inspector.SearchText:lower()))
+                    end
+                end
+                GroupNode:SetVisible(not Inspector.AllInvisible(GroupNode.Dropdown))
+            end
+        end
+    end
+
     function Inspector.Setup()
+        Inspector.SearchText = ""
+
         Inspector.Scroll = Studio.Components.CreateStyle("ScrollContainer",{
             Size = Pivot2D.FromScale(1,0.94),
             CanvasSize = Pivot2D.FromScale(1,4),
@@ -178,6 +217,15 @@ return function(Inspector)
             Alignment = Enum.Alignment.TopCenter,
             Padding = 2
         })
+
+        Inspector.SearchBar = Studio.Components.StockVisuals:CreateSearchBar(Inspector.Container,{
+            Search = "Search for a property."
+        })
+
+        Inspector.SearchBar.SearchBar.Typed:Connect(function()
+            Inspector.SearchText = Inspector.SearchBar.SearchBar.Text
+            Inspector.UpdateList()
+        end)
 
         Studio.Editor3D.OnSelect:Connect(Inspector.Render)
         Studio.Editor3D.OnDeselect:Connect(Inspector.Clean)

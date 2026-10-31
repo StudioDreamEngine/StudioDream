@@ -73,6 +73,7 @@ function Thing:DefineAPI()
     
     self.Proxy.Group("General", "Parent", "Name", "Debug", "Scene", "ClassName")
 
+    self.Proxy.Icon("Unkown")
     --self.Proxy.RegisterProxy("GetChildren", "GetDescendants")
 
     self.Proxy.Group("Attributes")

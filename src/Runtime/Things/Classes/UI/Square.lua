@@ -32,6 +32,8 @@ function Square:DefineAPI()
     self.Proxy.Property("GradientSequence Gradient", "boolean Dropshadow")
     self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor","LimitCornerRadius")
     self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor", "Gradient", "Dropshadow")
+    self.Proxy.Icon("Square")
+    
     self.Proxy.MakeCreatable()
 
     self.Proxy.Describe("Basic 2D Square")

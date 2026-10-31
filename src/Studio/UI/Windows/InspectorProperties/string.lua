@@ -9,8 +9,12 @@ function String:new(Property)
     return self
 end
 
-function String:Update(Data)
+function String:Update()
+    local Selecting = Studio.Editor3D.Selecting
+    local PropertyName = self.Property.Name
+    local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
 
+    self.Visual.Button:SetText(IsAllTheSame or "~")
 end
 
 function String:CreateVisual()
@@ -37,6 +41,8 @@ function String:CreateVisual()
     Visual.Button.FocusEnd:Connect(function(IsEnter)
         Runtime.Things.SetPropertyMassive(Selecting, PropertyName, Visual.Button.Text)
     end)
+
+    self.Visual = Visual
 
     return Visual
 end

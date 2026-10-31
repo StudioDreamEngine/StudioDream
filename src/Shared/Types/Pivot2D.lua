@@ -104,7 +104,7 @@ end
 
 function Pivot2D.FromString(Text)
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
-    local FindBrack = string.close(RemoveWhiteSpace,"{","}")
+    local FindBrack = string.closeSimple(RemoveWhiteSpace,"{","}")
     local DefaultNumber = 0
     local StringsCreated = {}
 

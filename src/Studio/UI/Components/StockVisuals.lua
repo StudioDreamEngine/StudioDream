@@ -38,6 +38,45 @@ function StockVisuals:CreateSubProperty(Parent,MoreInfo)
     return Object
 end
 
+function StockVisuals:CreateSearchBar(Parent,MoreInfo)
+    local Object = {}
+
+    Object.SearchBar = Studio.Components.CreateStyle("TextInput",{
+        Size = Pivot2D.FromScale(0.95,0.05),
+        Position = Pivot2D.FromScale(0.5,0.005),
+        Pivot = Vector2.new(0.5,0),
+        ForegroundColor = "Text",
+        BackgroundTransparency = 0,
+        CornerRadius = 8,
+        Layer = 2,
+        BackgroundColor = "Outline",
+        Alignment = Enum.Alignment.Center,
+        Parent = Parent,
+        ClearWhenFocus = true,
+        Placeholder = MoreInfo.Search or "Search!"
+    })
+        
+    Object.Image = Studio.Components.CreateStyle("Image2D",{
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0,0),
+        SquareAxis = Enum.SquareAxis.Y,
+        Resource = "Internal/Studio/Search.png",
+        Parent = Object.SearchBar
+    })
+
+    function Object:Destroy()
+        for i,v in pairs(Object) do
+            if Utils.TypeOf(v) == "Thing" then
+                v:Destroy()
+            end
+        end
+        table.clear(Object)
+    end
+
+    return Object
+end
+
 function StockVisuals:CreateProperty(Parent,MoreInfo)
     local Object = {}
 
@@ -65,7 +104,6 @@ function StockVisuals:CreateProperty(Parent,MoreInfo)
     })
 
     if MoreInfo.HasSub then
-        print("HasSub!")
         Object.ExpandableDropdown = Studio.Components.ExpandableDropdown(Object.Value, Parent)
         Object.ExpandableDropdown.Container.Name = Object.Container.Name.."1"
         Object.Subs = {}
@@ -128,6 +166,8 @@ function StockVisuals:CreateGroup(Parent,MoreInfo)
     })
 
     Object.ExpandableDropdown = Studio.Components.ExpandableDropdown(Object.BaseGroup, Parent)
+
+    Object.BaseGroup.Dropdown = Object.ExpandableDropdown.Container
 
     function Object:Destroy()
         Object.ExpandableDropdown:Destroy()

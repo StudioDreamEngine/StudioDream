@@ -142,7 +142,7 @@ end
 
 function Transform3D.FromString(Text) -- also need to figure out a good way to improve this
     local RemoveWhiteSpace = string.gsub(Text,"%s","") -- Strip Whitespace
-    local FindBrack = string.close(RemoveWhiteSpace,"{","}")
+    local FindBrack = string.closeSimple(RemoveWhiteSpace,"{","}")
     local DefaultNumber = 0
     local StringsCreated = {}
 

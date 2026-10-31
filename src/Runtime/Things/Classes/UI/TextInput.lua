@@ -21,7 +21,7 @@ function TextInput:new()
     self.FocusEnd = Signal:New("TextInputFocus_End")
     self.FocusStart = Signal:New("TextInputFocus_Start")
     self.Typed = Signal:New("TextInput_Typed")
-
+    
     self.KeyEvent = InputService.KeyEvent:Connect(function(IsDown, Key)
         if (IsDown) then
             if (not self.InputActive) then return end
