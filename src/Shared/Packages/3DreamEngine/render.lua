@@ -252,7 +252,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 					self.stats.materialSwitches = self.stats.materialSwitches + 1
 				end
 
-				if (not isShadow) and (not material.Simple) then
+				if (not isShadow) then
 					self:sendLightUniforms(light, shaderObject)
 				end
 				
@@ -521,13 +521,15 @@ function lib:present(camera, canvases, lite)
 	
 	--extract camera position and normal
 	camera = applyCamera(camera, canvases)
+
+	self:executeJobs()
 	
 	--process render jobs
-	if not lite then
+	--[[if not lite then
 		--self.delton:start("jobs")
 		self:executeJobs()
 		--self.delton:stop()
-	end
+	end]]
 	
 	--render
 	self:renderFull(camera, canvases)
@@ -550,11 +552,9 @@ function lib:present(camera, canvases, lite)
 		local lightcanvas = 0
 
 		for _, light in pairs(lib.lighting) do
-			if light.shadow and light.shadow.canvases then
-				for _, canvas in pairs(light.shadow.canvases) do
-					lightcanvas = lightcanvas + 1
-					canvasesDebug["shadow"..lightcanvas] = canvas
-				end
+			if light.shadow and light.shadow.canvas then
+				lightcanvas = lightcanvas + 1
+				canvasesDebug["shadow"..lightcanvas] = light.shadow.canvas
 			end
 		end
 

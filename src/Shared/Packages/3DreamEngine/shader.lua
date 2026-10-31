@@ -230,7 +230,7 @@ end
 function lib:getRenderShader(mesh, mat, reflection, globalIdentifier, alpha, canvases, light, shadowPass, isSun)
 	reflection = not shadowPass and reflection
 
-	local defaultWorldShader = mat.Simple and self.defaultWorldShader2 or self.defaultWorldShader
+	local defaultWorldShader = self.defaultWorldShader--mat.Simple and self.defaultWorldShader2 or self.defaultWorldShader
 	
 	local pixelShader = mat.pixelShader or self.defaultPixelShader
 	local vertexShader = mat.vertexShader or self.defaultVertexShader
@@ -344,7 +344,7 @@ function lib:getRenderShader(mesh, mat, reflection, globalIdentifier, alpha, can
 		--additional code
 		if not shadowPass then
 			--construct forward lighting system
-			if #light.lights > 0 and (not mat.Simple) then
+			if #light.lights > 0 then-- and (not mat.Simple) then
 				local def, p = self:getLightComponents(light)
 				table.insert(defines, "#ifdef PIXEL")
 				table.insert(defines, def)

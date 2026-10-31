@@ -9,13 +9,12 @@ function lib:newShadow(typ, resolution)
 	return setmetatable({
 		typ = typ,
 		
-		resolution = resolution or (typ == "sun" and 1024 or 512),
+		resolution = resolution or (typ == "sun" and 2048 or 512),
 		done = false,
 		target = false,
 		refreshStepSize = typ == "sun" and 1.0 or 0.0001,
 		
-		cascadeDistance = 8,
-		cascadeFactor = 4,
+		cascadeDistance = 20,
 		
 		static = false,
 		smooth = true,
@@ -48,17 +47,6 @@ end
 ---@return number
 function class:getCascadeDistance()
 	return self.cascadeDistance
-end
-
----The cascade factor defines the factor at which each cascade is larger than the one before
----@param cascadeFactor number
-function class:setCascadeFactor(cascadeFactor)
-	self.cascadeFactor = cascadeFactor
-end
-
----@return number
-function class:getCascadeFactor()
-	return self.cascadeFactor
 end
 
 ---Refresh (static) shadows

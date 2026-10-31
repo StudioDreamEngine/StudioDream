@@ -20,6 +20,10 @@ end
 function Objects.HandleType(Property, Type, Deserialize, Identifier)
     if (not TypeSerializers[Type]) then error(Type.." needs serializer (@ "..Identifier.Name or "Unknown"..")") end
 
+    if Identifier then
+        assert(type(Property) ~= "userdata", "Property "..Identifier.Name.." of Object "..Identifier.Object.." excpected "..Type..", not userdata")
+    end
+
     local Serializer = require(TypeSerializers[Type])
     Serializer.SerializeType = Objects.HandleType
 
@@ -97,7 +101,8 @@ function Objects.SerializeObject(Object, Root)
                 Property = nil
             else
                 Property = Objects.HandleType(Property, Type, false,  {
-                    Name = PropertyName
+                    Name = PropertyName,
+                    Object = Object.UUID
                 })
             end
             
@@ -136,7 +141,7 @@ function Objects.DeserializeObject(ObjectData)
     for PropertyName, PropertyData in pairs(ObjectData.Data) do
         local Type = PropertyData.Type
         local Property = Objects.HandleType(PropertyData.Value, Type, true, {
-            --Object = ObjectData.UUID,
+            Object = ObjectData.ID,
             Name = PropertyName
         })
 
