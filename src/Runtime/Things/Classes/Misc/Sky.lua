@@ -16,8 +16,8 @@ end
 function Sky:DefineAPI()
     Sky.super.DefineAPI(self)
 
-    self.Proxy.Property("Resource Sky")
-    self.Proxy.Group("Settings","Sky")
+    self.Proxy.Property("Resource Resource")
+    self.Proxy.Group("Settings","Resource")
     self.Proxy.Icon("Sky")
     self.Proxy.MakeCreatable()
 end
@@ -27,6 +27,8 @@ function Sky:OnRemove()
 end
 
 function Sky:SetResource(NewSky)
+    if not NewSky or type(NewSky) == "boolean" then return end
+    print(NewSky)
     self.Sky, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(NewSky)
     self.Sky = love.graphics.readbackTexture(self.Sky)
     Dream:setSky(love.graphics.newCubeImage(self.Sky))

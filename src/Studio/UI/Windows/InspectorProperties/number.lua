@@ -14,7 +14,7 @@ function Number:Update()
     local PropertyName = self.Property.Name
     local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
 
-    self.Visual.Input:SetText(IsAllTheSame or "~")
+    self.Visual.Input:SetText(tostring(IsAllTheSame) or "~")
 end
 
 function Number:CreateVisual()
@@ -39,6 +39,7 @@ function Number:CreateVisual()
     })
 
     Visual.Input.FocusEnd:Connect(function(IsEnter)
+        local Numberfied = tonumber(Visual.Input.Text)
         Runtime.Things.SetPropertyMassive(Selecting, PropertyName, Numberfied)
         self:Update()
     end)
