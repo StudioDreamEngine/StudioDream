@@ -17,6 +17,7 @@ function Button.link(Thing)
     LinkedThing.Transition = true
 
     LinkedThing.Clicked = Signal:New("ButtonClicked")
+    LinkedThing.RightClicked = Signal:New("ButtonClickedRight")
     LinkedThing.Released = Signal:New("ButtonReleased")
 
     LinkedThing.ChangeCursorWhileHovering = true
@@ -28,9 +29,16 @@ function Button.link(Thing)
 
     Runtime.InterfaceManager.OnClick:Connect(function()
         if not LinkedThing.Hovering then return end
-        if (not LinkedThing:IsActive()) then print("Inactive") return end
+        if (not LinkedThing:IsActive()) then return end
         LinkedThing.BeingClicked = true
         LinkedThing.Clicked.Invoke()
+    end)
+
+    Runtime.InterfaceManager.OnRightClick:Connect(function()
+        if not LinkedThing.Hovering then return end
+        if (not LinkedThing:IsActive()) then return end
+
+        LinkedThing.RightClicked.Invoke()
     end)
 
     Runtime.InterfaceManager.OnRelease:Connect(function()

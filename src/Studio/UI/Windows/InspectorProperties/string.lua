@@ -40,6 +40,7 @@ function String:CreateVisual()
 
     Visual.Button.FocusEnd:Connect(function(IsEnter)
         Runtime.Things.SetPropertyMassive(Selecting, PropertyName, Visual.Button.Text)
+        self:Update()
     end)
 
     self.Visual = Visual
