@@ -90,7 +90,7 @@ function SlideBar:HandleDrag(Position) -- Omg this was stressing, sometimes i di
     if self.SlideAxis == "X" then
         EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * self.Parent.Pivot[self.SlideAxis])
     else
-        EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * (0.75-self.Parent.Pivot[self.SlideAxis]))
+        EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * (0.74-self.Parent.Pivot[self.SlideAxis]))
     end
     local SidePosition = MousePos - EdgePosition
     local Percentage = math.clamp(SidePosition / self.Parent.AbsoluteSize[self.SlideAxis], 0, 1)
