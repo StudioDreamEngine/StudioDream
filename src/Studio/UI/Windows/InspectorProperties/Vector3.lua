@@ -13,7 +13,7 @@ function String:Update(Data)
     local Selecting = Studio.Editor3D.Selecting
     local PropertyName = self.Property.Name
     local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
-    self.Visual.Button:SetText(IsAllTheSame or "~,~,~")
+    self.Visual.Button:SetText(tostring(IsAllTheSame) or "~,~,~")
 end
 
 function String:CreateVisual()

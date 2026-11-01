@@ -28,7 +28,6 @@ end
 
 function Sky:SetResource(NewSky)
     if not NewSky or type(NewSky) == "boolean" then return end
-    print(NewSky)
     self.Sky, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(NewSky)
     self.Sky = love.graphics.readbackTexture(self.Sky)
     Dream:setSky(love.graphics.newCubeImage(self.Sky))
