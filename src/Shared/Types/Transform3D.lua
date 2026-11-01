@@ -1,5 +1,6 @@
 local Transform3D = {}
 
+---@class Transform3D
 local Methods = {
     Type = "Transform3D"
 }
@@ -60,7 +61,6 @@ local Meta = {
 
 ---@param Matrix DreamMat4
 function Transform3D.FromMatrix(Matrix)
-    ---@class Transform3D
     local Object = {
         Matrix = Matrix,
 
@@ -110,6 +110,7 @@ function Transform3D.LookTowards(Eye, direction)
     return Transform3D.FromPosition(Eye) * Transform3D.FromMatrix(rotate)
 end
 
+---@return Transform3D
 function Transform3D.LookAt(Eye, Target)
     return Transform3D.LookTowards(Eye, (Target - Eye):Unit())
 end

@@ -13,7 +13,31 @@
 local Backend3D = {}
 local DreamAdorns = {}
 
-Dream.skyRenderer = require("Runtime.Renderer.Backend3D.RenderSky")
+function Backend3D.Init()
+    Dream:setDefaultReflection(false)
+    Dream:setBloom(3)
+
+    Dream:init() ---@diagnostic disable-line: missing-parameter
+
+    Runtime.Renderer.ViewportManager.light = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(1.0, 0.75, 0.5), 10.0)
+    Runtime.Renderer.ViewportManager.light:addNewShadow()
+
+    Dream:prepareRuntime()
+
+    Backend3D.SkyRenderer = require("Runtime.Renderer.Backend3D.SkyRenderer")
+    Dream.skyRenderer = function(transformProj)
+        Backend3D.SkyRenderer.TransformProj = transformProj
+
+        love.graphics.setDepthMode("less", true)
+        Backend3D.SkyRenderer.Draw()
+        love.graphics.clear(false, true, true)
+    end
+
+    Backend3D.Debug = Runtime.Things.Create("Drawable3D") {
+        Transform = Transform3D.FromPosition(0,-100,0),
+        Resource = "Internal/DefaultMeshes/cube.obj"
+    }
+end
 
 --[[
     ADORNS VS OBJECTS:
@@ -21,13 +45,6 @@ Dream.skyRenderer = require("Runtime.Renderer.Backend3D.RenderSky")
 
         Objects however are simply just drawable3d objects
 ]]
-
-function Backend3D.SetupDebug()
-    Backend3D.Debug = Runtime.Things.Create("Drawable3D") {
-        Transform = Transform3D.FromPosition(0,-100,0),
-        Resource = "Internal/DefaultMeshes/cube.obj"
-    }
-end
 
 -- Set the transform of the debug object
 function Backend3D.SetTransform(Transform)

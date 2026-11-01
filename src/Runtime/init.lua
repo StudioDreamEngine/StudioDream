@@ -44,8 +44,7 @@ function Runtime.PostInit()
 
     Runtime.Things.CreateApiDump()
 
-    Dream:prepareRuntime()
-    Runtime.Backend3D.SetupDebug()
+    Runtime.Backend3D.Init()
 
     Runtime.Project = require("Runtime.Project")
     Runtime.Project.SetupSignals()

@@ -287,18 +287,6 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 				--object transformation
 				shader:send("transform", task:getTransform())
 				
-				--sprite instancing specific
-				if hasUniform(shaderObject, "up") then
-					local v = mesh.vertical or 0
-					local right = vec3(cam.transform[1], cam.transform[5] * (1 - mesh.vertical), cam.transform[9]):normalize()
-					local up = vec3(cam.transform[2], cam.transform[6], cam.transform[10]):normalize()
-					up = (up * (1 - v) + vec3(0, v, 0)):normalize()
-					
-					shader:send("up", up)
-					shader:send("right", right)
-					shader:send("front", right:cross(up):normalize())
-				end
-				
 				--per task
 				shaderObject.pixelShader:perTask(shaderObject, task)
 				shaderObject.vertexShader:perTask(shaderObject, task)

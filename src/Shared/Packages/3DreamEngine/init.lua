@@ -218,11 +218,10 @@ end
 
 function lib:prepareRuntime()
 	--default objects
-	--lib.cubeObject = lib:loadObject(lib.root.."/objects/cube")
-	--lib.skyObject = lib:loadObject(lib.root .. "/objects/sky", { ignoreMissingMaterials = true })
 	printVerbose("Loaded Objects")
 
 	lib.cubeObject = Runtime.Backend3D.LoadMesh("Internal/DefaultMeshes/sky.obj", "sky")
+	lib.planeObject = Runtime.Renderer.Billboard.GetQuadMesh(1,1,0,0,1,1)
 	
 	--default textures
 	local pix = love.image.newImageData(2, 2)

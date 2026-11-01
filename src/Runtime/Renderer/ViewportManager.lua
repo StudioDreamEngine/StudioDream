@@ -2,25 +2,17 @@
 local ViewportManager = {}
 
 local RootViewport ---@class ViewportContainer
-local light
+ViewportManager.light = nil
 
 Rendered = 0
 
 function ViewportManager.Init()
-    Dream:setDefaultReflection(false)
-    Dream:setBloom(3)
-
-    Dream:init() ---@diagnostic disable-line: missing-parameter
+    ViewportManager.Viewports = {}
 
     LoveEvents.Resize:Connect(function(w,h)
         --printVerbose("Resize detected, Updating Window decorations...")
         RootViewport:SetSize(Pivot2D.FromOffset(w,h))
     end)
-
-    light = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(1.0, 0.75, 0.5), 10.0)
-    light:addNewShadow()
-
-    ViewportManager.Viewports = {}
 end
 
 -- Set the viewport that will be automatically presented to the main screen each frame
@@ -77,7 +69,7 @@ function ViewportManager.RenderViewport3D(Viewport)
             Dream:prepare()
 
             --Dream:draw(Runtime.Backend3D.GetAdorns())
-            Dream:addLight(light)
+            Dream:addLight(ViewportManager.light)
             Viewport:Present()
             Runtime.Backend3D.PresentAdorns()
             Runtime.Backend3D.Debug:AddTask() -- TODO: Add to adorns

@@ -2,7 +2,6 @@
 // Handles general support for ui effects applied by shaders (Gradients, etc), also deals with the detection of screen-space effects
 
 #ifdef VERTEX
-
 vec4 position(mat4 transform_projection, vec4 vertex_position)
 {
     // The order of operations matters when doing matrix multiplication.

@@ -1,5 +1,10 @@
 Rendering Pipeline rewrite:
-    
+    this is definitely gonna be a future thing, but why not brainstorm it now
+
+    however maybe we can take some pages out of how blender does it
+
+    We seperate rendering into three steps:
+
     
 Lighting Rewrite:
     Currently to implement:
