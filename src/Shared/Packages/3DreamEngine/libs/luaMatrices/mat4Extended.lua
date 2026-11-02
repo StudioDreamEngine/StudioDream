@@ -177,6 +177,16 @@ return function(matrix)
 				(self[3] ^ 2 + self[7] ^ 2 + self[11] ^ 2)
 		))
 	end
+
+	function methods:getBasis()
+		local m = matrix({
+			self[1], self[2], self[3], 0,
+			self[5], self[6], self[7], 0,
+			self[9], self[10], self[11], 0,
+			0, 0, 0, 1,
+		})
+		return m
+	end
 	
 	function methods:getTranslation()
 		return matrix.vec3({

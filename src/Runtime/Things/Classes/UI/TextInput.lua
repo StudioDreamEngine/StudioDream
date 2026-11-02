@@ -17,6 +17,7 @@ function TextInput:new()
     self.PlaceholderActive = false
 
     self.ClearWhenFocus = false
+    self.SinkHovering = true
 
     self.FocusEnd = Signal:New("TextInputFocus_End")
     self.FocusStart = Signal:New("TextInputFocus_Start")
