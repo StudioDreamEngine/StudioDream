@@ -8,13 +8,13 @@ return function(Credits)
             Content = {
                 "Bloctans - Basically made everything possible",
                 "Mikl - Studio Interface, Graphics, General Support, Mascots",
-                "Konadi - General Support"
+                "konadi - General Support"
             }
         },
         {
             Name = "Launcher",
             Content = {
-                "Konadi - Creator",
+                "konadi - Creator",
                 "Mikl - Windows zip export",
                 "Bloctans - General Improvements"
             }
