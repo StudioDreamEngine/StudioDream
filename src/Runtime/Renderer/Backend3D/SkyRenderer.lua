@@ -4,8 +4,9 @@ local celestialMesh = Dream.planeObject:getMesh()
 local shader = Dream:getBasicShader("sky_cube")
 local shader2 = Dream:getBasicShader("sky_celestial")
 
-local Sun = love.graphics.newImage("Assets/Sky/sun.png")
-local Moon = love.graphics.newImage("Assets/Sky/moon.png")
+local Sun
+local Moon
+local Sky
 
 local RenderSky = {}
 
@@ -27,6 +28,10 @@ local function sendWithTransform(transform, mesh, celestial)
 	--love.graphics.clear(false, true, true)
 end
 
+function RenderSky.SetSky(InSky)
+	Sky = love.graphics.newCubeImage(InSky)
+end
+
 function RenderSky.SetCelestials(Celestial,ImageData)
 	if Celestial == "Sun" then
 		Sun = ImageData
@@ -38,7 +43,7 @@ end
 function RenderSky.Draw()
 	RenderSky.Longitude = GlobalTick
 
-	skyMesh:setTexture(Dream.sky_texture)
+	skyMesh:setTexture(Sky)
 
 	local TimeMultiplier = math.abs(((-RenderSky.Time + 6) / 24) % 1)
 	local Longitude = TimeMultiplier * math.pi * 2
@@ -48,6 +53,7 @@ function RenderSky.Draw()
 		0.5 - 1: Transparent
 		0 - 0.1: Fade
 
+		(Old quadratic, ignore, its been replaced with a more understandable linear one)
 		-(4x-1.3)^2+1.5
 	]]
 	

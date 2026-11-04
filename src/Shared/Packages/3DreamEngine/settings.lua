@@ -233,27 +233,7 @@ end
 ---@param sky fun(transformProj: DreamMat4, camTransform: DreamMat4) @ a custom function
 ---@param exposure table @ only for HDRI skies, default 1.0
 function lib:setSky(sky, exposure)
-	if type(sky) == "table" then
-		--use constant color
-		self.sky_texture = sky
-	elseif not sky then
-		--disable sky
-		self.sky_texture = false
-	elseif type(sky) == "userdata" and sky:getTextureType() == "cube" then
-		--cubemap
-		self.sky_texture = sky
-		
-		--also sets reflections
-		--self:setDefaultReflection(sky)
-	elseif type(sky) == "userdata" and sky:getTextureType() == "2d" then
-		--HDRI
-		self.sky_texture = sky
-		self.sky_hdri_exposure = exposure or 1.0
-	elseif type(sky) == "function" then
-		self.sky_texture = sky
-	else
-		error("Unknown sky")
-	end
+	self.sky_texture = sky
 end
 function lib:getSky()
 	return self.sky_texture, self.sky_hdri_exposure

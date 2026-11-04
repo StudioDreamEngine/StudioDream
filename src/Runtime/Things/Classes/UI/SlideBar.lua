@@ -96,7 +96,7 @@ function SlideBar:HandleDrag(Position) -- Omg this was stressing, sometimes i di
     local Percentage = math.clamp(SidePosition / self.Parent.AbsoluteSize[self.SlideAxis], 0, 1)
     local Old = self.Percentage
 
-    print(MousePos,EdgePosition,SidePosition)
+    printVerbose(MousePos,EdgePosition,SidePosition)
 
     self.Percentage = Percentage
 

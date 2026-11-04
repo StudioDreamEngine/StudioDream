@@ -46,7 +46,7 @@ function GradientSequence.NewSequence(TableOf, Rotation)
     function SequenceObject.RemoveKeyByID(ID)
         for i,Key in pairs(Keys) do
             if Key[3] == ID then
-                Keys[3] = nil
+                Keys[i] = nil
             end
         end
     end

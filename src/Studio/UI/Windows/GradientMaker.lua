@@ -74,6 +74,7 @@ return function(GradientMaker)
             KeyObject.Slider:Destroy()
             table.remove(GradientMaker.KeysAdded,table.find(GradientMaker.KeysAdded,KeyObject))
             Sequence.RemoveKeyByID(KeyObject.KeyID)
+            Sequence.ProcessUniforms()
         end
 
         KeyObject.Slider.ChangedPercentage:Connect(function()
