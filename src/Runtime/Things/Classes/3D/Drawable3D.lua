@@ -34,7 +34,7 @@ end
 
 function Drawable3D:DefineAPI()
     Drawable3D.super.DefineAPI(self)
-
+    
     self.Proxy.Property("Vector3 Scale")--, "boolean Outline")
     self.Proxy.Property("Thing Material")
     self.Proxy.Property("Vector3 Velocity", "Vector3 RotationalVelocity", "boolean Collidable", "boolean Dynamic")

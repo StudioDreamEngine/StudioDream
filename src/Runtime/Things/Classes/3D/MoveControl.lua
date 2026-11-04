@@ -51,7 +51,7 @@ end
 
 function MoveControl:DefineAPI()
     MoveControl.super.DefineAPI(self)
-    
+    self.Proxy.Icon("ControllerMove")
     self.Proxy.MakeCreatable()
 end
 

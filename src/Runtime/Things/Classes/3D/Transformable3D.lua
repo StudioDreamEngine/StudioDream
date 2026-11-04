@@ -21,8 +21,10 @@ end
 function Transformable3D:DefineAPI()
     Transformable3D.super.DefineAPI(self)
 
+    self.Proxy.SetCategory("3D")
+
     self.Proxy.Property("Transform3D LocalTransform", "Transform3D Transform")
-    self.Proxy.Group("Transform","LocalTransform")
+    self.Proxy.Group("Transform","LocalTransform","Transform")
 end
 
 ---@return Environment

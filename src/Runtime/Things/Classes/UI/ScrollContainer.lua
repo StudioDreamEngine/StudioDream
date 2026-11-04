@@ -23,6 +23,8 @@ function ScrollContainer:new()
 
     self.PresentOnVisible = false
 
+    self.LinkedSlidebar = nil
+
     self.VisibilityEvent = self.PropagatedChange:Connect(function(IsVisible)
         if IsVisible and self.PresentOnVisible then
             self:Present()
@@ -87,7 +89,7 @@ function ScrollContainer:OnRemove()
     self.VisibilityEvent:Disconnect()
 end
 
-function ScrollContainer:Draw()
+--[[function ScrollContainer:Draw()
     ScrollContainer.super.Draw(self)
     
     --[[
@@ -97,7 +99,7 @@ function ScrollContainer:Draw()
         suffering through like what, the 25th stage of hell?
         
         - Bloctans
-    ]]
+    
     local TotalCanvasSize = self:GetCanvasSize() - self.AbsoluteSize.Y
 
     -- oh god...
@@ -120,7 +122,7 @@ function ScrollContainer:Draw()
 
     Runtime.Backend2D.SetColor(self.BarColor,1 - self.BarTransparency)
     love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - BarPivot, 5, BarSize,self.TrueRadiusOfCorners,self.TrueRadiusOfCorners)
-end
+end]]
 
 function ScrollContainer:SetAbsoluteSize(New)
     ScrollContainer.super.SetAbsoluteSize(self, New)

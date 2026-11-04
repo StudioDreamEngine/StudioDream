@@ -136,14 +136,31 @@ return function(InsertObject)
         end
     end
 
+    function InsertObject.AllInvisible(GroupDropdown)
+        local HasStuff = false
+
+        for _, v in pairs(GroupDropdown:GetChildren()) do
+            if v:IsA("Square") then
+                HasStuff = true
+                if v.Visible then
+                    return false
+                end
+            end
+        end
+        
+        return HasStuff
+    end
+
     function InsertObject.UpdateList()
         for _,GroupNode in pairs(InsertObject.ScrollContainer:GetChildren()) do
             if GroupNode.Dropdown then
                 for i,v in pairs(GroupNode.Dropdown:GetChildren()) do
                     if (v:IsA("Square")) then
-                        v:SetVisible((SearchText=='') and true or string.find(v.Name:lower(), InsertObject.SearchText:lower()))
+                        v:SetVisible((InsertObject.SearchText=='') and true or string.find(v.Name:lower(), InsertObject.SearchText:lower()))
                     end
                 end
+                
+                GroupNode:SetVisible(not InsertObject.AllInvisible(GroupNode.Dropdown))
             end
         end
     end

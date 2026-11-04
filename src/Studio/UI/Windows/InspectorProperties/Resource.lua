@@ -17,14 +17,14 @@ function Number:Update()
     local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
 
     local ToDisplay
-    local Thing = Selecting[1].Resource
+    local Thing = Selecting[1][PropertyName]
 
     if IsAllTheSame and Thing then
-        ToDisplay = Runtime.Resources.GetIdentifierFromID(Thing).Data.FileStem
+        local Data = Runtime.Resources.GetIdentifierFromID(Thing)
+        ToDisplay = Data.Data.FileStem
     else
         ToDisplay = "~"
     end
-
     self.Visual.Button:SetText(ToDisplay)
 end
 

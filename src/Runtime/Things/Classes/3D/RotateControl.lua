@@ -31,6 +31,8 @@ end
 function RotateControl:DefineAPI()
     RotateControl.super.DefineAPI(self)
     
+    self.Proxy.Icon("ControllerRot")
+
     self.Proxy.MakeCreatable()
 end
 

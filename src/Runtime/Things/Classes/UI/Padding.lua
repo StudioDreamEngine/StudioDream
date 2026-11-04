@@ -60,7 +60,7 @@ function Padding:LinkObject(Object)
     self:PadOn(Object)
 end
 
---[[function Padding:SetPaddingSpecific(Object)
+function Padding:SetPaddingSpecific(Object)
     self.PaddingSpecific = Object
     self:UnLinkAll()
 
@@ -77,7 +77,7 @@ end
     if Object:IsA("BaseGui") then
         self:LinkObject(Object)
     end
-end]]
+end
 
 function Padding:UnbindObject(_child)
     Padding.super.UnbindObject(self, _child)

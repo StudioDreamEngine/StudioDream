@@ -36,7 +36,7 @@ end
 
 function ScaleControl:DefineAPI()
     ScaleControl.super.DefineAPI(self)
-    
+    self.Proxy.Icon("ControllerScale")
     self.Proxy.MakeCreatable()
 end
 

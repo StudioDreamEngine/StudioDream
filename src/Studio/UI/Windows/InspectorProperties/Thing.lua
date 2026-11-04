@@ -54,11 +54,13 @@ function Number:CreateVisual()
         Parent = self.Property.Visual.Value,
     })
 
+
+
     Visual.Button.Clicked:Connect(function(IsEnter)
          if not SelectionManager.ObjectPicker then
             SelectionManager.ObjectPicker = Studio.Editor3D.Selecting[1]
             Runtime.Cursor.ChangeCursor("HoldingObj")
-
+            Visual.Clicked = true
             Visual.Button:AddPlaceholderSignal(SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
                 Runtime.Things.SetPropertyMassive(Selecting, PropertyName, NewThing)
                 self:Update()
@@ -77,7 +79,7 @@ function Number:CreateVisual()
 end
 
 function Number:Destroy()
-    if SelectionManager.ObjectPicker then
+    if self.Visual.Clicked and SelectionManager.ObjectPicker then
         SelectionManager.ObjectPicker = nil
         Runtime.Cursor.ChangeCursor("Main")
     end

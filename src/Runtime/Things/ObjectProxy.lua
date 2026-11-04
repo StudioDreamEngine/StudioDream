@@ -75,6 +75,21 @@ return { new = function()
         ObjectProxy.Description = Desc
     end
 
+    function ObjectProxy.RemoveProperty(...)
+        for _,Name in pairs({...}) do
+            local FoundGroup = ObjectProxy.FindInGroup(Name)
+            ObjectProxy.Types[Name] = nil
+            ObjectProxy.Accessible[Name] = nil
+            ObjectProxy.Serializable[Name] = nil
+            if ObjectProxy.Attributes[Name] then
+                table.clear(ObjectProxy.Attributes[Name])
+            end
+            if FoundGroup then
+                table.remove(ObjectProxy.Groups[FoundGroup],table.find(ObjectProxy.Groups[FoundGroup],Name))
+            end
+        end
+    end
+
     -- Add a property that can be serialized and used by scripts
     function ObjectProxy.Property(...)
         ObjectProxy.PropertyAccess(...)
@@ -112,6 +127,16 @@ return { new = function()
     function ObjectProxy.PropertySerialize(...)
         for i, v in pairs({...}) do
             ProcessProperty(ObjectProxy.Serializable, v)
+        end
+    end
+
+    function ObjectProxy.FindInGroup(Property)
+        for GroupName,GroupTable in pairs(ObjectProxy.Groups) do
+            for _,Name in pairs(GroupTable) do
+                if Name == Property then
+                    return GroupName
+                end
+            end
         end
     end
 

@@ -11,7 +11,7 @@ local RenderSky = {}
 
 RenderSky.TransformProj = nil
 
-RenderSky.Time = 0
+RenderSky.Time = 7
 RenderSky.Latitude = math.pi/3
 RenderSky.Ambient = 0.25
 
@@ -25,6 +25,14 @@ local function sendWithTransform(transform, mesh, celestial)
 
 	love.graphics.draw(mesh)
 	--love.graphics.clear(false, true, true)
+end
+
+function RenderSky.SetCelestials(Celestial,ImageData)
+	if Celestial == "Sun" then
+		Sun = ImageData
+	else
+		Moon = ImageData
+	end
 end
 
 function RenderSky.Draw()
@@ -49,7 +57,7 @@ function RenderSky.Draw()
 	love.graphics.setColor(SkyLight,SkyLight,SkyLight,1)
 	sendWithTransform(nil, skyMesh)
 
-	RenderSky.Time = GlobalTick*4
+	--RenderSky.Time = GlobalTick*4
 
 	local SunTransform = Transform3D.FromAngle(0, 0, Longitude) * Transform3D.FromAngle(0, -RenderSky.Latitude, 0) * Transform3D.FromPosition(0,0,0.2) * Transform3D.FromAngle(0, 0, -Longitude)
 	local MoonTransform = Transform3D.FromAngle(0, 0, Longitude) * Transform3D.FromAngle(0, RenderSky.Latitude, 0) * Transform3D.FromPosition(0,0,0.2) * Transform3D.FromAngle(0, 0, -Longitude)

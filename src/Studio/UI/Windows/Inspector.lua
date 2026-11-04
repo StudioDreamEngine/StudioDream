@@ -86,6 +86,11 @@ return function(Inspector)
 
         return Property
     end
+    
+    function Inspector.GoUp()
+        Inspector.Scroll.ScrollPosition = -200
+        Inspector.Scroll:SetScroll(0)
+    end
 
     function Inspector.RenderGroup(GroupName)
         local Group = {}
@@ -147,6 +152,7 @@ return function(Inspector)
         local CleanTable = {}
         local HandlingThings = Studio.Editor3D.Selecting
         Inspector.Clean()
+        Inspector.GoUp()
 
         for _,Thing in pairs(HandlingThings) do
             for GroupName, GroupData in pairs(Thing.Proxy.Groups) do
@@ -195,6 +201,7 @@ return function(Inspector)
                         v:SetVisible((Inspector.SearchText=='') and true or string.find(v.Name:lower(), Inspector.SearchText:lower()))
                     end
                 end
+                
                 GroupNode:SetVisible(not Inspector.AllInvisible(GroupNode.Dropdown))
             end
         end
@@ -224,6 +231,7 @@ return function(Inspector)
 
         Inspector.SearchBar.SearchBar.Typed:Connect(function()
             Inspector.SearchText = Inspector.SearchBar.SearchBar.Text
+            Inspector.Scroll:SetScroll(0)
             Inspector.UpdateList()
         end)
 
