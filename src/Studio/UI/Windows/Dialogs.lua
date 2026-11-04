@@ -15,12 +15,16 @@ return function(Dialogs)
         end
 
         local Dialog = Dialogs.Types[Name]
-        local DialogObject = Dialog.Init(Dialogs.Container,Info or {},Dialogs.FullContainer)
+        local DialogObject = Dialog.Init(Dialogs.Container,Info or {},Dialogs)
         DialogObject:Init()
 
         Dialogs.CurrentlyUsing = DialogObject
 
         return DialogObject
+    end
+
+    function Dialogs.Close()
+        Studio.Layout.ToggleWindow(Dialogs, false)
     end
 
     function Dialogs.Update(dt)

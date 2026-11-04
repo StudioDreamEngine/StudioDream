@@ -59,7 +59,6 @@ return function(InsertObject)
             CornerRadius = 8,
             BackgroundColor = "Outline",
             Alignment = Enum.Alignment.Center,
-            
             Parent = InsertObject.Container,
             ClearWhenFocus = true,
             Placeholder = "Search a thing class name!"

@@ -13,7 +13,7 @@ StudioDream is an engine that is intended to take the accessibility of ROBLOX, a
 ![image](https://github.com/StudioDreamEngine/StudioDream/blob/main/src/Assets/Thumbnails/Latest.png)
 
 # NOTICE
-Despite StudioDream being under the EPL-2.0 License, We are strongly against the usage of AI or LMMs in any way, shape or form either contributing to this project, or being trained off of this project.
+Despite StudioDream being under the EPL-2.0 License, We are strongly against the usage of AI or LLMs in any way, shape or form either contributing to this project, or being trained off of this project.
 
 Any pull requests where LLMs have been used will be immediately closed.
 

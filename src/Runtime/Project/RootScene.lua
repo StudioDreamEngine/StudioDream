@@ -61,7 +61,7 @@ function RootScene.CreateScene(Name)
     local Project = Runtime.Project
     local IdentifierID = Runtime.Resources.GetOrCreateIdentifierID(Name..".sds")
                             
-    local Scene = Runtime.Things.CreateTemplate("Environment")
+    local Scene = Runtime.Things.CreateTemplate("Enviornment")
     Scene.Scene = IdentifierID
     
     Project.Scenes.SaveScene(Scene)

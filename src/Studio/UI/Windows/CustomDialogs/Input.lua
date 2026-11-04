@@ -39,16 +39,16 @@ function Input.Init(Parented,Info,Window)
             })
             self.Objects.ApplyButton.Clicked:Connect(function()
                 Info.OnEnd(self,self.Objects.Input.Text)
-                Window:SetVisible(false)
+                Window.Close()
             end)
         else
             self.Objects.Input.FocusEnd:Connect(function(IsEnter)
                 if Info.FilterEnter and IsEnter then
                     Info.OnEnd(self,self.Objects.Input.Text)
-                    Window:SetVisible(false)
+                    Window.Close()
                 else
                     Info.OnEnd(self,self.Objects.Input.Text)
-                    Window:SetVisible(false)
+                    Window.Close()
                 end
             end)
         end

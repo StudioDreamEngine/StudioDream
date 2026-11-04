@@ -175,6 +175,9 @@ function StudioLayout.ToggleWindow(Window, Toggle)
             table.removeValue(WindowStack, Window.Namespace)
         end
 
+        print(WindowStack)
+        print(debug.traceback())
+
         Studio.Components.ToggleFade(table.length(WindowStack) > 0, StudioLayout.ModalClick)
     end
 

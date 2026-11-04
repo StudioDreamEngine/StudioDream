@@ -14,7 +14,7 @@ function Option.Init(Parented,Info,Window)
             })
             self.Objects[Name].Clicked:Connect(function()
                 Function(self)
-                Window:SetVisible(false)
+                Window.Close()
             end)
         end
 

@@ -1,16 +1,6 @@
 local Things = Runtime.Things
 local Templates = {}
 
-Templates.Entries = {
-    Root = function()
-        Templates.RootTemplate(Things.Root)
-    end,
-    Enviornment = Templates.EnvTemplate,
-    Material = function()
-        return Templates.DefaultMaterial
-    end
-}
-
 function Templates.GetTemplate(TemplateType)
     return Templates.Entries[TemplateType]()
 end
@@ -76,5 +66,15 @@ function Templates.CreateRoot()
     Runtime.Renderer.ViewportManager.SetRootViewport(Viewport) -- Indexing kills me but whatever
     return Root, Viewport
 end
+
+Templates.Entries = {
+    Root = function()
+        Templates.RootTemplate(Things.Root)
+    end,
+    Enviornment = Templates.EnvTemplate,
+    Material = function()
+        return Templates.DefaultMaterial
+    end
+}
 
 return Templates
