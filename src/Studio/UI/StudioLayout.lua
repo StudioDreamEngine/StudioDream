@@ -391,7 +391,7 @@ function StudioLayout.CreateLayout()
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
         Layer = 500,
-        Closable = true,
+        --Closable = true,
         Shadows = true,
         Modal = true,
         Name = "Gradient Maker",
@@ -410,7 +410,7 @@ function StudioLayout.CreateLayout()
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.ProjectConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.StudioConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.Credits"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.GradientMaker"), false)
+    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.GradientMaker"), true)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.ColorPicked"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.Dialogs"), false)
 

@@ -74,7 +74,7 @@ function SlideBar:SetPercentage(NewNumber)
         local EdgePosition=self.Parent.AbsolutePosition - (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 0
         local SidePosition = self.Parent.AbsolutePosition + (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 1
 
-        if self.SquareAxis ~= "X" then
+        if self.SlideAxis ~= "X" then
             Percentage = Percentage + 0.25
         end
 

@@ -176,6 +176,7 @@ return function(Inspector)
         end
 
         table.clear(CleanTable)
+        Inspector.UpdateList()
     end
 
     function Inspector.AllInvisible(GroupDropdown)

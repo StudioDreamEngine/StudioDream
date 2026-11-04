@@ -87,6 +87,7 @@ local Meta = { -- I have no idea how to organize this mess
         return (t1[1] == t2[1]) and (t1[2] == t2[2])
     end,
     __add = function (t1, t2)
+        assert(Utils.TypeOf(t2) == "Vector2" or Utils.TypeOf(t2) == "number","Tried to add Vector2 with ".. Utils.TypeOf(t2) .." invalid type")
         if type(t1) == "number" then
             return Vector2.new(t1 + t2[1], t1 + t2[2])
         elseif type(t2) == "number" then
@@ -97,6 +98,7 @@ local Meta = { -- I have no idea how to organize this mess
         end
     end,
     __sub = function (t1, t2)
+        assert(Utils.TypeOf(t2) == "Vector2" or Utils.TypeOf(t2) == "number","Tried to subtract Vector2 with ".. Utils.TypeOf(t2) .." invalid type")
         if type(t2) == "number" then
             return Vector2.new(t1[1] - t2, t1[2] - t2)
         elseif type(t1) == "number" then
@@ -111,7 +113,7 @@ local Meta = { -- I have no idea how to organize this mess
     end,
     __mul = function (t1, t2)
         t2 = t2 or 1
-
+        assert(Utils.TypeOf(t2) == "Vector2" or Utils.TypeOf(t2) == "number","Tried to multiply Vector2 with ".. Utils.TypeOf(t2) .." invalid type")
         if type(t2) == "number" then
             return Vector2.new(t1[1] * t2, t1[2] * t2)
         elseif type(t1) == "number" then
@@ -122,6 +124,7 @@ local Meta = { -- I have no idea how to organize this mess
         end
     end,
     __div = function (t1, t2)
+        assert(Utils.TypeOf(t2) == "Vector2" or Utils.TypeOf(t2) == "number","Tried to divide Vector2 with ".. Utils.TypeOf(t2) .." invalid type")
         if type(t2) == "number" then
             return Vector2.new(t1[1] / t2, t1[2] / t2)
         else

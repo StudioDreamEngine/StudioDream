@@ -127,6 +127,7 @@ local Meta = { -- I have no idea how to organize this mess
         return Vector3.new(-t.X,-t.Y,-t.Z)
     end,
     __add = function (t1, t2)
+        assert(Utils.TypeOf(t2) == "Vector3" or Utils.TypeOf(t2) == "number","Tried to add Vector3 with "..Utils.TypeOf(t2).." invalid type")
         if type(t1) == "number" then
             return Vector3.new(t1 + t2.X, t1 + t2.Y, t1 + t2.Z, t2.W)
         elseif type(t2) == "number" then
@@ -136,6 +137,8 @@ local Meta = { -- I have no idea how to organize this mess
         end
     end,
     __sub = function (t1, t2)
+        
+        assert(Utils.TypeOf(t2) == "Vector3" or Utils.TypeOf(t2) == "number","Tried to subtract Vector3 with "..Utils.TypeOf(t2).." invalid type")
         if type(t2) == "number" then
             return Vector3.new(t1.X - t2, t1.Y - t2, t1.Z - t2, t2.W)
         else
@@ -146,6 +149,7 @@ local Meta = { -- I have no idea how to organize this mess
         return math.dotround(t.X)..", "..math.dotround(t.Y)..", "..math.dotround(t.Z)
     end,
     __mul = function (t1, t2)
+        assert(Utils.TypeOf(t2) == "Vector3" or Utils.TypeOf(t2) == "number","Tried to multiply Vector3 with "..Utils.TypeOf(t2).." invalid type")
         if type(t2) == "number" then
             return Vector3.new(t1.X * t2, t1.Y * t2, t1.Z * t2, t1.W)
         elseif type(t1) == "number" then
@@ -155,6 +159,7 @@ local Meta = { -- I have no idea how to organize this mess
         end
     end,
     __div = function (t1, t2)
+        assert(Utils.TypeOf(t2) == "Vector3" or Utils.TypeOf(t2) == "number","Tried to divide Vector3 with "..Utils.TypeOf(t2).." invalid type")
         if type(t2) == "number" then
             return Vector3.new(t1.X / t2, t1.Y / t2, t1.Z / t2)
         elseif type(t1) == "number" then

@@ -75,10 +75,18 @@ function StudioCamera.Update(dt)
         else
             CameraFocus = CameraFocus + Direction
         end
-
-        --(CameraTransform.Up * MouseDelta.Y/200) - 
+        
         CameraPosition = CameraPosition + Direction
 
+        local CameraDifference = CameraFocus - CameraPosition
+        local ClampedY = math.clamp(CameraDifference.Y, -0.98, 0.98)
+
+        local Horizontal = Vector3.new(CameraDifference.X, 0, CameraDifference.Z)
+        if Horizontal:Magnitude() > 0 then -- This part was hell to do omg i never used this much of my brain in my life
+            Horizontal = Horizontal:Unit() * math.sqrt(1 - ClampedY * ClampedY)
+        end
+
+        CameraFocus = CameraPosition + Vector3.new(Horizontal.X, ClampedY, Horizontal.Z)
         CameraTransform = Transform3D.LookAt(CameraPosition, CameraFocus)
         Camera:SetTransform(CameraTransform)
     end)

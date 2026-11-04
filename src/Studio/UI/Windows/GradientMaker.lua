@@ -10,6 +10,8 @@ return function(GradientMaker)
     
     GradientMaker.KeysAdded = {}
 
+    GradientMaker.LastKey = nil
+
     function GradientMaker.ClearKeys()
         table.clear(GradientMaker.KeysAdded)
         Sequence = GradientSequence.NewSequence({}, 0)
@@ -23,6 +25,10 @@ return function(GradientMaker)
         end
     end
 
+    function GradientMaker.SetLastKey(Key)
+        GradientMaker.LastKey = Key
+    end
+
     function GradientMaker.AddKey(InicialTime,ColorAdded,Active)
         local KeyObject = {}
 
@@ -32,6 +38,7 @@ return function(GradientMaker)
         end
 
         KeyObject.KeyID = Sequence.AddKey(GradientSequence.NewKey(InicialTime,ColorAdded))
+        KeyObject.RawID = Sequence.GetKeyByID(KeyObject.KeyID)
 
         KeyObject.Slider = Studio.Components.CreateStyle("SlideBar",{
             Size = Pivot2D.FromScale(.03,.15),
@@ -45,7 +52,7 @@ return function(GradientMaker)
             --SlideAxis = Enum.SlideAxis.Y,
         })
 
-        Studio.Components.CreateStyle("Image2D",{
+        KeyObject.ArrowChoose = Studio.Components.CreateStyle("Image2D",{
             Size = Pivot2D.FromScale(1,1),
             Pivot = Vector2.new(0.5,1),
             Position = Pivot2D.FromScale(0.5,1),
@@ -56,6 +63,19 @@ return function(GradientMaker)
             --SlideAxis = Enum.SlideAxis.Y,
         })
 
+        function KeyObject.ChangeColor(NewColor)
+            Sequence[KeyObject.RawID][2] = NewColor
+            KeyObject.ArrowChoose.ForegroundColor = NewColor
+        end
+
+        function KeyObject.Destroy()
+            if not Active then return end
+            
+            KeyObject.Slider:Destroy()
+            table.remove(GradientMaker.KeysAdded,table.find(GradientMaker.KeysAdded,KeyObject))
+            Sequence.RemoveKeyByID(KeyObject.KeyID)
+        end
+
         KeyObject.Slider.ChangedPercentage:Connect(function()
             Sequence.GetKeyByID(KeyObject.KeyID)[1] = KeyObject.Slider.Percentage
             Sequence.ProcessUniforms()
@@ -63,10 +83,16 @@ return function(GradientMaker)
             GradientButton:SetGradient(Sequence)
         end)
 
+        KeyObject.StartConnect = KeyObject.Slider.StartHolding:Connect(function()
+            GradientMaker.SetLastKey(KeyObject)
+        end)
+
         KeyObject.Slider:SetPercentage(InicialTime)
         GradientButton:SetGradient(Sequence)
 
         table.insert(GradientMaker.KeysAdded,KeyObject)
+
+        GradientMaker.SetLastKey(KeyObject)
 
         return KeyObject
     end
@@ -98,25 +124,21 @@ return function(GradientMaker)
             HoverColorMultiplier = 1,
         })
         local PropertyList = Studio.Components.PropertyList(Pivot2D.FromScale(0.4,0.2), GradientMaker.Container)
-        local PropertyVal = Studio.Components.PropertyValue.New(PropertyList, {
-            Title = "Color",
-            Type = "Input",
-            Translate = "Color",
-            --StyleSelect = true,
-            UserChange = function(InfoGiven)
-                GradientMaker.CurrentColor = InfoGiven
-            end,
-           ReturnDisplay = function(Object, Same)
-             --SquareColor.BackgroundColor = Same and Object[Info.Name] or Color.new(1)
-            
-               return GradientMaker.CurrentColor
-            end
-        },{
-            ValueContainer = "Outline",
-            Container = "Secondary"
+        
+        GradientMaker.DeleteButton = Studio.Components.CreateButtonStyle({
+            Position = Pivot2D.FromScale(0.8,0.9),
+            Size = Pivot2D.FromScale(0.2,.1),
+            Parent = GradientMaker.Container,
+            Text = "Delete"
         })
-        PropertyVal.UI.Container:SetPosition(Pivot2D.FromScale(0.5,1))
-        PropertyVal.UI.Container:SetPivot(Vector2.new(0.5,1))
+
+        GradientMaker.DeleteButton.Clicked:Connect(function()
+            if GradientMaker.LastKey then
+                GradientMaker.LastKey.Destroy()
+                GradientMaker.LastKey = nil
+            end
+        end)
+
         GradientMaker.StartGradientColorHandle()
     end
 
