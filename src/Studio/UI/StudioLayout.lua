@@ -105,6 +105,38 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
     return Windows
 end
 
+function StudioLayout.GetContextOf(Size,Pos)
+    return {
+        Up = Pos.Y+Size.Y/2,
+        Down = Pos.Y-Size.Y/2,
+        Left = Pos.X+Size.X/2,
+        Right = Pos.X-Size.X/2,
+    }
+end
+
+function StudioLayout.GetAreaContext(BaseGui)
+    print("Hellow!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+    local RootScreen = Runtime.Renderer.ViewportManager.GetRootViewport()
+    local ScreenContext = StudioLayout.GetContextOf(RootScreen.AbsoluteSize,RootScreen.AbsolutePosition)
+    local ObjectContext = StudioLayout.GetContextOf(BaseGui.AbsoluteSize,BaseGui.AbsolutePosition)
+
+    local Results = {}
+
+    for SideS,SidePosS in pairs(ScreenContext) do
+        for Side,SidePos in pairs(ObjectContext) do
+            print(SideS,SidePosS,Side,SidePos)
+            if SideS==Side and SidePosS<SidePos then
+                table.insert(Results,{Side,SidePos})
+            end
+        end
+    end
+
+    print(Result)
+
+    return Results
+end
+
 function StudioLayout.GetMouseContext(Context)
     local MousePosition = Things.RenderRoot.MousePosition
     local ContextSize = Context.AbsoluteSize

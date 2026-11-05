@@ -137,6 +137,31 @@ function StockVisuals:CreateProperty(Parent,MoreInfo)
     return Object
 end
 
+function StockVisuals:CreateInput(Parent,MoreInfo)
+    local Input = Studio.Components.CreateStyle("TextInput",{
+        Placeholder = MoreInfo.Placeholder or "...",
+        Size = MoreInfo.Size,
+        Position = MoreInfo.Position,
+        Parent = Parent,
+        Pivot = MoreInfo.Pivot or Vector2.new(0.5,0.5),
+        ForegroundColor = MoreInfo.ForegroundColor or "Text",
+        BackgroundColor = MoreInfo.BackgroundColor or "Secondary",
+        OutlineColor = MoreInfo.OutlineColor or "Select",
+        BackgroundTransparency = MoreInfo.BackgroundTransparency or 1,
+        CornerRadius = MoreInfo.CornerRadius or 5,
+        Alignment = MoreInfo.Alignment or Enum.Alignment.Center,
+    })
+
+    --[[Input.FocusStart:Connect(function()
+        Input:SetOutlineSize(2)
+    end)
+    Input.FocusEnd:Connect(function()
+        Input:SetOutlineSize(0)
+    end)]]
+
+    return Input
+end
+
 function StockVisuals:CreateBoolean(Parent)
     return Studio.Components.CreateStyle("ImageButton",{
         Resource = "Internal/Studio/Boolean.png",

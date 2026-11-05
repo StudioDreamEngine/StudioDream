@@ -31,10 +31,12 @@ function PhysicsPosition:Update(dt)
     self.CurrentEnvironment = self:FindFirstAncestorOfClass("Environment")
 
     if self.Parent:IsA("Drawable3D") and self.CurrentEnvironment then
-	    local Offset = self.Position - self.Parent.Transform.Position
-	    local Spring = Offset * self.Stiffness - self.Parent.Velocity * self.Damping
+        local Parent = self.Parent
+        local Offset = self.Position - Parent.Transform.Position
+        local Spring = Offset * self.Stiffness - Parent.Velocity * self.Damping
 
-	    self.Force = (Spring+self.CurrentEnvironment.Gravity:Abs()) * self.Parent.Mass
+        self.Force = (Spring + self.CurrentEnvironment.Gravity:Abs()) * Parent.Mass
+        Parent.Velocity = Parent.Velocity + (self.Force / Parent.Mass) * dt
     end
 end
 

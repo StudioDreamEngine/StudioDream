@@ -2,7 +2,8 @@
 local ViewportManager = {}
 
 local RootViewport ---@class ViewportContainer
-ViewportManager.light = nil
+ViewportManager.SunLight = nil
+ViewportManager.MoonLight = nil
 
 Rendered = 0
 
@@ -22,6 +23,10 @@ end
 
 function ViewportManager.GetRendered()
     return Rendered
+end
+
+function ViewportManager.GetRootViewport()
+    return RootViewport
 end
 
 -- Create a canvas object
@@ -69,7 +74,9 @@ function ViewportManager.RenderViewport3D(Viewport)
             Dream:prepare()
 
             --Dream:draw(Runtime.Backend3D.GetAdorns())
-            Dream:addLight(ViewportManager.light)
+            Dream:addLight(ViewportManager.SunLight)
+            Dream:addLight(ViewportManager.MoonLight)
+
             Viewport:Present()
             Runtime.Backend3D.PresentAdorns()
             Runtime.Backend3D.Debug:AddTask() -- TODO: Add to adorns

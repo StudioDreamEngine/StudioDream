@@ -18,6 +18,9 @@ function Sky:new()
     self.Time = 7
     self.Latitude = math.pi/3
 
+    self.SunColor = Color.new(1.0, 0.75, 0.5)
+    self.MoonColor = Color.new(0.753, 0.863, 1)
+
     self.DefaultSky = Runtime.Resources.GetIdentifierFromID("Internal/Sky/sky.png")
     self.DefaultMoon = Runtime.Resources.GetIdentifierFromID("Internal/Sky/moon.png")
     self.DefaultSun = Runtime.Resources.GetIdentifierFromID("Internal/Sky/sun.png")
@@ -34,11 +37,19 @@ function Sky:DefineAPI()
 
     self.Proxy.SetCategory("Lighting")
 
-    self.Proxy.Property("Resource Sky","Resource Sun","Resource Moon","number Time","number Latitude")
-    self.Proxy.Group("Resources","Sky","Sun","Moon")
+    self.Proxy.Property("Resource Sky","Resource Sun","Resource Moon","number Time","number Latitude","Color SunColor","Color MoonColor")
+    self.Proxy.Group("Resources","Sky","Sun","Moon","SunColor","MoonColor")
     self.Proxy.Group("Time","Time","Latitude")
     self.Proxy.Icon("Sky")
     self.Proxy.MakeCreatable()
+end
+
+function Sky:SetSunColor(NewColor)
+    Runtime.Renderer.ViewportManager.SunLight:setColor(NewColor.R,NewColor.G,NewColor.B)
+end
+
+function Sky:SetMoonColor(NewColor)
+    Runtime.Renderer.ViewportManager.MoonLight:setColor(NewColor.R,NewColor.G,NewColor.B)
 end
 
 function Sky:UpdateValues()

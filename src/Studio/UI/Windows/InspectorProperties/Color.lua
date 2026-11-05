@@ -47,10 +47,8 @@ function Color:CreateVisual()
     })
 
     Visual.Button.Clicked:Connect(function()
-        print("Helo")
         Studio.Layout.CallHandle("Windows.ColorPicked", "RequestApply", ColorOfThings, function(ReturnedColor)
             Runtime.Things.SetPropertyMassive(Selecting, PropertyName, ReturnedColor)
-            print(ReturnedColor)
             Visual.Button:SetText(tostring(ReturnedColor))
             Visual.ColorSquare.BackgroundColor = ReturnedColor
         end)

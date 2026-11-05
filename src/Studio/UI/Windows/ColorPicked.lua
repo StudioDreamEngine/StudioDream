@@ -73,7 +73,6 @@ return function(ColorPicked)
         end
 
         CreateCorObj.Inputer.FocusEnd:Connect(function()
-            print("wow")
             local ColorTyped = CreateCorObj.Inputer.Text
             if Type == "RGB" then
                 ColorPicked.SetByColor(Color.FromRGB(Color.RGBFromString(ColorTyped)))
@@ -94,7 +93,6 @@ return function(ColorPicked)
 
     function ColorPicked.RequestApply(ColorPreset,SelectedColorFunc)
         ColorPicked.ReturnForRequest = nil
-        print("hello")
         Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.ColorPicked"),true)
         if ColorPreset then
             ColorPicked.SetByColor(ColorPreset)
@@ -196,7 +194,6 @@ return function(ColorPicked)
         })
 
         ColorPicked.ColorHVS.Clicked:Connect(function()
-            print("hi")
             ColorPicked.RainbowDragger.Holding = true
             ColorPicked.RainbowDragger:HandleDrag(Runtime.Backend2D.GetMousePosition())
         end)

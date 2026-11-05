@@ -14,12 +14,11 @@ function Input.Init(Parented,Info,Window)
             Alignment = Enum.Alignment.TopCenter
         })
 
-        self.Objects.Input = Studio.Components.CreateStyle("TextInput", {
+        self.Objects.Input = Studio.Components.StockVisuals:CreateInput(Parented,{
             Size = Pivot2D.FromScale(0.95,0.2),
             Position = Pivot2D.FromScale(0.5,0.96),
             Pivot = Vector2.new(0.5,1),
             Placeholder = Info.Placeholder or "...",
-            Parent = Parented,
             ForegroundColor = "Text",
             BackgroundTransparency = 0,
             BackgroundColor = "Outline",

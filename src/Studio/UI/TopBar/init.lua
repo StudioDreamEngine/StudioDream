@@ -28,6 +28,7 @@ return function(TopBar)
             Parent = TopBar.TabsMenu,
             Size = Pivot2D.FromScale(0.1,0.8),
             Name = TabName,
+            CornerRadius = 100,
             Clicked = function()
                 TopBar.ChangeTab(TabName)
             end

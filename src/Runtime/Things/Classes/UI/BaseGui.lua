@@ -226,7 +226,6 @@ end
 
 function BaseGui:SetColor(ColorMode, Multiplier)
     local TransparencyValue = (1 - self[ColorMode.."Transparency"]) * (1-self.Transparency)
-
     Runtime.Backend2D.SetColor(self[ColorMode.."Color"] * (Multiplier and self[Multiplier.."Multiplier"] or 1), TransparencyValue)
 end
 

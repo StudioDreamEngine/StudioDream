@@ -74,9 +74,9 @@ function SlideBar:SetPercentage(NewNumber)
         local EdgePosition=self.Parent.AbsolutePosition - (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 0
         local SidePosition = self.Parent.AbsolutePosition + (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 1
 
-        if self.SlideAxis ~= "X" then
+        --[[if self.SlideAxis ~= "X" then
             Percentage = Percentage + 0.25
-        end
+        end]]
 
         local PositionConverted = EdgePosition:Lerp(SidePosition, Percentage)
         self:HandleDrag(PositionConverted)
@@ -87,11 +87,11 @@ function SlideBar:HandleDrag(Position) -- Omg this was stressing, sometimes i di
     local MousePos = Position[self.SlideAxis]
 
     local EdgePosition
-    if self.SlideAxis == "X" then
+    --if self.SlideAxis == "X" then
         EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * self.Parent.Pivot[self.SlideAxis])
-    else
+    --[[else
         EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * (0.74-self.Parent.Pivot[self.SlideAxis]))
-    end
+    end]]
     local SidePosition = MousePos - EdgePosition
     local Percentage = math.clamp(SidePosition / self.Parent.AbsoluteSize[self.SlideAxis], 0, 1)
     local Old = self.Percentage

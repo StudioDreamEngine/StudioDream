@@ -6,7 +6,7 @@ local Updators = {}
 
 function Components.CreateButton(Name, Properties)
     Properties.Text = Name
-    Properties.CornerRadius = 5
+    Properties.CornerRadius = Properties.CornerRadius or 5
     Properties.Alignment = Vector2.new(0.5,0.5)
 
     ---@class TextButton
