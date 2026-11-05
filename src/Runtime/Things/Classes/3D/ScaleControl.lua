@@ -24,7 +24,7 @@ function ScaleControl:OnStart()
     self.InitalPos = self.Adornee.Position
 
     self.InitalOffset = self:GetPlane()
-    self.NormalSide = self.Down.Thing
+    self.NormalSide = self.Down.Ref
 end
 
 function ScaleControl:OnChange()

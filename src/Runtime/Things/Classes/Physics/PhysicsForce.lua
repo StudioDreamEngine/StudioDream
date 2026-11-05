@@ -30,6 +30,7 @@ function PhysicsForce:Update(dt)
         if (not Body) then return end
 
         Body:applyCentralForce((self.Force/self.Parent.Mass):ToBullet())
+        Body:activate()
     end
 end
 

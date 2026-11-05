@@ -6,9 +6,7 @@ function RuntimeService.IsRunning() return Running end
 
 -- Starts any scripts within the project, and also sends an event that can be used by other stuff in the runtime
 -- This is called manually by the client
-function RuntimeService.StartActivity()
-    printVerbose("RuntimeService.StartActivity was called, note this is CANNOT be reversed without re-loading the project.")
-
+function RuntimeService.Start()
     Running = true
     Runtime.ScriptUtil.StartScripts()
 
@@ -16,7 +14,7 @@ function RuntimeService.StartActivity()
 end
 
 function RuntimeService.Stop()
-    if Runtime.Project.LoadingProject then return end
+    if Runtime.Project.LoadingProject then print("RuntimeService.Stop() called when project is being loaded") return end
 
     Running = false
     RuntimeService.Quitting:Invoke()

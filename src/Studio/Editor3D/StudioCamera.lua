@@ -44,7 +44,7 @@ function StudioCamera.Init()
 end
 
 function StudioCamera.Update(dt)
-    if RuntimeService.IsRunning() then return end
+    --if RuntimeService.IsRunning() then return end
 
     local sucess, error = pcall(function()
         local Camera = Runtime.Things.Root:GetCamera()

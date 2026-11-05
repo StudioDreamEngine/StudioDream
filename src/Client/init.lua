@@ -53,7 +53,7 @@ function Client.Init()
 
     -- 
     Runtime.Project.LoadedProject:Connect(function()
-        RuntimeService.StartActivity()
+        RuntimeService.Start()
     end)
 
     -- No idea why i do this

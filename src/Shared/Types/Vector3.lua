@@ -28,6 +28,10 @@ function Methods:Copy()
     return Vector3.new(self.X,self.Y,self.Z)
 end
 
+function Methods:Angle(SecondVector)
+    return math.acos(self:Dot(SecondVector))
+end
+
 function Methods:Lerp(SecondVector, Alpha)
     return Vector3.new(math.lerp(self.X, SecondVector.X, Alpha),math.lerp(self.Y, SecondVector.Y, Alpha),math.lerp(self.Z, SecondVector.Z, Alpha))
 end

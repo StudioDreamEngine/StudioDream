@@ -78,7 +78,7 @@ function ProjectManager.RunStudioProject()
     --Runtime.Project.SaveTo("")
     Runtime.Project.Save()
     Studio.EditorUI.Playtest.StartPlayline()
-    RuntimeService.StartActivity()
+    RuntimeService.Start()
 
     ProjectManager.AlreadyRunning = true
 end

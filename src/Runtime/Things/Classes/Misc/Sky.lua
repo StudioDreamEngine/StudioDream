@@ -16,6 +16,7 @@ function Sky:new()
     }
 
     self.Time = 7
+    self.Latitude = math.pi/3
 
     self.DefaultSky = Runtime.Resources.GetIdentifierFromID("Internal/Sky/sky.png")
     self.DefaultMoon = Runtime.Resources.GetIdentifierFromID("Internal/Sky/moon.png")
@@ -25,7 +26,7 @@ function Sky:new()
 
     self:SetMoon(self.DefaultMoon)
     self:SetSun(self.DefaultSun)
-    --self:SetSky(self.DefaultSky)
+    self:SetSky(self.DefaultSky)
 end
 
 function Sky:DefineAPI()
@@ -33,20 +34,30 @@ function Sky:DefineAPI()
 
     self.Proxy.SetCategory("Lighting")
 
-    self.Proxy.Property("Resource Sky","Resource Sun","Resource Moon","number Time")
-    self.Proxy.Group("Settings","Sky","Sun","Moon","Time")
+    self.Proxy.Property("Resource Sky","Resource Sun","Resource Moon","number Time","number Latitude")
+    self.Proxy.Group("Resources","Sky","Sun","Moon")
+    self.Proxy.Group("Time","Time","Latitude")
     self.Proxy.Icon("Sky")
     self.Proxy.MakeCreatable()
 end
 
+function Sky:UpdateValues()
+    SkyRenderer.Time = self.Time
+    SkyRenderer.Latitude = self.Latitude
+end
+
 function Sky:SetTime(NewTime)
     self.Time = NewTime
+    self:UpdateValues()
+end
 
-    SkyRenderer.Time = self.Time
+function Sky:SetLatitude(NewLatitude)
+    self.Latitude = NewLatitude
+    self:UpdateValues()
 end
 
 function Sky:OnRemove()
-    Dream:setSky()
+    print("Cannot remove skybox (for now)")
 end
 
 function Sky:SetCelestial(Celestial,Identifier)
@@ -68,8 +79,6 @@ end
 function Sky:SetSky(NewSky)
     local ResourceSource
     _, self.Sky, ResourceSource = Runtime.Resources.LoadResourceFromIdentifier(NewSky)
-
-    print(ResourceSource)
 
     SkyRenderer.SetSky(ResourceSource)
 end

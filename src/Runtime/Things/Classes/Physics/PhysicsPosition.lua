@@ -14,12 +14,6 @@ function PhysicsPosition:new()
     self.CurrentEnvironment = nil
 end
 
-function PhysicsPosition:OnInitalParent(NewParent)
-    PhysicsPosition.super.OnInitalParent(self, NewParent)
-
-    self.CurrentEnvironment = self:FindFirstAncestorOfClass("Environment")
-end
-
 function PhysicsPosition:DefineAPI()
     PhysicsPosition.super.DefineAPI(self)
 
@@ -33,6 +27,8 @@ end
 
 function PhysicsPosition:Update(dt)
     PhysicsPosition.super.Update(self, dt)
+
+    self.CurrentEnvironment = self:FindFirstAncestorOfClass("Environment")
 
     if self.Parent:IsA("Drawable3D") and self.CurrentEnvironment then
 	    local Offset = self.Position - self.Parent.Transform.Position
