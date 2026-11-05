@@ -115,24 +115,21 @@ function StudioLayout.GetContextOf(Size,Pos)
 end
 
 function StudioLayout.GetAreaContext(BaseGui)
-    print("Hellow!!!!!!!!!!!!!!!!!!!!!!!!!")
-
     local RootScreen = Runtime.Renderer.ViewportManager.GetRootViewport()
     local ScreenContext = StudioLayout.GetContextOf(RootScreen.AbsoluteSize,RootScreen.AbsolutePosition)
     local ObjectContext = StudioLayout.GetContextOf(BaseGui.AbsoluteSize,BaseGui.AbsolutePosition)
 
     local Results = {}
-
+    --print(ScreenContext,ObjectContext)
     for SideS,SidePosS in pairs(ScreenContext) do
         for Side,SidePos in pairs(ObjectContext) do
-            print(SideS,SidePosS,Side,SidePos)
             if SideS==Side and SidePosS<SidePos then
-                table.insert(Results,{Side,SidePos})
+                Results[Side]=SidePos
             end
         end
     end
 
-    print(Result)
+    --print(Results)
 
     return Results
 end
