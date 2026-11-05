@@ -13,6 +13,11 @@ function RuntimeService.Start()
     RuntimeService.OnRunning:Invoke()
 end
 
+-- Returns weither or not any user scripts are currently running
+function RuntimeService.IsRunningScripts()
+    return Runtime.ScriptUtil.IsRunningScripts()
+end
+
 function RuntimeService.Stop()
     if Runtime.Project.LoadingProject then print("RuntimeService.Stop() called when project is being loaded") return end
 

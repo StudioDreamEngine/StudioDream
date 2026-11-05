@@ -4,6 +4,7 @@ local Things = Runtime.Things
 
 local LoadQueued = {}
 local StartedScripts = false
+local RunningScripts = false
 
 local Bridge = require("Runtime.Backend.ScriptUtility.Bridge")
 local PreProcessor = require("Runtime.Backend.ScriptUtility.Preprocessor")
@@ -37,13 +38,22 @@ function ScriptUtil.PreProcess(ScriptContent, ID)
     return Function
 end
 
+function ScriptUtil.LoadScript(Script)
+    RunningScripts = true
+    Script:Load()
+end
+
 -- Queue a script for loading, as we may not want to start scripts immediately
 ---@param Script BaseScript
 function ScriptUtil.RequestLoad(Script)
-    if StartedScripts then Script:Load() return end
+    if StartedScripts then ScriptUtil.LoadScript(Script) return end
 
     printVerbose("Queued Script for loading")
     table.insert(LoadQueued, Script) 
+end
+
+function ScriptUtil.IsRunningScripts()
+    return RunningScripts
 end
 
 --[[
@@ -57,13 +67,18 @@ function ScriptUtil.StartScripts()
     print("Start")
 
     ---@param Queued BaseScript
-    for _, Queued in pairs(LoadQueued) do Queued:Load() end
+    for _, Queued in pairs(LoadQueued) do ScriptUtil.LoadScript(Queued) end
     table.clear(LoadQueued)
 end
 
 function ScriptUtil.Reset()
     StartedScripts = false
+    RunningScripts = false
     table.clear(LoadQueued)
+end
+
+function ScriptUtil.StartedScripts()
+    return StartedScripts
 end
 
 -- Returns a table of the global variables that a script will have on initialization, used as the env
