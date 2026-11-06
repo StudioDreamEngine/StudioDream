@@ -145,7 +145,7 @@ function Objects.DeserializeObject(ObjectData)
             Name = PropertyName
         })
 
-        if Property then -- Only apply property if it exists
+        if type(Property) ~= "nil" then -- Only apply property if it exists
             if Type == "Thing" then
                 RelocationQueue[PropertyName] = Property
             else
