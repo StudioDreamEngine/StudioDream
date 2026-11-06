@@ -292,8 +292,10 @@ return function(Start)
         end
 
         LoadProject.Clicked:Connect(function()
-            Studio.ProjectManager.LoadProject(Start.Close)
-            CreateClose(Start.Container)
+            local LoadedProject = Studio.ProjectManager.LoadProject(Start.Close)
+            if LoadedProject then
+                CreateClose(Start.Container)
+            end
             --Studio.Layout.CallHandle("Explorer", "Redraw")
         end)
 

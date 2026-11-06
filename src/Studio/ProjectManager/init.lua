@@ -50,16 +50,19 @@ end
 
 -- Load a project
 function ProjectManager.LoadProject(Callback)
+    local Succeded = false
     Platform.OpenWithCallback("Load Project (sdc or sdp)", Enum.OpenDialog.File, function(ProjectPath)
         local Success = Runtime.Project.Load(ProjectPath)
         if Callback then Callback() end
 
         if Success then
+            Succeded = true
             ProjectManager.AddHistory()
         else
             ProjectManager.RemoveHistory(ProjectPath)
         end
     end)
+    return Succeded
 end
 
 -- Save the project to a new directory

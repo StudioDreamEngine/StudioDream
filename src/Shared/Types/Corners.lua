@@ -10,9 +10,16 @@ local Meta = {
             return Corners.new(t1.TL * t2, t1.TR * t2, t1.BL * t2, t1.BR * t2)
         end
     end,
+    __tostring = function(self)
+        return tostring(self.TL)..","..tostring(self.TR)..","..tostring(self.BL)..","..tostring(self.BR)
+    end
 }
 
 local Corners = {}
+
+function Methods:ToSerialize()
+    return {self.TL,self.TR,self.BL,self.BR}
+end
 
 function Corners.new(TL, TR, BL, BR)
     if (not TR) then
@@ -28,6 +35,13 @@ function Corners.new(TL, TR, BL, BR)
     }, Meta)
 
     return Object
+end
+
+function Corners.FromString(String)
+    local ToFilter = string.gsub(String,"%s","")
+    local SplitText = string.split(ToFilter,",")
+
+    return Corners.new(tonumber(SplitText[1]) or 0, tonumber(SplitText[2]) or 0, tonumber(SplitText[3]) or 0,tonumber(SplitText[4]) or 0)
 end
 
 return Corners

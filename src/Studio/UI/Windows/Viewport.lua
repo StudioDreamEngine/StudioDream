@@ -22,8 +22,8 @@ return function(Viewport)
         Tab.SceneID = SceneID
 
         Tab.Object = Studio.Components.CreateStyle("TextButton",{
-            Size = Pivot2D.new(0,200,1,0),
-            Pivot = Vector2.new(0,-.15),
+            Size = Pivot2D.new(0,175,1,0),
+            Pivot = Vector2.new(0,0),
             ForegroundColor = "Text",
             Text = Tab.Name,
             TextScaled = false,
@@ -32,8 +32,8 @@ return function(Viewport)
             ForegroundTransparency = 0.5,
             Parent = Viewport.TopContainer,
             BackgroundColor = "Primary",
-            CornerRadius = 10,
-            Alignment = Vector2.new(0.5,0.05),
+            CornerRadius = Corners.new(10,10,0,0),
+            Alignment = Vector2.new(0.5,0.5),
             Font = "FontBold"
         })
 
@@ -89,9 +89,7 @@ return function(Viewport)
         local Environment = Things.Root:GetEnvironment()
 
         Viewport.TopContainer:ClearAllChildren()
-        Viewport.TopContainer:SetPosition(Pivot2D.new(0.5,0,0,40))
-        Viewport.TopContainer:SetPivot(Vector2.new(0.5,1))
-        Viewport.TopContainer:SetSize(Pivot2D.new(1,0,0,30))
+        Viewport.TopContainer:SetSize(Pivot2D.FromScale(1,0.05))
 
         Viewport.Container:SetPivot(Vector2.one)
         Viewport.Container:SetPosition(Pivot2D.FromScale(1,1))

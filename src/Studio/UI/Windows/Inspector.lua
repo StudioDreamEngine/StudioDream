@@ -2,9 +2,10 @@ local Things = Runtime.Things
 local Components = Studio.Components
 
 local SubProperties = {
-    ["Transform3D"] = true,
-    ["Rect"] = true,
-    ["Pivot2D"] = true,
+    ["Transform3D"] = 2,
+    ["Rect"] = 2,
+    ["Pivot2D"] = 2,
+    --["Corners"] = 4,
 }
 
 return function(Inspector)
@@ -58,7 +59,7 @@ return function(Inspector)
             Title = Data.Name,
             Name = Data.Name,
             Size = Pivot2D.new(1,0,0,20),
-            HasSub = SubProperties[Data.Type] and 2 or nil,
+            HasSub = SubProperties[Data.Type] or nil,
             SizeSub = SubProperties[Data.Type] and Pivot2D.new(0.95,0,0,18) or nil
         })
 
