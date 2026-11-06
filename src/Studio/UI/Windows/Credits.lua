@@ -6,7 +6,7 @@ return function(Credits)
         {
             Name = "StudioDream",
             Content = {
-                "Bloctans - Basically made everything possible",
+                "Bloctans - Runtime, Studio Interface",
                 "Mikl - Studio Interface, Graphics, General Support, Mascots",
                 "konadi - General Support"
             }
@@ -25,7 +25,8 @@ return function(Credits)
                 "Luawiz, Emk530 - Reused code (Improved object creation, utf8sub)",
                 "Sasha + LOVE server members - Misc. Support",
                 "trusti - Physics engine support (bullet3)",
-                "Daisean - Start Jingle, SFX"
+                "Daisean - Start Jingle, SFX",
+                "Freesound - SFX"
             }
         },
         {
@@ -51,6 +52,7 @@ return function(Credits)
                 "pfirsich/jprof (Github), Licensed under MIT",
                 "StudioDreamEngine/LuauPolyfill (Github), Licensed under MIT",
                 "Bloctans/NAML, Currently no seperate repository",
+                "StudioDreamEngine/Platform (Github), Licensed under MIT"
             }
         }
     }

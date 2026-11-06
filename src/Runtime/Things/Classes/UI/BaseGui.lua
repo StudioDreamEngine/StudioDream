@@ -239,7 +239,8 @@ function BaseGui:new()
 
     self.Layer = 0
 
-    self.PropagatedChange = Signal:New("PropagatedChange")
+    self.PropagatedChange = Signal:New("PropagatedChange") -- Invoked when visbility or size are changed
+    self.PostTransform = Signal:New("PostTransform") -- Invoked when transforms are updated
 
     self.AutomaticSize = nil
     self.SquareAxis = nil
@@ -459,13 +460,14 @@ function BaseGui:UpdateTransforms()
         self.AbsolutePosition = self:GetAbsolutePosition() --+ (self.AbsolutePivot - self.RotationPivot)
         self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 
+        self.PostTransform.Invoke()
+
         Profiler.End()
     end)
 
     if (not Success) then
         Profiler.End()
-        print(Message)
-        error("Failed to update transforms for "..self:GetPath())
+        error("Failed to update transforms for "..self:GetPath()..", "..Message)
     end
 end
 

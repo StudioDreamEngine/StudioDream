@@ -27,11 +27,11 @@ function StudioLayout.CreateWindowContainer(Transform, HaveName)
         OutlineColor = "Outline"
     })
     
-    --[[Windows.Padding = Studio.Components.CreateStyle("Padding",{
+    Windows.Padding = Studio.Components.CreateStyle("Padding",{
         Parent = Windows.FullContainer,
         PaddingX = 5,
         PaddingY = 5,
-    })]]
+    })
 
     Windows.Container = Studio.Components.CreateStyle("Square",{
         Size = (not HaveName) and Pivot2D.FromScale(0.99,0.99) or Pivot2D.FromScale(0.99,0.93),

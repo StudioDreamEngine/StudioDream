@@ -81,24 +81,16 @@ function class:getMSAA()
 	return self.msaa
 end
 
----Sets the resolution, requires a reinit
----@param px number
-function class:setResolution(px)
-	self.resolution = px
-end
-function class:getResolution()
-	return self.resolution
-end
-
 ---Initialize that canvas set
 ---@param w number @ optional
 ---@param h number @ optional
 function class:init(w, h)
 	Profiler.Start("3DreamEngine - Resize")
 	self:unloadCanvasSet()
-	
-	w = w or self.resolution
-	h = h or self.resolution
+
+	-- hard-coded canvas limits
+	w = math.max(10, w or 0)
+	h = math.max(10, h or 0)
 	
 	--settings
 	self.width = w

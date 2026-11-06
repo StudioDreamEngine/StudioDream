@@ -32,68 +32,30 @@ function Padding:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
-function Padding:UnLinkObject(Obj)
-    self.ChangeConnect[Obj]:Disconnect()
-    self.ChangeConnect[Obj] = nil
-end
-
-function Padding:UnLinkAll()
-    for i,v in pairs(self.ChangeConnect) do
-        self:UnLinkObject(i)
-    end
-end
-
 function Padding:PadOn(Object)
     local Clamp = Object.AbsoluteSize-Vector2.new(self.PaddingY,self.PaddingX)
     local Clamped = Vector2.new(math.max(0,Clamp.X),math.max(0,Clamp.Y))
 
-    Object:SetOverride(self, "ChildRect", Rect.new(Object.AbsolutePosition + Object.AbsolutePivot + Vector2.new(math.max(0,self.PaddingY/2),math.max(0,self.PaddingX/2)), Clamped))
+    Object:SetOverride(self, "ChildRect", Rect.new(Object.AbsolutePosition + Object.AbsolutePivot + Vector2.new(math.max(0,self.PaddingY/2),math.max(0,self.PaddingX/2)), Clamped), true)
 end
 
 function Padding:LinkObject(Object)
     Object:BindOverride(self,"ChildRect")
 
-    self.ChangeConnect[Object] = Object.PropagatedChange:Connect(function(a,b)
+    self.ChangeConnect = Object.PostTransform:Connect(function()
         self:PadOn(Object)
-    end, "AbsoluteSize")
-
-    self:PadOn(Object)
-end
-
-function Padding:SetPaddingSpecific(Object)
-    self.PaddingSpecific = Object
-    self:UnLinkAll()
-
-    if not Object then
-        if self.PaddingSpecific then
-            self:UnLinkObject(self.PaddingSpecific)
-        end
-        return
-    end
-    Object.ParentChanged:Connect(function()
-        self:UnLinkObject(Object)
     end)
-
-    if Object:IsA("BaseGui") then
-        self:LinkObject(Object)
-    end
 end
 
 function Padding:UnbindObject(_child)
     Padding.super.UnbindObject(self, _child)
     
-    if self.ChangeConnect[_child] ~= nil then
-       self:UnLinkObject(_child)
-    end
+    self.ChangeConnect:Disconnect()
 end
 
 function Padding:BindObject(Object)
     local Binded = Padding.super.BindObject(self, Object)
     if (not Binded) then return end
-
-    Object.ParentChanged:Connect(function()
-        self:UnLinkObject(Object)
-    end)
 
     if Object:IsA("BaseGui") then
         self:LinkObject(Object)
