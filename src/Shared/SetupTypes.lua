@@ -12,5 +12,6 @@ return function ()
     IdentifierType = require("Shared.Types.Identifier")
     GradientSequence = require("Shared.Types.GradientSequence")
     Effect = require("Shared.Types.Effects")
+    Corners = require("Shared.Types.Corners")
     --ipairs = require("Shared.Types.ipairs")
 end

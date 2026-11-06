@@ -2,6 +2,7 @@
 ---@diagnostic disable: param-type-mismatch, need-check-nil
 
 local Things = Runtime.Things
+local Interface = Runtime.Renderer.Interface
 
 -- using @module here gives the lua language server a base type to use!
 ---@class Square: BaseGui
@@ -10,10 +11,10 @@ local Square = Things.Extend("BaseGui")
 function Square:new()
     Square.super.new(self)
 
-    self.TrueRadiusOfCorners = 0
-    self.CornerRadius = 0
+    self.CornerRadius = Corners.new(0,0,0,0)
 
     self.Gradient = nil ---@class GradientSequence
+    self.Corners = nil
 
     self.OutlineSize = 0
     self.OutlineColor = Color.new(0,0,0)
@@ -44,23 +45,23 @@ end
     if (not self.ShaderObject) then return end
 end]]
 
-function Square:UpdateRadius()
-    if self.LimitCornerRadius then
-        local Size = (self.AbsoluteSize.X < self.AbsoluteSize.Y) and self.AbsoluteSize.X/2 or self.AbsoluteSize.Y/2
-        self.TrueRadiusOfCorners = (self.CornerRadius > Size) and Size or self.CornerRadius
-    else 
-        self.TrueRadiusOfCorners = self.CornerRadius
-    end
+function Square:UpdateCorners()
+    self.Corners = Interface.RectWithCorners(self.AbsoluteSize, self.CornerRadius*2, self.LimitCornerRadius)
 end
 
 function Square:SetCornerRadius(New)
     self.CornerRadius = New
-    self:UpdateRadius()
+
+    if type(self.CornerRadius) == "number" then
+        self.CornerRadius = Corners.new(self.CornerRadius)
+    end
+
+    self:UpdateCorners()
 end
 
 function Square:SetAbsoluteSize(NewSize) -- this was kinda fun to do
     Square.super.SetAbsoluteSize(self, NewSize)
-    self:UpdateRadius()
+    self:UpdateCorners()
 end
 
 function Square:SetGradient(NewGrad)
@@ -75,14 +76,12 @@ function Square:SetOutlineSize(number)
 end
 
 function Square:Draw()
-    local Size = self.AbsoluteSize 
-
-    love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.TrueRadiusOfCorners, self.TrueRadiusOfCorners)
+    love.graphics.polygon("fill", self.Corners)
     
     if self.OutlineSize > 0 then
         love.graphics.setLineWidth(self.OutlineSize)
         self:SetColor("Outline")
-        love.graphics.rectangle("line", 0,0, Size.X, Size.Y, self.TrueRadiusOfCorners, self.TrueRadiusOfCorners)
+        love.graphics.polygon("line", self.Corners)
     end
 end
 

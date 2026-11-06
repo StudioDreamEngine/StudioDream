@@ -22,7 +22,7 @@ function Render.Init()
     -- Define the render classes, simple utility modules for rendering 3d and 2d elements
     -- TODO: Document
     Render.Text = require("Runtime.Renderer.Class.Text")
-    Render.Image = require("Runtime.Renderer.Class.Image")
+    Render.Interface = require("Runtime.Renderer.Class.Interface")
     Render.Billboard = require("Runtime.Renderer.Class.Billboard")
     Render.Input = require("Runtime.Renderer.Class.Input")
 

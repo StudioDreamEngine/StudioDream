@@ -24,7 +24,6 @@ function Image2D:new()
     self.ImageRect = Rect.new(Vector2.zero, Vector2.zero) ---@class Rect
     self.ImageQuad = nil
     
-    self.CornerRadius = 0
     self.ForegroundColor = Color.new(1)
     self.BackgroundTransparency = 1
 
@@ -78,7 +77,7 @@ end
 function Image2D:CreateSlices(ImageSize)
     local NineSlice = self.NineSlice
 
-    local SliceData = Renderer.Image.GetSlices(NineSlice, ImageSize)
+    local SliceData = Renderer.Interface.GetImageSlices(NineSlice, ImageSize)
     self.Slices = {}
 
     -- top 5 most ass code ever - bloctans
@@ -158,10 +157,10 @@ function Image2D:Draw()
     ImageSize = ImageSize * Scale
 
     if self:HasStencil() then
-        if self.CornerRadius > 0 and (not FLAGS.DebugDraw) then
+        if self.CornerRadius.TL > 0 and (not FLAGS.DebugDraw) then
             love.graphics.setStencilMode("draw", 255)
             love.graphics.setColor(1,1,1)
-            love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius, self.CornerRadius)
+            love.graphics.rectangle("fill", 0,0, Size.X, Size.Y, self.CornerRadius.TL, self.CornerRadius.TL)
             love.graphics.setStencilMode("test", 255)
         end
     end

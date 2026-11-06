@@ -464,6 +464,7 @@ function BaseGui:UpdateTransforms()
 
     if (not Success) then
         Profiler.End()
+        print(Message)
         error("Failed to update transforms for "..self:GetPath())
     end
 end

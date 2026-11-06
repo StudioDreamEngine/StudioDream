@@ -2,8 +2,6 @@
 local ViewportManager = {}
 
 local RootViewport ---@class ViewportContainer
-ViewportManager.SunLight = nil
-ViewportManager.MoonLight = nil
 
 Rendered = 0
 
@@ -74,9 +72,8 @@ function ViewportManager.RenderViewport3D(Viewport)
             Dream:prepare()
 
             --Dream:draw(Runtime.Backend3D.GetAdorns())
-            Dream:addLight(ViewportManager.SunLight)
-            Dream:addLight(ViewportManager.MoonLight)
-
+            Dream:addLight(Runtime.Backend3D.SunLight)
+            Dream:addLight(Runtime.Backend3D.MoonLight)
             Viewport:Present()
             Runtime.Backend3D.PresentAdorns()
             Runtime.Backend3D.Debug:AddTask() -- TODO: Add to adorns

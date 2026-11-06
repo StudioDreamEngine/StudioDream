@@ -92,7 +92,7 @@ function DropdownPlus.new(Choices,FakeParent, Size)
         Pivot = Vector2.new(0.5,0),
         AutomaticSize = Enum.AutomaticSize.Y,
         Parent = DropdownObject.Container,
-        CornerRadius = 5,
+        CornerRadius = Corners.new(0,0,5,5),
         OutlineColor = "Primary",
         OutlineSize = 2,
     })

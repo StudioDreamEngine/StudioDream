@@ -16,7 +16,7 @@ function ScrollContainer:new()
     self.Hovering = false
     self.ForegroundColor = Color.new(1)
 
-    self.CornerRadius = 5
+    self.CornerRadius = Corners.new(5)
 
     self.BarColor = Color.new(1)
     self.BarTransparency = 0

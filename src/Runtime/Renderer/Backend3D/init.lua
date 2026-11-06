@@ -19,11 +19,11 @@ function Backend3D.Init()
 
     Dream:init() ---@diagnostic disable-line: missing-parameter
 
-    Runtime.Renderer.ViewportManager.SunLight = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(1.0, 0.75, 0.5), 10.0)
-    Runtime.Renderer.ViewportManager.SunLight:addNewShadow()
+    Backend3D.SunLight = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(1.0, 0.75, 0.5), 10.0)
+    Backend3D.SunLight:addNewShadow()
 
-    Runtime.Renderer.ViewportManager.MoonLight = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(0.753, 0.863, 1), 10.0)
-    Runtime.Renderer.ViewportManager.MoonLight:addNewShadow()
+    Backend3D.MoonLight = Dream:newLight("sun", Dream.vec3(2, 2, 2), Dream.vec3(0.753, 0.863, 1), 10.0)
+    Backend3D.MoonLight:addNewShadow()
 
     Dream:prepareRuntime()
 

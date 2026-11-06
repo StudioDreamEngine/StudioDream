@@ -69,12 +69,12 @@ function RenderSky.Draw()
 	local MoonTransform = Transform3D.FromAngle(0, 0, Longitude) * Transform3D.FromAngle(0, RenderSky.Latitude, 0) * Transform3D.FromPosition(0,0,0.2) * Transform3D.FromAngle(0, 0, -Longitude)
 	
 	local SunDirection = SunTransform.Forward
-	Runtime.Renderer.ViewportManager.SunLight:setDirection(SunDirection.X,SunDirection.Y,SunDirection.Z)
-	Runtime.Renderer.ViewportManager.SunLight:setBrightness(SunLight*10)
+	Runtime.Backend3D.SunLight:setDirection(SunDirection.X,SunDirection.Y,SunDirection.Z)
+	Runtime.Backend3D.SunLight:setBrightness(SunLight*10)
 
 	local MoonDirection = MoonTransform.Forward
-	Runtime.Renderer.ViewportManager.MoonLight:setDirection(MoonDirection.X,MoonDirection.Y,MoonDirection.Z)
-	Runtime.Renderer.ViewportManager.MoonLight:setBrightness((1-SunLight)*10)
+	Runtime.Backend3D.MoonLight:setDirection(MoonDirection.X,MoonDirection.Y,MoonDirection.Z)
+	Runtime.Backend3D.MoonLight:setBrightness((1-SunLight)*10)
 	
 	love.graphics.setColor(1,1,1,SunLight)
 	celestialMesh:setTexture(Sun)
