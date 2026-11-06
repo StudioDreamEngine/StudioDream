@@ -149,7 +149,7 @@ function InterfaceClass.RectWithCorners(Size, Corners, LimitRadius)
         bottomLeftRadius = Corners.BL,
         topRightRadius = Corners.TR,
         bottomRightRadius = Corners.BR,
-        segments = 12
+        segments = 6
     })
 end
 

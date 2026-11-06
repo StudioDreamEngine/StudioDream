@@ -28,12 +28,12 @@ function ViewportManager.GetRootViewport()
 end
 
 -- Create a canvas object
-function ViewportManager.CreateViewport(Viewport, Size)
+function ViewportManager.CreateViewport(Viewport, Size, UseMSAA)
     if Size.X < 10 or Size.Y < 10 then
         Size = Vector2.one * 2
     end
 
-    local Canvas, Stencil, Mask = Runtime.Backend2D.NewCanvas(Size, true)
+    local Canvas, Stencil = Runtime.Backend2D.NewCanvas(Size, true, UseMSAA)
 
     ViewportManager.Viewports[Viewport.UUID] = Viewport
     return Canvas, Stencil--, Mask

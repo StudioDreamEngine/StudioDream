@@ -110,10 +110,12 @@ function Backend.SetColor(Color, Transparency)
     love.graphics.setColor(Color.R, Color.G, Color.B, Transparency or Color.A)
 end
 
-function Backend.NewCanvas(Size, Stencil)
-    local StencilCanvas = (Stencil and StencilFormat) and love.graphics.newCanvas(Size.X, Size.Y, { format = StencilFormat })
+function Backend.NewCanvas(Size, Stencil, UseMSAA)
+    local StencilCanvas = (Stencil and StencilFormat) and love.graphics.newCanvas(Size.X, Size.Y, { format = StencilFormat, msaa = UseMSAA and 4 })
 
-    return love.graphics.newCanvas(Size.X, Size.Y), StencilCanvas
+    return love.graphics.newCanvas(Size.X, Size.Y, {
+        msaa = UseMSAA and 4
+    }), StencilCanvas
 end
 
 function Backend.NewQuad(Rect, ImageSize)

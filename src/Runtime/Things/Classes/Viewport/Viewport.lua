@@ -11,6 +11,7 @@ function Viewport:new()
 
     self.RenderContainer = nil -- idk what to name this
 
+    self.UseMSAA = true
     self.FilterType = Enum.FilterType.Linear
     self:CreateNew()
 
@@ -30,8 +31,8 @@ function Viewport:DefineAPI()
     self.Proxy.SetCategory("Viewport")
     self.Proxy.Icon("Viewport")
 
-    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType", "number Scale")
-    self.Proxy.Group("Viewport", "RenderContainer", "FilterType", "Scale")
+    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType", "number Scale", "boolean UseMSAA")
+    self.Proxy.Group("Viewport", "RenderContainer", "FilterType", "Scale", "UseMSAA")
 
     self.Proxy.Describe("Renders its contents independently")
 end
@@ -74,7 +75,7 @@ function Viewport:CreateNew()
     end
 
     --self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
-    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
+    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize, self.UseMSAA)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 
     --self.Shader:send("mat_canvas", self.MatCanvas)
@@ -107,6 +108,11 @@ function Viewport:SetRenderContainer(NewFolder)
     else
         self.RenderContainer = nil
     end
+end
+
+function Viewport:SetUseMSAA(Value)
+    self.UseMSAA = Value
+    Viewport:CreateNew()
 end
 
 function Viewport:GetTarget()

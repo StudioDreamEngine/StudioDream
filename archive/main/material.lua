@@ -25,7 +25,7 @@ function lib:newMaterial(name)
 end
 
 ---A material holds textures, render settings, shader information and similar and is assigned to a mesh.
----@class DreamMaterial : DreamClonable, DreamHasShaders, DreamIsNamed
+---@class DreamMaterial : DreamClonable, DreamIsNamed
 local class = {
 	links = { "clonable", "hasShaders", "named", "material" },
 }

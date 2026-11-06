@@ -1,7 +1,7 @@
 local Things = Runtime.Things
 
 -- My idea for this is someth like the list layouts, using the constraint system
----@class TextButton: TextButton
+---@class TextButton: Text
 local TextButton = Things.Extend("Text")
 
 function TextButton:new()
