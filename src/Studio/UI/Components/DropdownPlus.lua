@@ -61,11 +61,22 @@ function DropdownPlus.CreateButton(Choice,Object)
 end
 
 function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent, Size)
+    local Pivot = Vector2.yAxis
     return Components.RegisterUpdator(function()
         local UsingSize = Size or FakeParent.AbsoluteSize
-        local UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Vector2.yAxis)
+        local UsingPosition = FakeParent.ViewportPosition + (FakeParent.AbsoluteSize * Pivot)
+        local Context = Studio.Layout.GetAreaContext(MajorComponent.Container)
 
-        MajorComponent.Container:SetSize(Pivot2D.FromOffset(UsingSize.X*2 or 200,0))
+        Pivot = Vector2.new(0,1)
+        MajorComponent.Container:SetPivot(Vector2.new(0,0))
+
+        if Context.Left then
+            local Context = Studio.Layout.GetContextOf(FakeParent.ViewportPosition,FakeParent.AbsoluteSize)
+            Pivot = Vector2.new(1,Pivot.Y)
+            MajorComponent.Container:SetPivot(Vector2.new(1,MajorComponent.Container.Pivot.Y))
+        end
+
+        MajorComponent.Container:SetSize(Pivot2D.FromOffset(200,0))
         MajorComponent.Container:SetPosition(Pivot2D.FromOffset(UsingPosition))
 
         for _, Choice in pairs(MajorComponent.Choices) do
@@ -74,7 +85,7 @@ function DropdownPlus.HandleNotParentSize(MajorComponent,FakeParent, Size)
     end)
 end
 
-function DropdownPlus.new(Choices,FakeParent, Size)
+function DropdownPlus.new(Choices, FakeParent, Size)
     local DropdownObject = {}
 
     DropdownObject.Container = Things.Create("ViewportLite") {
@@ -124,8 +135,6 @@ function DropdownPlus.new(Choices,FakeParent, Size)
         if (type(Visible) == "nil") then
             Visible = (not DropdownObject.Visible)
         end
-        
-        Studio.Layout.GetAreaContext(DropdownObject.MajorParent)
 
         printVerbose("Visible nil check")
         
