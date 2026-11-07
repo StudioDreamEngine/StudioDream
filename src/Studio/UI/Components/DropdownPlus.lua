@@ -5,11 +5,11 @@ local TweenService = Runtime.Services.Service("TweenService")
 
 local ChoiceTypes = {
     ["Button"] = function(Choice, Object, Parent)
-        --[[local Padding = Components.CreateStyle("Padding", {
+        local Padding = Components.CreateStyle("Padding", {
             PaddingX = 2,
             PaddingY = 2,
             Parent = Parent,
-        })]]
+        })
         local Button = Components.CreateStyle("TextButton", {
             Text = Choice.Text,
             Size = Pivot2D.FromScale(0.9,0.9),

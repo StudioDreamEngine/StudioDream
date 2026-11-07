@@ -24,6 +24,11 @@ function Utils.TypeOf(Object)
     end
 end
 
+function Utils.CreateDirectoryManual(Path)
+    os.execute("mkdir "..Path)
+    return Utils.FileExists(Path)
+end
+
 function Utils.SerializeMyTable(Table,CustomSerialize)
     CustomSerialize = CustomSerialize or {}
 	local Proxied = setmetatable({}, {

@@ -20,6 +20,13 @@ Project.SavingProject = Signal:New("ProjectSaved") -- Called when project as fin
 Project.LoadedProject = Signal:New("ProjectLoaded") -- Called when project loading has ended
 Project.LoadingProject = Signal:New("ProjectLoading") -- Called when project loading has started
 
+function Project.Init()
+    Project.LoadedProject:Connect(function()
+        local DataStore = Runtime.Services.Service("DataService")
+        DataStore.LoadProjectData()
+    end)
+end
+
 function Project.SetupSignals()
     Project.Config.OnChange:Connect(function()
         love.window.setTitle(string.format("StudioDream %s - %s (%s)", VERSION_FULL, Runtime.Project.Config.Get("Name"), FLAGS.Target))

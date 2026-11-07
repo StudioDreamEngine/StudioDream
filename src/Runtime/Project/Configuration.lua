@@ -6,7 +6,7 @@ local DefaultConfig = {
     Identifier = nil,
     RootScene = nil, -- The root scene itself that holds the root tree
     MainScene = nil, -- The initial scene to load,
-
+    SaveIdentifier = CreateUUID(),
     WindowSize = Vector2.new(1060, 600),
     WindowResizable = true,
 

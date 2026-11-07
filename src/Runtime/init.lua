@@ -47,6 +47,7 @@ function Runtime.PostInit()
     Runtime.Backend3D.Init()
 
     Runtime.Project = require("Runtime.Project")
+    Runtime.Project.Init()
     Runtime.Project.SetupSignals()
 
     print("Finished PostInit")

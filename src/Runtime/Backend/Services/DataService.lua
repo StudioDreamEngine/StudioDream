@@ -1,11 +1,80 @@
 local DataService = {}
 
-function DataService.CreateData(Name)
-    local DataObject = {}
+DataService.SaveOn = nil
+DataService.CurrentSavePath = nil
 
-    
+function DataService:GetData(Name)
+    local Path = DataService.CurrentSavePath.."/"..Name..".dat/"
+    local File = love.filesystem.getInfo(Path)
+    if File then
+        return DataService:CreateData("",Path)
+    end
+end
+
+function DataService:CreateData(Name,File)
+    local WaitAMinute = DataService:GetData(Name)
+    if WaitAMinute then 
+        return WaitAMinute
+    end
+
+    local DataObject = setmetatable({},{
+        __tostring = function(self)
+            return "["..self.Name.." , "..self.Path.."]: "..tostring(self:GetSize()).."b"
+        end,
+    }) 
+
+    DataObject.Path = File or DataService.CurrentSavePath.."/"..Name..".dat/"
+    DataObject.Type = "Data"
+    DataObject.File = love.filesystem.read(DataObject.Path)
+
+    function DataObject:GetName()
+        local Splitted = string.split(DataObject.Path,"/")
+        local Name = string.gsub(Splitted[#Splitted-1],".dat","")
+        return Name
+    end
+
+    DataObject.Name = DataObject:GetName()
+
+    function DataObject:WriteData(SerializedString)
+        love.filesystem.write(DataObject.Path,SerializedString)
+    end
+
+    function DataObject:GetData()
+        local Data = love.filesystem.read(DataObject.Path)
+        return Data
+    end
+
+    function DataObject:GetSize()
+        local _,Data = love.filesystem.read(DataObject.Path)
+        return Data
+    end
 
     return DataObject
+end
+
+function DataService.CreateProjectDirectory()
+    local ProjectDataPath = DataService.SaveOn
+    DataService.CurrentSavePath = ProjectDataPath
+    local Sucess = love.filesystem.createDirectory(ProjectDataPath)
+end
+
+function DataService.LoadProjectData(Project)
+    DataService.SaveOn = Runtime.Project.Config.Get("SaveIdentifier")
+    DataService.CreateProjectDirectory()
+
+    --[[local Test = DataService:CreateData("Test")
+    Test:WriteData("Hello im mikled")
+    print(Test)
+    print(Test:GetData())
+    print(Test:GetName())]]
+end
+
+function DataService.GetDataPath()
+
+end
+
+function DataService.Init()
+   
 end
 
 return DataService
