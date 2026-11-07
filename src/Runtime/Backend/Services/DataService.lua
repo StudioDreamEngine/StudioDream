@@ -3,12 +3,33 @@ local DataService = {}
 DataService.SaveOn = nil
 DataService.CurrentSavePath = nil
 
+DataService.UpdatedCurrentSavePath = Signal:New("UpdatedCurrentSavePath")
+
 function DataService:GetData(Name)
     local Path = DataService.CurrentSavePath.."/"..Name..".dat/"
     local File = love.filesystem.getInfo(Path)
     if File then
         return DataService:CreateData("",Path)
     end
+end
+
+function DataService:DoesProjectDataExist(CustomPath)
+    return Utils.FileExists(CustomPath or DataService.CurrentSavePath)
+end
+
+function DataService:EditSavePath(NewSavePath)
+    assert(not DataService:DoesProjectDataExist(NewSavePath),"An project is already using this data name!")
+
+    local AbsolutePath = love.filesystem.getRealDirectory(DataService.CurrentSavePath).."/"..DataService.CurrentSavePath
+    local NewPath = love.filesystem.getRealDirectory(DataService.CurrentSavePath).."/"..NewSavePath
+
+    os.rename(AbsolutePath,NewPath)
+
+    Runtime.Project.Config.Set("SaveIdentifier",NewSavePath)
+    DataService.CurrentSavePath = NewSavePath
+    DataService.UpdatedCurrentSavePath.Invoke()
+
+    return true
 end
 
 function DataService:CreateData(Name,File)
@@ -24,8 +45,14 @@ function DataService:CreateData(Name,File)
     }) 
 
     DataObject.Path = File or DataService.CurrentSavePath.."/"..Name..".dat/"
+    DataObject.AbsolutePath = love.filesystem.getRealDirectory(DataService.CurrentSavePath).."/"..DataObject.Path
     DataObject.Type = "Data"
     DataObject.File = love.filesystem.read(DataObject.Path)
+
+    DataObject.UpdatedConnection = DataService.UpdatedCurrentSavePath:Connect(function()
+        DataObject.Path = DataService.CurrentSavePath.."/"..DataObject.Name..".dat/"
+        DataObject.AbsolutePath = love.filesystem.getRealDirectory(DataService.CurrentSavePath).."/"..DataObject.Path
+    end)
 
     function DataObject:GetName()
         local Splitted = string.split(DataObject.Path,"/")
@@ -36,6 +63,7 @@ function DataService:CreateData(Name,File)
     DataObject.Name = DataObject:GetName()
 
     function DataObject:WriteData(SerializedString)
+        assert(type(SerializedString)=="string","The serialized data needs to be a string!")
         love.filesystem.write(DataObject.Path,SerializedString)
     end
 
@@ -66,7 +94,10 @@ function DataService.LoadProjectData(Project)
     Test:WriteData("Hello im mikled")
     print(Test)
     print(Test:GetData())
-    print(Test:GetName())]]
+    print(Test:GetName())
+    print(Test.AbsolutePath)
+    DataService:EditSavePath("Bleh")
+    print(Test.AbsolutePath)]]
 end
 
 function DataService.GetDataPath()
