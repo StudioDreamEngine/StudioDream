@@ -15,8 +15,8 @@ function Pivot2DS:Update()
     local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
 
     self.Visual.Button:SetText(tostring(IsAllTheSame) or "{~,~,~},{~,~,~}")
-    self.Visual.Position.Button:SetText(tostring(IsAllTheSame.Position) or "~,~,~")
-    self.Visual.Rotation.Button:SetText(tostring(IsAllTheSame:AsAngle():Deg()) or "~,~,~")
+    self.Visual.Position.Button:SetText(IsAllTheSame and (tostring(IsAllTheSame.Position) or "~,~,~") or "~,~,~")
+    self.Visual.Rotation.Button:SetText(IsAllTheSame and (tostring(IsAllTheSame:AsAngle():Deg()) or "~,~,~") or "~,~,~")
 end
 
 function Pivot2DS:CreateSubVisual(Type)

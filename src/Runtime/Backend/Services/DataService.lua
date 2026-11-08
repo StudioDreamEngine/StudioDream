@@ -89,19 +89,6 @@ end
 function DataService.LoadProjectData(Project)
     DataService.SaveOn = Runtime.Project.Config.Get("SaveIdentifier")
     DataService.CreateProjectDirectory()
-
-    --[[local Test = DataService:CreateData("Test")
-    Test:WriteData("Hello im mikled")
-    print(Test)
-    print(Test:GetData())
-    print(Test:GetName())
-    print(Test.AbsolutePath)
-    DataService:EditSavePath("Bleh")
-    print(Test.AbsolutePath)]]
-end
-
-function DataService.GetDataPath()
-
 end
 
 function DataService.Init()

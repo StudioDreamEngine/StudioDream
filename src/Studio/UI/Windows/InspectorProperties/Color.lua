@@ -1,19 +1,18 @@
-local Color = Object:extend()
+local ColorP = Object:extend()
 
-function Color:new(Property)
+function ColorP:new(Property)
     --self.Asset = self:CreateProperty()
-
     self.Property = Property
     self.IsActive = Property.IsActive
 
     return self
 end
 
-function Color:Update(Data)
+function ColorP:Update(Data)
 
 end
 
-function Color:CreateVisual()
+function ColorP:CreateVisual()
     local Visual = {}
     local Selecting = Studio.Editor3D.Selecting
     local PropertyName = self.Property.Name
@@ -57,8 +56,8 @@ function Color:CreateVisual()
     return Visual
 end
 
-function Color:Destroy()
+function ColorP:Destroy()
 
 end
 
-return Color
+return ColorP
