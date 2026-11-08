@@ -6,7 +6,9 @@ return function(TitleBar)
         TitleBar.TopBarContainer = Components.CreateStyle("Square", {
             Size = Pivot2D.FromScale(0.6,1),
             BackgroundTransparency = 1,
-            Parent = TitleBar.Container
+            Parent = TitleBar.Container,
+            --BackgroundColor = "Outline",
+           -- CornerRadius = Corners.new(10,10,10,10),
         })
 
         local TopBar = require("Studio.UI.TitleBar.TopBar")(TitleBar.TopBarContainer)

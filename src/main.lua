@@ -59,10 +59,10 @@ end
 
 function love.load(args)
     SetupModifications()
-
+    local LoveMajor,LoveMinor = love.getVersion( )
     DebugLog("StudioDream V"..VERSION_FULL..", Setting up globals")
     Shared.SetupBullet = require("Shared.SetupGlobals")()
-    print("StudioDream V"..VERSION_FULL)
+    print("StudioDream V"..VERSION_FULL.." "..LOVER_FULL)
 
     DebugLog("Starting runtime, hold on!")
 

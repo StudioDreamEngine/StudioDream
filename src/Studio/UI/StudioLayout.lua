@@ -268,8 +268,27 @@ function StudioLayout.CreateTopbar()
         Name = "TitleBar",
         Size = Pivot2D.new(1,0,0,25),
         BackgroundColor = "Secondary",
-        BackgroundTransparency = 0
+        BackgroundTransparency = 0,
+        --CornerRadius = Corners.new(10,10,0,0),
     })
+
+    local Title = Studio.Components.CreateStyle("Text",{
+        Parent = Things.WindowRoot,
+        Size = Pivot2D.FromScale(1,1),
+        BackgroundTransparency = 1,
+        Text = love.window.getTitle(),
+        Parent = TitleBar,
+        Alignment = Enum.Alignment.Center,
+        ForegroundColor = "Text",
+        Size = 5,
+        TextScaled = false,
+        Font = "FontBold"
+        --CornerRadius = Corners.new(10,10,0,0),
+    })
+
+    Runtime.Project.Config.OnChange:Connect(function()
+        Title:SetText(love.window.getTitle())
+    end)
 
     Menubar = Studio.Components.CreateStyle("Square",{
         Parent = Things.RenderRoot,

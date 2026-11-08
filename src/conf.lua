@@ -1,7 +1,10 @@
 -- Major.Minor.Patch
+local LoveMajor,LoveMinor = love.getVersion()
+
 VERSION = "0.10"
 TITLE = "(Early Riser)"
 VERSION_FULL = VERSION.." "..TITLE
+LOVER_FULL = "(LOVE: "..LoveMajor.."."..LoveMinor..")"
 
 -- It's reccommended to no longer change these, you should instead use the command line arguments (StudioDream --Help)
 DEFAULT_FLAGS = require("flags")
