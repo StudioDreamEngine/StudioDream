@@ -1,4 +1,5 @@
 local ffi = require("ffi")
+local SDLC = ffi.os == 'Windows' and ffi.load('SDL2') or ffi.C
 
 local WindowManager = {}
 local SDLWindow = nil
@@ -42,12 +43,12 @@ function WindowManager.ConfigureTitleBar(Enabled, Size)
         Platform.SetFlag("borderless", Enabled)
     end
 
-    loveC.SDL_SetWindowHitTest(SDLWindow, Enabled and HitTest or nil, nil)
+    SDLC.SDL_SetWindowHitTest(SDLWindow, Enabled and HitTest or nil, nil)
     ViewportManager.UpdateSize()
 end
 
 function WindowManager.Init()
-    local Result = loveC.SDL_GetWindows(ffi.new("int[1]", 1))
+    local Result = SDLC.SDL_GetWindows(ffi.new("int[1]", 1))
     SDLWindow = Result[0]
 
     -- the fuck do you mean i can just do this???
