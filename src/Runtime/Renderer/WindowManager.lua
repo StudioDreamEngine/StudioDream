@@ -1,5 +1,5 @@
 local ffi = require("ffi")
-local loveC = ffi.os == 'Windows' and ffi.load('love') or ffi.C
+local loveC = ffi.C
 
 local WindowManager = {}
 local SDLWindow = nil
