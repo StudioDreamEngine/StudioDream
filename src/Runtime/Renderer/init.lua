@@ -17,6 +17,9 @@ function Render.GetShaders()
 end
 
 function Render.Init()
+    Runtime.WindowManager = require("Runtime.Renderer.WindowManager")
+    Runtime.WindowManager.Init()
+
     Render.ViewportManager.Init()
     
     -- Define the render classes, simple utility modules for rendering 3d and 2d elements

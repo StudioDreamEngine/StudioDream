@@ -1,7 +1,8 @@
 -- Manages the rendering and creation of viewports and canvases
 local ViewportManager = {}
 
-local RootViewport ---@class ViewportContainer
+local RootViewport ---@class ViewportLite
+local WindowViewport
 
 Rendered = 0
 
@@ -10,13 +11,31 @@ function ViewportManager.Init()
 
     LoveEvents.Resize:Connect(function(w,h)
         --printVerbose("Resize detected, Updating Window decorations...")
-        RootViewport:SetSize(Pivot2D.FromOffset(w,h))
+        ViewportManager.UpdateSize()
     end)
 end
 
+function ViewportManager.UpdateSize()
+    local Size = Runtime.Backend2D.GetWindowSize()
+    local WindowManager = Runtime.WindowManager
+
+    WindowViewport:SetSize(Pivot2D.FromOffset(Size.X, Size.Y))
+
+    if WindowManager.Bar.Enabled then
+        Size = Size - (Vector2.yAxis * WindowManager.Bar.Height)
+
+        WindowViewport:SetPosition(Pivot2D.FromOffset(0, -WindowManager.Bar.Height))
+    else
+        WindowViewport:SetPosition(Pivot2D.FromOffset(0,0))
+    end
+    
+    RootViewport:SetSize(Pivot2D.FromOffset(Size.X, Size.Y))
+end
+
 -- Set the viewport that will be automatically presented to the main screen each frame
-function ViewportManager.SetRootViewport(InRoot)
+function ViewportManager.SetViewports(InRoot,InWindow)
     RootViewport = InRoot
+    WindowViewport = InWindow
 end
 
 function ViewportManager.GetRendered()
@@ -106,10 +125,22 @@ function ViewportManager.RenderCanvas(Viewport)
     Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
 end
 
+function ViewportManager.GetMouseOffset()
+    return -WindowViewport.Position.Offset
+end
+
 function ViewportManager.Render()
     Rendered = 0
+    
+    local WindowManager = Runtime.WindowManager
 
-   -- DecorationViewport:Draw()
+    if WindowManager.Bar.Enabled then
+        WindowViewport:Draw()
+    end
+
+    local ViewportOffset = -WindowViewport.Position.Offset
+
+    love.graphics.translate(ViewportOffset.X, ViewportOffset.Y)
     RootViewport:Draw()
 end
 

@@ -263,27 +263,26 @@ end
 ]]
 
 function StudioLayout.CreateTopbar()
-    local MenuBar = Studio.Components.CreateStyle("Square",{
-        Parent = Things.RenderRoot,
-        Name = "MenuBar",
+    local TitleBar = Studio.Components.CreateStyle("Square",{
+        Parent = Things.WindowRoot,
+        Name = "TitleBar",
         Size = Pivot2D.new(1,0,0,25),
-        ListOrder = 1,
         BackgroundColor = "Secondary",
         BackgroundTransparency = 0
     })
 
-    Topbar = Studio.Components.CreateStyle("Square",{
+    Menubar = Studio.Components.CreateStyle("Square",{
         Parent = Things.RenderRoot,
         Name = "ToolBar",
         ListOrder = 2,
         Size = Pivot2D.new(1,0,0.1,0),
-        Position = Pivot2D.FromOffset(0,25),
+        Position = Pivot2D.FromOffset(0,0),
         BackgroundColor = "Primary",
         BackgroundTransparency = 0
     })
 
-    StudioLayout.CreateWindowHandler("TopBar", { Container = Topbar })
-    StudioLayout.CreateWindowHandler("MenuBar", { Container = MenuBar })
+    StudioLayout.CreateWindowHandler("MenuBar", { Container = Menubar })
+    StudioLayout.CreateWindowHandler("TitleBar", { Container = TitleBar })
 end
 
 function StudioLayout.CreateLayout()
@@ -294,10 +293,12 @@ function StudioLayout.CreateLayout()
         Name = "WindowContainer",
         Parent = Things.RenderRoot,
         Layer = 10,
-        Position = Pivot2D.new(0,0,0.1,25),
-        Size = Pivot2D.new(1,0,0.9,-25),
+        Position = Pivot2D.new(0,0,0.1,0),
+        Size = Pivot2D.new(1,0,0.9,0),
         BackgroundTransparency = 0
     })
+
+    Runtime.WindowManager.ConfigureTitleBar(true, 24)
 
     ---@param RenderClient RenderClient
     --[[Things.RenderRoot:SetupImmediateMode(function(RenderClient)

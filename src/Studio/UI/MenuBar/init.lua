@@ -1,48 +1,107 @@
+-- Oh god i feel like i havent touched this in years - bloctans, aug 2026
 return function(TopBar)
     local Components = Studio.Components
     local Things = Runtime.Things
 
-    local ButtonList = require("Studio.UI.MenuBar.TopButtons")
-    local RequiredButtons = {}
+    local TabsList = require("Studio.UI.MenuBar.Tabs") -- God this indexing is killing me
+    local Tabs = {}
+    local Buttons = {}
 
-    function TopBar.CreateButton(Table)
-        if not RequiredButtons[Table.Component] then
-            local ButtonsOnTopThing = require("Studio.UI.MenuBar.ButtonsOnTop."..Table.Component)
-            RequiredButtons[Table.Component] = ButtonsOnTopThing
+    function TopBar.ChangeTab(TabName)
+        for _, Tab in pairs(Tabs) do
+            Tab:SetVisible(false)
         end
-        
-        local Button = RequiredButtons[Table.Component](Table.Arguments)
-        Button:SetParent(TopBar.TopperBarContainer)
+        for _, Button in pairs(Buttons) do
+            Button.BackgroundColor = Studio.CurrentTheme.Secondary
+        end
+        Buttons[TabName].BackgroundColor = Studio.CurrentTheme.Outline
+        Tabs[TabName]:SetVisible(true)
+    end
+
+    function TopBar.GetTool(Tool)
+        return require("Studio.UI.MenuBar.Tools."..Tool)
+    end
+
+    function TopBar.CreateTab(TabName, Tab)
+        -- Adds to tab list - This is sorta temporary unless we plan to not allow for customization (Still deciding on this, probably not 🔥)
+        Buttons[TabName] = Studio.Components.CreateButton(TabName, {
+            Parent = TopBar.TabsMenu,
+            Size = Pivot2D.FromScale(0.1,0.8),
+            Name = TabName,
+            CornerRadius = 100,
+            Clicked = function()
+                TopBar.ChangeTab(TabName)
+            end
+        })
+
+        local SingleTab = Things.Create("Square") {
+            Size = Pivot2D.new(1,-12,1,-12),
+            Pivot = Vector2.one * .5,
+            Position = Pivot2D.FromScale(.5,.5),
+            BackgroundTransparency = 1,
+            Name = "Tab",
+            Parent = TopBar.TabContainer
+        }
+
+        Things.Create("ListLayout") {
+            Direction = Enum.LayoutDirection.Horizontal,
+            Parent = SingleTab,
+            Padding = 5
+        }
+
+        for Order, Item in ipairs(Tab) do
+            if type(Item) == "table" then
+                local Component = Item.Component
+                local Tool = TopBar.GetTool(Component)(Item.Arguments)
+
+                Tool.ListOrder = Order
+                Tool.Name = Order..Component
+                Tool:SetParent(SingleTab)
+            end
+        end
+
+        Tabs[TabName] = SingleTab
     end
 
     function TopBar.Init()
-        TopBar.TopperBarContainer = Components.CreateStyle("Square", {
-            Size = Pivot2D.FromScale(1,1),
+        TopBar.TabsMenu = Components.CreateStyle("Square", {
+            Position = Pivot2D.FromScale(0,0),
+            BackgroundTransparency = 1,
+            Size = Pivot2D.FromScale(1,0.3),
+            Parent = TopBar.Container,
+            Name = "TabMenu",
+            OutlineSize = 1,
+            OutlineColor = Studio.CurrentTheme.Outline
+        })
+
+        Things.Create("ListLayout") {
+            Alignment = Enum.Alignment.Center,
+            Direction = Enum.LayoutDirection.Horizontal,
+            Parent = TopBar.TabsMenu,
+
+            Padding = 5,
+        }
+
+        TopBar.TabContainer = Components.CreateStyle("Square", {
+            Position = Pivot2D.FromScale(0,0.3),
+            Size = Pivot2D.FromScale(1,0.7),
+            Name = "TabTools",
             BackgroundTransparency = 1,
             Parent = TopBar.Container
         })
-
-        local Visbility = Components.ExpandButton(TopBar.TopperBarContainer)
-        local MenuVisible = true
-
-        Visbility.Clicked:Connect(function()
-            MenuVisible = not MenuVisible
-
-            Visbility.Toggle(MenuVisible)
-            Studio.Layout.ToggleTopbar(MenuVisible)
-        end)
-
-        Things.Create("ListLayout") {
-            Alignment = Enum.Alignment.MiddleLeft,
-            Direction = Enum.LayoutDirection.Horizontal,
-            Parent = TopBar.TopperBarContainer,
-            Padding = 2,
-        }
-
-        for i,Tab in pairs(ButtonList) do
-            TopBar.CreateButton(Tab)
+        
+        for i = 1, table.length(TabsList) do
+            for TabName, Tab in pairs(TabsList) do
+                if Tab.Order == i then
+                    TopBar.CreateTab(TabName, Tab)
+                end
+            end
         end
+        for i, Tab in pairs(Tabs) do
+            if i ~= "General" then Tab:SetVisible(false) end
+        end
+        Buttons.General.BackgroundColor = Studio.CurrentTheme.Outline
     end
 
-    return TopBar 
+    return TopBar
 end

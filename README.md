@@ -22,7 +22,7 @@ The documentation repo is located [here](https://github.com/StudioDreamEngine/St
 
 StudioDream currently uses the [3DreamEngine](https://github.com/3dreamengine/3DreamEngine) project, however it is a highly edited version of it tailored to our needs
 
-# Running
+# Running/Development
 **StudioDream requires LÖVE 12 to run, get it from the [GitHub actions artifacts](https://github.com/love2d/love/actions) from the official LÖVE GitHub repository (requires an account)**
 
 ## Windows
@@ -33,7 +33,7 @@ To run the StudioDream app, open the ``src`` folder in Command Prompt and run ``
 
 Use ``test-love12.sh`` to run StudioDream
 
-# Building
+# Building a Release
 Building should be pretty simple on both platforms.
 
 Simply just run the corresponding batch or bash files in the ``build`` directory

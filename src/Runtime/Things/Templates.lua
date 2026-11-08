@@ -63,8 +63,14 @@ function Templates.CreateRoot()
         Parent = RenderRoot
     }
 
-    Runtime.Renderer.ViewportManager.SetRootViewport(Viewport) -- Indexing kills me but whatever
-    return Root, Viewport
+    local WindowViewport = Things.Create("ViewportLite") {
+        Name = "ViewportWindow",
+        IsWindow = true,
+        Parent = RenderRoot
+    }
+
+    Runtime.Renderer.ViewportManager.SetViewports(Viewport, WindowViewport)
+    return Root, Viewport, WindowViewport
 end
 
 Templates.Entries = {

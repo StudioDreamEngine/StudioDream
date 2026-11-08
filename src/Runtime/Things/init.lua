@@ -26,7 +26,7 @@ function Things.Init()
     Templates.DefaultMaterial = Things.New("Material")
 
     printVerbose("Creating root tree")
-    Things.Root, Things.RenderRoot = Templates.CreateRoot()
+    Things.Root, Things.RenderRoot, Things.WindowRoot = Templates.CreateRoot()
     Things.FireTreeChange = false
 end
 

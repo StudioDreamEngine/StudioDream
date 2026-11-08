@@ -1,4 +1,5 @@
 -- used for getting and changing general information about the operating system and window
+---@class PlatformService
 local PlatformService = {}
 
 local Dimensions, WinFlags
@@ -26,9 +27,8 @@ function PlatformService.SetPosition(Position)
     PlatformService.UpdateMode()
 end
 
--- Change if or if not the window doesnt have a border and title bar on it.
-function PlatformService.SetBorderless(Borderless)
-    WinFlags.borderless = Borderless
+function PlatformService.SetFlag(Flag, Value)
+    WinFlags[Flag] = Value
     PlatformService.UpdateMode()
 end
 

@@ -87,6 +87,17 @@ function Viewport:SetScale(New)
     self:UpdateTransforms()
 end
 
+function Viewport:GetAbsolutePosition()
+    local Position = Viewport.super.GetAbsolutePosition(self)
+
+    -- VIEWPORT WINDOW HACK: Makes the viewport position (for mouse clicks) start off negative
+    if self.IsWindow then
+        self.ViewportPosition = self.Position.Offset
+    end
+
+    return Position
+end
+
 function Viewport:UpdateTransforms()
     Viewport.super.UpdateTransforms(self)
 

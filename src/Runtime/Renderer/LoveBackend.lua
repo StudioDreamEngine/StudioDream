@@ -97,8 +97,14 @@ function Backend.DebugPrint(Anchor, String)
     end
 end
 
-function Backend.GetWindowSize()
-    return Vector2.new(love.graphics.getWidth(), love.graphics.getHeight())
+function Backend.GetWindowSize(ScaleToDPI)
+    local Size = Vector2.new(love.graphics.getWidth(), love.graphics.getHeight())
+
+    if ScaleToDPI then
+        return Size * love.window.getDPIScale()
+    else
+        return Size
+    end
 end
 
 function Backend.GetMousePosition()

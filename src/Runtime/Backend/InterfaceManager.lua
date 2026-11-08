@@ -92,6 +92,8 @@ function InterfaceManager.Update(dt)
 
     InterfaceManager.ClickSurface = nil
 
+    local MousePosition = Backend2D.GetMousePosition() - ViewportManager.GetMouseOffset()
+
     -- Go through all viewports and update their mouse-positions for all objects
     ---@param Viewport Viewport
     for _, Viewport in pairs(ViewportManager.Viewports) do
@@ -99,7 +101,7 @@ function InterfaceManager.Update(dt)
         if Viewport:IsA("SurfaceViewport") then -- Surface viewports are treated differently then regular ones
             HandleSurface(Viewport)
         else
-            Viewport.MousePosition = (Backend2D.GetMousePosition() - Viewport.ViewportPosition) --- Viewport.AbsolutePivot
+            Viewport.MousePosition = (MousePosition - Viewport.ViewportPosition) --- Viewport.AbsolutePivot
         end
 
         Viewport.MousePosition = (Viewport.MousePosition / Viewport.Scale)

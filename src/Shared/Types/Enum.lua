@@ -34,6 +34,13 @@ local Enums = {
         HighPass = "highpass",
         BandPass = "bandpass"
     },
+    Serializer = {
+        NAML = "NAML", -- NAML is an entity-oriented YAML-like format used by scenes in StudioDream
+        JSON = "JSON",
+        --MsgPack = "MessagePack", -- MsgPack stands for MessagePack, being an implementation of (https://msgpack.org/) from markstinson on github
+        --NetPack = "NetworkPack", -- Custom format by Alecstey for networking, uses the same format internally used by NetworkService 
+        --Binser = "Binser" -- Binary format for lua tables
+    },
     OpenDialog = {
         Folder = "OpenFolderDialog",
         File = "OpenFileDialog",
