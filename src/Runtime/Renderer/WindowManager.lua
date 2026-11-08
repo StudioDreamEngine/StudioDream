@@ -1,5 +1,4 @@
 local ffi = require("ffi")
-local loveC = ffi.C
 
 local WindowManager = {}
 local SDLWindow = nil
