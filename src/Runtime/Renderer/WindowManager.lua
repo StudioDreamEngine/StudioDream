@@ -1,5 +1,8 @@
 local ffi = require("ffi")
-local SDLC = ffi.os == 'Windows' and ffi.load('SDL2') or ffi.C
+print(ffi.os)
+print(ffi.load('SDL3'))
+
+local SDLC = ffi.os == 'Windows' and ffi.load('SDL3') or ffi.C
 
 local WindowManager = {}
 local SDLWindow = nil
