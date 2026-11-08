@@ -15,7 +15,7 @@ function Sky:new()
         Moon = nil,
     }
 
-    self.Time = 7
+    self.Time = 9
     self.Latitude = math.pi/3
 
     self.SunColor = Color.new(1.0, 0.75, 0.5)
@@ -30,6 +30,7 @@ function Sky:new()
     self:SetMoon(self.DefaultMoon)
     self:SetSun(self.DefaultSun)
     self:SetSky(self.DefaultSky)
+    self:SetTime(self.Time)
 end
 
 function Sky:DefineAPI()

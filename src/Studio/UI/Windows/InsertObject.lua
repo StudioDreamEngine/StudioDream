@@ -136,6 +136,14 @@ return function(InsertObject)
         end
     end
 
+    function InsertObject.GoUp()
+        print(InsertObject.ScrollContainer.ScrollPosition)
+        if InsertObject.ScrollContainer.ScrollPosition >= -0.1 then return end
+
+        InsertObject.ScrollContainer.ScrollPosition = -200
+        InsertObject.ScrollContainer:SetScroll(0)
+    end
+
     function InsertObject.AllInvisible(GroupDropdown)
         local HasStuff = false
 
@@ -152,6 +160,7 @@ return function(InsertObject)
     end
 
     function InsertObject.UpdateList()
+        InsertObject.GoUp()
         for _,GroupNode in pairs(InsertObject.ScrollContainer:GetChildren()) do
             if GroupNode.Dropdown then
                 for i,v in pairs(GroupNode.Dropdown:GetChildren()) do

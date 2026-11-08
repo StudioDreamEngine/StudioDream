@@ -46,8 +46,8 @@ function String:CreateVisual()
 
     local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
     
-    Visual.EnumList = table.clone(Selecting[1].Proxy.Enums[PropertyName])
-    Visual.TableBuilded = self:BuildChoices(Selecting[1].Proxy.Enums[PropertyName])
+    Visual.EnumList = Selecting[1].Proxy.Enums[PropertyName] and table.clone(Selecting[1].Proxy.Enums[PropertyName]) or {}
+    Visual.TableBuilded = Selecting[1].Proxy.Enums[PropertyName] and self:BuildChoices(Selecting[1].Proxy.Enums[PropertyName]) or {}
 
     Visual.Button = Studio.Components.CreateStyle("TextButton",{
         BackgroundTransparency = 0,
