@@ -4,15 +4,36 @@ return function(TitleBar)
 
     function TitleBar.Init()
         TitleBar.TopBarContainer = Components.CreateStyle("Square", {
-            Size = Pivot2D.FromScale(0.6,1),
+            Size = Pivot2D.FromScale(0.4,1),
             BackgroundTransparency = 1,
             Parent = TitleBar.Container,
-            --BackgroundColor = "Outline",
-           -- CornerRadius = Corners.new(10,10,10,10),
         })
 
-        local TopBar = require("Studio.UI.TitleBar.TopBar")(TitleBar.TopBarContainer)
+        TitleBar.Container = Components.CreateStyle("Square", {
+            Size = Pivot2D.FromScale(0.6,1),
+            Position = Pivot2D.FromScale(0.4,0),
+            BackgroundTransparency = 1,
+            Parent = TitleBar.Container,
+        })
 
+        --[[local Title = Studio.Components.CreateStyle("Text",{
+            BackgroundTransparency = 1,
+            Text = love.window.getTitle(),
+            Parent = TitleBar.Container,
+            Alignment = Enum.Alignment.Center,
+            Size = Pivot2D.FromScale(0.5,1),
+            Position = Pivot2D.FromScale(-0.1,0),
+            ForegroundColor = "Text",
+
+            TextScaled = false,
+            Font = "FontBold"
+        })
+
+        Runtime.Project.Config.OnChange:Connect(function()
+            Title:SetText(love.window.getTitle())
+        end)]]
+
+        local TopBar = require("Studio.UI.TitleBar.TopBar")(TitleBar.TopBarContainer)
         TopBar.Init()
     end
 

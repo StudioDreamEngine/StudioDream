@@ -24,12 +24,12 @@ function ViewportManager.UpdateSize()
     if WindowManager.Bar.Enabled then
         Size = Size - (Vector2.yAxis * WindowManager.Bar.Height)
 
-        WindowViewport:SetPosition(Pivot2D.FromOffset(0, -WindowManager.Bar.Height))
+        WindowViewport:SetPosition(Pivot2D.FromOffset(-WindowManager.Padding, -WindowManager.Bar.Height - WindowManager.Padding))
+        RootViewport:SetSize(Pivot2D.FromOffset(Size.X - WindowManager.Padding * 2, Size.Y - WindowManager.Padding * 2))
     else
         WindowViewport:SetPosition(Pivot2D.FromOffset(0,0))
+        RootViewport:SetSize(Pivot2D.FromOffset(Size.X, Size.Y))
     end
-    
-    RootViewport:SetSize(Pivot2D.FromOffset(Size.X, Size.Y))
 end
 
 -- Set the viewport that will be automatically presented to the main screen each frame
@@ -135,6 +135,7 @@ function ViewportManager.Render()
     local WindowManager = Runtime.WindowManager
 
     if WindowManager.Bar.Enabled then
+        WindowViewport.BackgroundColor = WindowManager.Color
         WindowViewport:Draw()
     end
 

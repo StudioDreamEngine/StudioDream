@@ -264,7 +264,7 @@ end
 
 function StudioLayout.CreateTopbar()
     local TitleBar = Studio.Components.CreateStyle("Square",{
-        Parent = Things.WindowRoot,
+        Parent = Things.RenderRoot,
         Name = "TitleBar",
         Size = Pivot2D.new(1,0,0,25),
         BackgroundColor = "Secondary",
@@ -272,30 +272,12 @@ function StudioLayout.CreateTopbar()
         --CornerRadius = Corners.new(10,10,0,0),
     })
 
-    local Title = Studio.Components.CreateStyle("Text",{
-        Parent = Things.WindowRoot,
-        Size = Pivot2D.FromScale(1,1),
-        BackgroundTransparency = 1,
-        Text = love.window.getTitle(),
-        Parent = TitleBar,
-        Alignment = Enum.Alignment.Center,
-        ForegroundColor = "Text",
-        Size = 5,
-        TextScaled = false,
-        Font = "FontBold"
-        --CornerRadius = Corners.new(10,10,0,0),
-    })
-
-    Runtime.Project.Config.OnChange:Connect(function()
-        Title:SetText(love.window.getTitle())
-    end)
-
     Menubar = Studio.Components.CreateStyle("Square",{
         Parent = Things.RenderRoot,
         Name = "ToolBar",
         ListOrder = 2,
         Size = Pivot2D.new(1,0,0.1,0),
-        Position = Pivot2D.FromOffset(0,0),
+        Position = Pivot2D.FromOffset(0,25),
         BackgroundColor = "Primary",
         BackgroundTransparency = 0
     })
@@ -312,12 +294,10 @@ function StudioLayout.CreateLayout()
         Name = "WindowContainer",
         Parent = Things.RenderRoot,
         Layer = 10,
-        Position = Pivot2D.new(0,0,0.1,0),
-        Size = Pivot2D.new(1,0,0.9,0),
+        Position = Pivot2D.new(0,0,0.1,25),
+        Size = Pivot2D.new(1,0,0.9,-25),
         BackgroundTransparency = 0
     })
-
-    Runtime.WindowManager.ConfigureTitleBar(true, 24)
 
     ---@param RenderClient RenderClient
     --[[Things.RenderRoot:SetupImmediateMode(function(RenderClient)

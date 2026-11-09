@@ -1,7 +1,4 @@
 local ffi = require("ffi")
-print(ffi.os)
-print(ffi.load('SDL3'))
-
 local SDLC = ffi.os == 'Windows' and ffi.load('SDL3') or ffi.C
 
 local WindowManager = {}
@@ -13,6 +10,7 @@ WindowManager.Bar = {
     Enabled = false,
 }
 WindowManager.Padding = 2
+WindowManager.Color = Color.new(0)
 
 ffi.cdef([[
     typedef struct SDL_Window SDL_Window;
@@ -57,8 +55,6 @@ function WindowManager.Init()
     -- the fuck do you mean i can just do this???
     HitTest = ffi.cast("SDL_HitTest", function(_, area, _)
         local Result = 0
-        local WinSize = Runtime.Backend2D.GetWindowSize(true)
-
         if (area.y < WindowManager.Bar.Height) and (not Runtime.InterfaceManager.Hovering) then
             Result = 1
         end
