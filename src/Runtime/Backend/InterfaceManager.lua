@@ -15,10 +15,6 @@ function InterfaceManager.Init()
     InterfaceManager.OnClickPress = Signal:New("MouseClick4")
     InterfaceManager.OnClickGeneral = Signal:New("MouseClick3")
 
-    -- Keep it always enabled for now
-    -- in the future (if we wanna) we can rewrite the hover system to make this work, as doing it the way we were wouldnt work
-    love.keyboard.setTextInput(true)
-
     LoveEvents.MousePressed:Connect(function(x,y,button)
         if button == Enum.MouseButton.RightClick then
             InterfaceManager.OnRightClick:Invoke(Vector2.new(x,y))
