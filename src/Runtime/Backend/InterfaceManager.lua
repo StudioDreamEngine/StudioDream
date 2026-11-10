@@ -76,6 +76,8 @@ local function HandleSurface(Viewport)
     end
 end
 
+local TextActive = false
+
 function InterfaceManager.DebugDraw()
     local Text = ""
 
@@ -84,6 +86,7 @@ function InterfaceManager.DebugDraw()
     end
 
     Runtime.Backend2D.DebugPrint(Vector2.yAxis, Text)
+    Runtime.Backend2D.DebugPrint(Vector2.yAxis * .5, "Text Input Enabled?: "..tostring(TextActive))
 end
 
 function InterfaceManager.Update(dt)
@@ -116,12 +119,18 @@ function InterfaceManager.Update(dt)
     table.clear(CurrentlyHovering)
     InterfaceManager.Hovering = false
 
+    TextActive = false
+
     -- Hovering pass 1: Go through all buttons and determine which are being hovered
     for _, ButtonID in pairs(InterfaceManager.Buttons) do
         local Button = Runtime.Things.Get(ButtonID)
         local DisplayUI
 
         if Button then DisplayUI = Button.DisplayUI end
+
+        if Button:IsA("TextInput") and Button.InputActive then
+            TextActive = true
+        end
         
         -- MousePosition check is a hack here for now
         if DisplayUI and DisplayUI.MousePosition then -- WHY DOESNT LUA HAVE THE CONTINUE KEYWORD AHSIUEYUWRFHJLUEJDKHF;p
@@ -143,6 +152,8 @@ function InterfaceManager.Update(dt)
             end
         end
     end
+
+    love.keyboard.setTextInput(TextActive)
 
     --[[for i,v in pairs(CurrentlyHovering) do
         if v.Hovering == false then

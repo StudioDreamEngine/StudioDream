@@ -51,13 +51,20 @@ function TextInput:new()
         self.RenderClass:_HandleKey(Enum.ControlCode.Key, Key)
     end)
 
-    Runtime.InterfaceManager.OnClick:Connect(function()
+    self.StopFocusEvent = InputService.MouseEvent:Connect(function(IsDown)
+        if not IsDown then return end
+        if not self.Active then return end
+
+        if not self.Hovering and self.RenderClass.Focused then
+            self:StopFocus()
+        end
+    end, Enum.MouseButton.LeftClick)
+
+    self.StartFocusEvent = Runtime.InterfaceManager.OnClick:Connect(function()
         if not self.Active then return end
         
         if self.Hovering then
             self:StartFocus()
-        elseif not self.Hovering and self.RenderClass.Focused then
-            self:StopFocus()
         end
     end)
 end
@@ -125,6 +132,8 @@ function TextInput:OnRemove()
     self.FocusEnd:DisconnectAll()
     self.FocusStart:DisconnectAll()
     self.Typed:DisconnectAll()
+    self.StartFocusEvent:Disconnect()
+    self.StopFocusEvent:Disconnect()
 
     Runtime.InterfaceManager.UnregisterButton(self.UUID)
     TextInput.super.OnRemove(self)
