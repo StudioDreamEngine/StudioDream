@@ -30,7 +30,7 @@ local function ProxyFunction(OldFunction, ...)
     local Result = OldFunction(...)
     local NewResult = {}
 
-    if Utils.TypeOf(Result) == "table" then
+    if Utils.IsType(Result, "table[Thing]") then
         for _, v in pairs(Result) do
             table.insert(NewResult, Bridge.Proxy(v))
         end

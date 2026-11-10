@@ -16,6 +16,21 @@ function Utils.NonCritical(Function)
     -- TODO
 end
 
+function Utils.IsType(Object, Type)
+    local Type, ContentType = string.match(Type, "(%a)%[(%a)%]")
+    local IsType = (Utils.TypeOf(Object) == Type)
+
+    if ContentType and (type(Object) == "table") then
+        for _, Element in pairs(Object) do
+            if not Utils.TypeOf(Element) == ContentType then
+                IsType = false
+            end
+        end
+    end
+
+    return IsType
+end
+
 function Utils.TypeOf(Object)
     if type(Object) == "table" then
         return Object.Type or "table"
