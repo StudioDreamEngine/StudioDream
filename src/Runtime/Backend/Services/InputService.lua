@@ -99,41 +99,41 @@ function InputService.Init()
     InputService.JoystickRemoved = Signal:New("Input-JoystickRemove")
 
     -- Pass the value itself as we assume the enum is used anyways
-    LoveEvents.MousePressed:Connect(function(_,_,button) InputService.MouseEvent.Invoke(button, true)  end)
-    LoveEvents.MouseReleased:Connect(function(_,_,button) InputService.MouseEvent.Invoke(button, false) end)
+    LoveEvents.MousePressed:Connect(function(_,_,button) InputService.MouseEvent:Invoke(button, true)  end)
+    LoveEvents.MouseReleased:Connect(function(_,_,button) InputService.MouseEvent:Invoke(button, false) end)
 
     LoveEvents.JoystickAdded:Connect(function(Primitive) 
         local NewJoyObject = CreateJoystickObject(Primitive)
         if (not NewJoyObject) then return end
 
         InputService.JoysticksConnected[NewJoyObject.ID] = NewJoyObject
-        InputService.JoystickAdded.Invoke(NewJoyObject)
+        InputService.JoystickAdded:Invoke(NewJoyObject)
     end)
 
     LoveEvents.JoystickRemoved:Connect(function(Primitive)
         local JoyObject = InputService.GetJoystickByPrimitive(Primitive)
         JoyObject:Destroy()
-        --InputService.JoystickRemoved.Invoke(NewJoyObject)
+        --InputService.JoystickRemoved:Invoke(NewJoyObject)
         InputService.JoysticksConnected[JoyObject.ID] = nil
     end)
 
     LoveEvents.JoystickPressed:Connect(function(Primitive,Button)
         local JoyObject = InputService.GetJoystickByPrimitive(Primitive)
-        JoyObject.ButtonPressed.Invoke(Button)
+        JoyObject.ButtonPressed:Invoke(Button)
     end)
 
     LoveEvents.JoystickReleased:Connect(function(Primitive,Button)
         local JoyObject = InputService.GetJoystickByPrimitive(Primitive)
-        JoyObject.ButtonReleased.Invoke(Button)
+        JoyObject.ButtonReleased:Invoke(Button)
     end)
 
     LoveEvents.MouseMoved:Connect(function(x,y,dx,dy) 
         local MouseObject = { Position = Vector2.new(x,y), Delta = Vector2.new(dx,dy) } ---@class InputMouseObject
-        InputService.MouseMoved.Invoke(nil, MouseObject) 
+        InputService.MouseMoved:Invoke(nil, MouseObject) 
     end)
 
-    LoveEvents.KeyPressed:Connect(function(key) InputService.KeyEvent.Invoke(key, true)  end)
-    LoveEvents.KeyReleased:Connect(function(key) InputService.KeyEvent.Invoke(key, false)  end)
+    LoveEvents.KeyPressed:Connect(function(key) InputService.KeyEvent:Invoke(key, true)  end)
+    LoveEvents.KeyReleased:Connect(function(key) InputService.KeyEvent:Invoke(key, false)  end)
 end
 
 InputService.KeyDown = Runtime.Backend2D.KeyDown

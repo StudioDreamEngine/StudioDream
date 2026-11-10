@@ -223,7 +223,7 @@ function Audio:Update(dt)
 
         if (not Playing) and self.Playing then
             print("Stopped")
-            self.StoppedPlaying.Invoke()
+            self.StoppedPlaying:Invoke()
         end
 
         self.Playing = Playing

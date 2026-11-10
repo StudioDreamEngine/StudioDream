@@ -185,7 +185,7 @@ function Themes.ChangeTheme(NewTheme)
     Studio.SettingsManager.Set("UsingTheme",NewTheme)
 
     Studio.CurrentTheme = Themes.GetCurrentTheme()
-    Studio.Theme.ThemeChanged.Invoke()
+    Studio.Theme.ThemeChanged:Invoke()
 end
 
 function Themes.GetPalette()

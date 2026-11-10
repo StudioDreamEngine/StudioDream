@@ -44,7 +44,7 @@ function DialogWindows.DestroyDialogWindow()
         Components.UnregisterUpdator(ActiveDialogWindow.Updator)
 
         ActiveDialogWindow.Window:Destroy()
-        ActiveDialogWindow.OnClose.Invoke()
+        ActiveDialogWindow.OnClose:Invoke()
         ActiveDialogWindow = nil
     end
     DialogWindows.HideFade()

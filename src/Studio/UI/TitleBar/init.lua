@@ -16,6 +16,16 @@ return function(TitleBar)
             Parent = TitleBar.Container,
         })
 
+        local Visbility = Components.ExpandButton(TitleBar.Container)
+        local MenuVisible = true
+
+        Visbility.Clicked:Connect(function()
+            MenuVisible = not MenuVisible
+
+            Visbility.Toggle(MenuVisible)
+            Studio.Layout.ToggleMenubar(MenuVisible)
+        end)
+
         --[[local Title = Studio.Components.CreateStyle("Text",{
             BackgroundTransparency = 1,
             Text = love.window.getTitle(),

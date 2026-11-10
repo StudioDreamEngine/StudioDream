@@ -27,7 +27,7 @@ function DataService:EditSavePath(NewSavePath)
 
     Runtime.Project.Config.Set("SaveIdentifier",NewSavePath)
     DataService.CurrentSavePath = NewSavePath
-    DataService.UpdatedCurrentSavePath.Invoke()
+    DataService.UpdatedCurrentSavePath:Invoke()
 
     return true
 end

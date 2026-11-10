@@ -87,7 +87,7 @@ function AnimatedImage2D:RenderCurrentAnimation(dt)
 				self.FrameIn = 1
 			else
                 self:Stop()
-				self.OnEnd.Invoke()
+				self.OnEnd:Invoke()
 				return
 			end
 		end

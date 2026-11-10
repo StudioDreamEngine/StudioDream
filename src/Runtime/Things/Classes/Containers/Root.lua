@@ -57,14 +57,14 @@ function Root:Clear()
         printVerbose("Not clearing casts as services not initialized")
     end
     
-    Runtime.Things.TreeChanged.Invoke()
+    Runtime.Things.TreeChanged:Invoke()
     Scheduler.Yield()
     return self:Collect()
 end
 
 function Root:SetEnvironmentViewport(New)
     self.EnvironmentViewport = New
-    self.ViewportChanged.Invoke()
+    self.ViewportChanged:Invoke()
 
     --Runtime.SelectionPriority.BindEnviornment(New)
 end

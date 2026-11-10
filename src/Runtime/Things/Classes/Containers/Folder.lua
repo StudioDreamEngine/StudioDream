@@ -27,7 +27,7 @@ end
 function Folder:SetIconColor(Color)
     self.IconColor = Color
     self.Proxy.SetIconColor(Color)
-    self.IconColorChanged.Invoke()
+    self.IconColorChanged:Invoke()
 end
 
 function Folder:OnRemove()

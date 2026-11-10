@@ -446,7 +446,7 @@ function BaseGui:UpdateTransforms()
         if (not NewSize:Is(self.AbsoluteSize)) then
             self:SetAbsoluteSize(NewSize)
 
-            self.PropagatedChange.Invoke("AbsoluteSize", NewSize)
+            self.PropagatedChange:Invoke("AbsoluteSize", NewSize)
         end
 
         self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
@@ -460,7 +460,7 @@ function BaseGui:UpdateTransforms()
         self.AbsolutePosition = self:GetAbsolutePosition() --+ (self.AbsolutePivot - self.RotationPivot)
         self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 
-        self.PostTransform.Invoke()
+        self.PostTransform:Invoke()
 
         Profiler.End()
     end)
@@ -489,7 +489,7 @@ function BaseGui:ProcessInvalidations()
 
     if self.TruelyVisible ~= NewVisible then
         self.TruelyVisible = NewVisible
-        self.PropagatedChange.Invoke("Visible", self.TruelyVisible)
+        self.PropagatedChange:Invoke("Visible", self.TruelyVisible)
     end
 
     if self.TruelyVisible then

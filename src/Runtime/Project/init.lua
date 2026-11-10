@@ -170,7 +170,7 @@ function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
 
-    Project.LoadingProject.Invoke()
+    Project.LoadingProject:Invoke()
     Scheduler.Yield()
 
     local LoadProject = Profiler.Benchmark("Load Project")
@@ -182,7 +182,7 @@ function Project.Load(ProjectPath)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
     end
 
-    Project.LoadedProject.Invoke()
+    Project.LoadedProject:Invoke()
 
     return true
 end
@@ -214,7 +214,7 @@ function Project.CreateProject(ProjectPath)
 
     -- Now do our initial project save, saving all template resources & the root scene
     Project.Save()
-    Project.LoadedProject.Invoke()
+    Project.LoadedProject:Invoke()
 end
 
 -- Take current project and package it into a zip file, returns the zip file as bytes
@@ -275,7 +275,7 @@ function Project.Save()
         ProjectFS.QueueWrite("Thumbnail.png", Dream:renderThumbnail())
         RootScene.Save()
 
-        Project.SavingProject.Invoke()
+        Project.SavingProject:Invoke()
     end, function(Error)
         return debug.traceback(Error)
     end)

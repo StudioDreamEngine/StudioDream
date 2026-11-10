@@ -449,7 +449,7 @@ return function(Explorer)
     end
 
     function Explorer.Redraw()
-        Explorer.CleaningUp.Invoke()
+        Explorer.CleaningUp:Invoke()
         ScrollContainer:ClearAllChildren({"ListLayout"})
 
         table.clear(Explorer.Tree)

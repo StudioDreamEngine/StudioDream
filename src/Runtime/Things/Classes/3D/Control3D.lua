@@ -69,13 +69,13 @@ function Control3D:ConnectEvents()
 
     self.MouseEvent = SelectionPriority.BindSignal(function(IsDown)
         if IsDown then
-            self.StartControl.Invoke()
+            self.StartControl:Invoke()
             self.Down = self.Hovering
 
             self:OnStart()
         else
             self.Down = false 
-            self.EndControl.Invoke() 
+            self.EndControl:Invoke() 
         end
     end, 2, function ()
         return self.Hovering or self.Down

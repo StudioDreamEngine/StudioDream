@@ -43,13 +43,13 @@ function SlideBar:OnInitalParent(NewParent)
         if not self.Hovering then return end
         if not self.Active then return end
         self.Holding = true
-        self.StartHolding.Invoke()
+        self.StartHolding:Invoke()
     end)
 
     Runtime.InterfaceManager.OnRelease:Connect(function()
         if not self.Active then return end
         self.Holding = false
-        self.EndHolding.Invoke()
+        self.EndHolding:Invoke()
     end)
 end
 
@@ -69,7 +69,7 @@ function SlideBar:SetPercentage(NewNumber)
     self.Percentage = Percentage
 
     if Old ~= Percentage then
-        self.ChangedPercentage.Invoke(Percentage)
+        self.ChangedPercentage:Invoke(Percentage)
     end
 
     if self.Parent and self.Parent:IsA("BaseGui") then
@@ -105,7 +105,7 @@ function SlideBar:HandleDrag(Position) -- Omg this was stressing, sometimes i di
     self.Percentage = Percentage
 
     if Old ~= Percentage then
-        self.ChangedPercentage.Invoke(Percentage)
+        self.ChangedPercentage:Invoke(Percentage)
     end
 
     if self.SlideAxis == "X" then

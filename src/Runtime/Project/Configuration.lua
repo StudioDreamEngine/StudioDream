@@ -65,7 +65,7 @@ function Configuration.Load(Mount)
                 Configuration.Config = Config
             end
 
-            Configuration.OnChange.Invoke()
+            Configuration.OnChange:Invoke()
 
             return Config
         elseif (not Mount) then
@@ -87,7 +87,7 @@ function Configuration.Save()
     local Serialized = JSON.encode(Configuration.Config)
     Runtime.ProjectFS.QueueWrite("Project.sdc", Serialized)
 
-    Configuration.OnChange.Invoke()
+    Configuration.OnChange:Invoke()
 end
 
 return Configuration

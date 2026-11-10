@@ -21,22 +21,22 @@ function InterfaceManager.Init()
 
     LoveEvents.MousePressed:Connect(function(x,y,button)
         if button == Enum.MouseButton.RightClick then
-            InterfaceManager.OnRightClick.Invoke(Vector2.new(x,y))
+            InterfaceManager.OnRightClick:Invoke(Vector2.new(x,y))
         elseif button == Enum.MouseButton.LeftClick then
-            InterfaceManager.OnClickPress.Invoke()
+            InterfaceManager.OnClickPress:Invoke()
         end
 
-        InterfaceManager.OnClickGeneral.Invoke(Vector2.new(x,y))
+        InterfaceManager.OnClickGeneral:Invoke(Vector2.new(x,y))
     end)
 
     Runtime.SelectionPriority.GuiClick:Connect(function()
-        InterfaceManager.OnClick.Invoke()
+        InterfaceManager.OnClick:Invoke()
         InterfaceManager.Clicking = true
     end)
 
     LoveEvents.MouseReleased:Connect(function(_,_,button)
         if button == Enum.MouseButton.LeftClick then -- TODO: Use listener
-            InterfaceManager.OnRelease.Invoke()
+            InterfaceManager.OnRelease:Invoke()
             InterfaceManager.Clicking = false
         end
     end)

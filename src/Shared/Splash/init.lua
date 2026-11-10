@@ -160,7 +160,7 @@ function Splash.Load()
     end
 
     if FLAGS.SecondRun and Shared.Target ~= "Client" then
-        Runtime.Project.LoadedProject.Invoke()
+        Runtime.Project.LoadedProject:Invoke()
     end
 end
 

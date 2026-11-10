@@ -55,7 +55,7 @@ return function(Options)
         ClickedEvent = Object.Apply.Clicked:Connect(function()
             print("Clicked apply")
             if Object.Inputer.Text and Object.Inputer.Text ~= ("" or " ") then
-                Object.FinalProject.Invoke(Object.Inputer.Text)
+                Object.FinalProject:Invoke(Object.Inputer.Text)
                 ClickedEvent:Disconnect()
                 Object.Window:Destroy()
             end

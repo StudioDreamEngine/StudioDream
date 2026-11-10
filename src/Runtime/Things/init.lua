@@ -209,7 +209,7 @@ function Things.New(ThingType, CustomUUID)
         end,
         __newindex = function (_, k, v)
             if Thing[k] ~= v then
-                Thing.PropertyChanged.Invoke(k,v)
+                Thing.PropertyChanged:Invoke(k,v)
             end
 
             Thing[k] = v
@@ -275,7 +275,7 @@ function Things.Update(dt)
     
     if Things.FireTreeChange then
         print("Tree Change: "..Things.FireTreeChange:GetPath())
-        Things.TreeChanged.Invoke()
+        Things.TreeChanged:Invoke()
         Things.FireTreeChange = false
     end
 end

@@ -175,7 +175,7 @@ function Components.ExpandButton(Parent)
     end
 
     ExpandButton.Button.Clicked:Connect(function()
-        ExpandButton.Clicked.Invoke()
+        ExpandButton.Clicked:Invoke()
     end)
 
     return ExpandButton
@@ -231,7 +231,7 @@ function Components.ExpandableDropdown(Header, List, CustomName)
 
     ExpandableDropdown.Button.Clicked:Connect(function()
         ExpandableDropdown.Toggle(not ExpandableDropdown.Visible)  
-        ExpandableDropdown.VisibleChanged.Invoke(ExpandableDropdown.Visible) 
+        ExpandableDropdown.VisibleChanged:Invoke(ExpandableDropdown.Visible) 
     end)
     
     ExpandableDropdown.Container.OnDestroy:ConnectOnce(function()
@@ -393,7 +393,7 @@ function Components.CreateButtonStyle(Info)
 
     ObjStyler.Button.Released:Connect(function()
         ObjStyler.Button:SetPosition(Pivot2D.FromScale(0.5,0.2))
-        ObjStyler.Clicked.Invoke()
+        ObjStyler.Clicked:Invoke()
     end)
 
     -- mikl thats not how it works!

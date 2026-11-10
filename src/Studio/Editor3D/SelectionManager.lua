@@ -10,7 +10,7 @@ SelectionManager.ObjectPickerEvent = Signal:New("GetThingToPutOnAProperty")
 function SelectionManager.DeselectAll()
     if Editor3D.Selecting then -- 💀💀💀💀💀
         table.clear(Editor3D.Selecting)
-        Editor3D.OnDeselect.Invoke(Editor3D.Selecting)
+        Editor3D.OnDeselect:Invoke(Editor3D.Selecting)
     end
 
     SelectionManager.ObjectPicker = false
@@ -23,7 +23,7 @@ function SelectionManager.SelectObject(Thing)
     else
         if SelectionManager.ObjectPicker ~= Thing then 
             SelectionManager.ObjectPicker = false
-            SelectionManager.ObjectPickerEvent.Invoke(Thing)
+            SelectionManager.ObjectPickerEvent:Invoke(Thing)
         end
 
         Runtime.Cursor.ChangeCursor("Main")
@@ -55,7 +55,7 @@ function SelectionManager.SelectObjectInternal(Thing)
         Editor3D.Selecting = {Thing}
     end
 
-    Editor3D.OnSelect.Invoke(Thing)
+    Editor3D.OnSelect:Invoke(Thing)
 end
 
 function SelectionManager.DuplicateAll()

@@ -112,6 +112,7 @@ function Input:HandleKey(Control, Key)
 
     if Control == Enum.ControlCode.End then
         self.Held.Key = nil
+        return
     else
         self.Held.Time = GlobalTick
         self.Held.Control = Control

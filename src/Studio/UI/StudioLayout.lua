@@ -3,10 +3,10 @@ local Things = Runtime.Things
 local StudioLayout = {}
 
 StudioLayout.Handles = {}
-local Topbar
+local Menubar
 
-function StudioLayout.ToggleTopbar(Toggle)
-    Topbar:SetVisible(Toggle)
+function StudioLayout.ToggleMenubar(Toggle)
+    Menubar:SetVisible(Toggle)
 end
 
 function StudioLayout.CreateWindowContainer(Transform, HaveName)

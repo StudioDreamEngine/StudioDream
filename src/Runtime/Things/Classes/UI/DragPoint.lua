@@ -40,13 +40,13 @@ function DragPoint:OnInitalParent(NewParent)
         if not self.Hovering then return end
         if not self.Active then return end
         self.Holding = true
-        self.StartHolding.Invoke()
+        self.StartHolding:Invoke()
     end)
 
     Runtime.InterfaceManager.OnRelease:Connect(function()
         if not self.Active then return end
         self.Holding = false
-        self.EndHolding.Invoke()
+        self.EndHolding:Invoke()
     end)
 end
 
@@ -66,7 +66,7 @@ function DragPoint:SetPercentage(NewVec)
     self.Percentage = NewVec
 
     if Old ~= NewVec then
-        self.ChangedPercentage.Invoke(NewVec)
+        self.ChangedPercentage:Invoke(NewVec)
     end
 
     if self.Parent and self.Parent:IsA("BaseGui") then
@@ -102,7 +102,7 @@ function DragPoint:HandleDrag(Position) -- Omg this was stressing, sometimes i d
     self.Percentage = Vector2.new(PercentageX,PercentageY)
 
     if Old ~= self.Percentage then
-        self.ChangedPercentage.Invoke(self.Percentage)
+        self.ChangedPercentage:Invoke(self.Percentage)
     end
 
     

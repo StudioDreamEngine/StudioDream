@@ -133,7 +133,7 @@ function TweenService.Create(Subject, Target, Style, Time)
         local Elapsed = Tween.Elapsed
 
         if Elapsed/Time >= 1 then
-            Tween.Completed.Invoke() 
+            Tween.Completed:Invoke() 
             Tween.Stop(true) 
             return
         end

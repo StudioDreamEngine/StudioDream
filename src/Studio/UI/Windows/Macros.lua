@@ -10,6 +10,26 @@ return function(Macros)
         ["Export Project"] = function()
             Studio.Build.BuildProject()
         end,
+        ["STRESS TEST - ui objects"] = function()
+            local Objects = {}
+            local Bench = Profiler.Benchmark("Create 500 text objects")
+
+            for i = 0,500 do
+                table.insert(Objects, Runtime.Things.Create("Text") {
+                    Parent = Runtime.Things.RenderRoot,
+                    Name = i
+                })
+            end
+            Bench.End()
+
+            local Bench2 = Profiler.Benchmark("Destroy all")
+            for _, object in pairs(Objects) do
+                object:Destroy()
+            end
+
+            table.clear(Objects)
+            Bench2.End()
+        end
     }
 
     function Macros.Init()

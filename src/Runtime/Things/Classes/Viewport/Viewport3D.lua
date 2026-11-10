@@ -20,7 +20,7 @@ function Viewport3D:new()
         local Camera = self:GetCamera()
         local CastResult = self.RenderContainer:Raycast(Camera.Position, Camera:GetMouseRay()*300)
 
-        self.OnPick.Invoke(CastResult, self)
+        self.OnPick:Invoke(CastResult, self)
     end, 1, function(IsDown)
         return IsDown
     end)

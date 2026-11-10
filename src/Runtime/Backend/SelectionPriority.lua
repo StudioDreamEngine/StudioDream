@@ -25,7 +25,7 @@ function SelectionPriorityService.Call(IsDown)
     if (Runtime.InterfaceManager.Hovering ~= EnvironmentViewport) or Runtime.InterfaceManager.ClickSurface then
         if (IsDown) then 
             printVerbose("Click Invoked")
-            SelectionPriorityService.GuiClick.Invoke() -- Goes over to InterfaceManager
+            SelectionPriorityService.GuiClick:Invoke() -- Goes over to InterfaceManager
         end
 
         return

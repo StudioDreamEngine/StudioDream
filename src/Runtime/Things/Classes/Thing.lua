@@ -316,7 +316,7 @@ function Thing:OnInitalParent(NewParent) end
 -- Remove child from object
 function Thing:RemoveChild(Object)
     if self.Children[Object.UUID] then
-        self.ChildrenChanged.Invoke(Enum.Hierachy.Removed, Object)
+        self.ChildrenChanged:Invoke(Enum.Hierachy.Removed, Object)
         self.Children[Object.UUID] = nil
     else
         print("Attempted to remove child from parent that was not in parent, "..Object.UUID)
@@ -377,7 +377,7 @@ function Thing:SetParent(NewParent)
 
     -- Add to new parent
     if NewParent then
-        NewParent.ChildrenChanged.Invoke(Enum.Hierachy.Added, self)
+        NewParent.ChildrenChanged:Invoke(Enum.Hierachy.Added, self)
         NewParent.Children[self.UUID] = self
 
         if self:IsA("BaseGui") then
@@ -412,7 +412,7 @@ function Thing:SetParent(NewParent)
         self.Parent = nil -- Set parent to nil
     end
 
-    self.ParentChanged.Invoke()
+    self.ParentChanged:Invoke()
     
     if (not self.WasParented) then self:OnInitalParent(NewParent) end
     self.WasParented = true
@@ -452,7 +452,7 @@ end
 function Thing:OnRemove()
     self.Unreferenced = true
 
-    self.OnDestroy.Invoke(self)
+    self.OnDestroy:Invoke(self)
     
     for _,Signal in pairs(self.PlaceholderSignals) do
         if not Signal.AlreadyDisconnected then

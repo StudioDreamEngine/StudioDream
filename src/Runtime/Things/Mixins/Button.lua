@@ -31,21 +31,21 @@ function Button.link(Thing)
         if not LinkedThing.Hovering then return end
         if (not LinkedThing:IsActive()) then return end
         LinkedThing.BeingClicked = true
-        LinkedThing.Clicked.Invoke()
+        LinkedThing.Clicked:Invoke()
     end)
 
     Runtime.InterfaceManager.OnRightClick:Connect(function()
         if not LinkedThing.Hovering then return end
         if (not LinkedThing:IsActive()) then return end
 
-        LinkedThing.RightClicked.Invoke()
+        LinkedThing.RightClicked:Invoke()
     end)
 
     Runtime.InterfaceManager.OnRelease:Connect(function()
         if not LinkedThing.BeingClicked then return end
         
         LinkedThing.BeingClicked = false
-        LinkedThing.Released.Invoke()
+        LinkedThing.Released:Invoke()
     end)
     
     return self
@@ -85,8 +85,8 @@ function Button:Update(dt)
             
         end
 
-        if ((not TheLinkedThing._WasHovering) and TheLinkedThing.Hovering) then TheLinkedThing.HoverEnter.Invoke() end
-        if (TheLinkedThing._WasHovering and (not TheLinkedThing.Hovering)) then TheLinkedThing.HoverExit.Invoke() end
+        if ((not TheLinkedThing._WasHovering) and TheLinkedThing.Hovering) then TheLinkedThing.HoverEnter:Invoke() end
+        if (TheLinkedThing._WasHovering and (not TheLinkedThing.Hovering)) then TheLinkedThing.HoverExit:Invoke() end
 
         TheLinkedThing._WasHovering = TheLinkedThing.Hovering
     end

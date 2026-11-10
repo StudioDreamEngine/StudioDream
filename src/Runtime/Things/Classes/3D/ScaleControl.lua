@@ -31,7 +31,7 @@ function ScaleControl:OnChange()
     local DistanceFrom = (self:GetPlane() - self.InitalOffset)
     local Snapped = self:Snap((DistanceFrom * self.NormalSide):Axis(), self.GridSnap)
 
-    self.ControlChanged.Invoke(self.NormalSide, Snapped)
+    self.ControlChanged:Invoke(self.NormalSide, Snapped)
 end
 
 function ScaleControl:DefineAPI()

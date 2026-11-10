@@ -21,7 +21,7 @@ function Contextulizer:DefineAPI()
     --self.Proxy.MakeCreatable()
     Runtime.InterfaceManager.OnRightClick:Connect(function()
         if not self.Hovering then return end
-        self.OnContextCreate.Invoke()
+        self.OnContextCreate:Invoke()
         Studio.Components.ContextMenu.new(true,self.Choices,self)
     end)
 end

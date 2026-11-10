@@ -308,7 +308,7 @@ return function(Start)
             Start.CreateProject(Scroll,v,i,Start.FullContainer)
         end
 
-        DoneLoad.Invoke(table.length(Scroll:GetChildren()))
+        DoneLoad:Invoke(table.length(Scroll:GetChildren()))
     end
 
     return Start

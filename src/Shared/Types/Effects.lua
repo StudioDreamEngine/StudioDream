@@ -84,7 +84,7 @@ function Effects.NewAudio(Name,Type)
     EffectObj.Settings = setmetatable({},{
         __index = Types[string.lower(Type)],
         __newindex = function(_,Key,Value)
-            EffectObj._UPDATED.Invoke()
+            EffectObj._UPDATED:Invoke()
             EffectObj:ToLOVE()
             rawset(EffectObj.Settings,Key,Value)
         end,
@@ -123,7 +123,7 @@ function Effects.NewClouds(Name,HowMuch)
     EffectObj.Settings = setmetatable({},{
         __index = CloudsTable,
         __newindex = function(_,Key,Value)
-            EffectObj._UPDATED.Invoke()
+            EffectObj._UPDATED:Invoke()
             EffectObj:ToLOVE()
             rawset(EffectObj.Settings,Key,Value)
         end,

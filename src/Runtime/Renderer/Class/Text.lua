@@ -1,8 +1,19 @@
+local FontCache = {
+    
+}
+
 local function GetFont(Name, Weight)
     Name = Name or "Roboto"
     Weight = Weight or "Medium"
 
-    return string.format("Assets/Fonts/%s/%s-%s.ttf", Name, Name, Weight)
+    local FontName = string.format("Assets/Fonts/%s/%s-%s.ttf", Name, Name, Weight)
+
+    if FontCache[FontName] then
+        return FontCache[FontName]
+    end
+
+    FontCache[FontName] = love.graphics.newFont(FontName, 32)
+    return FontCache[FontName]
 end
 
 ---@class TextRender: ClassicObject
@@ -47,7 +58,7 @@ end
 function Text:SetFont(Font)
     if type(Font) == "string" then
         local Font = Font and string.split(Font, "-") or {}
-        self.RenderFont = love.graphics.newFont(GetFont(Font[1], Font[2]),32)
+        self.RenderFont = GetFont(Font[1], Font[2])
     else
         self.RenderFont = Font
     end

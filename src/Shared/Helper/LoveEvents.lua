@@ -29,7 +29,7 @@ for EventName, Event in pairs(LoveEvents) do
             return
         end]]
         
-        Event.Invoke(nil, ...) 
+        Event:Invoke(nil, ...) 
     end
 end
 

@@ -178,7 +178,7 @@ function love.quit()
     Profiler.Frame = true
     Profiler.Start("frame")
 
-    Shared.OnQuit.Invoke()
+    Shared.OnQuit:Invoke()
     love.filesystem.write("Latest.log", table.concat(PrintLogs, "\n"))
     print("Saved logs, You can find Latest.log at "..love.filesystem.getAppdataDirectory())
 

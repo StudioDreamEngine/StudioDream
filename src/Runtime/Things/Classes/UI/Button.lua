@@ -30,14 +30,14 @@ function Button:new()
         if not self.Hovering then return end
         if (not self:IsActive()) then print("Inactive") return end --OPTIMIZATION: this isnt good!!!
         self.BeingClicked = true
-        self.Clicked.Invoke()
+        self.Clicked:Invoke()
     end)
 
     Runtime.InterfaceManager.OnRelease:Connect(function()
         if not self.BeingClicked then return end
         
         self.BeingClicked = false
-        self.Released.Invoke()
+        self.Released:Invoke()
     end)
 end
 
@@ -78,8 +78,8 @@ function Button:Update(dt)
         --local ColorToChange = 
     end
 
-    if ((not self._WasHovering) and self.Hovering) then self.HoverEnter.Invoke() end
-    if (self._WasHovering and (not self.Hovering)) then self.HoverExit.Invoke() end
+    if ((not self._WasHovering) and self.Hovering) then self.HoverEnter:Invoke() end
+    if (self._WasHovering and (not self.Hovering)) then self.HoverExit:Invoke() end
 
     self._WasHovering = self.Hovering
 end
