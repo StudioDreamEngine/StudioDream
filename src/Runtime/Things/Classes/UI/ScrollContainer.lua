@@ -37,6 +37,10 @@ function ScrollContainer:new()
         self.ScrollTarget = self.ScrollTarget + y*40
     end)
 
+    self.PostEvent = self.PostTransform:Connect(function()
+        self:SetOverride("Scroll", "ChildRect", self:GetScrollRect(), true)
+    end)
+
     self:BindOverride("Scroll", "ChildRect")
 end
 
@@ -68,8 +72,12 @@ function ScrollContainer:SetUseCanvasSize(new)
     self:UpdateOverride()
 end
 
+function ScrollContainer:GetScrollRect()
+    return Rect.new(Vector2.new(0,self.ScrollPosition), (self.UseCanvasSize and self:GetCanvasSize() or self.AbsoluteSize))
+end
+
 function ScrollContainer:UpdateOverride()
-    self:SetOverride("Scroll", "ChildRect", Rect.new(Vector2.new(0,self.ScrollPosition), (self.UseCanvasSize and self:GetCanvasSize() or self.AbsoluteSize)))
+    self:ProcessInvalidation()
 end
 
 --[[
@@ -87,6 +95,7 @@ function ScrollContainer:OnRemove()
 
     self.WheelMoved:Disconnect()
     self.VisibilityEvent:Disconnect()
+    self.PostEvent:Disconnect()
 end
 
 --[[function ScrollContainer:Draw()
@@ -123,11 +132,6 @@ end
     Runtime.Backend2D.SetColor(self.BarColor,1 - self.BarTransparency)
     love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - BarPivot, 5, BarSize,self.TrueRadiusOfCorners,self.TrueRadiusOfCorners)
 end]]
-
-function ScrollContainer:SetAbsoluteSize(New)
-    ScrollContainer.super.SetAbsoluteSize(self, New)
-    self:UpdateOverride()
-end
 
 function ScrollContainer:Update(dt)
     ScrollContainer.super.Update(self, dt)

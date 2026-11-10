@@ -20,7 +20,11 @@ function Input:new(TextInput)
     self.TextInput = TextInput ---@class TextInput
 
     self.BlinkTick, self.BlinkOn = 0, false
-    self.BackHeld, self.BackTime, self.BackRepeat = nil, 0, 0
+    self.Held = {
+        Key = nil,
+        Time = 0,
+        Repeat = 0
+    }
 
     self.Focused = false
 end
@@ -72,12 +76,12 @@ function Input:CharacterAtRenderPos(Position)
 end
 
 -- Returns the new text and cursor position depending on the character
-function Input:GetNew(Character)
+function Input:GetNew(Backspace, Character)
     local CurrentPos = self:GetPosition()
 
     local PostText = string.sub(self.Text, CurrentPos+1, -1)
 
-    if string.byte(Character) == 0x08 then
+    if Backspace then
         if CurrentPos < 1 then CurrentPos = 1 end
 
         return string.sub(self.Text, 0, CurrentPos-1)..PostText, CurrentPos - 1
@@ -103,29 +107,39 @@ function Input:ToggleFocus(Focus, MousePosition)
     end
 end
 
-function Input:SetBackspace(Backspace)
-    self.BackHeld = Backspace
+function Input:HandleKey(Control, Key)
+    assert(Control ~= Enum.ControlCode.Key, "Use the internal _HandleKey function for any typing keys")
 
-    if Backspace then
-        self.BackTime = GlobalTick
-        self:HandleKey(string.char(8))
+    if Control == Enum.ControlCode.End then
+        self.Held.Key = nil
+    else
+        self.Held.Time = GlobalTick
+        self.Held.Control = Control
+        self.Held.Key = Key
     end
+
+    self:_HandleKey(Control, Key)
 end
 
-function Input:HandleKey(Key)
-    local Text, Pos = self:GetNew(Key)
+function Input:_HandleKey(Control, Key)
+    if Control == Enum.ControlCode.Horizontal then
+        self:ChangePositionBy(Key)
+        return
+    end
+
+    local Text, Pos = self:GetNew(Control == Enum.ControlCode.Backspace, Key)
 
     self.TextInput:SetText(Text)
     self:ChangePosition(Pos)
 end
 
 function Input:HandleHold()
-    if (not self.BackHeld) or (GlobalTick - self.BackTime < 0.5) then return end
+    if (not self.Held.Key) or (GlobalTick - self.Held.Time < 0.5) then return end
 
-    if (GlobalTick - self.BackRepeat) > 0.04 then
-        self.BackRepeat = GlobalTick
+    if (GlobalTick - self.Held.Repeat) > 0.04 then
+        self.Held.Repeat = GlobalTick
 
-        self:HandleKey(string.char(8))
+        self:_HandleKey(self.Held.Control, self.Held.Key)
     end
 end
 
