@@ -15,7 +15,7 @@ function DragPoint:new()
     self.Holding = false
     self.Collidable = true
     self.Percentage = Vector2.zero
-
+    self.AdjustYAxis = true
     self.Active = true
    -- self.Pivot = Vector2.new(0.5,0.5)
    -- self.Position = Pivot2D.FromScale(0,0.5)
@@ -25,8 +25,9 @@ function DragPoint:DefineAPI()
     DragPoint.super.DefineAPI(self)
 
     self.Proxy.Property("number Percentage")
-    self.Proxy.Group("Slider","Percentage")
-    self.Proxy.Icon("Slider")
+    self.Proxy.Property("boolean AdjustYAxis")
+    self.Proxy.Group("Drag","Percentage","AdjustYAxis")
+    self.Proxy.Icon("Drag")
 
     --self.Proxy.MakeCreatable()
 end
@@ -75,6 +76,10 @@ function DragPoint:SetPercentage(NewVec)
         local EdgePositionY = self.Parent.AbsolutePosition.Y - (self.Parent.AbsoluteSize.Y * self.Parent.Pivot.Y) -- 0
         local SidePositionY = self.Parent.AbsolutePosition.Y + (self.Parent.AbsoluteSize.Y * self.Parent.Pivot.Y) -- 1
         
+        if self.SlideAxis == "Y" and self.AdjustYAxis then
+            Percentage = Vector2.new(Percentage.X,Percentage.Y + 0.26)
+        end
+
         local PositionConvertedX = math.lerp(EdgePositionX,SidePositionX, Percentage.X)
         local PositionConvertedY = math.lerp(EdgePositionY,SidePositionY, Percentage.Y)
         self:HandleDrag(Vector2.new(PositionConvertedX,PositionConvertedY))
@@ -84,8 +89,11 @@ end
 function DragPoint:HandleDrag(Position) -- Omg this was stressing, sometimes i didnt even know what i was doing, anyway, last thing im gonna do on release is make this only use absolute stuff
     if not self.Holding then return end
     local MousePos = Position
-
-    local EdgePosition = self.Parent.AbsolutePosition - (self.Parent.AbsoluteSize * self.Parent.Pivot)
+    local UsePivot = self.Parent.Pivot
+    if self.AdjustYAxis then
+        UsePivot = Vector2.new(self.Parent.Pivot.X,0.74-self.Parent.Pivot.Y)
+    end
+    local EdgePosition = self.Parent.AbsolutePosition - (self.Parent.AbsoluteSize * UsePivot)
     local SidePosition = MousePos - EdgePosition
     local PercentageX = math.clamp(SidePosition.X / self.Parent.AbsoluteSize.X, 0, 1)
     local PercentageY = math.clamp(SidePosition.Y / self.Parent.AbsoluteSize.Y, 0, 1)

@@ -10,11 +10,30 @@ local Sky
 
 local RenderSky = {}
 
+local Defaults = {
+	Time = 7,
+	Latitude = math.pi/3,
+	Ambient = 0.25,
+	SunBrightness = 5,
+	MoonBrightness = 1,
+}
+
+local _,_,DefaultSky = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Resources.GetIdentifierFromID("Internal/Sky/sky.png"))
+local TextureDefaults = {
+	Sky = DefaultSky,
+    Moon = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Resources.GetIdentifierFromID("Internal/Sky/moon.png")),
+    Sun = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Resources.GetIdentifierFromID("Internal/Sky/sun.png")),
+	SunColor = Color.new(1.0, 0.75, 0.5),
+    MoonColor = Color.new(0.753, 0.863, 1)
+}
+
 RenderSky.TransformProj = nil
 
-RenderSky.Time = 7
-RenderSky.Latitude = math.pi/3
-RenderSky.Ambient = 0.25
+RenderSky.Time = 0
+RenderSky.Latitude = 0
+RenderSky.Ambient = 0
+RenderSky.SunBrightness = 0
+RenderSky.MoonBrightness = 0
 
 local function sendWithTransform(transform, mesh, celestial)
 	local currentShader = celestial and shader2 or shader
@@ -28,8 +47,25 @@ local function sendWithTransform(transform, mesh, celestial)
 	--love.graphics.clear(false, true, true)
 end
 
+function RenderSky.Reset()
+	for i,v in pairs(Defaults) do
+		RenderSky[i] = v
+	end
+	RenderSky.SetSky(TextureDefaults.Sky)
+	RenderSky.SetCelestials("Sun",TextureDefaults.Sun)
+	RenderSky.SetCelestials("Moon",TextureDefaults.Moon)
+end
+
 function RenderSky.SetSky(InSky)
 	Sky = love.graphics.newCubeImage(InSky)
+end
+
+function RenderSky.SetCelestialColor(Celestial,NewColor)
+	if Celestial == "Sun" then
+		Runtime.Backend3D.SunLight:setColor(NewColor.R,NewColor.G,NewColor.B)
+	else
+		Runtime.Backend3D.MoonLight:setColor(NewColor.R,NewColor.G,NewColor.B)
+	end
 end
 
 function RenderSky.SetCelestials(Celestial,ImageData)
@@ -70,11 +106,11 @@ function RenderSky.Draw()
 	
 	local SunDirection = SunTransform.Forward
 	Runtime.Backend3D.SunLight:setDirection(SunDirection.X,SunDirection.Y,SunDirection.Z)
-	Runtime.Backend3D.SunLight:setBrightness(SunLight*10)
+	Runtime.Backend3D.SunLight:setBrightness(SunLight*RenderSky.SunBrightness)
 
 	local MoonDirection = MoonTransform.Forward
 	Runtime.Backend3D.MoonLight:setDirection(MoonDirection.X,MoonDirection.Y,MoonDirection.Z)
-	Runtime.Backend3D.MoonLight:setBrightness((1-SunLight)*10)
+	Runtime.Backend3D.MoonLight:setBrightness((1-SunLight)*RenderSky.MoonBrightness)
 	
 	love.graphics.setColor(1,1,1,SunLight)
 	celestialMesh:setTexture(Sun)
@@ -84,5 +120,7 @@ function RenderSky.Draw()
 	celestialMesh:setTexture(Moon)
 	sendWithTransform(MoonTransform:GetMatrix() * Dream.mat4.getScale(0.02), celestialMesh, true)
 end
+
+RenderSky.Reset()
 
 return RenderSky

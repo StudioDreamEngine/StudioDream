@@ -15,6 +15,7 @@ function SlideBar:new()
     self.Holding = false
     self.Collidable = true
     self.Percentage = 0
+    self.AdjustYAxis = true
 
     self.SlideAxis = Enum.SlideAxis.X
 
@@ -26,8 +27,9 @@ end
 function SlideBar:DefineAPI()
     SlideBar.super.DefineAPI(self)
 
+    self.Proxy.Property("boolean AdjustYAxis")
     self.Proxy.Property("number Percentage","boolean Collidable","Enum.SlideAxis SlideAxis")
-    self.Proxy.Group("Slider","Percentage","Collidable","SlideAxis")
+    self.Proxy.Group("Slider","Percentage","Collidable","SlideAxis","AdjustYAxis")
     self.Proxy.Icon("Slider")
 
     self.Proxy.MakeCreatable()
@@ -74,9 +76,9 @@ function SlideBar:SetPercentage(NewNumber)
         local EdgePosition=self.Parent.AbsolutePosition - (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 0
         local SidePosition = self.Parent.AbsolutePosition + (self.Parent.AbsoluteSize * self.Parent.Pivot) -- 1
 
-        --[[if self.SlideAxis ~= "X" then
-            Percentage = Percentage + 0.25
-        end]]
+        if self.SlideAxis == "Y" and self.AdjustYAxis then
+            Percentage = Percentage + 0.26
+        end
 
         local PositionConverted = EdgePosition:Lerp(SidePosition, Percentage)
         self:HandleDrag(PositionConverted)
@@ -87,11 +89,13 @@ function SlideBar:HandleDrag(Position) -- Omg this was stressing, sometimes i di
     local MousePos = Position[self.SlideAxis]
 
     local EdgePosition
-    --if self.SlideAxis == "X" then
+    if self.SlideAxis == "X" then
         EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * self.Parent.Pivot[self.SlideAxis])
-    --[[else
+    elseif not self.AdjustYAxis then
+        EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * self.Parent.Pivot[self.SlideAxis])
+    elseif self.SlideAxis == "Y" then 
         EdgePosition = self.Parent.AbsolutePosition[self.SlideAxis] - (self.Parent.AbsoluteSize[self.SlideAxis] * (0.74-self.Parent.Pivot[self.SlideAxis]))
-    end]]
+    end
     local SidePosition = MousePos - EdgePosition
     local Percentage = math.clamp(SidePosition / self.Parent.AbsoluteSize[self.SlideAxis], 0, 1)
     local Old = self.Percentage

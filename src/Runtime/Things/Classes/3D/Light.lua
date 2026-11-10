@@ -94,6 +94,7 @@ function Light:Reload()
 end
 
 function Light:SetLightType(NewType)
+    self.LightType = NewType
     self.Light = Dream:newLight(NewType, Dream.vec3(0, 0, 0), Dream.vec3(1.0, 1.0, 1.0), 1.0)
 
     self:Reload()
@@ -102,16 +103,6 @@ end
 function Light:SetRange(NewRange)
     self.Light:setSize(NewRange)
     self.Range = NewRange
-end
-
-function Light:SetParent(NewParent)
-    Light.super.SetParent(self,NewParent)
-    
-    -- NEEDS ATTACHMENT FUNCTIONALITY
-
-    --[[if self.Parent:IsA("Transformable3D") then
-        self:SetTransform(self.Parent.Transform)
-    end]]
 end
 
 function Light:SetBrightness(newBright)

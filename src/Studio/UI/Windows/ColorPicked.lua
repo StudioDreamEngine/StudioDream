@@ -164,6 +164,7 @@ return function(ColorPicked)
             BackgroundColor = ColorPicked.CurrentColor,
             SquareAxis = Enum.SquareAxis.Y,
             OutlineSize = 2,
+            AdjustYAxis = false,
             OutlineColor = "Outline",
         })
 
@@ -176,6 +177,7 @@ return function(ColorPicked)
             BackgroundTransparency = 0,
             Active = Active,
             SinkHovering = true,
+            AdjustYAxis = false,
             SlideAxis = Enum.SlideAxis.Y,
         })
 
