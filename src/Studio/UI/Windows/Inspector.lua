@@ -172,6 +172,7 @@ return function(Inspector)
         for GroupName,Properties in pairs(CleanTable) do
             local Group = Inspector.RenderGroup(GroupName)
             for PropertyName,Info in pairs(Properties) do
+                --Scheduler.Yield()
                 local Property = Inspector.RenderProperty({Name = PropertyName, Type = Info.Type,Active = Info.Active}, Group)
             end
         end
