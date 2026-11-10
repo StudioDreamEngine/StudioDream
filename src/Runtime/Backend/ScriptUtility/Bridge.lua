@@ -34,7 +34,7 @@ local function ProxyFunction(OldFunction, ...)
         for _, v in pairs(Result) do
             table.insert(NewResult, Bridge.Proxy(v))
         end
-    else
+    elseif Utils.TypeOf(Result) == "Thing" then
         NewResult = Bridge.Proxy(Result)
     end
 

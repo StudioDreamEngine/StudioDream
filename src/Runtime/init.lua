@@ -25,17 +25,12 @@ function Runtime.Init()
 end
 
 function Runtime.RequestRestart(NextTarget)
-    local Benchmark = Profiler.Benchmark("Restart StudioDream", true)
-
-    Dream:requestKill(function()
-        Benchmark.End()
-        love.event.restart({
-            Runtime.ProjectFS.GetMount(),
-            "--Target",
-            NextTarget,
-            "--SecondRun"
-        })
-    end)
+    love.event.restart({
+        Runtime.ProjectFS.GetMount(),
+        "--Target",
+        NextTarget,
+        "--SecondRun"
+    })
 end
 
 function Runtime.PostInit()
