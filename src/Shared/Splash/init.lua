@@ -8,7 +8,15 @@ local SplashLogo ---@class Image2D
 local SplashLogoOutline ---@class Image2D
 local SplashContainer ---@class Square
 
+local PreviousBenchmark
+
 function Splash.ChangeStatus(NewStatus)
+    if PreviousBenchmark then
+        PreviousBenchmark.End()
+    end
+
+    PreviousBenchmark = Profiler.Benchmark(NewStatus, true)
+
     if FLAGS.Independent then return end
     printVerbose(NewStatus)
 

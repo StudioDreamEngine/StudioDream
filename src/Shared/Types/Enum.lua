@@ -41,6 +41,11 @@ local Enums = {
         --NetPack = "NetworkPack", -- Custom format by Alecstey for networking, uses the same format internally used by NetworkService 
         --Binser = "Binser" -- Binary format for lua tables
     },
+    ControlCode = {
+        Backspace = "backspace",
+        Horizontal = "horizontal",
+        Key = "key"
+    },
     OpenDialog = {
         Folder = "OpenFolderDialog",
         File = "OpenFileDialog",

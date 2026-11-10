@@ -30,14 +30,12 @@ function TextInput:new()
             if (Key == Enum.InputCode.Enter) then
                 self:StopFocus(true)
             elseif (Key == Enum.InputCode.Backspace) then
-                self.RenderClass:SetBackspace(true)
-            elseif (Key == Enum.InputCode.LeftArrow) then
-                self.RenderClass:ChangePositionBy(-1)
-            elseif (Key == Enum.InputCode.RightArrow) then
-                self.RenderClass:ChangePositionBy(1)
+                self.RenderClass:HandleKey(Enum.ControlCode.Backspace)
+            elseif (Key == Enum.InputCode.LeftArrow) and (Key == Enum.InputCode.RightArrow) then
+                self.RenderClass:HandleKey(Enum.ControlCode.Horizontal, (Key == Enum.InputCode.LeftArrow) and -1 or 1)
             end
         else
-            self.RenderClass:SetBackspace(false)
+            self.RenderClass:HandleKey(Enum.ControlCode.End)
         end
     end)
 
@@ -50,7 +48,7 @@ function TextInput:new()
     self.InputEvent = LoveEvents.TextInput:Connect(function(Key)
         if (not self.InputActive or not self:IsVisible()) then return end
 
-        self.RenderClass:HandleKey(Key)
+        self.RenderClass:_HandleKey(Enum.ControlCode.Key, Key)
     end)
 
     Runtime.InterfaceManager.OnClick:Connect(function()

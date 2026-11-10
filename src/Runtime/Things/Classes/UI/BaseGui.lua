@@ -467,16 +467,18 @@ function BaseGui:UpdateTransforms()
 
     if (not Success) then
         Profiler.End()
+
+        --print(debug.traceback())
         error("Failed to update transforms for "..self:GetPath()..", "..Message)
     end
 end
 
 function BaseGui:InvalidateAutomaticSize()
     --Profiler.Start("Invalidate - Automatic Size")
-    if self.Parent and self.Parent.AutomaticSize then
+    --[[if self.Parent and self.Parent.AutomaticSize then
         self.Parent:ProcessInvalidation()
         self.Parent:InvalidateAutomaticSize()
-    end
+    end]]
     --Profiler.End()
 end
 
