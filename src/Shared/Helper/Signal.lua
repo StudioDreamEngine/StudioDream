@@ -13,6 +13,7 @@ local Module = {}
 ]]
 function Module:NewBlocking(EventName) return Module:New(EventName, true) end
 
+---@class Signal
 local SignalMethods = {}
 
 local function NewEventID()

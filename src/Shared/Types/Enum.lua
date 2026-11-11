@@ -47,8 +47,8 @@ local Enums = {
         Key = "key"
     },
     OpenDialog = {
-        Folder = "OpenFolderDialog",
-        File = "OpenFileDialog",
+        Folder = "openfolder",
+        File = "openfile",
     },
     LayoutDirection = {
         Horizontal = "Horizontal",

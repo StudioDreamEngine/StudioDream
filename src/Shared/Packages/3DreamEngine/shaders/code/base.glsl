@@ -150,32 +150,32 @@ void effect() {
 
 // Simple instancing
 #ifdef INSTANCING
-attribute vec3 InstanceRotation0;
-attribute vec3 InstanceRotation1;
-attribute vec3 InstanceRotation2;
-attribute vec3 InstancePosition;
+layout(location=128) attribute vec3 InstanceRotation0;
+layout(location=129) attribute vec3 InstanceRotation1;
+layout(location=130) attribute vec3 InstanceRotation2;
+layout(location=131) attribute vec3 InstancePosition;
 #endif
 
 // Sprite instancing
 #ifdef SPRITE_INSTANCING
-attribute vec3 InstanceCenter;
-attribute vec2 InstanceSize;
-attribute float InstanceRotation;
-attribute vec2 InstanceTexScale;
-attribute vec2 InstanceTexOffset;
-attribute vec4 InstanceColor;
+layout(location=132) attribute vec3 InstanceCenter;
+layout(location=133) attribute vec2 InstanceSize;
+layout(location=134) attribute float InstanceRotation;
+layout(location=135) attribute vec2 InstanceTexScale;
+layout(location=136) attribute vec2 InstanceTexOffset;
+layout(location=137) attribute vec4 InstanceColor;
 
 //todo emission makes sense for normal instancing
-attribute float InstanceEmission;
+layout(location=138) attribute float InstanceEmission;
 
 uniform vec3 up;
 uniform vec3 right;
 uniform vec3 front;
 #endif
 
-attribute vec3 VertexNormal;
+layout(location=3) attribute vec3 VertexNormal;
 #ifdef TANGENT
-attribute vec4 VertexTangent;
+layout(location=4) attribute vec4 VertexTangent;
 #endif
 
 vec4 position(mat4 _t, vec4 _v) {

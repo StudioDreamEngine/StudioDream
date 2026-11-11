@@ -116,26 +116,26 @@ function love.errorhandler(msg)
         for i,v in pairs(string.split(full_trace, "\n")) do
             DebugLog(v)
         end
-
-        return function()
-            love.event.pump()
-
-            for e, a, b, c in love.event.poll() do
-                if e == "quit" then
-                    return 1
-                elseif e == "keypressed" and a == "escape" then
-                    return 1
-                end
-            end
-
-            if love.timer then
-                love.timer.sleep(0.1)
-            end
-        end
     end)
 
     if (not success) then
-        print("Error in error handling: "..errormsg.."\nOriginal error: "..msg)
+        DebugLog("Error in error handling: "..errormsg.."\nOriginal error: "..msg)
+    end
+
+    return function()
+        love.event.pump()
+
+        for e, a, b, c in love.event.poll() do
+            if e == "quit" then
+                return 1
+            elseif e == "keypressed" and a == "escape" then
+                return 1
+            end
+        end
+
+        if love.timer then
+            love.timer.sleep(0.1)
+        end
     end
 end
 
