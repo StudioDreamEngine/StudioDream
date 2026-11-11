@@ -161,6 +161,14 @@ function Vector2.FromString(String)
     return Result
 end
 
+-- https://devforum.roblox.com/t/how-would-i-create-a-2d-lookat-function/1693892
+function Vector2.LookAt(Pos1,Pos2)
+    if not Pos1 then return end
+	local dist = Pos2-Pos1
+	local vector = Vector2.new(dist.X,dist.Y):Unit()
+	return math.deg(math.acos(vector.X))*math.sign(math.asin(vector.Y))
+end
+
 ---@return Vector2
 function Vector2.new(x,y)
     if (not y) then

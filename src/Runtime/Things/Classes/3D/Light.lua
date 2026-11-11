@@ -62,10 +62,9 @@ function Light:DefineAPI()
     self.Proxy.SetCategory("Lighting")
 
     self.Proxy.Icon("Light")
-    self.Proxy.Property("Transform3D Transform", "number Brightness","Enum.LightType LightType","Color Color","number Range")
+    self.Proxy.Property("number Brightness","Enum.LightType LightType","Color Color","number Range")
     self.Proxy.Property("boolean HasShadow","number ShadowResolution","number Attenuation")
     self.Proxy.Group("Light Settings","Brightness","LightType","Color","Range","Attenuation")
-    self.Proxy.Group("General","Transform")
     self.Proxy.Group("Shadow","HasShadow","ShadowResolution")
     self.Proxy.MakeCreatable()
 end

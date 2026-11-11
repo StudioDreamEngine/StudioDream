@@ -130,7 +130,7 @@ function ScriptUtil.CreateGlobals(Script)
         require = function(Object)
             if Object:IsA("RequirableScript") then
                 local Required = Object:Require()
-
+                print(Required)
                 if (not Required) then
                     error("Cannot load requested module as it failed to compile")
                 end

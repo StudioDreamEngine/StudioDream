@@ -439,7 +439,7 @@ function StudioLayout.CreateLayout()
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.ProjectConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.StudioConfig"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.Credits"), false)
-    StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.GradientMaker"), false)
+    --StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.GradientMaker"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.ColorPicked"), false)
     StudioLayout.ToggleWindow(StudioLayout.GetHandle("Windows.Dialogs"), false)
 

@@ -40,6 +40,8 @@ function Number:CreateVisual()
 
     Visual.Input.FocusEnd:Connect(function(IsEnter)
         local Numberfied = tonumber(Visual.Input.Text)
+        Numberfied = Numberfied or 0
+        
         Runtime.Things.SetPropertyMassive(Selecting, PropertyName, Numberfied)
         self:Update()
     end)

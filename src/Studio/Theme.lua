@@ -51,21 +51,21 @@ local ThemesIn = {
         FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
-    ["Companied"] = {
-        Outline = Color.FromHex("#121213"),
+    ["Professional"] = {
+        Outline = Color.FromHex("#141416"),
         SecondaryOutline = Color.FromHex("#9090b0"),
 
-        Secondary = Color.FromHex("#1d1d20"), -- This color is meant to either be for less important stuff or to constrast the primary
+        Secondary = Color.FromHex("#16161b"), -- This color is meant to either be for less important stuff or to constrast the primary
         --Tertiary = Color.FromHex("#13152e"), -- Brighter version of the secondary, meant to distinguish something thats over primary and secondary
-        Primary = Color.FromHex("#504f55"), -- This color is for the main parts, containers and such
+        Primary = Color.FromHex("#26252b"), -- This color is for the main parts, containers and such
     
-        Selecting = Color.FromHex("#547cff"),
+        Selecting = Color.FromHex("#2925ff"),
         Text = Color.FromHex("#ffffff"),
 
         Error =  Color.FromHex("#ff3333"),
-        FontNormal = "Internal/Fonts/Outfit/Outfit-Regular.ttf",
-        FontBold = "Internal/Fonts/Outfit/Outfit-Bold.ttf",
-        FontTalic = "Internal/Fonts/Outfit/Outfit-Medium.ttf",
+        FontNormal = "Internal/Fonts/Roboto/Roboto-Medium.ttf",
+        FontBold = "Internal/Fonts/Roboto/Roboto-Bold.ttf",
+        FontTalic = "Internal/Fonts/Roboto/Roboto-Italic.ttf",
     },
 
     ["GREEN"] = {

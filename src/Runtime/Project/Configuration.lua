@@ -72,13 +72,14 @@ function Configuration.Load(Mount)
             Shared.QueueAbort("Project configuration doesnt exist!")
         end
     end)
-
+    
     if (not Success) and (not Mount) then
         Utils.Warning("Couldn't load project configuration")
 
         Configuration.Config = Configuration.GetDefault()
         return Configuration.Config
     else
+        print("Could load project config!")
         return Message
     end
 end

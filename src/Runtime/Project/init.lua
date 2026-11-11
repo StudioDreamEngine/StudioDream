@@ -20,6 +20,8 @@ Project.SavingProject = Signal:New("ProjectSaved") -- Called when project as fin
 Project.LoadedProject = Signal:New("ProjectLoaded") -- Called when project loading has ended
 Project.LoadingProject = Signal:New("ProjectLoading") -- Called when project loading has started
 
+Project.CurrentProjectPath = nil
+
 function Project.Init()
     Project.LoadedProject:Connect(function()
         local DataStore = Runtime.Services.Service("DataService")
@@ -169,7 +171,6 @@ end
 function Project.Load(ProjectPath)
     local WasInvalid = Project.ValidateAndMount(ProjectPath)
     if WasInvalid then return end
-
     Project.LoadingProject:Invoke()
     Scheduler.Yield()
 
@@ -182,8 +183,9 @@ function Project.Load(ProjectPath)
         Shared.QueueAbort("Error while loading project: "..ProjectPath)
     end
 
+    Project.CurrentProjectPath = ProjectPath
     Project.LoadedProject:Invoke()
-
+    
     return true
 end
 
