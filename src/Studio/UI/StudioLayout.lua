@@ -397,7 +397,7 @@ function StudioLayout.CreateLayout()
         Size = Pivot2D.FromScale(0.4,0.5),
         Pivot = Vector2.new(0.5,0.5),
         Position = Pivot2D.FromScale(0.5,0.5),
-        Layer = 500,
+        Layer = 501,
         Modal = true,
         --Closable = true,
         Shadows = true,

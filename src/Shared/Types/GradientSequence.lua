@@ -43,6 +43,15 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         return table.length(Keys)
     end
 
+    function SequenceObject.ChangeColorOf(ID,Color)
+        local Key = SequenceObject.GetKeyByID(ID)
+        if Key then
+            Key[2] = Color
+            SequenceObject.ProcessUniforms()
+            return true
+        end
+    end
+
     function SequenceObject.RemoveKeyByID(ID)
         for i,Key in pairs(Keys) do
             if Key[3] == ID then
@@ -94,6 +103,10 @@ function GradientSequence.NewSequence(TableOf, Rotation)
     end
     
     return SequenceObject
+end
+
+function GradientSequence.DefaultSequence()
+    return GradientSequence.NewSequence({GradientSequence.NewKey(1,Color.new(1,1,1)),GradientSequence.NewKey(0,Color.new(1,1,1))}, 0)
 end
 
 return GradientSequence

@@ -65,7 +65,7 @@ end
 function Square:SetGradient(NewGrad)
     self.Gradient = NewGrad
     if self.Gradient then
-        self.Gradient:ProcessUniforms()
+        self.Gradient.ProcessUniforms()
     end
 end
 

@@ -17,6 +17,8 @@ function SlideBar:new()
     self.Percentage = 0
     self.AdjustYAxis = true
 
+    self.CanMove = true
+
     self.SlideAxis = Enum.SlideAxis.X
 
     self.Active = true
@@ -28,8 +30,8 @@ function SlideBar:DefineAPI()
     SlideBar.super.DefineAPI(self)
 
     self.Proxy.Property("boolean AdjustYAxis")
-    self.Proxy.Property("number Percentage","boolean Collidable","Enum.SlideAxis SlideAxis")
-    self.Proxy.Group("Slider","Percentage","Collidable","SlideAxis","AdjustYAxis")
+    self.Proxy.Property("number Percentage","boolean Collidable","Enum.SlideAxis SlideAxis","boolean CanMove")
+    self.Proxy.Group("Slider","Percentage","Collidable","SlideAxis","AdjustYAxis","CanMove")
     self.Proxy.Icon("Slider")
 
     self.Proxy.MakeCreatable()
@@ -124,7 +126,7 @@ end
 function SlideBar:Update(dt)
     SlideBar.super.Update(dt,self)
 
-    if self.Holding and self.Parent and self.Parent:IsA("BaseGui") then
+    if self.Holding and self.Parent and self.Parent:IsA("BaseGui") and self.CanMove then
         self:HandleDrag(Runtime.Backend2D.GetMousePosition())
     end
 end

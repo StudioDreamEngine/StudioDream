@@ -16,6 +16,7 @@ function DragPoint:new()
     self.Collidable = true
     self.Percentage = Vector2.zero
     self.AdjustYAxis = true
+    self.CanMove = true
     self.Active = true
    -- self.Pivot = Vector2.new(0.5,0.5)
    -- self.Position = Pivot2D.FromScale(0,0.5)
@@ -24,9 +25,9 @@ end
 function DragPoint:DefineAPI()
     DragPoint.super.DefineAPI(self)
 
-    self.Proxy.Property("number Percentage")
+    self.Proxy.Property("number Percentage","boolean CanMove")
     self.Proxy.Property("boolean AdjustYAxis")
-    self.Proxy.Group("Drag","Percentage","AdjustYAxis")
+    self.Proxy.Group("Drag","Percentage","AdjustYAxis","CanMove")
     self.Proxy.Icon("Drag")
 
     --self.Proxy.MakeCreatable()
@@ -115,7 +116,7 @@ end
 function DragPoint:Update(dt)
     DragPoint.super.Update(dt,self)
 
-    if self.Holding and self.Parent and self.Parent:IsA("BaseGui") then
+    if self.Holding and self.Parent and self.Parent:IsA("BaseGui") and self.CanMove then
         self:HandleDrag(Runtime.Backend2D.GetMousePosition())
     end
 end

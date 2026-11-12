@@ -137,6 +137,38 @@ function StockVisuals:CreateProperty(Parent,MoreInfo)
     return Object
 end
 
+function StockVisuals:CreateColor(Parent,MoreInfo)
+    local Object = {}
+
+    Object.Property = StockVisuals:CreateProperty(Parent,MoreInfo)
+
+    Object.Color = Studio.Components.CreateStyle("Square",{
+        Size = Pivot2D.FromScale(1,1),
+        Pivot = Vector2.new(0,0),
+        Position = Pivot2D.FromScale(0,0),
+        SquareAxis = Enum.SquareAxis.Y,
+        BackgroundTransparency = 0,
+        Layer = 2,
+        BackgroundColor = IsAllTheSame or Color.new(0.5,0.5,0.5),
+        CornerRadius = 100,
+        Parent = Object.Property.Value,
+    })
+
+    function Object:Destroy()
+        Object.Property:Destroy()
+        Object.Property = nil
+
+        for i,v in pairs(Object) do
+            if Utils.TypeOf(v) == "Thing" then
+                v:Destroy()
+            end
+        end
+        table.clear(Object)
+    end
+
+    return Object
+end
+
 function StockVisuals:CreateInput(Parent,MoreInfo)
     local Input = Studio.Components.CreateStyle("TextInput",{
         Placeholder = MoreInfo.Placeholder or "...",
@@ -160,6 +192,35 @@ function StockVisuals:CreateInput(Parent,MoreInfo)
     end)]]
 
     return Input
+end
+
+function StockVisuals:CreateTimerInput(Parent,MoreInfo)
+    local Obj = {} 
+
+    Obj.Input = StockVisuals:CreateInput(Parent,MoreInfo)
+    Obj.Text = Studio.Components.CreateStyle("Text",{
+        Size = Pivot2D.FromScale(1,1),
+        Position = Pivot2D.FromScale(0,0.5),
+        Parent = Parent,
+        Text = MoreInfo.Title or "...",
+        Pivot = Vector2.new(1,0.5),
+        BackgroundTransparency = 1,
+        ForegroundColor = "Text",
+        Alignment = Enum.Alignment.MiddleRight,
+        Parent = Obj.Input
+    })
+
+    function Obj:Destroy()
+        Obj.InputInit:Destroy()
+        for i,v in pairs(Object) do
+            if Utils.TypeOf(v) == "Thing" then
+                v:Destroy()
+            end
+        end
+        table.clear(Object)
+    end
+
+    return Obj
 end
 
 function StockVisuals:CreateBoolean(Parent)
