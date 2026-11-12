@@ -20,8 +20,6 @@ function Square:new()
     self.OutlineColor = Color.new(0,0,0)
     self.OutlineTransparency = 0
 
-    self.LimitCornerRadius = true
-
     --self.InterfaceShader = nil
     --self.ShaderObject = nil
 end
@@ -29,9 +27,9 @@ end
 function Square:DefineAPI()
     Square.super.DefineAPI(self)
 
-    self.Proxy.Property("Corners CornerRadius", "number OutlineSize", "Color OutlineColor","number BackgroundTransparency", "Color BackgroundColor", "boolean Hovering","boolean LimitCornerRadius")
+    self.Proxy.Property("Corners CornerRadius", "number OutlineSize", "Color OutlineColor","number BackgroundTransparency", "Color BackgroundColor", "boolean Hovering")
     self.Proxy.Property("GradientSequence Gradient", "boolean Dropshadow")
-    self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor","LimitCornerRadius")
+    self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor")
     self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor", "Gradient", "Dropshadow")
     self.Proxy.Icon("Square")
     
@@ -46,7 +44,7 @@ end
 end]]
 
 function Square:UpdateCorners()
-    self.Corners = Interface.RectWithCorners(self.AbsoluteSize, self.CornerRadius*2, self.LimitCornerRadius)
+    self.Corners = Interface.RectWithCorners(self.AbsoluteSize, self.CornerRadius*2)
 end
 
 function Square:SetCornerRadius(New)

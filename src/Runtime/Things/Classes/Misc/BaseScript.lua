@@ -1,7 +1,6 @@
 local Things = Runtime.Things
 local ScriptUtil = Runtime.ScriptUtil
 
----@module "Thing"
 ---@class BaseScript: Thing
 local BaseScript = Things.Extend("Thing")
 
@@ -48,7 +47,7 @@ function BaseScript:Traceback(Error)
         if info.source and info.name == "ModuleFunction" then--string.sub(info.source,1,1) ~= "@" then  (..(info.name or "[NIL]"))
             table.insert(TraceMessage,"  At: "..(self:GetPath())..", Line: "..(info.currentline-1 or "-1").." ("..((info.currentline or "?"))..")")
         end
-        Level+=1
+        Level = Level + 1
     end
     return table.concat(TraceMessage,"\n")
 end

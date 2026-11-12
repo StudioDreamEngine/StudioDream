@@ -132,17 +132,16 @@ end
 
 local function LimitCorner(Radius, Size)
     local Size = (Size.X < Size.Y) and Size.X/2 or Size.Y/2
+    
     return (Radius > Size) and Size or Radius
 end
 
 ---@param Corners Corners
-function InterfaceClass.RectWithCorners(Size, Corners, LimitRadius)
-    if LimitRadius then
-        Corners.BL = LimitCorner(Corners.BL, Size)
-        Corners.BR = LimitCorner(Corners.BR, Size)
-        Corners.TL = LimitCorner(Corners.TL, Size)
-        Corners.TR = LimitCorner(Corners.TR, Size)
-    end
+function InterfaceClass.RectWithCorners(Size, Corners)
+    Corners.BL = LimitCorner(Corners.BL, Size)
+    Corners.BR = LimitCorner(Corners.BR, Size)
+    Corners.TL = LimitCorner(Corners.TL, Size)
+    Corners.TR = LimitCorner(Corners.TR, Size)
 
     return getPoints(Size.X, Size.Y, {
         topLeftRadius = Corners.TL,

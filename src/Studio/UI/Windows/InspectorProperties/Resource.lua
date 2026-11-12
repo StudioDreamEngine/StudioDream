@@ -3,8 +3,6 @@ local Number = Object:extend()
 local SelectionManager = Studio.Editor3D.SelectionManager
 
 function Number:new(Property)
-    --self.Asset = self:CreateProperty()
-
     self.Property = Property
     self.IsActive = Property.IsActive
 
@@ -33,8 +31,6 @@ function Number:CreateVisual()
     local Selecting = Studio.Editor3D.Selecting
     local PropertyName = self.Property.Name
 
-    local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
-    
     Visual.Button = Studio.Components.CreateStyle("TextButton",{
         BackgroundTransparency = 0,
         BackgroundColor = "Outline",
@@ -51,16 +47,12 @@ function Number:CreateVisual()
 
     Visual.Button.Clicked:Connect(function(IsEnter)
         Studio.Components.OpenResourcePicker(function(Resource)
-            print("coil")
-            print(Resource)
-            print(Selecting, PropertyName, Resource)
             Runtime.Things.SetPropertyMassive(Selecting, PropertyName, Resource)
             self:Update()
         end)
     end)
 
     self.Visual = Visual
-
     self:Update()
 
     return Visual

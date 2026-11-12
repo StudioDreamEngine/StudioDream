@@ -46,7 +46,8 @@ function GradientSequence.NewSequence(TableOf, Rotation)
     function SequenceObject.RemoveKeyByID(ID)
         for i,Key in pairs(Keys) do
             if Key[3] == ID then
-                Keys[i] = nil
+                table.remove(Keys, i)
+                return
             end
         end
     end
@@ -74,9 +75,6 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         Colors, Times = table.create(16, {1,1,0,1}), table.create(16, 0)
 
         table.sort(Keys, function (a, b)
-            if not a then return end
-            if not b then return end
-            
             return a[1] < b[1]
         end)
 

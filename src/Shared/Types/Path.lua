@@ -4,8 +4,8 @@ function Path.new(FilePath)
     ---@class Path
     local PathObject = {}
 
-    local SplitType = string.split(FilePath, "%.")
     local SplitPath = string.split(FilePath, "/")
+    local SplitType = string.split(SplitPath[#SplitPath], "%.")
     
     PathObject.Type = "Path"
 

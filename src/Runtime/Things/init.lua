@@ -127,7 +127,7 @@ end
 function Things.SetPropertyMassive(Objects, Index, Value)
     xpcall(function()
         for _, Object in pairs(Objects) do
-            if Object[Index] ~= nil then
+            if Object.Proxy.Serializable[Index] then
                 Things.SetProperty(Object, Index, Value)
             end
         end

@@ -65,7 +65,7 @@ local function ProxyObject(Object)
     local Type = Utils.TypeOf(Object)
 
     if Type == "function" then -- Custom proxy for function
-        return function(...) return ProxyFunction(Object, ...) end 
+        return function(...) return ProxyFunction(Object, ...) end
     else
         return Object
     end
@@ -82,6 +82,8 @@ end
 -- Apply the functionality of the bridge to an object (TODO: Document this hell)
 function Bridge.Proxy(Table, Script)
     if type(Table) == "table" then
+        local Metatable = getmetatable(Table)
+
         return setmetatable({
             Bridged = true,
             "This is a bridged object, you cannot look into the contents of bridged objects directly"
@@ -95,6 +97,7 @@ function Bridge.Proxy(Table, Script)
             __pairs = function()
                 return pairs(Table)
             end,
+            __metatable = (Utils.TypeOf(Table) ~= "Thing") and Metatable -- fix for vectors losing their metatable status
         })
     else
         return Table

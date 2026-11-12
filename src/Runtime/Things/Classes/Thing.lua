@@ -291,6 +291,11 @@ function Thing:IsSerializable()
         end
     end)
 
+    -- Return true if it is a scene
+    if self.Scene then
+        return true
+    end
+
     -- HACK: This could probably be a part of GetParentCallback, and doesnt need to be hacked in like this.
     -- Return false if object itself isnt serializable
     if (not self.Serializable) or (not self.Parent) then
