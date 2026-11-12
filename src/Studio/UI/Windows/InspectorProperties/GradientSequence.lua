@@ -8,7 +8,11 @@ function ColorP:new(Property)
     return self
 end
 
-function ColorP:Update(Data)
+function ColorP:Update()
+    local Selecting = Studio.Editor3D.Selecting
+    local PropertyName = self.Property.Name
+    local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
+    
     self.Visual.Button:SetText(IsAllTheSame and "[...]" or "[~]")
 end
 
@@ -47,6 +51,8 @@ function ColorP:CreateVisual()
     })
     
     Visual.Button.Clicked:Connect(function()
+        local IsAllTheSame = Runtime.Things.IsPropertiesTheSame(Selecting,PropertyName)
+
         Studio.Layout.CallHandle("Windows.GradientMaker", "Request", Visual.ColorSquare.Gradient, function(ReturnedColor)
             Runtime.Things.SetPropertyMassive(Selecting, PropertyName, ReturnedColor)
             Visual.Button:SetText(IsAllTheSame and "[...]" or "[~]")
