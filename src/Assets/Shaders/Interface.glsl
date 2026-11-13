@@ -46,22 +46,24 @@ void effect() {
         gradtime = VaryingTexCoord.x;
     }
 
-    for(int i = 0; i < int(gradient_length); i++) {
-        // Setup time
-        float current_time = gradient.time[i];
-        float next_time = gradient.time[i+1];
+    if (gradient_length > 0) {
+        for(int i = 0; i < int(gradient_length); i++) {
+            // Setup time
+            float current_time = gradient.time[i];
+            float next_time = gradient.time[i+1];
 
-        // Check if we're in range
-        if (!(current_time < gradtime && next_time > gradtime)) {
-            continue;
+            // Check if we're in range
+            if (!(current_time < gradtime && next_time > gradtime)) {
+                continue;
+            }
+
+            // Setup color
+            vec4 current_color = gradient.colors[i];
+            vec4 next_color = gradient.colors[i+1];
+
+            // Find color
+            gradient_color = lerp(current_color, next_color, (gradtime-current_time)/(next_time-current_time));
         }
-
-        // Setup color
-        vec4 current_color = gradient.colors[i];
-        vec4 next_color = gradient.colors[i+1];
-
-        // Find color
-        gradient_color = lerp(current_color, next_color, (gradtime-current_time)/(next_time-current_time));
     }
 
     vec4 out_color = texturecolor * VaryingColor * gradient_color;

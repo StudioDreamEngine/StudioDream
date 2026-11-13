@@ -45,6 +45,7 @@ function GradientSequence.NewSequence(TableOf, Rotation)
 
     function SequenceObject.ChangeColorOf(ID,Color)
         local Key = SequenceObject.GetKeyByID(ID)
+        
         if Key then
             Key[2] = Color
             SequenceObject.ProcessUniforms()

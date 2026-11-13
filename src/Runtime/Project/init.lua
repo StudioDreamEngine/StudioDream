@@ -99,8 +99,6 @@ function Project.ValidateAndMount(ProjectPath)
     end
 end
 
-local DefaultImage = "Internal/Thumbnails/Latest.png"
-
 -- Get some useful information about the project, including its thumbnail and config.
 function Project.GetSummary(ProjectPath)
     local BaseFS = Runtime.BaseFS
@@ -119,15 +117,27 @@ function Project.GetSummary(ProjectPath)
     end
 
     local Config = Project.Config.Load(Mount)
+    local IdentifierLookup = Resources.GetIdentifers(Mount)
 
-    local ImageData = Mount.ReadFile("Thumbnail.png")
-    local Image = ImageData and Runtime.Resources.InitiateLoader("Image", ImageData) or DefaultImage
+    local Image = "Internal/Studio/EditorIcons/File_Not_Found.png"
+
+    if Config and Config.Icon then
+        local IconPath = IdentifierLookup[Config.Icon]
+
+        if IconPath then
+            local ImageData = Mount.ReadFile(IconPath)
+
+            Image = Runtime.Resources.CreateBuffer(Runtime.Resources.InitiateLoader("Image", ImageData)).ID
+        end
+    end
+
+    printVerbose("Identifier Lookup for",ProjectPath..": ",IdentifierLookup)
 
     Mount.Unmount()
 
     return {
         Config = Config,
-        ImageResource = Runtime.Resources.CreateBuffer(Image)
+        ImageResource = Image
     }
 end
 
@@ -156,7 +166,10 @@ function Project.Reload()
         Project.Unload()
 
         local Config = Project.Config.Load()
-        if (not Config) then print("Configuration returned nil, refusing to load project further.") return end
+        if (not Config) then 
+            Shared.QueueAbort("Project has not been loaded.")
+            return
+        end
 
         Resources.Load()
         RootScene.Load()
@@ -274,7 +287,6 @@ function Project.Save()
             Resources.Save()
         end
 
-        ProjectFS.QueueWrite("Thumbnail.png", Dream:renderThumbnail())
         RootScene.Save()
 
         Project.SavingProject:Invoke()

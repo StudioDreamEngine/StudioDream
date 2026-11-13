@@ -11,7 +11,8 @@ SelectionPriorityService.InViewport = false
 SelectionPriorityService.Use3DSelection = true
 
 function SelectionPriorityService.GetSelected() -- For selection stencil
-    printVerbose("GetSelected not overridden")
+    --printVerbose("GetSelected not overridden") -- no clue why the fuck this is here, we do not need to know if it is or not!
+    return {}
 end
 
 function SelectionPriorityService.Init()

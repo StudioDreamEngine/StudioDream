@@ -7,7 +7,11 @@ return function(ProjectConfig)
     local ViewportWindow = Studio.Layout.GetWindowHandle("Viewport")
 
     function ProjectConfig.Init()
-        Components.Settings.new({
+        Runtime.Project.LoadedProject:Connect(function()
+            ProjectConfig.Settings.UpdateAll()
+        end)
+
+        ProjectConfig.Settings = Components.Settings.new({
             General = {
                 {
                     Title = "Project Name",
@@ -26,10 +30,10 @@ return function(ProjectConfig)
                         Studio.Components.OpenResourcePicker(Change)
                     end,
                     UserChange = function(InfoGiven)
-                        Config.Set("Icon",Identifier)
+                        Config.Set("Icon",InfoGiven)
                     end,
                     ReturnDisplay = function()
-                        return Config.Get("Icon") and Runtime.Resources.GetIdentifierFromID(Config.Get("Icon")).Data.FileStem or "Internal/Icons/Client.png"
+                        return Config.Get("Icon") and Runtime.Resources.GetIdentifierFromID(Config.Get("Icon")).Data.FileStem or "No icon set (Using client icon)"
                     end,
                 },
                 {

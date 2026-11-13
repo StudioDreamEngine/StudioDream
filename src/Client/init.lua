@@ -53,14 +53,13 @@ function Client.Init()
 
     -- 
     Runtime.Project.LoadedProject:Connect(function()
-        RuntimeService.Start()
-
-        Runtime.Project.GetSummary(Runtime.Project.CurrentProjectPath)
-        
         local MainScene = Runtime.Project.Config.Get("MainScene")
+        
         if MainScene then
             Runtime.Project.LoadEnviornment(MainScene)
         end
+
+        RuntimeService.Start()
     end)
 
     -- No idea why i do this

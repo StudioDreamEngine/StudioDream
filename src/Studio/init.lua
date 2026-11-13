@@ -52,6 +52,7 @@ function Studio.Init()
     end)]]
 
     Utils.Warning = function(Message)
+        warn(Message)
         Studio.Notify(Message, "Warn")
     end
 

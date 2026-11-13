@@ -5,6 +5,14 @@ return { new = function(Info, Window)
     local Settings = {}
     local Tabs = {}
 
+    local PropertyValues = {}
+
+    function Settings.UpdateAll()
+        for _, v in pairs(PropertyValues) do
+            v.OnUpdate()
+        end
+    end
+
     function Settings.CreateChoices(Choices, Parent)
         local Scroll = Studio.Components.CreateStyle("ScrollContainer", {
             Size = Pivot2D.FromScale(1,1),
@@ -20,7 +28,7 @@ return { new = function(Info, Window)
         local PropertyList = Studio.Components.PropertyList(Pivot2D.new(1,0,0,30), Scroll)
 
         for _, Choice in pairs(Choices) do
-            Studio.Components.PropertyValue.New(PropertyList, Choice)
+            table.insert(PropertyValues, Studio.Components.PropertyValue.New(PropertyList, Choice))
         end
 
         return Scroll

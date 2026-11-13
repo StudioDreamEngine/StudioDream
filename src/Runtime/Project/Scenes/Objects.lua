@@ -27,14 +27,16 @@ function Objects.HandleType(Property, Type, Deserialize, Identifier)
     local Serializer = require(TypeSerializers[Type])
     Serializer.SerializeType = Objects.HandleType
 
-    local Result
+    local Success, Result = pcall(function()
+        if Deserialize then
+            return Serializer.Deserialize(Property)
+        else
+            return Serializer.Serialize(Property)
+        end
+    end)
 
-    if Deserialize then
-        Result = Serializer.Deserialize(Property)
-    else
-        Result = Serializer.Serialize(Property)
-    end
-
+    assert(Success, "Failed to serialize "..(Identifier and Identifier.Name or "No identifier")..": "..tostring(Result))
+    
     return Result
 end
 

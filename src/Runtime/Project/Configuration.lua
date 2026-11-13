@@ -9,6 +9,7 @@ local DefaultConfig = {
     SaveIdentifier = CreateUUID(),
     WindowSize = Vector2.new(1060, 600),
     WindowResizable = true,
+    Icon = nil,
 
     EditorData = {
         Tabs = {}
@@ -74,12 +75,10 @@ function Configuration.Load(Mount)
     end)
     
     if (not Success) and (not Mount) then
-        Utils.Warning("Couldn't load project configuration")
-
-        Configuration.Config = Configuration.GetDefault()
-        return Configuration.Config
+        printVerbose("Configuration Error:",Message)
+        Shared.QueueAbort("Project configuration failed to load, project is either too old or corrupted")
     else
-        print("Could load project config!")
+        print("Successfully loaded project config!")
         return Message
     end
 end
