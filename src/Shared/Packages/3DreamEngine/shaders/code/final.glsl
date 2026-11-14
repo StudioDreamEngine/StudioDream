@@ -22,15 +22,15 @@ uniform mat4 transformInverse;
 varying float eyeAdaption;
 #endif
 
-bool sampleStencilOffset(vec2 offset, vec2 tc) {
+bool sampleStencilOffset(vec2 offset, vec2 tc, vec4 stencilColor) {
 	vec2 pixelSize = 1.0 / love_ScreenSize.xy;
 	vec2 position = tc + (pixelSize * offset);
 
-	return Texel(canvas_stencil, position).r == 0.0f;
+	return Texel(canvas_stencil, position) == stencilColor;
 }
 
 bool sampleStencilOffset(vec2 tc) {
-	return Texel(canvas_stencil, tc).r == 0.0f;
+	return Texel(canvas_stencil, tc).a > 0.0f;
 }
 
 #ifdef FXAA_ENABLED
@@ -167,6 +167,7 @@ vec4 effect(vec4 _, Image canvas_color, vec2 tc, vec2 sc) {
 #endif
 
 	// Please dont kill me if this isnt how to do stuff like this i have never written alot of shaders before
+	vec4 stencilColor = vec4(Texel(canvas_stencil, tc).xyz, 1.0);
 	bool stencilAt = sampleStencilOffset(tc);
 
 	// For performance reasons and artifact prevention on corners we dont check these
@@ -176,16 +177,16 @@ vec4 effect(vec4 _, Image canvas_color, vec2 tc, vec2 sc) {
 	//bool stencilD = sampleStencilOffset(vec2(0,4), tc);
 
 	// Checking diagonals seems to result in generally better looking outlines
-	bool stencilLU = sampleStencilOffset(vec2(-4,-4), tc);
-	bool stencilRU = sampleStencilOffset(vec2(4,-4), tc);
-	bool stencilLD = sampleStencilOffset(vec2(-4,4), tc);
-	bool stencilRD = sampleStencilOffset(vec2(4,4), tc);
+	bool stencilLU = sampleStencilOffset(vec2(-4,-4), tc, stencilColor);
+	bool stencilRU = sampleStencilOffset(vec2(4,-4), tc, stencilColor);
+	bool stencilLD = sampleStencilOffset(vec2(-4,4), tc, stencilColor);
+	bool stencilRD = sampleStencilOffset(vec2(4,4), tc, stencilColor);
 
 	// Pretty simple logic here, just check if any neighbouring pixels arent in the stencil, if one isnt, we draw the outline pixel
 	bool neighbourHas = (stencilLD && stencilLU && stencilRD && stencilRU);// && (stencilD && stencilU && stencilL && stencilR) ;
 
 	if (stencilAt && !neighbourHas) {
-		color = vec4(0,0,0,1);
+		color = stencilColor;
 	}
 	
 	return color;

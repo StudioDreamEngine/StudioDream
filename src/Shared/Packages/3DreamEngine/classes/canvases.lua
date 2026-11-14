@@ -119,7 +119,7 @@ function class:init(w, h)
 
 		Profiler.EndStart("setup stencil")
 		--stencil/outlines
-		self.stencil = love.graphics.newCanvas(w, h, { format = "r16f", readable = true, msaa = self.msaa })
+		self.stencil = love.graphics.newCanvas(w, h, { format = "rgba8", readable = true, msaa = self.msaa })
 		Profiler.End()
 	end
 	

@@ -149,7 +149,10 @@ end
 function Drawable3D:AddTask()
     local Selected = Runtime.SelectionPriority.GetSelected()
     
-    self.MaterialList.Stencil = table.find(Selected, self)
+    if table.find(Selected, self) then
+        self.MaterialList.Stencil = true
+        self.MaterialDirty = true
+    end
 
     Dream:addMesh(self.Drawable, self.Matrix, self.MaterialList)
 end

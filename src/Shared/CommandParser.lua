@@ -45,7 +45,7 @@ HELP
         Verbose: If to enable more verbose prints (THESE WILL NOT BE LOGGED TO THE STUDIO OUTPUT!)
         DebugDraw: If to enable the debug drawing renderers
         ProfileCapture: Profile the engine (May use alot of ram, capture saved as prof.mpack in appdata)
-        AlwaysCrash: If recoverable errors (ones that happen within the scheduler) should always throw a crash
+        AlwaysCrash: If enabled, recoverable errors will always throw a crash, useful for debugging but may result in longer and more confusing stack tracebacks
             ]]
         end
     },

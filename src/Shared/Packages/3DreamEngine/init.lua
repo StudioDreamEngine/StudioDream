@@ -292,6 +292,6 @@ function lib:addNewLight(typ, position, color, brightness)
 	self:addLight(self:newLight(typ, position, color, brightness))
 end
 
-print("3DreamEngine: Ready!")
+printVerbose("3DreamEngine: Ready!")
 
 return lib
