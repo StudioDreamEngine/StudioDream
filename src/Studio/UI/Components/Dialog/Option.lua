@@ -65,6 +65,7 @@ return function(Options)
                     v.OnClick()
                 end
 
+                print("Close button")
                 Object.Close()
             end)
         end 

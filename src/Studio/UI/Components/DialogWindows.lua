@@ -19,10 +19,10 @@ local On
 local function ToggleAnim()
     local CurrentDropdown = ActiveDialogWindow
     local IsTrue = false
+    
     if CurrentDropdown then
         CurrentDropdown = CurrentDropdown.Window
         CurrentDropdown:SetVisible(IsTrue)    
-            
     end
 end
 

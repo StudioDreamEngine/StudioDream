@@ -14,11 +14,12 @@ function ScriptHandler.ConfigureEditor()
     end)
 
     Dialog.OnClose:Wait()
+    print("Closed")
 end
 
 function ScriptHandler.ConfigureOrValidateEditor()
     ConfiguredEditor = Studio.SettingsManager.Get("CodeEditor") -- Re-sync setting
-    printVerbose("Configured Editor: "..ConfiguredEditor)
+    printVerbose("Configured Editor: "..(ConfiguredEditor or "None"))
 
     if (not ConfiguredEditor) then -- If we do not find an editor at all, configure a new one
         ScriptHandler.ConfigureEditor()
@@ -39,6 +40,8 @@ function ScriptHandler.ValidateEditor(EditorPath)
     end
 
     if InvalidFileType then
+        print("Invalid editor")
+
         ConfiguredEditor = nil
         Studio.Components.SimpleDialog("EditorPath was invalid! Press ok to assign a new editor.", ScriptHandler.ConfigureEditor)
     else
@@ -91,7 +94,7 @@ function ScriptHandler.HandleOpenScript(ScriptObject)
         local Identifier, _ = ScriptHandler.CreateOrSelect(ScriptObject)
 
         if (not Identifier) then
-            Studio.Components.SimpleDialog("Could not create or set the resource, Either something went wrong, or you didnt give one")
+            Utils.Warning("Could not create or set the resource, Either something went wrong, or you didnt give one")
             return
         end
 

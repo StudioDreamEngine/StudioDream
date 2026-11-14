@@ -13,6 +13,6 @@ function RequirableScript:DefineAPI()
     self.Proxy.Icon("Requireable_Script")
 end
 
-function RequirableScript:Require() return RequirableScript:Load() end
+function RequirableScript:Require() return self:Load() end
 
 return RequirableScript

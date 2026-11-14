@@ -13,6 +13,7 @@ function BaseScript:new()
 
     self.Required = nil
 
+    self.ScriptLoaded = Signal:New("ScriptLoaded")
 end
 
 function BaseScript:DefineAPI()
@@ -52,17 +53,20 @@ function BaseScript:Traceback(Error)
     return table.concat(TraceMessage,"\n")
 end
 
+-- Load the script and yield until it is ready.
 function BaseScript:Load()
-    if (not self.ModuleFunction) then return end
+    if (not self.ModuleFunction) then print("Attempted to load script ("..(self:GetPath() or "No path")..") without a resource attached") return end
 
     self.ScriptTask = Scheduler.QueueTask(function()
         xpcall(function()
             self.Required = self.ModuleFunction()
-            print(self.Required,self.Resource)
+            self.ScriptLoaded:Invoke()
         end, function(Error)
             print(self:Traceback(Error))
         end)
     end)
+
+    self.ScriptLoaded:Wait()
     return self.Required
 end
 
@@ -71,6 +75,7 @@ function BaseScript:SetResource(Identifier)
     if (not self.ModuleFunction) then return end
 
     self.ModuleFunction = self.ModuleFunction()
+
     setfenv(self.ModuleFunction, ScriptUtil.CreateGlobals(self))
 end
 

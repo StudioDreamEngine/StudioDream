@@ -89,7 +89,7 @@ return function(Viewport)
         local Environment = Things.Root:GetEnvironment()
 
         Viewport.TopContainer:ClearAllChildren()
-        Viewport.TopContainer:SetSize(Pivot2D.FromScale(1,0.05))
+        Viewport.TopContainer:SetSize(Pivot2D.new(1,0,0,30))
 
         Viewport.Container:SetPivot(Vector2.one)
         Viewport.Container:SetPosition(Pivot2D.FromScale(1,1))

@@ -122,6 +122,8 @@ function InterfaceManager.Update(dt)
         local Button = Runtime.Things.Get(ButtonID)
         local DisplayUI
 
+        assert(Button, "Button ID "..ButtonID.." no longer exists, it is possible it was destroyed without being unregistered")
+
         if Button then DisplayUI = Button.DisplayUI end
 
         if Button:IsA("TextInput") and Button.InputActive then
