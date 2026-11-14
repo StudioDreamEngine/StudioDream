@@ -156,8 +156,15 @@ function SignalMethods:Invoke(MatchingListener, ...)
 	end, MatchingListener, ...)
 
 	if (not Success) then
-		print("Error while invoking "..self.EventName..", "..Message)
 		printVerbose(self._Events)
+
+		-- We also need to deal with these ones sadly :C
+		if FLAGS.AlwaysCrash then
+			local Message = "Error while invoking "..self.EventName..", "..Message
+			error(Message)
+		end
+
+		print("Error while invoking "..self.EventName..", "..Message)
 	end
 end
 

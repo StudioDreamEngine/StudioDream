@@ -1,7 +1,7 @@
 print("Please Wait (Started love project @ "..os.clock().."s)")
 require("Shared")
 
-DebugFont = love.graphics.newFont(12)
+DebugFont = love.graphics.newFont(10)
 
 local function SetupModifications()
     -- Fix issue where empty directories return nothing
@@ -47,7 +47,7 @@ function DebugLog(msg)
     love.graphics.clear(0.1,0.1,0.3)
     love.graphics.setColor(1,1,1)
 
-    if #dbglog > 40 then
+    if #dbglog > 70 then
         table.remove(dbglog, 1)
     end
 
@@ -90,7 +90,7 @@ function love.errorhandler(msg)
         if (not success) then
             crash_extra = crash_extra.."\nCouldnt save project: "..msg.."\n(ABOVE ONLY APPEARS WHEN THE CRASH CALLBACK FAILS, IT IS NOT THE ERROR!)"
         else
-            crash_extra = crash_extra.."\nProject was successfully saved"
+            crash_extra = crash_extra.."\nRecovery project was successfully saved"
         end
 
         local full_trace = crash_extra.."\n"..ERROR_SEPERATE.."\n"..traceback
@@ -167,8 +167,6 @@ function love.update(dt)
     MYFPSCAPPER9001 = MYFPSCAPPER9001 + 1/60
 
     Shared.Update(dt)
-    
-    if FLAGS.AlwaysCollect then collectgarbage("collect") end
 end
 
 function love.quit()

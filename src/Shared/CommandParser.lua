@@ -25,9 +25,9 @@ local Switches = {
         Type = "Switch",
         Flag = "ProfileCapture"
     },
-    AlwaysCollect = {
+    AlwaysCrash = {
         Type = "Switch",
-        Flag = "AlwaysCollect"
+        Flag = "AlwaysCrash"
     },
     Help = {
         Type = "Switch",
@@ -45,7 +45,7 @@ HELP
         Verbose: If to enable more verbose prints (THESE WILL NOT BE LOGGED TO THE STUDIO OUTPUT!)
         DebugDraw: If to enable the debug drawing renderers
         ProfileCapture: Profile the engine (May use alot of ram, capture saved as prof.mpack in appdata)
-        AlwaysCollect: Experimental flag to always run the garbage collector after every frame
+        AlwaysCrash: If recoverable errors (ones that happen within the scheduler) should always throw a crash
             ]]
         end
     },
