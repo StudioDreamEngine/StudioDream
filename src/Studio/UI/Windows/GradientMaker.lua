@@ -2,7 +2,7 @@ local Things = Runtime.Things
 local Components = Studio.Components
 
 local GradientButton
-local Sequence = GradientSequence.NewSequence({}, 0)
+local Sequence = GradientSequence.DefaultSequence()
 
 return function(GradientMaker)
 
@@ -13,17 +13,29 @@ return function(GradientMaker)
     GradientMaker.LastKey = nil
 
     function GradientMaker.ClearKeys()
+        GradientMaker.LastKey = nil
+
+        for _,v in ipairs(GradientMaker.KeysAdded) do
+            v.Slider:Destroy()
+        end
+
         table.clear(GradientMaker.KeysAdded)
+
         Sequence = GradientSequence.DefaultSequence()
         GradientButton:SetGradient(Sequence)
     end
 
     function GradientMaker.LoadPreset(NewSequence)
         GradientMaker.ClearKeys()
-        for i,v in pairs(NewSequence.GetKeys()) do
-            --print(v)
-            GradientMaker.AddKey(v[1],v[2])
+        Sequence = NewSequence
+
+        GradientMaker.RotationTime.Input:SetText(tostring(math.deg(NewSequence.Rotation)))
+
+        for _, v in ipairs(NewSequence.GetKeys()) do
+            GradientMaker.AddKey(v[1], v[2], v)
         end
+
+        GradientButton:SetGradient(Sequence)
     end
 
     function GradientMaker.SetLastKey(Key)
@@ -37,23 +49,30 @@ return function(GradientMaker)
         Key.Choose:SetVisible(true)
     end
     
-    function GradientMaker.AddKey(InicialTime,ColorAdded,Active)
-        for _, Key in ipairs(Sequence.GetKeys()) do
-            local Distance = math.abs(Key[1]- InicialTime)
+   function GradientMaker.AddKey(InicialTime, ColorAdded, LoadedPreset, Active)
+        local RawKey
+        local KeyID
 
-            if Distance < 0.01 then
-                return nil
-            end
+        if LoadedPreset then
+            RawKey = LoadedPreset
+            KeyID = RawKey[3]
+        else
+            RawKey = GradientSequence.NewKey(InicialTime, ColorAdded)
+            KeyID = Sequence.AddKey(RawKey)
         end
 
-        local KeyObject = {}
+        if InicialTime == 1 or InicialTime == 0 then
+            Active = false
+        end
 
         if Active == true or Active == false then
         else
             Active = true
         end
 
-        KeyObject.KeyID = Sequence.AddKey(GradientSequence.NewKey(InicialTime,ColorAdded))
+        local KeyObject = {}
+
+        KeyObject.KeyID = KeyID
         KeyObject.RawID = Sequence.GetKeyByID(KeyObject.KeyID)
 
         KeyObject.Slider = Studio.Components.CreateStyle("SlideBar",{
@@ -126,6 +145,7 @@ return function(GradientMaker)
         end
 
         KeyObject.Slider.ChangedPercentage:Connect(function()
+
             Sequence.GetKeyByID(KeyObject.KeyID)[1] = KeyObject.Slider.Percentage
             Sequence.ProcessUniforms()
 
@@ -147,12 +167,16 @@ return function(GradientMaker)
 
         GradientMaker.SetLastKey(KeyObject)
 
+        if InicialTime == 1 or InicialTime == 0 then
+            KeyObject.ChangeColor(ColorAdded)
+        end
+
         return KeyObject
     end
 
     function GradientMaker.StartGradientColorHandle()
-        GradientMaker.AddKey(1,Color.new(1),false)
-        GradientMaker.AddKey(0,Color.new(1),false)
+        --[[GradientMaker.AddKey(1,Color.new(1),false)
+        GradientMaker.AddKey(0,Color.new(1),false)]]
 
         GradientButton.Clicked:Connect(function()
             local MousePos = Runtime.Backend2D.GetMousePosition().X
@@ -224,7 +248,7 @@ return function(GradientMaker)
 
         GradientMaker.CurrentKeyTime = Studio.Components.StockVisuals:CreateTimerInput(GradientMaker.Container,{
             Position = Pivot2D.FromScale(0.08,0.9),
-            Size = Pivot2D.FromScale(0.15,.11),
+            Size = Pivot2D.FromScale(0.055,.11),
             Pivot = Vector2.new(0,0.5),
             Parent = GradientMaker.Container,
             ForegroundColor = "Text",
@@ -235,10 +259,27 @@ return function(GradientMaker)
             Text = "0",
             Alignment = Enum.Alignment.TopCenter
         })
+
+        GradientMaker.RotationTime = Studio.Components.StockVisuals:CreateTimerInput(GradientMaker.Container,{
+            Position = Pivot2D.FromScale(0.19,0.9),
+            Size = Pivot2D.FromScale(0.055,.11),
+            Pivot = Vector2.new(0,0.5),
+            Parent = GradientMaker.Container,
+            ForegroundColor = "Text",
+            BackgroundTransparency = 0,
+            BackgroundColor = "Outline",
+            CornerRadius = 5,
+            Title = "Rot:",
+            Text = tostring(Sequence.Rotation),
+            Alignment = Enum.Alignment.TopCenter
+        })
         
         GradientMaker.CurrentKeyTime.Input.FocusEnd:Connect(function()
             if GradientMaker.LastKey then
-                GradientMaker.LastKey.ChangeTime(tonumber(GradientMaker.CurrentKeyTime.Input.Text))
+                local Number = tonumber(GradientMaker.CurrentKeyTime.Input.Text)
+                if Number then
+                    GradientMaker.LastKey.ChangeTime(Number)
+                end
             end
         end)
 
@@ -246,6 +287,13 @@ return function(GradientMaker)
             if GradientMaker.LastKey then
                 GradientMaker.LastKey.Destroy()
                 GradientMaker.LastKey = nil
+            end
+        end)
+
+        GradientMaker.RotationTime.Input.FocusEnd:Connect(function()
+            local Numbered = tonumber(GradientMaker.RotationTime.Input.Text)
+            if Numbered then
+                Sequence.SetRotation(math.rad(Numbered))
             end
         end)
 
@@ -266,10 +314,12 @@ return function(GradientMaker)
 
     function GradientMaker.Request(InicialSequence,Function)
         --print(InicialSequence,Function)
+        print(InicialSequence.GetKeys())
         GradientMaker.LoadPreset(InicialSequence)
         Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.GradientMaker"),true)
         GradientMaker.ConfirmButton.Clicked:Connect(function()
             GradientMaker.Hide()
+            --print(Sequence.GetKeys())
             Function(Sequence)
         end)
     end
