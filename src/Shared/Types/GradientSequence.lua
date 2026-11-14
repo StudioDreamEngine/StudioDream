@@ -26,12 +26,25 @@ function GradientSequence.NewSequence(TableOf, Rotation)
     local Colors, Times
     local ID = 0
 
+    function SequenceObject.SetRotation(Value)
+        SequenceObject.Rotation = Value
+        SequenceObject.ProcessUniforms()
+    end
+
+    function SequenceObject.GetKeyByTime(Time)
+        for i,v in pairs(Keys) do
+            if v[1] then
+                return i
+            end
+        end
+    end
+
     function SequenceObject.AddKey(Key)
         ID = ID + 1
 
         Utils.AssertType(Key, "ColorKey")
         table.insert(Keys, {Key.SequenceTime, Key.Color, ID})
-
+        
         return ID
     end
 
