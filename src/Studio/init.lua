@@ -8,6 +8,7 @@ function Studio.Init()
 
     Studio.Theme = require("Studio.Theme")
     Studio.EditorUI = require("Studio.EditorUI")
+    Studio.Theme.UpdateSelectionColor()
 
     Studio.Backend = require("Studio.Backend")
     Studio.Backend.Init()

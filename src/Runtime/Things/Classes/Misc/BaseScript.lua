@@ -9,7 +9,9 @@ function BaseScript:new()
 
     self.ScriptContents = nil
     self.ScriptTask = nil
+
     self.Resource = nil
+    self.Identifier = nil
 
     self.Required = nil
 
@@ -70,11 +72,18 @@ function BaseScript:Load()
     return self.Required
 end
 
+--[[function BaseScript:Reload()
+    if self.Identifier then
+        self:SetResource(self.Identifier)
+    end
+end]]
+
 function BaseScript:SetResource(Identifier)
     self.ModuleFunction, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Script")
     if (not self.ModuleFunction) then return end
 
     self.ModuleFunction = self.ModuleFunction()
+    self.Identifier = Identifier
 
     setfenv(self.ModuleFunction, ScriptUtil.CreateGlobals(self))
 end

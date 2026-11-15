@@ -88,6 +88,14 @@ function Root:DefineAPI()
     self.Proxy.Icon("Root")
 end
 
+--[[function Root:ReloadScripts()
+    for i,v in pairs(self:GetDescendants()) do
+        if v:IsA("BaseScript") then
+            v:Reload()
+        end
+    end
+end]]
+
 -- Service() is reccommended to be used instead, but this is here for compatability
 function Root:GetService(Service)
     return Runtime.Services.Service(Service)
