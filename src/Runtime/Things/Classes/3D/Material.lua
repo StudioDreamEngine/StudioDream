@@ -13,7 +13,7 @@ function Material:new()
     self.Metallic = 0 -- 1
     self.Alpha = false
     self.Stencil = false
-    self.StencilColor = Color.new(1,0,0)
+    self.StencilColor = Color.new(0,0,0)
 
     self.Simple = false
     self.Cutout = false

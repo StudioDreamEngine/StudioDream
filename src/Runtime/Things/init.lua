@@ -30,6 +30,14 @@ function Things.Init()
     Things.FireTreeChange = false
 end
 
+function Things.GetDefaultMaterial()
+    return Templates.DefaultMaterial
+end
+
+function Things.GetTemplates()
+    return Templates
+end
+
 function Things.CreateApiDump()
     printVerbose("Creating API Dump...")
     for Class, _ in pairs(Classes) do

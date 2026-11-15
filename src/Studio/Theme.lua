@@ -178,13 +178,20 @@ function Themes.GetCurrentTheme()
     end
 
     Themes.CurrentName = SettingTheme
+    Themes.UpdateSelectionColor()
+
     return ThemesIn[Themes.CurrentName]
+end
+
+function Themes.UpdateSelectionColor()
+    Runtime.Things.GetDefaultMaterial().StencilColor = ThemesIn[Themes.CurrentName].Selecting
+    Runtime.Things.GetDefaultMaterial():UpdateMaterial()
 end
 
 function Themes.ChangeTheme(NewTheme)
     Studio.SettingsManager.Set("UsingTheme",NewTheme)
-
     Studio.CurrentTheme = Themes.GetCurrentTheme()
+    Themes.UpdateSelectionColor()
     Studio.Theme.ThemeChanged:Invoke()
 end
 
