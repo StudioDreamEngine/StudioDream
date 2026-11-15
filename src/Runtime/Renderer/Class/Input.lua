@@ -35,13 +35,42 @@ end
 
 -- Find a the nearest cursor point in the current line
 function Input:CharacterAtPixelPos(PixelPosition, Line)
+    local AllWidths = {}
+
     for CharacterIndex = 1, #Line do
         local Character = string.sub(Line, 0, CharacterIndex)
         local Width = self:GetWidth(Character)
 
+        table.insert(AllWidths, {
+            Index = CharacterIndex,
+            Width = Width
+        })
+
         if PixelPosition <= Width then
-            return CharacterIndex, Width
+            break
         end
+    end
+
+    --[[
+        Once we have every width, we then need to compare
+        
+        Last width: end of closest character to right
+        Second-Last width: end of closest character to left
+    ]]
+
+    local SecondLast = AllWidths[#AllWidths - 1]
+    local Last = AllWidths[#AllWidths]
+
+    if (not SecondLast) then
+        return Last.Index, Last.Width
+    end
+
+    local HalfWay = (SecondLast.Width + Last.Width) / 2
+
+    if PixelPosition > HalfWay then
+        return Last.Index, Last.Width
+    else
+        return SecondLast.Index, SecondLast.Width
     end
 end
 
@@ -125,6 +154,31 @@ end
 function Input:_HandleKey(Control, Key)
     if Control == Enum.ControlCode.Horizontal then
         self:ChangePositionBy(Key)
+        return
+    elseif Control == Enum.ControlCode.Vertical then
+        local TargetLine = math.clamp(self.Cursor.Line + Key, 1, #self.Lines.Lines)
+
+        -- Get where the cursor should be on the line
+        local LineString = self.Lines.Lines[TargetLine]
+
+        local Length, PixelPosition = self:CharacterAtPixelPos(self.Cursor.PixelPosition, LineString)
+        print(Length, PixelPosition)
+
+        local CurrentPosition = 0
+
+        for LineIndex, LineString in pairs(self.Lines.Lines) do
+            if LineIndex == TargetLine then
+                break
+            end
+
+            CurrentPosition = CurrentPosition + #LineString
+        end
+
+        self.Cursor.Line = TargetLine
+        self.Cursor.CharPosition = CurrentPosition + Length
+        self.Cursor.PixelPosition = PixelPosition
+
+        self:RefreshBlinkCursor(true)
         return
     end
 

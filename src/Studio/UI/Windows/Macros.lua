@@ -4,6 +4,9 @@ return function(Macros)
         ["Reload Resources"] = function()
             Runtime.Resources.ReloadResources()
         end,
+        ["Unload resources"] = function ()
+            Runtime.Resources.Unload()
+        end,
         ["Redraw Explorer"] = function()
             Runtime.Things.RequestTreeChange()
         end,
@@ -29,6 +32,11 @@ return function(Macros)
 
             table.clear(Objects)
             Bench2.End()
+        end,
+        ["Infuriate me x20"] = function()
+            for i = 1,20 do
+                Runtime.Services.Service("SatisfactoryService").InfuriateMe()
+            end
         end
     }
 

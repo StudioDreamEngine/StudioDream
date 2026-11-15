@@ -92,10 +92,13 @@ function Sky:OnRemove()
 end
 
 function Sky:SetCelestial(Celestial,Identifier)
-    self.Celestials[Celestial], self[Celestial] = Runtime.Resources.LoadResourceFromIdentifier(Identifier)
-    --print(self[Celestial])
+    self.Celestials[Celestial], self[Celestial] = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self, {
+        Property = Celestial,
+        Type = "Image"
+    })
 
     --self.Celestials[Celestial] = love.graphics.readbackTexture(self.Celestials[Celestial])
+
     SkyRenderer.SetCelestials(Celestial,self.Celestials[Celestial])
 end
 
@@ -109,7 +112,10 @@ end
 
 function Sky:SetSky(NewSky)
     local ResourceSource
-    _, self.Sky, ResourceSource = Runtime.Resources.LoadResourceFromIdentifier(NewSky)
+    _, self.Sky, ResourceSource = Runtime.Resources.LoadResourceFromIdentifier(NewSky, self, {
+        Property = "Sky",
+        Type = "Image"
+    })
 
     SkyRenderer.SetSky(ResourceSource)
 end

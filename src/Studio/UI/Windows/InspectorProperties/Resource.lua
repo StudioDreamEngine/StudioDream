@@ -19,6 +19,7 @@ function Number:Update()
 
     if IsAllTheSame and Thing then
         local Data = Runtime.Resources.GetIdentifierFromID(Thing)
+
         ToDisplay = Data.Data.FileStem
     else
         ToDisplay = "~"

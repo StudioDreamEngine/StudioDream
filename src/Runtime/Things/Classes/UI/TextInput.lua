@@ -33,6 +33,8 @@ function TextInput:new()
                 self.RenderClass:HandleKey(Enum.ControlCode.Backspace)
             elseif (Key == Enum.InputCode.LeftArrow) or (Key == Enum.InputCode.RightArrow) then
                 self.RenderClass:HandleKey(Enum.ControlCode.Horizontal, (Key == Enum.InputCode.LeftArrow) and -1 or 1)
+            elseif (Key == Enum.InputCode.UpArrow) or (Key == Enum.InputCode.DownArrow) then
+                self.RenderClass:HandleKey(Enum.ControlCode.Vertical, (Key == Enum.InputCode.DownArrow) and 1 or -1)
             end
         else
             self.RenderClass:HandleKey(Enum.ControlCode.End)

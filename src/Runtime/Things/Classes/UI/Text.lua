@@ -46,6 +46,7 @@ function Text:AttemptWrap(Size)
     Profiler.End()
 end
 
+-- TODO: DO NOT invalidate rendering for text updates please!!!
 function Text:SetTextScaled(TextScaled)
     self.TextScaled = TextScaled
 

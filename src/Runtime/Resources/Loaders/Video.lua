@@ -3,6 +3,6 @@ return {
         return love.graphics.newVideo(Identifier.Data.FilePath, true)
     end,
     Unload = function(Resource)
-        Resource:dispose()
+        Resource:release()
     end
 }

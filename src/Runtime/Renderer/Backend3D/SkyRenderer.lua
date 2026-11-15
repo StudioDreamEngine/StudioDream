@@ -18,11 +18,12 @@ local Defaults = {
 	MoonBrightness = 1,
 }
 
-local _,_,DefaultSky = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Resources.GetIdentifierFromID("Internal/Sky/sky.png"))
+local _, DefaultSky = Runtime.Resources.GetResource(Runtime.Resources.GetIdentifierFromID("Internal/Sky/sky.png"))
+
 local TextureDefaults = {
 	Sky = DefaultSky,
-    Moon = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Resources.GetIdentifierFromID("Internal/Sky/moon.png")),
-    Sun = Runtime.Resources.LoadResourceFromIdentifier(Runtime.Resources.GetIdentifierFromID("Internal/Sky/sun.png")),
+    Moon = Runtime.Resources.GetResource(Runtime.Resources.GetIdentifierFromID("Internal/Sky/moon.png")),
+    Sun = Runtime.Resources.GetResource(Runtime.Resources.GetIdentifierFromID("Internal/Sky/sun.png")),
 	SunColor = Color.new(1.0, 0.75, 0.5),
     MoonColor = Color.new(0.753, 0.863, 1)
 }
@@ -70,9 +71,9 @@ end
 
 function RenderSky.SetCelestials(Celestial,ImageData)
 	if Celestial == "Sun" then
-		Sun = ImageData
+		Sun = ImageData or TextureDefaults.Sun
 	else
-		Moon = ImageData
+		Moon = ImageData or TextureDefaults.Moon
 	end
 end
 

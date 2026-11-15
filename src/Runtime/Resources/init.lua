@@ -12,6 +12,8 @@ local ObjectReferences = {}
 local Clonable = { "Sound" }
 
 Resources.Missing = {}
+Resources.OnUnload = Signal:New("OnUnload")
+Resources.UnloadedIdentifier = Signal:New("UnloadedIdentifier")
 
 function Resources.Init()
 	LoveEvents.Focus:Connect(function()
@@ -69,7 +71,7 @@ end
 	Intended to be a way to simplify loading resources from Identifiers or IDs
 ]]
 function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
-	assert(Identifier, "No identifier passed into LoadResourceFromIdentifier")
+	if (not Identifier) then return end
 
 	-- TODO: Should we deprecate using identifiers for LoadResourceFromIdentifier?
 
@@ -221,6 +223,8 @@ function Resources.UnloadResource(IdentifierID)
 
 			Resources.ForEachReference(function(_, ObjectUUID, Property)
 				local Object = Runtime.Things.Get(ObjectUUID)
+				print(Object, Property)
+
 				Runtime.Things.SetProperty(Object, Property, nil)
 			end)
 
@@ -230,6 +234,7 @@ function Resources.UnloadResource(IdentifierID)
 	end
 
 	LoadedResources[IdentifierID] = nil
+	Resources.UnloadedIdentifier:Invoke(IdentifierID)
 end
 
 return Resources

@@ -19,7 +19,7 @@ function RuntimeService.IsRunningScripts()
 end
 
 function RuntimeService.Stop()
-    if Runtime.Project.LoadingProject then print("RuntimeService.Stop() called when project is being loaded") return end
+    if Runtime.Project.IsLoadingProject then print("RuntimeService.Stop() called when project is being loaded") return end
 
     Running = false
     RuntimeService.Quitting:Invoke()

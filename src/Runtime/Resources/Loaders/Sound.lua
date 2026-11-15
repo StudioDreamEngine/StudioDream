@@ -5,6 +5,6 @@ return  {
         return love.audio.newSource(Data, "static"), love.sound.newSoundData(Data)
     end,
     Unload = function(Resource)
-        Resource:dispose()
+        Resource:release()
     end
 }

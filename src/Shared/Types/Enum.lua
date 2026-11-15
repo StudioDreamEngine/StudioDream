@@ -44,6 +44,7 @@ local Enums = {
     ControlCode = {
         Backspace = "backspace",
         Horizontal = "horizontal",
+        Vertical = "vertical",
         Key = "key"
     },
     OpenDialog = {

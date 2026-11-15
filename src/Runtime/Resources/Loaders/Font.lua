@@ -5,6 +5,6 @@ return {
         return love.graphics.newFont(Data,32)
     end,
     Unload = function(Resource)
-        Resource:dispose()
+        Resource:release()
     end
 }

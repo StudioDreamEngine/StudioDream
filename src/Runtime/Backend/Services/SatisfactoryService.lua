@@ -31,13 +31,36 @@ function SatisfactoryService.SatisfyMe()
     return Words[math.random(1,#Words)]
 end
 
+function SatisfactoryService.Init() end
+
 function SatisfactoryService.InfuriateMe()
     for _, Object in pairs(Runtime.Things.GetObjects()) do
-        if math.random(0,5) == 2 then
+        if math.random(0,4) == 2 then
             Object:Destroy()
             return
         end
     end
+end
+
+function SatisfactoryService.ColonThreeify()
+    local RealPrintOG = PrintOG
+    local Endings = {":3", ">_<", "^_^", "OmO"}
+    local EndingSad = {"3:", ">_<",":C"}
+
+    PrintOG = function(Final)
+        local lower = string.lower(Final)
+        local ending
+
+        if string.find(lower, "failed") or string.find(lower, "error") or string.find(lower, "not") then
+            ending = EndingSad[math.random(1,#EndingSad)]
+        else
+            ending = Endings[math.random(1,#Endings)]
+        end
+
+        RealPrintOG(string.gsub(Final, "[rR]", "w").." "..ending)
+    end
+
+    print(":3 mode activated")
 end
 
 return SatisfactoryService

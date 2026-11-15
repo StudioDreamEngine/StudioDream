@@ -13,6 +13,19 @@ function RootScene.LoadDefault()
     RootScene.ConfigureTargets()
 end
 
+Runtime.Resources.UnloadedIdentifier:Connect(function(IdentifierID)
+    if CurrentEnv and (IdentifierID == CurrentEnv.Scene) then
+        RootScene.Unload()
+    end
+end)
+
+function RootScene.UnloadEnviornment()
+    CurrentEnv:RemoveParent(Root)
+    CurrentEnv = nil
+
+    RootScene.ConfigureTargets()
+end
+
 -- Load an enviornment from an IdentifierID
 function RootScene.LoadEnviornment(IdentifierID)
     if (IdentifierID == Root.Scene) then
@@ -21,14 +34,15 @@ function RootScene.LoadEnviornment(IdentifierID)
     end
 
     if CurrentEnv then
-        CurrentEnv:RemoveParent(Root)
-        CurrentEnv = nil
+        RootScene.UnloadEnviornment()
     end
 
     local Identifier
 
     if IdentifierID then
         Identifier = Runtime.Resources.GetIdentifierFromID(IdentifierID)
+        assert(Identifier, "Cannot load scene: Invalid IdentifierID for requested scene")
+
         local Resource, _ = Runtime.Resources.GetResource(Identifier)
         Resource.Scene:SetParent(Root)
 
@@ -42,7 +56,10 @@ end
 
 function RootScene.Unload()
     LoadedScenes = {}
-    CurrentEnv = nil
+
+    if CurrentEnv then
+        RootScene.UnloadEnviornment()
+    end
 end
 
 -- Save the current enviornment

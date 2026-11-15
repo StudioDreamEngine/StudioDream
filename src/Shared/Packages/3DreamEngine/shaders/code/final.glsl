@@ -22,15 +22,15 @@ uniform mat4 transformInverse;
 varying float eyeAdaption;
 #endif
 
-bool sampleStencilOffset(vec2 offset, vec2 tc, vec4 stencilColor) {
+vec4 sampleStencilOffset(vec2 offset, vec2 tc) {
 	vec2 pixelSize = 1.0 / love_ScreenSize.xy;
 	vec2 position = tc + (pixelSize * offset);
 
-	return Texel(canvas_stencil, position) == stencilColor;
+	return Texel(canvas_stencil, position);
 }
 
 bool sampleStencilOffset(vec2 tc) {
-	return Texel(canvas_stencil, tc).a > 0.0f;
+	return Texel(canvas_stencil, tc).a > 0.0;
 }
 
 #ifdef FXAA_ENABLED
@@ -167,25 +167,36 @@ vec4 effect(vec4 _, Image canvas_color, vec2 tc, vec2 sc) {
 #endif
 
 	// Please dont kill me if this isnt how to do stuff like this i have never written alot of shaders before
-	vec4 stencilColor = vec4(Texel(canvas_stencil, tc).xyz, 1.0);
+	vec4 stencilColor;
 	bool stencilAt = sampleStencilOffset(tc);
 
 	// For performance reasons and artifact prevention on corners we dont check these
-	//bool stencilL = sampleStencilOffset(vec2(-4,0), tc);
-	//bool stencilR = sampleStencilOffset(vec2(4,0), tc);
+	//vec4 stencilL = sampleStencilOffset(vec2(-4,0), tc);
+	//if (stencilL.a > 0.0) { stencilColor = stencilL; }
+
+	//vec4 stencilR = sampleStencilOffset(vec2(4,0), tc);
+	//if (stencilR.a > 0.0) { stencilColor = stencilR; }
+
 	//bool stencilU = sampleStencilOffset(vec2(0,-4), tc);
 	//bool stencilD = sampleStencilOffset(vec2(0,4), tc);
 
 	// Checking diagonals seems to result in generally better looking outlines
-	bool stencilLU = sampleStencilOffset(vec2(-4,-4), tc, stencilColor);
-	bool stencilRU = sampleStencilOffset(vec2(4,-4), tc, stencilColor);
-	bool stencilLD = sampleStencilOffset(vec2(-4,4), tc, stencilColor);
-	bool stencilRD = sampleStencilOffset(vec2(4,4), tc, stencilColor);
+	vec4 stencilLU = sampleStencilOffset(vec2(-4,-4), tc);
+	if (stencilLU.a > 0.5) { stencilColor = stencilLU; }
+
+	vec4 stencilRU = sampleStencilOffset(vec2(4,-4), tc);
+	if (stencilRU.a > 0.5) { stencilColor = stencilRU; }
+
+	vec4 stencilLD = sampleStencilOffset(vec2(-4,4), tc);
+	if (stencilLD.a > 0.5) { stencilColor = stencilLD; }
+
+	vec4 stencilRD = sampleStencilOffset(vec2(4,4), tc);
+	if (stencilRD.a > 0.5) { stencilColor = stencilRD; }
 
 	// Pretty simple logic here, just check if any neighbouring pixels arent in the stencil, if one isnt, we draw the outline pixel
-	bool neighbourHas = (stencilLD && stencilLU && stencilRD && stencilRU);// && (stencilD && stencilU && stencilL && stencilR) ;
+	bool neighbourHas = (stencilLU.a > 0.5) || (stencilRU.a > 0.5) || (stencilRD.a > 0.5) || (stencilLD.a > 0.5);
 
-	if (stencilAt && !neighbourHas) {
+	if (!stencilAt && neighbourHas) {
 		color = stencilColor;
 	}
 	

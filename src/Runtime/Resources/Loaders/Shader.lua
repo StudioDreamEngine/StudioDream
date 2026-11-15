@@ -3,6 +3,6 @@ return {
         return love.graphics.newShader(ShaderBytes)
     end,
     Unload = function(Resource)
-        Resource:dispose()
+        Resource:release()
     end
 }
