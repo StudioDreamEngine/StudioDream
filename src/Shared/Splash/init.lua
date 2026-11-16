@@ -47,22 +47,22 @@ function Splash.Out()
 
     local TweenService = Runtime.Services.Service("TweenService") ---@class TweenService
 
-    TweenService.CreateAndPlay(SplashLogo, {
+    TweenService:CreateAndPlay(SplashLogo, {
         Size = Pivot2D.FromScale(.45,.45)
     }, Enum.EasingStyle.ExpoOut, .2)
 
-    TweenService.Create(SplashLogo, {
+    TweenService:Create(SplashLogo, {
         Size = Pivot2D.FromScale(0.1,0.1),
         ForegroundTransparency = 1
     }, Enum.EasingStyle.ExpoOut, 1).Play()
 
-    TweenService.Create(SplashLogoOutline, {
+    TweenService:Create(SplashLogoOutline, {
         Size = Pivot2D.FromScale(2,2),
         ForegroundTransparency = 1,
         Rotation = 360,
     }, Enum.EasingStyle.ExpoOut, 2).Play()
 
-    TweenService.CreateAndPlay(SplashContainer, {
+    TweenService:CreateAndPlay(SplashContainer, {
         BackgroundTransparency = 1
     }, Enum.EasingStyle.Linear, 1)
 

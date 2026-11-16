@@ -158,16 +158,16 @@ function DropdownPlus.new(Choices, FakeParent, Size)
         DropdownObject.MajorParent:SetPivot(Vector2.new(0,Visible and 1 or 0))
         DropdownObject.MajorParent:SetActive(false)
 
-        Move = TweenService.Create(DropdownObject.MajorParent, {
+        Move = TweenService:Create(DropdownObject.MajorParent, {
             Pivot = Vector2.new(0,Visible and 0 or 1),
         }, Enum.EasingStyle.QuintOut, .2)
 
-        Move2 = TweenService.Create(DropdownObject.Container, {
+        Move2 = TweenService:Create(DropdownObject.Container, {
             ForegroundTransparency = Visible and 0 or 1
         }, Enum.EasingStyle.QuintOut, .2)
 
-        Move.Play()
-        Move2.Play()
+        Move:Play()
+        Move2:Play()
 
         Move.Completed:Connect(function()
             --printVerbose("Move completed function start")

@@ -18,7 +18,7 @@ return function(Notify)
             CornerRadius = 5,
         })
 
-        Tween.Create(Window, {}, Enum.EasingStyle.QuintOut, .5).Play()
+        Tween:Create(Window, {}, Enum.EasingStyle.QuintOut, .5):Play()
 
         Studio.Components.CreateStyle("Image2D",{
             Size = Pivot2D.FromScale(.2,.2),
@@ -46,7 +46,7 @@ return function(Notify)
         local Time = Times[Type]
 
         Scheduler.DelayTask(Time - .5,function()
-            Tween.Create(Window, {ForegroundTransparency = 1, BackgroundTransparency = 1, Scale = 0.75}, Enum.EasingStyle.QuintOut, .5).Play()
+            Tween:Create(Window, {ForegroundTransparency = 1, BackgroundTransparency = 1, Scale = 0.75}, Enum.EasingStyle.QuintOut, .5):Play()
             Scheduler.Yield(.5)
             Window:Destroy()
         end)
