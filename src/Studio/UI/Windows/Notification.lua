@@ -18,7 +18,7 @@ return function(Notify)
             CornerRadius = 5,
         })
 
-        --[[Studio.Components.CreateStyle("Image2D",{
+        Studio.Components.CreateStyle("Image2D",{
             Size = Pivot2D.FromScale(.2,.2),
             Layer = 2,
             Name = "NotificationIcon",
@@ -39,7 +39,7 @@ return function(Notify)
             Parent = Window,
             BackgroundTransparency = 1,
             ForegroundColor = "Text"
-        })]]
+        })
 
         local Time = Times[Type]
 
