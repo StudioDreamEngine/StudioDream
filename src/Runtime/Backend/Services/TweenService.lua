@@ -11,31 +11,31 @@ function TweenService.Init()
 end
 
 -- Create a tween group, these are used for pausing/unpausing a certain group of tweens
-function TweenService.CreateGroup()
+function TweenService:CreateGroup()
     local Group = {}
     local ActiveTweens = {}
 
     Group.Playing = true
     Group.Tick = 0
 
-    function Group.Add(Tween)
+    function Group:Add(Tween)
         ActiveTweens[Tween.UUID] = Tween
         Tween.Group = Group
     end
 
-    function Group.Remove(Tween)
+    function Group:Remove(Tween)
         ActiveTweens[Tween.UUID] = nil
         Tween.Group = nil
     end
 
-    function Group.Toggle(Paused)
+    function Group:Toggle(Paused)
         Group.Playing = not Paused
     end
 
-    function Group.Update(dt)
+    function Group:Update(dt)
         if Group.Playing then
             for _, Tween in pairs(ActiveTweens) do
-                Tween.Update(dt)
+                Tween:Update(dt)
             end
         end
     end
@@ -47,7 +47,7 @@ local CurrentGroup = TweenService.CreateGroup()
 
 -- TODO: Pause & Stop functions?
 ---@param Subject Thing
-function TweenService.Create(Subject, Target, Style, Time)
+function TweenService:Create(Subject, Target, Style, Time)
     local Tween = {}
 
     Tween.UUID = CreateUUID()
@@ -67,7 +67,7 @@ function TweenService.Create(Subject, Target, Style, Time)
 
     local InitalValues = {}
     
-    function Tween.Play()
+    function Tween:Play()
         Tween.Playing = true
 
         for Name, _ in pairs(Target) do
@@ -77,18 +77,18 @@ function TweenService.Create(Subject, Target, Style, Time)
         return Tween
     end
 
-    function Tween.LinkToGroup(Group)
+    function Tween:LinkToGroup(Group)
         if Tween.Group then
-            Tween.Group.Remove(Tween)
+            Tween.Group:Remove(Tween)
             Tween.Group = nil
         end
 
         Group.Add(Tween)
     end
 
-    function Tween.RemoveGroup()
+    function Tween:RemoveGroup()
         if Tween.Group then
-            Tween.Group.Remove(Tween)
+            Tween.Group:Remove(Tween)
             Tween.Group = nil
         end
     end
@@ -98,19 +98,22 @@ function TweenService.Create(Subject, Target, Style, Time)
     --[[
         GotoTarget: If we should go to the target values once this is called
     ]]
-    function Tween.Stop(GotoTarget)
-        if GotoTarget then Tween.Set(1) end
+    function Tween:Stop(GotoTarget)
+        if GotoTarget then Tween:Set(1) end
 
         Tween.Playing = false
     end
-
+    
+    function Tween:Pause()
+        Tween.Playing = false
+    end
     -- Stop the tween, then set it back to zero
-    function Tween.Cancel()
+    function Tween:Cancel()
         Tween.Playing = false
-        Tween.Set(0)
+        Tween:Set(0)
     end
 
-    function Tween.Set(Alpha)
+    function Tween:Set(Alpha)
         for Name, Value in pairs(Target) do
             local SubjectVal = InitalValues[Name]
             local TargetValue = 0
@@ -125,7 +128,7 @@ function TweenService.Create(Subject, Target, Style, Time)
         end
     end
 
-    function Tween.Update(dt)
+    function Tween:Update(dt)
         Tween.Elapsed =  Tween.Elapsed + dt
 
         if (not Tween.Playing) then return end
@@ -134,20 +137,20 @@ function TweenService.Create(Subject, Target, Style, Time)
 
         if Elapsed/Time >= 1 then
             Tween.Completed:Invoke() 
-            Tween.Stop(true) 
+            Tween:Stop(true) 
             return
         end
 
         local LerpedAlpha = EasingFunction(Elapsed, 0, 1, Time)
-        Tween.Set(LerpedAlpha)
+        Tween:Set(LerpedAlpha)
     end
 
     return Tween
 end
 
 -- Creates a tween object and then plays it
-function TweenService.CreateAndPlay(Subject, Target, Style, Time, Wow)
-    local Tween = TweenService.Create(Subject, Target, Style, Time).Play()
+function TweenService:CreateAndPlay(Subject, Target, Style, Time, Wow)
+    local Tween = TweenService:Create(Subject, Target, Style, Time):Play()
     if not Time then print("Not given Time! Please try again!") return end
     Scheduler.Yield(Time)
 
@@ -156,7 +159,7 @@ end
 
 -- Internal function to step util tweens
 function TweenService.Update(dt)
-    CurrentGroup.Update(dt)
+    CurrentGroup:Update(dt)
 end
 
 return TweenService

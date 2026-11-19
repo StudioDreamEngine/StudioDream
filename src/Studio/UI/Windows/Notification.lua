@@ -46,7 +46,7 @@ return function(Notify)
         Window:SetParent(Notify.Container)
 
         Scheduler.DelayTask(Time - .5,function()
-            Tween.Create(Window, {ForegroundTransparency = 1, BackgroundTransparency = 1, Scale = 0.75}, Enum.EasingStyle.QuintOut, .5).Play()
+            Tween:Create(Window, {ForegroundTransparency = 1, BackgroundTransparency = 1, Scale = 0.75}, Enum.EasingStyle.QuintOut, .5):Play()
             Scheduler.Yield(.5)
             Window:Destroy()
         end)
