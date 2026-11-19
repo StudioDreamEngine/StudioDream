@@ -314,7 +314,7 @@ return function(GradientMaker)
 
     function GradientMaker.Request(InicialSequence,Function)
         --print(InicialSequence,Function)
-        print(InicialSequence.GetKeys())
+        --print(InicialSequence.GetKeys())
         GradientMaker.LoadPreset(InicialSequence)
         Studio.Layout.ToggleWindow(Studio.Layout.GetHandle("Windows.GradientMaker"),true)
         GradientMaker.ConfirmButton.Clicked:Connect(function()

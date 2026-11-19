@@ -83,7 +83,7 @@ function TweenService:Create(Subject, Target, Style, Time)
             Tween.Group = nil
         end
 
-        Group.Add(Tween)
+        Group:Add(Tween)
     end
 
     function Tween:RemoveGroup()
@@ -93,7 +93,7 @@ function TweenService:Create(Subject, Target, Style, Time)
         end
     end
 
-    Tween.LinkToGroup(CurrentGroup)
+    Tween:LinkToGroup(CurrentGroup)
 
     --[[
         GotoTarget: If we should go to the target values once this is called

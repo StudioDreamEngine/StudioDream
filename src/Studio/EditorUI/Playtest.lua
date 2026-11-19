@@ -3,7 +3,7 @@ local Tween = Runtime.Services.Service("TweenService")
 
 local PlayLine
 function Playtest.Init()
-    PlayLine = Studio.Components:CreateStyle("Square", {
+    PlayLine = Studio.Components.CreateStyle("Square", {
         Size = Pivot2D.FromScale(1,1),
         Position = Pivot2D.FromScale(0.5,0.5),
         Pivot = Vector2.new(0.5,0.5),
@@ -16,11 +16,11 @@ function Playtest.Init()
 end
 
 function Playtest.StartPlayline()
-    Tween:Create(PlayLine, {OutlineSize = 10}, Enum.EasingStyle.SineIn, .2).Play()
+    Tween:Create(PlayLine, {OutlineSize = 10}, Enum.EasingStyle.SineIn, .2):Play()
 end
 
 function Playtest.EndPlayline()
-    Tween:Create(PlayLine, {OutlineSize = 0}, Enum.EasingStyle.SineOut, .2).Play()
+    Tween:Create(PlayLine, {OutlineSize = 0}, Enum.EasingStyle.SineOut, .2):Play()
 end
 
 return Playtest
