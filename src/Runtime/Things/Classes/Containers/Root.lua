@@ -45,8 +45,8 @@ function Root:Clear()
         self.HudViewport:SetRenderContainer(nil)
     end
 
-    Runtime.Project.LoadEnviornment(nil)
     Runtime.ScriptUtil.Reset()
+    Runtime.Project.LoadEnviornment(nil)
 
     local Services = Runtime.Services
 

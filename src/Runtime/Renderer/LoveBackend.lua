@@ -11,6 +11,11 @@ local StencilCandidates = {
 }
 local StencilFormat
 
+local SupportedSystems = {
+    "Linux",
+    "Windows"
+}
+
 Backend.UnsupportedHardware = false
 
 -- idk what to name this
@@ -28,6 +33,11 @@ function Backend.ManageCompat()
         print("Using stencil format "..StencilFormat)
     else
         warn("No supported stencil format found, Certain visual features will be missing")
+        Backend.UnsupportedHardware = true
+    end
+
+    if (not table.find(SupportedSystems, love.system.getOS())) then
+        warn("Running on unsupported or untested operating system, stability may be impacted.")
         Backend.UnsupportedHardware = true
     end
 end

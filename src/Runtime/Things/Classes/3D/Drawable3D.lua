@@ -58,6 +58,8 @@ end
 
 function Drawable3D:OnRemove()
     self:RemoveBody() -- the fact we dont havent made this a thing until 0.9
+    table.clear(self.MaterialList) -- for some insane reason this keeps enviornment 
+
     Drawable3D.super.OnRemove(self)
 end
 

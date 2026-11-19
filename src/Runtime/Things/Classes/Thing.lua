@@ -324,7 +324,8 @@ function Thing:RemoveChild(Object)
         self.ChildrenChanged:Invoke(Enum.Hierachy.Removed, Object)
         self.Children[Object.UUID] = nil
     else
-        print("Attempted to remove child from parent that was not in parent, "..Object.UUID)
+        print("Attempted to remove child from parent that was not in parent, "..tostring(Object))
+        print(debug.traceback())
     end
 
     table.removeValue(self.InterfaceChildren, Object)

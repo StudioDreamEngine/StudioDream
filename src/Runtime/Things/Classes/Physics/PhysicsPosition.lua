@@ -25,6 +25,10 @@ function PhysicsPosition:DefineAPI()
     self.Proxy.MakeCreatable()
 end
 
+function PhysicsPosition:OnRemove()
+    self.CurrentEnvironment = nil
+end
+
 function PhysicsPosition:Update(dt)
     PhysicsPosition.super.Update(self, dt)
 

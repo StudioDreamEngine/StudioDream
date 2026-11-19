@@ -120,7 +120,7 @@ function Components.CreateIconObject(Name, Icon)
     })
     
     function NodeInner.Destroy()
-        NodeInner = {}
+        table.clear(NodeInner)
     end
 
     return NodeInner
@@ -320,6 +320,22 @@ Studio.Theme.ThemeChanged:Connect(function()
     end
 end)
 
+local function SetupTheme(Type, Properties)
+    local MatchedUpOnTheme = {}
+
+    for Name, Value in pairs(Properties) do
+        local ApiDump = Runtime.Things.API[Type]
+        local IntendedType = ApiDump.Types[Name]
+        if (IntendedType == "Color" or Name == "Font") and table.find(Studio.Theme.GetPalette(), Value) then
+            table.insert(MatchedUpOnTheme,{ColorName = Value,PropertyName = Name})
+
+            Properties[Name] = Studio.CurrentTheme[Value]
+        end
+    end
+
+    return MatchedUpOnTheme
+end
+
 function Components.CreateStyle(Type, Properties, Style)
     local MatchedUpOnTheme = {}
     local ThingCreated
@@ -336,19 +352,7 @@ function Components.CreateStyle(Type, Properties, Style)
         end
     end
 
-    local function SetupTheme()
-        for Name, Value in pairs(Properties) do
-            local ApiDump = Runtime.Things.API[Type]
-            local IntendedType = ApiDump.Types[Name]
-            if (IntendedType == "Color" or Name == "Font") and table.find(Studio.Theme.GetPalette(), Value) then
-                table.insert(MatchedUpOnTheme,{ColorName = Value,PropertyName = Name})
-
-                Properties[Name] = Studio.CurrentTheme[Value]
-            end
-        end
-    end
-
-    SetupTheme()
+    MatchedUpOnTheme = SetupTheme(Type, Properties)
 
     ---@class Thing
     ThingCreated = Things.Create(Type) (Properties)

@@ -16,10 +16,9 @@ function ScrollContainer:new()
     self.Hovering = false
     self.ForegroundColor = Color.new(1)
 
-    self.CornerRadius = Corners.new(5)
-
     self.BarColor = Color.new(1)
     self.BarTransparency = 0
+    self.BarWidth = 5
 
     self.PresentOnVisible = false
 
@@ -49,9 +48,9 @@ function ScrollContainer:DefineAPI()
 
     self.Proxy.SetCategory("Containers")
 
-    self.Proxy.Property("Pivot2D CanvasSize","number ScrollPosition","Color BarColor","number BarTransparency")
+    self.Proxy.Property("Pivot2D CanvasSize","number ScrollPosition","Color BarColor","number BarTransparency","number BarWidth")
     self.Proxy.Group("Scroll","CanvasSize","ScrollPosition")
-    self.Proxy.Group("Bar","BarColor","BarTransparency")
+    self.Proxy.Group("Bar (Builtin)","BarColor","BarTransparency","BarWidth")
 
     self.Proxy.Icon("ScrollContainer")
 
@@ -98,7 +97,7 @@ function ScrollContainer:OnRemove()
     self.PostEvent:Disconnect()
 end
 
---[[function ScrollContainer:Draw()
+function ScrollContainer:Draw()
     ScrollContainer.super.Draw(self)
     
     --[[
@@ -108,30 +107,23 @@ end
         suffering through like what, the 25th stage of hell?
         
         - Bloctans
+    ]]
     
-    local TotalCanvasSize = self:GetCanvasSize() - self.AbsoluteSize.Y
+    if (not self.LinkedSlidebar) then
+        local TotalCanvasSize = self:GetCanvasSize() - self.AbsoluteSize.Y
 
-    -- oh god...
-    local CanvasScale2 = (self:GetCanvasSize().Y / self.AbsoluteSize.Y)
-    local CanvasScale = (TotalCanvasSize.Y / self.AbsoluteSize.Y) -- How large CanvasSize is compared to AbsoluteSize
+        -- oh god...
+        local CanvasScale2 = (self:GetCanvasSize().Y / self.AbsoluteSize.Y)
+        local CanvasScale = (TotalCanvasSize.Y / self.AbsoluteSize.Y) -- How large CanvasSize is compared to AbsoluteSize
 
-    local BarPos = (-self.ScrollPosition / CanvasScale)
-    local BarSize = self.AbsoluteSize.Y / CanvasScale2
-    local BarPivot = BarSize * (BarPos / self.AbsoluteSize.Y)
-    
-    -- TODO: Move to function in square class, this shouldnt be here! (ScrollContainer extends Viewport2D extends Viewport extends Square)
-    local ActualbarSize = Vector2.new(5,BarSize)
-
-    if self.LimitCornerRadius then
-        local Size = (ActualbarSize.X < ActualbarSize.Y) and ActualbarSize.X/2 or ActualbarSize.Y/2
-        self.TrueRadiusOfCorners = (self.CornerRadius > Size) and Size or self.CornerRadius
-    else 
-        self.TrueRadiusOfCorners = self.CornerRadius
+        local BarPos = (-self.ScrollPosition / CanvasScale)
+        local BarSize = self.AbsoluteSize.Y / CanvasScale2
+        local BarPivot = BarSize * (BarPos / self.AbsoluteSize.Y)
+        
+        Runtime.Backend2D.SetColor(self.BarColor,1 - self.BarTransparency)
+        love.graphics.rectangle("fill", self.AbsoluteSize.X-self.BarWidth, BarPos - BarPivot, self.BarWidth, BarSize,self.BarWidth/2,self.BarWidth/2)
     end
-
-    Runtime.Backend2D.SetColor(self.BarColor,1 - self.BarTransparency)
-    love.graphics.rectangle("fill", self.AbsoluteSize.X-5, BarPos - BarPivot, 5, BarSize,self.TrueRadiusOfCorners,self.TrueRadiusOfCorners)
-end]]
+end
 
 function ScrollContainer:Update(dt)
     ScrollContainer.super.Update(self, dt)

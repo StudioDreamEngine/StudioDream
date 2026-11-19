@@ -8,7 +8,6 @@ function Client.Init()
     -- Setup the client UI
     local EnvironmentViewport = Things.Create("Viewport3D") {
         Parent = Things.RenderRoot,
-        RenderContainer = Things.Root:GetEnvironment(),
         Size = Pivot2D.FromScale(1,1),
     }
 
