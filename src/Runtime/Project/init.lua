@@ -38,6 +38,7 @@ end
 -- Unload the project and any resources
 function Project.Unload()
     Runtime.Resources.Unload()
+    RootScene.Unload()
 end
 
 -- Check if ProjectPath is valid, if so, Mount ProjectPath into ProjectFS

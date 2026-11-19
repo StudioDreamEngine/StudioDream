@@ -32,6 +32,7 @@ function RuntimeService.Stop()
     end
 
     Runtime.Project.Reload()
+    Runtime.Project.LoadedProject:Invoke()
 end
 
 -- Returns the current time since the game has started, calculated based of DeltaTime

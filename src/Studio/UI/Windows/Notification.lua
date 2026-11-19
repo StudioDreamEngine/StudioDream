@@ -18,8 +18,6 @@ return function(Notify)
             CornerRadius = 5,
         })
 
-        Tween:Create(Window, {}, Enum.EasingStyle.QuintOut, .5):Play()
-
         Studio.Components.CreateStyle("Image2D",{
             Size = Pivot2D.FromScale(.2,.2),
             Layer = 2,
@@ -45,13 +43,13 @@ return function(Notify)
 
         local Time = Times[Type]
 
+        Window:SetParent(Notify.Container)
+
         Scheduler.DelayTask(Time - .5,function()
             Tween:Create(Window, {ForegroundTransparency = 1, BackgroundTransparency = 1, Scale = 0.75}, Enum.EasingStyle.QuintOut, .5):Play()
             Scheduler.Yield(.5)
             Window:Destroy()
         end)
-
-        Window:SetParent(Notify.Container)
     end
 
     function Notify.Init()
@@ -68,7 +66,7 @@ return function(Notify)
         Notify.Notify("Studio Loaded, Open a project or make a new one!","Info")
 
         if Runtime.Backend2D.UnsupportedHardware then
-            Notify.Notify("StudioDream is running on unsupported hardware, we've found workarounds, but things might be broken!", "Info")
+            Notify.Notify("StudioDream is running on unsupported hardware. We've found workarounds, but things might be broken!", "Info")
         end
     end
 

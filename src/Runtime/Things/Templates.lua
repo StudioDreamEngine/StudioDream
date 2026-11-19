@@ -41,7 +41,7 @@ function Templates.EnvTemplate()
         Parent = Environment
     }
 
-    Environment.Camera = Camera 
+    Environment.Camera = Camera
     return Environment
 end
 

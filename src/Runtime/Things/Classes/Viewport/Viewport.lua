@@ -105,6 +105,22 @@ function Viewport:UpdateTransforms()
     self.AbsolutePosition = self:GetAbsolutePosition()
 end
 
+function Viewport:OnRemove()
+    Viewport.super.OnRemove(self)
+
+    if self.ViewportCanvas then
+        self.ViewportCanvas:release()
+        self.StencilCanvas:release()
+    end
+
+    if self.RenderContainer and self.RenderContainer.Adornee then
+        printVerbose("RenderContainer "..self.RenderContainer:GetPath().." still has unreferenced viewport as adornee!!")
+    end
+
+    table.clear(self.DisplayList)
+    self.RenderContainer = nil
+end
+
 ---@param NewFolder Thing
 function Viewport:SetRenderContainer(NewFolder)
     if NewFolder and NewFolder:IsA("ViewportContainer") then

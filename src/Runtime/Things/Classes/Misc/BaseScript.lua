@@ -34,6 +34,7 @@ function BaseScript:OnRemove()
 
     if self.ScriptTask then
         Scheduler.CancelTask(self.ScriptTask)
+        setfenv(self.ModuleFunction, {})
     end
 end
 

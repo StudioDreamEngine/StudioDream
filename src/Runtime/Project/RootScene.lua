@@ -55,7 +55,7 @@ function RootScene.LoadEnviornment(IdentifierID)
 end
 
 function RootScene.Unload()
-    LoadedScenes = {}
+    table.clear(LoadedScenes)
 
     if CurrentEnv then
         RootScene.UnloadEnviornment()
@@ -120,6 +120,8 @@ end
 -- Configure Hud and Environment viewports for new root scenes
 function RootScene.ConfigureTargets()
     if Root.EnvironmentViewport and Root.HudViewport then
+        print("Configuring targets")
+
         Root.EnvironmentViewport:SetRenderContainer(Root:GetEnvironment())
         Root.HudViewport:SetRenderContainer(Root:GetHUD())
     end

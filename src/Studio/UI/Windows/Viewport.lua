@@ -86,8 +86,6 @@ return function(Viewport)
         Viewport.Tabs = {}
         Viewport.CurrentlySelected = nil
 
-        local Environment = Things.Root:GetEnvironment()
-
         Viewport.TopContainer:ClearAllChildren()
         Viewport.TopContainer:SetSize(Pivot2D.new(1,0,0,30))
 
@@ -184,7 +182,6 @@ return function(Viewport)
 
         ---@type Viewport3D
         Viewport.EnvironmentViewport = Things.Create("Viewport3D") {
-            RenderContainer = Environment,
             Name = "MainViewport",
             Layer = 7,
             Size = Pivot2D.FromScale(1,1),

@@ -50,7 +50,7 @@ end
 function Viewport3D:Present()
     assert(self.RenderContainer, "RenderContainer not specified before rendering started!")
 
-    return self.RenderContainer:Present()
+    self.RenderContainer:Present()
 end
 
 function Viewport3D:OnRemove()

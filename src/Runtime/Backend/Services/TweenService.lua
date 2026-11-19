@@ -43,7 +43,7 @@ function TweenService:CreateGroup()
     return Group
 end
 
-local CurrentGroup = TweenService.CreateGroup()
+local CurrentGroup = TweenService:CreateGroup()
 
 -- TODO: Pause & Stop functions?
 ---@param Subject Thing
@@ -56,7 +56,7 @@ function TweenService:Create(Subject, Target, Style, Time)
     Tween.Elapsed = 0
 
     Subject.OnDestroy:ConnectOnce(function()
-        Tween.RemoveGroup()
+        Tween:RemoveGroup()
     end)
 
     local EasingFunction = TweenFunctions.easing[Style]
