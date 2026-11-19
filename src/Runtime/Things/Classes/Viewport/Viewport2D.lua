@@ -75,6 +75,13 @@ function Viewport2D:SubmitContainerChildren(Container, Initial)
     return RenderBehind, RenderAbove
 end
 
+function Viewport2D:OnRemove()
+    Viewport2D.super.OnRemove(self)
+
+    self.TopLayer = {}
+    self.Hovering = nil
+end
+
 function Viewport2D:SubmitChildrenPass(Table, Submit) 
     for _, Child in pairs(Table) do 
         if Submit then 
