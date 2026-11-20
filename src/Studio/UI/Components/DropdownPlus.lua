@@ -146,8 +146,8 @@ function DropdownPlus.new(Choices, FakeParent, Size)
         end]]
 
         if (not DropdownObject.Visible) and (not Visible) then
-            if Move then Move.Cancel() end
-            if Move2 then Move2.Cancel() end
+            if Move then Move:Cancel() end
+            if Move2 then Move2:Cancel() end
 
             DropdownObject.Container:SetVisible(false)
             return
