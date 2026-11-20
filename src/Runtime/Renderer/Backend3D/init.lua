@@ -36,10 +36,10 @@ function Backend3D.Init()
         love.graphics.clear(false, true, true)
     end
 
-    Backend3D.Debug = Runtime.Things.Create("Drawable3D") {
-        Transform = Transform3D.FromPosition(0,-100,0),
-        Resource = "Internal/DefaultMeshes/cube.obj"
-    }
+    Backend3D.Debug = Backend3D.LoadAdorn("Internal/DefaultMeshes/cube.obj")
+    Backend3D.RegisterAdorn(Backend3D.Debug, Backend3D.Debug.UUID)
+
+    Backend3D.SetTransform(Transform3D.FromPosition(0,-100,0))
 end
 
 --[[
@@ -51,7 +51,7 @@ end
 
 -- Set the transform of the debug object
 function Backend3D.SetTransform(Transform)
-    Backend3D.Debug:SetTransform(Transform)
+    Backend3D.Debug.transform = Transform.Matrix
 end
 
 function Backend3D.GetAdorns() return DreamAdorns end
@@ -94,7 +94,7 @@ function Backend3D.LoadMesh(Identifier, Reference)
     local Resource, ResourceIdentifier = Runtime.Resources.LoadResourceFromIdentifier(Identifier, Reference, "Mesh")
     if (not Resource) then return end
 
-    AssignClassReference(Resource, Reference) -- TODO/FIXME: DONT DO THIS!!!! IT FUCKS WITH RAYCAST
+    AssignClassReference(Resource, Reference)
 
     return Resource, ResourceIdentifier
 end
@@ -111,7 +111,10 @@ function Backend3D.LoadAdorn(Identifier, Parent, Reference)
 
     AssignClassReference(Adorn, Reference)
 
-    Parent.objects[Adorn.UUID] = Adorn
+    if Parent then
+        Parent.objects[Adorn.UUID] = Adorn
+    end
+    
     return Adorn
 end
 

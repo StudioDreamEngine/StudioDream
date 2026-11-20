@@ -54,7 +54,6 @@ function Resources.ReloadResources()
 	print("Reloading resources")
 
 	-- It'd be nice if we could know WHICH were changed without checking them all but whatever
-	-- TODO: Also reload
 	Resources.ForEachReference(function(Identifier, ObjectUUID, Property)
 		local Object = Runtime.Things.Get(ObjectUUID)
 		--print(Identifier, Property)

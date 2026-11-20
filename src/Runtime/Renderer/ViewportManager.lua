@@ -95,7 +95,6 @@ function ViewportManager.RenderViewport3D(Viewport)
             Dream:addLight(Runtime.Backend3D.MoonLight)
             Viewport:Present()
             Runtime.Backend3D.PresentAdorns()
-            Runtime.Backend3D.Debug:AddTask() -- TODO: Add to adorns
 
             for i,v in pairs(Viewport.RenderContainer.Lights) do
                 Dream:addLight(v)

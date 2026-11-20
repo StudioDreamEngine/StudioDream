@@ -15,6 +15,8 @@ function InterfaceManager.Init()
     InterfaceManager.OnClickPress = Signal:New("MouseClick4")
     InterfaceManager.OnClickGeneral = Signal:New("MouseClick3")
 
+    local InputService = Runtime.Services.Service("InputService")
+
     LoveEvents.MousePressed:Connect(function(x,y,button)
         if button == Enum.MouseButton.RightClick then
             InterfaceManager.OnRightClick:Invoke(Vector2.new(x,y))
@@ -30,12 +32,12 @@ function InterfaceManager.Init()
         InterfaceManager.Clicking = true
     end)
 
-    LoveEvents.MouseReleased:Connect(function(_,_,button)
-        if button == Enum.MouseButton.LeftClick then -- TODO: Use listener
+    InputService.MouseEvent:Connect(function(Pressed)
+        if not Pressed then
             InterfaceManager.OnRelease:Invoke()
             InterfaceManager.Clicking = false
         end
-    end)
+    end, Enum.MouseButton.LeftClick)
 end
 
 -- Register a button to be handled by the hovering system

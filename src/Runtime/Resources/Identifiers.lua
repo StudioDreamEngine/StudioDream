@@ -38,22 +38,6 @@ end
 	--Todo
 end]]
 
----@param FilePath string
---[[
-	Get the IdentifierID of the specified Path (FilePath)
-	This will NOT register an identifier OR create a new file.
-	FilePath is relative to the project mount point.
-
-	TODO: Is this needed?
-]]
-function Identifiers.GetIdentifierIDFromPath(FilePath)
-	if Utils.TypeOf(FilePath) == "Path" then
-		FilePath = FilePath.FilePath
-	end
-
-	return Runtime.ProjectFS.ReadFile(FilePath .. ".uid")
-end
-
 --[[
 	Unload every current resource attached to the project (Most likely in the registered identifiers, so we target all of them)
 ]]
@@ -212,7 +196,8 @@ function Identifiers.GetStudioPath(IdentifierID)
 	elseif PathSplit[1] == "Project" then
 		local PathString = table.concat(PathSplit, "/", 2)
 
-		return RegisteredIdentifiers[Identifiers.GetIdentifierIDFromPath(PathString)]
+		-- Hopefully this merge of the function works!!
+		return RegisteredIdentifiers[Runtime.ProjectFS.ReadFile(PathString .. ".uid")]
 	end
 end
 

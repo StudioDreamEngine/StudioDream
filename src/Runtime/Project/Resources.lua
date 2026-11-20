@@ -38,19 +38,10 @@ end
 
 function Resources.GetIdentifers(Mount)
     Lookup = {}
-    HandleIdentifier("", Mount)
+
+    RecurseProject("", Mount, HandleIdentifier)
 
     return Lookup
-end
-
--- TODO: Replace with GetIdentifers
-function Resources.HandleIdentifier(FilePath, _)
-    local _, IsDirectory = Runtime.Resources.LoadOrCreateIdentifier(FilePath)
-
-    if IsDirectory then
-        printVerbose("Branching to directory:",FilePath)
-        RecurseProject(FilePath.."/", ProjectFS, Resources.HandleIdentifier)
-    end
 end
 
 -- Besides scenes in the future perhaps, nothing is needed here for now
@@ -59,7 +50,12 @@ function Resources.Save()
 end
 
 function Resources.Load() 
-    RecurseProject("", ProjectFS, Resources.HandleIdentifier)
+    local Lookup = Resources.GetIdentifers(ProjectFS)
+    printVerbose("Resource lookup for mounted project:",Lookup)
+
+    for _, Path in pairs(Lookup) do
+        Runtime.Resources.LoadOrCreateIdentifier(Path)
+    end
 end
 
 return Resources

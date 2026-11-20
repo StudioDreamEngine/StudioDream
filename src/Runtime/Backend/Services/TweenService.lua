@@ -45,7 +45,6 @@ end
 
 local CurrentGroup = TweenService:CreateGroup()
 
--- TODO: Pause & Stop functions?
 ---@param Subject Thing
 function TweenService:Create(Subject, Target, Style, Time)
     local Tween = {}
@@ -107,6 +106,7 @@ function TweenService:Create(Subject, Target, Style, Time)
     function Tween:Pause()
         Tween.Playing = false
     end
+
     -- Stop the tween, then set it back to zero
     function Tween:Cancel()
         Tween.Playing = false

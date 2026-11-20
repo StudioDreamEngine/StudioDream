@@ -14,6 +14,8 @@ function Camera:new()
     self.AspectRatio = 1.0
     self.Orthographic = false
     self.Drawable = Dream:newCamera()
+
+    self.MouseRay = Vector3.zero
 end
 
 function Camera:DefineAPI()
@@ -131,18 +133,19 @@ function Camera:GetViewport()
     return self.Viewport
 end
 
--- TODO: We might be calling this more than once per frame, should we just grab from a variable updated each frame instead?
 function Camera:GetMouseRay()
-    if self.Viewport then
-        return self:ScreenToWorldSpace(self.Viewport.MousePosition)
-    else
-        printVerbose("Triggered mouse ray hack")
-        return Vector3.zAxis
-    end
+    return self.MouseRay
 end
 
 function Camera:Update(dt)
     Camera.super.Update(self, dt)
+
+    if self.Viewport then
+        self.MouseRay = self:ScreenToWorldSpace(self.Viewport.MousePosition)
+    else
+        printVerbose("Triggered mouse ray hack")
+        self.MouseRay = Vector3.zAxis
+    end
 
     self.Drawable:setTransform(self.Transform:GetMatrix())
 end

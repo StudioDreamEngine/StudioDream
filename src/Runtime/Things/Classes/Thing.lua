@@ -395,7 +395,7 @@ function Thing:SetParent(NewParent)
         self.ShouldProcess = NewParent and true or false
         self.Parent = NewParent
 
-        -- Currently we'll only handle tree changes if the object isnt a scene, TODO: Fix this 
+        -- Currently we'll only handle tree changes if the object isnt a scene
         local Serializable = self:IsSerializable()
 
         if (NewParent == nil) and OldParent then
