@@ -117,6 +117,8 @@ function Viewport:OnRemove()
         printVerbose("RenderContainer "..self.RenderContainer:GetPath().." still has unreferenced viewport as adornee!!")
     end
 
+    Renderer.ViewportManager.UnregisterViewport(self)
+
     table.clear(self.DisplayList)
     self.RenderContainer = nil
 end

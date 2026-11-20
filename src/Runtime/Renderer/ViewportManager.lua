@@ -58,6 +58,10 @@ function ViewportManager.CreateViewport(Viewport, Size, UseMSAA)
     return Canvas, Stencil--, Mask
 end
 
+function ViewportManager.UnregisterViewport(Viewport)
+    ViewportManager.Viewports[Viewport.UUID] = nil
+end
+
 -- Render the contents of a 2d viewport
 function ViewportManager.RenderViewport2D(Viewport)
     Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
