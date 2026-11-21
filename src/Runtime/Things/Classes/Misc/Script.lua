@@ -32,7 +32,9 @@ function Script:SetEnabled(Enabled)
         Scheduler.CancelTask(self.ScriptTask)
         self.ScriptTask = nil
     else
-        self:AttemptLoad()
+        if self.RestartOnEnable then
+            self:AttemptLoad()
+        end
     end
 end
 

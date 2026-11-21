@@ -13,6 +13,8 @@ function BaseScript:new()
     self.Resource = nil
     self.Identifier = nil
 
+    self.Enabled = false
+
     self.Required = nil
 
     self.ScriptLoaded = Signal:New("ScriptLoaded")
@@ -32,7 +34,7 @@ end
 function BaseScript:OnRemove()
     BaseScript.super.OnRemove(self)
 
-    if self.ScriptTask then
+    if self.ScriptTask and self.ModuleFunction then
         Scheduler.CancelTask(self.ScriptTask)
         setfenv(self.ModuleFunction, {})
     end
