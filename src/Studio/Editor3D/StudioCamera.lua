@@ -62,6 +62,7 @@ function StudioCamera.Update(dt)
         local Up = CameraTransform.Up * (KeyDownNum(Enum.InputCode.E) - KeyDownNum(Enum.InputCode.Q))
         local Direction = (Forward + Side + Up):Unit() * dt * 3
 
+
         -- Fuckass focus code
         if PanningCamera then
             local CDirection = (CameraFocus - CameraPosition):Unit()

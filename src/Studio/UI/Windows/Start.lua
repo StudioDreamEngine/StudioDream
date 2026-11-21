@@ -245,7 +245,7 @@ return function(Start)
         local StudioSettings = Start.CreateButton(Options,"Studio Settings","Internal/Studio/TabIcons/Config.png")
 
         Studio.Components.CreateStyle("Text", {
-            Text = "StudioDream by Mikl, Bloctans and Konadi, Full credits in the help tab",
+            Text = "StudioDream by Mikl, Bloctans and konadi, Full credits in the help tab",
             ForegroundColor = "Text",
             Size = Pivot2D.FromScale(1,0.05),
             Parent = Options,
