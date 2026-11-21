@@ -73,7 +73,7 @@ function SurfaceViewport:CreateNew()
 
     if self.Drawable then
         Runtime.Resources.ChangeBuffer(self.CanvasIdentifier.ID, self.ViewportCanvas)        
-        self.Drawable.material:SetAlbedoTexture(self.CanvasIdentifier)
+        self.Drawable.material:SetColorTexture(self.CanvasIdentifier)
         self.Drawable.material:UpdateMaterial()
     end
 end

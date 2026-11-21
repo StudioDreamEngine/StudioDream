@@ -237,7 +237,7 @@ function lib:render(cam, canvases, dynamic, isShadow, blacklist)
 					checkAndSendCached(shaderObject, "stencilColor", material.StencilColor.ToShader())
 					
 					if isShadow then
-						checkAndSendObject(shaderObject, "alphaTexture", material.AlbedoTexture or self.textures.default)
+						checkAndSendObject(shaderObject, "alphaTexture", material.ColorTexture or self.textures.default)
 					else
 						checkAndSendCached(shaderObject, "translucency", material.Translucency)
 						

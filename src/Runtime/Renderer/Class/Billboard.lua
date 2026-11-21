@@ -66,7 +66,7 @@ function BillboardClass.CreateBillboard(Canvas)
     print("Create buffer")
 
     local Buffer = Runtime.Resources.CreateBuffer(Canvas)
-    Material:SetAlbedoTexture(Buffer)
+    Material:SetColorTexture(Buffer)
 	Material.Particle = true
     Material.Alpha = true
     Material.Simple = true

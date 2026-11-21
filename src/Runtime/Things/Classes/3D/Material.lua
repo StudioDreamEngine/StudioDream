@@ -29,7 +29,7 @@ function Material:new()
     self.NormalTexture = nil
     self.EmissionTexture = nil -- Emission map texture
     self.MaterialTexture = nil -- Combination of the metalic, roughness and AO textures, in the future, when any of those are set, set this as the actual texture, and use dream:combineTextures(metallic, roughness, AO).
-    self.AlbedoTexture = nil --love.graphics.newImage("Assets/DefaultMeshes/Luz_old.png") -- Color texture
+    self.ColorTexture = nil --love.graphics.newImage("Assets/DefaultMeshes/Luz_old.png") -- Color texture
     self.Reflective = false
 
     -- Mutli texture
@@ -54,8 +54,8 @@ function Material:DefineAPI()
     self.Proxy.Group("Colors","Color","Emission","EmissionFactor","StencilColor")
     self.Proxy.Group("Fell","Roughness","Metallic","Reflective")
     self.Proxy.Group("Shader","Alpha","AlphaCutoff","Stencil","Cutout","Particle","IOR","Translucency","CullMode", "Simple", "DepthTest")
-    self.Proxy.Property("Resource AlbedoTexture", "Color StencilColor")
-    self.Proxy.Group("Texture","AlbedoTexture","MultiTextureBlendScale")
+    self.Proxy.Property("Resource ColorTexture", "Color StencilColor","Resource NormalTexture")
+    self.Proxy.Group("Texture","ColorTexture","MultiTextureBlendScale","NormalTexture")
     self.Proxy.Icon("Material")
 
     self.Proxy.MakeCreatable()
@@ -93,13 +93,22 @@ function Material:OnPropertyUpdate()
     self.Dirty = self.Dirty + 1 -- I'd add a modulo but theres no way someones making those many (like what, 2^256?)
 end
 
-function Material:SetAlbedoTexture(Value)
+function Material:SetColorTexture(Value)
     local _, Identifier = Runtime.Resources.LoadResourceFromIdentifier(Value, self.UUID, {
         Type = "Image",
-        Property = "AlbedoTexture"
+        Property = "ColorTexture"
     })
 
-    self.AlbedoTexture = Identifier
+    self.ColorTexture = Identifier
+end
+
+function Material:SetNormalTexture(Value)
+    local _, Identifier = Runtime.Resources.LoadResourceFromIdentifier(Value, self.UUID, {
+        Type = "Image",
+        Property = "NormalTexture"
+    })
+
+    self.NormalTexture = Identifier
 end
 
 return Material

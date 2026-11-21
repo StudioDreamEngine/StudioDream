@@ -86,7 +86,7 @@ function sh:perMaterial(shaderObject, material)
 	
 	local tex = dream.textures
 
-	shader:send("albedoTexture", material.AlbedoTexture or tex.default)
+	shader:send("albedoTexture", material.ColorTexture or tex.default)
 	shader:send("albedoColor", material.Color.ToShader())
 	
 	if shader:hasUniform("materialTexture") then
