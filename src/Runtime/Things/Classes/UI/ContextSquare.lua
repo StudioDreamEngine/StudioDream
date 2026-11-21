@@ -23,4 +23,8 @@ function Square:OnInitalParent(NewParent)
     Runtime.InterfaceManager.RegisterButton(self.UUID)
 end
 
+function Square:OnRemove()
+    Runtime.InterfaceManager.UnregisterButton(self.UUID)
+end
+
 return Square

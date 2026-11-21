@@ -322,7 +322,7 @@ return function(Explorer)
             SortMode = Enum.SortMode.Order
         })
 
-        local Context = Studio.Components.CreateStyle("Contextulizer",{
+        --[[local Context = Studio.Components.CreateStyle("Contextulizer",{
             Size = Pivot2D.FromScale(1,1),
             Pivot = Vector2.new(0.5,0.5),
             Position = Pivot2D.FromScale(0.5,0.5),
@@ -395,7 +395,7 @@ return function(Explorer)
                     Menu.Remove()
                 end,
             }
-        })
+        })]]
 
         Explorer.Redraw()
         
