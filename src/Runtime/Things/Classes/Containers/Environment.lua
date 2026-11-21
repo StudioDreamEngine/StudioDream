@@ -86,17 +86,9 @@ function Environment:ManageWorldChildren(Children, Transform)
         if Child:IsA("Drawable3D") then
             self.Objects[Child.UUID] = Child
 
-            --[[if Child:IsTopLevel() then
-                Child.GlobalTransform = Child.Matrix
-            else
-                Child.GlobalTransform = Child.Matrix * Transform
-            end]]
-
             if Child.PhysicsBody then
                 self:HandlePhysicsHierachy(Child)
             end
-
-            self:ManageWorldChildren(Child:GetChildren(), Child.Matrix)
         elseif Child:IsA("Light") then
             table.insert(self.Lights, Child.Light)
         end
@@ -108,7 +100,7 @@ function Environment:ManageWorldHierachy()
     table.clear(self.Objects) -- This table is an optimization, as we need to be able to accerss
     table.clear(self.Lights)
 
-    self:ManageWorldChildren(self:GetChildren(), Dream.mat4.getIdentity())
+    self:ManageWorldChildren(self:GetDescendants(), Dream.mat4.getIdentity())
 
     return self.Objects
 end

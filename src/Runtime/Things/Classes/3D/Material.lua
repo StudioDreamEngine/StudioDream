@@ -72,6 +72,12 @@ function Material:CreateList(Overrides)
     return MaterialList
 end
 
+function Material:OnRemove()
+    Material.super.OnRemove(self)
+
+    table.clear(self.MaterialList)
+end
+
 function Material:UpdateMaterial()
     self:OnPropertyUpdate()
 end
