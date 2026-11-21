@@ -93,9 +93,19 @@ function ScriptUtil.CreateGlobals(Script)
         table = table,
         tostring = tostring,
         tonumber = tonumber,
-        print = function(text)
+        print = function(...)
             --text = text or "Hello World! :D"
-            text = tostring(text)
+            local Rebuilt = {}
+
+            for i,v in pairs({...}) do
+                if type(v) == "table" then
+                    table.insert(Rebuilt,table.format(v))
+                else
+                    table.insert(Rebuilt,tostring(v))
+                end
+            end
+
+            local text = tostring(table.concat(Rebuilt,", "))
             PrintOG("["..tostring(os.clock()).."] ["..Script:GetPath().."]: "..text.." ("..tostring(debug.getinfo(2).currentline-1)..")")
         end,
         math = math,
