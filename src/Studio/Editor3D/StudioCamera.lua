@@ -39,7 +39,7 @@ function StudioCamera.Init()
         if not (PanningCamera) then return end
 
         local Delta = MouseObject.Delta
-        MouseDelta = Delta
+        MouseDelta = Delta * (Studio.SettingsManager.Get("CameraSensitivity") or 1)
     end)
 end
 
@@ -60,7 +60,7 @@ function StudioCamera.Update(dt)
         local Forward = CameraTransform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
         local Side = CameraTransform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))
         local Up = CameraTransform.Up * (KeyDownNum(Enum.InputCode.E) - KeyDownNum(Enum.InputCode.Q))
-        local Direction = (Forward + Side + Up):Unit() * dt * 3
+        local Direction = ((Forward + Side + Up):Unit() * dt * 3) * (Studio.SettingsManager.Get("CameraSensitivity") or 1)
 
 
         -- Fuckass focus code

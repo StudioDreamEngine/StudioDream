@@ -100,7 +100,17 @@ return function(StudioConfig)
                         end
                         return Display
                     end
-                }
+                },
+                {
+                    Title = "Camera Sensitivity",
+                    Type = "Input",
+                    UserChange = function(InfoGiven)
+                        Studio.SettingsManager.Set("CameraSensitivity", tonumber(InfoGiven))
+                    end,
+                    ReturnDisplay = function()
+                        return Studio.SettingsManager.Get("CameraSensitivity") or 1
+                    end,
+                },
             },
             Shortcuts = StudioConfig.GenerateShortcuts()
         }, StudioConfig)
