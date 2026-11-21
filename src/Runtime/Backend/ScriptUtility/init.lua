@@ -94,7 +94,8 @@ function ScriptUtil.CreateGlobals(Script)
         tostring = tostring,
         tonumber = tonumber,
         print = function(text)
-            text = text or "Hello World! :D"
+            --text = text or "Hello World! :D"
+            text = tostring(text)
             PrintOG("["..tostring(os.clock()).."] ["..Script:GetPath().."]: "..text.." ("..tostring(debug.getinfo(2).currentline-1)..")")
         end,
         math = math,
