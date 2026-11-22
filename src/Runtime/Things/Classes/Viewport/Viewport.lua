@@ -19,6 +19,8 @@ function Viewport:new()
     self.TotalLayers = 0
     self.Scale = 1
 
+    self.Backing = nil -- use a seperate viewport for backing, 
+
     self.BackgroundTransparency = 1
     self.ForegroundColor = Color.new(1,1,1)
 end

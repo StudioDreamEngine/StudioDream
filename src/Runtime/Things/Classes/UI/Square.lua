@@ -27,10 +27,10 @@ end
 function Square:DefineAPI()
     Square.super.DefineAPI(self)
 
-    self.Proxy.Property("Corners CornerRadius", "number OutlineSize", "Color OutlineColor","number BackgroundTransparency", "Color BackgroundColor", "boolean Hovering")
+    self.Proxy.Property("Corners CornerRadius", "number OutlineSize", "Color OutlineColor", "boolean Hovering")
     self.Proxy.Property("GradientSequence Gradient", "boolean Dropshadow")
     self.Proxy.Group("Outline", "CornerRadius", "OutlineSize", "OutlineColor")
-    self.Proxy.Group("Visual", "BackgroundTransparency", "BackgroundColor", "Gradient", "Dropshadow")
+    self.Proxy.Group("Visual", "Gradient", "Dropshadow")
     self.Proxy.Icon("Square")
     
     self.Proxy.MakeCreatable()

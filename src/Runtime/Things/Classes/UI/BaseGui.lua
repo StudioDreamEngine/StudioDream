@@ -245,6 +245,8 @@ function BaseGui:new()
     self.AutomaticSize = nil
     self.SquareAxis = nil
 
+    self.BlendMode = Enum.BlendingMode.Normal
+
     self.Active = true
 
     self.AbsoluteLayer = 0
@@ -310,13 +312,13 @@ function BaseGui:DefineAPI()
     self.Proxy.SetCategory("UI")
 
     self.Proxy.Property("Pivot2D Size", "Pivot2D Position", "number Layer", "Vector2 Pivot", "Enum.SquareAxis SquareAxis", "number ListOrder", "boolean Visible","number Rotation")
-    self.Proxy.Property("Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency", "number ColorMultiplier")
-    self.Proxy.Property("Enum.AutomaticSize AutomaticSize","boolean IgnoreOverrides")
+    self.Proxy.Property("number ColorMultiplier", "Color BackgroundColor", "Color ForegroundColor", "number BackgroundTransparency", "number ForegroundTransparency")
+    self.Proxy.Property("Enum.AutomaticSize AutomaticSize","boolean IgnoreOverrides", "Enum.BlendingMode BlendMode")
     self.Proxy.PropertyAccess("Vector2 AbsolutePosition", "Vector2 AbsoluteSize")
 
     self.Proxy.Group("Transform", "Size", "Position", "Pivot", "SquareAxis",  "AutomaticSize", "Rotation","AbsolutePosition","AbsoluteSize")
     self.Proxy.Group("Layout", "Visible",  "Layer", "ListOrder", "IgnoreOverrides")
-    self.Proxy.Group("Color", "ColorMultiplier")
+    self.Proxy.Group("Color", "ColorMultiplier", "BlendMode", "BackgroundColor", "ForegroundColor", "ForegroundTransparency", "BackgroundTransparency")
 
     self.Proxy.Info({
         OverrideUpdator = function()
@@ -403,6 +405,9 @@ function BaseGui:DrawStyle()
 
     love.graphics.rotate(-self.AbsoluteRotation)
     love.graphics.translate(self.AbsolutePivot.X,self.AbsolutePivot.Y)
+
+    love.graphics.pushAll()
+    love.graphics.setBlendMode(self.BlendMode)
     --love.graphics.translate(self.RotationPivot.X,self.RotationPivot.Y)
 
     self:SetColor("Background", "Color")
@@ -418,6 +423,8 @@ function BaseGui:DrawStyle()
         self:Draw()
         Shader:send("gradient_length", 0)
     end, Runtime.Backend2D.InterfaceShader)
+
+    love.graphics.pop()
 
     if FLAGS.DebugDraw then
         love.graphics.setLineWidth(1)

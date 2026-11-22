@@ -150,6 +150,14 @@ local Enums = {
         LockAspect = "lockaspect",
         Crop = "crop",
     },
+    BlendingMode = {
+        Normal = "alpha",
+        Replace = "replace",
+        Screen = "screen",
+        Add = "add",
+        --Multiply = "multiply",
+        Subtract =  "subtract"
+    },
     CullMode = {
         Back = "back",
         Front = "front"
