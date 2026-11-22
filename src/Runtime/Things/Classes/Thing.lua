@@ -278,12 +278,12 @@ function Thing:GetParentCallback(Callback)
 end
 
 function Thing:IsSerializable()
-    local Serializable = true
+    local Serializable = false
 
     ---@param ParentThing Thing
     self:GetParentCallback(function(ParentThing)
-        if (ParentThing.UUID == "RenderRoot") then
-            Serializable = false
+        if (ParentThing.UUID == "Root") then
+            Serializable = true
         end
 
         if (ParentThing.Scene) then

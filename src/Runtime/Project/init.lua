@@ -126,8 +126,9 @@ function Project.GetSummary(ProjectPath)
 
         if IconPath then
             local ImageData = Mount.ReadFile(IconPath)
+            ImageData = Runtime.Resources.InitiateLoader("Image", ImageData)
 
-            Image = Runtime.Resources.CreateBuffer(Runtime.Resources.InitiateLoader("Image", ImageData)).ID
+            Image = Runtime.Resources.CreateBuffer(ImageData).ID
         end
     end
 

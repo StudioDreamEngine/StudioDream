@@ -1,6 +1,7 @@
 ---@diagnostic disable: param-type-mismatch, need-check-nil
 local Things = Runtime.Things
 local Renderer = Runtime.Renderer
+local Resources = Runtime.Resources
 
 -- using @module here gives the lua language server a base type to use!
 ---@class Viewport: Square
@@ -13,13 +14,15 @@ function Viewport:new()
 
     self.UseMSAA = true
     self.FilterType = Enum.FilterType.Linear
+
+    self.BufferIdentifier = nil
     self:CreateNew()
 
     self.DisplayList = {}
     self.TotalLayers = 0
     self.Scale = 1
 
-    self.Backing = nil -- use a seperate viewport for backing, 
+    self.Backing = nil -- use a seperate viewport for backing, this viewport will simply just be rendered again BELOW everything else
 
     self.BackgroundTransparency = 1
     self.ForegroundColor = Color.new(1,1,1)
@@ -33,7 +36,7 @@ function Viewport:DefineAPI()
     self.Proxy.SetCategory("Viewport")
     self.Proxy.Icon("Viewport")
 
-    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType", "number Scale", "boolean UseMSAA")
+    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType", "number Scale", "boolean UseMSAA", "Resource BufferIdentifier")
     self.Proxy.Group("Viewport", "RenderContainer", "FilterType", "Scale", "UseMSAA")
 
     self.Proxy.Describe("Renders its contents independently")
@@ -44,7 +47,12 @@ function Viewport:IsViewport()
 end
 
 function Viewport:GetCanvas()
-    return {self.ViewportCanvas, self.MatCanvas, depthstencil=self.StencilCanvas}
+    return {self.ViewportCanvas, depthstencil=self.StencilCanvas}
+end
+
+function Viewport:SetBufferIdentifier(NewBufferIdentifier)
+    self.BufferIdentifier = Resources.CreateBuffer(nil, NewBufferIdentifier).ID
+    self:UpdateBuffer()
 end
 
 function Viewport:Draw()
@@ -52,7 +60,10 @@ function Viewport:Draw()
     Viewport.super.Draw(self)
 
     self:SetColor("Foreground", "Color")
-    Renderer.ViewportManager.RenderCanvas(self)
+
+    if (not self.IsBacking) then
+        Renderer.ViewportManager.RenderCanvas(self)
+    end
 
     if FLAGS.DebugDraw then
         Runtime.Backend2D.DebugLabel(self.MousePosition, self:GetPath())
@@ -69,6 +80,24 @@ function Viewport:SetFilterType(New)
     self:CreateNew()
 end
 
+-- update the buffer identifier (if one exists)
+function Viewport:UpdateBuffer()
+    if self.BufferIdentifier then
+        Resources.ChangeBuffer(self.BufferIdentifier, self.ViewportCanvas)
+    end
+end
+
+function Viewport:SetBacking(BackingViewport)
+    if self.Backing then
+        self.Backing.IsBacking = false
+    end
+
+    if BackingViewport then
+        BackingViewport.IsBacking = true
+        self.Backing = BackingViewport
+    end
+end
+
 function Viewport:CreateNew()
     if self.ViewportCanvas then
         self.ViewportCanvas:release()
@@ -80,6 +109,7 @@ function Viewport:CreateNew()
     self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize, self.UseMSAA)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 
+    self:UpdateBuffer()
     --self.Shader:send("mat_canvas", self.MatCanvas)
 end
 
@@ -120,6 +150,9 @@ function Viewport:OnRemove()
     end
 
     Renderer.ViewportManager.UnregisterViewport(self)
+    self:SetBacking()
+
+    if self.BufferIdentifier then Resources.UnregisterIdentifier(self.BufferIdentifier) end
 
     table.clear(self.DisplayList)
     self.RenderContainer = nil

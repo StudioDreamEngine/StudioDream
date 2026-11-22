@@ -81,7 +81,7 @@ function Environment:Clear()
     table.clear(self.Lights)
 end
 
-function Environment:ManageWorldChildren(Children, Transform)
+function Environment:ManageWorldChildren(Children)
     for _, Child in pairs(Children) do
         if Child:IsA("Drawable3D") then
             self.Objects[Child.UUID] = Child
@@ -134,7 +134,9 @@ function Environment:Update(dt)
     if self.StepPhysics then
         Profiler.Start("Step Simulation")
 
-        self.PhysicsWorld:stepSimulation(dt, 2)
+        self.PhysicsWorld:stepSimulation(dt, 1)
+
+        Profiler.EndStart("Step Simulation - PostStep")
         self:PostStep(Descendants)
 
         Profiler.End()

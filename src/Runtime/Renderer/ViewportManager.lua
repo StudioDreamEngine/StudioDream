@@ -66,6 +66,10 @@ end
 function ViewportManager.RenderViewport2D(Viewport)
     Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
     Runtime.Backend2D.CanvasCall(Viewport:GetCanvas(), function()
+        if Viewport.Backing then
+            ViewportManager.RenderCanvas(Viewport.Backing)
+        end
+
         if Viewport:IsA("SurfaceViewport") then
             Runtime.Backend2D.DebugLabel(Viewport.MousePosition, "Position hit")
         end
@@ -113,8 +117,7 @@ function ViewportManager.RenderViewport3D(Viewport)
     --Profiler.End()
 end
 
--- Render the canvas itself to the screen
-function ViewportManager.RenderCanvas(Viewport)
+function ViewportManager.RenderViewport(Viewport)
     love.graphics.pushAll()
 
     if Viewport:IsA("Viewport2D") or Viewport:IsA("ViewportLite") then
@@ -124,7 +127,11 @@ function ViewportManager.RenderCanvas(Viewport)
     end
 
     love.graphics.pop()
+end
 
+-- Render the canvas itself to the screen
+function ViewportManager.RenderCanvas(Viewport)
+    ViewportManager.RenderViewport(Viewport)
     Runtime.Backend2D.RenderCanvas(Viewport.ViewportCanvas)
 end
 

@@ -207,6 +207,7 @@ return function(Viewport)
         local HudViewport = Things.Create("Viewport2D") {
             RenderContainer = Things.Root:GetHUD(),
             Name = "HudViewport",
+            Backing = Viewport.EnvironmentViewport,
             Layer = 10,
             Size = Pivot2D.FromScale(1,1),
             Parent = Viewport.Container,

@@ -14,6 +14,7 @@ function Client.Init()
     local HudViewport = Things.Create("Viewport2D") {
         RenderContainer = Things.Root:GetHUD(),
         Name = "HudViewport",
+        Backing = EnvironmentViewport,
         Size = Pivot2D.FromScale(1,1),
         Layer = 2,
         Parent = Things.RenderRoot
