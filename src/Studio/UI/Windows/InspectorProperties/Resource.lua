@@ -48,6 +48,7 @@ function Number:CreateVisual()
 
     Visual.Button.Clicked:Connect(function(IsEnter)
         Studio.Components.OpenResourcePicker(function(Resource)
+            print(Resource)
             Runtime.Things.SetPropertyMassive(Selecting, PropertyName, Resource)
             self:Update()
         end)
