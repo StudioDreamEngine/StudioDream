@@ -130,6 +130,20 @@ function Backend.NewCanvas(Size, Stencil, UseMSAA, UseBuffer)
     }), (UseBuffer and love.graphics.newCanvas(Size.X, Size.Y) or nil), StencilCanvas
 end
 
+function Backend.GetCanvas()
+    local Canvas = love.graphics.getCanvas()
+
+    if type(Canvas) == "table" then
+        if type(Canvas[1]) == "table" then -- why love2d
+            return Canvas[1][1]
+        end
+
+        return Canvas[1]
+    else
+        return Canvas
+    end
+end
+
 function Backend.NewQuad(Rect, ImageSize)
     if Rect.Type == "Vector2" then
         return love.graphics.newQuad(0,0, Rect.X, Rect.Y, ImageSize.X, ImageSize.Y)

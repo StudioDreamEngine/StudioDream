@@ -547,7 +547,9 @@ function lib:present(camera, canvases, lite)
 			end
 		end
 
-		if (not love.graphics.getCanvas()) then return end
+		local currentCanvas = Runtime.Backend2D.GetCanvas()
+
+		if (not currentCanvas) then return end
 
 		for d, s in pairs(canvasesDebug) do
 			if type(s) == "userdata" and s:isReadable() then
@@ -567,7 +569,7 @@ function lib:present(camera, canvases, lite)
 				love.graphics.print(d, x * w, y)
 				
 				x = x + 1
-				if x * w + w >= love.graphics.getCanvas():getWidth() then
+				if x * w + w >= currentCanvas:getWidth() then
 					x = 0
 					y = y + maxHeight
 					maxHeight = 0
