@@ -53,7 +53,10 @@ function Image2D:DefineAPI()
 end
 
 function Image2D:SetResource(Identifier)
-    self.ImageFile, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, "Image")
+    self.ImageFile, self.Resource = Runtime.Resources.LoadResourceFromIdentifier(Identifier, self.UUID, {
+        Type = "Image",
+        Property = "Resource"
+    })
     if (not self.ImageFile) then return end
 
     self:RefreshQuad() -- Only refresh the quad object
@@ -147,7 +150,7 @@ end
 
 function Image2D:Draw()
     Image2D.super.Draw(self)
-    if (not self.ImageQuad) then return end -- TODO: Placeholder image
+    if (not self.ImageQuad) or (not self.ImageFile) then return end -- TODO: Placeholder image
 
     local _,_, w,h = self.ImageQuad:getViewport()
     local ImageSize = Vector2.new(w,h)

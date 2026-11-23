@@ -8,14 +8,16 @@ local Resources = Runtime.Resources
 local Viewport = Things.Extend("Square")
 
 function Viewport:new()
+    self.BufferIdentifier = nil
+
     Viewport.super.new(self)
 
     self.RenderContainer = nil -- idk what to name this
 
     self.UseMSAA = true
+    self.UseBuffer = false
     self.FilterType = Enum.FilterType.Linear
 
-    self.BufferIdentifier = nil
     self:CreateNew()
 
     self.DisplayList = {}
@@ -36,8 +38,8 @@ function Viewport:DefineAPI()
     self.Proxy.SetCategory("Viewport")
     self.Proxy.Icon("Viewport")
 
-    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType", "number Scale", "boolean UseMSAA", "Resource BufferIdentifier")
-    self.Proxy.Group("Viewport", "RenderContainer", "FilterType", "Scale", "UseMSAA")
+    self.Proxy.Property("Thing RenderContainer", "Enum.FilterType FilterType", "number Scale", "boolean UseMSAA", "Buffer BufferIdentifier", "boolean UseBuffer")
+    self.Proxy.Group("Viewport", "RenderContainer", "FilterType", "Scale", "UseMSAA", "UseBuffer")
 
     self.Proxy.Describe("Renders its contents independently")
 end
@@ -46,13 +48,26 @@ function Viewport:IsViewport()
     return true
 end
 
-function Viewport:GetCanvas()
-    return {self.ViewportCanvas, depthstencil=self.StencilCanvas}
+function Viewport:GetCanvas(Buffer)
+    return {Buffer and self.BufferCanvas or self.ViewportCanvas, depthstencil=self.StencilCanvas}
+end
+
+function Viewport:SetUseBuffer(UseBuffer)
+    self.UseBuffer = UseBuffer
+
+    if UseBuffer then
+        self:SetBufferIdentifier()
+    end
 end
 
 function Viewport:SetBufferIdentifier(NewBufferIdentifier)
+    if self.BufferIdentifier then
+        Resources.UnregisterIdentifier(self.BufferIdentifier)
+        self.BufferIdentifier = nil
+    end
+
     self.BufferIdentifier = Resources.CreateBuffer(nil, NewBufferIdentifier).ID
-    self:UpdateBuffer()
+    self:CreateNew()
 end
 
 function Viewport:Draw()
@@ -80,13 +95,6 @@ function Viewport:SetFilterType(New)
     self:CreateNew()
 end
 
--- update the buffer identifier (if one exists)
-function Viewport:UpdateBuffer()
-    if self.BufferIdentifier then
-        Resources.ChangeBuffer(self.BufferIdentifier, self.ViewportCanvas)
-    end
-end
-
 function Viewport:SetBacking(BackingViewport)
     if self.Backing then
         self.Backing.IsBacking = false
@@ -102,15 +110,23 @@ function Viewport:CreateNew()
     if self.ViewportCanvas then
         self.ViewportCanvas:release()
         self.StencilCanvas:release()
-        --self.MatCanvas:release()
     end
 
-    --self.ViewportCanvas, self.StencilCanvas, self.MatCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize)
-    self.ViewportCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize, self.UseMSAA)
+    if self.BufferCanvas then
+        self.BufferCanvas:release()
+        self.BufferCanvas = nil
+    end
+
+    self.ViewportCanvas, self.BufferCanvas, self.StencilCanvas = Renderer.ViewportManager.CreateViewport(self, self.AbsoluteSize, self.UseMSAA, self.UseBuffer)
     self.ViewportCanvas:setFilter(self.FilterType, self.FilterType)
 
-    self:UpdateBuffer()
-    --self.Shader:send("mat_canvas", self.MatCanvas)
+    -- Update buffer
+    if not Resources.IdentifierExists(self.BufferIdentifier) then
+        self.BufferIdentifier = nil
+        return -- RETURNS!!
+    end -- Was probably cleared on project reload, ignore it
+
+    Resources.ChangeBuffer(self.BufferIdentifier, self.BufferCanvas)
 end
 
 function Viewport:SetScale(New)
@@ -145,6 +161,10 @@ function Viewport:OnRemove()
         self.StencilCanvas:release()
     end
 
+    if self.BufferCanvas then
+        self.BufferCanvas:release()
+    end
+
     if self.RenderContainer and self.RenderContainer.Adornee then
         printVerbose("RenderContainer "..self.RenderContainer:GetPath().." still has unreferenced viewport as adornee!!")
     end
@@ -152,7 +172,9 @@ function Viewport:OnRemove()
     Renderer.ViewportManager.UnregisterViewport(self)
     self:SetBacking()
 
-    if self.BufferIdentifier then Resources.UnregisterIdentifier(self.BufferIdentifier) end
+    if self.BufferIdentifier then 
+        Resources.UnregisterIdentifier(self.BufferIdentifier)
+    end
 
     table.clear(self.DisplayList)
     self.RenderContainer = nil
@@ -189,6 +211,16 @@ function Viewport:SetAbsoluteSize(New)
 
     --printVerbose("Queued viewport update for: "..self.Name)
     self:CreateNew()
+end
+
+function Viewport:Update(dt)
+    Viewport.super.Update(self,dt)
+
+    if self.UseBuffer then -- Stupid hack because you cant render a texture to itself
+        Runtime.Backend2D.CanvasCall(self.BufferCanvas, function()
+            Runtime.Backend2D.RenderCanvas(self.ViewportCanvas)
+        end)
+    end
 end
 
 return Viewport

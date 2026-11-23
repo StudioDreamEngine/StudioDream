@@ -47,15 +47,15 @@ function ViewportManager.GetRootViewport()
 end
 
 -- Create a canvas object
-function ViewportManager.CreateViewport(Viewport, Size, UseMSAA)
+function ViewportManager.CreateViewport(Viewport, Size, UseMSAA, UseBuffer)
     if Size.X < 10 or Size.Y < 10 then
         Size = Vector2.one * 2
     end
 
-    local Canvas, Stencil = Runtime.Backend2D.NewCanvas(Size, true, UseMSAA)
+    local Canvas, Buffer, Stencil = Runtime.Backend2D.NewCanvas(Size, true, UseMSAA, UseBuffer)
 
     ViewportManager.Viewports[Viewport.UUID] = Viewport
-    return Canvas, Stencil--, Mask
+    return Canvas, Buffer, Stencil--, Mask
 end
 
 function ViewportManager.UnregisterViewport(Viewport)
@@ -63,9 +63,9 @@ function ViewportManager.UnregisterViewport(Viewport)
 end
 
 -- Render the contents of a 2d viewport
-function ViewportManager.RenderViewport2D(Viewport)
+function ViewportManager.RenderViewport2D(Viewport, Buffer)
     Profiler.Start("Render 2D Viewport ("..Viewport.Name..", "..#Viewport.DisplayList.." Objects)")
-    Runtime.Backend2D.CanvasCall(Viewport:GetCanvas(), function()
+    Runtime.Backend2D.CanvasCall(Viewport:GetCanvas(Buffer), function()
         if Viewport.Backing then
             ViewportManager.RenderCanvas(Viewport.Backing)
         end
@@ -92,9 +92,9 @@ function ViewportManager.RenderViewport2D(Viewport)
 end
 
 -- Render the contents of a 3d viewport
-function ViewportManager.RenderViewport3D(Viewport)
+function ViewportManager.RenderViewport3D(Viewport, Buffer)
     --Profiler.Start("Render 3D Viewport ("..Viewport.Name..")")
-    Runtime.Backend2D.CanvasCall(Viewport.ViewportCanvas, function()
+    Runtime.Backend2D.CanvasCall(Viewport:GetCanvas(Buffer), function()
         if Viewport.RenderContainer then
             Dream:prepare()
 
@@ -117,13 +117,13 @@ function ViewportManager.RenderViewport3D(Viewport)
     --Profiler.End()
 end
 
-function ViewportManager.RenderViewport(Viewport)
+function ViewportManager.RenderViewport(Viewport, Buffer)
     love.graphics.pushAll()
 
     if Viewport:IsA("Viewport2D") or Viewport:IsA("ViewportLite") then
-        ViewportManager.RenderViewport2D(Viewport)
+        ViewportManager.RenderViewport2D(Viewport, Buffer)
     else
-        ViewportManager.RenderViewport3D(Viewport)
+        ViewportManager.RenderViewport3D(Viewport, Buffer)
     end
 
     love.graphics.pop()

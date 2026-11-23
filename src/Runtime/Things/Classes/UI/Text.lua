@@ -33,6 +33,7 @@ function Text:DefineAPI()
 
     self.Proxy.Icon("Text")
     self.Proxy.Property("string Text","Enum.Alignment Alignment","boolean TextScaled","number TextSize","Resource Font","Enum.FilterType FilterType")
+
     self.Proxy.Group("Text", "Text","Alignment","TextScaled","TextSize")
     self.Proxy.Group("Visual","FilterType","Font")
     self.Proxy.MakeCreatable()

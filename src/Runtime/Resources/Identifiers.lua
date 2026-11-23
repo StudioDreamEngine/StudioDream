@@ -49,6 +49,10 @@ function Identifiers.Unload()
 	Identifiers.Clear()
 end
 
+function Identifiers.IdentifierExists(IdentifierID)
+	return RegisteredIdentifiers[IdentifierID] and true or false
+end
+
 ---@param Identifier string
 ---@param FilePath string
 -- Configure (Register) an Identifier to be Associated with a File Path
@@ -173,6 +177,19 @@ function Identifiers.ChangeBuffer(IdentiferID, NewBuffer)
 
 	RegisteredIdentifiers[IdentiferID].Data = NewBuffer
 	Runtime.Resources.UnloadResource(IdentiferID) -- We need to re-load the identifier on next use
+
+	-- Now reload the resources for all of the identifier
+	Runtime.Resources.ReloadResources(IdentiferID)
+end
+
+function Identifiers.UnregisterBuffer(IdentifierID)
+	Identifiers.UnregisterIdentifier(IdentifierID)
+end
+
+-- IDEA: Once the project is fully loaded, if one of these ids are missing, we simply just have a little task that waits for them then applies them
+-- if they do not appear within 15 seconds, we just silently give up
+function Identifiers.RegisterPromised(IdentifierID)
+	
 end
 
 ---@param Identifier string

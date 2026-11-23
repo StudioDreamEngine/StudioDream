@@ -106,6 +106,17 @@ function Things.Implement(Class, Type)
     end
 end
 
+--[[function Things.ValidateType(Object, Property, Value)
+    local PropertyType = Object.Proxy.Types[Property]
+    local HasEnum = Object.Proxy.Enums[Property]
+    local ValueType = Utils.TypeOf(Value)
+
+    if ValueType ~= PropertyType and (not HasEnum) then
+        print("Invalid type "..ValueType.." for "..Property)
+    end
+end]]
+
+---@param Object Thing
 function Things.SetProperty(Object, Index, Value)
     local HasSetter = Object["Set"..Index]
     --[[local CopiedValue
@@ -115,6 +126,8 @@ function Things.SetProperty(Object, Index, Value)
     else
         CopiedValue = Value
     end]]
+
+    --Things.ValidateType(Object, Index, Value)
 
     if HasSetter then
         xpcall(function()

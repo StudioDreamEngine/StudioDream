@@ -25,9 +25,11 @@ function Resources.Init()
 	Resources.GetOrCreateIdentifierID = Identifiers.GetOrCreateIdentifierID
 	Resources.LoadOrCreateIdentifier = Identifiers.LoadOrCreateIdentifier
 	Resources.RegisterAsMissing = Identifiers.RegisterAsMissing
+	Resources.RegisterPromised = Identifiers.RegisterPromised
 	Resources.LoadIdentifierIDFromPath = Identifiers.LoadIdentifierIDFromPath
 	Resources.GetIdentifierIDFromPath = Identifiers.GetIdentifierIDFromPath
 	Resources.CreateIdentifier = Identifiers.CreateIdentifier
+	Resources.IdentifierExists = Identifiers.IdentifierExists
 	Resources.CreateBuffer = Identifiers.CreateBuffer
 	Resources.ChangeBuffer = Identifiers.ChangeBuffer
 	Resources.UnregisterIdentifier = Identifiers.UnregisterIdentifier
@@ -50,16 +52,17 @@ function Resources.ForEachReference(Callback)
 	end
 end
 
-function Resources.ReloadResources()
+function Resources.ReloadResources(IdentifierID)
 	print("Reloading resources")
 
 	-- It'd be nice if we could know WHICH were changed without checking them all but whatever
 	Resources.ForEachReference(function(Identifier, ObjectUUID, Property)
 		local Object = Runtime.Things.Get(ObjectUUID)
-		--print(Identifier, Property)
 
-		Resources.LoadResource(Identifier)
-		Object["Set"..Property](Object, Identifier)
+		if (not IdentifierID) or (Identifier.ID == IdentifierID) then
+			Resources.LoadResource(Identifier)
+			Object["Set"..Property](Object, Identifier)
+		end
 	end)
 
 	print("Done")
@@ -101,7 +104,7 @@ function Resources.LoadResourceFromIdentifier(Identifier, Object, ResourceInfo)
 		end
 	end
 
-	if Identifier.ResourceType == "Project" and ObjectUUID then
+	if (Identifier.ResourceType ~= "Internal") and ObjectUUID then
 		if (not ObjectReferences[ObjectUUID]) then
 			ObjectReferences[ObjectUUID] = {}
 		end
@@ -125,7 +128,7 @@ local function LoadWithContents(Identifier, Contents)
 
 	assert(
 		Contents,
-		"Cannot read resource (Identifier: " .. Identifier.ID .. ", Path: " .. Identifier.Data.FilePath .. ")"
+		"Couldn't read resource (Identifier: " .. Identifier.ID .. ", Path: " .. Identifier.Data.FilePath .. ")"
 	)
 	local Loader, Loader2 = Resources.InitiateLoader(Format, Contents, Identifier)
 	return Loader, Loader2
@@ -208,10 +211,16 @@ end
 -- Unload a resource from memory, calling its unloader function on the way
 function Resources.UnloadResource(IdentifierID)
 	local Resource = LoadedResources[IdentifierID]
-
+	
 	if Resource then
 		local Identifier = Identifiers.GetIdentifierFromID(IdentifierID)
 
+		--[[
+			Only actually call the unloader if it is a Project resource
+			
+			This is done because unloading a Buffer isnt possible (as we do not know its format),
+			and unloading internal resources doesnt make much sense.
+		]]
 		if Identifier.ResourceType == "Project" then
 			local Format = FormatLookup[Identifier.Data.FileType]
 
@@ -220,16 +229,17 @@ function Resources.UnloadResource(IdentifierID)
 				return
 			end
 
-			Resources.ForEachReference(function(_, ObjectUUID, Property)
-				local Object = Runtime.Things.Get(ObjectUUID)
-				print(Object, Property)
-
-				Runtime.Things.SetProperty(Object, Property, nil)
-			end)
-
 			local UnloaderFunction = require(LoaderModPath .. Format).Unload
 			UnloaderFunction(Resource.Resource)
 		end
+
+		Resources.ForEachReference(function(_, ObjectUUID, Property)
+			local Object = Runtime.Things.Get(ObjectUUID)
+
+			if (Object[Property] == IdentifierID) then
+				Runtime.Things.SetProperty(Object, Property, nil)
+			end
+		end)
 	end
 
 	LoadedResources[IdentifierID] = nil

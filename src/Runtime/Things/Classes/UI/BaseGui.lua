@@ -440,43 +440,42 @@ function BaseGui:DrawStyle()
 end
 
 function BaseGui:UpdateTransforms()
-    local Success, Message = pcall(function()
-        Profiler.Start("BaseGui - Process UpdateTransforms")
-        self.AbsoluteRotation = self:GetAbsoluteRotation()
+    --local Success, Message = xpcall(function()
+    Profiler.Start("BaseGui - Process UpdateTransforms")
+    self.AbsoluteRotation = self:GetAbsoluteRotation()
 
-        local Size = self:GetProperty("Size")
-        local ShouldScale = Size:HasScale() or self.AutomaticSize
+    local Size = self:GetProperty("Size")
+    local ShouldScale = Size:HasScale() or self.AutomaticSize
 
-        local NewSize = ShouldScale and self:GetAbsoluteSize() or Size.Offset
+    local NewSize = ShouldScale and self:GetAbsoluteSize() or Size.Offset
 
-        if (not NewSize:Is(self.AbsoluteSize)) then
-            self:SetAbsoluteSize(NewSize)
+    if (not NewSize:Is(self.AbsoluteSize)) then
+        self:SetAbsoluteSize(NewSize)
 
-            self.PropagatedChange:Invoke("AbsoluteSize", NewSize)
-        end
+        self.PropagatedChange:Invoke("AbsoluteSize", NewSize)
+    end
 
-        self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
+    self.AbsolutePivot = -(self.Pivot * self.AbsoluteSize)
 
-        --[[if self.CenterRotation then
-            self.RotationPivot = -(self.AbsoluteSize/2)
-        else
-            self.RotationPivot = self.AbsolutePivot
-        end]]
+    --[[if self.CenterRotation then
+        self.RotationPivot = -(self.AbsoluteSize/2)
+    else
+        self.RotationPivot = self.AbsolutePivot
+    end]]
 
-        self.AbsolutePosition = self:GetAbsolutePosition() --+ (self.AbsolutePivot - self.RotationPivot)
-        self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
+    self.AbsolutePosition = self:GetAbsolutePosition() --+ (self.AbsolutePivot - self.RotationPivot)
+    self.ChildRect = Rect.new(self.AbsolutePosition + self.AbsolutePivot, self.AbsoluteSize)
 
-        self.PostTransform:Invoke()
+    self.PostTransform:Invoke()
 
-        Profiler.End()
+    Profiler.End()
+    --[[end, function(Message)
+        error("Failed to update transforms for "..self:GetPath()..", "..Message)
     end)
 
     if (not Success) then
         Profiler.End()
-
-        --print(debug.traceback())
-        error("Failed to update transforms for "..self:GetPath()..", "..Message)
-    end
+    end]]
 end
 
 function BaseGui:InvalidateAutomaticSize()
