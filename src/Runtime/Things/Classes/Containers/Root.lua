@@ -52,7 +52,7 @@ function Root:Clear()
 
     if Services then
         local SpatialService = Services.Service("SpatialService") ---@class SpatialService
-        SpatialService.ClearCasts()
+        SpatialService:ClearCasts()
     else
         printVerbose("Not clearing casts as services not initialized")
     end

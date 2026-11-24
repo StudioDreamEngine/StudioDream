@@ -59,7 +59,7 @@ function Number:CreateVisual()
     Visual.Button.Clicked:Connect(function(IsEnter)
          if not SelectionManager.ObjectPicker then
             SelectionManager.ObjectPicker = Studio.Editor3D.Selecting[1]
-            Runtime.Cursor.ChangeCursor("HoldingObj")
+            Runtime.Cursor:ChangeCursor("HoldingObj")
             Visual.Clicked = true
             Visual.Button:AddPlaceholderSignal(SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
                 Runtime.Things.SetPropertyMassive(Selecting, PropertyName, NewThing)
@@ -67,7 +67,7 @@ function Number:CreateVisual()
             end))
         else
             SelectionManager.ObjectPicker = nil
-            Runtime.Cursor.ChangeCursor("Main")
+            Runtime.Cursor:ChangeCursor("Main")
         end
     end)
 
@@ -81,7 +81,7 @@ end
 function Number:Destroy()
     if self.Visual.Clicked and SelectionManager.ObjectPicker then
         SelectionManager.ObjectPicker = nil
-        Runtime.Cursor.ChangeCursor("Main")
+        Runtime.Cursor:ChangeCursor("Main")
     end
 end
 

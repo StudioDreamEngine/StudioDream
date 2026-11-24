@@ -59,7 +59,7 @@ function Environment:SetGravity(NewGravity)
 end
 
 function Environment:Raycast(origin, direction, FilterInformation)
-    return SpatialService.Raycast(origin, direction, self.Objects, FilterInformation)
+    return SpatialService:Raycast(origin, direction, self.Objects, FilterInformation)
 end
 
 function Environment:RemoveBody(Child)

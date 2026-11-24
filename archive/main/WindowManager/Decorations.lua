@@ -60,12 +60,12 @@ function Decorations.CreateTitleBar()
 
     Capture.Clicked:Connect(function() 
         MovingWindow = true
-        MouseService.SetMouseMode(Enum.MouseMode.Locked) 
+        MouseService:SetMouseMode(Enum.MouseMode.Locked) 
     end)
 
     Capture.Released:Connect(function() 
         MovingWindow = false 
-        MouseService.SetMouseMode(Enum.MouseMode.Free) 
+        MouseService:SetMouseMode(Enum.MouseMode.Free) 
     end)
 end
 

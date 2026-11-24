@@ -139,7 +139,7 @@ end
 InputService.KeyDown = Runtime.Backend2D.KeyDown
 InputService.MouseButtonDown = Runtime.Backend2D.GetMouseDown
 
-function InputService.KeyDownNumber(Key)
+function InputService:KeyDownNumber(Key)
     return InputService.KeyDown(Key) and 1 or 0
 end
 

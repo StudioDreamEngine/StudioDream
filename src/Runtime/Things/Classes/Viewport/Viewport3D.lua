@@ -73,7 +73,7 @@ function Viewport3D:Update(dt)
     local Camera = self:GetCamera()
     if (not Camera) then return end
     
-    local SelectResult = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*50, Runtime.Backend3D.GetAdorns())
+    local SelectResult = SpatialService:Raycast(Camera.Position, Camera:GetMouseRay()*50, Runtime.Backend3D.GetAdorns())
     self.AdornRay = SelectResult
 end
 

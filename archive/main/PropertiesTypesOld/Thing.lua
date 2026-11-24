@@ -72,7 +72,7 @@ function Template.Start(MainInfo)
         for i,Info in pairs(MainInfo.WillHandle) do
             if not SelectionManager.ObjectPicker then
                 SelectionManager.ObjectPicker = Info.Thing
-                Runtime.Cursor.ChangeCursor("HoldingObj")
+                Runtime.Cursor:ChangeCursor("HoldingObj")
 
                 SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
                     Runtime.Things.SetProperty(Info.Thing, Info.Property, NewThing)
@@ -82,7 +82,7 @@ function Template.Start(MainInfo)
                 Studio.History.RegisterUndo("LotsOfObjects",self.SavedFrozen)
             else
                 SelectionManager.ObjectPicker = false
-                Runtime.Cursor.ChangeCursor("Main")
+                Runtime.Cursor:ChangeCursor("Main")
                 Registrated:Cancel()
             end
         end

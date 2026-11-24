@@ -63,7 +63,7 @@ end
 function Number:Destroy()
     if SelectionManager.ObjectPicker then
         SelectionManager.ObjectPicker = nil
-        Runtime.Cursor.ChangeCursor("Main")
+        Runtime.Cursor:ChangeCursor("Main")
     end
 end
 

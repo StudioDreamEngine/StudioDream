@@ -18,7 +18,7 @@ function Thingy.Start(FrameOption,Thing,Property)
     Button.Clicked:Connect(function() -- Someone fucked this
         if not SelectionManager.ObjectPicker then
             SelectionManager.ObjectPicker = Thing
-            Runtime.Cursor.ChangeCursor("HoldingObj")
+            Runtime.Cursor:ChangeCursor("HoldingObj")
 
             SelectionManager.ObjectPickerEvent:ConnectOnce(function(NewThing)
                 if Property == "Material" then 
@@ -39,7 +39,7 @@ function Thingy.Start(FrameOption,Thing,Property)
             end)
         else
             SelectionManager.ObjectPicker = false
-            Runtime.Cursor.ChangeCursor("Main")
+            Runtime.Cursor:ChangeCursor("Main")
         end
     end)
 

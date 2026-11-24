@@ -82,7 +82,7 @@ function ProjectManager.RunStudioProject()
     Runtime.Resources.ReloadResources()
     Runtime.Project.Save()
     Studio.EditorUI.Playtest.StartPlayline()
-    RuntimeService.Start()
+    RuntimeService:Start()
 
     ProjectManager.AlreadyRunning = true
 end
@@ -93,7 +93,7 @@ function ProjectManager.StopStudioProject()
     Studio.Editor3D.SelectionManager.DeselectAll()
     Studio.EditorUI.Playtest.EndPlayline()
     Studio.History.Clear()
-    RuntimeService.Stop()
+    RuntimeService:Stop()
     
     ProjectManager.AlreadyRunning = false
 end

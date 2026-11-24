@@ -161,7 +161,7 @@ function InterfaceManager.Update(dt)
         end
     end]]
 
-    Runtime.Cursor.ChangeCursorInternal((#CurrentlyHovering > 0) and "Hovering" or "Main", true)
+    Runtime.Cursor:ChangeCursorInternal((#CurrentlyHovering > 0) and "Hovering" or "Main", true)
 
     -- Hovering pass 2: Sort and determine the currently hovering objects
     if #CurrentlyHovering > 0 then

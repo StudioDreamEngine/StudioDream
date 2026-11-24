@@ -135,7 +135,7 @@ function Control3D:Update(dt)
 
     --Runtime.Backend3D.SetTransform(Transform3D.FromPosition(Camera.Position + Camera:GetMouseRay()*10))
 
-    local Hovering = SpatialService.Raycast(Camera.Position, Camera:GetMouseRay()*300, self.AdornObject)
+    local Hovering = SpatialService:Raycast(Camera.Position, Camera:GetMouseRay()*300, self.AdornObject)
     self.Hovering = Hovering
 
     for Axis, Data in pairs(self.Adorns) do

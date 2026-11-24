@@ -2,11 +2,11 @@
 local RuntimeService = {}
 local Running = false
 
-function RuntimeService.IsRunning() return Running end
+function RuntimeService:IsRunning() return Running end
 
 -- Starts any scripts within the project, and also sends an event that can be used by other stuff in the runtime
 -- This is called manually by the client
-function RuntimeService.Start()
+function RuntimeService:Start()
     Running = true
     Runtime.ScriptUtil.StartScripts()
 
@@ -14,11 +14,11 @@ function RuntimeService.Start()
 end
 
 -- Returns weither or not any user scripts are currently running
-function RuntimeService.IsRunningScripts()
+function RuntimeService:IsRunningScripts()
     return Runtime.ScriptUtil.IsRunningScripts()
 end
 
-function RuntimeService.Stop()
+function RuntimeService:Stop()
     if Runtime.Project.IsLoadingProject then print("RuntimeService.Stop() called when project is being loaded") return end
 
     Running = false
@@ -36,22 +36,22 @@ function RuntimeService.Stop()
 end
 
 -- Returns the current time since the game has started, calculated based of DeltaTime
-function RuntimeService.GetGlobalTime()
+function RuntimeService:GetGlobalTime()
     return GlobalTick
 end
 
 -- Returns the current unix time
-function RuntimeService.GetUnixTime()
+function RuntimeService:GetUnixTime()
     return os.time()
 end
 
 -- Returns the current cpu time, as provided by os.clock
-function RuntimeService.GetCpuTime()
+function RuntimeService:GetCpuTime()
     return os.clock()
 end
 
 -- Ignore the code blockout!! cus idk how to do services rn
-function RuntimeService.Init()
+function RuntimeService:Init()
     RuntimeService.OnStep = Signal:New("GameStep")
     RuntimeService.OnRunning = Signal:New("OnRunning")
     RuntimeService.Quitting = Signal:New("OnQuitting")

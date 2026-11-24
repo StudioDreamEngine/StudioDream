@@ -25,9 +25,9 @@ end
 function StudioCamera.Init()
     InputService.MouseEvent:Connect(function(IsDown)
         if IsDown and Runtime.SelectionPriority.InViewport then
-            MouseService.SetMouseMode(Enum.MouseMode.Locked)
+            MouseService:SetMouseMode(Enum.MouseMode.Locked)
         else
-            MouseService.SetMouseMode(Enum.MouseMode.Free)
+            MouseService:SetMouseMode(Enum.MouseMode.Free)
             MouseDelta = Vector2.zero
         end
 
@@ -44,12 +44,14 @@ function StudioCamera.Init()
 end
 
 function StudioCamera.Update(dt)
-    if RuntimeService.IsRunningScripts() then return end
+    if RuntimeService:IsRunningScripts() then return end
 
     local sucess, error = pcall(function()
         local Camera = Runtime.Things.Root:GetCamera()
         
-        local KeyDownNum = InputService.KeyDownNumber
+        local KeyDownNum = function(Key)
+            return InputService:KeyDownNumber(Key)
+        end
         --print(KeyDownNum(Enum.InputCode.LeftCtrl))
         if (not Camera) then return end
         if (not Camera.Transform) then printVerbose("Camera Transform was nil, this SHOULD NOT happen") return end

@@ -20,9 +20,9 @@ Character:SetDynamic(true)
 
 InputService.MouseEvent:Connect(function(IsDown)
     if IsDown then
-        MouseService.SetMouseMode(Enum.MouseMode.Locked)
+        MouseService:SetMouseMode(Enum.MouseMode.Locked)
     else
-        MouseService.SetMouseMode(Enum.MouseMode.Free)
+        MouseService:SetMouseMode(Enum.MouseMode.Free)
     end
 
     HoldingCamera = IsDown

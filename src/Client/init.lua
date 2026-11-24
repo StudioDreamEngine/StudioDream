@@ -59,7 +59,7 @@ function Client.Init()
             Runtime.Project.LoadEnviornment(MainScene)
         end
 
-        RuntimeService.Start()
+        RuntimeService:Start()
     end)
 
     -- No idea why i do this

@@ -26,7 +26,7 @@ function SelectionManager.SelectObject(Thing)
             SelectionManager.ObjectPickerEvent:Invoke(Thing)
         end
 
-        Runtime.Cursor.ChangeCursor("Main")
+        Runtime.Cursor:ChangeCursor("Main")
     end
 end
 
