@@ -75,7 +75,7 @@ function Decorations.Update(dt)
     if MovingWindow then
         local Window = Runtime.WindowManager
 
-        Window:SetPosition(Window.GetPosition() + (Delta * 2 * love.window.getDPIScale()))
+        Window.SetPosition(Window.GetPosition() + (Delta * 2 * love.window.getDPIScale()))
     end
 
     love.mouse.setRelativeMode(MovingWindow)

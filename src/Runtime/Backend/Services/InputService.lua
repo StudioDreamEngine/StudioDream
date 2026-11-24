@@ -3,7 +3,7 @@ local InputService = {}
 
 InputService.JoysticksConnected = {}
 
-function InputService:GetJoystickByPrimitive(Primitive)
+function InputService.GetJoystickByPrimitive(Primitive)
     for ID,Joystick in pairs(InputService.JoysticksConnected) do
         if Joystick.Primitive == Primitive then
             return Joystick
@@ -11,15 +11,15 @@ function InputService:GetJoystickByPrimitive(Primitive)
     end
 end
 
-function InputService:GetJoystickByID(ID)
+function InputService.GetJoystickByID(ID)
     return InputService.JoysticksConnected[ID]
 end
 
-function InputService:GetJoysticks()
+function InputService.GetJoysticks()
     return InputService.JoysticksConnected
 end
 
-function InputService:GetJoystickCount()
+function InputService.GetJoystickCount()
     return #InputService.JoysticksConnected
 end
 
@@ -139,7 +139,7 @@ end
 InputService.KeyDown = Runtime.Backend2D.KeyDown
 InputService.MouseButtonDown = Runtime.Backend2D.GetMouseDown
 
-function InputService:KeyDownNumber(Key)
+function InputService.KeyDownNumber(Key)
     return InputService.KeyDown(Key) and 1 or 0
 end
 

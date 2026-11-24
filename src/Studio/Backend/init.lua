@@ -8,7 +8,7 @@ function Backend.Init()
     Studio.AudioInternal = require("Studio.Backend.AudioInternal")
     Studio.PresenceService = Runtime.Services.Service("PresenceService")
 
-    Studio.PresenceService:InitDiscord()
+    Studio.PresenceService.InitDiscord()
     Studio.History.Init()
     Studio.ShortcutsHandler.Init()
 end

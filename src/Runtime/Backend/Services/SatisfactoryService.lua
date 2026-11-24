@@ -27,13 +27,13 @@ local Words = { -- Who types this shit is Luz im not jokin
     "This will be studiodream in 2017- oh my god its almost been 10 years"
 }
 
-function SatisfactoryService:SatisfyMe()
+function SatisfactoryService.SatisfyMe()
     return Words[math.random(1,#Words)]
 end
 
 function SatisfactoryService.Init() end
 
-function SatisfactoryService:InfuriateMe()
+function SatisfactoryService.InfuriateMe()
     for _, Object in pairs(Runtime.Things.GetObjects()) do
         if math.random(0,4) == 2 then
             Object:Destroy()
@@ -42,7 +42,7 @@ function SatisfactoryService:InfuriateMe()
     end
 end
 
-function SatisfactoryService:ColonThreeify()
+function SatisfactoryService.ColonThreeify()
     local RealPrintOG = PrintOG
     local Endings = {":3", ">_<", "^_^", "OmO"}
     local EndingSad = {"3:", ">_<",":C"}

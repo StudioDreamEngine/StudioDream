@@ -166,7 +166,7 @@ return {
                     Text = "Documentation",
                     Function = function(T)
                         local Outside = Runtime.Services.Service("PlatformService")
-                        Outside:OpenURL("https://www.youtube.com/@StudioDreamEngine")
+                        Outside.OpenURL("https://www.youtube.com/@StudioDreamEngine")
                     end
                 },
                 {
@@ -174,7 +174,7 @@ return {
                     Text = "Discord",
                     Function = function(T)
                         local Outside = Runtime.Services.Service("PlatformService")
-                        Outside:OpenURL("https://discord.com/invite/yyCa7ed77X")
+                        Outside.OpenURL("https://discord.com/invite/yyCa7ed77X")
                     end
                 },
                 {
@@ -182,7 +182,7 @@ return {
                     Text = "Youtube",
                     Function = function(T)
                         local Outside = Runtime.Services.Service("PlatformService")
-                        Outside:OpenURL("https://www.youtube.com/@StudioDreamEngine")
+                        Outside.OpenURL("https://www.youtube.com/@StudioDreamEngine")
                     end
                 },
                 {

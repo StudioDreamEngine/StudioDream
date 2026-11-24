@@ -5,7 +5,7 @@ function SpatialService.Init() end
 
 ---@param World Environment
 ---@param AreaRect Rect
-function SpatialService:FindObjectsInArea(AreaRect, World)
+function SpatialService.FindObjectsInArea(AreaRect, World)
 	local InArea = {}
 
 	---@param Object Drawable3D
@@ -28,7 +28,7 @@ end
 		Whitelist - the Raycast will ignore any object NOT listed in FilterTable
 		Blacklist - the Raycast will ignore the objects listed in FilterTable
 ]]
-function SpatialService:FilterInformation(FilterTable, FilterType)
+function SpatialService.FilterInformation(FilterTable, FilterType)
 	if (not FilterTable) then error("no filtertable specified") end
 	local ObjList = {}
 
@@ -51,7 +51,7 @@ local DefaultFilter = SpatialService.FilterInformation({}, Enum.SpatialFilterTyp
 local Raycast = Dream:getExtension("raytrace")
 
 -- Internal function to clear variables that may be leftover
-function SpatialService:ClearCasts()
+function SpatialService.ClearCasts()
 	Raycast:clear()
 end
 
@@ -61,7 +61,7 @@ end
 	WorldObject: List of 3DreamEngine meshes to cast
 	FilterInformation: what objects the ray ignores or does not ignore, created with SpatialService.FilterInformation
 ]]
-function SpatialService:Raycast(Origin, Direction, WorldObject, FilterInformation)
+function SpatialService.Raycast(Origin, Direction, WorldObject, FilterInformation)
 	assert(WorldObject, "Internal raycast function requires a WorldObject!")
 
 	local CastResult = Raycast:cast(WorldObject, Origin:ToDream(), Direction:ToDream(), FilterInformation or DefaultFilter)

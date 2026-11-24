@@ -31,9 +31,7 @@ function StudioCamera.Update(dt)
     local Camera = Runtime.Things.Root:GetCamera()
     if (not Camera) then return end
 
-    local KeyDownNum = function(Key)
-        InputService:KeyDownNumber(Key)
-    end
+    local KeyDownNum = InputService.KeyDownNumber
 
     local Forward = Camera.Transform.Forward * (KeyDownNum(Enum.InputCode.S) - KeyDownNum(Enum.InputCode.W))
     local Side = Camera.Transform.Side * (KeyDownNum(Enum.InputCode.D) - KeyDownNum(Enum.InputCode.A))

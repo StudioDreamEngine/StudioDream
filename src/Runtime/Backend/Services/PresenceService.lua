@@ -14,7 +14,7 @@ end
 
     You can change the state and details by changing the PresenceService.State and PresenceService.Details variables
 ]]
-function PresenceService:InitDiscord(applicationId)
+function PresenceService.InitDiscord(applicationId)
     if (PresenceService._discordInitialized) then return end
 
     -- mikls required essay from your loved one, konadi :3

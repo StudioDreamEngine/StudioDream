@@ -8,13 +8,13 @@ MouseService.CurrentCursor = '' -- gotta make sure this is read-only for Scripts
 -- honestly, we really need to add ScriptCapability shit anyway; but that'll be really annoyingggg :3
 
 function MouseService.Init()
-    MouseService:LoadCursorPack("Assets/Cursors/")
+    MouseService.LoadCursorPack("Assets/Cursors/")
 end
 
 local CurrentCursorPack = {}
 
 -- Load a folder containing the cursors to use
-function MouseService:LoadCursorPack(Pack)
+function MouseService.LoadCursorPack(Pack)
     for _, Name in pairs(love.filesystem.getDirectoryItems(Pack)) do
         CurrentCursorPack[string.sub(Name, 0,-5)] = love.mouse.newCursor(Pack..Name,0,0)
     end
@@ -29,7 +29,7 @@ MouseService.ClientUsingCursor = false
     to override if the mouse is hovering ONLY if the current cursor being used is 
     the main cursor
 ]]
-function MouseService:ChangeCursorInternal(ChangeTo, InternalCall)
+function MouseService.ChangeCursorInternal(ChangeTo, InternalCall)
     if MouseService.ClientUsingCursor and InternalCall then return end -- ass way to do this but whatever bro
 
     love.mouse.setCursor(CurrentCursorPack[ChangeTo])
@@ -42,20 +42,20 @@ end
     if the cursor is anything but the main one, this will also override the hovering cursor when hovering over a button, 
     as explained above.
 ]]
-function MouseService:ChangeCursor(ChangeTo)
+function MouseService.ChangeCursor(ChangeTo)
     MouseService.ClientUsingCursor = (ChangeTo ~= "Main")
 
     MouseService.CurrentCursor = ChangeTo
-    MouseService:ChangeCursorInternal(ChangeTo)
+    MouseService.ChangeCursorInternal(ChangeTo)
 end
 
 -- Get the current mouse position on screen
-function MouseService:GetPosition()
+function MouseService.GetPosition()
     return Backend2D.GetMousePosition()
 end
 
 -- Change if the mouse is locked or free to move around
-function MouseService:SetMouseMode(MouseMode)
+function MouseService.SetMouseMode(MouseMode)
     MouseService.LockPosition = Backend2D.GetMousePosition()
     MouseService.MouseMode = MouseMode
 end

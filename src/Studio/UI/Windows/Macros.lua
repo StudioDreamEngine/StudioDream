@@ -35,7 +35,7 @@ return function(Macros)
         end,
         ["Infuriate me x20"] = function()
             for i = 1,20 do
-                Runtime.Services.Service("SatisfactoryService"):InfuriateMe()
+                Runtime.Services.Service("SatisfactoryService").InfuriateMe()
             end
         end
     }
