@@ -104,7 +104,7 @@ function Material:SetColorTexture(Value)
         Type = "Image",
         Property = "ColorTexture"
     })
-
+    
     self.ColorTexture = Identifier
 end
 

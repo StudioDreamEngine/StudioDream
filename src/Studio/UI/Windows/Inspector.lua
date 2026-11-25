@@ -71,14 +71,13 @@ return function(Inspector)
         Property.Functionality:new(Property)
         Property.Functionality:CreateVisual(Property)
 
-        Property.Changed = Studio.Editor3D.Selecting[1].PropertyChanged:Connect(function(_,PropertyGiven)
+        function Property:Update(PropertyGiven)
             if Property.Name == PropertyGiven then
                 Property.Functionality:Update()
             end
-        end)
+        end
 
         function Property:Destroy()
-            Property.Changed:Disconnect()
             Property.Visual:Destroy()
             Property.Visual = nil
             Property.TreeObject:Destroy()
@@ -115,6 +114,10 @@ return function(Inspector)
         
         Group.TreeObject = Inspector.CreateTreeObject(Group)
         Inspector.RenderingTree[GroupName] = Group.TreeObject
+
+        function Group:GetProperties()
+            return Group.TreeObject.Parenting
+        end
 
         function Group:Destroy()
             local Children = {}
@@ -172,13 +175,27 @@ return function(Inspector)
         for GroupName,Properties in pairs(CleanTable) do
             local Group = Inspector.RenderGroup(GroupName)
             for PropertyName,Info in pairs(Properties) do
-                Scheduler.Yield()
                 local Property = Inspector.RenderProperty({Name = PropertyName, Type = Info.Type,Active = Info.Active}, Group)
             end
         end
 
         table.clear(CleanTable)
         Inspector.UpdateList()
+
+        Inspector.Watch()
+    end
+
+    function Inspector.Watch()
+        table.clear(Inspector.WatchingObjects)
+        for _,Thing in pairs(Studio.Editor3D.Selecting) do
+            table.insert(Inspector.WatchingObjects,Thing.PropertyChanged:Connect(function(_, PropertyName)
+                for _, TreeObject in pairs(Inspector.RenderingTree) do
+                    for i,Property in pairs(TreeObject.Info:GetProperties()) do
+                        Property.Info:Update(PropertyName)
+                    end
+                end
+            end))
+        end
     end
 
     function Inspector.AllInvisible(GroupDropdown)
@@ -197,11 +214,13 @@ return function(Inspector)
     end
 
     function Inspector.UpdateList()
+        local FinalSearch = Inspector.SearchText:lower()
+
         for _,GroupNode in pairs(Inspector.Scroll:GetChildren()) do
             if GroupNode.Dropdown then
                 for i,v in pairs(GroupNode.Dropdown:GetChildren()) do
                     if (v:IsA("Square")) then
-                        v:SetVisible((Inspector.SearchText=='') and true or string.find(v.Name:lower(), Inspector.SearchText:lower()))
+                        v:SetVisible((Inspector.SearchText=='') and true or string.find(v.Name:lower(), FinalSearch))
                     end
                 end
                 
@@ -245,6 +264,7 @@ return function(Inspector)
     function Inspector.Init()
         Inspector.PropertyTypes = Utils.LoadModules("Studio/UI/Windows/InspectorProperties/", true)
         Inspector.RenderingTree = {}
+        Inspector.WatchingObjects = {}
 
         Inspector.Setup()
     end
