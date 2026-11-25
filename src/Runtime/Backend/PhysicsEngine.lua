@@ -1,6 +1,8 @@
 -- General utility functions for the physics engine
 local PhysicsEngine = {}
 
+-- this is evil broken (sorry windows)
+
 -- Shape from mesh code, thanks to trusti for providing this
 function PhysicsEngine.ShapeFromMesh(m, size)
     local tm = Bullet.btTriangleMesh()

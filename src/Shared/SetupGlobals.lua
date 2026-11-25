@@ -46,9 +46,11 @@ return function ()
 
     -- Load the second stage of globals
     return function()
+        --[[
         local BulletModule = require("Shared.Packages.bullet3min")
         BulletModule.init()
         require("ffi").gc(BulletModule.memory.data, nil)
         Bullet = BulletModule.bindings
+        --]]
     end
 end
