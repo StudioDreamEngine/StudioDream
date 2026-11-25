@@ -5,7 +5,7 @@ function Serializer.Serialize(Value)
 end
 
 function Serializer.Deserialize(Value)
-    return Value -- We need to grab it after
+    return Value
 end
 
 return Serializer
