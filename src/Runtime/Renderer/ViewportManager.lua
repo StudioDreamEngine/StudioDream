@@ -100,12 +100,12 @@ function ViewportManager.RenderViewport3D(Viewport, Buffer)
 
             --Dream:draw(Runtime.Backend3D.GetAdorns())
             Dream:addLight(Runtime.Backend3D.SunLight)
-            Dream:addLight(Runtime.Backend3D.MoonLight)
+            --Dream:addLight(Runtime.Backend3D.MoonLight)
             Viewport:Present()
             Runtime.Backend3D.PresentAdorns()
 
             for i,v in pairs(Viewport.RenderContainer.Lights) do
-                Dream:addLight(v)
+                --Dream:addLight(v)
             end
 
             local Camera = Viewport:GetCamera()
