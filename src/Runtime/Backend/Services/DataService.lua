@@ -63,7 +63,7 @@ function DataService:CreateData(Name,File)
     DataObject.Name = DataObject:GetName()
 
     function DataObject:WriteData(SerializedString)
-        assert(type(SerializedString)=="string","The serialized data needs to be a string!")
+        Utils.AssertType(SerializedString,"string")
         love.filesystem.write(DataObject.Path,SerializedString)
     end
 

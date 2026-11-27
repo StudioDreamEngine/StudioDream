@@ -414,9 +414,9 @@ function BaseGui:DrawStyle()
     
     Runtime.Backend2D.ShaderCall(function(Shader)
         if self.Gradient then
-            Shader:sendColor("gradient.colors", self.Gradient.GetColors())
-            Shader:send("gradient.time", self.Gradient.GetTimes())
-            Shader:send("gradient_length", self.Gradient.GetKeyLength())
+            Shader:sendColor("gradient.colors", self.Gradient:GetColors())
+            Shader:send("gradient.time", self.Gradient:GetTimes())
+            Shader:send("gradient_length", self.Gradient:GetKeyLength())
             Shader:send("rotation", self.Gradient.Rotation)
         end
         

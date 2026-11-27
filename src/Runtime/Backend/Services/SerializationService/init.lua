@@ -18,11 +18,17 @@ local function SimpleSerialize(Type, Data, Deserialize)
     end
 end
 
-function SerializationService.CreateSerializer(SerializerType, Config)
+function SerializationService:CreateSerializer(SerializerType, Config)
     return require(ServicePath..SerializerType)(Config)
 end
 
-function SerializationService.Serialize(SerializerType, Data) return SimpleSerialize(SerializerType, Data, false) end
-function SerializationService.Deserialize(SerializerType, Data) return SimpleSerialize(SerializerType, Data, true) end
+function SerializationService:Serialize(SerializerType, Data)
+    Utils.AssertType(SerializerType,"string")
+    return SimpleSerialize(SerializerType, Data, false) 
+end
+function SerializationService:Deserialize(SerializerType, Data)
+    Utils.AssertType(SerializerType,"string")
+    return SimpleSerialize(SerializerType, Data, true) 
+end
 
 return SerializationService

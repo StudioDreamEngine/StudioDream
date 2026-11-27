@@ -58,7 +58,7 @@ return function(GradientMaker)
             KeyID = RawKey[3]
         else
             RawKey = GradientSequence.NewKey(InicialTime, ColorAdded)
-            KeyID = Sequence.AddKey(RawKey)
+            KeyID = Sequence:AddKey(RawKey)
         end
 
         if InicialTime == 1 or InicialTime == 0 then
@@ -73,7 +73,7 @@ return function(GradientMaker)
         local KeyObject = {}
 
         KeyObject.KeyID = KeyID
-        KeyObject.RawID = Sequence.GetKeyByID(KeyObject.KeyID)
+        KeyObject.RawID = Sequence:GetKeyByID(KeyObject.KeyID)
 
         KeyObject.Slider = Studio.Components.CreateStyle("SlideBar",{
             Size = Pivot2D.FromScale(.03,.15),
@@ -116,7 +116,7 @@ return function(GradientMaker)
 
         function KeyObject.ChangeColor(NewColor)
             --Sequence.GetKeys()[KeyObject.RawID][2] = NewColor
-            Sequence.ChangeColorOf(KeyObject.KeyID,NewColor)
+            Sequence:ChangeColorOf(KeyObject.KeyID,NewColor)
             KeyObject.ArrowChoose.ForegroundColor = NewColor
             if GradientMaker.LastKey==KeyObject then
                 GradientMaker.CurrentKeyColorShow.BackgroundColor = KeyObject.ArrowChoose.ForegroundColor
@@ -128,14 +128,14 @@ return function(GradientMaker)
             GradientMaker.CurrentKeyTime.Input:SetText(tostring(0))
             KeyObject.Slider:Destroy()
             table.remove(GradientMaker.KeysAdded,table.find(GradientMaker.KeysAdded,KeyObject))
-            Sequence.RemoveKeyByID(KeyObject.KeyID)
-            Sequence.ProcessUniforms()
+            Sequence:RemoveKeyByID(KeyObject.KeyID)
+            Sequence:ProcessUniforms()
         end
 
         function KeyObject.ChangeTime(NewTime)
             KeyObject.Slider:SetPercentage(NewTime)
-            Sequence.GetKeyByID(KeyObject.KeyID)[1] = NewTime
-            Sequence.ProcessUniforms()
+            Sequence:GetKeyByID(KeyObject.KeyID)[1] = NewTime
+            Sequence:ProcessUniforms()
 
             if GradientMaker.LastKey == KeyObject then
                 GradientMaker.CurrentKeyTime.Input:SetText(tostring(math.dotround(KeyObject.Slider.Percentage)))
@@ -146,8 +146,8 @@ return function(GradientMaker)
 
         KeyObject.Slider.ChangedPercentage:Connect(function()
 
-            Sequence.GetKeyByID(KeyObject.KeyID)[1] = KeyObject.Slider.Percentage
-            Sequence.ProcessUniforms()
+            Sequence:GetKeyByID(KeyObject.KeyID)[1] = KeyObject.Slider.Percentage
+            Sequence:ProcessUniforms()
 
             if GradientMaker.LastKey == KeyObject then
                 GradientMaker.CurrentKeyTime.Input:SetText(tostring(math.dotround(KeyObject.Slider.Percentage)))
@@ -293,7 +293,7 @@ return function(GradientMaker)
         GradientMaker.RotationTime.Input.FocusEnd:Connect(function()
             local Numbered = tonumber(GradientMaker.RotationTime.Input.Text)
             if Numbered then
-                Sequence.SetRotation(math.rad(Numbered))
+                Sequence:SetRotation(math.rad(Numbered))
             end
         end)
 

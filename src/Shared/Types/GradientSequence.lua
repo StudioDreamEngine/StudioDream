@@ -26,12 +26,12 @@ function GradientSequence.NewSequence(TableOf, Rotation)
     local Colors, Times
     local ID = 0
 
-    function SequenceObject.SetRotation(Value)
+    function SequenceObject:SetRotation(Value)
         SequenceObject.Rotation = Value
-        SequenceObject.ProcessUniforms()
+        SequenceObject:ProcessUniforms()
     end
 
-    function SequenceObject.GetKeyByTime(Time)
+    function SequenceObject:GetKeyByTime(Time)
         for i,v in pairs(Keys) do
             if v[1] then
                 return i
@@ -39,7 +39,7 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         end
     end
 
-    function SequenceObject.AddKey(Key)
+    function SequenceObject:AddKey(Key)
         ID = ID + 1
 
         Utils.AssertType(Key, "ColorKey")
@@ -48,25 +48,25 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         return ID
     end
 
-    function SequenceObject.GetKeys()
+    function SequenceObject:GetKeys()
         return Keys
     end
 
-    function SequenceObject.GetKeyLength()
+    function SequenceObject:GetKeyLength()
         return table.length(Keys)
     end
 
-    function SequenceObject.ChangeColorOf(ID,Color)
+    function SequenceObject:ChangeColorOf(ID,Color)
         local Key = SequenceObject.GetKeyByID(ID)
         
         if Key then
             Key[2] = Color
-            SequenceObject.ProcessUniforms()
+            SequenceObject:ProcessUniforms()
             return true
         end
     end
 
-    function SequenceObject.RemoveKeyByID(ID)
+    function SequenceObject:RemoveKeyByID(ID)
         for i,Key in pairs(Keys) do
             if Key[3] == ID then
                 table.remove(Keys, i)
@@ -75,7 +75,7 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         end
     end
 
-    function SequenceObject.GetKeyByID(ID)
+    function SequenceObject:GetKeyByID(ID)
         for i,Key in pairs(Keys) do
             if Key[3] == ID then
                 return Key
@@ -83,8 +83,8 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         end
     end
 
-    function SequenceObject.GetColors() return unpack(Colors) end
-    function SequenceObject.GetTimes() return unpack(Times) end
+    function SequenceObject:GetColors() return unpack(Colors) end
+    function SequenceObject:GetTimes() return unpack(Times) end
 
     local function ProcessUniform(Index, Value)
         local Time = Value[1] ---@class number
@@ -94,7 +94,7 @@ function GradientSequence.NewSequence(TableOf, Rotation)
         Times[Index] = Time
     end
 
-    function SequenceObject.ProcessUniforms()
+    function SequenceObject:ProcessUniforms()
         Colors, Times = table.create(16, {1,1,0,1}), table.create(16, 0)
 
         table.sort(Keys, function (a, b)
@@ -113,7 +113,7 @@ function GradientSequence.NewSequence(TableOf, Rotation)
     end
 
     for _,v in ipairs(TableOf) do -- Organize table and kills equal sequencetime colors
-        SequenceObject.AddKey(v)
+        SequenceObject:AddKey(v)
     end
     
     return SequenceObject

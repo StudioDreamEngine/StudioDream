@@ -27,6 +27,9 @@ function Sky:new()
     self.DefaultMoon = Runtime.Resources.GetIdentifierFromID("Internal/Sky/moon.png")
     self.DefaultSun = Runtime.Resources.GetIdentifierFromID("Internal/Sky/sun.png")
 
+    self.Sky = nil
+    self.SkyBlockCube = nil
+
     SkyRenderer = Runtime.Backend3D.SkyRenderer
 
     self:SetMoon(self.DefaultMoon)
@@ -51,12 +54,12 @@ end
 
 function Sky:SetSunColor(NewColor)
     self.SunColor = NewColor
-    Runtime.Backend3D.SunLight:setColor(NewColor.R,NewColor.G,NewColor.B)
+    self:UpdateValues()
 end
 
 function Sky:SetMoonColor(NewColor)
     self.MoonColor = NewColor
-    Runtime.Backend3D.MoonLight:setColor(NewColor.R,NewColor.G,NewColor.B)
+    self:UpdateValues()
 end
 
 function Sky:SetMoonBrightness(Number)
@@ -70,10 +73,17 @@ function Sky:SetSunBrightness(Number)
 end
 
 function Sky:UpdateValues()
-    SkyRenderer.Time = self.Time
-    SkyRenderer.Latitude = self.Latitude
-    SkyRenderer.MoonBrightness = self.MoonBrightness
-    SkyRenderer.SunBrightness = self.SunBrightness
+    if self.Parent:IsA("Lighting") then
+        SkyRenderer.Time = self.Time
+        SkyRenderer.Latitude = self.Latitude
+        SkyRenderer.MoonBrightness = self.MoonBrightness
+        SkyRenderer.SunBrightness = self.SunBrightness
+        Runtime.Backend3D.MoonLight:setColor(self.MoonColor.R,self.MoonColor.G,self.MoonColor.B)
+        Runtime.Backend3D.SunLight:setColor(self.SunColor.R,self.SunColor.G,self.SunColor.B)
+        SkyRenderer.SetCelestials("Sun",self.Celestials.Sun)
+        SkyRenderer.SetCelestials("Moon",self.Celestials.Moon)
+        SkyRenderer.SetSky(self.SkyBlockCube)
+    end
 end
 
 function Sky:SetTime(NewTime)
@@ -97,9 +107,8 @@ function Sky:SetCelestial(Celestial,Identifier)
         Type = "Image"
     })
 
+    self:UpdateValues()
     --self.Celestials[Celestial] = love.graphics.readbackTexture(self.Celestials[Celestial])
-
-    SkyRenderer.SetCelestials(Celestial,self.Celestials[Celestial])
 end
 
 function Sky:SetMoon(Identifier)
@@ -117,7 +126,9 @@ function Sky:SetSky(NewSky)
         Type = "Image"
     })
 
-    SkyRenderer.SetSky(ResourceSource)
+    self.SkyBlockCube = ResourceSource
+
+    self:UpdateValues()
 end
 
 return Sky
