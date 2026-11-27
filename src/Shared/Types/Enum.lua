@@ -150,6 +150,12 @@ local Enums = {
         LockAspect = "lockaspect",
         Crop = "crop",
     },
+    PhysicsShape = {
+        Cube = "Box",
+        Sphere = "Sphere",
+        Capsule = "Capsule",
+        Mesh = "Mesh"
+    },
     BlendingMode = {
         Normal = "alpha",
         Replace = "replace",

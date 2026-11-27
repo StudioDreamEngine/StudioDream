@@ -3,10 +3,10 @@ local Backend3D = Runtime.Backend3D
 local SpatialService = Runtime.Services.Service("SpatialService") ---@class SpatialService
 local RuntimeService = Runtime.Services.Service("RuntimeService") ---@class RuntimeService
 
-local collisionConfiguration = Bullet.btDefaultCollisionConfiguration()
-local dispatcher = Bullet.btCollisionDispatcher(collisionConfiguration)
-local overlappingPairCache = Bullet.btDbvtBroadphase()
-local solver = Bullet.btSequentialImpulseConstraintSolver()
+--local collisionConfiguration = Bullet.btDefaultCollisionConfiguration()
+--local dispatcher = Bullet.btCollisionDispatcher(collisionConfiguration)
+--local overlappingPairCache = Bullet.btDbvtBroadphase()
+--local solver = Bullet.btSequentialImpulseConstraintSolver()
 
 ---@class Environment: ViewportContainer
 local Environment = Things.Extend("ViewportContainer")
@@ -27,8 +27,8 @@ function Environment:new()
     self.Objects = {}
     self.Lights = {}
 
-    self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
-    self.PhysicsWorld:setGravity(self.Gravity:ToBullet())
+    --self.PhysicsWorld = Bullet.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration)
+    --self.PhysicsWorld:setGravity(self.Gravity:ToBullet())
 
     RuntimeService.OnRunning:ConnectOnce(function()
         self.StepPhysics = true

@@ -46,11 +46,7 @@ return function ()
 
     -- Load the second stage of globals
     return function()
-        --[[
-        local BulletModule = require("Shared.Packages.bullet3min")
-        BulletModule.init()
-        require("ffi").gc(BulletModule.memory.data, nil)
-        Bullet = BulletModule.bindings
-        --]]
+        local Jolt = require("Shared.Packages.JoltPhys")
+        Jolt.Init()
     end
 end

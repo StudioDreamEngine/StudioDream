@@ -9,3 +9,7 @@ dist/win/*.exe
 build/squashfs-root/
 build/compiled/
 dist/StudioDream-Linux.AppImage
+
+*.debug
+love/*.so
+love/*.[0-9]

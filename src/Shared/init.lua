@@ -8,7 +8,8 @@ local Extensions = {
     Windows = "dll"
 }
 
-package.cpath = package.cpath..";./CLibraries/"..string.lower(CurrentOS).."/?."..Extensions[CurrentOS]
+package.cpath = package.cpath--..";./CLibraries/"..string.lower(CurrentOS).."/?."..Extensions[CurrentOS]
+package.cpath = package.cpath..";../src/CLibraries/"..string.lower(CurrentOS).."/?."..Extensions[CurrentOS]
 
 --Start actual stuff
 local LastQueue = 0
